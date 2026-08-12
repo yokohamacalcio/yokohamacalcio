@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チーム・個人成績 | Yokohama Calcio</title>
+    <link rel="icon" href="./immagini/logo.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .stats-table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 40px;
+        }
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,60,130,0.06);
+            text-align: center;
+        }
+        .stats-table th {
+            background: var(--dark-navy);
+            color: var(--white);
+            padding: 12px;
+            font-size: 0.9rem;
+        }
+        .stats-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .ranking-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 15px rgba(0,60,130,0.05);
+        }
+        .ranking-title {
+            font-size: 1.2rem;
+            color: var(--dark-navy);
+            border-bottom: 2px solid var(--primary-sky);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .ranking-list {
+            list-style: none;
+            padding: 0;
+        }
+        .ranking-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+        .ranking-item:last-child { border-bottom: none; }
+        .rank-number {
+            width: 24px;
+            font-weight: 800;
+            color: var(--primary-sky);
+        }
+        .rank-1 { color: #f59e0b; font-size: 1.1rem; }
+        .rank-2 { color: #94a3b8; }
+        .rank-3 { color: #b45309; }
+    </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <div class="logo-title">
+      <a href="index.html"><img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo"></a>
+      <span class="brand-name">YOKOHAMA CALCIO</span>
+    </div>
+    <div class="desktop-nav-wrapper">
+      <nav class="main-nav">
+        <a href="index.html#about">チーム紹介</a>
+        <a href="matches.html">試合日程・結果</a>
+        <a href="players.html">選手紹介</a>
+        <a href="stats.html" style="color: var(--primary-sky);">成績・スタッツ</a>
+        <a href="faq.html">よくある質問</a>
+        <a href="index.html#contact">お問い合わせ</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title"><i class="fas fa-chart-line"></i> チーム・個人戦績</h2>
+
+        <!-- TABELLA SQUADRA (DIVISA AMICHEVOLI / UFFICIALI) -->
+        <h3 class="ranking-title"><i class="fas fa-shield-alt"></i> チーム戦績 (Team Stats)</h3>
+        <div class="stats-table-wrapper">
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>区分</th>
+                        <th>試合数</th>
+                        <th>勝</th>
+                        <th>分</th>
+                        <th>負</th>
+                        <th>得点</th>
+                        <th>失点</th>
+                        <th>勝率</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>公式戦 (Ufficiali)</strong></td>
+                        <td id="off-played">0</td>
+                        <td id="off-wins">0</td>
+                        <td id="off-draws">0</td>
+                        <td id="off-losses">0</td>
+                        <td id="off-gf">0</td>
+                        <td id="off-ga">0</td>
+                        <td id="off-winrate" style="color: var(--primary-sky);">0%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>練習試合 (Amichevoli)</strong></td>
+                        <td id="fr-played">0</td>
+                        <td id="fr-wins">0</td>
+                        <td id="fr-draws">0</td>
+                        <td id="fr-losses">0</td>
+                        <td id="fr-gf">0</td>
+                        <td id="fr-ga">0</td>
+                        <td id="fr-winrate" style="color: var(--primary-sky);">0%</td>
+                    </tr>
+                    <tr style="background: var(--light-bg);">
+                        <td><strong>通算 (Totale)</strong></td>
+                        <td id="tot-played">0</td>
+                        <td id="tot-wins">0</td>
+                        <td id="tot-draws">0</td>
+                        <td id="tot-losses">0</td>
+                        <td id="tot-gf">0</td>
+                        <td id="tot-ga">0</td>
+                        <td id="tot-winrate" style="color: var(--primary-sky); font-size: 1.05rem;">0%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- CLASSIFICHE INDIVIDUALI -->
+        <div class="stats-grid">
+            <!-- MARCATORI -->
+            <div class="ranking-card">
+                <h3 class="ranking-title"><i class="fas fa-futbol"></i> 得点王 (Marcatori)</h3>
+                <ul class="ranking-list" id="goals-ranking"></ul>
+            </div>
+
+            <!-- ASSISTMAN -->
+            <div class="ranking-card">
+                <h3 class="ranking-title"><i class="fas fa-shoe-prints"></i> アシスト王 (Assist)</h3>
+                <ul class="ranking-list" id="assists-ranking"></ul>
+            </div>
+
+            <!-- MVP -->
+            <div class="ranking-card">
+                <h3 class="ranking-title"><i class="fas fa-trophy" style="color: #f59e0b;"></i> MVP賞</h3>
+                <ul class="ranking-list" id="mvp-ranking"></ul>
+            </div>
+        </div>
+
+        <div class="back-home-wrapper" style="text-align: center; margin-top: 40px;">
+            <a href="index.html" class="google-form-btn back-btn" style="max-width: 250px; margin: 0 auto;">
+                <i class="fas fa-arrow-left"></i> ホームに戻る
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>&copy; Yokohama Calcio. All Rights Reserved.</p>
+</footer>
+
+<script>
+async function loadAndCalculateStats() {
+    try {
+        const response = await fetch('matches.html');
+        if (!response.ok) return;
+        const text = await response.text();
+        const doc = new DOMParser().parseFromString(text, 'text/html');
+        const matchCards = doc.querySelectorAll('.match-detail-card');
+
+        let stats = {
+            official: { played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0 },
+            friendly: { played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0 }
+        };
+
+        let goalsMap = {}, assistsMap = {}, mvpMap = {};
+
+        matchCards.forEach(card => {
+            const isOfficial = card.querySelector('.badge-official') !== null;
+            const targetStats = isOfficial ? stats.official : stats.friendly;
+
+            const scoreText = card.querySelector('.match-vs-score')?.textContent.trim();
+            if (scoreText && scoreText.includes('-')) {
+                const [gf, ga] = scoreText.split('-').map(n => parseInt(n.trim(), 10));
+                if (!isNaN(gf) && !isNaN(ga)) {
+                    targetStats.played++;
+                    targetStats.gf += gf;
+                    targetStats.ga += ga;
+                    if (gf > ga) targetStats.wins++;
+                    else if (gf === ga) targetStats.draws++;
+                    else targetStats.losses++;
+                }
+            }
+
+            const details = card.querySelectorAll('.detail-item');
+            details.forEach(item => {
+                const txt = item.textContent || '';
+                
+                // GOL & ASSIST
+                if (txt.includes('得点者:')) {
+                    const scorerText = txt.replace('得点者:', '').trim();
+                    if (scorerText && scorerText !== 'なし') {
+                        const entries = scorerText.split(/(?<=\)),|(?<=[^)]),(?![^(]*\))/);
+                        entries.forEach(entry => {
+                            let str = entry.trim();
+                            if (!str) return;
+                            let assisters = [];
+                            const bracketMatch = str.match(/\((.*?)\)/);
+                            if (bracketMatch) {
+                                assisters = bracketMatch[1].split(',').map(a => a.trim());
+                                str = str.replace(/\(.*?\)/, '').trim();
+                            }
+                            let count = 1;
+                            const countMatch = str.match(/x(\d+)/i);
+                            if (countMatch) {
+                                count = parseInt(countMatch[1], 10);
+                                str = str.replace(/x\d+/i, '').trim();
+                            }
+                            if (str) goalsMap[str] = (goalsMap[str] || 0) + count;
+                            assisters.forEach(a => { if(a) assistsMap[a] = (assistsMap[a] || 0) + 1; });
+                        });
+                    }
+                }
+
+                // MVP
+                if (txt.includes('MVP:')) {
+                    const mvpName = txt.replace('MVP:', '').trim();
+                    if (mvpName && mvpName !== 'なし') {
+                        mvpMap[mvpName] = (mvpMap[mvpName] || 0) + 1;
+                    }
+                }
+            });
+        });
+
+        // POPOLA TABELLA SQUADRA
+        const updateRow = (prefix, st) => {
+            document.getElementById(`${prefix}-played`).textContent = st.played;
+            document.getElementById(`${prefix}-wins`).textContent = st.wins;
+            document.getElementById(`${prefix}-draws`).textContent = st.draws;
+            document.getElementById(`${prefix}-losses`).textContent = st.losses;
+            document.getElementById(`${prefix}-gf`).textContent = st.gf;
+            document.getElementById(`${prefix}-ga`).textContent = st.ga;
+            const rate = st.played > 0 ? Math.round((st.wins / st.played) * 100) : 0;
+            document.getElementById(`${prefix}-winrate`).textContent = `${rate}%`;
+        };
+
+        updateRow('off', stats.official);
+        updateRow('fr', stats.friendly);
+
+        const tot = {
+            played: stats.official.played + stats.friendly.played,
+            wins: stats.official.wins + stats.friendly.wins,
+            draws: stats.official.draws + stats.friendly.draws,
+            losses: stats.official.losses + stats.friendly.losses,
+            gf: stats.official.gf + stats.friendly.gf,
+            ga: stats.official.ga + stats.friendly.ga
+        };
+        updateRow('tot', tot);
+
+        // POPOLA CLASSIFICHE
+        const renderRanking = (elementId, dataMap, unit) => {
+            const list = document.getElementById(elementId);
+            const sorted = Object.entries(dataMap).sort((a,b) => b[1] - a[1]);
+            list.innerHTML = sorted.length === 0 ? '<li style="color:#94a3b8; text-align:center;">データなし</li>' : '';
+            
+            sorted.slice(0, 5).forEach(([name, count], index) => {
+                const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
+                list.innerHTML += `
+                    <li class="ranking-item">
+                        <span><span class="rank-number ${rankClass}">${index + 1}</span> <strong>${name}</strong></span>
+                        <span class="stats-highlight">${count} ${unit}</span>
+                    </li>
+                `;
+            });
+        };
+
+        renderRanking('goals-ranking', goalsMap, '点');
+        renderRanking('assists-ranking', assistsMap, '本');
+        renderRanking('mvp-ranking', mvpMap, '回');
+
+    } catch(e) { console.log(e); }
+}
+
+loadAndCalculateStats();
+</script>
+</body>
+</html>
