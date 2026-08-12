@@ -250,82 +250,10 @@ body {
     margin-bottom: 3px;
 }
 
-/* CAROSELLO RISULTATI PARTITE (CON DRAG / TOUCH MANUAL) */
-.results-section {
-    background: var(--light-bg);
-    overflow: hidden;
-}
-
-.results-carousel-container {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    padding: 10px 0;
-    cursor: grab;
-    user-select: none;
-}
-
-.results-carousel-container:active {
-    cursor: grabbing;
-}
-
-.results-track {
-    display: flex;
-    gap: 20px;
-    width: max-content;
-    will-change: transform;
-    align-items: stretch; /* Forza tutte le schede ad avere la stessa altezza */
-}
-
-.result-card {
-    background: var(--white);
-    border-radius: 16px;
-    padding: 20px 22px;
-    min-width: 330px;
-    box-shadow: 0 5px 20px rgba(0, 60, 130, 0.08);
-    border: 1px solid #e2e8f0;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Distribuisce badge, data e blocco partita */
-}
-
-.match-badge {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-    align-self: flex-start;
-}
-
-.badge-friendly {
-    background: rgba(18, 160, 215, 0.15);
-    color: var(--primary-sky);
-}
-
-.badge-next {
-    background: rgba(18, 160, 215, 0.2);
-    color: var(--primary-sky);
-    border: 1px solid var(--primary-sky);
-}
-
-.match-upcoming {
-    border: 1.5px dashed var(--primary-sky);
-    background: #fdfefe;
-}
-
-.match-date {
-    font-size: 0.8rem;
-    color: #64748b;
-    margin-bottom: 15px;
-}
-
-/* STRUTTURA PARTITA E ALLINEAMENTO STEMMI RIGIDO */
+/* ALLINEAMENTO CENTRATO PERFETTO DEL PUNTEGGIO E DEI LOGHI */
 .match-content {
     display: flex;
-    align-items: flex-start; /* Allinea i box delle squadre e del punteggio dall'alto */
+    align-items: center; /* Centra verticalmente il punteggio rispetto a tutta l'altezza dei loghi e nomi */
     justify-content: space-between;
 }
 
@@ -333,6 +261,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
     width: 38%;
 }
 
@@ -354,9 +283,9 @@ body {
     color: var(--dark-navy);
     text-align: center;
     line-height: 1.25;
-    height: 2.5em; /* Blocca l'altezza del testo esattamente a 2 righe per tutti */
+    height: 2.5em; /* Mantiene bloccata l'altezza a 2 righe per non muovere mai i loghi */
     display: flex;
-    align-items: center; /* Centra verticalmente il testo nel suo spazio dedicato */
+    align-items: center;
     justify-content: center;
 }
 
@@ -366,7 +295,7 @@ body {
     align-items: center;
     justify-content: center;
     width: 24%;
-    height: 48px; /* Stessa altezza dei loghi per allineare perfettamente il punteggio */
+    /* Rimossa l'altezza fissa: ora si posiziona perfettamente al centro tra i due blocchi squadra */
 }
 
 .score-text {
@@ -380,11 +309,9 @@ body {
 .match-status {
     font-size: 0.75rem;
     font-weight: 800;
-    margin-top: 4px;
+    margin-top: 6px;
+    text-align: center;
 }
-
-.match-status.lose { color: #ef4444; }
-.match-status.next-time { color: var(--dark-navy); }
 
 /* STILI DEDICATI ALLA PAGINA GIOCATORI (PLAYERS.HTML) */
 .players-page-section {
