@@ -6,7 +6,7 @@
     <title>Yokohama Calcio - 横浜のイタリアンサッカークラブ</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
 </head>
@@ -14,21 +14,23 @@
 
 <header class="header">
   <div class="container">
-    <div class="logo-title">
+    <a href="#" class="logo-title">
       <img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo">
-      <h1>Yokohama Calcio</h1>
-    </div>
+      <span class="brand-name">YOKOHAMA CALCIO</span>
+    </a>
 
     <div class="desktop-nav-wrapper">
       <nav class="main-nav">
         <a href="#about">チーム紹介</a>
+        <a href="#results">試合結果</a>
+        <a href="#players">選手紹介</a>
         <a href="#gallery">ギャラリー</a>
         <a href="#sponsors">スポンサー</a>
         <a href="#contact">お問い合わせ</a>
       </nav>
       <div class="header-social-icons">
-        <a href="https://x.com/yokohamacalcio" target="_blank"><i class="fab fa-x-twitter"></i></a>
-        <a href="https://instagram.com/yokohamacalcio" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://x.com/yokohamacalcio" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://instagram.com/yokohamacalcio" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
 
@@ -38,10 +40,16 @@
   </div>
 
   <nav class="mobile-nav hidden">
-    <a href="#about">チーム紹介</a>
-    <a href="#gallery">ギャラリー</a>
-    <a href="#sponsors">スポンサー</a>
-    <a href="#contact">お問い合わせ</a>
+    <a href="#about" class="mobile-link">チーム紹介</a>
+    <a href="#results" class="mobile-link">試合結果</a>
+    <a href="#players" class="mobile-link">選手紹介</a>
+    <a href="#gallery" class="mobile-link">ギャラリー</a>
+    <a href="#sponsors" class="mobile-link">スポンサー</a>
+    <a href="#contact" class="mobile-link">お問い合わせ</a>
+    <div class="mobile-social-icons">
+      <a href="https://x.com/yokohamacalcio" target="_blank"><i class="fab fa-x-twitter"></i></a>
+      <a href="https://instagram.com/yokohamacalcio" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
   </nav>
 </header>
 
@@ -50,36 +58,150 @@
     <h2>横浜に咲くイタリアの情熱</h2>
     <p>サッカーで心をつなぐ場所</p>
     <div class="color-stripes">
-        <div class="stripe blue"></div>
+        <div class="stripe sky"></div>
         <div class="stripe white"></div>
+        <div class="stripe navy"></div>
     </div>
   </div>
 </section>
 
+<!-- CHI SIAMO / ABOUT (TESTI MIGLIORATI) -->
 <section class="section" id="about">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-flag"></i> Yokohama Calcioとは</h2>
-        <div class="mission-box">
-            <h3>私たちの信念</h3>
-            <ul>
-                <li>サッカーの<strong>楽しさ</strong>を第一に</li>
-                <li>スキルを問わない<strong>オープンな参加</strong></li>
-                <li>地域に根ざした<strong>コミュニティ活動</strong></li>
-            </ul>
+        <div class="about-grid">
+            <div class="about-text-box">
+                <h3>横浜発、イタリアンスタイルの社会人サッカーチーム</h3>
+                <p>
+                    Yokohama Calcioは、横浜を拠点に活動する社会人サッカーチームです。イタリアサッカーの伝統的で組織的な戦術アプローチと、誰もが純粋にフットボールを楽しめる環境の融合を目指してスタートしました。
+                </p>
+                <p>
+                    国籍や経験を問わず、サッカーへの情熱を持った仲間が集まるオープンなコミュニティです。チームワーク（Gioco di Squadra）と基礎的な技術を大切にしながら、地域の試合やリーグ戦で一丸となって勝利を目指します。
+                </p>
+            </div>
+            <div class="mission-box">
+                <h3>私たちのコアバリュー</h3>
+                <ul>
+                    <li><strong>チームファースト (Gioco di Squadra):</strong> 組織的で互いを支え合う結束力</li>
+                    <li><strong>オープンな環境:</strong> 年齢・国籍・スキルレベルを問わない歓迎の姿勢</li>
+                    <li><strong>フットボールへの情熱:</strong> 勝利を目指しながらも楽しむ気持ちを最優先に</li>
+                </ul>
+            </div>
         </div>
     </div>
 </section>
 
-<section class="carousel-section" id="gallery">
+<!-- ULTIMI RISULTATI / MATCH RESULTS -->
+<section class="section results-section" id="results">
+    <div class="container">
+        <h2 class="section-title"><i class="fas fa-trophy"></i> 最新の試合結果</h2>
+        <div class="results-grid">
+            <!-- Partita 1 (Campionato) -->
+            <div class="result-card">
+                <div class="match-type badge-league">公式戦 (Campionato)</div>
+                <div class="match-date">2026.04.12</div>
+                <div class="match-teams">
+                    <span class="team my-team">Yokohama Calcio</span>
+                    <span class="score">2 - 1</span>
+                    <span class="team opponent">FC Yokohama Central</span>
+                </div>
+                <div class="match-status status-win">WIN</div>
+            </div>
+
+            <!-- Partita 2 (Amichevole) -->
+            <div class="result-card">
+                <div class="match-type badge-friendly">親善試合 (Amichevole)</div>
+                <div class="match-date">2026.04.05</div>
+                <div class="match-teams">
+                    <span class="team my-team">Yokohama Calcio</span>
+                    <span class="score">1 - 1</span>
+                    <span class="team opponent">Kanto Azzurri</span>
+                </div>
+                <div class="match-status status-draw">DRAW</div>
+            </div>
+
+            <!-- Partita 3 (Campionato) -->
+            <div class="result-card">
+                <div class="match-type badge-league">公式戦 (Campionato)</div>
+                <div class="match-date">2026.03.22</div>
+                <div class="match-teams">
+                    <span class="team my-team">Yokohama Calcio</span>
+                    <span class="score">3 - 0</span>
+                    <span class="team opponent">Porto City FC</span>
+                </div>
+                <div class="match-status status-win">WIN</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- I CALCIATORI / PLAYERS SECTION -->
+<section class="section players-section" id="players">
+    <div class="container">
+        <h2 class="section-title"><i class="fas fa-users"></i> チームメンバー (I Calciatori)</h2>
+        <div class="players-grid">
+            <!-- Giocatore 1 -->
+            <div class="player-card">
+                <div class="player-number">1</div>
+                <div class="player-photo">
+                    <img src="https://via.placeholder.com/250x300?text=GK" alt="GK">
+                </div>
+                <div class="player-info">
+                    <span class="player-role">GK - ゴールキーパー</span>
+                    <h3 class="player-name">佐藤 健太 / Kenta</h3>
+                </div>
+            </div>
+
+            <!-- Giocatore 2 -->
+            <div class="player-card">
+                <div class="player-number">3</div>
+                <div class="player-photo">
+                    <img src="https://via.placeholder.com/250x300?text=DF" alt="DF">
+                </div>
+                <div class="player-info">
+                    <span class="player-role">DF - ディフェンダー</span>
+                    <h3 class="player-name">Marco Rossi</h3>
+                </div>
+            </div>
+
+            <!-- Giocatore 3 -->
+            <div class="player-card">
+                <div class="player-number">8</div>
+                <div class="player-photo">
+                    <img src="https://via.placeholder.com/250x300?text=MF" alt="MF">
+                </div>
+                <div class="player-info">
+                    <span class="player-role">MF - ミッドフィルダー</span>
+                    <h3 class="player-name">田中 翔 / Sho</h3>
+                </div>
+            </div>
+
+            <!-- Giocatore 4 -->
+            <div class="player-card">
+                <div class="player-number">10</div>
+                <div class="player-photo">
+                    <img src="https://via.placeholder.com/250x300?text=FW" alt="FW">
+                </div>
+                <div class="player-info">
+                    <span class="player-role">FW - フォワード</span>
+                    <h3 class="player-name">Luca Bianchi</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GALLERIA CAROUSEL -->
+<section class="carousel-section section" id="gallery">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-camera"></i> フォトギャラリー</h2>
         <div class="carousel-container">
-            <button class="carousel-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+            <button class="carousel-btn" id="prevBtn" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
             <div class="carousel-slide">
                 <img id="mainImage" src="./immagini/gallery/allenamento1.jpg" alt="Gallery">
                 <div class="carousel-caption" id="captionText">チーム練習風景 #1</div>
             </div>
-            <button class="carousel-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+            <button class="carousel-btn" id="nextBtn" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
         </div>
         <div class="carousel-indicators">
             <span class="indicator active" data-index="0"></span>
@@ -90,25 +212,44 @@
     </div>
 </section>
 
+<!-- SEZIONE SPONSOR -->
+<section class="section sponsors-section" id="sponsors">
+    <div class="container">
+        <h2 class="section-title"><i class="fas fa-handshake"></i> オフィシャルスポンサー</h2>
+        <div class="sponsors-carousel-wrapper">
+            <button class="sponsor-btn" id="sponsorPrevBtn" aria-label="Previous Sponsor"><i class="fas fa-chevron-left"></i></button>
+            <div class="sponsors-carousel-track-container">
+                <div class="sponsors-track" id="sponsorsTrack">
+                    <div class="sponsor-card">
+                        <img src="https://via.placeholder.com/200x100?text=Sponsor+1" alt="Sponsor 1">
+                    </div>
+                    <div class="sponsor-card">
+                        <img src="https://via.placeholder.com/200x100?text=Sponsor+2" alt="Sponsor 2">
+                    </div>
+                    <div class="sponsor-card">
+                        <img src="https://via.placeholder.com/200x100?text=Sponsor+3" alt="Sponsor 3">
+                    </div>
+                    <div class="sponsor-card">
+                        <img src="https://via.placeholder.com/200x100?text=Sponsor+4" alt="Sponsor 4">
+                    </div>
+                </div>
+            </div>
+            <button class="sponsor-btn" id="sponsorNextBtn" aria-label="Next Sponsor"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+</section>
+
+<!-- CONTATTI (GOOGLE FORMS) -->
 <section class="section" id="contact">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-envelope"></i> お問い合わせ</h2>
-        <div class="contact-container">
-            <form action="https://formsubmit.co/yokohamacalcio@gmail.com" method="POST">
-                <div class="form-group">
-                    <label>お名前</label>
-                    <input type="text" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label>メールアドレス</label>
-                    <input type="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label>メッセージ</label>
-                    <textarea name="message" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">送信する</button>
-            </form>
+        <div class="contact-container google-form-box">
+            <i class="fas fa-paper-plane contact-icon"></i>
+            <h3>入部希望・体験練習・お問い合わせ</h3>
+            <p>チームへのご質問や体験参加のお申し込みは、下記のGoogleフォームより受付しております。</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfih85kdWDmDaGPWHjP239bDHk8ZfMsykXVA-K_XH0EZ7mP5g/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" class="submit-btn form-link-btn">
+                <i class="fab fa-google"></i> お問い合わせフォームを開く
+            </a>
         </div>
     </div>
 </section>
@@ -118,16 +259,28 @@
 </footer>
 
 <script>
-    // JavaScript per Menu e Carousel
+    // JS Menu Mobile
     const menuBtn = document.querySelector('.mobile-menu-toggle');
     const mobileNav = document.querySelector('.mobile-nav');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
     
     menuBtn.addEventListener('click', () => {
         mobileNav.classList.toggle('hidden');
-        menuBtn.querySelector('i').classList.toggle('fa-bars');
-        menuBtn.querySelector('i').classList.toggle('fa-times');
+        const icon = menuBtn.querySelector('i');
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-times');
     });
 
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileNav.classList.add('hidden');
+            const icon = menuBtn.querySelector('i');
+            icon.classList.add('fa-bars');
+            icon.classList.remove('fa-times');
+        });
+    });
+
+    // JS Gallery Carousel
     const galleryData = [
         { src: './immagini/gallery/allenamento1.jpg', text: 'チーム練習風景 #1' },
         { src: './immagini/gallery/allenamento2.jpg', text: '技術トレーニング' },
@@ -148,12 +301,37 @@
             captionText.textContent = galleryData[currentIndex].text;
             dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
             mainImg.style.opacity = '1';
-        }, 300);
+        }, 200);
     }
 
     document.getElementById('nextBtn').addEventListener('click', () => updateSlide((currentIndex + 1) % galleryData.length));
     document.getElementById('prevBtn').addEventListener('click', () => updateSlide((currentIndex - 1 + galleryData.length) % galleryData.length));
     dots.forEach((dot, i) => dot.addEventListener('click', () => updateSlide(i)));
+
+    // JS Sponsor Carousel
+    const track = document.getElementById('sponsorsTrack');
+    const sponsorNext = document.getElementById('sponsorNextBtn');
+    const sponsorPrev = document.getElementById('sponsorPrevBtn');
+    let sponsorPosition = 0;
+
+    sponsorNext.addEventListener('click', () => {
+        const cardWidth = track.querySelector('.sponsor-card').offsetWidth + 20;
+        const maxScroll = track.scrollWidth - track.parentElement.offsetWidth;
+        if (Math.abs(sponsorPosition) < maxScroll) {
+            sponsorPosition -= cardWidth;
+            if (Math.abs(sponsorPosition) > maxScroll) sponsorPosition = -maxScroll;
+            track.style.transform = `translateX(${sponsorPosition}px)`;
+        }
+    });
+
+    sponsorPrev.addEventListener('click', () => {
+        const cardWidth = track.querySelector('.sponsor-card').offsetWidth + 20;
+        if (sponsorPosition < 0) {
+            sponsorPosition += cardWidth;
+            if (sponsorPosition > 0) sponsorPosition = 0;
+            track.style.transform = `translateX(${sponsorPosition}px)`;
+        }
+    });
 </script>
 </body>
 </html>
