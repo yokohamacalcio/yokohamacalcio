@@ -250,7 +250,7 @@ body {
     margin-bottom: 3px;
 }
 
-/* CAROSELLO RISULTATI PARTITE (DRAG & TOUCH) */
+/* CAROSELLO RISULTATI PARTITE (CON DRAG / TOUCH MANUAL) */
 .results-section {
     background: var(--light-bg);
     overflow: hidden;
@@ -274,6 +274,7 @@ body {
     gap: 20px;
     width: max-content;
     will-change: transform;
+    align-items: stretch; /* Forza tutte le schede ad avere la stessa altezza */
 }
 
 .result-card {
@@ -284,6 +285,9 @@ body {
     box-shadow: 0 5px 20px rgba(0, 60, 130, 0.08);
     border: 1px solid #e2e8f0;
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribuisce badge, data e blocco partita */
 }
 
 .match-badge {
@@ -293,6 +297,7 @@ body {
     font-size: 0.75rem;
     font-weight: 700;
     margin-bottom: 8px;
+    align-self: flex-start;
 }
 
 .badge-friendly {
@@ -317,25 +322,23 @@ body {
     margin-bottom: 15px;
 }
 
+/* STRUTTURA PARTITA E ALLINEAMENTO STEMMI RIGIDO */
 .match-content {
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* Allinea i box delle squadre e del punteggio dall'alto */
     justify-content: space-between;
 }
 
-/* ALLINEAMENTO PERFETTO STEMMI E NOMI SQUADRE */
 .team-box {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
     width: 38%;
-    height: 100%;
 }
 
 .team-logo {
-    width: 45px;
-    height: 45px;
+    width: 48px;
+    height: 48px;
     object-fit: contain;
     margin-bottom: 8px;
     flex-shrink: 0;
@@ -350,15 +353,20 @@ body {
     font-weight: 700;
     color: var(--dark-navy);
     text-align: center;
-    line-height: 1.2;
-    margin-top: auto;
+    line-height: 1.25;
+    height: 2.5em; /* Blocca l'altezza del testo esattamente a 2 righe per tutti */
+    display: flex;
+    align-items: center; /* Centra verticalmente il testo nel suo spazio dedicato */
+    justify-content: center;
 }
 
 .score-box {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     width: 24%;
+    height: 48px; /* Stessa altezza dei loghi per allineare perfettamente il punteggio */
 }
 
 .score-text {
