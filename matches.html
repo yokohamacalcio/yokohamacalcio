@@ -3,16 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>試合日程・結果 | Yokohama Calcio</title>
-    <meta name="description" content="Yokohama Calcioの試合日程、親善試合結果、詳細レポートの一覧ページです。">
+    <meta name="description" content="Yokohama Calcioの試合日程および過去の対戦結果一覧です。">
     
-    <!-- Open Graph (Con URL Assoluto) -->
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="試合日程・結果 | Yokohama Calcio">
-    <meta property="og:description" content="Yokohama Calcioの試合日程と対戦詳細はこちら。">
-    <meta property="og:image" content="https://yokohamacalcio.com/immagini/logo.png">
-
     <link rel="icon" href="./immagini/logo.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -70,9 +63,9 @@
 <section class="section matches-page-section">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-trophy"></i> 試合日程・結果一覧</h2>
-        <p class="matches-intro">Yokohama Calcioの試合スケジュールと過去の対戦詳細です。</p>
+        <p class="matches-intro">Yokohama Calcioの試合スケジュールと対戦情報です。</p>
 
-        <!-- FILTRO FILTRI MATCH -->
+        <!-- FILTRI MATCH -->
         <div class="filter-wrapper">
             <button class="filter-btn active" data-match-filter="all">すべて (ALL)</button>
             <button class="filter-btn" data-match-filter="upcoming">次戦・予定 (Next)</button>
@@ -81,164 +74,176 @@
 
         <div class="matches-list-wrapper">
             
-            <!-- MATCH 1: PROSSIMA YSCCミドル -->
-            <div class="match-detail-card match-upcoming" data-match-type="upcoming">
+            <!-- MATCH 1: YSCCミドル (30 Agosto) -->
+            <div class="match-detail-card match-upcoming" id="match-1" data-match-type="upcoming">
                 <div class="match-header-row">
                     <span class="match-badge badge-next">次戦</span>
-                    <span class="match-date-text">2026.08.30 (Sun)</span>
-                    <span class="match-venue-badge"><i class="fas fa-map-marker-alt"></i> 新横浜公園第一運動広場</span>
+                    <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.08.30 (Sun)</span>
                 </div>
+                
                 <div class="match-teams-row">
-                    <div class="match-team">
+                    <div class="match-team team-left">
                         <img src="./immagini/logo.png" alt="Yokohama Calcio">
                         <span>Yokohama Calcio</span>
                     </div>
                     <div class="match-vs-score">VS</div>
-                    <div class="match-team">
+                    <div class="match-team team-right">
                         <img src="https://ui-avatars.com/api/?name=YSCC+Middle&background=15803d&color=ffffff&size=100&bold=true" alt="YSCCミドル" class="opponent-logo">
                         <span>YSCCミドル</span>
                     </div>
                 </div>
+
                 <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> 詳細を見る / Details</button>
                 <div class="match-expand-details">
                     <div class="details-inner">
-                        <p><strong><i class="fas fa-clock"></i> キックオフ:</strong> 未定 (決定次第更新)</p>
-                        <p><strong><i class="fas fa-tag"></i> 試合種別:</strong> 親善試合 (8人制/11人制)</p>
-                        <p><strong><i class="fas fa-sticky-note"></i> 備考:</strong> 次戦に向けて組織守備とビルドアップの連携を最終確認します。</p>
+                        <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <strong>会場:</strong> 新横浜公園第一運動広場</div>
+                        <div class="detail-item"><i class="fas fa-clock"></i> <strong>キックオフ:</strong> TBD (決定次第更新)</div>
+                        <div class="detail-item"><i class="fas fa-futbol"></i> <strong>形式:</strong> 11人制 / 親善試合</div>
                     </div>
                 </div>
             </div>
 
-            <!-- MATCH 2: PROSSIMA Nishiya AFC -->
-            <div class="match-detail-card match-upcoming" data-match-type="upcoming">
+            <!-- MATCH 2: Nishiya AFC (16 Agosto) -->
+            <div class="match-detail-card match-upcoming" id="match-2" data-match-type="upcoming">
                 <div class="match-header-row">
                     <span class="match-badge badge-next">次戦</span>
-                    <span class="match-date-text">2026.08.16 (Sun)</span>
-                    <span class="match-venue-badge"><i class="fas fa-map-marker-alt"></i> 西谷中学校グラウンド</span>
+                    <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.08.16 (Sun)</span>
                 </div>
+                
                 <div class="match-teams-row">
-                    <div class="match-team">
+                    <div class="match-team team-left">
                         <img src="./immagini/logo.png" alt="Yokohama Calcio">
                         <span>Yokohama Calcio</span>
                     </div>
                     <div class="match-vs-score">VS</div>
-                    <div class="match-team">
+                    <div class="match-team team-right">
                         <img src="https://ui-avatars.com/api/?name=Nishiya+AFC&background=0284c7&color=ffffff&size=100&bold=true" alt="Nishiya AFC" class="opponent-logo">
                         <span>Nishiya AFC</span>
                     </div>
                 </div>
+
                 <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> 詳細を見る / Details</button>
                 <div class="match-expand-details">
                     <div class="details-inner">
-                        <p><strong><i class="fas fa-clock"></i> キックオフ:</strong> 未定</p>
-                        <p><strong><i class="fas fa-tag"></i> 試合種別:</strong> 親善試合</p>
-                        <p><strong><i class="fas fa-sticky-note"></i> 備考:</strong> 再戦となる一戦。前回の反省を活かして守備のコンパクトさを意識して挑みます。</p>
+                        <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <strong>会場:</strong> 西谷中学校グラウンド</div>
+                        <div class="detail-item"><i class="fas fa-clock"></i> <strong>キックオフ:</strong> TBD</div>
+                        <div class="detail-item"><i class="fas fa-futbol"></i> <strong>形式:</strong> 11人制 / 親善試合</div>
                     </div>
                 </div>
             </div>
 
-            <!-- MATCH 3: RISULTATO YSCCミドル -->
-            <div class="match-detail-card" data-match-type="past">
+            <!-- MATCH 3: YSCCミドル (9 Agosto) -->
+            <div class="match-detail-card" id="match-3" data-match-type="past">
                 <div class="match-header-row">
                     <span class="match-badge badge-friendly">親善試合</span>
-                    <span class="match-date-text">2026.08.09</span>
-                    <span class="match-venue-badge"><i class="fas fa-map-marker-alt"></i> 新横浜公園第一運動広場</span>
+                    <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.08.09</span>
                 </div>
+                
                 <div class="match-teams-row">
-                    <div class="match-team">
+                    <div class="match-team team-left">
                         <img src="./immagini/logo.png" alt="Yokohama Calcio">
                         <span>Yokohama Calcio</span>
                     </div>
                     <div class="match-vs-score score-past">1 - 4</div>
-                    <div class="match-team">
+                    <div class="match-team team-right">
                         <img src="https://ui-avatars.com/api/?name=YSCC+Middle&background=15803d&color=ffffff&size=100&bold=true" alt="YSCCミドル" class="opponent-logo">
                         <span>YSCCミドル</span>
                     </div>
                 </div>
+
                 <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> 詳細を見る / Details</button>
                 <div class="match-expand-details">
                     <div class="details-inner">
-                        <p><strong><i class="fas fa-futbol"></i> 得点者:</strong> マルティーニ シモーネ (1点)</p>
-                        <p><strong><i class="fas fa-clipboard-list"></i> 戦評概要:</strong> 前半に先制を許す苦しい展開。後半にシモーネの鮮やかなゴールで1点を返すも、終盤のカウンターに対応できず敗戦。個々の1v1の強さとトランジションの課題が明確になった試合。</p>
+                        <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <strong>会場:</strong> 新横浜公園第一運動広場</div>
+                        <div class="detail-item"><i class="fas fa-futbol"></i> <strong>得点者:</strong> マルティーニ シモーネ</div>
+                        <div class="detail-item"><i class="fas fa-shield-alt"></i> <strong>形式:</strong> 11人制 / 親善試合</div>
                     </div>
                 </div>
             </div>
 
-            <!-- MATCH 4: RISULTATO YC&AC Pulse -->
-            <div class="match-detail-card" data-match-type="past">
+            <!-- MATCH 4: YC&AC Pulse (19 Luglio) -->
+            <div class="match-detail-card" id="match-4" data-match-type="past">
                 <div class="match-header-row">
                     <span class="match-badge badge-friendly">親善試合</span>
-                    <span class="match-date-text">2026.07.19</span>
-                    <span class="match-venue-badge"><i class="fas fa-map-marker-alt"></i> YC&ACグラウンド</span>
+                    <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.07.19</span>
                 </div>
+                
                 <div class="match-teams-row">
-                    <div class="match-team">
+                    <div class="match-team team-left">
                         <img src="./immagini/logo.png" alt="Yokohama Calcio">
                         <span>Yokohama Calcio</span>
                     </div>
                     <div class="match-vs-score score-past">1 - 4</div>
-                    <div class="match-team">
+                    <div class="match-team team-right">
                         <img src="https://ui-avatars.com/api/?name=YCAC+Pulse&background=dc2626&color=ffffff&size=100&bold=true" alt="YC&AC Pulse" class="opponent-logo">
                         <span>YC&AC Pulse</span>
                     </div>
                 </div>
+
                 <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> 詳細を見る / Details</button>
                 <div class="match-expand-details">
                     <div class="details-inner">
-                        <p><strong><i class="fas fa-futbol"></i> 得点者:</strong> 小金井 健斗 (1点)</p>
-                        <p><strong><i class="fas fa-clipboard-list"></i> 戦評概要:</strong> 相手のフィジカルな攻撃に押し込まれる時間が長く続いた。小金井の泥臭いゴールで一矢報いたが、組織守備のブロック形成スピードに宿題が残った。</p>
+                        <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <strong>会場:</strong> YC&ACグラウンド</div>
+                        <div class="detail-item"><i class="fas fa-futbol"></i> <strong>得点者:</strong> 小金井 健斗</div>
+                        <div class="detail-item"><i class="fas fa-shield-alt"></i> <strong>形式:</strong> 11人制 / 親善試合</div>
                     </div>
                 </div>
             </div>
 
-            <!-- MATCH 5: RISULTATO Nishiya AFC -->
-            <div class="match-detail-card" data-match-type="past">
+            <!-- MATCH 5: Nishiya AFC (30 Maggio) -->
+            <div class="match-detail-card" id="match-5" data-match-type="past">
                 <div class="match-header-row">
                     <span class="match-badge badge-friendly">親善試合</span>
-                    <span class="match-date-text">2026.05.30</span>
-                    <span class="match-venue-badge"><i class="fas fa-map-marker-alt"></i> 常盤公園グラウンド</span>
+                    <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.05.30</span>
                 </div>
+                
                 <div class="match-teams-row">
-                    <div class="match-team">
+                    <div class="match-team team-left">
                         <img src="./immagini/logo.png" alt="Yokohama Calcio">
                         <span>Yokohama Calcio</span>
                     </div>
                     <div class="match-vs-score score-past">0 - 3</div>
-                    <div class="match-team">
+                    <div class="match-team team-right">
                         <img src="https://ui-avatars.com/api/?name=Nishiya+AFC&background=0284c7&color=ffffff&size=100&bold=true" alt="Nishiya AFC" class="opponent-logo">
                         <span>Nishiya AFC</span>
                     </div>
                 </div>
+
                 <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> 詳細を見る / Details</button>
                 <div class="match-expand-details">
                     <div class="details-inner">
-                        <p><strong><i class="fas fa-clipboard-list"></i> 戦評概要:</strong> 守備の意図は合わせられたものの、ビルドアップでのミスから失点を重ねた。ゴール前での崩しのアイデアを増やす必要性を痛感した一戦。</p>
+                        <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <strong>会場:</strong> 常盤公園グラウンド</div>
+                        <div class="detail-item"><i class="fas fa-futbol"></i> <strong>得点者:</strong> なし</div>
+                        <div class="detail-item"><i class="fas fa-shield-alt"></i> <strong>形式:</strong> 11人制 / 親善試合</div>
                     </div>
                 </div>
             </div>
 
-            <!-- MATCH 6: RISULTATO Legalia Kawasaki -->
-            <div class="match-detail-card" data-match-type="past">
+            <!-- MATCH 6: Legalia Kawasaki (24 Maggio) -->
+            <div class="match-detail-card" id="match-6" data-match-type="past">
                 <div class="match-header-row">
                     <span class="match-badge badge-friendly">親善試合</span>
-                    <span class="match-date-text">2026.05.24</span>
-                    <span class="match-venue-badge"><i class="fas fa-map-marker-alt"></i> 古市場サッカー場</span>
+                    <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.05.24</span>
                 </div>
+                
                 <div class="match-teams-row">
-                    <div class="match-team">
+                    <div class="match-team team-left">
                         <img src="./immagini/logo.png" alt="Yokohama Calcio">
                         <span>Yokohama Calcio</span>
                     </div>
                     <div class="match-vs-score score-past">0 - 9</div>
-                    <div class="match-team">
+                    <div class="match-team team-right">
                         <img src="https://ui-avatars.com/api/?name=Legalia+Kawasaki&background=1e293b&color=ffffff&size=100&bold=true" alt="Legalia Kawasaki" class="opponent-logo">
                         <span>Legalia Kawasaki</span>
                     </div>
                 </div>
+
                 <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> 詳細を見る / Details</button>
                 <div class="match-expand-details">
                     <div class="details-inner">
-                        <p><strong><i class="fas fa-clipboard-list"></i> 戦評概要:</strong> チーム再始動後の初戦。強豪を相手に完敗となったが、現在の立ち位置と実力を知る上で非常に貴重な経験となった。ここからチームの再構築がスタートする。</p>
+                        <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <strong>会場:</strong> 古市場サッカー場</div>
+                        <div class="detail-item"><i class="fas fa-futbol"></i> <strong>得点者:</strong> なし</div>
+                        <div class="detail-item"><i class="fas fa-shield-alt"></i> <strong>形式:</strong> 11人制 / 親善試合</div>
                     </div>
                 </div>
             </div>
@@ -253,7 +258,6 @@
     </div>
 </section>
 
-<!-- PULSANTE TORNA SU -->
 <button id="scrollToTopBtn" aria-label="Torna in cima"><i class="fas fa-chevron-up"></i></button>
 
 <footer class="footer">
@@ -261,13 +265,28 @@
 </footer>
 
 <script>
-    // 1. Reset Scroll al Refresh Page
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
     }
-    window.scrollTo(0, 0);
 
-    // 2. Menu Mobile Toggle
+    // Gestione Link Anchor Diretto da Homepage
+    window.addEventListener('DOMContentLoaded', () => {
+        if (window.location.hash) {
+            const target = document.querySelector(window.location.hash);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+                const details = target.querySelector('.match-expand-details');
+                const btn = target.querySelector('.toggle-details-btn');
+                if (details && btn) {
+                    details.classList.add('active');
+                    btn.innerHTML = '<i class="fas fa-chevron-up"></i> 閉じる / Close';
+                }
+            }
+        } else {
+            window.scrollTo(0, 0);
+        }
+    });
+
     const menuBtn = document.querySelector('.mobile-menu-toggle');
     const mobileNav = document.querySelector('.mobile-nav');
     const mobileLinks = document.querySelectorAll('.mobile-link');
@@ -290,7 +309,6 @@
         });
     }
 
-    // 3. Filtro Partite (All / Upcoming / Past)
     const matchFilterBtns = document.querySelectorAll('[data-match-filter]');
     const matchCards = document.querySelectorAll('.match-detail-card');
 
@@ -311,7 +329,6 @@
         });
     });
 
-    // 4. Espansione Dettagli Partita
     const toggleBtns = document.querySelectorAll('.toggle-details-btn');
     toggleBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -325,7 +342,6 @@
         });
     });
 
-    // 5. Pulsante Scroll to Top
     const topBtn = document.getElementById('scrollToTopBtn');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
@@ -339,7 +355,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // 6. Copyright Year Auto
     const yearSpan = document.getElementById('currentYear');
     if (yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
