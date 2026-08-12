@@ -210,7 +210,7 @@ body {
     font-size: 1rem;
 }
 
-/* CAROSELLO RISULTATI PARTITE (SCORRIMENTO CONTINUO) */
+/* CAROSELLO RISULTATI PARTITE (CON DRAG / TOUCH MANUAL) */
 .results-section {
     background: var(--light-bg);
     overflow: hidden;
@@ -221,6 +221,12 @@ body {
     overflow: hidden;
     position: relative;
     padding: 10px 0;
+    cursor: grab;
+    user-select: none; /* Impedisce la selezione accidentale del testo durante il drag */
+}
+
+.results-carousel-container:active {
+    cursor: grabbing;
 }
 
 .results-track {
@@ -233,8 +239,8 @@ body {
 .result-card {
     background: var(--white);
     border-radius: 16px;
-    padding: 20px 25px;
-    min-width: 310px;
+    padding: 20px 22px;
+    min-width: 330px; /* Aumentato leggermente per far stare "Yokohama Calcio" */
     box-shadow: 0 5px 20px rgba(0, 60, 130, 0.08);
     border: 1px solid #e2e8f0;
     flex-shrink: 0;
@@ -275,7 +281,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 35%;
+    width: 38%;
 }
 
 .team-logo {
@@ -290,13 +296,14 @@ body {
     font-weight: 700;
     color: var(--dark-navy);
     text-align: center;
+    line-height: 1.2;
 }
 
 .score-box {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 30%;
+    width: 24%;
 }
 
 .score-text {
@@ -315,6 +322,18 @@ body {
 
 .match-status.win { color: #10b981; }
 .match-status.draw { color: #f59e0b; }
+
+@media (max-width: 768px) {
+    .result-card {
+        min-width: 290px;
+        padding: 15px 16px;
+    }
+
+    .team-name {
+        font-size: 0.8rem;
+    }
+}
+
 
 /* STILI DEDICATI ALLA PAGINA GIOCATORS (PLAYERS.HTML) */
 .players-page-section {
