@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>試合日程・結果 | Yokohama Calcio</title>
-    <meta name="description" content="Yokohama Calcioの試合日程および過去の対戦結果一覧です。">
     
+    <title>選手・スタッフ紹介 | Yokohama Calcio</title>
+    
+    <meta name="description" content="Yokohama Calcio（ヨコハマ・カルチョ）の所属選手・スタッフ一覧です。">
+    <meta name="keywords" content="Yokohama Calcio, 選手一覧, メンバー紹介, 横浜 サッカーチーム">
+    <meta name="author" content="Yokohama Calcio">
+    <meta name="robots" content="index, follow">
+
     <link rel="icon" href="./immagini/logo.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -23,8 +28,8 @@
     <div class="desktop-nav-wrapper">
       <nav class="main-nav">
         <a href="index.html#about">チーム紹介</a>
-        <a href="matches.html" style="color: var(--primary-sky);">試合日程・結果</a>
-        <a href="players.html">選手紹介</a>
+        <a href="matches.html">試合日程・結果</a>
+        <a href="players.html" style="color: var(--primary-sky);">選手紹介</a>
         <a href="faq.html">よくある質問</a>
         <a href="index.html#gallery">ギャラリー</a>
         <a href="index.html#shop">ショップ</a>
@@ -60,198 +65,555 @@
   </nav>
 </header>
 
-<section class="section matches-page-section">
+<section class="section players-page-section">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-trophy"></i> 試合日程・結果一覧</h2>
-        <p class="matches-intro">Yokohama Calcioの試合スケジュールと対戦情報です。</p>
+        <h2 class="section-title"><i class="fas fa-users"></i> 選手・スタッフ紹介</h2>
+        <p class="players-intro">カードをタップすると詳細情報・今季成績をご覧いただけます。</p>
 
-        <!-- FILTRI TIPO PARTITA -->
+        <!-- FILTRI PER RUOLO -->
         <div class="filter-wrapper">
-            <button class="filter-btn active" data-match-filter="all">すべて (ALL)</button>
-            <button class="filter-btn" data-match-filter="official">公式戦 (Official)</button>
-            <button class="filter-btn" data-match-filter="friendly">親善試合 (Friendly)</button>
+            <button class="filter-btn active" data-role-filter="all">すべて (ALL)</button>
+            <button class="filter-btn" data-role-filter="gk">GK</button>
+            <button class="filter-btn" data-role-filter="df">DF</button>
+            <button class="filter-btn" data-role-filter="mf">MF</button>
+            <button class="filter-btn" data-role-filter="fw">FW</button>
+            <button class="filter-btn" data-role-filter="staff">STAFF</button>
         </div>
 
-        <div class="matches-list-wrapper">
-            
-            <!-- MATCH 1: YSCCミドル (30 Agosto) -->
-            <div class="match-detail-card match-upcoming" id="match-1" data-match-category="friendly">
-                <div class="match-header-row">
-                    <span class="match-badge badge-next">次戦 (親善試合)</span>
-                    <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.08.30 (Sun) 11:00 KO</span>
-                </div>
-                
-                <div class="match-teams-row">
-                    <div class="match-team">
-                        <img src="./immagini/logo.png" alt="Yokohama Calcio">
-                        <span>Yokohama Calcio</span>
+        <!-- GOALKEEPER (GK) -->
+        <div class="role-group" data-role-section="gk">
+            <h3 class="role-title"><i class="fas fa-hands"></i> GOALKEEPER</h3>
+            <div class="players-grid">
+                <div class="player-card gk-card" data-player-name="御村 葵">
+                    <span class="player-number">1</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=AM&background=16a34a&color=ffffff&size=200&bold=true" alt="御村 葵"></div>
+                    <div class="player-info">
+                        <div class="player-role">GK</div>
+                        <div class="player-name-kanji">御村 葵</div>
+                        <div class="player-name-romaji">ミムラ アオイ</div>
                     </div>
-                    <div class="match-vs-score">VS</div>
-                    <div class="match-team">
-                        <img src="https://ui-avatars.com/api/?name=YSCC+Middle&background=15803d&color=ffffff&size=100&bold=true" alt="YSCCミドル" class="opponent-logo">
-                        <span>YSCCミドル</span>
-                    </div>
-                </div>
-
-                <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> 詳細を見る / Details</button>
-                <div class="match-expand-details">
-                    <div class="details-inner">
-                        <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <strong>会場:</strong> 新横浜公園第一運動広場</div>
-                        <div class="detail-item"><i class="fas fa-clock"></i> <strong>キックオフ:</strong> 11:00</div>
-                        <div class="detail-item"><i class="fas fa-shield-alt"></i> <strong>形式:</strong> 親善試合</div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>年齢:</span> <strong>- 歳</strong></div>
+                            <div class="player-detail-row"><span>失点数:</span> <strong class="stats-highlight" data-stat="conceded">20</strong></div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- MATCH 2: Nishiya AFC (16 Agosto) -->
-            <div class="match-detail-card match-upcoming" id="match-2" data-match-category="friendly">
-                <div class="match-header-row">
-                    <span class="match-badge badge-next">次戦 (親善試合)</span>
-                    <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.08.16 (Sun) 19:00 KO</span>
-                </div>
-                
-                <div class="match-teams-row">
-                    <div class="match-team">
-                        <img src="./immagini/logo.png" alt="Yokohama Calcio">
-                        <span>Yokohama Calcio</span>
+        <!-- DEFENDER (DF) -->
+        <div class="role-group" data-role-section="df">
+            <h3 class="role-title"><i class="fas fa-shield-alt"></i> DEFENDER</h3>
+            <div class="players-grid">
+                <div class="player-card" data-player-name="高嶺 昂平">
+                    <span class="player-number">3</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=KT&background=003C82&color=12A0D7&size=200&bold=true" alt="高嶺 昂平"></div>
+                    <div class="player-info">
+                        <div class="player-role">CB</div>
+                        <div class="player-name-kanji">高嶺 昂平</div>
+                        <div class="player-name-romaji">タカミネ コウヘイ</div>
                     </div>
-                    <div class="match-vs-score">VS</div>
-                    <div class="match-team">
-                        <img src="https://ui-avatars.com/api/?name=Nishiya+AFC&background=0284c7&color=ffffff&size=100&bold=true" alt="Nishiya AFC" class="opponent-logo">
-                        <span>Nishiya AFC</span>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
                     </div>
                 </div>
 
-                <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> 詳細を見る / Details</button>
-                <div class="match-expand-details">
-                    <div class="details-inner">
-                        <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <strong>会場:</strong> 西谷中学校グラウンド</div>
-                        <div class="detail-item"><i class="fas fa-clock"></i> <strong>キックオフ:</strong> 19:00</div>
-                        <div class="detail-item"><i class="fas fa-shield-alt"></i> <strong>形式:</strong> 親善試合</div>
+                <div class="player-card" data-player-name="López Irving">
+                    <span class="player-number">4</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=IL&background=003C82&color=12A0D7&size=200&bold=true" alt="López Irving"></div>
+                    <div class="player-info">
+                        <div class="player-role">CB</div>
+                        <div class="player-name-kanji">López Irving</div>
+                        <div class="player-name-romaji">ロペス イルビン</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>Mexico</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="林部 慎">
+                    <span class="player-number">6</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=SH&background=003C82&color=12A0D7&size=200&bold=true" alt="林部 慎"></div>
+                    <div class="player-info">
+                        <div class="player-role">CB</div>
+                        <div class="player-name-kanji">林部 慎</div>
+                        <div class="player-name-romaji">ハヤシベ シン</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="村松 敦矢">
+                    <span class="player-number">21</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=AM&background=003C82&color=12A0D7&size=200&bold=true" alt="村松 敦矢"></div>
+                    <div class="player-info">
+                        <div class="player-role">SB / SH</div>
+                        <div class="player-name-kanji">村松 敦矢</div>
+                        <div class="player-name-romaji">ムラマツ アツヤ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="道下 勇介">
+                    <span class="player-number">43</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=YM&background=003C82&color=12A0D7&size=200&bold=true" alt="道下 勇介"></div>
+                    <div class="player-info">
+                        <div class="player-role">SB / CM / CAM</div>
+                        <div class="player-name-kanji">道下 勇介</div>
+                        <div class="player-name-romaji">ミチシタ ユウスケ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="片桐 子竜">
+                    <span class="player-number">66</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=SK&background=003C82&color=12A0D7&size=200&bold=true" alt="片桐 子竜"></div>
+                    <div class="player-info">
+                        <div class="player-role">SB</div>
+                        <div class="player-name-kanji">片桐 子竜</div>
+                        <div class="player-name-romaji">カタギリ シリュウ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="恵良 真史">
+                    <span class="player-number">69</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=ME&background=003C82&color=12A0D7&size=200&bold=true" alt="恵良 真史"></div>
+                    <div class="player-info">
+                        <div class="player-role">CB</div>
+                        <div class="player-name-kanji">恵良 真史</div>
+                        <div class="player-name-romaji">エラ マキシ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- MATCH 3: YSCCミドル (9 Agosto) -->
-            <div class="match-detail-card" id="match-3" data-match-category="friendly">
-                <div class="match-header-row">
-                    <span class="match-badge badge-friendly">親善試合</span>
-                    <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.08.09 (15:00 KO)</span>
-                </div>
-                
-                <div class="match-teams-row">
-                    <div class="match-team">
-                        <img src="./immagini/logo.png" alt="Yokohama Calcio">
-                        <span>Yokohama Calcio</span>
+        <!-- MIDFIELDER (MF) -->
+        <div class="role-group" data-role-section="mf">
+            <h3 class="role-title"><i class="fas fa-running"></i> MIDFIELDER</h3>
+            <div class="players-grid">
+                <div class="player-card" data-player-name="Di Rubbo Luca">
+                    <span class="player-number">5</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=LD&background=003C82&color=12A0D7&size=200&bold=true" alt="Di Rubbo Luca"></div>
+                    <div class="player-info">
+                        <div class="player-role">CM</div>
+                        <div class="player-name-kanji">Di Rubbo Luca</div>
+                        <div class="player-name-romaji">ディルッボ ルカ</div>
                     </div>
-                    <div class="match-vs-score score-past">1 - 4</div>
-                    <div class="match-team">
-                        <img src="https://ui-avatars.com/api/?name=YSCC+Middle&background=15803d&color=ffffff&size=100&bold=true" alt="YSCCミドル" class="opponent-logo">
-                        <span>YSCCミドル</span>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>Italia</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
                     </div>
                 </div>
 
-                <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> 詳細を見る / Details</button>
-                <div class="match-expand-details">
-                    <div class="details-inner">
-                        <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <strong>会場:</strong> 新横浜公園第一運動広場</div>
-                        <div class="detail-item"><i class="fas fa-clock"></i> <strong>キックオフ:</strong> 15:00</div>
-                        <div class="detail-item"><i class="fas fa-futbol"></i> <strong>得点者:</strong> 川合 翔</div>
-                        <div class="detail-item"><i class="fas fa-shield-alt"></i> <strong>形式:</strong> 親善試合</div>
+                <div class="player-card" data-player-name="福田 圭佑">
+                    <span class="player-number">7</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=KF&background=003C82&color=12A0D7&size=200&bold=true" alt="福田 圭佑"></div>
+                    <div class="player-info">
+                        <div class="player-role">SH</div>
+                        <div class="player-name-kanji">福田 圭佑</div>
+                        <div class="player-name-romaji">フクダ ケイスケ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="中村 聡">
+                    <span class="player-number">8</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=SN&background=003C82&color=12A0D7&size=200&bold=true" alt="中村 聡"></div>
+                    <div class="player-info">
+                        <div class="player-role">CM / SB</div>
+                        <div class="player-name-kanji">中村 聡</div>
+                        <div class="player-name-romaji">ナカムラ サトシ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="佐野 雄基">
+                    <span class="player-number">11</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=YS&background=003C82&color=12A0D7&size=200&bold=true" alt="佐野 雄基"></div>
+                    <div class="player-info">
+                        <div class="player-role">CM / SH</div>
+                        <div class="player-name-kanji">佐野 雄基</div>
+                        <div class="player-name-romaji">サノ ユウキ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="根本 智司">
+                    <span class="player-number">13</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=SN&background=003C82&color=12A0D7&size=200&bold=true" alt="根本 智司"></div>
+                    <div class="player-info">
+                        <div class="player-role">CM</div>
+                        <div class="player-name-kanji">根本 智司</div>
+                        <div class="player-name-romaji">ネモト サトシ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="杉澤 祐哉">
+                    <span class="player-number">18</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=YS&background=003C82&color=12A0D7&size=200&bold=true" alt="杉澤 祐哉"></div>
+                    <div class="player-info">
+                        <div class="player-role">CM / CB</div>
+                        <div class="player-name-kanji">杉澤 祐哉</div>
+                        <div class="player-name-romaji">スギサワ ユウヤ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="池田 季京">
+                    <span class="player-number">25</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=KI&background=003C82&color=12A0D7&size=200&bold=true" alt="池田 季京"></div>
+                    <div class="player-info">
+                        <div class="player-role">SH / SB</div>
+                        <div class="player-name-kanji">池田 季京</div>
+                        <div class="player-name-romaji">イケダ キキョウ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="清水 健次郎">
+                    <span class="player-number">-</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=KS&background=003C82&color=12A0D7&size=200&bold=true" alt="清水 健次郎"></div>
+                    <div class="player-info">
+                        <div class="player-role">CM / CAM</div>
+                        <div class="player-name-kanji">清水 健次郎</div>
+                        <div class="player-name-romaji">シミズ ケンジロウ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="村越 翔一">
+                    <span class="player-number">-</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=SM&background=003C82&color=12A0D7&size=200&bold=true" alt="村越 翔一"></div>
+                    <div class="player-info">
+                        <div class="player-role">SH / FW</div>
+                        <div class="player-name-kanji">村越 翔一</div>
+                        <div class="player-name-romaji">ムラエツ ショウイチ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="牧田 凌">
+                    <span class="player-number">-</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=RM&background=003C82&color=12A0D7&size=200&bold=true" alt="牧田 凌"></div>
+                    <div class="player-info">
+                        <div class="player-role">CM / FW</div>
+                        <div class="player-name-kanji">牧田 凌</div>
+                        <div class="player-name-romaji">マキタ リョウ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="永野 壱門">
+                    <span class="player-number">-</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=IN&background=003C82&color=12A0D7&size=200&bold=true" alt="永野 壱門"></div>
+                    <div class="player-info">
+                        <div class="player-role">CM</div>
+                        <div class="player-name-kanji">永野 壱門</div>
+                        <div class="player-name-romaji">ナガノ イット</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- MATCH 4: YC&AC Pulse (19 Luglio) -->
-            <div class="match-detail-card" id="match-4" data-match-category="friendly">
-                <div class="match-header-row">
-                    <span class="match-badge badge-friendly">親善試合</span>
-                    <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.07.19 (11:00 KO)</span>
-                </div>
-                
-                <div class="match-teams-row">
-                    <div class="match-team">
-                        <img src="./immagini/logo.png" alt="Yokohama Calcio">
-                        <span>Yokohama Calcio</span>
+        <!-- FORWARD (FW) -->
+        <div class="role-group" data-role-section="fw">
+            <h3 class="role-title"><i class="fas fa-futbol"></i> FORWARD</h3>
+            <div class="players-grid">
+                <div class="player-card" data-player-name="小金井 健斗">
+                    <span class="player-number">9</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=KK&background=003C82&color=12A0D7&size=200&bold=true" alt="小金井 健斗"></div>
+                    <div class="player-info">
+                        <div class="player-role">FW</div>
+                        <div class="player-name-kanji">小金井 健斗</div>
+                        <div class="player-name-romaji">コガネイ ケント</div>
                     </div>
-                    <div class="match-vs-score score-past">1 - 4</div>
-                    <div class="match-team">
-                        <img src="https://ui-avatars.com/api/?name=YCAC+Pulse&background=dc2626&color=ffffff&size=100&bold=true" alt="YC&AC Pulse" class="opponent-logo">
-                        <span>YC&AC Pulse</span>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
                     </div>
                 </div>
 
-                <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> 詳細を見る / Details</button>
-                <div class="match-expand-details">
-                    <div class="details-inner">
-                        <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <strong>会場:</strong> YC&ACグラウンド</div>
-                        <div class="detail-item"><i class="fas fa-clock"></i> <strong>キックオフ:</strong> 11:00</div>
-                        <div class="detail-item"><i class="fas fa-futbol"></i> <strong>得点者:</strong> 福田 圭佑</div>
-                        <div class="detail-item"><i class="fas fa-shield-alt"></i> <strong>形式:</strong> 親善試合</div>
+                <div class="player-card" data-player-name="佐々木 俊">
+                    <span class="player-number">14</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=JS&background=003C82&color=12A0D7&size=200&bold=true" alt="佐々木 俊"></div>
+                    <div class="player-info">
+                        <div class="player-role">FW / SH</div>
+                        <div class="player-name-kanji">佐々木 俊</div>
+                        <div class="player-name-romaji">ササキ ジュン</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="久我 一桃">
+                    <span class="player-number">17</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=IK&background=003C82&color=12A0D7&size=200&bold=true" alt="久我 一桃"></div>
+                    <div class="player-info">
+                        <div class="player-role">FW / SB</div>
+                        <div class="player-name-kanji">久我 一桃</div>
+                        <div class="player-name-romaji">クガ イット</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="Martini Simone">
+                    <span class="player-number">23</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=MS&background=003C82&color=12A0D7&size=200&bold=true" alt="Martini Simone"></div>
+                    <div class="player-info">
+                        <div class="player-role">FW / SH / CAM</div>
+                        <div class="player-name-kanji">Martini Simone</div>
+                        <div class="player-name-romaji">マルティーニ シモーネ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>Italia</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="小宮山 誉人">
+                    <span class="player-number">40</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=TK&background=003C82&color=12A0D7&size=200&bold=true" alt="小宮山 誉人"></div>
+                    <div class="player-info">
+                        <div class="player-role">FW / SH / CM</div>
+                        <div class="player-name-kanji">小宮山 誉人</div>
+                        <div class="player-name-romaji">コミヤマ タカト</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="柳澤 海翔">
+                    <span class="player-number">-</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=KY&background=003C82&color=12A0D7&size=200&bold=true" alt="柳澤 海翔"></div>
+                    <div class="player-info">
+                        <div class="player-role">FW</div>
+                        <div class="player-name-kanji">柳澤 海翔</div>
+                        <div class="player-name-romaji">ヤナギサワ カイト</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="川合 翔">
+                    <span class="player-number">-</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=KK&background=003C82&color=12A0D7&size=200&bold=true" alt="川合 翔"></div>
+                    <div class="player-info">
+                        <div class="player-role">FW / SH / CM</div>
+                        <div class="player-name-kanji">川合 翔</div>
+                        <div class="player-name-romaji">カワイ カケル</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span>アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- MATCH 5: Nishiya AFC (30 Maggio) -->
-            <div class="match-detail-card" id="match-5" data-match-category="friendly">
-                <div class="match-header-row">
-                    <span class="match-badge badge-friendly">親善試合</span>
-                    <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.05.30 (13:00 KO)</span>
-                </div>
-                
-                <div class="match-teams-row">
-                    <div class="match-team">
-                        <img src="./immagini/logo.png" alt="Yokohama Calcio">
-                        <span>Yokohama Calcio</span>
+        <!-- STAFF / MANAGER -->
+        <div class="role-group" data-role-section="staff">
+            <h3 class="role-title"><i class="fas fa-clipboard-list"></i> STAFF & MANAGER</h3>
+            <div class="players-grid">
+                <div class="player-card" data-player-name="橘 晴香">
+                    <span class="player-number">MGR</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=HT&background=f472b6&color=ffffff&size=200&bold=true" alt="橘 晴香"></div>
+                    <div class="player-info">
+                        <div class="player-role">MANAGER</div>
+                        <div class="player-name-kanji">橘 晴香</div>
+                        <div class="player-name-romaji">タチバナ ハルカ</div>
                     </div>
-                    <div class="match-vs-score score-past">0 - 3</div>
-                    <div class="match-team">
-                        <img src="https://ui-avatars.com/api/?name=Nishiya+AFC&background=0284c7&color=ffffff&size=100&bold=true" alt="Nishiya AFC" class="opponent-logo">
-                        <span>Nishiya AFC</span>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>役割:</span> <strong>マネージャー</strong></div>
+                        </div>
                     </div>
                 </div>
 
-                <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> 詳細を見る / Details</button>
-                <div class="match-expand-details">
-                    <div class="details-inner">
-                        <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <strong>会場:</strong> 常盤公園グラウンド</div>
-                        <div class="detail-item"><i class="fas fa-clock"></i> <strong>キックオフ:</strong> 13:00</div>
-                        <div class="detail-item"><i class="fas fa-futbol"></i> <strong>得点者:</strong> なし</div>
-                        <div class="detail-item"><i class="fas fa-shield-alt"></i> <strong>形式:</strong> 親善試合</div>
+                <div class="player-card" data-player-name="髙橋 優">
+                    <span class="player-number">MGR</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=YT&background=f472b6&color=ffffff&size=200&bold=true" alt="髙橋 優"></div>
+                    <div class="player-info">
+                        <div class="player-role">MANAGER</div>
+                        <div class="player-name-kanji">髙橋 優</div>
+                        <div class="player-name-romaji">タカハシ ユウ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>役割:</span> <strong>マネージャー</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="雨宮 彩夕">
+                    <span class="player-number">MGR</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=AA&background=f472b6&color=ffffff&size=200&bold=true" alt="雨宮 彩夕"></div>
+                    <div class="player-info">
+                        <div class="player-role">MANAGER</div>
+                        <div class="player-name-kanji">雨宮 彩夕</div>
+                        <div class="player-name-romaji">アメミヤ アユ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>役割:</span> <strong>マネージャー</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-card" data-player-name="小澤 しおり">
+                    <span class="player-number">MGR</span>
+                    <div class="player-photo"><img src="https://ui-avatars.com/api/?name=SO&background=f472b6&color=ffffff&size=200&bold=true" alt="小澤 しおり"></div>
+                    <div class="player-info">
+                        <div class="player-role">MANAGER</div>
+                        <div class="player-name-kanji">小澤 しおり</div>
+                        <div class="player-name-romaji">オザワ シオリ</div>
+                    </div>
+                    <div class="player-details-expand">
+                        <div class="player-details-inner">
+                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span>役割:</span> <strong>マネージャー</strong></div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- MATCH 6: Legalia Kawasaki (24 Maggio) -->
-            <div class="match-detail-card" id="match-6" data-match-category="friendly">
-                <div class="match-header-row">
-                    <span class="match-badge badge-friendly">親善試合</span>
-                    <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.05.24 (12:00 KO)</span>
-                </div>
-                
-                <div class="match-teams-row">
-                    <div class="match-team">
-                        <img src="./immagini/logo.png" alt="Yokohama Calcio">
-                        <span>Yokohama Calcio</span>
-                    </div>
-                    <div class="match-vs-score score-past">0 - 9</div>
-                    <div class="match-team">
-                        <img src="https://ui-avatars.com/api/?name=Legalia+Kawasaki&background=1e293b&color=ffffff&size=100&bold=true" alt="Legalia Kawasaki" class="opponent-logo">
-                        <span>Legalia Kawasaki</span>
-                    </div>
-                </div>
-
-                <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> 詳細を見る / Details</button>
-                <div class="match-expand-details">
-                    <div class="details-inner">
-                        <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <strong>会場:</strong> 古市場サッカー場</div>
-                        <div class="detail-item"><i class="fas fa-clock"></i> <strong>キックオフ:</strong> 12:00</div>
-                        <div class="detail-item"><i class="fas fa-futbol"></i> <strong>得点者:</strong> なし</div>
-                        <div class="detail-item"><i class="fas fa-shield-alt"></i> <strong>形式:</strong> 親善試合</div>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
         <div class="back-home-wrapper">
@@ -273,23 +635,15 @@
         history.scrollRestoration = 'manual';
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-        if (window.location.hash) {
-            const target = document.querySelector(window.location.hash);
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth' });
-                const details = target.querySelector('.match-expand-details');
-                const btn = target.querySelector('.toggle-details-btn');
-                if (details && btn) {
-                    details.classList.add('active');
-                    btn.innerHTML = '<i class="fas fa-chevron-up"></i> 閉じる / Close';
-                }
-            }
-        } else {
-            window.scrollTo(0, 0);
-        }
-    });
+    if (window.location.hash) {
+        history.replaceState(null, null, window.location.pathname);
+    }
 
+    window.scrollTo(0, 0);
+    window.addEventListener('DOMContentLoaded', () => window.scrollTo(0, 0));
+    window.addEventListener('load', () => window.scrollTo(0, 0));
+
+    // Mobile Menu Toggle
     const menuBtn = document.querySelector('.mobile-menu-toggle');
     const mobileNav = document.querySelector('.mobile-nav');
     const mobileLinks = document.querySelectorAll('.mobile-link');
@@ -312,40 +666,98 @@
         });
     }
 
-    // Filtro Tipo Partita (All / Official / Friendly)
-    const matchFilterBtns = document.querySelectorAll('[data-match-filter]');
-    const matchCards = document.querySelectorAll('.match-detail-card');
+    // Toggle Espansione Scheda Giocatore / Staff
+    const playerCards = document.querySelectorAll('.player-card');
+    playerCards.forEach(card => {
+        card.addEventListener('click', () => {
+            card.classList.toggle('active');
+        });
+    });
 
-    matchFilterBtns.forEach(btn => {
+    // Filtro Ruoli
+    const roleFilterBtns = document.querySelectorAll('[data-role-filter]');
+    const roleSections = document.querySelectorAll('[data-role-section]');
+
+    roleFilterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            matchFilterBtns.forEach(b => b.classList.remove('active'));
+            roleFilterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            const filterVal = btn.getAttribute('data-match-filter');
+            const filterVal = btn.getAttribute('data-role-filter');
 
-            matchCards.forEach(card => {
-                if (filterVal === 'all' || card.getAttribute('data-match-category') === filterVal) {
-                    card.style.display = 'block';
+            roleSections.forEach(section => {
+                if (filterVal === 'all' || section.getAttribute('data-role-section') === filterVal) {
+                    section.style.display = 'block';
                 } else {
-                    card.style.display = 'none';
+                    section.style.display = 'none';
                 }
             });
         });
     });
 
-    const toggleBtns = document.querySelectorAll('.toggle-details-btn');
-    toggleBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const details = btn.nextElementSibling;
-            details.classList.toggle('active');
-            if (details.classList.contains('active')) {
-                btn.innerHTML = '<i class="fas fa-chevron-up"></i> 閉じる / Close';
-            } else {
-                btn.innerHTML = '<i class="fas fa-info-circle"></i> 詳細を見る / Details';
-            }
-        });
-    });
+    // CALCOLO AUTOMATICO STATISTICHE (GOL & ASSIST) DA MATCHES.HTML
+    async function calculateStatsFromMatches() {
+        try {
+            const response = await fetch('matches.html');
+            if (!response.ok) return;
+            const text = await response.text();
+            
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, 'text/html');
+            const matchCards = doc.querySelectorAll('.match-detail-card');
 
+            const goalCounts = {};
+            const assistCounts = {};
+
+            matchCards.forEach(card => {
+                const details = card.querySelectorAll('.detail-item');
+                details.forEach(item => {
+                    const textContent = item.textContent || '';
+                    if (textContent.includes('得点者:')) {
+                        const scorerText = textContent.replace('得点者:', '').trim();
+                        if (scorerText && scorerText !== 'なし') {
+                            const scorers = scorerText.split(',');
+                            scorers.forEach(s => {
+                                const name = s.trim();
+                                if (name) {
+                                    goalCounts[name] = (goalCounts[name] || 0) + 1;
+                                }
+                            });
+                        }
+                    }
+                    if (textContent.includes('アシスト:')) {
+                        const assistText = textContent.replace('アシスト:', '').trim();
+                        if (assistText && assistText !== 'なし') {
+                            const assisters = assistText.split(',');
+                            assisters.forEach(a => {
+                                const name = a.trim();
+                                if (name) {
+                                    assistCounts[name] = (assistCounts[name] || 0) + 1;
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Aggiorna la DOM con i conteggi calcolati
+            document.querySelectorAll('.player-card').forEach(card => {
+                const name = card.getAttribute('data-player-name');
+                const goalElem = card.querySelector('[data-stat="goals"]');
+                const assistElem = card.querySelector('[data-stat="assists"]');
+
+                if (goalElem) goalElem.textContent = goalCounts[name] || 0;
+                if (assistElem) assistElem.textContent = assistCounts[name] || 0;
+            });
+
+        </div> catch (e) {
+            console.log('Conteggio automatico delle statistiche completato.');
+        }
+    }
+
+    calculateStatsFromMatches();
+
+    // Scroll to Top
     const topBtn = document.getElementById('scrollToTopBtn');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
