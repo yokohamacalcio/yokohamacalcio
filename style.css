@@ -321,7 +321,22 @@ body {
 .match-date {
     font-size: 0.8rem;
     color: #64748b;
+    margin-bottom: 4px;
+}
+
+/* BADGE LUOGO NELLA CARD RISULTATI */
+.match-location {
+    font-size: 0.78rem;
+    color: var(--primary-sky);
+    font-weight: 600;
     margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.match-location i {
+    font-size: 0.85rem;
 }
 
 /* ALLINEAMENTO CENTRATO PERFETTO DEL PUNTEGGIO E DEI LOGHI */
@@ -396,13 +411,47 @@ body {
 
 .players-intro {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 25px;
     color: #64748b;
     font-size: 1.05rem;
 }
 
+/* CONTENITORE PULSANTI FILTRO RUOLO */
+.filter-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.filter-btn {
+    background: var(--white);
+    color: var(--dark-navy);
+    border: 2px solid #cbd5e1;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.filter-btn:hover {
+    border-color: var(--primary-sky);
+    color: var(--primary-sky);
+}
+
+.filter-btn.active {
+    background: var(--primary-sky);
+    color: var(--white);
+    border-color: var(--primary-sky);
+    box-shadow: 0 4px 12px rgba(18, 160, 215, 0.25);
+}
+
 .role-group {
     margin-bottom: 50px;
+    transition: opacity 0.3s ease;
 }
 
 .role-title {
@@ -531,7 +580,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.25s ease;
 }
 
 .carousel-caption {
@@ -872,6 +921,15 @@ body {
 
     .sponsor-card {
         min-width: calc(50% - 10px);
+    }
+
+    .filter-wrapper {
+        gap: 8px;
+    }
+
+    .filter-btn {
+        padding: 6px 14px;
+        font-size: 0.82rem;
     }
 
     .shop-card,
