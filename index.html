@@ -254,7 +254,6 @@
             </div>
         </div>
 
-        <!-- PULSANTE AGGIUNTO SOTTO AL CAROSELLO -->
         <div style="text-align: center; margin-top: 25px;">
             <a href="matches.html" class="google-form-btn" style="max-width: 320px; margin: 0 auto;">
                 <i class="fas fa-list"></i> 全試合日程・詳細はこちら
@@ -385,11 +384,18 @@
 </footer>
 
 <script>
-    // 1. Reset Scroll al Refresh Page
+    // 1. Reset Scroll al Refresh Page (Garantito anche dopo il caricamento multimediale)
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
     }
+
+    if (window.location.hash) {
+        history.replaceState(null, null, window.location.pathname);
+    }
+
     window.scrollTo(0, 0);
+    window.addEventListener('DOMContentLoaded', () => window.scrollTo(0, 0));
+    window.addEventListener('load', () => window.scrollTo(0, 0));
 
     // 2. Menu Mobile Toggle
     const menuBtn = document.querySelector('.mobile-menu-toggle');
