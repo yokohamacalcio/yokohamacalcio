@@ -173,47 +173,81 @@ body {
 .stripe.white { background: var(--white); }
 .stripe.navy { background: var(--dark-navy); }
 
-/* ABOUT & MISSION */
+/* ABOUT & MISSION (AFFIANCATI SU DESKTOP) */
 .about-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    align-items: start;
+    gap: 35px;
+    align-items: stretch;
+}
+
+.about-text-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .about-text-box h3 {
     font-size: 1.4rem;
     color: var(--dark-navy);
     margin-bottom: 15px;
+    font-weight: 700;
 }
 
 .about-text-box p {
     margin-bottom: 15px;
-    line-height: 1.7;
+    line-height: 1.75;
+    font-size: 0.98rem;
 }
 
 .mission-box {
     background: var(--light-bg);
     padding: 30px;
-    border-left: 6px solid var(--primary-sky);
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 60, 130, 0.05);
+    border-top: 4px solid var(--primary-sky);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 60, 130, 0.06);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .mission-box h3 {
     font-size: 1.3rem;
     color: var(--dark-navy);
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-align: center;
 }
 
 .mission-box ul {
     list-style: none;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .mission-box li {
-    margin: 12px 0;
-    font-size: 1rem;
+    background: var(--white);
+    padding: 16px 18px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    box-shadow: 0 2px 8px rgba(0, 60, 130, 0.03);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.mission-box li:hover {
+    transform: translateX(4px);
+    border-color: var(--primary-sky);
+}
+
+.mission-box li strong {
+    color: var(--dark-navy);
+    display: block;
+    font-size: 0.98rem;
+    margin-bottom: 3px;
 }
 
 /* CAROSELLO RISULTATI PARTITE (DRAG & TOUCH) */
@@ -289,18 +323,22 @@ body {
     justify-content: space-between;
 }
 
+/* ALLINEAMENTO PERFETTO STEMMI E NOMI SQUADRE */
 .team-box {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
     width: 38%;
+    height: 100%;
 }
 
 .team-logo {
     width: 45px;
     height: 45px;
     object-fit: contain;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    flex-shrink: 0;
 }
 
 .opponent-logo {
@@ -313,6 +351,7 @@ body {
     color: var(--dark-navy);
     text-align: center;
     line-height: 1.2;
+    margin-top: auto;
 }
 
 .score-box {
@@ -485,15 +524,7 @@ body {
 }
 
 .carousel-caption {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background: linear-gradient(transparent, rgba(0, 60, 130, 0.92));
-    color: var(--white);
-    padding: 25px 20px 15px;
-    text-align: center;
-    font-size: 1.05rem;
-    font-weight: 600;
+    display: none !important;
 }
 
 .carousel-btn {
@@ -752,6 +783,11 @@ body {
 
     .about-grid {
         grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .mission-box {
+        padding: 22px 18px;
     }
     
     .mobile-nav {
