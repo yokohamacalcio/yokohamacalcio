@@ -719,9 +719,7 @@
                             const scorers = scorerText.split(',');
                             scorers.forEach(s => {
                                 const name = s.trim();
-                                if (name) {
-                                    goalCounts[name] = (goalCounts[name] || 0) + 1;
-                                }
+                                if (name) goalCounts[name] = (goalCounts[name] || 0) + 1;
                             });
                         }
                     }
@@ -731,9 +729,7 @@
                             const assisters = assistText.split(',');
                             assisters.forEach(a => {
                                 const name = a.trim();
-                                if (name) {
-                                    assistCounts[name] = (assistCounts[name] || 0) + 1;
-                                }
+                                if (name) assistCounts[name] = (assistCounts[name] || 0) + 1;
                             });
                         }
                     }
@@ -749,8 +745,7 @@
                 if (goalElem) goalElem.textContent = goalCounts[name] || 0;
                 if (assistElem) assistElem.textContent = assistCounts[name] || 0;
             });
-
-        </div> catch (e) {
+        } catch (e) {
             console.log('Conteggio automatico delle statistiche completato.');
         }
     }
