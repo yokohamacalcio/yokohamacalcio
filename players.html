@@ -70,8 +70,17 @@
         <h2 class="section-title"><i class="fas fa-users"></i> 選手紹介</h2>
         <p class="players-intro">Yokohama Calcioを支えるメンバーをご紹介します。</p>
 
+        <!-- PULSANTI FILTRO RUOLO -->
+        <div class="filter-wrapper">
+            <button class="filter-btn active" data-filter="all">すべて (ALL)</button>
+            <button class="filter-btn" data-filter="gk">GK</button>
+            <button class="filter-btn" data-filter="df">DF</button>
+            <button class="filter-btn" data-filter="mf">MF</button>
+            <button class="filter-btn" data-filter="fw">FW</button>
+        </div>
+
         <!-- PORTIERI (GK) -->
-        <div class="role-group">
+        <div class="role-group" data-role="gk">
             <h3 class="role-title"><i class="fas fa-hands"></i> GOALKEEPER (ゴールキーパー)</h3>
             <div class="players-grid">
                 <div class="player-card">
@@ -89,7 +98,7 @@
         </div>
 
         <!-- DIFENSORI (DF) -->
-        <div class="role-group">
+        <div class="role-group" data-role="df">
             <h3 class="role-title"><i class="fas fa-shield-alt"></i> DEFENDER (ディフェンダー)</h3>
             <div class="players-grid">
                 <div class="player-card">
@@ -179,7 +188,7 @@
         </div>
 
         <!-- CENTROCAMPISTI (MF) -->
-        <div class="role-group">
+        <div class="role-group" data-role="mf">
             <h3 class="role-title"><i class="fas fa-running"></i> MIDFIELDER (ミッドフィルダー)</h3>
             <div class="players-grid">
                 <div class="player-card">
@@ -329,7 +338,7 @@
         </div>
 
         <!-- ATTACCANTI (FW) -->
-        <div class="role-group">
+        <div class="role-group" data-role="fw">
             <h3 class="role-title"><i class="fas fa-bullseye"></i> FORWARD (フォワード)</h3>
             <div class="players-grid">
                 <div class="player-card">
@@ -419,6 +428,7 @@
 </footer>
 
 <script>
+    // 1. Mobile Menu Toggle
     const menuBtn = document.querySelector('.mobile-menu-toggle');
     const mobileNav = document.querySelector('.mobile-nav');
     const mobileLinks = document.querySelectorAll('.mobile-link');
@@ -441,7 +451,28 @@
         });
     }
 
-    // Aggiornamento automatico dell'anno nel copyright
+    // 2. Filtro dinamico per ruoli giocatori
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const roleGroups = document.querySelectorAll('.role-group');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filterValue = btn.getAttribute('data-filter');
+
+            roleGroups.forEach(group => {
+                if (filterValue === 'all' || group.getAttribute('data-role') === filterValue) {
+                    group.style.display = 'block';
+                } else {
+                    group.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // 3. Aggiornamento automatico dell'anno nel copyright
     const yearSpan = document.getElementById('currentYear');
     if (yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
