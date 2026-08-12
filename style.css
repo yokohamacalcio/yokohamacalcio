@@ -127,7 +127,6 @@ body {
     color: var(--primary-sky);
 }
 
-/* HOVER ICONA YOUTUBE */
 .header-social-icons a:hover .fa-youtube,
 .mobile-social-icons a:hover .fa-youtube {
     color: #ff0000;
@@ -1035,7 +1034,7 @@ body {
     color: #64748b;
 }
 
-/* ALLINEAMENTO ORIZZONTALE DEI LOGHI IN MATCHES.HTML */
+/* STRUTTURA PARTITE: LOGO SOPRA E NOME SOTTO (COME HOMEPAGE) */
 .match-teams-row {
     display: flex !important;
     flex-direction: row !important;
@@ -1047,28 +1046,21 @@ body {
 
 .match-team {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 42%;
+    flex-direction: column !important; /* Logo sopra e nome sotto */
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 38%;
     font-weight: 700;
     color: var(--dark-navy);
-    font-size: 0.95rem;
-}
-
-.match-team.team-left {
-    justify-content: flex-end;
-    text-align: right;
-}
-
-.match-team.team-right {
-    justify-content: flex-start;
-    text-align: left;
+    font-size: 0.88rem;
 }
 
 .match-team img {
-    width: 42px;
-    height: 42px;
+    width: 46px;
+    height: 46px;
     object-fit: contain;
+    margin-bottom: 6px;
     flex-shrink: 0;
 }
 
@@ -1076,7 +1068,7 @@ body {
     font-family: var(--font-brand);
     font-size: 2.1rem;
     color: var(--primary-sky);
-    width: 16%;
+    width: 24%;
     text-align: center;
     line-height: 1;
     letter-spacing: 1px;
@@ -1275,12 +1267,11 @@ body {
 
     .match-team {
         font-size: 0.82rem;
-        gap: 6px;
     }
 
     .match-team img {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
     }
 
     .match-vs-score {
