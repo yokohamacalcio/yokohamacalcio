@@ -250,10 +250,84 @@ body {
     margin-bottom: 3px;
 }
 
+/* CAROSELLO RISULTATI PARTITE (ORIZZONTALE CONTINUO CON DRAG / TOUCH) */
+.results-section {
+    background: var(--light-bg);
+    overflow: hidden;
+}
+
+.results-carousel-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 10px 0;
+    cursor: grab;
+    user-select: none;
+}
+
+.results-carousel-container:active {
+    cursor: grabbing;
+}
+
+.results-track {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 20px;
+    width: max-content !important;
+    will-change: transform;
+    align-items: stretch;
+}
+
+.result-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 20px 22px;
+    min-width: 330px;
+    box-shadow: 0 5px 20px rgba(0, 60, 130, 0.08);
+    border: 1px solid #e2e8f0;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.match-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    align-self: flex-start;
+}
+
+.badge-friendly {
+    background: rgba(18, 160, 215, 0.15);
+    color: var(--primary-sky);
+}
+
+.badge-next {
+    background: rgba(18, 160, 215, 0.2);
+    color: var(--primary-sky);
+    border: 1px solid var(--primary-sky);
+}
+
+.match-upcoming {
+    border: 1.5px dashed var(--primary-sky);
+    background: #fdfefe;
+}
+
+.match-date {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-bottom: 15px;
+}
+
 /* ALLINEAMENTO CENTRATO PERFETTO DEL PUNTEGGIO E DEI LOGHI */
 .match-content {
     display: flex;
-    align-items: center; /* Centra verticalmente il punteggio rispetto a tutta l'altezza dei loghi e nomi */
+    align-items: center;
     justify-content: space-between;
 }
 
@@ -283,7 +357,7 @@ body {
     color: var(--dark-navy);
     text-align: center;
     line-height: 1.25;
-    height: 2.5em; /* Mantiene bloccata l'altezza a 2 righe per non muovere mai i loghi */
+    height: 2.5em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -295,7 +369,6 @@ body {
     align-items: center;
     justify-content: center;
     width: 24%;
-    /* Rimossa l'altezza fissa: ora si posiziona perfettamente al centro tra i due blocchi squadra */
 }
 
 .score-text {
@@ -312,6 +385,9 @@ body {
     margin-top: 6px;
     text-align: center;
 }
+
+.match-status.lose { color: #ef4444; }
+.match-status.next-time { color: var(--dark-navy); }
 
 /* STILI DEDICATI ALLA PAGINA GIOCATORI (PLAYERS.HTML) */
 .players-page-section {
