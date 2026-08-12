@@ -332,45 +332,68 @@
     </div>
 </section>
 
-<!-- SEZIONE SPONSOR -->
+<!-- SEZIONE SPONSOR (CAROSELLO INFINITO RECRUITMENT) -->
 <section class="section sponsors-section" id="sponsors">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-handshake"></i> オフィシャルスポンサー</h2>
-        <div class="sponsors-carousel-wrapper">
-            <button class="sponsor-btn" id="sponsorPrevBtn" aria-label="Previous Sponsor"><i class="fas fa-chevron-left"></i></button>
-            <div class="sponsors-carousel-track-container">
-                <div class="sponsors-track" id="sponsorsTrack">
-                    <div class="sponsor-card">
-                        <img src="https://via.placeholder.com/200x100?text=Sponsor+1" alt="Sponsor 1">
-                    </div>
-                    <div class="sponsor-card">
-                        <img src="https://via.placeholder.com/200x100?text=Sponsor+2" alt="Sponsor 2">
-                    </div>
-                    <div class="sponsor-card">
-                        <img src="https://via.placeholder.com/200x100?text=Sponsor+3" alt="Sponsor 3">
-                    </div>
-                    <div class="sponsor-card">
-                        <img src="https://via.placeholder.com/200x100?text=Sponsor+4" alt="Sponsor 4">
-                    </div>
+        
+        <div class="sponsors-carousel-container">
+            <div class="sponsors-track" id="sponsorsTrack">
+                <div class="sponsor-card sponsor-placeholder">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>スポンサー募集中</span>
+                </div>
+                <div class="sponsor-card sponsor-placeholder">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>スポンサー募集中</span>
+                </div>
+                <div class="sponsor-card sponsor-placeholder">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>スポンサー募集中</span>
+                </div>
+                <div class="sponsor-card sponsor-placeholder">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>スポンサー募集中</span>
+                </div>
+                <div class="sponsor-card sponsor-placeholder">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>スポンサー募集中</span>
                 </div>
             </div>
-            <button class="sponsor-btn" id="sponsorNextBtn" aria-label="Next Sponsor"><i class="fas fa-chevron-right"></i></button>
         </div>
+
+        <p class="sponsor-recruit-text">
+            Yokohama Calcioでは、共にチームを応援・サポートしていただける企業様・パートナー様を募集しております。
+        </p>
+        <a href="#contact" class="google-form-btn sponsor-contact-btn">
+            <i class="fas fa-paper-plane"></i>
+            <span>スポンサー・パートナーシップについて問い合わせる</span>
+        </a>
     </div>
 </section>
 
-<!-- CONTATTI GOOGLE FORMS OTTIMIZZATO -->
+<!-- CONTATTI GOOGLE FORMS UNICO BOX -->
 <section class="section" id="contact">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-envelope"></i> お問い合わせ</h2>
         <div class="contact-card">
             <div class="contact-header">
                 <i class="fas fa-paper-plane contact-icon"></i>
-                <h3>入部希望・体験練習・お問い合わせ</h3>
+                <h3>各種お申し込み・お問い合わせ</h3>
             </div>
+
+            <!-- Lista motivazioni integrate nello stesso box -->
+            <ul class="contact-reasons-list">
+                <li><i class="fas fa-check-circle"></i> <strong>体験練習・入部希望</strong>（初心者・経験者問わず随時募集）</li>
+                <li><i class="fas fa-check-circle"></i> <strong>練習試合・対戦のお申し込み</strong>（親善試合・グラウンド手配）</li>
+                <li><i class="fas fa-check-circle"></i> <strong>スポンサー・協賛のご相談</strong>（チーム支援・パートナーシップ）</li>
+                <li><i class="fas fa-check-circle"></i> <strong>その他チームに関するご質問</strong></li>
+            </ul>
+
             <p class="contact-desc">
-                チームへのご質問、体験参加のお申し込みはGoogleフォームにて受け付けております。お気軽にご連絡ください。
+                すべてのお問い合わせは以下のGoogleフォームより受け付けております。<br>お気軽にご連絡ください！
             </p>
+            
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSfih85kdWDmDaGPWHjP239bDHk8ZfMsykXVA-K_XH0EZ7mP5g/viewform?usp=dialog" 
                target="_blank" 
                rel="noopener noreferrer" 
@@ -564,31 +587,28 @@
         }));
     }
 
-    // 4. Sponsor Carousel Manual Buttons
-    const track = document.getElementById('sponsorsTrack');
-    const sponsorNext = document.getElementById('sponsorNextBtn');
-    const sponsorPrev = document.getElementById('sponsorPrevBtn');
-    let sponsorPosition = 0;
+    // 4. Carosello Sponsor (Auto-Scroll Infinito)
+    const sponsorsTrack = document.getElementById('sponsorsTrack');
 
-    if (sponsorNext && sponsorPrev && track) {
-        sponsorNext.addEventListener('click', () => {
-            const cardWidth = track.querySelector('.sponsor-card').offsetWidth + 20;
-            const maxScroll = track.scrollWidth - track.parentElement.offsetWidth;
-            if (Math.abs(sponsorPosition) < maxScroll) {
-                sponsorPosition -= cardWidth;
-                if (Math.abs(sponsorPosition) > maxScroll) sponsorPosition = -maxScroll;
-                track.style.transform = `translateX(${sponsorPosition}px)`;
-            }
+    if (sponsorsTrack && sponsorsTrack.children.length > 0) {
+        const originalSponsorCards = Array.from(sponsorsTrack.children);
+        originalSponsorCards.forEach(card => {
+            sponsorsTrack.appendChild(card.cloneNode(true));
         });
 
-        sponsorPrev.addEventListener('click', () => {
-            const cardWidth = track.querySelector('.sponsor-card').offsetWidth + 20;
-            if (sponsorPosition < 0) {
-                sponsorPosition += cardWidth;
-                if (sponsorPosition > 0) sponsorPosition = 0;
-                track.style.transform = `translateX(${sponsorPosition}px)`;
+        let sponsorScrollPos = 0;
+
+        function scrollSponsorsStep() {
+            sponsorScrollPos += 0.6;
+            const halfWidth = sponsorsTrack.scrollWidth / 2;
+            if (sponsorScrollPos >= halfWidth) {
+                sponsorScrollPos = 0;
             }
-        });
+            sponsorsTrack.style.transform = `translateX(-${sponsorScrollPos}px)`;
+            requestAnimationFrame(scrollSponsorsStep);
+        }
+
+        requestAnimationFrame(scrollSponsorsStep);
     }
 
     // 5. Aggiornamento automatico dell'anno nel copyright
