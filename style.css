@@ -680,81 +680,82 @@ body {
     background: var(--primary-sky);
 }
 
-/* CAROUSEL SPONSOR */
+/* SEZIONE SPONSOR (CAROSELLO RECRUITMENT INFINITO) */
 .sponsors-section {
     background: var(--white);
-}
-
-.sponsors-carousel-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    max-width: 950px;
-    margin: 0 auto;
-}
-
-.sponsors-carousel-track-container {
     overflow: hidden;
+}
+
+.sponsors-carousel-container {
     width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 10px 0;
+    margin-bottom: 25px;
 }
 
 .sponsors-track {
-    display: flex;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
     gap: 20px;
-    transition: transform 0.4s ease-in-out;
+    width: max-content !important;
+    will-change: transform;
 }
 
-.sponsor-card {
-    min-width: calc(25% - 15px);
+.sponsor-placeholder {
     background: var(--light-bg);
+    border: 2px dashed #cbd5e1;
     border-radius: 12px;
-    padding: 15px;
+    padding: 25px 20px;
+    min-width: 220px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid #e2e8f0;
-}
-
-.sponsor-card img {
-    max-width: 100%;
-    height: auto;
-    max-height: 70px;
-    object-fit: contain;
-    filter: grayscale(100%);
-    opacity: 0.7;
-    transition: all 0.3s ease;
-}
-
-.sponsor-card:hover img {
-    filter: grayscale(0%);
-    opacity: 1;
-}
-
-.sponsor-btn {
-    background: var(--light-bg);
-    color: var(--dark-navy);
-    border: 1px solid #cbd5e1;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
+    gap: 10px;
+    color: #64748b;
+    font-weight: 700;
+    font-size: 0.9rem;
     flex-shrink: 0;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
 }
 
-.sponsor-btn:hover {
-    background: var(--primary-sky);
-    color: var(--white);
+.sponsor-placeholder i {
+    font-size: 1.8rem;
+    color: var(--primary-sky);
+}
+
+.sponsor-placeholder:hover {
     border-color: var(--primary-sky);
+    background: #eef7fc;
+    color: var(--dark-navy);
 }
 
-/* BOX CONTATTO GOOGLE FORMS */
+.sponsor-recruit-text {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.sponsor-contact-btn {
+    max-width: 450px;
+    margin: 0 auto;
+    background: var(--dark-navy);
+}
+
+.sponsor-contact-btn:hover {
+    background: var(--primary-sky);
+}
+
+/* BOX CONTATTO GOOGLE FORMS CON LISTA MOTIVAZIONI */
 .contact-card {
     background: var(--white);
     border-radius: 20px;
     padding: 40px 30px;
-    max-width: 600px;
+    max-width: 650px;
     margin: 0 auto;
     border: 1px solid #e2e8f0;
     box-shadow: 0 10px 30px rgba(0, 60, 130, 0.08);
@@ -778,11 +779,44 @@ body {
     font-weight: 700;
 }
 
+.contact-reasons-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 25px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--light-bg);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+}
+
+.contact-reasons-list li {
+    font-size: 0.92rem;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.4;
+}
+
+.contact-reasons-list li i {
+    color: var(--primary-sky);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.contact-reasons-list li strong {
+    color: var(--dark-navy);
+}
+
 .contact-desc {
     color: var(--text-color);
     font-size: 0.95rem;
     line-height: 1.6;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .google-form-btn {
@@ -919,10 +953,6 @@ body {
     #prevBtn { left: 10px; }
     #nextBtn { right: 10px; }
 
-    .sponsor-card {
-        min-width: calc(50% - 10px);
-    }
-
     .filter-wrapper {
         gap: 8px;
     }
@@ -930,6 +960,15 @@ body {
     .filter-btn {
         padding: 6px 14px;
         font-size: 0.82rem;
+    }
+
+    .contact-reasons-list {
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .contact-reasons-list li {
+        font-size: 0.85rem;
     }
 
     .shop-card,
