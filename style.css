@@ -51,7 +51,7 @@ body {
     display: none !important;
 }
 
-/* HEADER & LOGO */
+/* HEADER & BRAND NAME FIX */
 .header {
     background: var(--white);
     padding: 12px 0;
@@ -71,7 +71,12 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+}
+
+.logo-title a {
     text-decoration: none;
+    display: flex;
+    align-items: center;
 }
 
 .logo {
@@ -82,10 +87,14 @@ body {
 
 .brand-name {
     font-family: var(--font-brand);
-    font-size: 1.9rem;
-    letter-spacing: 1.5px;
+    font-size: 2.1rem;
+    letter-spacing: 2px;
     color: var(--dark-navy);
     line-height: 1;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none !important;
+    display: inline-block;
 }
 
 .desktop-nav-wrapper {
@@ -201,37 +210,43 @@ body {
     font-size: 1rem;
 }
 
-/* ULTIMI RISULTATI / RESULTS SECTION */
+/* CAROSELLO RISULTATI PARTITE (SCORRIMENTO CONTINUO) */
 .results-section {
     background: var(--light-bg);
+    overflow: hidden;
 }
 
-.results-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+.results-carousel-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 10px 0;
+}
+
+.results-track {
+    display: flex;
     gap: 20px;
-    max-width: 1000px;
-    margin: 0 auto;
+    width: max-content;
+    will-change: transform;
 }
 
 .result-card {
     background: var(--white);
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 5px 20px rgba(0, 60, 130, 0.06);
+    border-radius: 16px;
+    padding: 20px 25px;
+    min-width: 310px;
+    box-shadow: 0 5px 20px rgba(0, 60, 130, 0.08);
     border: 1px solid #e2e8f0;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+    flex-shrink: 0;
 }
 
-.match-type {
+.match-badge {
     display: inline-block;
     padding: 4px 12px;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .badge-league {
@@ -245,64 +260,88 @@ body {
 }
 
 .match-date {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #64748b;
     margin-bottom: 15px;
 }
 
-.match-teams {
+.match-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.team-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 35%;
+}
+
+.team-logo {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+    margin-bottom: 6px;
+}
+
+.team-name {
+    font-size: 0.85rem;
     font-weight: 700;
-    margin-bottom: 15px;
-}
-
-.match-teams .team {
-    width: 40%;
-    font-size: 0.95rem;
-}
-
-.match-teams .my-team {
     color: var(--dark-navy);
+    text-align: center;
 }
 
-.match-teams .score {
-    font-size: 1.4rem;
-    color: var(--primary-sky);
+.score-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+}
+
+.score-text {
     font-family: var(--font-brand);
+    font-size: 2rem;
+    color: var(--primary-sky);
+    line-height: 1;
     letter-spacing: 2px;
-    width: 20%;
 }
 
 .match-status {
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 1px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-top: 4px;
 }
 
-.status-win { color: #10b981; }
-.status-draw { color: #f59e0b; }
+.match-status.win { color: #10b981; }
+.match-status.draw { color: #f59e0b; }
 
-/* PLAYERS SECTION */
+/* STILI DEDICATI ALLA PAGINA GIOCATORS (PLAYERS.HTML) */
+.players-page-section {
+    min-height: 70vh;
+}
+
 .players-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .player-card {
     background: var(--white);
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0, 60, 130, 0.08);
+    box-shadow: 0 8px 25px rgba(0, 60, 130, 0.08);
     border: 1px solid #e2e8f0;
     position: relative;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .player-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0, 60, 130, 0.15);
 }
 
 .player-number {
@@ -310,14 +349,15 @@ body {
     top: 10px;
     right: 15px;
     font-family: var(--font-brand);
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     color: var(--primary-sky);
-    opacity: 0.8;
+    opacity: 0.85;
     z-index: 2;
+    line-height: 1;
 }
 
 .player-photo {
-    height: 240px;
+    height: 260px;
     background: var(--light-bg);
 }
 
@@ -328,24 +368,26 @@ body {
 }
 
 .player-info {
-    padding: 15px;
+    padding: 18px 15px;
     text-align: center;
 }
 
 .player-role {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
     color: var(--primary-sky);
     text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .player-name {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     color: var(--dark-navy);
-    margin-top: 4px;
+    margin-top: 5px;
+    font-weight: 700;
 }
 
-/* CAROUSEL GALLERY */
+/* GALLERIA CAROUSEL */
 .carousel-section {
     background: var(--light-bg);
 }
@@ -499,61 +541,68 @@ body {
     border-color: var(--primary-sky);
 }
 
-/* CONTACT BOX (GOOGLE FORMS) */
-.google-form-box {
-    text-align: center;
-    padding: 45px 30px;
+/* BOX CONTATTO GOOGLE FORMS PERFETTAMENTE OTTIMIZZATO */
+.contact-card {
     background: var(--white);
-    border-radius: 16px;
-    border: 1px solid #e2e8f0;
-    max-width: 580px;
+    border-radius: 20px;
+    padding: 40px 30px;
+    max-width: 600px;
     margin: 0 auto;
-    box-shadow: 0 8px 25px rgba(0, 60, 130, 0.06);
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(0, 60, 130, 0.08);
+    text-align: center;
 }
 
-.contact-icon {
-    font-size: 2.8rem;
-    color: var(--primary-sky);
+.contact-header {
     margin-bottom: 15px;
 }
 
-.google-form-box h3 {
-    font-size: 1.4rem;
+.contact-icon {
+    font-size: 2.5rem;
+    color: var(--primary-sky);
+    margin-bottom: 10px;
+    display: block;
+}
+
+.contact-header h3 {
+    font-size: 1.35rem;
     color: var(--dark-navy);
-    margin-bottom: 12px;
+    font-weight: 700;
 }
 
-.google-form-box p {
+.contact-desc {
     color: var(--text-color);
-    margin-bottom: 25px;
-    font-size: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
 }
 
-.form-link-btn {
-    display: inline-flex;
+.google-form-btn {
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    text-decoration: none;
-    max-width: 320px;
-    margin: 0 auto;
-}
-
-.submit-btn {
-    width: 100%;
-    padding: 14px 20px;
+    gap: 12px;
     background: var(--primary-sky);
     color: var(--white);
-    border: none;
-    border-radius: 8px;
+    text-decoration: none;
+    padding: 16px 24px;
+    border-radius: 12px;
     font-weight: 700;
-    cursor: pointer;
     font-size: 1rem;
-    transition: background 0.25s ease;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(18, 160, 215, 0.3);
+    width: 100%;
 }
 
-.submit-btn:hover {
+.google-form-btn:hover {
     background: var(--dark-navy);
+    box-shadow: 0 6px 20px rgba(0, 60, 130, 0.3);
+    transform: translateY(-2px);
+}
+
+.external-icon {
+    font-size: 0.85rem;
+    opacity: 0.8;
 }
 
 /* FOOTER */
@@ -581,7 +630,7 @@ body {
     .mobile-menu-toggle { display: block; }
 
     .brand-name {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
     }
 
     .about-grid {
@@ -635,6 +684,15 @@ body {
         padding: 50px 0;
     }
 
+    .result-card {
+        min-width: 270px;
+        padding: 15px 18px;
+    }
+
+    .score-text {
+        font-size: 1.7rem;
+    }
+
     .carousel-slide { 
         height: 280px; 
     }
@@ -650,5 +708,14 @@ body {
 
     .sponsor-card {
         min-width: calc(50% - 10px);
+    }
+
+    .contact-card {
+        padding: 25px 20px;
+    }
+
+    .google-form-btn {
+        font-size: 0.95rem;
+        padding: 14px 18px;
     }
 }
