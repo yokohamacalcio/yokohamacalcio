@@ -480,10 +480,11 @@ body {
 
 .players-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 25px;
     max-width: 1000px;
     margin: 0 auto;
+    justify-content: center;
 }
 
 .player-card {
@@ -494,6 +495,10 @@ body {
     border: 1px solid #e2e8f0;
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 280px;
+    width: 100%;
+    margin: 0 auto;
+    cursor: pointer;
 }
 
 .player-card:hover {
@@ -511,6 +516,12 @@ body {
     opacity: 0.85;
     z-index: 2;
     line-height: 1;
+}
+
+/* NUMERO DI MAGLIA BIANCO PER IL PORTIERE */
+.player-card.gk-card .player-number {
+    color: #ffffff !important;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
 
 .player-photo {
@@ -550,6 +561,51 @@ body {
     color: #64748b;
     font-weight: 600;
     margin-top: 2px;
+}
+
+/* DETTAGLI ED ESPANSIONE STATISTICHE GIOCATORE */
+.player-details-expand {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    background: var(--light-bg);
+    border-top: 1px solid #e2e8f0;
+    padding: 0 15px;
+}
+
+.player-card.active .player-details-expand {
+    max-height: 300px;
+    padding: 12px 15px;
+}
+
+.player-details-inner {
+    font-size: 0.82rem;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+}
+
+.player-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed #cbd5e1;
+    padding-bottom: 4px;
+}
+
+.player-detail-row:last-child {
+    border-bottom: none;
+}
+
+.player-detail-row strong {
+    color: var(--dark-navy);
+}
+
+.stats-highlight {
+    color: var(--primary-sky);
+    font-weight: 800;
 }
 
 .back-home-wrapper {
@@ -1034,7 +1090,7 @@ body {
     color: #64748b;
 }
 
-/* STRUTTURA PARTITE: LOGO SOPRA E NOME SOTTO (COME HOMEPAGE) */
+/* STRUTTURA PARTITE: LOGO SOPRA E NOME SOTTO */
 .match-teams-row {
     display: flex !important;
     flex-direction: row !important;
@@ -1046,7 +1102,7 @@ body {
 
 .match-team {
     display: flex;
-    flex-direction: column !important; /* Logo sopra e nome sotto */
+    flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     text-align: center !important;
