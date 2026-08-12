@@ -173,7 +173,7 @@ body {
 .stripe.white { background: var(--white); }
 .stripe.navy { background: var(--dark-navy); }
 
-/* ABOUT & MISSION (AFFIANCATI SU DESKTOP) */
+/* ABOUT & MISSION */
 .about-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -250,7 +250,7 @@ body {
     margin-bottom: 3px;
 }
 
-/* CAROSELLO RISULTATI PARTITE (ORIZZONTALE CONTINUO CON DRAG / TOUCH) */
+/* CAROSELLO RISULTATI PARTITE IN HOMEPAGE */
 .results-section {
     background: var(--light-bg);
     overflow: hidden;
@@ -324,7 +324,6 @@ body {
     margin-bottom: 4px;
 }
 
-/* BADGE LUOGO NELLA CARD RISULTATI */
 .match-location {
     font-size: 0.78rem;
     color: var(--primary-sky);
@@ -339,7 +338,6 @@ body {
     font-size: 0.85rem;
 }
 
-/* ALLINEAMENTO CENTRATO PERFETTO DEL PUNTEGGIO E DEI LOGHI */
 .match-content {
     display: flex;
     align-items: center;
@@ -404,19 +402,7 @@ body {
 .match-status.lose { color: #ef4444; }
 .match-status.next-time { color: var(--dark-navy); }
 
-/* STILI DEDICATI ALLA PAGINA GIOCATORI (PLAYERS.HTML) */
-.players-page-section {
-    min-height: 70vh;
-}
-
-.players-intro {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #64748b;
-    font-size: 1.05rem;
-}
-
-/* CONTENITORE PULSANTI FILTRO RUOLO */
+/* CONTENITORE FILTRI GENERATORE (PLAYERS.HTML / MATCHES.HTML) */
 .filter-wrapper {
     display: flex;
     justify-content: center;
@@ -447,6 +433,18 @@ body {
     color: var(--white);
     border-color: var(--primary-sky);
     box-shadow: 0 4px 12px rgba(18, 160, 215, 0.25);
+}
+
+/* PAGINA GIOCATORI (PLAYERS.HTML) */
+.players-page-section {
+    min-height: 70vh;
+}
+
+.players-intro {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #64748b;
+    font-size: 1.05rem;
 }
 
 .role-group {
@@ -847,6 +845,273 @@ body {
     opacity: 0.8;
 }
 
+/* PULSANTE FLOATING TORNA SU (SCROLL TO TOP) */
+#scrollToTopBtn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 46px;
+    height: 46px;
+    background: var(--primary-sky);
+    color: var(--white);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 15px rgba(0, 60, 130, 0.25);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+#scrollToTopBtn.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+#scrollToTopBtn:hover {
+    background: var(--dark-navy);
+    transform: translateY(-3px);
+}
+
+/* PAGINA FAQ (FAQ.HTML) */
+.faq-page-section {
+    min-height: 70vh;
+}
+
+.faq-intro {
+    text-align: center;
+    color: #64748b;
+    margin-bottom: 35px;
+    font-size: 1.05rem;
+}
+
+.faq-accordion-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-category-title {
+    font-family: var(--font-brand);
+    font-size: 1.35rem;
+    color: var(--dark-navy);
+    border-bottom: 2px solid var(--primary-sky);
+    padding-bottom: 6px;
+    margin: 35px 0 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 1px;
+}
+
+.faq-category-title:first-child {
+    margin-top: 0;
+}
+
+.faq-item {
+    background: var(--white);
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 60, 130, 0.03);
+    transition: border-color 0.25s ease;
+}
+
+.faq-item.active {
+    border-color: var(--primary-sky);
+}
+
+.faq-question {
+    width: 100%;
+    text-align: left;
+    padding: 18px 20px;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--dark-navy);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    gap: 15px;
+    font-family: var(--font-main);
+}
+
+.faq-icon {
+    color: var(--primary-sky);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    background: var(--light-bg);
+    padding: 0 20px;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 500px;
+    padding: 15px 20px 20px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.faq-answer p {
+    font-size: 0.93rem;
+    line-height: 1.65;
+    color: var(--text-color);
+}
+
+.faq-answer ul {
+    margin-top: 10px;
+    padding-left: 20px;
+    font-size: 0.9rem;
+}
+
+.faq-answer li {
+    margin-bottom: 6px;
+}
+
+/* PAGINA PARTITE (MATCHES.HTML) */
+.matches-page-section {
+    min-height: 70vh;
+}
+
+.matches-intro {
+    text-align: center;
+    color: #64748b;
+    margin-bottom: 25px;
+    font-size: 1.05rem;
+}
+
+.matches-list-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.match-detail-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 22px 25px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 15px rgba(0, 60, 130, 0.05);
+}
+
+.match-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+}
+
+.match-date-text {
+    font-weight: 700;
+    color: #64748b;
+}
+
+.match-venue-badge {
+    color: var(--primary-sky);
+    font-weight: 600;
+}
+
+.match-teams-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0 15px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.match-team {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 40%;
+    font-weight: 700;
+    color: var(--dark-navy);
+    font-size: 1.05rem;
+}
+
+.match-team img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+}
+
+.match-vs-score {
+    font-family: var(--font-brand);
+    font-size: 2.2rem;
+    color: var(--primary-sky);
+    width: 20%;
+    text-align: center;
+}
+
+.score-past {
+    color: var(--dark-navy);
+}
+
+.toggle-details-btn {
+    background: none;
+    border: none;
+    color: var(--primary-sky);
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    margin-top: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s ease;
+}
+
+.toggle-details-btn:hover {
+    color: var(--dark-navy);
+}
+
+.match-expand-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+
+.match-expand-details.active {
+    max-height: 300px;
+}
+
+.details-inner {
+    background: var(--light-bg);
+    padding: 15px 18px;
+    border-radius: 10px;
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.details-inner i {
+    color: var(--primary-sky);
+    margin-right: 4px;
+}
+
 /* FOOTER */
 .footer {
     background: var(--dark-navy);
@@ -979,5 +1244,24 @@ body {
     .google-form-btn {
         font-size: 0.95rem;
         padding: 14px 18px;
+    }
+
+    .match-teams-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .match-team {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .match-vs-score {
+        width: 100%;
+    }
+
+    .match-header-row {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
