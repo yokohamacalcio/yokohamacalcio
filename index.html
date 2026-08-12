@@ -91,7 +91,7 @@
     </div>
 </section>
 
-<!-- CAROSELLO RISULTATI SCORREVOLE AUTOMATICO -->
+<!-- CAROSELLO RISULTATI SCORREVOLE AUTOMATICO + DRAG / TOUCH MANUAL -->
 <section class="section results-section" id="results">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-trophy"></i> 最新の試合結果</h2>
@@ -104,7 +104,7 @@
                     <div class="match-content">
                         <div class="team-box">
                             <img src="./immagini/logo.png" alt="Yokohama Calcio" class="team-logo">
-                            <span class="team-name">Yokohama</span>
+                            <span class="team-name">Yokohama Calcio</span>
                         </div>
                         <div class="score-box">
                             <span class="score-text">2 - 1</span>
@@ -124,7 +124,7 @@
                     <div class="match-content">
                         <div class="team-box">
                             <img src="./immagini/logo.png" alt="Yokohama Calcio" class="team-logo">
-                            <span class="team-name">Yokohama</span>
+                            <span class="team-name">Yokohama Calcio</span>
                         </div>
                         <div class="score-box">
                             <span class="score-text">1 - 1</span>
@@ -144,7 +144,7 @@
                     <div class="match-content">
                         <div class="team-box">
                             <img src="./immagini/logo.png" alt="Yokohama Calcio" class="team-logo">
-                            <span class="team-name">Yokohama</span>
+                            <span class="team-name">Yokohama Calcio</span>
                         </div>
                         <div class="score-box">
                             <span class="score-text">3 - 0</span>
@@ -259,25 +259,67 @@
         });
     });
 
-    // JS Results Auto-Carousel
+    // JS Results Carousel (Auto-scroll + Drag / Touch Manuale)
     const resultsTrack = document.getElementById('resultsTrack');
-    let resultsScrollPos = 0;
-    
-    function autoScrollResults() {
-        if (!resultsTrack) return;
-        resultsScrollPos += 1;
-        if (resultsScrollPos >= resultsTrack.scrollWidth / 2) {
-            resultsScrollPos = 0;
-        }
-        resultsTrack.style.transform = `translateX(-${resultsScrollPos}px)`;
-    }
-    
+
     if (resultsTrack) {
         resultsTrack.innerHTML += resultsTrack.innerHTML;
-        let scrollInterval = setInterval(autoScrollResults, 30);
-        
-        resultsTrack.addEventListener('mouseenter', () => clearInterval(scrollInterval));
-        resultsTrack.addEventListener('mouseleave', () => scrollInterval = setInterval(autoScrollResults, 30));
+
+        let isDown = false;
+        let startX;
+        let scrollLeft = 0;
+        let isUserInteracting = false;
+        let resumeTimeout;
+
+        function autoScrollResults() {
+            if (isUserInteracting) return;
+            scrollLeft += 1;
+            if (scrollLeft >= resultsTrack.scrollWidth / 2) {
+                scrollLeft = 0;
+            }
+            resultsTrack.style.transform = `translateX(-${scrollLeft}px)`;
+        }
+
+        setInterval(autoScrollResults, 30);
+
+        const container = resultsTrack.parentElement;
+
+        const startDrag = (e) => {
+            isDown = true;
+            isUserInteracting = true;
+            clearTimeout(resumeTimeout);
+            startX = (e.pageX || e.touches[0].pageX) + scrollLeft;
+        };
+
+        const stopDrag = () => {
+            if (!isDown) return;
+            isDown = false;
+            resumeTimeout = setTimeout(() => {
+                isUserInteracting = false;
+            }, 3000);
+        };
+
+        const moveDrag = (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX || e.touches[0].pageX;
+            scrollLeft = startX - x;
+
+            const maxScroll = resultsTrack.scrollWidth / 2;
+            if (scrollLeft < 0) scrollLeft = maxScroll + scrollLeft;
+            if (scrollLeft >= maxScroll) scrollLeft = scrollLeft - maxScroll;
+
+            resultsTrack.style.transform = `translateX(-${scrollLeft}px)`;
+        };
+
+        container.addEventListener('mousedown', startDrag);
+        container.addEventListener('mouseleave', stopDrag);
+        container.addEventListener('mouseup', stopDrag);
+        container.addEventListener('mousemove', moveDrag);
+
+        container.addEventListener('touchstart', startDrag, { passive: true });
+        container.addEventListener('touchend', stopDrag);
+        container.addEventListener('touchmove', moveDrag, { passive: false });
     }
 
     // JS Gallery Carousel
