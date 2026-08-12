@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>選手紹介 (I Calciatori) - Yokohama Calcio</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <div class="logo-title">
+      <a href="index.html"><img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo"></a>
+      <span class="brand-name">YOKOHAMA CALCIO</span>
+    </div>
+
+    <div class="desktop-nav-wrapper">
+      <nav class="main-nav">
+        <a href="index.html#about">チーム紹介</a>
+        <a href="index.html#results">試合結果</a>
+        <a href="giocatori.html" style="color: var(--primary-sky);">選手紹介</a>
+        <a href="index.html#gallery">ギャラリー</a>
+        <a href="index.html#sponsors">スポンサー</a>
+        <a href="index.html#contact">お問い合わせ</a>
+      </nav>
+      <div class="header-social-icons">
+        <a href="https://x.com/yokohamacalcio" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://instagram.com/yokohamacalcio" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+
+    <button class="mobile-menu-toggle" aria-label="Menu">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+  <nav class="mobile-nav hidden">
+    <a href="index.html#about" class="mobile-link">チーム紹介</a>
+    <a href="index.html#results" class="mobile-link">試合結果</a>
+    <a href="giocatori.html" class="mobile-link">選手紹介</a>
+    <a href="index.html#gallery" class="mobile-link">ギャラリー</a>
+    <a href="index.html#sponsors" class="mobile-link">スポンサー</a>
+    <a href="index.html#contact" class="mobile-link">お問い合わせ</a>
+    <div class="mobile-social-icons">
+      <a href="https://x.com/yokohamacalcio" target="_blank"><i class="fab fa-x-twitter"></i></a>
+      <a href="https://instagram.com/yokohamacalcio" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+  </nav>
+</header>
+
+<section class="section players-page-section">
+    <div class="container">
+        <h2 class="section-title"><i class="fas fa-users"></i> 選手紹介 (I Calciatori)</h2>
+        <p style="text-align: center; margin-bottom: 40px; color: #64748b;">
+            Yokohama Calcioを支えるメンバーをご紹介します。
+        </p>
+
+        <div class="players-grid">
+            <!-- Portiere -->
+            <div class="player-card">
+                <div class="player-number">1</div>
+                <div class="player-photo">
+                    <img src="https://via.placeholder.com/280x320?text=GK" alt="GK">
+                </div>
+                <div class="player-info">
+                    <span class="player-role">GK - ゴールキーパー</span>
+                    <h3 class="player-name">佐藤 健太 / Kenta</h3>
+                </div>
+            </div>
+
+            <!-- Difensore -->
+            <div class="player-card">
+                <div class="player-number">3</div>
+                <div class="player-photo">
+                    <img src="https://via.placeholder.com/280x320?text=DF" alt="DF">
+                </div>
+                <div class="player-info">
+                    <span class="player-role">DF - ディフェンダー</span>
+                    <h3 class="player-name">Marco Rossi</h3>
+                </div>
+            </div>
+
+            <!-- Centrocampista -->
+            <div class="player-card">
+                <div class="player-number">8</div>
+                <div class="player-photo">
+                    <img src="https://via.placeholder.com/280x320?text=MF" alt="MF">
+                </div>
+                <div class="player-info">
+                    <span class="player-role">MF - ミッドフィルダー</span>
+                    <h3 class="player-name">田中 翔 / Sho</h3>
+                </div>
+            </div>
+
+            <!-- Attaccante -->
+            <div class="player-card">
+                <div class="player-number">10</div>
+                <div class="player-photo">
+                    <img src="https://via.placeholder.com/280x320?text=FW" alt="FW">
+                </div>
+                <div class="player-info">
+                    <span class="player-role">FW - フォワード</span>
+                    <h3 class="player-name">Luca Bianchi</h3>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 50px;">
+            <a href="index.html" class="google-form-btn" style="max-width: 250px; display: inline-flex;">
+                <i class="fas fa-arrow-left"></i> ホームに戻る
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>&copy; 2025 Yokohama Calcio. All Rights Reserved.</p>
+</footer>
+
+<script>
+    const menuBtn = document.querySelector('.mobile-menu-toggle');
+    const mobileNav = document.querySelector('.mobile-nav');
+    
+    menuBtn.addEventListener('click', () => {
+        mobileNav.classList.toggle('hidden');
+        const icon = menuBtn.querySelector('i');
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-times');
+    });
+</script>
+</body>
+</html>
