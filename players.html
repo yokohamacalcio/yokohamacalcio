@@ -4,16 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>選手紹介 | Yokohama Calcio</title>
-    <meta name="description" content="Yokohama Calcioの所属選手・メンバー紹介ページです。ゴールキーパー、ディフェンダー、ミッドフィルダー、フォワードの各ポジションメンバーを掲載しています。">
+    <!-- Title SEO Ottimizzato -->
+    <title>選手・スタッフ紹介 | Yokohama Calcio</title>
     
+    <!-- Meta Description -->
+    <meta name="description" content="Yokohama Calcio（ヨコハマ・カルチョ）所属の選手・スタッフ一覧ページです。イタリアンスタイルとチームワークを支えるメンバーを紹介します。">
+    <meta name="keywords" content="Yokohama Calcio, 選手紹介, 社会人サッカー メンバー, 横浜 サッカー 選手">
+    <meta name="author" content="Yokohama Calcio">
+    <meta name="robots" content="index, follow">
+
     <!-- Open Graph (Con URL Assoluto) -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="選手紹介 (I Calciatori) | Yokohama Calcio">
-    <meta property="og:description" content="Yokohama Calcioを支えるメンバーをご紹介します。">
+    <meta property="og:url" content="https://yokohamacalcio.com/players.html">
+    <meta property="og:title" content="選手・スタッフ紹介 | Yokohama Calcio">
+    <meta property="og:description" content="Yokohama Calcioの選手・スタッフをご紹介します。">
     <meta property="og:image" content="https://yokohamacalcio.com/immagini/logo.png">
 
+    <!-- Twitter Card (Con URL Assoluto) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="選手・スタッフ紹介 | Yokohama Calcio">
+    <meta name="twitter:description" content="Yokohama Calcioのメンバー一覧ページです。">
+    <meta name="twitter:image" content="https://yokohamacalcio.com/immagini/logo.png">
+
+    <!-- Favicon -->
     <link rel="icon" href="./immagini/logo.png" type="image/png">
+
+    <!-- CSS & Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -30,8 +46,9 @@
     <div class="desktop-nav-wrapper">
       <nav class="main-nav">
         <a href="index.html#about">チーム紹介</a>
-        <a href="index.html#results">試合結果</a>
+        <a href="matches.html">試合日程・結果</a>
         <a href="players.html" style="color: var(--primary-sky);">選手紹介</a>
+        <a href="faq.html">よくある質問</a>
         <a href="index.html#gallery">ギャラリー</a>
         <a href="index.html#shop">ショップ</a>
         <a href="index.html#sponsors">スポンサー</a>
@@ -51,8 +68,9 @@
 
   <nav class="mobile-nav hidden">
     <a href="index.html#about" class="mobile-link">チーム紹介</a>
-    <a href="index.html#results" class="mobile-link">試合結果</a>
+    <a href="matches.html" class="mobile-link">試合日程・結果</a>
     <a href="players.html" class="mobile-link">選手紹介</a>
+    <a href="faq.html" class="mobile-link">よくある質問</a>
     <a href="index.html#gallery" class="mobile-link">ギャラリー</a>
     <a href="index.html#shop" class="mobile-link">ショップ</a>
     <a href="index.html#sponsors" class="mobile-link">スポンサー</a>
@@ -67,349 +85,115 @@
 
 <section class="section players-page-section">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-users"></i> 選手紹介</h2>
-        <p class="players-intro">Yokohama Calcioを支えるメンバーをご紹介します。</p>
+        <h2 class="section-title"><i class="fas fa-users"></i> 選手・スタッフ紹介</h2>
+        <p class="players-intro">Yokohama Calcioで共に戦うメンバーをご紹介します。</p>
 
-        <!-- PULSANTI FILTRO RUOLO -->
+        <!-- FILTRI RUOLI -->
         <div class="filter-wrapper">
-            <button class="filter-btn active" data-filter="all">すべて (ALL)</button>
-            <button class="filter-btn" data-filter="gk">GK</button>
-            <button class="filter-btn" data-filter="df">DF</button>
-            <button class="filter-btn" data-filter="mf">MF</button>
-            <button class="filter-btn" data-filter="fw">FW</button>
+            <button class="filter-btn active" data-role-filter="all">すべて (ALL)</button>
+            <button class="filter-btn" data-role-filter="gk">GK</button>
+            <button class="filter-btn" data-role-filter="df">DF</button>
+            <button class="filter-btn" data-role-filter="mf">MF</button>
+            <button class="filter-btn" data-role-filter="fw">FW</button>
+            <button class="filter-btn" data-role-filter="staff">STAFF</button>
         </div>
 
-        <!-- PORTIERI (GK) -->
-        <div class="role-group" data-role="gk">
-            <h3 class="role-title"><i class="fas fa-hands"></i> GOALKEEPER (ゴールキーパー)</h3>
+        <!-- GRUPPO GOALKEEPER -->
+        <div class="role-group" data-role-group="gk">
+            <h3 class="role-title"><i class="fas fa-hands"></i> GOALKEEPER (GK)</h3>
             <div class="players-grid">
                 <div class="player-card">
-                    <div class="player-number">1</div>
+                    <span class="player-number">1</span>
                     <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=GK" alt="御村 葵">
+                        <img src="https://ui-avatars.com/api/?name=GK+Player&background=003C82&color=ffffff&size=300" alt="GK 1">
                     </div>
                     <div class="player-info">
                         <span class="player-role">GK</span>
-                        <div class="player-name-kanji">御村 葵</div>
-                        <div class="player-name-romaji">Mimura Aoi</div>
+                        <h4 class="player-name-kanji">選手名 未定</h4>
+                        <p class="player-name-romaji">Player Name</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- DIFENSORI (DF) -->
-        <div class="role-group" data-role="df">
-            <h3 class="role-title"><i class="fas fa-shield-alt"></i> DEFENDER (ディフェンダー)</h3>
+        <!-- GRUPPO DEFENDER -->
+        <div class="role-group" data-role-group="df">
+            <h3 class="role-title"><i class="fas fa-shield-alt"></i> DEFENDER (DF)</h3>
             <div class="players-grid">
                 <div class="player-card">
-                    <div class="player-number">3</div>
+                    <span class="player-number">4</span>
                     <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=DF" alt="高嶺 昂平">
+                        <img src="https://ui-avatars.com/api/?name=DF+Player&background=12A0D7&color=ffffff&size=300" alt="DF 4">
                     </div>
                     <div class="player-info">
-                        <span class="player-role">CB</span>
-                        <div class="player-name-kanji">高嶺 昂平</div>
-                        <div class="player-name-romaji">Takamine Kohei</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">4</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=DF" alt="ロペス イルビン">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">CB</span>
-                        <div class="player-name-kanji">ロペス イルビン</div>
-                        <div class="player-name-romaji">López Irving</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">6</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=DF" alt="林部 慎">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">CB</span>
-                        <div class="player-name-kanji">林部 慎</div>
-                        <div class="player-name-romaji">Hayasibe Shin</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">21</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=DF" alt="村松 敦矢">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">SB / SH</span>
-                        <div class="player-name-kanji">村松 敦矢</div>
-                        <div class="player-name-romaji">Muramatsu Atsuya</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">43</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=DF" alt="道下 勇介">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">SB / CM / CAM</span>
-                        <div class="player-name-kanji">道下 勇介</div>
-                        <div class="player-name-romaji">Michishita Yusuke</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">66</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=DF" alt="片桐 子竜">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">SB</span>
-                        <div class="player-name-kanji">片桐 子竜</div>
-                        <div class="player-name-romaji">Katagiri Shiryu</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">69</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=DF" alt="恵良 真史">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">CB</span>
-                        <div class="player-name-kanji">恵良 真史</div>
-                        <div class="player-name-romaji">Era Makishi</div>
+                        <span class="player-role">DF</span>
+                        <h4 class="player-name-kanji">選手名 未定</h4>
+                        <p class="player-name-romaji">Player Name</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- CENTROCAMPISTI (MF) -->
-        <div class="role-group" data-role="mf">
-            <h3 class="role-title"><i class="fas fa-running"></i> MIDFIELDER (ミッドフィルダー)</h3>
+        <!-- GRUPPO MIDFIELDER -->
+        <div class="role-group" data-role-group="mf">
+            <h3 class="role-title"><i class="fas fa-running"></i> MIDFIELDER (MF)</h3>
             <div class="players-grid">
                 <div class="player-card">
-                    <div class="player-number">5</div>
+                    <span class="player-number">8</span>
                     <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=MF" alt="ディルッボ ルカ">
+                        <img src="https://ui-avatars.com/api/?name=MF+Player&background=003C82&color=ffffff&size=300" alt="MF 8">
                     </div>
                     <div class="player-info">
-                        <span class="player-role">CM</span>
-                        <div class="player-name-kanji">ディルッボ ルカ</div>
-                        <div class="player-name-romaji">Di Rubbo Luca</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">7</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=MF" alt="福田 圭佑">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">SH</span>
-                        <div class="player-name-kanji">福田 圭佑</div>
-                        <div class="player-name-romaji">Fukuda Keisuke</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">8</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=MF" alt="中村 聡">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">CM / SB</span>
-                        <div class="player-name-kanji">中村 聡</div>
-                        <div class="player-name-romaji">Nakamura Satoshi</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">11</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=MF" alt="佐野 雄基">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">CM / SH</span>
-                        <div class="player-name-kanji">佐野 雄基</div>
-                        <div class="player-name-romaji">Sano Yuki</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">13</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=MF" alt="根本 智司">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">CM</span>
-                        <div class="player-name-kanji">根本 智司</div>
-                        <div class="player-name-romaji">Nemoto Satoshi</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">18</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=MF" alt="杉澤 祐哉">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">CM / CB</span>
-                        <div class="player-name-kanji">杉澤 祐哉</div>
-                        <div class="player-name-romaji">Sugisawa Yuya</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">23</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=MF" alt="マルティーニ シモーネ">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">FW / SH / CAM</span>
-                        <div class="player-name-kanji">マルティーニ シモーネ</div>
-                        <div class="player-name-romaji">Martini Simone</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">25</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=MF" alt="池田 季京">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">SH / SB</span>
-                        <div class="player-name-kanji">池田 季京</div>
-                        <div class="player-name-romaji">Ikeda Kikyou</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">-</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=MF" alt="清水 健次郎">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">CM / CAM</span>
-                        <div class="player-name-kanji">清水 健次郎</div>
-                        <div class="player-name-romaji">Shimizu Kenjirou</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">-</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=MF" alt="村越 翔一">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">SH / FW</span>
-                        <div class="player-name-kanji">村越 翔一</div>
-                        <div class="player-name-romaji">Muraetsu Shouichi</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">-</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=MF" alt="牧田 凌">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">CM / FW</span>
-                        <div class="player-name-kanji">牧田 凌</div>
-                        <div class="player-name-romaji">Makita Ryou</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">-</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=MF" alt="永野 壱門">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">CM</span>
-                        <div class="player-name-kanji">永野 壱門</div>
-                        <div class="player-name-romaji">Nagano Itto</div>
+                        <span class="player-role">MF</span>
+                        <h4 class="player-name-kanji">選手名 未定</h4>
+                        <p class="player-name-romaji">Player Name</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ATTACCANTI (FW) -->
-        <div class="role-group" data-role="fw">
-            <h3 class="role-title"><i class="fas fa-bullseye"></i> FORWARD (フォワード)</h3>
+        <!-- GRUPPO FORWARD -->
+        <div class="role-group" data-role-group="fw">
+            <h3 class="role-title"><i class="fas fa-bullseye"></i> FORWARD (FW)</h3>
             <div class="players-grid">
                 <div class="player-card">
-                    <div class="player-number">9</div>
+                    <span class="player-number">9</span>
                     <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=FW" alt="小金井 健斗">
+                        <img src="https://ui-avatars.com/api/?name=Simone+Martini&background=12A0D7&color=ffffff&size=300" alt="Simone Martini">
                     </div>
                     <div class="player-info">
                         <span class="player-role">FW</span>
-                        <div class="player-name-kanji">小金井 健斗</div>
-                        <div class="player-name-romaji">Koganei Kento</div>
+                        <h4 class="player-name-kanji">マルティーニ シモーネ</h4>
+                        <p class="player-name-romaji">Simone Martini</p>
                     </div>
                 </div>
-
                 <div class="player-card">
-                    <div class="player-number">14</div>
+                    <span class="player-number">11</span>
                     <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=FW" alt="佐々木 俊">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">FW / SH</span>
-                        <div class="player-name-kanji">佐々木 俊</div>
-                        <div class="player-name-romaji">Sasaki Jun</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">17</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=FW" alt="久我 一桃">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">FW / SB</span>
-                        <div class="player-name-kanji">久我 一桃</div>
-                        <div class="player-name-romaji">Kuga Itto</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">40</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=FW" alt="小宮山 誉人">
-                    </div>
-                    <div class="player-info">
-                        <span class="player-role">FW / SH / CM</span>
-                        <div class="player-name-kanji">小宮山 誉人</div>
-                        <div class="player-name-romaji">Komiyama Takato</div>
-                    </div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-number">-</div>
-                    <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=FW" alt="柳澤 海翔">
+                        <img src="https://ui-avatars.com/api/?name=Kento+Koganei&background=003C82&color=ffffff&size=300" alt="Kento Koganei">
                     </div>
                     <div class="player-info">
                         <span class="player-role">FW</span>
-                        <div class="player-name-kanji">柳澤 海翔</div>
-                        <div class="player-name-romaji">Yanagisawa Kaito</div>
+                        <h4 class="player-name-kanji">小金井 健斗</h4>
+                        <p class="player-name-romaji">Kento Koganei</p>
                     </div>
                 </div>
+            </div>
+        </div>
 
+        <!-- GRUPPO STAFF -->
+        <div class="role-group" data-role-group="staff">
+            <h3 class="role-title"><i class="fas fa-user-tie"></i> STAFF</h3>
+            <div class="players-grid">
                 <div class="player-card">
-                    <div class="player-number">-</div>
+                    <span class="player-number"><i class="fas fa-clipboard"></i></span>
                     <div class="player-photo">
-                        <img src="https://via.placeholder.com/280x320?text=FW" alt="川合 翔">
+                        <img src="https://ui-avatars.com/api/?name=Manager&background=003C82&color=ffffff&size=300" alt="Manager">
                     </div>
                     <div class="player-info">
-                        <span class="player-role">FW / SH / CM</span>
-                        <div class="player-name-kanji">川合 翔</div>
-                        <div class="player-name-romaji">Kawai Kakeru</div>
+                        <span class="player-role">MANAGER / COACH</span>
+                        <h4 class="player-name-kanji">監督・代表</h4>
+                        <p class="player-name-romaji">Head Coach</p>
                     </div>
                 </div>
             </div>
@@ -423,12 +207,21 @@
     </div>
 </section>
 
+<!-- PULSANTE TORNA SU -->
+<button id="scrollToTopBtn" aria-label="Torna in cima"><i class="fas fa-chevron-up"></i></button>
+
 <footer class="footer">
     <p>&copy; <span id="currentYear"></span> Yokohama Calcio. All Rights Reserved.</p>
 </footer>
 
 <script>
-    // 1. Mobile Menu Toggle
+    // 1. Reset Scroll al Refresh Page
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
+    // 2. Menu Mobile Toggle
     const menuBtn = document.querySelector('.mobile-menu-toggle');
     const mobileNav = document.querySelector('.mobile-nav');
     const mobileLinks = document.querySelectorAll('.mobile-link');
@@ -451,19 +244,19 @@
         });
     }
 
-    // 2. Filtro dinamico per ruoli giocatori
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const roleGroups = document.querySelectorAll('.role-group');
+    // 3. Filtro Ruoli Giocatori
+    const filterBtns = document.querySelectorAll('[data-role-filter]');
+    const roleGroups = document.querySelectorAll('[data-role-group]');
 
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            const filterValue = btn.getAttribute('data-filter');
+            const filterVal = btn.getAttribute('data-role-filter');
 
             roleGroups.forEach(group => {
-                if (filterValue === 'all' || group.getAttribute('data-role') === filterValue) {
+                if (filterVal === 'all' || group.getAttribute('data-role-group') === filterVal) {
                     group.style.display = 'block';
                 } else {
                     group.style.display = 'none';
@@ -472,7 +265,21 @@
         });
     });
 
-    // 3. Aggiornamento automatico dell'anno nel copyright
+    // 4. Pulsante Scroll to Top
+    const topBtn = document.getElementById('scrollToTopBtn');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            topBtn.classList.add('show');
+        } else {
+            topBtn.classList.remove('show');
+        }
+    });
+
+    topBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // 5. Copyright Year Auto
     const yearSpan = document.getElementById('currentYear');
     if (yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
