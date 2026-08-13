@@ -443,16 +443,24 @@ body {
 }
 
 /* ==========================================
-   BADGES PARTITE & DISCIPLINARI
+   BADGES PARTITE & DISCIPLINARI (REVISIONATI)
    ========================================== */
 .match-badge {
-    display: inline-block;
-    padding: 4px 12px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 14px;
     border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 700;
     margin-bottom: 8px;
     align-self: flex-start;
+    white-space: nowrap;
+    line-height: 1.2;
+}
+
+.match-badge span {
+    display: inline-block;
 }
 
 .badge-friendly {
@@ -573,6 +581,182 @@ body {
 
 .match-card-link:hover {
     color: var(--dark-navy);
+}
+
+/* ==========================================
+   PAGINA PARTITE (MATCHES.HTML)
+   ========================================== */
+.matches-page-section {
+    min-height: 70vh;
+}
+
+.matches-intro {
+    text-align: center;
+    color: #64748b;
+    margin-bottom: 25px;
+    font-size: 1.05rem;
+}
+
+.matches-list-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.match-detail-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 22px 25px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 15px rgba(0, 60, 130, 0.05);
+}
+
+.match-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+}
+
+.match-date-text {
+    font-weight: 700;
+    color: #64748b;
+}
+
+.match-teams-row {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 15px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.match-team {
+    display: flex;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 38%;
+    font-weight: 700;
+    color: var(--dark-navy);
+    font-size: 0.88rem;
+}
+
+.match-team img {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+    margin-bottom: 6px;
+    flex-shrink: 0;
+}
+
+.match-vs-score {
+    font-family: var(--font-brand);
+    font-size: 2.1rem;
+    color: var(--primary-sky);
+    width: 24%;
+    text-align: center;
+    line-height: 1;
+    letter-spacing: 1px;
+}
+
+.score-past {
+    color: var(--dark-navy);
+}
+
+.toggle-details-btn {
+    background: none;
+    border: none;
+    color: var(--primary-sky);
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    margin-top: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s ease;
+}
+
+.toggle-details-btn:hover {
+    color: var(--dark-navy);
+}
+
+.match-expand-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+
+.match-expand-details.active {
+    max-height: 400px;
+}
+
+.details-inner {
+    background: var(--light-bg);
+    padding: 15px 18px;
+    border-radius: 10px;
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.4;
+}
+
+.detail-item i {
+    color: var(--primary-sky);
+    width: 18px;
+    text-align: center;
+}
+
+/* ==========================================
+   FILTRI RUOLI & PARTITE
+   ========================================== */
+.filter-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.filter-btn {
+    background: var(--white);
+    color: var(--dark-navy);
+    border: 2px solid #cbd5e1;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.filter-btn:hover {
+    border-color: var(--primary-sky);
+    color: var(--primary-sky);
+}
+
+.filter-btn.active {
+    background: var(--primary-sky);
+    color: var(--white);
+    border-color: var(--primary-sky);
+    box-shadow: 0 4px 12px rgba(18, 160, 215, 0.25);
 }
 
 /* ==========================================
@@ -870,6 +1054,20 @@ body {
     opacity: 0.8;
 }
 
+.back-home-wrapper {
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 20px;
+}
+
+.back-btn {
+    max-width: 260px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
 /* ==========================================
    PULSANTE FLOATING TORNA SU
    ========================================== */
@@ -1027,5 +1225,24 @@ body {
     .google-form-btn {
         font-size: 0.95rem;
         padding: 14px 18px;
+    }
+
+    .match-team {
+        font-size: 0.82rem;
+    }
+
+    .match-team img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .match-vs-score {
+        font-size: 1.6rem;
+    }
+
+    .match-header-row {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
     }
 }
