@@ -1,12 +1,14 @@
+Riscrivi il css con le modifiche richieste
+
 /* ==========================================
    RESET & VARIABILI CROMATICHE DAL LOGO
    ========================================== */
 :root {
-    --primary-sky: #12A0D7;
-    --primary-sky-hover: #0e86b5;
-    --dark-navy: #003C82;
-    --navy-hover: #002b5e;
-    --light-bg: #f0f7fc;
+    --primary-sky: #12A0D7;        /* Azzurro centrale skyline */
+    --primary-sky-hover: #0e86b5;  
+    --dark-navy: #003C82;          /* Blu scuro anello esterno */
+    --navy-hover: #002b5e;         
+    --light-bg: #f0f7fc;            
     --white: #ffffff;
     --text-color: #1e293b;
     --font-main: 'Montserrat', sans-serif;
@@ -57,9 +59,8 @@ body {
     display: none !important;
 }
 
-
 /* ==========================================
-   HEADER & MENU
+   HEADER & MENU (TOP BAR & MAIN NAVIGATION)
    ========================================== */
 .header {
     background: var(--white);
@@ -69,7 +70,7 @@ body {
     z-index: 1000;
 }
 
-/* Top Bar */
+/* Top Bar (Social & Language Switcher) */
 .top-bar {
     background: var(--dark-navy);
     color: var(--white);
@@ -138,7 +139,6 @@ body {
     font-size: 0.75rem;
 }
 
-
 /* Main Header Bar */
 .main-header-bar {
     padding: 10px 0;
@@ -168,57 +168,37 @@ body {
     object-fit: contain;
 }
 
-
 /* ==========================================
-   BRAND NAME
+   BRAND NAME (RESPONSIVE)
+   Default: Su 2 righe da Mobile Portrait, Landscape e Tablet
    ========================================== */
 .brand-name {
     font-family: var(--font-brand);
-    font-size: 1.6rem;
+    font-size: 1.25rem;
     letter-spacing: 1.5px;
     color: var(--dark-navy);
-    line-height: 1;
+    line-height: 0.92;
     font-weight: 700;
     text-transform: uppercase;
     text-decoration: none !important;
-    display: inline-flex;
-    flex-direction: row;
-    gap: 6px;
-    align-items: center;
+    display: flex;
+    flex-direction: column;    /* YOKOHAMA sopra, CALCIO sotto */
+    align-items: flex-start;
+    gap: 0;
 }
 
-
-/* ==========================================
-   DESKTOP
-   ========================================== */
-@media (min-width: 769px) {
+/* SOLO PC / DESKTOP (da 1025px in su)
+   Testo su UN'UNICA RIGA e più grande */
+@media (min-width: 1025px) {
     .brand-name {
-        flex-direction: column;
-        align-items: flex-start;
-        font-size: 1.25rem;
-        line-height: 0.9;
-        gap: 0;
+        flex-direction: row;     /* YOKOHAMA e CALCIO sulla stessa riga */
+        align-items: center;
+        gap: 8px;                /* Spazio orizzontale tra YOKOHAMA e CALCIO */
+        font-size: 1.85rem;      /* Dimensione testo più ampia per PC */
+        line-height: 1;
     }
 }
 
-
-/* ==========================================
-   MOBILE / TABLET LANDSCAPE
-   ========================================== */
-@media (max-width: 900px) and (orientation: landscape) {
-    .brand-name {
-        flex-direction: column;
-        align-items: flex-start;
-        font-size: 1.15rem;
-        line-height: 0.9;
-        gap: 0;
-    }
-}
-
-
-/* ==========================================
-   DESKTOP NAVIGATION
-   ========================================== */
 .desktop-nav-wrapper {
     display: flex;
     align-items: center;
@@ -243,8 +223,7 @@ body {
     color: var(--primary-sky);
 }
 
-
-/* Dropdown */
+/* Dropdown Menu Desktop */
 .nav-item.dropdown {
     position: relative;
     display: inline-block;
@@ -303,8 +282,7 @@ body {
     color: var(--primary-sky);
 }
 
-
-/* CTA */
+/* Bottone CTA (Contatti) */
 .nav-cta-btn {
     background: var(--primary-sky);
     color: var(--white) !important;
@@ -320,38 +298,36 @@ body {
     transform: translateY(-1px);
 }
 
-
 /* ==========================================
-   HERO SECTION
+   HERO SECTION (BANNER PRINCIPALE)
    ========================================== */
 .hero {
-    background:
-        linear-gradient(rgba(0, 60, 130, 0.78), rgba(0, 60, 130, 0.78)),
-        url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=2000')
-        no-repeat center/cover;
-
-    height: 65vh;
-    min-height: 420px;
-
+    position: relative;
+    width: 100%;
+    min-height: 65vh;
     display: flex;
     align-items: center;
     justify-content: center;
-
     text-align: center;
     color: var(--white);
-    padding: 0 20px;
+    padding: 60px 20px;
+    
+    /* Immagine di sfondo con overlay scuro bilanciato */
+    background: linear-gradient(rgba(0, 60, 130, 0.65), rgba(0, 60, 130, 0.65)), 
+                url('./immagini/gallery/foto1.jpeg') no-repeat center center / cover;
 }
 
-.hero h2 {
-    font-size: 3.2rem;
+.hero h2 { 
+    font-size: 3.2rem; 
     font-weight: 700;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.4);
 }
 
 .hero p {
     font-size: 1.25rem;
     margin-top: 10px;
     opacity: 0.95;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.3);
 }
 
 .color-stripes {
@@ -363,22 +339,10 @@ body {
     overflow: hidden;
 }
 
-.stripe {
-    flex: 1;
-}
-
-.stripe.sky {
-    background: var(--primary-sky);
-}
-
-.stripe.white {
-    background: var(--white);
-}
-
-.stripe.navy {
-    background: var(--dark-navy);
-}
-
+.stripe { flex: 1; }
+.stripe.sky { background: var(--primary-sky); }
+.stripe.white { background: var(--white); }
+.stripe.navy { background: var(--dark-navy); }
 
 /* ==========================================
    ABOUT & MISSION
@@ -459,9 +423,8 @@ body {
     margin-bottom: 3px;
 }
 
-
 /* ==========================================
-   RISULTATI
+   CAROSELLO RISULTATI PARTITE IN HOMEPAGE
    ========================================== */
 .results-section {
     background: var(--light-bg);
@@ -504,9 +467,8 @@ body {
     justify-content: space-between;
 }
 
-
 /* ==========================================
-   BADGES
+   BADGES PARTITE & DISCIPLINARI
    ========================================== */
 .match-badge {
     display: inline-block;
@@ -621,13 +583,8 @@ body {
     text-align: center;
 }
 
-.match-status.lose {
-    color: #ef4444;
-}
-
-.match-status.next-time {
-    color: var(--dark-navy);
-}
+.match-status.lose { color: #ef4444; }
+.match-status.next-time { color: var(--dark-navy); }
 
 .match-card-link {
     display: inline-block;
@@ -643,9 +600,8 @@ body {
     color: var(--dark-navy);
 }
 
-
 /* ==========================================
-   FILTRI
+   FILTRI RUOLI & PARTITE
    ========================================== */
 .filter-wrapper {
     display: flex;
@@ -679,9 +635,8 @@ body {
     box-shadow: 0 4px 12px rgba(18, 160, 215, 0.25);
 }
 
-
 /* ==========================================
-   PLAYERS
+   PAGINA GIOCATORI (PLAYERS.HTML)
    ========================================== */
 .players-page-section {
     min-height: 70vh;
@@ -899,9 +854,8 @@ body {
     gap: 10px;
 }
 
-
 /* ==========================================
-   STATS
+   PAGINA STATISTICHE (STATS.HTML)
    ========================================== */
 .stats-table-wrapper {
     overflow-x: auto;
@@ -986,22 +940,12 @@ body {
     color: var(--primary-sky);
 }
 
-.rank-1 {
-    color: #f59e0b;
-    font-size: 1.15rem;
-}
-
-.rank-2 {
-    color: #94a3b8;
-}
-
-.rank-3 {
-    color: #b45309;
-}
-
+.rank-1 { color: #f59e0b; font-size: 1.15rem; }
+.rank-2 { color: #94a3b8; }
+.rank-3 { color: #b45309; }
 
 /* ==========================================
-   GALLERIA
+   GALLERIA CAROUSEL
    ========================================== */
 .carousel-section {
     background: var(--light-bg);
@@ -1051,13 +995,8 @@ body {
     transform: translateY(-50%) scale(1.08);
 }
 
-#prevBtn {
-    left: 15px;
-}
-
-#nextBtn {
-    right: 15px;
-}
+#prevBtn { left: 15px; }
+#nextBtn { right: 15px; }
 
 .carousel-indicators {
     display: flex;
@@ -1080,9 +1019,8 @@ body {
     transform: scale(1.3);
 }
 
-
 /* ==========================================
-   SHOP
+   SEZIONE ONLINE SHOP
    ========================================== */
 .shop-section {
     background: var(--light-bg);
@@ -1130,9 +1068,8 @@ body {
     background: var(--primary-sky);
 }
 
-
 /* ==========================================
-   SPONSOR
+   SEZIONE SPONSOR
    ========================================== */
 .sponsors-section {
     background: var(--white);
@@ -1203,9 +1140,8 @@ body {
     background: var(--primary-sky);
 }
 
-
 /* ==========================================
-   CONTATTI
+   BOX CONTATTO GOOGLE FORMS UNICO BOX
    ========================================== */
 .contact-card {
     background: var(--white);
@@ -1237,7 +1173,7 @@ body {
 
 .contact-reasons-list {
     list-style: none;
-    padding: 20px;
+    padding: 0;
     margin: 20px 0 25px;
     text-align: left;
     display: flex;
@@ -1245,6 +1181,7 @@ body {
     gap: 12px;
     background: var(--light-bg);
     border-radius: 12px;
+    padding: 20px;
     border: 1px solid #e2e8f0;
 }
 
@@ -1302,9 +1239,8 @@ body {
     opacity: 0.8;
 }
 
-
 /* ==========================================
-   SCROLL TO TOP
+   PULSANTE FLOATING TORNA SU
    ========================================== */
 #scrollToTopBtn {
     position: fixed;
@@ -1338,9 +1274,8 @@ body {
     transform: translateY(-3px);
 }
 
-
 /* ==========================================
-   FAQ
+   PAGINA FAQ (FAQ.HTML)
    ========================================== */
 .faq-page-section {
     min-height: 70vh;
@@ -1446,9 +1381,8 @@ body {
     margin-bottom: 6px;
 }
 
-
 /* ==========================================
-   PARTITE
+   PAGINA PARTITE (MATCHES.HTML)
    ========================================== */
 .matches-page-section {
     min-height: 70vh;
@@ -1588,7 +1522,6 @@ body {
     text-align: center;
 }
 
-
 /* ==========================================
    FOOTER
    ========================================== */
@@ -1601,11 +1534,9 @@ body {
     border-top: 4px solid var(--primary-sky);
 }
 
-
 /* ==========================================
-   MOBILE MENU
+   MOBILE RESPONSIVE OPTIMIZATIONS
    ========================================== */
-
 .mobile-menu-toggle {
     display: none;
     background: none;
@@ -1613,31 +1544,23 @@ body {
     font-size: 1.6rem;
     color: var(--dark-navy);
     cursor: pointer;
-    padding: 8px;
-    line-height: 1;
 }
 
-.mobile-nav {
-    display: none;
-}
+@media (max-width: 768px) {
+    .desktop-nav-wrapper { display: none; }
+    .mobile-menu-toggle { display: block; }
 
-
-/* ==========================================
-   TABLET + MOBILE
-   Hamburger sotto 900px
-   ========================================== */
-@media (max-width: 900px) {
-
-    .desktop-nav-wrapper {
-        display: none;
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
     }
 
-    .mobile-menu-toggle {
-        display: block;
+    .mission-box {
+        padding: 22px 18px;
     }
-
+    
     .mobile-nav {
-        display: none;
+        display: flex;
         flex-direction: column;
         background: var(--white);
         padding: 15px 25px 25px;
@@ -1649,12 +1572,7 @@ body {
         box-shadow: 0 10px 25px rgba(0, 60, 130, 0.15);
         border-top: 1px solid #f1f5f9;
     }
-
-    /* Stato aperto gestito dal JavaScript */
-    .mobile-nav.active {
-        display: flex;
-    }
-
+    
     .mobile-nav a {
         padding: 14px 0;
         text-decoration: none;
@@ -1674,36 +1592,14 @@ body {
     .mobile-social-icons a {
         color: var(--dark-navy);
         font-size: 1.3rem;
-        border-bottom: none;
-    }
-}
-
-
-/* ==========================================
-   MOBILE PORTRAIT
-   ========================================== */
-@media (max-width: 768px) {
-
-    .brand-name {
-        font-size: 1.6rem;
-    }
-
-    .about-grid {
-        grid-template-columns: 1fr;
-        gap: 25px;
-    }
-
-    .mission-box {
-        padding: 22px 18px;
     }
 
     .hero {
-        height: 55vh;
-        min-height: 350px;
+        min-height: 380px;
     }
 
-    .hero h2 {
-        font-size: 2.1rem;
+    .hero h2 { 
+        font-size: 2.1rem; 
     }
 
     .section {
@@ -1719,8 +1615,8 @@ body {
         font-size: 0.8rem;
     }
 
-    .carousel-slide {
-        height: 280px;
+    .carousel-slide { 
+        height: 280px; 
     }
 
     .carousel-btn {
@@ -1729,13 +1625,8 @@ body {
         font-size: 0.85rem;
     }
 
-    #prevBtn {
-        left: 10px;
-    }
-
-    #nextBtn {
-        right: 10px;
-    }
+    #prevBtn { left: 10px; }
+    #nextBtn { right: 10px; }
 
     .filter-wrapper {
         gap: 8px;
@@ -1782,42 +1673,5 @@ body {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-    }
-}
-
-
-/* ==========================================
-   VERY SMALL SCREENS
-   ========================================== */
-@media (max-width: 480px) {
-
-    .container {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-
-    .logo {
-        height: 46px;
-    }
-
-    .logo-title {
-        gap: 8px;
-    }
-
-    .brand-name {
-        font-size: 1.45rem;
-        letter-spacing: 1px;
-    }
-
-    .mobile-menu-toggle {
-        font-size: 1.5rem;
-    }
-
-    .hero h2 {
-        font-size: 1.8rem;
-    }
-
-    .hero p {
-        font-size: 1rem;
     }
 }
