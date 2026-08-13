@@ -207,26 +207,84 @@
     </div>
 </section>
 
-<!-- GALLERIA CAROUSEL -->
-<section class="carousel-section section" id="gallery">
+<!-- SEZIONE FOTOGALLERY CON GRIGLIA E LIGHTBOX -->
+<section class="section gallery-section" id="gallery">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-camera"></i> <span data-i18n="gallery.title">フォトギャラリー</span></h2>
-        <div class="carousel-container">
-            <button class="carousel-btn" id="prevBtn" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
-            <div class="carousel-slide">
-                <img id="mainImage" src="./immagini/gallery/foto1.jpeg" alt="Gallery">
-            </div>
-            <button class="carousel-btn" id="nextBtn" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+        <h2 class="section-title"><i class="fas fa-images"></i> <span data-i18n="gallery.title">フォトギャラリー</span></h2>
+
+        <!-- FILTRI CATEGORIA -->
+        <div class="gallery-filter-wrapper">
+            <button class="gallery-filter-btn active" data-gallery-filter="all" data-i18n="gallery_filter.all">すべて (ALL)</button>
+            <button class="gallery-filter-btn" data-gallery-filter="match" data-i18n="gallery_filter.match">試合 (Matches)</button>
+            <button class="gallery-filter-btn" data-gallery-filter="training" data-i18n="gallery_filter.training">練習 (Training)</button>
+            <button class="gallery-filter-btn" data-gallery-filter="team" data-i18n="gallery_filter.team">チーム (Team)</button>
         </div>
-        <div class="carousel-indicators">
-            <span class="indicator active" data-index="0"></span>
-            <span class="indicator" data-index="1"></span>
-            <span class="indicator" data-index="2"></span>
-            <span class="indicator" data-index="3"></span>
-            <span class="indicator" data-index="4"></span>
+
+        <!-- GRIGLIA FOTO -->
+        <div class="gallery-grid">
+            <!-- Foto 1 -->
+            <div class="gallery-item" data-category="match" data-src="./immagini/gallery/foto1.jpeg" data-caption="Match Day Action">
+                <img src="./immagini/gallery/foto1.jpeg" alt="Match 1" loading="lazy">
+                <div class="gallery-zoom-icon"><i class="fas fa-search-plus"></i></div>
+                <div class="gallery-overlay">
+                    <span class="gallery-overlay-category">Matches</span>
+                    <div class="gallery-overlay-title">Match Action</div>
+                </div>
+            </div>
+
+            <!-- Foto 2 -->
+            <div class="gallery-item" data-category="training" data-src="./immagini/gallery/foto2.jpeg" data-caption="Sessione di Allenamento">
+                <img src="./immagini/gallery/foto2.jpeg" alt="Training 1" loading="lazy">
+                <div class="gallery-zoom-icon"><i class="fas fa-search-plus"></i></div>
+                <div class="gallery-overlay">
+                    <span class="gallery-overlay-category">Training</span>
+                    <div class="gallery-overlay-title">Allenamento Tattico</div>
+                </div>
+            </div>
+
+            <!-- Foto 3 -->
+            <div class="gallery-item" data-category="team" data-src="./immagini/gallery/foto3.jpeg" data-caption="Foto di Gruppo">
+                <img src="./immagini/gallery/foto3.jpeg" alt="Team 1" loading="lazy">
+                <div class="gallery-zoom-icon"><i class="fas fa-search-plus"></i></div>
+                <div class="gallery-overlay">
+                    <span class="gallery-overlay-category">Team</span>
+                    <div class="gallery-overlay-title">Gruppo Squadra</div>
+                </div>
+            </div>
+
+            <!-- Foto 4 -->
+            <div class="gallery-item" data-category="match" data-src="./immagini/gallery/foto4.jpeg" data-caption="Azione di Gioco">
+                <img src="./immagini/gallery/foto4.jpeg" alt="Match 2" loading="lazy">
+                <div class="gallery-zoom-icon"><i class="fas fa-search-plus"></i></div>
+                <div class="gallery-overlay">
+                    <span class="gallery-overlay-category">Matches</span>
+                    <div class="gallery-overlay-title">Azione di Gioco</div>
+                </div>
+            </div>
+
+            <!-- Foto 5 -->
+            <div class="gallery-item" data-category="training" data-src="./immagini/gallery/foto5.jpeg" data-caption="Esercitazione con Palla">
+                <img src="./immagini/gallery/foto5.jpeg" alt="Training 2" loading="lazy">
+                <div class="gallery-zoom-icon"><i class="fas fa-search-plus"></i></div>
+                <div class="gallery-overlay">
+                    <span class="gallery-overlay-category">Training</span>
+                    <div class="gallery-overlay-title">Esercitazione Tattica</div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
+
+<!-- LIGHTBOX MODAL SCHERMO INTERO -->
+<div class="lightbox-modal" id="lightboxModal" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Chiudi"><i class="fas fa-times"></i></button>
+    <button class="lightbox-prev" id="lightboxPrev" aria-label="Precedente"><i class="fas fa-chevron-left"></i></button>
+    <button class="lightbox-next" id="lightboxNext" aria-label="Successiva"><i class="fas fa-chevron-right"></i></button>
+    <div class="lightbox-content">
+        <img src="" alt="" class="lightbox-img" id="lightboxImg">
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+</div>
 
 <!-- SEZIONE SHOP ONLINE -->
 <section class="section shop-section" id="shop">
@@ -360,6 +418,10 @@
             "results.detail": "詳細",
             "results.all_matches": "全試合日程・詳細はこちら",
             "gallery.title": "フォトギャラリー",
+            "gallery_filter.all": "すべて (ALL)",
+            "gallery_filter.match": "試合 (Matches)",
+            "gallery_filter.training": "練習 (Training)",
+            "gallery_filter.team": "チーム (Team)",
             "shop.title": "公式オンラインショップ",
             "shop.card_title": "Yokohama Calcio オフィシャルグッズ",
             "shop.card_desc": "公式ユニフォーム、トレーニングウェア、オリジナルグッズはこちらからご購入いただけます。",
@@ -410,6 +472,10 @@
             "results.detail": "Dettagli",
             "results.all_matches": "Vedi tutte le partite",
             "gallery.title": "Galleria Fotografica",
+            "gallery_filter.all": "Tutti",
+            "gallery_filter.match": "Partite",
+            "gallery_filter.training": "Allenamenti",
+            "gallery_filter.team": "Squadra",
             "shop.title": "Online Shop Ufficiale",
             "shop.card_title": "Prodotti Ufficiali Yokohama Calcio",
             "shop.card_desc": "Acquista le maglie ufficiali, il materiale da allenamento e il merchandising del club.",
@@ -460,6 +526,10 @@
             "results.detail": "Details",
             "results.all_matches": "View All Matches",
             "gallery.title": "Photo Gallery",
+            "gallery_filter.all": "All",
+            "gallery_filter.match": "Matches",
+            "gallery_filter.training": "Training",
+            "gallery_filter.team": "Team",
             "shop.title": "Official Online Shop",
             "shop.card_title": "Yokohama Calcio Official Gear",
             "shop.card_desc": "Purchase official kits, training gear, and club merchandise here.",
@@ -594,7 +664,7 @@
         }
     }
 
-    // SCORRIMENTO AUTOMATICO E GESTIONE DRAG/SWIPE CAROSELLO
+    // SCORRIMENTO AUTOMATICO E GESTIONE DRAG/SWIPE CAROSELLO RISULTATI
     function startCarouselAnimation() {
         const resultsTrack = document.getElementById('resultsTrack');
         if (!resultsTrack) return;
@@ -658,10 +728,124 @@
         container.addEventListener('touchmove', onMove, { passive: true });
     }
 
+    // 2. LOGICA GALLERY FILTER & LIGHTBOX MODAL
+    function initGalleryAndLightbox() {
+        const filterBtns = document.querySelectorAll('[data-gallery-filter]');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const lightbox = document.getElementById('lightboxModal');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxCaption = document.getElementById('lightboxCaption');
+        const closeBtn = document.getElementById('lightboxClose');
+        const prevBtn = document.getElementById('lightboxPrev');
+        const nextBtn = document.getElementById('lightboxNext');
+
+        if (!lightbox || galleryItems.length === 0) return;
+
+        let visibleItems = [];
+        let currentIndex = 0;
+
+        function updateVisibleItems() {
+            visibleItems = Array.from(galleryItems).filter(item => item.style.display !== 'none');
+        }
+
+        // Filtro Categorie
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-gallery-filter');
+
+                galleryItems.forEach(item => {
+                    const category = item.getAttribute('data-category');
+                    if (filter === 'all' || category === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                updateVisibleItems();
+            });
+        });
+
+        updateVisibleItems();
+
+        // Apertura Lightbox
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                currentIndex = visibleItems.indexOf(item);
+                if (currentIndex !== -1) {
+                    openLightbox(currentIndex);
+                }
+            });
+        });
+
+        function openLightbox(index) {
+            const targetItem = visibleItems[index];
+            if (!targetItem) return;
+
+            const src = targetItem.getAttribute('data-src') || targetItem.querySelector('img').src;
+            const caption = targetItem.getAttribute('data-caption') || '';
+
+            lightboxImg.src = src;
+            lightboxCaption.textContent = caption;
+            lightbox.classList.add('active');
+            lightbox.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            lightbox.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        function showPrev() {
+            currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+            openLightbox(currentIndex);
+        }
+
+        function showNext() {
+            currentIndex = (currentIndex + 1) % visibleItems.length;
+            openLightbox(currentIndex);
+        }
+
+        closeBtn?.addEventListener('click', closeLightbox);
+        prevBtn?.addEventListener('click', showPrev);
+        nextBtn?.addEventListener('click', showNext);
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') showPrev();
+            if (e.key === 'ArrowRight') showNext();
+        });
+
+        // Swipe Touch per Smartphone su Lightbox
+        let touchStartX = 0;
+        lightbox.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+
+        lightbox.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const diffX = touchStartX - touchEndX;
+            if (Math.abs(diffX) > 40) {
+                if (diffX > 0) showNext();
+                else showPrev();
+            }
+        });
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
         const savedLang = localStorage.getItem('preferred_lang') || 'ja';
         setLanguage(savedLang);
         initDynamicCarousel();
+        initGalleryAndLightbox();
     });
 
     // Menu Mobile Toggle
@@ -685,91 +869,6 @@
                 icon.classList.remove('fa-times');
             });
         });
-    }
-
-    // Fotogallery ad Scorrimento Automatico
-    const galleryData = [
-        './immagini/gallery/foto1.jpeg',
-        './immagini/gallery/foto2.jpeg',
-        './immagini/gallery/foto3.jpeg',
-        './immagini/gallery/foto4.jpeg',
-        './immagini/gallery/foto5.jpeg'
-    ];
-
-    let currentIndex = 0;
-    const mainImg = document.getElementById('mainImage');
-    const dots = document.querySelectorAll('.indicator');
-    const galleryContainer = document.querySelector('.carousel-container');
-    let galleryAutoPlay;
-
-    function updateSlide(index) {
-        if (!mainImg) return;
-        mainImg.style.opacity = '0.3';
-        setTimeout(() => {
-            currentIndex = index;
-            mainImg.src = galleryData[currentIndex];
-            dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
-            mainImg.style.opacity = '1';
-        }, 150);
-    }
-
-    function nextSlide() {
-        updateSlide((currentIndex + 1) % galleryData.length);
-    }
-
-    function prevSlide() {
-        updateSlide((currentIndex - 1 + galleryData.length) % galleryData.length);
-    }
-
-    function startGalleryAuto() {
-        galleryAutoPlay = setInterval(nextSlide, 3200);
-    }
-
-    function stopGalleryAuto() {
-        clearInterval(galleryAutoPlay);
-    }
-
-    if (mainImg) {
-        startGalleryAuto();
-
-        if (galleryContainer) {
-            galleryContainer.addEventListener('mouseenter', stopGalleryAuto);
-            galleryContainer.addEventListener('mouseleave', startGalleryAuto);
-            
-            let touchStartX = 0;
-            galleryContainer.addEventListener('touchstart', (e) => {
-                stopGalleryAuto();
-                touchStartX = e.touches[0].clientX;
-            }, { passive: true });
-
-            galleryContainer.addEventListener('touchend', (e) => {
-                const touchEndX = e.changedTouches[0].clientX;
-                const diffX = touchStartX - touchEndX;
-                if (Math.abs(diffX) > 40) {
-                    if (diffX > 0) nextSlide();
-                    else prevSlide();
-                }
-                startGalleryAuto();
-            });
-        }
-
-        document.getElementById('nextBtn')?.addEventListener('click', () => {
-            stopGalleryAuto();
-            nextSlide();
-            startGalleryAuto();
-        });
-
-        document.getElementById('prevBtn')?.addEventListener('click', () => {
-            stopGalleryAuto();
-            prevSlide();
-            startGalleryAuto();
-        });
-
-        dots.forEach((dot, i) => dot.addEventListener('click', () => {
-            stopGalleryAuto();
-            updateSlide(i);
-            startGalleryAuto();
-        }));
     }
 
     // Carosello Sponsor
