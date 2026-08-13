@@ -36,7 +36,7 @@
   <div class="main-header-bar">
     <div class="container header-container">
       
-      <!-- LOGO & BRAND NAME (su 2 righe da desktop) -->
+      <!-- LOGO & BRAND NAME -->
       <div class="logo-title">
         <a href="index.html">
           <img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo">
@@ -98,13 +98,14 @@
         <h2 class="section-title"><i class="fas fa-trophy"></i> <span data-i18n="matches_page.title">試合日程・結果一覧</span></h2>
         <p class="matches-intro" data-i18n="matches_page.intro">Yokohama Calcioの試合スケジュールと対戦情報です。</p>
 
-        <!-- BARRA FILTRI: CATEGORIA + ANNO / STAGIONE -->
+        <!-- BARRA FILTRI: CATEGORIA (CAMPIONATO, COPPA, AMICHEVOLI) + ANNO / STAGIONE -->
         <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 30px;">
-            <!-- FILTRI TIPO PARTITA (Solo Giapponese nei pulsanti) -->
+            <!-- FILTRI TIPO PARTITA -->
             <div class="filter-wrapper" style="margin-bottom: 0;">
-                <button class="filter-btn active" data-match-filter="all">すべて</button>
-                <button class="filter-btn" data-match-filter="official">公式戦</button>
-                <button class="filter-btn" data-match-filter="friendly">練習試合</button>
+                <button class="filter-btn active" data-match-filter="all" data-i18n="filter.all">すべて</button>
+                <button class="filter-btn" data-match-filter="league" data-i18n="filter.league">リーグ戦</button>
+                <button class="filter-btn" data-match-filter="cup" data-i18n="filter.cup">カップ戦</button>
+                <button class="filter-btn" data-match-filter="friendly" data-i18n="filter.friendly">練習試合</button>
             </div>
 
             <!-- FILTRO ANNO / STAGIONE -->
@@ -132,7 +133,7 @@
                     <!-- MATCH 1: YSCCミドル (30 Agosto) -->
                     <div class="match-detail-card match-upcoming" id="match-1" data-match-category="friendly" data-match-date="2026.08.30">
                         <div class="match-header-row">
-                            <span class="match-badge badge-next" data-i18n="results.next_badge">次戦 (練習試合)</span>
+                            <span class="match-badge badge-next" data-i18n="badge.friendly">次戦 (練習試合)</span>
                             <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.08.30 (Sun) 11:00 KO</span>
                         </div>
                         
@@ -153,7 +154,7 @@
                             <div class="details-inner">
                                 <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong data-i18n="label.venue">会場:</strong> <span data-i18n="venue.shinyokohama">新横浜公園第一運動広場</span></span></div>
                                 <div class="detail-item"><i class="fas fa-clock"></i> <span><strong data-i18n="label.kickoff">キックオフ:</strong> 11:00</span></div>
-                                <div class="detail-item"><i class="fas fa-shield-alt"></i> <span><strong data-i18n="label.format">形式:</strong> <span data-i18n="format.friendly">練習試合</span></span></div>
+                                <div class="detail-item"><i class="fas fa-shield-alt"></i> <span><strong data-i18n="label.format">形式:</strong> <span data-i18n="filter.friendly">練習試合</span></span></div>
                             </div>
                         </div>
                     </div>
@@ -161,7 +162,7 @@
                     <!-- MATCH 2: Nishiya AFC (16 Agosto) -->
                     <div class="match-detail-card match-upcoming" id="match-2" data-match-category="friendly" data-match-date="2026.08.16">
                         <div class="match-header-row">
-                            <span class="match-badge badge-next" data-i18n="results.next_badge">次戦 (練習試合)</span>
+                            <span class="match-badge badge-next" data-i18n="badge.friendly">次戦 (練習試合)</span>
                             <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.08.16 (Sun) 19:00 KO</span>
                         </div>
                         
@@ -182,7 +183,7 @@
                             <div class="details-inner">
                                 <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong data-i18n="label.venue">会場:</strong> <span data-i18n="venue.nishiya">西谷中学校グラウンド</span></span></div>
                                 <div class="detail-item"><i class="fas fa-clock"></i> <span><strong data-i18n="label.kickoff">キックオフ:</strong> 19:00</span></div>
-                                <div class="detail-item"><i class="fas fa-shield-alt"></i> <span><strong data-i18n="label.format">形式:</strong> <span data-i18n="format.friendly">練習試合</span></span></div>
+                                <div class="detail-item"><i class="fas fa-shield-alt"></i> <span><strong data-i18n="label.format">形式:</strong> <span data-i18n="filter.friendly">練習試合</span></span></div>
                             </div>
                         </div>
                     </div>
@@ -199,7 +200,7 @@
                     <!-- MATCH 3: YSCCミドル (9 Agosto) -->
                     <div class="match-detail-card match-past-item" id="match-3" data-match-category="friendly" data-match-date="2026.08.09">
                         <div class="match-header-row">
-                            <span class="match-badge badge-friendly" data-i18n="results.friendly_badge">練習試合</span>
+                            <span class="match-badge badge-friendly" data-i18n="filter.friendly">練習試合</span>
                             <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.08.09 (15:00 KO)</span>
                         </div>
                         
@@ -230,7 +231,7 @@
                     <!-- MATCH 4: YC&AC Pulse (19 Luglio) -->
                     <div class="match-detail-card match-past-item" id="match-4" data-match-category="friendly" data-match-date="2026.07.19">
                         <div class="match-header-row">
-                            <span class="match-badge badge-friendly" data-i18n="results.friendly_badge">練習試合</span>
+                            <span class="match-badge badge-friendly" data-i18n="filter.friendly">練習試合</span>
                             <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.07.19 (11:00 KO)</span>
                         </div>
                         
@@ -261,7 +262,7 @@
                     <!-- MATCH 5: Nishiya AFC (30 Maggio) -->
                     <div class="match-detail-card match-past-item" id="match-5" data-match-category="friendly" data-match-date="2026.05.30">
                         <div class="match-header-row">
-                            <span class="match-badge badge-friendly" data-i18n="results.friendly_badge">練習試合</span>
+                            <span class="match-badge badge-friendly" data-i18n="filter.friendly">練習試合</span>
                             <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.05.30 (13:00 KO)</span>
                         </div>
                         
@@ -292,7 +293,7 @@
                     <!-- MATCH 6: Legalia Kawasaki (24 Maggio) -->
                     <div class="match-detail-card match-past-item" id="match-6" data-match-category="friendly" data-match-date="2026.05.24">
                         <div class="match-header-row">
-                            <span class="match-badge badge-friendly" data-i18n="results.friendly_badge">練習試合</span>
+                            <span class="match-badge badge-friendly" data-i18n="filter.friendly">練習試合</span>
                             <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.05.24 (12:00 KO)</span>
                         </div>
                         
@@ -365,8 +366,13 @@
             "matches_page.all_seasons": "全期間",
             "matches_page.upcoming_title": "試合日程",
             "matches_page.past_title": "試合結果",
-            "results.next_badge": "次戦 (練習試合)",
-            "results.friendly_badge": "練習試合",
+            "filter.all": "すべて",
+            "filter.league": "リーグ戦",
+            "filter.cup": "カップ戦",
+            "filter.friendly": "練習試合",
+            "badge.friendly": "次戦 (練習試合)",
+            "badge.league": "次戦 (リーグ戦)",
+            "badge.cup": "次戦 (カップ戦)",
             "btn.details": "詳細を見る",
             "btn.close": "閉じる",
             "btn.load_more": "過去の試合をもっと見る",
@@ -379,7 +385,6 @@
             "label.yellows": "警告 (イエロー):",
             "label.reds": "退場 (レッド):",
             "val.none": "なし",
-            "format.friendly": "練習試合",
             "venue.shinyokohama": "新横浜公園第一運動広場",
             "venue.nishiya": "西谷中学校グラウンド",
             "venue.ycac": "YC&ACグラウンド",
@@ -403,8 +408,13 @@
             "matches_page.all_seasons": "Tutti gli anni",
             "matches_page.upcoming_title": "Partite in Programma",
             "matches_page.past_title": "Risultati Passati",
-            "results.next_badge": "Prossima Match",
-            "results.friendly_badge": "Amichevole",
+            "filter.all": "Tutte",
+            "filter.league": "Campionato",
+            "filter.cup": "Coppa",
+            "filter.friendly": "Amichevoli",
+            "badge.friendly": "Prossima (Amichevole)",
+            "badge.league": "Prossima (Campionato)",
+            "badge.cup": "Prossima (Coppa)",
             "btn.details": "Mostra Dettagli",
             "btn.close": "Chiudi",
             "btn.load_more": "Mostra altri risultati",
@@ -417,7 +427,6 @@
             "label.yellows": "Ammonizioni:",
             "label.reds": "Espulsioni:",
             "val.none": "Nessuno",
-            "format.friendly": "Amichevole",
             "venue.shinyokohama": "Shin-Yokohama Park Pitch 1",
             "venue.nishiya": "Campo Scuola Media Nishiya",
             "venue.ycac": "Campo YC&AC",
@@ -441,8 +450,13 @@
             "matches_page.all_seasons": "All Time",
             "matches_page.upcoming_title": "Match Schedule",
             "matches_page.past_title": "Past Results",
-            "results.next_badge": "Next Match",
-            "results.friendly_badge": "Friendly Match",
+            "filter.all": "All",
+            "filter.league": "League",
+            "filter.cup": "Cup",
+            "filter.friendly": "Friendly",
+            "badge.friendly": "Next (Friendly)",
+            "badge.league": "Next (League)",
+            "badge.cup": "Next (Cup)",
             "btn.details": "View Details",
             "btn.close": "Close",
             "btn.load_more": "Show more past matches",
@@ -455,7 +469,6 @@
             "label.yellows": "Yellow Cards:",
             "label.reds": "Red Cards:",
             "val.none": "None",
-            "format.friendly": "Friendly Match",
             "venue.shinyokohama": "Shin-Yokohama Park Pitch No.1",
             "venue.nishiya": "Nishiya Junior High School Field",
             "venue.ycac": "YC&AC Ground",
