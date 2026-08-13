@@ -166,19 +166,51 @@ body {
     object-fit: contain;
 }
 
+/* ==========================================
+   BRAND NAME (BASE / MOBILE PORTRAIT)
+   Default: su una sola riga per smartphone in verticale
+   ========================================== */
 .brand-name {
     font-family: var(--font-brand);
-    font-size: 1.35rem;         /* Dimensioni ottimizzate per le due righe */
+    font-size: 1.6rem;
     letter-spacing: 1.5px;
     color: var(--dark-navy);
-    line-height: 0.9;          /* Line-height ridotto per avvicinare le due scritte */
+    line-height: 1;
     font-weight: 700;
     text-transform: uppercase;
     text-decoration: none !important;
-    display: flex;
-    flex-direction: column;    /* Mette Yokohama sopra e Calcio sotto */
-    justify-content: center;
-    align-items: flex-start;  /* Allinea il testo a sinistra accanto al logo */
+    display: inline-flex;
+    flex-direction: row;       /* Inserisce il testo su una sola riga */
+    gap: 6px;                  /* Spazio tra YOKOHAMA e CALCIO */
+    align-items: center;
+}
+
+/* ==========================================
+   DESKTOP (da 769px in poi)
+   Dispone il testo su due righe per risparmiare spazio laterale
+   ========================================== */
+@media (min-width: 769px) {
+    .brand-name {
+        flex-direction: column;   /* YOKOHAMA sopra, CALCIO sotto */
+        align-items: flex-start;
+        font-size: 1.25rem;       /* Dimensione ottimizzata per 2 righe */
+        line-height: 0.9;         /* Avvicina le due righe */
+        gap: 0;
+    }
+}
+
+/* ==========================================
+   MOBILE & TABLET IN ORIZZONTALE (LANDSCAPE)
+   Forza le due righe quando il dispositivo è ruotato
+   ========================================== */
+@media (max-width: 900px) and (orientation: landscape) {
+    .brand-name {
+        flex-direction: column;   /* YOKOHAMA sopra, CALCIO sotto */
+        align-items: flex-start;
+        font-size: 1.15rem;
+        line-height: 0.9;
+        gap: 0;
+    }
 }
 
 .desktop-nav-wrapper {
