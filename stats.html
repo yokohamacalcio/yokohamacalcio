@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>成績・スタッツ | Yokohama Calcio</title>
-    <meta name="description" content="Yokohama Calcioのチーム戦績および個人スタッツ（得点王、アシスト王、MVP）一覧です。">
+    <meta name="description" content="Yokohama Calcioのチーム戦績および個人スタッツ（得点王、アシスト王、MVP、カード）一覧です。">
     <meta name="keywords" content="Yokohama Calcio, 戦績, スタッツ, 順位表, 横浜 サッカーチーム">
     <meta name="author" content="Yokohama Calcio">
     <meta name="robots" content="index, follow">
@@ -39,7 +39,7 @@
   <div class="main-header-bar">
     <div class="container header-container">
       
-      <!-- LOGO & BRAND NAME (su 2 righe da desktop) -->
+      <!-- LOGO & BRAND NAME -->
       <div class="logo-title">
         <a href="index.html">
           <img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo">
@@ -163,6 +163,41 @@
             </table>
         </div>
 
+        <!-- TABELLA REGISTRO DISCIPLINARE SQUADRA -->
+        <h3 class="ranking-title" style="margin-top: 40px;"><i class="fas fa-copy"></i> <span data-i18n="stats.disciplinary">チーム規律・カード</span></h3>
+        <div class="stats-table-wrapper">
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th data-i18n="th.category">区分</th>
+                        <th data-i18n="th.yellow"><i class="fas fa-square" style="color: #f59e0b;"></i> 警告 (イエロー)</th>
+                        <th data-i18n="th.red"><i class="fas fa-square" style="color: #ef4444;"></i> 退場 (レッド)</th>
+                        <th data-i18n="th.card_avg">試合平均カード数</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong data-i18n="row.official">公式戦</strong></td>
+                        <td id="off-yellow">0</td>
+                        <td id="off-red">0</td>
+                        <td id="off-card-avg">0.0</td>
+                    </tr>
+                    <tr>
+                        <td><strong data-i18n="row.friendly">練習試合</strong></td>
+                        <td id="fr-yellow">0</td>
+                        <td id="fr-red">0</td>
+                        <td id="fr-card-avg">0.0</td>
+                    </tr>
+                    <tr style="background: var(--light-bg);">
+                        <td><strong data-i18n="row.total">通算</strong></td>
+                        <td id="tot-yellow" style="color: #d97706; font-weight: 800;">0</td>
+                        <td id="tot-red" style="color: #dc2626; font-weight: 800;">0</td>
+                        <td id="tot-card-avg" style="color: var(--dark-navy); font-weight: 800;">0.0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <!-- SEZIONE CLASSIFICA DI CAMPIONATO -->
         <h3 class="ranking-title" style="margin-top: 40px;"><i class="fas fa-list-ol"></i> <span data-i18n="stats.standings">リーグ順位表</span></h3>
         <div id="standingsContainer" class="ranking-card" style="margin-bottom: 40px; text-align: center; padding: 30px;">
@@ -172,7 +207,7 @@
             </p>
         </div>
 
-        <!-- CLASSIFICHE INDIVIDUALI (MARCATORI, ASSIST, MVP) -->
+        <!-- CLASSIFICHE INDIVIDUALI (MARCATORI, ASSIST, MVP, DISCIPLINARE) -->
         <div class="stats-grid">
             <!-- MARCATORI -->
             <div class="ranking-card">
@@ -190,6 +225,18 @@
             <div class="ranking-card">
                 <h3 class="ranking-title"><i class="fas fa-trophy" style="color: #f59e0b;"></i> <span data-i18n="stats.mvp">MVP賞</span></h3>
                 <ul class="ranking-list" id="mvp-ranking"></ul>
+            </div>
+
+            <!-- CARTELLINI GIALLI -->
+            <div class="ranking-card">
+                <h3 class="ranking-title"><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="stats.top_yellows">警告 (イエローカード)</span></h3>
+                <ul class="ranking-list" id="yellows-ranking"></ul>
+            </div>
+
+            <!-- CARTELLINI ROSSI -->
+            <div class="ranking-card">
+                <h3 class="ranking-title"><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="stats.top_reds">退場 (レッドカード)</span></h3>
+                <ul class="ranking-list" id="reds-ranking"></ul>
             </div>
         </div>
 
@@ -225,6 +272,7 @@
             "stats.season_label": "シーズン:",
             "stats.all_seasons": "全期間 (All Time)",
             "stats.team_stats": "チーム戦績",
+            "stats.disciplinary": "チーム規律・カード",
             "th.category": "区分",
             "th.played": "試合数",
             "th.wins": "勝",
@@ -233,6 +281,9 @@
             "th.gf": "得点",
             "th.ga": "失点",
             "th.winrate": "勝率",
+            "th.yellow": "警告 (イエロー)",
+            "th.red": "退場 (レッド)",
+            "th.card_avg": "平均カード/試合",
             "row.official": "公式戦",
             "row.friendly": "練習試合",
             "row.total": "通算",
@@ -241,10 +292,14 @@
             "stats.top_scorer": "得点王",
             "stats.top_assist": "アシスト王",
             "stats.mvp": "MVP賞",
+            "stats.top_yellows": "警告 (イエロー)",
+            "stats.top_reds": "退場 (レッド)",
             "stats.no_data": "データなし",
             "unit.goals": "点",
             "unit.assists": "本",
             "unit.mvp": "回",
+            "unit.yellows": "枚",
+            "unit.reds": "枚",
             "btn.back_home": "ホームに戻る"
         },
         it: {
@@ -262,6 +317,7 @@
             "stats.season_label": "Stagione:",
             "stats.all_seasons": "Tutte le stagioni",
             "stats.team_stats": "Rendimento Squadra",
+            "stats.disciplinary": "Bilancio Disciplinare",
             "th.category": "Categoria",
             "th.played": "G",
             "th.wins": "V",
@@ -270,6 +326,9 @@
             "th.gf": "GF",
             "th.ga": "GS",
             "th.winrate": "% Vittorie",
+            "th.yellow": "Gialli",
+            "th.red": "Rossi",
+            "th.card_avg": "Media Cartellini/G",
             "row.official": "Ufficiali",
             "row.friendly": "Amichevoli",
             "row.total": "Totale",
@@ -278,10 +337,14 @@
             "stats.top_scorer": "Capocannoniere",
             "stats.top_assist": "Assistman",
             "stats.mvp": "Premio MVP",
+            "stats.top_yellows": "Ammonizioni",
+            "stats.top_reds": "Espulsioni",
             "stats.no_data": "Nessun dato",
             "unit.goals": "gol",
             "unit.assists": "assist",
             "unit.mvp": "volte",
+            "unit.yellows": "gialli",
+            "unit.reds": "rossi",
             "btn.back_home": "Torna alla Home"
         },
         en: {
@@ -299,6 +362,7 @@
             "stats.season_label": "Season:",
             "stats.all_seasons": "All Time",
             "stats.team_stats": "Team Performance",
+            "stats.disciplinary": "Disciplinary Record",
             "th.category": "Category",
             "th.played": "P",
             "th.wins": "W",
@@ -307,6 +371,9 @@
             "th.gf": "GF",
             "th.ga": "GA",
             "th.winrate": "Win %",
+            "th.yellow": "Yellows",
+            "th.red": "Reds",
+            "th.card_avg": "Avg Cards/P",
             "row.official": "Official",
             "row.friendly": "Friendly",
             "row.total": "Total",
@@ -315,10 +382,14 @@
             "stats.top_scorer": "Top Scorer",
             "stats.top_assist": "Top Assists",
             "stats.mvp": "MVP Award",
+            "stats.top_yellows": "Yellow Cards",
+            "stats.top_reds": "Red Cards",
             "stats.no_data": "No data",
             "unit.goals": "goals",
             "unit.assists": "assists",
             "unit.mvp": "times",
+            "unit.yellows": "yellows",
+            "unit.reds": "reds",
             "btn.back_home": "Back to Home"
         }
     };
@@ -342,7 +413,6 @@
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
 
-        // Ricalcola classifiche per aggiornare le unità di misura tradotte (es. gol / 点)
         loadAndCalculateStats();
     }
 
@@ -410,17 +480,16 @@
             const selectedSeason = document.getElementById('seasonSelect').value;
 
             let stats = {
-                official: { played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0 },
-                friendly: { played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0 }
+                official: { played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0, yellow: 0, red: 0 },
+                friendly: { played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0, yellow: 0, red: 0 }
             };
 
-            let goalsMap = {}, assistsMap = {}, mvpMap = {};
+            let goalsMap = {}, assistsMap = {}, mvpMap = {}, yellowsMap = {}, redsMap = {};
 
             matchCards.forEach(card => {
-                // Filtra in base all'anno della data partita (es. 2026/04/12)
                 const dateText = card.querySelector('.match-date-text')?.textContent || '';
                 if (selectedSeason !== 'all' && !dateText.includes(selectedSeason)) {
-                    return; // Ignora partite di altri anni
+                    return; 
                 }
 
                 const isOfficial = card.getAttribute('data-match-category') === 'official';
@@ -446,9 +515,9 @@
                     const txt = item.textContent || '';
                     
                     // GOL
-                    if (txt.includes('得点者:')) {
-                        const scorerText = txt.replace('得点者:', '').trim();
-                        if (scorerText && scorerText !== 'なし') {
+                    if (txt.includes('得点者:') || txt.includes('Marcatori:')) {
+                        const scorerText = txt.replace(/(得点者:|Marcatori:)/, '').trim();
+                        if (scorerText && scorerText !== 'なし' && scorerText !== 'Nessuno') {
                             scorerText.split(',').forEach(entry => {
                                 let name = entry.trim();
                                 if (!name) return;
@@ -464,9 +533,9 @@
                     }
 
                     // ASSIST
-                    if (txt.includes('アシスト:')) {
-                        const assistText = txt.replace('アシスト:', '').trim();
-                        if (assistText && assistText !== 'なし') {
+                    if (txt.includes('アシスト:') || txt.includes('Assist:')) {
+                        const assistText = txt.replace(/(アシスト:|Assist:)/, '').trim();
+                        if (assistText && assistText !== 'なし' && assistText !== 'Nessuno') {
                             assistText.split(',').forEach(entry => {
                                 let name = entry.trim();
                                 if (!name) return;
@@ -484,14 +553,35 @@
                     // MVP / MOM
                     if (txt.includes('MVP:') || txt.includes('MOM:')) {
                         const mvpName = txt.replace(/(MVP:|MOM:)/, '').trim();
-                        if (mvpName && mvpName !== 'なし') {
+                        if (mvpName && mvpName !== 'なし' && mvpName !== 'Nessuno') {
                             mvpMap[mvpName] = (mvpMap[mvpName] || 0) + 1;
+                        }
+                    }
+
+                    // CARTELLINI / DISCIPLINARE (es: カード: 選手A (イエロー), 選手B (レッド))
+                    if (txt.includes('カード:') || txt.includes('警告・退場:') || txt.includes('Cartellini:')) {
+                        const cardsText = txt.replace(/(カード:|警告・退場:|Cartellini:)/, '').trim();
+                        if (cardsText && cardsText !== 'なし' && cardsText !== 'Nessuno') {
+                            cardsText.split(',').forEach(entry => {
+                                const cleanEntry = entry.trim();
+                                if (!cleanEntry) return;
+
+                                if (cleanEntry.includes('レッド') || cleanEntry.includes('赤') || cleanEntry.toLowerCase().includes('rosso') || cleanEntry.toLowerCase().includes('red')) {
+                                    let name = cleanEntry.replace(/\(.*\)/, '').replace(/（.*）/, '').trim();
+                                    redsMap[name] = (redsMap[name] || 0) + 1;
+                                    targetStats.red++;
+                                } else {
+                                    let name = cleanEntry.replace(/\(.*\)/, '').replace(/（.*）/, '').trim();
+                                    yellowsMap[name] = (yellowsMap[name] || 0) + 1;
+                                    targetStats.yellow++;
+                                }
+                            });
                         }
                     }
                 });
             });
 
-            // Aggiorna Tabella Squadra
+            // Aggiorna Tabella Squadra Rendimento
             const updateRow = (prefix, st) => {
                 document.getElementById(`${prefix}-played`).textContent = st.played;
                 document.getElementById(`${prefix}-wins`).textContent = st.wins;
@@ -512,9 +602,23 @@
                 draws: stats.official.draws + stats.friendly.draws,
                 losses: stats.official.losses + stats.friendly.losses,
                 gf: stats.official.gf + stats.friendly.gf,
-                ga: stats.official.ga + stats.friendly.ga
+                ga: stats.official.ga + stats.friendly.ga,
+                yellow: stats.official.yellow + stats.friendly.yellow,
+                red: stats.official.red + stats.friendly.red
             };
             updateRow('tot', tot);
+
+            // Aggiorna Tabella Disciplinare Squadra
+            const updateDiscRow = (prefix, st) => {
+                document.getElementById(`${prefix}-yellow`).textContent = st.yellow;
+                document.getElementById(`${prefix}-red`).textContent = st.red;
+                const avg = st.played > 0 ? ((st.yellow + st.red) / st.played).toFixed(1) : "0.0";
+                document.getElementById(`${prefix}-card-avg`).textContent = avg;
+            };
+
+            updateDiscRow('off', stats.official);
+            updateDiscRow('fr', stats.friendly);
+            updateDiscRow('tot', tot);
 
             // Renderizza Classifiche Individuali
             const renderRanking = (elementId, dataMap, unitKey) => {
@@ -539,14 +643,16 @@
             renderRanking('goals-ranking', goalsMap, 'unit.goals');
             renderRanking('assists-ranking', assistsMap, 'unit.assists');
             renderRanking('mvp-ranking', mvpMap, 'unit.mvp');
+            renderRanking('yellows-ranking', yellowsMap, 'unit.yellows');
+            renderRanking('reds-ranking', redsMap, 'unit.reds');
 
         } catch(e) { console.log(e); }
     }
 
-    // Event listener per il cambio anno
+    // Event listener cambio anno
     document.getElementById('seasonSelect').addEventListener('change', loadAndCalculateStats);
 
-    // Inizializzazione pagina
+    // Inizializzazione
     window.addEventListener('DOMContentLoaded', () => {
         const savedLang = localStorage.getItem('preferred_lang') || 'ja';
         setLanguage(savedLang);
