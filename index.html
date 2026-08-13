@@ -81,7 +81,7 @@
     </div>
   </div>
 
-  <!-- MAIN NAVIGATION BAR (SOLO IN GIAPPONESE) -->
+  <!-- MAIN NAVIGATION BAR -->
   <div class="main-header-bar">
     <div class="container header-container">
       <div class="logo-title">
@@ -93,32 +93,32 @@
         <nav class="main-nav">
           <!-- DROPDOWN SQUADRA -->
           <div class="nav-item dropdown">
-            <a href="#about" class="dropdown-toggle">チーム <i class="fas fa-chevron-down nav-arrow"></i></a>
+            <a href="#about" class="dropdown-toggle"><span data-i18n="nav.team">チーム</span> <i class="fas fa-chevron-down nav-arrow"></i></a>
             <div class="dropdown-menu">
-              <a href="#about">チーム紹介</a>
-              <a href="players.html">選手紹介</a>
-              <a href="stats.html">成績・スタッツ</a>
+              <a href="#about" data-i18n="nav.about">チーム紹介</a>
+              <a href="players.html" data-i18n="nav.players">選手紹介</a>
+              <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
             </div>
           </div>
 
           <!-- LINK PARTITE -->
-          <a href="matches.html">試合日程・結果</a>
+          <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
 
           <!-- DROPDOWN CLUB / MEDIA -->
           <div class="nav-item dropdown">
-            <a href="#gallery" class="dropdown-toggle">クラブ <i class="fas fa-chevron-down nav-arrow"></i></a>
+            <a href="#gallery" class="dropdown-toggle"><span data-i18n="nav.club">クラブ</span> <i class="fas fa-chevron-down nav-arrow"></i></a>
             <div class="dropdown-menu">
-              <a href="#gallery">ギャラリー</a>
-              <a href="#sponsors">スポンサー</a>
-              <a href="faq.html">よくある質問</a>
+              <a href="#gallery" data-i18n="nav.gallery">ギャラリー</a>
+              <a href="#sponsors" data-i18n="nav.sponsors">スポンサー</a>
+              <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
             </div>
           </div>
 
           <!-- LINK SHOP -->
-          <a href="#shop">ショップ</a>
+          <a href="#shop" data-i18n="nav.shop">ショップ</a>
 
           <!-- BOTTONE CTA CONTATTI -->
-          <a href="#contact" class="nav-cta-btn">お問い合わせ</a>
+          <a href="#contact" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
         </nav>
       </div>
 
@@ -128,17 +128,17 @@
     </div>
   </div>
 
-  <!-- MOBILE NAVIGATION NAV (SOLO IN GIAPPONESE) -->
+  <!-- MOBILE NAVIGATION NAV -->
   <nav class="mobile-nav hidden">
-    <a href="#about" class="mobile-link">チーム紹介</a>
-    <a href="matches.html" class="mobile-link">試合日程・結果</a>
-    <a href="players.html" class="mobile-link">選手紹介</a>
-    <a href="stats.html" class="mobile-link">成績・スタッツ</a>
-    <a href="faq.html" class="mobile-link">よくある質問</a>
-    <a href="#gallery" class="mobile-link">ギャラリー</a>
-    <a href="#shop" class="mobile-link">ショップ</a>
-    <a href="#sponsors" class="mobile-link">スポンサー</a>
-    <a href="#contact" class="mobile-link mobile-cta">お問い合わせ</a>
+    <a href="#about" class="mobile-link" data-i18n="nav.about">チーム紹介</a>
+    <a href="matches.html" class="mobile-link" data-i18n="nav.matches">試合日程・結果</a>
+    <a href="players.html" class="mobile-link" data-i18n="nav.players">選手紹介</a>
+    <a href="stats.html" class="mobile-link" data-i18n="nav.stats">成績・スタッツ</a>
+    <a href="faq.html" class="mobile-link" data-i18n="nav.faq">よくある質問</a>
+    <a href="#gallery" class="mobile-link" data-i18n="nav.gallery">ギャラリー</a>
+    <a href="#shop" class="mobile-link" data-i18n="nav.shop">ショップ</a>
+    <a href="#sponsors" class="mobile-link" data-i18n="nav.sponsors">スポンサー</a>
+    <a href="#contact" class="mobile-link mobile-cta" data-i18n="nav.contact">お問い合わせ</a>
   </nav>
 </header>
 
@@ -419,6 +419,17 @@
     // DIZIONARIO TRADUZIONI MULTILINGUA (JP, IT, EN)
     const translations = {
         ja: {
+            "nav.team": "チーム",
+            "nav.about": "チーム紹介",
+            "nav.players": "選手紹介",
+            "nav.stats": "成績・スタッツ",
+            "nav.matches": "試合日程・結果",
+            "nav.club": "クラブ",
+            "nav.gallery": "ギャラリー",
+            "nav.sponsors": "スポンサー",
+            "nav.faq": "よくある質問",
+            "nav.shop": "ショップ",
+            "nav.contact": "お問い合わせ",
             "hero.title": "横浜に咲くイタリアの情熱",
             "hero.subtitle": "サッカーで心をつなぐ場所",
             "about.title": "Yokohama Calcioとは",
@@ -459,6 +470,17 @@
             "contact.btn": "お問い合わせフォームを開く"
         },
         it: {
+            "nav.team": "SQUADRA",
+            "nav.about": "Chi Siamo",
+            "nav.players": "Giocatori",
+            "nav.stats": "Statistiche",
+            "nav.matches": "Partite & Risultati",
+            "nav.club": "CLUB",
+            "nav.gallery": "Galleria",
+            "nav.sponsors": "Sponsor",
+            "nav.faq": "FAQ",
+            "nav.shop": "Shop",
+            "nav.contact": "Contatti",
             "hero.title": "La passione italiana nel cuore di Yokohama",
             "hero.subtitle": "Il calcio che unisce le persone",
             "about.title": "Cos'è lo Yokohama Calcio",
@@ -499,6 +521,17 @@
             "contact.btn": "Apri Modulo Contatti"
         },
         en: {
+            "nav.team": "TEAM",
+            "nav.about": "About Us",
+            "nav.players": "Players",
+            "nav.stats": "Stats",
+            "nav.matches": "Matches & Results",
+            "nav.club": "CLUB",
+            "nav.gallery": "Gallery",
+            "nav.sponsors": "Sponsors",
+            "nav.faq": "FAQ",
+            "nav.shop": "Shop",
+            "nav.contact": "Contact Us",
             "hero.title": "Italian Football Passion in Yokohama",
             "hero.subtitle": "Where Football Connects People",
             "about.title": "About Yokohama Calcio",
