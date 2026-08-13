@@ -125,7 +125,7 @@
             <!-- ================= SEZIONE 1: CALENDARIO (UPCOMING) ================= -->
             <div class="matches-section-block">
                 <h3 class="ranking-title" style="margin-bottom: 20px;">
-                    <i class="fas fa-calendar-check" style="color: var(--primary-sky);"></i> <span data-i18n="matches_page.upcoming_title">試合日程 (SCHEDULE)</span>
+                    <i class="fas fa-calendar-check" style="color: var(--primary-sky);"></i> <span data-i18n="matches_page.upcoming_title">試合日程</span>
                 </h3>
 
                 <div id="upcomingContainer">
@@ -192,7 +192,7 @@
             <!-- ================= SEZIONE 2: RISULTATI PASSATI (PAST RESULTS) ================= -->
             <div class="matches-section-block" style="margin-top: 50px;">
                 <h3 class="ranking-title" style="margin-bottom: 20px;">
-                    <i class="fas fa-history" style="color: var(--primary-sky);"></i> <span data-i18n="matches_page.past_title">試合結果 (RESULTS)</span>
+                    <i class="fas fa-history" style="color: var(--primary-sky);"></i> <span data-i18n="matches_page.past_title">試合結果</span>
                 </h3>
 
                 <div id="pastContainer">
@@ -363,8 +363,8 @@
             "matches_page.intro": "Yokohama Calcioの試合スケジュールと対戦情報です。",
             "matches_page.season_label": "シーズン:",
             "matches_page.all_seasons": "全期間",
-            "matches_page.upcoming_title": "試合日程 (SCHEDULE)",
-            "matches_page.past_title": "試合結果 (RESULTS)",
+            "matches_page.upcoming_title": "試合日程",
+            "matches_page.past_title": "試合結果",
             "results.next_badge": "次戦 (練習試合)",
             "results.friendly_badge": "練習試合",
             "btn.details": "詳細を見る",
@@ -401,7 +401,7 @@
             "matches_page.intro": "Elenco delle partite in programma e dei risultati dello Yokohama Calcio.",
             "matches_page.season_label": "Stagione:",
             "matches_page.all_seasons": "Tutti gli anni",
-            "matches_page.upcoming_title": "Prossime Partite",
+            "matches_page.upcoming_title": "Partite in Programma",
             "matches_page.past_title": "Risultati Passati",
             "results.next_badge": "Prossima Match",
             "results.friendly_badge": "Amichevole",
@@ -439,7 +439,7 @@
             "matches_page.intro": "Schedule and past match results for Yokohama Calcio.",
             "matches_page.season_label": "Season:",
             "matches_page.all_seasons": "All Time",
-            "matches_page.upcoming_title": "Upcoming Schedule",
+            "matches_page.upcoming_title": "Match Schedule",
             "matches_page.past_title": "Past Results",
             "results.next_badge": "Next Match",
             "results.friendly_badge": "Friendly Match",
@@ -466,7 +466,7 @@
 
     let currentLang = 'ja';
     let isPastExpanded = false;
-    const INITIAL_PAST_VISIBLE = 3; // Quanti risultati mostrare inizialmente
+    const INITIAL_PAST_VISIBLE = 3;
 
     // GESTIONE CAMBIO LINGUA
     function setLanguage(lang) {
@@ -485,7 +485,6 @@
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
 
-        // Aggiorna anche il testo dei bottoni "Dettagli/Chiudi" e "Mostra altri"
         document.querySelectorAll('.toggle-details-btn').forEach(btn => {
             const details = btn.nextElementSibling;
             if (details && details.classList.contains('active')) {
@@ -541,17 +540,14 @@
             return categoryMatch && seasonMatch;
         });
 
-        // Nascondi tutte le schede passate inizialmente
         pastCards.forEach(card => card.style.display = 'none');
 
-        // Mostra solo quelle filtrate rispettando il limite
         matchingPastCards.forEach((card, index) => {
             if (isPastExpanded || index < INITIAL_PAST_VISIBLE) {
                 card.style.display = 'block';
             }
         });
 
-        // Gestione visibilità del bottone "Mostra Altri"
         const loadMoreBtn = document.getElementById('loadMoreMatchesBtn');
         if (matchingPastCards.length > INITIAL_PAST_VISIBLE) {
             loadMoreBtn.parentElement.style.display = 'block';
