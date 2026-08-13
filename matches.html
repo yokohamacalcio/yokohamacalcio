@@ -110,7 +110,7 @@
             <!-- MATCH 1: Nishiya AFC (16 Agosto - PROSSIMA MATCH IMMINENTE) -->
             <div class="match-detail-card match-upcoming" id="match-2" data-match-category="friendly">
                 <div class="match-header-row">
-                    <span class="match-badge badge-next" data-i18n="results.next_badge">次戦 (練習試合)</span>
+                    <span class="match-badge badge-next"><span data-i18n="results.next_badge">次戦 (練習試合)</span></span>
                     <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.08.16 (Sun) 19:00 KO</span>
                 </div>
                 
@@ -136,10 +136,10 @@
                 </div>
             </div>
 
-            <!-- MATCH 2: YSCCミドル (30 Agosto - PROSSIMA MATCH SUCESSIVA) -->
+            <!-- MATCH 2: YSCCミドル (30 Agosto - PROSSIMA MATCH SUCCESSIVA) -->
             <div class="match-detail-card match-upcoming" id="match-1" data-match-category="friendly">
                 <div class="match-header-row">
-                    <span class="match-badge badge-next" data-i18n="results.next_badge">次戦 (練習試合)</span>
+                    <span class="match-badge badge-next"><span data-i18n="results.next_badge">次戦 (練習試合)</span></span>
                     <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.08.30 (Sun) 11:00 KO</span>
                 </div>
                 
@@ -168,7 +168,7 @@
             <!-- MATCH 3: YSCCミドル (9 Agosto - PASSATA) -->
             <div class="match-detail-card" id="match-3" data-match-category="friendly">
                 <div class="match-header-row">
-                    <span class="match-badge badge-friendly" data-i18n="results.friendly_badge">練習試合</span>
+                    <span class="match-badge badge-friendly"><span data-i18n="results.friendly_badge">練習試合</span></span>
                     <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.08.09 (15:00 KO)</span>
                 </div>
                 
@@ -200,7 +200,7 @@
             <!-- MATCH 4: YC&AC Pulse (19 Luglio - PASSATA) -->
             <div class="match-detail-card" id="match-4" data-match-category="friendly">
                 <div class="match-header-row">
-                    <span class="match-badge badge-friendly" data-i18n="results.friendly_badge">練習試合</span>
+                    <span class="match-badge badge-friendly"><span data-i18n="results.friendly_badge">練習試合</span></span>
                     <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.07.19 (11:00 KO)</span>
                 </div>
                 
@@ -232,7 +232,7 @@
             <!-- MATCH 5: Nishiya AFC (30 Maggio - PASSATA) -->
             <div class="match-detail-card" id="match-5" data-match-category="friendly">
                 <div class="match-header-row">
-                    <span class="match-badge badge-friendly" data-i18n="results.friendly_badge">練習試合</span>
+                    <span class="match-badge badge-friendly"><span data-i18n="results.friendly_badge">練習試合</span></span>
                     <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.05.30 (13:00 KO)</span>
                 </div>
                 
@@ -264,7 +264,7 @@
             <!-- MATCH 6: Legalia Kawasaki (24 Maggio - PASSATA) -->
             <div class="match-detail-card" id="match-6" data-match-category="friendly">
                 <div class="match-header-row">
-                    <span class="match-badge badge-friendly" data-i18n="results.friendly_badge">練習試合</span>
+                    <span class="match-badge badge-friendly"><span data-i18n="results.friendly_badge">練習試合</span></span>
                     <span class="match-date-text"><i class="far fa-calendar-alt"></i> 2026.05.24 (12:00 KO)</span>
                 </div>
                 
@@ -447,10 +447,11 @@
         // Aggiorna anche il testo dei bottoni "Dettagli/Chiudi"
         document.querySelectorAll('.toggle-details-btn').forEach(btn => {
             const details = btn.nextElementSibling;
+            const textSpan = btn.querySelector('span');
             if (details && details.classList.contains('active')) {
-                btn.innerHTML = `<i class="fas fa-chevron-up"></i> <span>${translations[currentLang]['btn.close']}</span>`;
+                if (textSpan) textSpan.innerHTML = translations[currentLang]['btn.close'];
             } else {
-                btn.innerHTML = `<i class="fas fa-info-circle"></i> <span>${translations[currentLang]['btn.details']}</span>`;
+                if (textSpan) textSpan.innerHTML = translations[currentLang]['btn.details'];
             }
         });
     }
@@ -478,7 +479,13 @@
                 const btn = target.querySelector('.toggle-details-btn');
                 if (details && btn) {
                     details.classList.add('active');
-                    btn.innerHTML = `<i class="fas fa-chevron-up"></i> <span>${translations[currentLang]['btn.close']}</span>`;
+                    const textSpan = btn.querySelector('span');
+                    if (textSpan) textSpan.innerHTML = translations[currentLang]['btn.close'];
+                    const icon = btn.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('fa-info-circle');
+                        icon.classList.add('fa-chevron-up');
+                    }
                 }
             }
         } else {
@@ -536,10 +543,21 @@
         btn.addEventListener('click', () => {
             const details = btn.nextElementSibling;
             details.classList.toggle('active');
+            const textSpan = btn.querySelector('span');
+            const icon = btn.querySelector('i');
+
             if (details.classList.contains('active')) {
-                btn.innerHTML = `<i class="fas fa-chevron-up"></i> <span>${translations[currentLang]['btn.close']}</span>`;
+                if (textSpan) textSpan.innerHTML = translations[currentLang]['btn.close'];
+                if (icon) {
+                    icon.classList.remove('fa-info-circle');
+                    icon.classList.add('fa-chevron-up');
+                }
             } else {
-                btn.innerHTML = `<i class="fas fa-info-circle"></i> <span>${translations[currentLang]['btn.details']}</span>`;
+                if (textSpan) textSpan.innerHTML = translations[currentLang]['btn.details'];
+                if (icon) {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-info-circle');
+                }
             }
         });
     });
