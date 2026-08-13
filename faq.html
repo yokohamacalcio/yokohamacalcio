@@ -17,134 +17,168 @@
 <body>
 
 <header class="header">
-  <div class="container">
-    <div class="logo-title">
-      <a href="index.html"><img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo"></a>
-      <span class="brand-name">YOKOHAMA CALCIO</span>
-    </div>
-
-    <div class="desktop-nav-wrapper">
-      <nav class="main-nav">
-        <a href="index.html#about">チーム紹介</a>
-        <a href="matches.html">試合日程・結果</a>
-        <a href="players.html">選手紹介</a>
-        <a href="stats.html">成績・スタッツ</a>
-        <a href="faq.html" style="color: var(--primary-sky);">よくある質問</a>
-        <a href="index.html#gallery">ギャラリー</a>
-        <a href="index.html#shop">ショップ</a>
-        <a href="index.html#sponsors">スポンサー</a>
-        <a href="index.html#contact">お問い合わせ</a>
-      </nav>
-      <div class="header-social-icons">
+  <!-- TOP BAR: SOCIAL & SWITCHER LINGUA -->
+  <div class="top-bar">
+    <div class="container top-bar-container">
+      <div class="top-bar-social">
         <a href="https://x.com/yokohamacalcio" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
         <a href="https://instagram.com/yokohamacalcio" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
         <a href="https://youtube.com/@yokohamacalcio?si=NBPkZ0qFxFVrOIof" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
       </div>
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="ja">JP</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="it">IT</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
     </div>
-
-    <button class="mobile-menu-toggle" aria-label="Menu">
-      <i class="fas fa-bars"></i>
-    </button>
   </div>
 
-  <nav class="mobile-nav hidden">
-    <a href="index.html#about" class="mobile-link">チーム紹介</a>
-    <a href="matches.html" class="mobile-link">試合日程・結果</a>
-    <a href="players.html" class="mobile-link">選手紹介</a>
-    <a href="stats.html" class="mobile-link">成績・スタッツ</a>
-    <a href="faq.html" class="mobile-link">よくある質問</a>
-    <a href="index.html#gallery" class="mobile-link">ギャラリー</a>
-    <a href="index.html#shop" class="mobile-link">ショップ</a>
-    <a href="index.html#sponsors" class="mobile-link">スポンサー</a>
-    <a href="index.html#contact" class="mobile-link">お問い合わせ</a>
-    <div class="mobile-social-icons">
-      <a href="https://x.com/yokohamacalcio" target="_blank"><i class="fab fa-x-twitter"></i></a>
-      <a href="https://instagram.com/yokohamacalcio" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://youtube.com/@yokohamacalcio?si=NBPkZ0qFxFVrOIof" target="_blank"><i class="fab fa-youtube"></i></a>
+  <!-- MAIN NAVIGATION BAR -->
+  <div class="main-header-bar">
+    <div class="container header-container">
+      
+      <!-- LOGO & BRAND NAME (su 2 righe da desktop) -->
+      <div class="logo-title">
+        <a href="index.html">
+          <img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo">
+        </a>
+        <a href="index.html" class="brand-name">
+          <span>YOKOHAMA</span>
+          <span class="brand-sub">CALCIO</span>
+        </a>
+      </div>
+
+      <!-- DESKTOP NAV -->
+      <div class="desktop-nav-wrapper">
+        <nav class="main-nav">
+          <!-- DROPDOWN: SQUADRA -->
+          <div class="nav-item dropdown">
+            <a href="index.html#about" class="dropdown-toggle"><span data-i18n="nav.team">チーム</span> <i class="fas fa-chevron-down nav-arrow"></i></a>
+            <div class="dropdown-menu">
+              <a href="index.html#about" data-i18n="nav.about">チーム紹介</a>
+              <a href="players.html" data-i18n="nav.players">選手紹介</a>
+              <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
+              <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
+            </div>
+          </div>
+
+          <!-- LINK DIRETTI -->
+          <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
+          <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
+          <a href="index.html#sponsors" data-i18n="nav.sponsors">スポンサー</a>
+          <a href="faq.html" style="color: var(--primary-sky);" data-i18n="nav.faq">よくある質問</a>
+
+          <!-- BOTTONE CTA CONTATTI -->
+          <a href="index.html#contact" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
+        </nav>
+      </div>
+
+      <!-- HAMBURGER MENU (MOBILE) -->
+      <button class="mobile-menu-toggle" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
+  </div>
+
+  <!-- MOBILE NAVIGATION NAV -->
+  <nav class="mobile-nav hidden">
+    <a href="index.html#about" class="mobile-link" data-i18n="nav.about">チーム紹介</a>
+    <a href="players.html" class="mobile-link" data-i18n="nav.players">選手紹介</a>
+    <a href="stats.html" class="mobile-link" data-i18n="nav.stats">成績・スタッツ</a>
+    <a href="index.html#gallery" class="mobile-link" data-i18n="nav.gallery">ギャラリー</a>
+    <a href="matches.html" class="mobile-link" data-i18n="nav.matches">試合日程・結果</a>
+    <a href="index.html#shop" class="mobile-link" data-i18n="nav.shop">ショップ</a>
+    <a href="index.html#sponsors" class="mobile-link" data-i18n="nav.sponsors">スポンサー</a>
+    <a href="faq.html" class="mobile-link" data-i18n="nav.faq">よくある質問</a>
+    <a href="index.html#contact" class="mobile-link mobile-cta" data-i18n="nav.contact">お問い合わせ</a>
   </nav>
 </header>
 
 <section class="section faq-page-section">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-question-circle"></i> よくある質問</h2>
-        <p class="faq-intro">Yokohama Calcioに関してよくいただく質問とその回答をまとめています。</p>
+        <h2 class="section-title"><i class="fas fa-question-circle"></i> <span data-i18n="faq.title">よくある質問</span></h2>
+        <p class="faq-intro" data-i18n="faq.intro">Yokohama Calcioに関してよくいただく質問とその回答をまとめています。</p>
 
         <div class="faq-accordion-wrapper">
             
-            <h3 class="faq-category-title"><i class="fas fa-users"></i> チーム加入・体験について</h3>
+            <!-- CATEGORIA 1: JOINING & TRIAL -->
+            <h3 class="faq-category-title"><i class="fas fa-users"></i> <span data-i18n="faq.cat_join">チーム加入・体験について</span></h3>
 
             <div class="faq-item">
                 <button class="faq-question">
-                    <span>初心者やブランクがある人でも参加できますか？</span>
+                    <span data-i18n="faq.q1">初心者やブランクがある人でも参加できますか？</span>
                     <i class="fas fa-chevron-down faq-icon"></i>
                 </button>
                 <div class="faq-answer">
-                    <p>完全な初心者（未経験者）の募集は行っておりませんが、過去にサッカー経験がありブランクがある方は大歓迎です！なお、募集対象年齢は18歳〜40歳となっております。</p>
+                    <p data-i18n="faq.a1">完全な初心者（未経験者）の募集は行っておりませんが、過去にサッカー経験がありブランクがある方は大歓迎です！なお、募集対象年齢は18歳〜40歳となっております。</p>
                 </div>
             </div>
 
             <div class="faq-item">
                 <button class="faq-question">
-                    <span>体験参加（練習体験）は可能ですか？費用や条件はありますか？</span>
+                    <span data-i18n="faq.q2">体験参加（練習体験）は可能ですか？費用や条件はありますか？</span>
                     <i class="fas fa-chevron-down faq-icon"></i>
                 </button>
                 <div class="faq-answer">
-                    <p>はい、入部前に3回の体験参加（必須）をお願いしております。体験参加費は1回につき500円です。チームの雰囲気やレベルを確認していただくための期間となります。</p>
+                    <p data-i18n="faq.a2">はい、入部前に3回の体験参加（必須）をお願いしております。体験参加費は1回につき500円です。チームの雰囲気やレベルを確認していただくための期間となります。</p>
                 </div>
             </div>
 
             <div class="faq-item">
                 <button class="faq-question">
-                    <span>参加頻度の条件やルールはありますか？</span>
+                    <span data-i18n="faq.q3">参加頻度の条件やルールはありますか？</span>
                     <i class="fas fa-chevron-down faq-icon"></i>
                 </button>
                 <div class="faq-answer">
-                    <p>チームの連携や活動維持のため、月に2回以上の参加をお願いしております。</p>
+                    <p data-i18n="faq.q3_ans">チームの連携や活動維持のため、月に2回以上の参加をお願いしております。</p>
                 </div>
             </div>
 
-            <h3 class="faq-category-title"><i class="fas fa-map-marker-alt"></i> 活動日程・場所について</h3>
+            <!-- CATEGORIA 2: SCHEDULE & LOCATION -->
+            <h3 class="faq-category-title"><i class="fas fa-map-marker-alt"></i> <span data-i18n="faq.cat_schedule">活動日程・場所について</span></h3>
 
             <div class="faq-item">
                 <button class="faq-question">
-                    <span>主な活動場所はどこですか？</span>
+                    <span data-i18n="faq.q4">主な活動場所はどこですか？</span>
                     <i class="fas fa-chevron-down faq-icon"></i>
                 </button>
                 <div class="faq-answer">
-                    <p>固定の専用グラウンドはありません。主に横浜市内の公共グラウンド（市営グラウンド等）や、学校のグラウンド・施設をお借りして活動しています。</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <button class="faq-question">
-                    <span>活動の頻度や日時はいつですか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p>主に日曜日をメインに活動しておりますが、土曜日に活動を行うこともあります。</p>
-                </div>
-            </div>
-
-            <h3 class="faq-category-title"><i class="fas fa-coins"></i> 費用・用具について</h3>
-
-            <div class="faq-item">
-                <button class="faq-question">
-                    <span>会費や入部時の初期費用はいくらですか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p>月額会費は2,000円です（毎月20日に翌月分をお支払いいただきます）。<br>なお、入部初月のみ月額会費（2,000円）に加えて、運営費2,000円およびスポーツ保険料2,000円（合計6,000円）をお支払いいただきます。</p>
+                    <p data-i18n="faq.a4">固定の専用グラウンドはありません。主に横浜市内の公共グラウンド（市営グラウンド等）や、学校のグラウンド・施設をお借りして活動しています。</p>
                 </div>
             </div>
 
             <div class="faq-item">
                 <button class="faq-question">
-                    <span>ユニフォームの購入は必須ですか？価格はいくらですか？</span>
+                    <span data-i18n="faq.q5">活動の頻度や日時はいつですか？</span>
                     <i class="fas fa-chevron-down faq-icon"></i>
                 </button>
                 <div class="faq-answer">
-                    <p>はい、正式加入時にユニフォームの購入は必須となります。ホーム・アウェイ・練習着の3点セット（フルキット）で18,000円です。</p>
+                    <p data-i18n="faq.a5">主に日曜日をメインに活動しておりますが、土曜日に活動を行うこともあります。</p>
+                </div>
+            </div>
+
+            <!-- CATEGORIA 3: FEES & EQUIPMENT -->
+            <h3 class="faq-category-title"><i class="fas fa-coins"></i> <span data-i18n="faq.cat_fees">費用・用具について</span></h3>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span data-i18n="faq.q6">会費や入部時の初期費用はいくらですか？</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p data-i18n="faq.a6">月額会費は2,000円です（毎月20日に翌月分をお支払いいただきます）。<br>なお、入部初月のみ月額会費（2,000円）に加えて、運営費2,000円およびスポーツ保険料2,000円（合計6,000円）をお支払いいただきます。</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span data-i18n="faq.q7">ユニフォームの購入は必須ですか？価格はいくらですか？</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p data-i18n="faq.a7">はい、正式加入時にユニフォームの購入は必須となります。ホーム・アウェイ・練習着の3点セット（フルキット）で18,000円です。</p>
                 </div>
             </div>
 
@@ -154,31 +188,170 @@
         <div class="contact-card" style="margin-top: 50px; max-width: 800px;">
             <div class="contact-header">
                 <i class="fas fa-paper-plane contact-icon"></i>
-                <h3>解決しない質問やその他のお問い合わせ</h3>
+                <h3 data-i18n="faq.other_questions">解決しない質問やその他のお問い合わせ</h3>
             </div>
-            <p class="contact-desc">
+            <p class="contact-desc" data-i18n="faq.other_desc">
                 上記以外にご質問や不明な点がございましたら、お気軽にお問い合わせフォームよりご連絡ください。
             </p>
             <a href="index.html#contact" class="google-form-btn" style="max-width: 320px; margin: 0 auto;">
-                <i class="fas fa-envelope"></i> お問い合わせはこちら
+                <i class="fas fa-envelope"></i> <span data-i18n="faq.btn_contact">お問い合わせはこちら</span>
             </a>
         </div>
 
-        <div class="back-home-wrapper" style="text-align: center; margin-top: 40px;">
+        <div class="back-home-wrapper">
             <a href="index.html" class="google-form-btn back-btn" style="max-width: 250px; margin: 0 auto;">
-                <i class="fas fa-arrow-left"></i> ホームに戻る
+                <i class="fas fa-arrow-left"></i> <span data-i18n="btn.back_home">ホームに戻る</span>
             </a>
         </div>
     </div>
 </section>
 
-<button id="scrollToTopBtn" aria-label="ページ上部へ戻る"><i class="fas fa-chevron-up"></i></button>
+<button id="scrollToTopBtn" aria-label="Torna in cima"><i class="fas fa-chevron-up"></i></button>
 
 <footer class="footer">
     <p>&copy; <span id="currentYear"></span> Yokohama Calcio. All Rights Reserved.</p>
 </footer>
 
 <script>
+    // DIZIONARIO TRADUZIONI FAQ
+    const translations = {
+        ja: {
+            "nav.team": "チーム",
+            "nav.about": "チーム紹介",
+            "nav.players": "選手紹介",
+            "nav.stats": "成績・スタッツ",
+            "nav.matches": "試合日程・結果",
+            "nav.gallery": "ギャラリー",
+            "nav.shop": "ショップ",
+            "nav.sponsors": "スポンサー",
+            "nav.faq": "よくある質問",
+            "nav.contact": "お問い合わせ",
+            "faq.title": "よくある質問",
+            "faq.intro": "Yokohama Calcioに関してよくいただく質問とその回答をまとめています。",
+            "faq.cat_join": "チーム加入・体験について",
+            "faq.q1": "初心者やブランクがある人でも参加できますか？",
+            "faq.a1": "完全な初心者（未経験者）の募集は行っておりませんが、過去にサッカー経験がありブランクがある方は大歓迎です！なお、募集対象年齢は18歳〜40歳となっております。",
+            "faq.q2": "体験参加（練習体験）は可能ですか？費用や条件はありますか？",
+            "faq.a2": "はい、入部前に3回の体験参加（必須）をお願いしております。体験参加費は1回につき500円です。チームの雰囲気やレベルを確認していただくための期間となります。",
+            "faq.q3": "参加頻度の条件やルールはありますか？",
+            "faq.q3_ans": "チームの連携や活動維持のため、月に2回以上の参加をお願いしております。",
+            "faq.cat_schedule": "活動日程・場所について",
+            "faq.q4": "主な活動場所はどこですか？",
+            "faq.a4": "固定の専用グラウンドはありません。主に横浜市内の公共グラウンド（市営グラウンド等）や、学校のグラウンド・施設をお借りして活動しています。",
+            "faq.q5": "活動の頻度や日時はいつですか？",
+            "faq.a5": "主に日曜日をメインに活動しておりますが、土曜日に活動を行うこともあります。",
+            "faq.cat_fees": "費用・用具について",
+            "faq.q6": "会費や入部時の初期費用はいくらですか？",
+            "faq.a6": "月額会費は2,000円です（毎月20日に翌月分をお支払いいただきます）。<br>なお、入部初月のみ月額会費（2,000円）に加えて、運営費2,000円およびスポーツ保険料2,000円（合計6,000円）をお支払いいただきます。",
+            "faq.q7": "ユニフォームの購入は必須ですか？価格はいくらですか？",
+            "faq.a7": "はい、正式加入時にユニフォームの購入は必須となります。ホーム・アウェイ・練習着の3点セット（フルキット）で18,000円です。",
+            "faq.other_questions": "解決しない質問やその他のお問い合わせ",
+            "faq.other_desc": "上記以外にご質問や不明な点がございましたら、お気軽にお問い合わせフォームよりご連絡ください。",
+            "faq.btn_contact": "お問い合わせはこちら",
+            "btn.back_home": "ホームに戻る"
+        },
+        it: {
+            "nav.team": "SQUADRA",
+            "nav.about": "Chi Siamo",
+            "nav.players": "Giocatori",
+            "nav.stats": "Statistiche",
+            "nav.matches": "Partite & Risultati",
+            "nav.gallery": "Galleria",
+            "nav.shop": "Shop",
+            "nav.sponsors": "Sponsor",
+            "nav.faq": "FAQ",
+            "nav.contact": "Contatti",
+            "faq.title": "Domande Frequenti (FAQ)",
+            "faq.intro": "Ecco le risposte alle domande più frequenti riguardo lo Yokohama Calcio.",
+            "faq.cat_join": "Unirsi alla Squadra & Prove",
+            "faq.q1": "Posso partecipare se sono un principiante o non gioco da tempo?",
+            "faq.a1": "Non reclutiamo principianti assoluti, ma chi ha già esperienza di calcio ed è fermo da tempo è il benvenuto! L'età richiesta è compresa tra 18 e 40 anni.",
+            "faq.q2": "È possibile fare una prova? Quali sono i costi e le condizioni?",
+            "faq.a2": "Sì, richiediamo obbligatoriamente 3 allenamenti di prova prima dell'iscrizione. Il costo è di 500 yen a prova per valutare il livello e l'ambiente di squadra.",
+            "faq.q3": "Ci sono regole o requisiti sulla frequenza di partecipazione?",
+            "faq.q3_ans": "Per garantire l'affiatamento e la continuità del gruppo, richiediamo di partecipare ad almeno 2 sessioni al mese.",
+            "faq.cat_schedule": "Orari & Campi di Gioco",
+            "faq.q4": "Dove vi allenate e giocate di solito?",
+            "faq.a4": "Non abbiamo un campo fisso. Giochiamo principalmente nei campi pubblici della città di Yokohama e strutture scolastiche/sportive locali.",
+            "faq.q5": "Quali sono i giorni e gli orari delle attività?",
+            "faq.a5": "Ci alleniamo e giochiamo principalmente la domenica, con occasionali sessioni o amichevoli il sabato.",
+            "faq.cat_fees": "Quote & Kit Ufficiale",
+            "faq.q6": "A quanto ammonta la quota mensile e la quota di iscrizione?",
+            "faq.a6": "La quota mensile è di 2.000 yen (da versare il 20 di ogni mese per il mese successivo).<br>Solo per il primo mese di iscrizione, alla quota mensile si aggiungono 2.000 yen di gestione e 2.000 yen per l'assicurazione sportiva (Totale 6.000 yen).",
+            "faq.q7": "L'acquisto del kit/divisa è obbligatorio? Quanto costa?",
+            "faq.a7": "Sì, l'acquisto del kit ufficiale è obbligatorio al momento dell'iscrizione. Il set completo da 3 pezzi (Prima maglia, Seconda maglia, Kit allenamento) costa 18.000 yen.",
+            "faq.other_questions": "Hai altre domande non presenti in elenco?",
+            "faq.other_desc": "Per qualsiasi altro dubbio o richiesta specifica, non esitare a contattarci compilando il nostro modulo.",
+            "faq.btn_contact": "Invia un Messaggio",
+            "btn.back_home": "Torna alla Home"
+        },
+        en: {
+            "nav.team": "TEAM",
+            "nav.about": "About Us",
+            "nav.players": "Players",
+            "nav.stats": "Stats",
+            "nav.matches": "Matches & Results",
+            "nav.gallery": "Gallery",
+            "nav.shop": "Shop",
+            "nav.sponsors": "Sponsors",
+            "nav.faq": "FAQ",
+            "nav.contact": "Contact Us",
+            "faq.title": "Frequently Asked Questions",
+            "faq.intro": "Find answers to the most common questions about Yokohama Calcio.",
+            "faq.cat_join": "Joining & Trial Sessions",
+            "faq.q1": "Can I join if I am a beginner or haven't played in a while?",
+            "faq.a1": "We do not recruit complete beginners, but players with past football experience returning from a break are very welcome! Target age is 18 to 40 years old.",
+            "faq.q2": "Is a trial session available? What are the costs and conditions?",
+            "faq.a2": "Yes, we require 3 trial sessions (mandatory) before joining. The trial fee is 500 yen per session so you can evaluate the team atmosphere and level.",
+            "faq.q3": "Are there requirements regarding attendance frequency?",
+            "faq.q3_ans": "To maintain team cohesion and activity, we ask members to attend at least twice a month.",
+            "faq.cat_schedule": "Schedule & Locations",
+            "faq.q4": "Where do you usually practice and play?",
+            "faq.a4": "We do not have a dedicated home field. We mainly use public grounds and school facilities within Yokohama City.",
+            "faq.q5": "When do activities take place?",
+            "faq.a5": "Our activities are mainly scheduled on Sundays, with occasional sessions on Saturdays.",
+            "faq.cat_fees": "Fees & Equipment",
+            "faq.q6": "How much is the monthly fee and initial registration fee?",
+            "faq.a6": "The monthly membership fee is 2,000 yen (paid on the 20th for the upcoming month).<br>For the first month only, a 2,000 yen management fee and 2,000 yen sports insurance fee are added (Total 6,000 yen).",
+            "faq.q7": "Is buying the uniform mandatory? How much does it cost?",
+            "faq.a7": "Yes, purchasing the uniform kit is required upon joining. The full 3-piece set (Home, Away, Training) costs 18,000 yen.",
+            "faq.other_questions": "Have a question not answered here?",
+            "faq.other_desc": "If you have any other questions, feel free to reach out to us via our contact form.",
+            "faq.btn_contact": "Contact Us Here",
+            "btn.back_home": "Back to Home"
+        }
+    };
+
+    // GESTIONE TRADUZIONI SITO (Protegge le icone nell'HTML)
+    function setLanguage(lang) {
+        if (!translations[lang]) return;
+        localStorage.setItem('preferred_lang', lang);
+
+        document.querySelectorAll('[data-i18n]').forEach(elem => {
+            const key = elem.getAttribute('data-i18n');
+            const translation = translations[lang][key];
+
+            if (translation) {
+                // Se contiene codice HTML (come i tag <br>), usa innerHTML per preservarli
+                if (translation.includes('<br>')) {
+                    elem.innerHTML = translation;
+                } else {
+                    elem.textContent = translation;
+                }
+            }
+        });
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            setLanguage(btn.getAttribute('data-lang'));
+        });
+    });
+
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
     }
@@ -206,15 +379,13 @@
         });
     }
 
-    // Accordion FAQ
+    // Accordion FAQ (Toggle Aperto/Chiuso)
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
         const questionBtn = item.querySelector('.faq-question');
         questionBtn.addEventListener('click', () => {
             const isActive = item.classList.contains('active');
-            
             faqItems.forEach(i => i.classList.remove('active'));
-
             if (!isActive) {
                 item.classList.add('active');
             }
@@ -239,6 +410,12 @@
     if (yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
     }
+
+    // Inizializzazione lingua al caricamento della pagina
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedLang = localStorage.getItem('preferred_lang') || 'ja';
+        setLanguage(savedLang);
+    });
 </script>
 </body>
 </html>
