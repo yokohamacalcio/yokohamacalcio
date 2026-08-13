@@ -15,6 +15,158 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* STILI DEDICATI AL NUOVO DESIGN SCHEDA */
+        .player-card {
+            position: relative;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .player-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .player-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .player-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            color: var(--dark-navy, #003c82);
+            line-height: 1;
+        }
+
+        /* BADGE RUOLO ED ICONA TATTICA */
+        .role-badge-tactical {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .role-badge-gk { background: #16a34a; }
+        .role-badge-df { background: #0284c7; }
+        .role-badge-mf { background: #d97706; }
+        .role-badge-fw { background: #dc2626; }
+        .role-badge-staff { background: #db2777; }
+
+        .player-body {
+            padding: 16px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .player-photo {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 12px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #e2e8f0;
+        }
+
+        .player-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .player-name-kanji {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--dark-navy, #003c82);
+            margin-bottom: 2px;
+        }
+
+        .player-name-romaji {
+            font-size: 0.88rem;
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        /* BOTTONE CHIARO ED INTUITIVO */
+        .player-expand-btn {
+            background: #f1f5f9;
+            color: var(--dark-navy, #003c82);
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #e2e8f0;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .player-card:hover .player-expand-btn {
+            background: var(--primary-sky, #12a0d7);
+            color: #ffffff;
+        }
+
+        .player-expand-btn i.arrow-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .player-card.active .player-expand-btn i.arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        /* DETTAGLI ED ESPANSIONE */
+        .player-details-expand {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+            background: #fafafa;
+        }
+
+        .player-card.active .player-details-expand {
+            max-height: 300px;
+            transition: max-height 0.4s cubic-bezier(1, 0, 1, 0);
+        }
+
+        .player-details-inner {
+            padding: 14px 16px;
+            border-top: 1px dashed #cbd5e1;
+            font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .player-detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #475569;
+        }
+
+        .stats-highlight {
+            font-weight: 700;
+            color: var(--dark-navy, #003c82);
+        }
+    </style>
 </head>
 <body>
 
@@ -117,19 +269,25 @@
         <div class="role-group" data-role-section="gk">
             <h3 class="role-title"><i class="fas fa-hands"></i> GOALKEEPER</h3>
             <div class="players-grid">
-                <div class="player-card gk-card" data-player-name="御村 葵" data-player-kana="ミムラ アオイ" data-player-romaji="Mimura Aoi">
-                    <span class="player-number">1</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=AM&background=16a34a&color=ffffff&size=200&bold=true" alt="御村 葵">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                <div class="player-card" data-player-name="御村 葵" data-player-kana="ミムラ アオイ" data-player-romaji="Mimura Aoi">
+                    <div class="player-card-header">
+                        <span class="player-number">#1</span>
+                        <span class="role-badge-tactical role-badge-gk"><i class="fas fa-hands"></i> GK</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">GK</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=AM&background=16a34a&color=ffffff&size=200&bold=true" alt="御村 葵">
+                        </div>
                         <div class="player-name-kanji">御村 葵</div>
                         <div class="player-name-romaji">ミムラ アオイ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.gk">ゴールキーパー (GK)</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kumamoto">熊本県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="24">24 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
@@ -146,18 +304,24 @@
             <h3 class="role-title"><i class="fas fa-shield-alt"></i> DEFENDER</h3>
             <div class="players-grid">
                 <div class="player-card" data-player-name="高嶺 昂平" data-player-kana="タカミネ コウヘイ" data-player-romaji="Takamine Kohei">
-                    <span class="player-number">3</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=KT&background=003C82&color=12A0D7&size=200&bold=true" alt="高嶺 昂平">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#3</span>
+                        <span class="role-badge-tactical role-badge-df"><i class="fas fa-shield-alt"></i> CB</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">CB</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=KT&background=003C82&color=12A0D7&size=200&bold=true" alt="高嶺 昂平">
+                        </div>
                         <div class="player-name-kanji">高嶺 昂平</div>
                         <div class="player-name-romaji">タカミネ コウヘイ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.cb">センターバック (CB)</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="20">20 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -170,18 +334,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="López Irving" data-player-kana="ロペス イルビン" data-player-romaji="López Irving">
-                    <span class="player-number">4</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=IL&background=003C82&color=12A0D7&size=200&bold=true" alt="López Irving">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#4</span>
+                        <span class="role-badge-tactical role-badge-df"><i class="fas fa-shield-alt"></i> CB</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">CB</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=IL&background=003C82&color=12A0D7&size=200&bold=true" alt="López Irving">
+                        </div>
                         <div class="player-name-kanji">López Irving</div>
                         <div class="player-name-romaji">ロペス イルビン</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.cb">センターバック (CB)</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="mexico">メキシコ</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="35">35 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -194,18 +364,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="林部 慎" data-player-kana="ハヤシベ シン" data-player-romaji="Hayashibe Shin">
-                    <span class="player-number">6</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=SH&background=003C82&color=12A0D7&size=200&bold=true" alt="林部 慎">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#6</span>
+                        <span class="role-badge-tactical role-badge-df"><i class="fas fa-shield-alt"></i> CB</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">CB</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=SH&background=003C82&color=12A0D7&size=200&bold=true" alt="林部 慎">
+                        </div>
                         <div class="player-name-kanji">林部 慎</div>
                         <div class="player-name-romaji">ハヤシベ シン</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.cb">センターバック (CB)</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="30">30 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -218,18 +394,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="村松 敦矢" data-player-kana="ムラマツ アツヤ" data-player-romaji="Muramatsu Atsuya">
-                    <span class="player-number">21</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=AM&background=003C82&color=12A0D7&size=200&bold=true" alt="村松 敦矢">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#21</span>
+                        <span class="role-badge-tactical role-badge-df"><i class="fas fa-shield-alt"></i> SB / SH</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">SB / SH</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=AM&background=003C82&color=12A0D7&size=200&bold=true" alt="村松 敦矢">
+                        </div>
                         <div class="player-name-kanji">村松 敦矢</div>
                         <div class="player-name-romaji">ムラマツ アツヤ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.sb_sh">サイドバック / サイドハーフ</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="-">- 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -242,18 +424,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="道下 勇介" data-player-kana="ミチシタ ユウスケ" data-player-romaji="Michishita Yusuke">
-                    <span class="player-number">43</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=YM&background=003C82&color=12A0D7&size=200&bold=true" alt="道下 勇介">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#43</span>
+                        <span class="role-badge-tactical role-badge-df"><i class="fas fa-shield-alt"></i> SB / CM / CAM</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">SB / CM / CAM</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=YM&background=003C82&color=12A0D7&size=200&bold=true" alt="道下 勇介">
+                        </div>
                         <div class="player-name-kanji">道下 勇介</div>
                         <div class="player-name-romaji">ミチシタ ユウスケ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.poly_def">SB / CM / CAM</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="24">24 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -266,18 +454,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="片桐 子竜" data-player-kana="カタギリ シリュウ" data-player-romaji="Katagiri Shiryu">
-                    <span class="player-number">66</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=SK&background=003C82&color=12A0D7&size=200&bold=true" alt="片桐 子竜">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#66</span>
+                        <span class="role-badge-tactical role-badge-df"><i class="fas fa-shield-alt"></i> SB</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">SB</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=SK&background=003C82&color=12A0D7&size=200&bold=true" alt="片桐 子竜">
+                        </div>
                         <div class="player-name-kanji">片桐 子竜</div>
                         <div class="player-name-romaji">カタギリ シリュウ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.sb">サイドバック (SB)</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="21">21 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -290,18 +484,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="恵良 真史" data-player-kana="エラ マキシ" data-player-romaji="Era Makishi">
-                    <span class="player-number">69</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=ME&background=003C82&color=12A0D7&size=200&bold=true" alt="恵良 真史">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#69</span>
+                        <span class="role-badge-tactical role-badge-df"><i class="fas fa-shield-alt"></i> CB</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">CB</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=ME&background=003C82&color=12A0D7&size=200&bold=true" alt="恵良 真史">
+                        </div>
                         <div class="player-name-kanji">恵良 真史</div>
                         <div class="player-name-romaji">エラ マキシ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.cb">センターバック (CB)</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="25">25 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -320,18 +520,24 @@
             <h3 class="role-title"><i class="fas fa-running"></i> MIDFIELDER</h3>
             <div class="players-grid">
                 <div class="player-card" data-player-name="Di Rubbo Luca" data-player-kana="ディルッボ ルカ" data-player-romaji="Di Rubbo Luca">
-                    <span class="player-number">5</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=LD&background=003C82&color=12A0D7&size=200&bold=true" alt="Di Rubbo Luca">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#5</span>
+                        <span class="role-badge-tactical role-badge-mf"><i class="fas fa-running"></i> CM</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">CM</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=LD&background=003C82&color=12A0D7&size=200&bold=true" alt="Di Rubbo Luca">
+                        </div>
                         <div class="player-name-kanji">Di Rubbo Luca</div>
                         <div class="player-name-romaji">ディルッボ ルカ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.cm">セントラルMF (CM)</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="italy">イタリア</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="38">38 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -344,18 +550,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="福田 圭佑" data-player-kana="フクダ ケイスケ" data-player-romaji="Fukuda Keisuke">
-                    <span class="player-number">7</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=KF&background=003C82&color=12A0D7&size=200&bold=true" alt="福田 圭佑">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#7</span>
+                        <span class="role-badge-tactical role-badge-mf"><i class="fas fa-running"></i> SH</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">SH</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=KF&background=003C82&color=12A0D7&size=200&bold=true" alt="福田 圭佑">
+                        </div>
                         <div class="player-name-kanji">福田 圭佑</div>
                         <div class="player-name-romaji">フクダ ケイスケ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.sh">サイドハーフ (SH)</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="aichi">愛知県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="20">20 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -368,18 +580,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="中村 聡" data-player-kana="ナカムラ サトシ" data-player-romaji="Nakamura Satoshi">
-                    <span class="player-number">8</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=SN&background=003C82&color=12A0D7&size=200&bold=true" alt="中村 聡">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#8</span>
+                        <span class="role-badge-tactical role-badge-mf"><i class="fas fa-running"></i> CM / SB</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">CM / SB</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=SN&background=003C82&color=12A0D7&size=200&bold=true" alt="中村 聡">
+                        </div>
                         <div class="player-name-kanji">中村 聡</div>
                         <div class="player-name-romaji">ナカムラ サトシ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.cm_sb">CM / SB</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="shizuoka">静岡県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="20">20 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -392,18 +610,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="佐野 雄基" data-player-kana="サノ ユウキ" data-player-romaji="Sano Yuki">
-                    <span class="player-number">11</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=YS&background=003C82&color=12A0D7&size=200&bold=true" alt="佐野 雄基">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#11</span>
+                        <span class="role-badge-tactical role-badge-mf"><i class="fas fa-running"></i> CM / SH</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">CM / SH</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=YS&background=003C82&color=12A0D7&size=200&bold=true" alt="佐野 雄基">
+                        </div>
                         <div class="player-name-kanji">佐野 雄基</div>
                         <div class="player-name-romaji">サノ ユウキ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.cm_sh">CM / SH</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="20">20 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -416,18 +640,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="根本 智司" data-player-kana="ネモト サトシ" data-player-romaji="Nemoto Satoshi">
-                    <span class="player-number">13</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=SN&background=003C82&color=12A0D7&size=200&bold=true" alt="根本 智司">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#13</span>
+                        <span class="role-badge-tactical role-badge-mf"><i class="fas fa-running"></i> CM</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">CM</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=SN&background=003C82&color=12A0D7&size=200&bold=true" alt="根本 智司">
+                        </div>
                         <div class="player-name-kanji">根本 智司</div>
                         <div class="player-name-romaji">ネモト サトシ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.cm">セントラルMF (CM)</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="ibaraki">茨城県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="35">35 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -440,18 +670,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="杉澤 祐哉" data-player-kana="スギサワ ユウヤ" data-player-romaji="Sugisawa Yuya">
-                    <span class="player-number">18</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=YS&background=003C82&color=12A0D7&size=200&bold=true" alt="杉澤 祐哉">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#18</span>
+                        <span class="role-badge-tactical role-badge-mf"><i class="fas fa-running"></i> CM / CB</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">CM / CB</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=YS&background=003C82&color=12A0D7&size=200&bold=true" alt="杉澤 祐哉">
+                        </div>
                         <div class="player-name-kanji">杉澤 祐哉</div>
                         <div class="player-name-romaji">スギサワ ユウヤ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.cm_cb">CM / CB</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="shizuoka">静岡県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="30">30 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -464,18 +700,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="池田 季京" data-player-kana="イケダ キキョウ" data-player-romaji="Ikeda Kikyo">
-                    <span class="player-number">25</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=KI&background=003C82&color=12A0D7&size=200&bold=true" alt="池田 季京">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#25</span>
+                        <span class="role-badge-tactical role-badge-mf"><i class="fas fa-running"></i> SH / SB</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">SH / SB</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=KI&background=003C82&color=12A0D7&size=200&bold=true" alt="池田 季京">
+                        </div>
                         <div class="player-name-kanji">池田 季京</div>
                         <div class="player-name-romaji">イケダ キキョウ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.sh_sb">SH / SB</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="25">25 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -488,18 +730,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="清水 健次郎" data-player-kana="シミズ ケンジロウ" data-player-romaji="Shimizu Kenjiro">
-                    <span class="player-number">-</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=KS&background=003C82&color=12A0D7&size=200&bold=true" alt="清水 健次郎">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#-</span>
+                        <span class="role-badge-tactical role-badge-mf"><i class="fas fa-running"></i> CM / CAM</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">CM / CAM</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=KS&background=003C82&color=12A0D7&size=200&bold=true" alt="清水 健次郎">
+                        </div>
                         <div class="player-name-kanji">清水 健次郎</div>
                         <div class="player-name-romaji">シミズ ケンジロウ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.cm_cam">CM / CAM</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="-">- 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -512,18 +760,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="村越 翔一" data-player-kana="ムラエツ ショウイチ" data-player-romaji="Muraetsu Shoichi">
-                    <span class="player-number">-</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=SM&background=003C82&color=12A0D7&size=200&bold=true" alt="村越 翔一">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#-</span>
+                        <span class="role-badge-tactical role-badge-mf"><i class="fas fa-running"></i> SH / FW</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">SH / FW</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=SM&background=003C82&color=12A0D7&size=200&bold=true" alt="村越 翔一">
+                        </div>
                         <div class="player-name-kanji">村越 翔一</div>
                         <div class="player-name-romaji">ムラエツ ショウイチ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.sh_fw">SH / FW</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="-">- 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -536,18 +790,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="牧田 凌" data-player-kana="マキタ リョウ" data-player-romaji="Makita Ryo">
-                    <span class="player-number">-</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=RM&background=003C82&color=12A0D7&size=200&bold=true" alt="牧田 凌">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#-</span>
+                        <span class="role-badge-tactical role-badge-mf"><i class="fas fa-running"></i> CM / FW</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">CM / FW</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=RM&background=003C82&color=12A0D7&size=200&bold=true" alt="牧田 凌">
+                        </div>
                         <div class="player-name-kanji">牧田 凌</div>
                         <div class="player-name-romaji">マキタ リョウ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.cm_fw">CM / FW</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="30">30 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -560,18 +820,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="永野 壱門" data-player-kana="ナガノ イット" data-player-romaji="Nagano Itto">
-                    <span class="player-number">-</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=IN&background=003C82&color=12A0D7&size=200&bold=true" alt="永野 壱門">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#-</span>
+                        <span class="role-badge-tactical role-badge-mf"><i class="fas fa-running"></i> CM</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">CM</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=IN&background=003C82&color=12A0D7&size=200&bold=true" alt="永野 壱門">
+                        </div>
                         <div class="player-name-kanji">永野 壱門</div>
                         <div class="player-name-romaji">ナガノ イット</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.cm">セントラルMF (CM)</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="23">23 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -590,18 +856,24 @@
             <h3 class="role-title"><i class="fas fa-futbol"></i> FORWARD</h3>
             <div class="players-grid">
                 <div class="player-card" data-player-name="小金井 健斗" data-player-kana="コガネイ ケント" data-player-romaji="Koganei Kento">
-                    <span class="player-number">9</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=KK&background=003C82&color=12A0D7&size=200&bold=true" alt="小金井 健斗">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#9</span>
+                        <span class="role-badge-tactical role-badge-fw"><i class="fas fa-bullseye"></i> FW</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">FW</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=KK&background=003C82&color=12A0D7&size=200&bold=true" alt="小金井 健斗">
+                        </div>
                         <div class="player-name-kanji">小金井 健斗</div>
                         <div class="player-name-romaji">コガネイ ケント</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.fw">フォワード (FW)</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="31">31 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -614,18 +886,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="佐々木 俊" data-player-kana="ササキ ジュン" data-player-romaji="Sasaki Jun">
-                    <span class="player-number">14</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=JS&background=003C82&color=12A0D7&size=200&bold=true" alt="佐々木 俊">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#14</span>
+                        <span class="role-badge-tactical role-badge-fw"><i class="fas fa-bullseye"></i> FW / SH</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">FW / SH</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=JS&background=003C82&color=12A0D7&size=200&bold=true" alt="佐々木 俊">
+                        </div>
                         <div class="player-name-kanji">佐々木 俊</div>
                         <div class="player-name-romaji">ササキ ジュン</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.fw_sh">FW / SH</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="26">26 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -638,18 +916,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="久我 一桃" data-player-kana="クガ イット" data-player-romaji="Kuga Itto">
-                    <span class="player-number">17</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=IK&background=003C82&color=12A0D7&size=200&bold=true" alt="久我 一桃">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#17</span>
+                        <span class="role-badge-tactical role-badge-fw"><i class="fas fa-bullseye"></i> FW / SB</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">FW / SB</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=IK&background=003C82&color=12A0D7&size=200&bold=true" alt="久我 一桃">
+                        </div>
                         <div class="player-name-kanji">久我 一桃</div>
                         <div class="player-name-romaji">クガ イット</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.fw_sb">FW / SB</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="saga">佐賀県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="21">21 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -662,18 +946,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="Martini Simone" data-player-kana="マルティーニ シモーネ" data-player-romaji="Martini Simone">
-                    <span class="player-number">23</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=MS&background=003C82&color=12A0D7&size=200&bold=true" alt="Martini Simone">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#23</span>
+                        <span class="role-badge-tactical role-badge-fw"><i class="fas fa-bullseye"></i> FW / SH / CAM</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">FW / SH / CAM</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=MS&background=003C82&color=12A0D7&size=200&bold=true" alt="Martini Simone">
+                        </div>
                         <div class="player-name-kanji">Martini Simone</div>
                         <div class="player-name-romaji">マルティーニ シモーネ</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.fw_cam">FW / SH / CAM</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="italy">イタリア</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="23">23 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -686,18 +976,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="小宮山 誉人" data-player-kana="コミヤマ タカト" data-player-romaji="Komiyama Takato">
-                    <span class="player-number">40</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=TK&background=003C82&color=12A0D7&size=200&bold=true" alt="小宮山 誉人">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#40</span>
+                        <span class="role-badge-tactical role-badge-fw"><i class="fas fa-bullseye"></i> FW / SH / CM</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">FW / SH / CM</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=TK&background=003C82&color=12A0D7&size=200&bold=true" alt="小宮山 誉人">
+                        </div>
                         <div class="player-name-kanji">小宮山 誉人</div>
                         <div class="player-name-romaji">コミヤマ タカト</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.poly_fw">FW / SH / CM</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="27">27 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -710,18 +1006,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="柳澤 海翔" data-player-kana="ヤナギサワ カイト" data-player-romaji="Yanagisawa Kaito">
-                    <span class="player-number">-</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=KY&background=003C82&color=12A0D7&size=200&bold=true" alt="柳澤 海翔">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#-</span>
+                        <span class="role-badge-tactical role-badge-fw"><i class="fas fa-bullseye"></i> FW</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">FW</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=KY&background=003C82&color=12A0D7&size=200&bold=true" alt="柳澤 海翔">
+                        </div>
                         <div class="player-name-kanji">柳澤 海翔</div>
                         <div class="player-name-romaji">ヤナギサワ カイト</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.fw">フォワード (FW)</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="22">22 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -734,18 +1036,24 @@
                 </div>
 
                 <div class="player-card" data-player-name="川合 翔" data-player-kana="カワイ カケル" data-player-romaji="Kawai Kakeru">
-                    <span class="player-number">-</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=KK&background=003C82&color=12A0D7&size=200&bold=true" alt="川合 翔">
-                        <span class="player-photo-badge"><i class="fas fa-chart-bar"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">#-</span>
+                        <span class="role-badge-tactical role-badge-fw"><i class="fas fa-bullseye"></i> FW / SH / CM</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">FW / SH / CM</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=KK&background=003C82&color=12A0D7&size=200&bold=true" alt="川合 翔">
+                        </div>
                         <div class="player-name-kanji">川合 翔</div>
                         <div class="player-name-romaji">カワイ カケル</div>
                     </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
+                            <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong data-i18n="role_fullname.poly_fw">FW / SH / CM</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa">神奈川県</strong></div>
                             <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="24">24 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -764,15 +1072,20 @@
             <h3 class="role-title"><i class="fas fa-clipboard-list"></i> STAFF & MANAGER</h3>
             <div class="players-grid">
                 <div class="player-card" data-player-name="橘 晴香" data-player-kana="タチバナ ハルカ" data-player-romaji="Tachibana Haruka">
-                    <span class="player-number">MGR</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=HT&background=f472b6&color=ffffff&size=200&bold=true" alt="橘 晴香">
-                        <span class="player-photo-badge"><i class="fas fa-info-circle"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">MGR</span>
+                        <span class="role-badge-tactical role-badge-staff"><i class="fas fa-clipboard-list"></i> MGR</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">MANAGER</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=HT&background=f472b6&color=ffffff&size=200&bold=true" alt="橘 晴香">
+                        </div>
                         <div class="player-name-kanji">橘 晴香</div>
                         <div class="player-name-romaji">タチバナ ハルカ</div>
+                    </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-info-circle"></i> <span data-i18n="btn.details_staff">詳細情報</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
@@ -783,15 +1096,20 @@
                 </div>
 
                 <div class="player-card" data-player-name="髙橋 優" data-player-kana="タカハシ ユウ" data-player-romaji="Takahashi Yu">
-                    <span class="player-number">MGR</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=YT&background=f472b6&color=ffffff&size=200&bold=true" alt="髙橋 優">
-                        <span class="player-photo-badge"><i class="fas fa-info-circle"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">MGR</span>
+                        <span class="role-badge-tactical role-badge-staff"><i class="fas fa-clipboard-list"></i> MGR</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">MANAGER</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=YT&background=f472b6&color=ffffff&size=200&bold=true" alt="髙橋 優">
+                        </div>
                         <div class="player-name-kanji">髙橋 優</div>
                         <div class="player-name-romaji">タカハシ ユウ</div>
+                    </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-info-circle"></i> <span data-i18n="btn.details_staff">詳細情報</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
@@ -802,15 +1120,20 @@
                 </div>
 
                 <div class="player-card" data-player-name="雨宮 彩夕" data-player-kana="アメミヤ アユ" data-player-romaji="Amemiya Ayu">
-                    <span class="player-number">MGR</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=AA&background=f472b6&color=ffffff&size=200&bold=true" alt="雨宮 彩夕">
-                        <span class="player-photo-badge"><i class="fas fa-info-circle"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">MGR</span>
+                        <span class="role-badge-tactical role-badge-staff"><i class="fas fa-clipboard-list"></i> MGR</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">MANAGER</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=AA&background=f472b6&color=ffffff&size=200&bold=true" alt="雨宮 彩夕">
+                        </div>
                         <div class="player-name-kanji">雨宮 彩夕</div>
                         <div class="player-name-romaji">アメミヤ アユ</div>
+                    </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-info-circle"></i> <span data-i18n="btn.details_staff">詳細情報</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
@@ -821,15 +1144,20 @@
                 </div>
 
                 <div class="player-card" data-player-name="小澤 しおり" data-player-kana="オザワ シオリ" data-player-romaji="Ozawa Shiori">
-                    <span class="player-number">MGR</span>
-                    <div class="player-photo">
-                        <img src="https://ui-avatars.com/api/?name=SO&background=f472b6&color=ffffff&size=200&bold=true" alt="小澤 しおり">
-                        <span class="player-photo-badge"><i class="fas fa-info-circle"></i> <i class="fas fa-chevron-down badge-arrow"></i></span>
+                    <div class="player-card-header">
+                        <span class="player-number">MGR</span>
+                        <span class="role-badge-tactical role-badge-staff"><i class="fas fa-clipboard-list"></i> MGR</span>
                     </div>
-                    <div class="player-info">
-                        <div class="player-role">MANAGER</div>
+                    <div class="player-body">
+                        <div class="player-photo">
+                            <img src="https://ui-avatars.com/api/?name=SO&background=f472b6&color=ffffff&size=200&bold=true" alt="小澤 しおり">
+                        </div>
                         <div class="player-name-kanji">小澤 しおり</div>
                         <div class="player-name-romaji">オザワ シオリ</div>
+                    </div>
+                    <div class="player-expand-btn">
+                        <span><i class="fas fa-info-circle"></i> <span data-i18n="btn.details_staff">詳細情報</span></span>
+                        <i class="fas fa-chevron-down arrow-icon"></i>
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
@@ -879,6 +1207,9 @@
             "role_filter.fw": "FW",
             "role_filter.staff": "STAFF",
             "btn.back_home": "ホームに戻る",
+            "btn.details": "詳細・個人成績",
+            "btn.details_staff": "詳細情報",
+            "label.role_detail": "役割:",
             "label.hometown": "出身地:",
             "label.age": "年齢:",
             "label.goals": "得点:",
@@ -897,7 +1228,26 @@
             "hometown.ibaraki": "茨城県",
             "hometown.saga": "佐賀県",
             "hometown.niigata": "新潟県",
-            "hometown.saitama": "埼玉県"
+            "hometown.saitama": "埼玉県",
+            "role_fullname.gk": "ゴールキーパー (GK)",
+            "role_fullname.cb": "センターバック (CB)",
+            "role_fullname.sb": "サイドバック (SB)",
+            "role_fullname.sb_sh": "サイドバック / サイドハーフ",
+            "role_fullname.cm": "セントラルMF (CM)",
+            "role_fullname.sh": "サイドハーフ (SH)",
+            "role_fullname.cm_sb": "CM / SB",
+            "role_fullname.cm_sh": "CM / SH",
+            "role_fullname.cm_cb": "CM / CB",
+            "role_fullname.sh_sb": "SH / SB",
+            "role_fullname.cm_cam": "CM / CAM",
+            "role_fullname.sh_fw": "SH / FW",
+            "role_fullname.cm_fw": "CM / FW",
+            "role_fullname.fw": "フォワード (FW)",
+            "role_fullname.fw_sh": "FW / SH",
+            "role_fullname.fw_sb": "FW / SB",
+            "role_fullname.fw_cam": "FW / SH / CAM",
+            "role_fullname.poly_def": "SB / CM / CAM",
+            "role_fullname.poly_fw": "FW / SH / CM"
         },
         it: {
             "nav.team": "SQUADRA",
@@ -920,6 +1270,9 @@
             "role_filter.fw": "Attaccanti",
             "role_filter.staff": "Staff",
             "btn.back_home": "Torna alla Home",
+            "btn.details": "Stats & Informazioni",
+            "btn.details_staff": "Informazioni",
+            "label.role_detail": "Ruolo:",
             "label.hometown": "Origine:",
             "label.age": "Età:",
             "label.goals": "Gol:",
@@ -938,7 +1291,26 @@
             "hometown.ibaraki": "Prefettura di Ibaraki",
             "hometown.saga": "Prefettura di Saga",
             "hometown.niigata": "Prefettura di Niigata",
-            "hometown.saitama": "Prefettura di Saitama"
+            "hometown.saitama": "Prefettura di Saitama",
+            "role_fullname.gk": "Portiere (GK)",
+            "role_fullname.cb": "Difensore Centrale (CB)",
+            "role_fullname.sb": "Terzino (SB)",
+            "role_fullname.sb_sh": "Terzino / Esterno",
+            "role_fullname.cm": "Centrocampista (CM)",
+            "role_fullname.sh": "Esterno di Centrocampo (SH)",
+            "role_fullname.cm_sb": "Centrocampista / Terzino",
+            "role_fullname.cm_sh": "Centrocampista / Esterno",
+            "role_fullname.cm_cb": "Centrocampista / Centrale",
+            "role_fullname.sh_sb": "Esterno / Terzino",
+            "role_fullname.cm_cam": "Centrocampista / Trequartista",
+            "role_fullname.sh_fw": "Esterno / Attaccante",
+            "role_fullname.cm_fw": "Centrocampista / Attaccante",
+            "role_fullname.fw": "Attaccante (FW)",
+            "role_fullname.fw_sh": "Attaccante / Esterno",
+            "role_fullname.fw_sb": "Attaccante / Terzino",
+            "role_fullname.fw_cam": "Attaccante / Trequartista",
+            "role_fullname.poly_def": "Terzino / Centrocampista",
+            "role_fullname.poly_fw": "Attaccante Polivalente"
         },
         en: {
             "nav.team": "TEAM",
@@ -960,6 +1332,9 @@
             "role_filter.fw": "FW",
             "role_filter.staff": "Staff",
             "btn.back_home": "Back to Home",
+            "btn.details": "Stats & Details",
+            "btn.details_staff": "Staff Info",
+            "label.role_detail": "Position:",
             "label.hometown": "Hometown:",
             "label.age": "Age:",
             "label.goals": "Goals:",
@@ -978,7 +1353,26 @@
             "hometown.ibaraki": "Ibaraki Pref.",
             "hometown.saga": "Saga Pref.",
             "hometown.niigata": "Niigata Pref.",
-            "hometown.saitama": "Saitama Pref."
+            "hometown.saitama": "Saitama Pref.",
+            "role_fullname.gk": "Goalkeeper (GK)",
+            "role_fullname.cb": "Center Back (CB)",
+            "role_fullname.sb": "Full Back (SB)",
+            "role_fullname.sb_sh": "Full Back / Winger",
+            "role_fullname.cm": "Central Midfielder (CM)",
+            "role_fullname.sh": "Side Midfielder / Winger",
+            "role_fullname.cm_sb": "Central Midfielder / Full Back",
+            "role_fullname.cm_sh": "Central Midfielder / Winger",
+            "role_fullname.cm_cb": "Midfielder / Center Back",
+            "role_fullname.sh_sb": "Winger / Full Back",
+            "role_fullname.cm_cam": "Midfielder / Attacking Mid",
+            "role_fullname.sh_fw": "Winger / Forward",
+            "role_fullname.cm_fw": "Midfielder / Forward",
+            "role_fullname.fw": "Forward (FW)",
+            "role_fullname.fw_sh": "Forward / Winger",
+            "role_fullname.fw_sb": "Forward / Full Back",
+            "role_fullname.fw_cam": "Forward / Attacking Mid",
+            "role_fullname.poly_def": "Full Back / Midfielder",
+            "role_fullname.poly_fw": "Versatile Forward"
         }
     };
 
