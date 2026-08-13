@@ -63,36 +63,72 @@
 <body>
 
 <header class="header">
-  <div class="container">
-    <div class="logo-title">
-      <a href="#"><img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo"></a>
-      <span class="brand-name">YOKOHAMA CALCIO</span>
-    </div>
-
-    <div class="desktop-nav-wrapper">
-      <nav class="main-nav">
-        <a href="#about">チーム紹介</a>
-        <a href="matches.html">試合日程・結果</a>
-        <a href="players.html">選手紹介</a>
-        <a href="stats.html">成績・スタッツ</a>
-        <a href="faq.html">よくある質問</a>
-        <a href="#gallery">ギャラリー</a>
-        <a href="#shop">ショップ</a>
-        <a href="#sponsors">スポンサー</a>
-        <a href="#contact">お問い合わせ</a>
-      </nav>
-      <div class="header-social-icons">
+  <!-- TOP BAR: SOCIAL & SWITCHER LINGUA -->
+  <div class="top-bar">
+    <div class="container top-bar-container">
+      <div class="top-bar-social">
         <a href="https://x.com/yokohamacalcio" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
         <a href="https://instagram.com/yokohamacalcio" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
         <a href="https://youtube.com/@yokohamacalcio?si=NBPkZ0qFxFVrOIof" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
       </div>
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="ja">JP</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="it">IT</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
     </div>
-
-    <button class="mobile-menu-toggle" aria-label="Menu">
-      <i class="fas fa-bars"></i>
-    </button>
   </div>
 
+  <!-- MAIN NAVIGATION BAR (SOLO IN GIAPPONESE) -->
+  <div class="main-header-bar">
+    <div class="container header-container">
+      <div class="logo-title">
+        <a href="#"><img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo"></a>
+        <span class="brand-name">YOKOHAMA CALCIO</span>
+      </div>
+
+      <div class="desktop-nav-wrapper">
+        <nav class="main-nav">
+          <!-- DROPDOWN SQUADRA -->
+          <div class="nav-item dropdown">
+            <a href="#about" class="dropdown-toggle">チーム <i class="fas fa-chevron-down nav-arrow"></i></a>
+            <div class="dropdown-menu">
+              <a href="#about">チーム紹介</a>
+              <a href="players.html">選手紹介</a>
+              <a href="stats.html">成績・スタッツ</a>
+            </div>
+          </div>
+
+          <!-- LINK PARTITE -->
+          <a href="matches.html">試合日程・結果</a>
+
+          <!-- DROPDOWN CLUB / MEDIA -->
+          <div class="nav-item dropdown">
+            <a href="#gallery" class="dropdown-toggle">クラブ <i class="fas fa-chevron-down nav-arrow"></i></a>
+            <div class="dropdown-menu">
+              <a href="#gallery">ギャラリー</a>
+              <a href="#sponsors">スポンサー</a>
+              <a href="faq.html">よくある質問</a>
+            </div>
+          </div>
+
+          <!-- LINK SHOP -->
+          <a href="#shop">ショップ</a>
+
+          <!-- BOTTONE CTA CONTATTI -->
+          <a href="#contact" class="nav-cta-btn">お問い合わせ</a>
+        </nav>
+      </div>
+
+      <button class="mobile-menu-toggle" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- MOBILE NAVIGATION NAV (SOLO IN GIAPPONESE) -->
   <nav class="mobile-nav hidden">
     <a href="#about" class="mobile-link">チーム紹介</a>
     <a href="matches.html" class="mobile-link">試合日程・結果</a>
@@ -102,19 +138,14 @@
     <a href="#gallery" class="mobile-link">ギャラリー</a>
     <a href="#shop" class="mobile-link">ショップ</a>
     <a href="#sponsors" class="mobile-link">スポンサー</a>
-    <a href="#contact" class="mobile-link">お問い合わせ</a>
-    <div class="mobile-social-icons">
-      <a href="https://x.com/yokohamacalcio" target="_blank"><i class="fab fa-x-twitter"></i></a>
-      <a href="https://instagram.com/yokohamacalcio" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://youtube.com/@yokohamacalcio?si=NBPkZ0qFxFVrOIof" target="_blank"><i class="fab fa-youtube"></i></a>
-    </div>
+    <a href="#contact" class="mobile-link mobile-cta">お問い合わせ</a>
   </nav>
 </header>
 
 <section class="hero">
   <div class="hero-content">
-    <h2>横浜に咲くイタリアの情熱</h2>
-    <p>サッカーで心をつなぐ場所</p>
+    <h2 data-i18n="hero.title">横浜に咲くイタリアの情熱</h2>
+    <p data-i18n="hero.subtitle">サッカーで心をつなぐ場所</p>
     <div class="color-stripes">
         <div class="stripe sky"></div>
         <div class="stripe white"></div>
@@ -126,31 +157,31 @@
 <!-- CHI SIAMO / ABOUT -->
 <section class="section" id="about">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-flag"></i> Yokohama Calcioとは</h2>
+        <h2 class="section-title"><i class="fas fa-flag"></i> <span data-i18n="about.title">Yokohama Calcioとは</span></h2>
         <div class="about-grid">
             <div class="about-text-box">
-                <h3>横浜発、イタリアンスタイルの社会人サッカーチーム</h3>
-                <p>
+                <h3 data-i18n="about.subtitle">横浜発、イタリアンスタイルの社会人サッカーチーム</h3>
+                <p data-i18n="about.p1">
                     Yokohama Calcioは、横浜を拠点に活動する社会人サッカーチームです。イタリアサッカーの伝統的で組織的な戦術アプローチと、誰もが純粋にフットボールを楽しめる環境の融合を目指してスタートしました。
                 </p>
-                <p>
+                <p data-i18n="about.p2">
                     国籍や経験を問わず、サッカーへの情熱を持った仲間が集まるオープンなコミュニティです。チームワーク（Gioco di Squadra）と基礎的な技術を大切にしながら、地域の試合やリーグ戦で一丸となって勝利を目指します。
                 </p>
             </div>
             <div class="mission-box">
-                <h3>私たちのコアバリュー</h3>
+                <h3 data-i18n="about.values_title">私たちのコアバリュー</h3>
                 <ul>
                     <li>
-                        <strong>チームファースト (Gioco di Squadra)</strong>
-                        組織的で互いを支え合う結束力
+                        <strong data-i18n="about.val1_h">チームファースト (Gioco di Squadra)</strong>
+                        <span data-i18n="about.val1_d">組織的で互いを支え合う結束力</span>
                     </li>
                     <li>
-                        <strong>オープンな環境</strong>
-                        年齢・国籍・スキルレベルを問わない歓迎の姿勢
+                        <strong data-i18n="about.val2_h">オープンな環境</strong>
+                        <span data-i18n="about.val2_d">年齢・国籍・スキルレベルを問わない歓迎の姿勢</span>
                     </li>
                     <li>
-                        <strong>フットボールへの情熱</strong>
-                        勝利を目指しながらも楽しむ気持ちを最優先に
+                        <strong data-i18n="about.val3_h">フットボールへの情熱</strong>
+                        <span data-i18n="about.val3_d">勝利を目指しながらも楽しむ気持ちを最優先に</span>
                     </li>
                 </ul>
             </div>
@@ -161,13 +192,13 @@
 <!-- CAROSELLO RISULTATI E PROSSIME PARTITE -->
 <section class="section results-section" id="results">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-trophy"></i> 試合結果・日程</h2>
+        <h2 class="section-title"><i class="fas fa-trophy"></i> <span data-i18n="results.title">試合結果・日程</span></h2>
         <div class="results-carousel-container">
             <div class="results-track" id="resultsTrack">
 
                 <!-- 1. PROSSIMA: YSCCミドル (30 Agosto - 11:00 KO) -->
                 <div class="result-card match-upcoming">
-                    <div class="match-badge badge-next">次戦 (練習試合)</div>
+                    <div class="match-badge badge-next" data-i18n="results.next_badge">次戦 (練習試合)</div>
                     <div class="match-date">2026.08.30 (11:00 KO)</div>
                     <div class="match-location"><i class="fas fa-map-marker-alt"></i> 新横浜公園第一運動広場</div>
                     <div class="match-content">
@@ -178,7 +209,7 @@
                         <div class="score-box">
                             <span class="score-text">VS</span>
                             <span class="match-status next-time">30 Aug</span>
-                            <a href="matches.html#match-1" class="match-card-link"><i class="fas fa-info-circle"></i> 詳細</a>
+                            <a href="matches.html#match-1" class="match-card-link"><i class="fas fa-info-circle"></i> <span data-i18n="results.detail">詳細</span></a>
                         </div>
                         <div class="team-box">
                             <img src="https://ui-avatars.com/api/?name=YSCC+Middle&background=15803d&color=ffffff&size=100&bold=true" alt="YSCCミドル" class="team-logo opponent-logo">
@@ -189,7 +220,7 @@
 
                 <!-- 2. PROSSIMA: Nishiya AFC (16 Agosto - 19:00 KO) -->
                 <div class="result-card match-upcoming">
-                    <div class="match-badge badge-next">次戦 (練習試合)</div>
+                    <div class="match-badge badge-next" data-i18n="results.next_badge">次戦 (練習試合)</div>
                     <div class="match-date">2026.08.16 (19:00 KO)</div>
                     <div class="match-location"><i class="fas fa-map-marker-alt"></i> 西谷中学校</div>
                     <div class="match-content">
@@ -200,7 +231,7 @@
                         <div class="score-box">
                             <span class="score-text">VS</span>
                             <span class="match-status next-time">16 Aug</span>
-                            <a href="matches.html#match-2" class="match-card-link"><i class="fas fa-info-circle"></i> 詳細</a>
+                            <a href="matches.html#match-2" class="match-card-link"><i class="fas fa-info-circle"></i> <span data-i18n="results.detail">詳細</span></a>
                         </div>
                         <div class="team-box">
                             <img src="https://ui-avatars.com/api/?name=Nishiya+AFC&background=0284c7&color=ffffff&size=100&bold=true" alt="Nishiya AFC" class="team-logo opponent-logo">
@@ -211,7 +242,7 @@
 
                 <!-- 3. RECENTE: YSCCミドル (9 Agosto - 15:00 KO) -->
                 <div class="result-card">
-                    <div class="match-badge badge-friendly">練習試合</div>
+                    <div class="match-badge badge-friendly" data-i18n="results.friendly_badge">練習試合</div>
                     <div class="match-date">2026.08.09 (15:00 KO)</div>
                     <div class="match-location"><i class="fas fa-map-marker-alt"></i> 新横浜公園第一運動広場</div>
                     <div class="match-content">
@@ -222,7 +253,7 @@
                         <div class="score-box">
                             <span class="score-text">1 - 4</span>
                             <span class="match-status lose">LOSE</span>
-                            <a href="matches.html#match-3" class="match-card-link"><i class="fas fa-info-circle"></i> 詳細</a>
+                            <a href="matches.html#match-3" class="match-card-link"><i class="fas fa-info-circle"></i> <span data-i18n="results.detail">詳細</span></a>
                         </div>
                         <div class="team-box">
                             <img src="https://ui-avatars.com/api/?name=YSCC+Middle&background=15803d&color=ffffff&size=100&bold=true" alt="YSCCミドル" class="team-logo opponent-logo">
@@ -233,7 +264,7 @@
 
                 <!-- 4. RECENTE: YC&AC Pulse (19 Luglio - 11:00 KO) -->
                 <div class="result-card">
-                    <div class="match-badge badge-friendly">練習試合</div>
+                    <div class="match-badge badge-friendly" data-i18n="results.friendly_badge">練習試合</div>
                     <div class="match-date">2026.07.19 (11:00 KO)</div>
                     <div class="match-location"><i class="fas fa-map-marker-alt"></i> YC&ACグラウンド</div>
                     <div class="match-content">
@@ -244,7 +275,7 @@
                         <div class="score-box">
                             <span class="score-text">1 - 4</span>
                             <span class="match-status lose">LOSE</span>
-                            <a href="matches.html#match-4" class="match-card-link"><i class="fas fa-info-circle"></i> 詳細</a>
+                            <a href="matches.html#match-4" class="match-card-link"><i class="fas fa-info-circle"></i> <span data-i18n="results.detail">詳細</span></a>
                         </div>
                         <div class="team-box">
                             <img src="https://ui-avatars.com/api/?name=YCAC+Pulse&background=dc2626&color=ffffff&size=100&bold=true" alt="YC&AC Pulse" class="team-logo opponent-logo">
@@ -258,7 +289,7 @@
 
         <div style="text-align: center; margin-top: 25px;">
             <a href="matches.html" class="google-form-btn" style="max-width: 320px; margin: 0 auto;">
-                <i class="fas fa-list"></i> 全試合日程・詳細はこちら
+                <i class="fas fa-list"></i> <span data-i18n="results.all_matches">全試合日程・詳細はこちら</span>
             </a>
         </div>
     </div>
@@ -267,7 +298,7 @@
 <!-- GALLERIA CAROUSEL -->
 <section class="carousel-section section" id="gallery">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-camera"></i> フォトギャラリー</h2>
+        <h2 class="section-title"><i class="fas fa-camera"></i> <span data-i18n="gallery.title">フォトギャラリー</span></h2>
         <div class="carousel-container">
             <button class="carousel-btn" id="prevBtn" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
             <div class="carousel-slide">
@@ -288,15 +319,15 @@
 <!-- SEZIONE SHOP ONLINE -->
 <section class="section shop-section" id="shop">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-shopping-bag"></i> 公式オンラインショップ</h2>
+        <h2 class="section-title"><i class="fas fa-shopping-bag"></i> <span data-i18n="shop.title">公式オンラインショップ</span></h2>
         <div class="shop-card">
             <div class="shop-content">
                 <i class="fas fa-tshirt shop-icon"></i>
-                <h3>Yokohama Calcio オフィシャルグッズ</h3>
-                <p>公式ユニフォーム、トレーニングウェア、オリジナルグッズはこちらからご購入いただけます。</p>
+                <h3 data-i18n="shop.card_title">Yokohama Calcio オフィシャルグッズ</h3>
+                <p data-i18n="shop.card_desc">公式ユニフォーム、トレーニングウェア、オリジナルグッズはこちらからご購入いただけます。</p>
                 <a href="https://yokohamacalcio.designstore.jp" target="_blank" rel="noopener noreferrer" class="google-form-btn shop-btn">
                     <i class="fas fa-store"></i>
-                    <span>公式ショップを見る</span>
+                    <span data-i18n="shop.btn">公式ショップを見る</span>
                     <i class="fas fa-external-link-alt external-icon"></i>
                 </a>
             </div>
@@ -304,42 +335,42 @@
     </div>
 </section>
 
-<!-- SEZIONE SPONSOR (CAROSELLO INFINITO RECRUITMENT) -->
+<!-- SEZIONE SPONSOR -->
 <section class="section sponsors-section" id="sponsors">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-handshake"></i> オフィシャルスポンサー</h2>
+        <h2 class="section-title"><i class="fas fa-handshake"></i> <span data-i18n="sponsors.title">オフィシャルスポンサー</span></h2>
         
         <div class="sponsors-carousel-container">
             <div class="sponsors-track" id="sponsorsTrack">
                 <div class="sponsor-card sponsor-placeholder">
                     <i class="fas fa-plus-circle"></i>
-                    <span>スポンサー募集中</span>
+                    <span data-i18n="sponsors.placeholder">スポンサー募集中</span>
                 </div>
                 <div class="sponsor-card sponsor-placeholder">
                     <i class="fas fa-plus-circle"></i>
-                    <span>スポンサー募集中</span>
+                    <span data-i18n="sponsors.placeholder">スポンサー募集中</span>
                 </div>
                 <div class="sponsor-card sponsor-placeholder">
                     <i class="fas fa-plus-circle"></i>
-                    <span>スポンサー募集中</span>
+                    <span data-i18n="sponsors.placeholder">スポンサー募集中</span>
                 </div>
                 <div class="sponsor-card sponsor-placeholder">
                     <i class="fas fa-plus-circle"></i>
-                    <span>スポンサー募集中</span>
+                    <span data-i18n="sponsors.placeholder">スポンサー募集中</span>
                 </div>
                 <div class="sponsor-card sponsor-placeholder">
                     <i class="fas fa-plus-circle"></i>
-                    <span>スポンサー募集中</span>
+                    <span data-i18n="sponsors.placeholder">スポンサー募集中</span>
                 </div>
             </div>
         </div>
 
-        <p class="sponsor-recruit-text">
+        <p class="sponsor-recruit-text" data-i18n="sponsors.recruit_text">
             Yokohama Calcioでは、共にチームを応援・サポートしていただける企業様・パートナー様を募集しております。
         </p>
         <a href="#contact" class="google-form-btn sponsor-contact-btn">
             <i class="fas fa-paper-plane"></i>
-            <span>スポンサー・パートナーシップについて問い合わせる</span>
+            <span data-i18n="sponsors.btn">スポンサー・パートナーシップについて問い合わせる</span>
         </a>
     </div>
 </section>
@@ -347,22 +378,21 @@
 <!-- CONTATTI GOOGLE FORMS UNICO BOX -->
 <section class="section" id="contact">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-envelope"></i> お問い合わせ</h2>
+        <h2 class="section-title"><i class="fas fa-envelope"></i> <span data-i18n="contact.title">お問い合わせ</span></h2>
         <div class="contact-card">
             <div class="contact-header">
                 <i class="fas fa-paper-plane contact-icon"></i>
-                <h3>各種お申し込み・お問い合わせ</h3>
+                <h3 data-i18n="contact.subtitle">各種お申し込み・お問い合わせ</h3>
             </div>
 
-            <!-- Lista motivazioni integrate nello stesso box -->
             <ul class="contact-reasons-list">
-                <li><i class="fas fa-check-circle"></i> <strong>体験練習・入部希望</strong>（初心者・経験者問わず随時募集）</li>
-                <li><i class="fas fa-check-circle"></i> <strong>練習試合・対戦のお申し込み</strong>（親善試合・グラウンド手配）</li>
-                <li><i class="fas fa-check-circle"></i> <strong>スポンサー・協賛のご相談</strong>（チーム支援・パートナーシップ）</li>
-                <li><i class="fas fa-check-circle"></i> <strong>その他チームに関するご質問</strong></li>
+                <li><i class="fas fa-check-circle"></i> <strong data-i18n="contact.r1_h">体験練習・入部希望</strong>（<span data-i18n="contact.r1_d">初心者・経験者問わず随時募集</span>）</li>
+                <li><i class="fas fa-check-circle"></i> <strong data-i18n="contact.r2_h">練習試合・対戦のお申し込み</strong>（<span data-i18n="contact.r2_d">親善試合・グラウンド手配</span>）</li>
+                <li><i class="fas fa-check-circle"></i> <strong data-i18n="contact.r3_h">スポンサー・協賛のご相談</strong>（<span data-i18n="contact.r3_d">チーム支援・パートナーシップ</span>）</li>
+                <li><i class="fas fa-check-circle"></i> <strong data-i18n="contact.r4_h">その他チームに関するご質問</strong></li>
             </ul>
 
-            <p class="contact-desc">
+            <p class="contact-desc" data-i18n="contact.desc">
                 すべてのお問い合わせは以下のGoogleフォームより受け付けております。<br>お気軽にご連絡ください！
             </p>
             
@@ -371,7 +401,7 @@
                rel="noopener noreferrer" 
                class="google-form-btn">
                 <i class="fab fa-google"></i>
-                <span>お問い合わせフォームを開く</span>
+                <span data-i18n="contact.btn">お問い合わせフォームを開く</span>
                 <i class="fas fa-external-link-alt external-icon"></i>
             </a>
         </div>
@@ -386,7 +416,155 @@
 </footer>
 
 <script>
-    // 1. Reset Scroll al Refresh Page
+    // DIZIONARIO TRADUZIONI MULTILINGUA (JP, IT, EN)
+    const translations = {
+        ja: {
+            "hero.title": "横浜に咲くイタリアの情熱",
+            "hero.subtitle": "サッカーで心をつなぐ場所",
+            "about.title": "Yokohama Calcioとは",
+            "about.subtitle": "横浜発、イタリアンスタイルの社会人サッカーチーム",
+            "about.p1": "Yokohama Calcioは、横浜を拠点に活動する社会人サッカーチームです。イタリアサッカーの伝統的で組織的な戦術アプローチと、誰もが純粋にフットボールを楽しめる環境の融合を目指してスタートしました。",
+            "about.p2": "国籍や経験を問わず、サッカーへの情熱を持った仲間が集まるオープンなコミュニティです。チームワーク（Gioco di Squadra）と基礎的な技術を大切にしながら、地域の試合やリーグ戦で一丸となって勝利を目指します。",
+            "about.values_title": "私たちのコアバリュー",
+            "about.val1_h": "チームファースト (Gioco di Squadra)",
+            "about.val1_d": "組織的で互いを支え合う結束力",
+            "about.val2_h": "オープンな環境",
+            "about.val2_d": "年齢・国籍・スキルレベルを問わない歓迎の姿勢",
+            "about.val3_h": "フットボールへの情熱",
+            "about.val3_d": "勝利を目指しながらも楽しむ気持ちを最優先に",
+            "results.title": "試合結果・日程",
+            "results.next_badge": "次戦 (練習試合)",
+            "results.friendly_badge": "練習試合",
+            "results.detail": "詳細",
+            "results.all_matches": "全試合日程・詳細はこちら",
+            "gallery.title": "フォトギャラリー",
+            "shop.title": "公式オンラインショップ",
+            "shop.card_title": "Yokohama Calcio オフィシャルグッズ",
+            "shop.card_desc": "公式ユニフォーム、トレーニングウェア、オリジナルグッズはこちらからご購入いただけます。",
+            "shop.btn": "公式ショップを見る",
+            "sponsors.title": "オフィシャルスポンサー",
+            "sponsors.placeholder": "スポンサー募集中",
+            "sponsors.recruit_text": "Yokohama Calcioでは、共にチームを応援・サポートしていただける企業様・パートナー様を募集しております。",
+            "sponsors.btn": "スポンサー・パートナーシップについて問い合わせる",
+            "contact.title": "お問い合わせ",
+            "contact.subtitle": "各種お申し込み・お問い合わせ",
+            "contact.r1_h": "体験練習・入部希望",
+            "contact.r1_d": "初心者・経験者問わず随時募集",
+            "contact.r2_h": "練習試合・対戦のお申し込み",
+            "contact.r2_d": "親善試合・グラウンド手配",
+            "contact.r3_h": "スポンサー・協賛のご相談",
+            "contact.r3_d": "チーム支援・パートナーシップ",
+            "contact.r4_h": "その他チームに関するご質問",
+            "contact.desc": "すべてのお問い合わせは以下のGoogleフォームより受け付けております。<br>お気軽にご連絡ください！",
+            "contact.btn": "お問い合わせフォームを開く"
+        },
+        it: {
+            "hero.title": "La passione italiana nel cuore di Yokohama",
+            "hero.subtitle": "Il calcio che unisce le persone",
+            "about.title": "Cos'è lo Yokohama Calcio",
+            "about.subtitle": "Squadra amatoriale a Yokohama in stile calcistico italiano",
+            "about.p1": "Lo Yokohama Calcio è una squadra amatoriale con sede a Yokohama. Nasce dall'unione tra l'approccio tattico e organizzativo del calcio italiano e il desiderio di creare un ambiente in cui tutti possano divertirsi giocando a pallone.",
+            "about.p2": "Siamo una comunità aperta che accoglie appassionati di ogni nazionalità ed esperienza. Dando valore al gioco di squadra e ai fondamentali tecnici, scendiamo in campo uniti per vincere ogni partita.",
+            "about.values_title": "I nostri Valori Fondamentali",
+            "about.val1_h": "Gioco di Squadra (Team First)",
+            "about.val1_d": "Spirito organizzato e sostegno reciproco",
+            "about.val2_h": "Ambiente Aperto",
+            "about.val2_d": "Aperti a tutte le età, nazionalità e livelli",
+            "about.val3_h": "Passione per il Calcio",
+            "about.val3_d": "Puntare alla vittoria divertendosi sempre",
+            "results.title": "Calendario e Risultati",
+            "results.next_badge": "Prossima Match",
+            "results.friendly_badge": "Amichevole",
+            "results.detail": "Dettagli",
+            "results.all_matches": "Vedi tutte le partite",
+            "gallery.title": "Galleria Fotografica",
+            "shop.title": "Online Shop Ufficiale",
+            "shop.card_title": "Prodotti Ufficiali Yokohama Calcio",
+            "shop.card_desc": "Acquista le maglie ufficiali, il materiale da allenamento e il merchandising del club.",
+            "shop.btn": "Visita lo Store Ufficiale",
+            "sponsors.title": "Sponsor Ufficiali",
+            "sponsors.placeholder": "Cercasi Sponsor",
+            "sponsors.recruit_text": "Lo Yokohama Calcio è alla ricerca di partner e aziende disposte a sostenere il progetto.",
+            "sponsors.btn": "Richiedi informazioni per Sponsorship",
+            "contact.title": "Contatti",
+            "contact.subtitle": "Invia una richiesta o un messaggio",
+            "contact.r1_h": "Prove & Nuovi Giocatori",
+            "contact.r1_d": "Aperto a tutti i livelli",
+            "contact.r2_h": "Richiesta Partita Amichevole",
+            "contact.r2_d": "Organizzazione sfide e campi",
+            "contact.r3_h": "Sponsorship & Partner",
+            "contact.r3_d": "Sostieni il club",
+            "contact.r4_h": "Altre domande sul club",
+            "contact.desc": "Tutte le richieste vengono gestite tramite il modulo Google ufficiale.<br>Non esitare a contattarci!",
+            "contact.btn": "Apri Modulo Contatti"
+        },
+        en: {
+            "hero.title": "Italian Football Passion in Yokohama",
+            "hero.subtitle": "Where Football Connects People",
+            "about.title": "About Yokohama Calcio",
+            "about.subtitle": "Italian-style Amateur Football Club in Yokohama",
+            "about.p1": "Yokohama Calcio is an amateur football team based in Yokohama, Japan. Founded to combine Italian tactical organization with an enjoyable environment for everyone to play football.",
+            "about.p2": "We are an open community bringing together football lovers regardless of nationality or skill level. Valuing teamwork (Gioco di Squadra) and basic skills, we fight together for victory in every match.",
+            "about.values_title": "Our Core Values",
+            "about.val1_h": "Team First (Gioco di Squadra)",
+            "about.val1_d": "Organized and supportive team spirit",
+            "about.val2_h": "Open Community",
+            "about.val2_d": "Welcoming all ages, nationalities, and skill levels",
+            "about.val3_h": "Football Passion",
+            "about.val3_d": "Striving for win while enjoying the game",
+            "results.title": "Matches & Results",
+            "results.next_badge": "Next Match",
+            "results.friendly_badge": "Friendly Match",
+            "results.detail": "Details",
+            "results.all_matches": "View All Matches",
+            "gallery.title": "Photo Gallery",
+            "shop.title": "Official Online Shop",
+            "shop.card_title": "Yokohama Calcio Official Gear",
+            "shop.card_desc": "Purchase official kits, training gear, and club merchandise here.",
+            "shop.btn": "Visit Official Store",
+            "sponsors.title": "Official Sponsors",
+            "sponsors.placeholder": "Sponsors Wanted",
+            "sponsors.recruit_text": "Yokohama Calcio is seeking corporate partners and sponsors to support our project.",
+            "sponsors.btn": "Inquire About Sponsorship",
+            "contact.title": "Contact Us",
+            "contact.subtitle": "Inquiries & Applications",
+            "contact.r1_h": "Join / Trial Training",
+            "contact.r1_d": "Open to all levels anytime",
+            "contact.r2_h": "Friendly Match Requests",
+            "contact.r2_d": "Match scheduling & pitch setup",
+            "contact.r3_h": "Sponsorship & Partnership",
+            "contact.r3_d": "Support the club",
+            "contact.r4_h": "General Questions",
+            "contact.desc": "All inquiries are accepted via our official Google Form.<br>Feel free to reach out!",
+            "contact.btn": "Open Contact Form"
+        }
+    };
+
+    // GESTIONE CAMBIO LINGUA
+    function setLanguage(lang) {
+        if (!translations[lang]) return;
+        localStorage.setItem('preferred_lang', lang);
+
+        document.querySelectorAll('[data-i18n]').forEach(elem => {
+            const key = elem.getAttribute('data-i18n');
+            if (translations[lang][key]) {
+                elem.innerHTML = translations[lang][key];
+            }
+        });
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            setLanguage(lang);
+        });
+    });
+
+    // 1. Reset Scroll al Refresh Page & Init Language
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
     }
@@ -396,7 +574,11 @@
     }
 
     window.scrollTo(0, 0);
-    window.addEventListener('DOMContentLoaded', () => window.scrollTo(0, 0));
+    window.addEventListener('DOMContentLoaded', () => {
+        window.scrollTo(0, 0);
+        const savedLang = localStorage.getItem('preferred_lang') || 'ja';
+        setLanguage(savedLang);
+    });
     window.addEventListener('load', () => window.scrollTo(0, 0));
 
     // 2. Menu Mobile Toggle
@@ -422,7 +604,7 @@
         });
     }
 
-    // 3. Carosello Risultati (Auto-Scroll Infinito + Drag/Touch)
+    // 3. Carosello Risultati
     const resultsTrack = document.getElementById('resultsTrack');
 
     if (resultsTrack && resultsTrack.children.length > 0) {
@@ -490,7 +672,7 @@
         container.addEventListener('touchmove', onMove, { passive: true });
     }
 
-    // 4. Fotogallery ad Scorrimento Automatico + Gestione Swipe Mobile
+    // 4. Fotogallery ad Scorrimento Automatico
     const galleryData = [
         './immagini/gallery/foto1.jpeg',
         './immagini/gallery/foto2.jpeg',
@@ -575,7 +757,7 @@
         }));
     }
 
-    // 5. Carosello Sponsor (Auto-Scroll Infinito)
+    // 5. Carosello Sponsor
     const sponsorsTrack = document.getElementById('sponsorsTrack');
 
     if (sponsorsTrack && sponsorsTrack.children.length > 0) {
