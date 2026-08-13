@@ -168,14 +168,17 @@ body {
 
 .brand-name {
     font-family: var(--font-brand);
-    font-size: 2.1rem;
-    letter-spacing: 2px;
+    font-size: 1.35rem;         /* Dimensioni ottimizzate per le due righe */
+    letter-spacing: 1.5px;
     color: var(--dark-navy);
-    line-height: 1;
+    line-height: 0.9;          /* Line-height ridotto per avvicinare le due scritte */
     font-weight: 700;
     text-transform: uppercase;
     text-decoration: none !important;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;    /* Mette Yokohama sopra e Calcio sotto */
+    justify-content: center;
+    align-items: flex-start;  /* Allinea il testo a sinistra accanto al logo */
 }
 
 .desktop-nav-wrapper {
