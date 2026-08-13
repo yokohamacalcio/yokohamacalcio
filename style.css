@@ -167,49 +167,33 @@ body {
 }
 
 /* ==========================================
-   BRAND NAME (BASE / MOBILE PORTRAIT)
-   Default: su una sola riga per smartphone in verticale
+   BRAND NAME (RESPONSIVE)
+   Default: Su 2 righe da Mobile Portrait, Landscape e Tablet
    ========================================== */
 .brand-name {
     font-family: var(--font-brand);
-    font-size: 1.6rem;
+    font-size: 1.25rem;
     letter-spacing: 1.5px;
     color: var(--dark-navy);
-    line-height: 1;
+    line-height: 0.92;
     font-weight: 700;
     text-transform: uppercase;
     text-decoration: none !important;
-    display: inline-flex;
-    flex-direction: row;       /* Inserisce il testo su una sola riga */
-    gap: 6px;                  /* Spazio tra YOKOHAMA e CALCIO */
-    align-items: center;
+    display: flex;
+    flex-direction: column;    /* YOKOHAMA sopra, CALCIO sotto */
+    align-items: flex-start;
+    gap: 0;
 }
 
-/* ==========================================
-   DESKTOP (da 769px in poi)
-   Dispone il testo su due righe per risparmiare spazio laterale
-   ========================================== */
-@media (min-width: 769px) {
+/* SOLO PC / DESKTOP (da 1025px in su)
+   Testo su UN'UNICA RIGA e più grande */
+@media (min-width: 1025px) {
     .brand-name {
-        flex-direction: column;   /* YOKOHAMA sopra, CALCIO sotto */
-        align-items: flex-start;
-        font-size: 1.25rem;       /* Dimensione ottimizzata per 2 righe */
-        line-height: 0.9;         /* Avvicina le due righe */
-        gap: 0;
-    }
-}
-
-/* ==========================================
-   MOBILE & TABLET IN ORIZZONTALE (LANDSCAPE)
-   Forza le due righe quando il dispositivo è ruotato
-   ========================================== */
-@media (max-width: 900px) and (orientation: landscape) {
-    .brand-name {
-        flex-direction: column;   /* YOKOHAMA sopra, CALCIO sotto */
-        align-items: flex-start;
-        font-size: 1.15rem;
-        line-height: 0.9;
-        gap: 0;
+        flex-direction: row;     /* YOKOHAMA e CALCIO sulla stessa riga */
+        align-items: center;
+        gap: 8px;                /* Spazio orizzontale tra YOKOHAMA e CALCIO */
+        font-size: 1.85rem;      /* Dimensione testo più ampia per PC */
+        line-height: 1;
     }
 }
 
@@ -313,31 +297,35 @@ body {
 }
 
 /* ==========================================
-   HERO SECTION
+   HERO SECTION (BANNER PRINCIPALE)
    ========================================== */
 .hero {
-    background: linear-gradient(rgba(0, 60, 130, 0.78), rgba(0, 60, 130, 0.78)), 
-                url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=2000') no-repeat center/cover;
-    height: 65vh;
-    min-height: 420px;
+    position: relative;
+    width: 100%;
+    min-height: 65vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: var(--white);
-    padding: 0 20px;
+    padding: 60px 20px;
+    
+    /* Immagine di sfondo con overlay scuro bilanciato */
+    background: linear-gradient(rgba(0, 60, 130, 0.65), rgba(0, 60, 130, 0.65)), 
+                url('./immagini/gallery/foto1.jpeg') no-repeat center center / cover;
 }
 
 .hero h2 { 
     font-size: 3.2rem; 
     font-weight: 700;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.4);
 }
 
 .hero p {
     font-size: 1.25rem;
     margin-top: 10px;
     opacity: 0.95;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.3);
 }
 
 .color-stripes {
@@ -478,7 +466,7 @@ body {
 }
 
 /* ==========================================
-   BADGES PARTITE & DISCIPLINARI (AGGIORNATI)
+   BADGES PARTITE & DISCIPLINARI
    ========================================== */
 .match-badge {
     display: inline-block;
@@ -717,13 +705,11 @@ body {
     line-height: 1;
 }
 
-/* NUMERO BIANCO PER IL PORTIERE */
 .player-card.gk-card .player-number {
     color: #ffffff !important;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
-/* CONTENITORE FOTO + BADGE OVERLAY CHIARO IN BASSO A DESTRA */
 .player-photo {
     position: relative;
     height: 240px;
@@ -797,7 +783,6 @@ body {
     margin-top: 2px;
 }
 
-/* ESPANSIONE SCHEDA STATISTICHE ED ICONE STATS */
 .player-details-expand {
     max-height: 0;
     overflow: hidden;
@@ -1563,10 +1548,6 @@ body {
     .desktop-nav-wrapper { display: none; }
     .mobile-menu-toggle { display: block; }
 
-    .brand-name {
-        font-size: 1.6rem;
-    }
-
     .about-grid {
         grid-template-columns: 1fr;
         gap: 25px;
@@ -1612,8 +1593,7 @@ body {
     }
 
     .hero {
-        height: 55vh;
-        min-height: 350px;
+        min-height: 380px;
     }
 
     .hero h2 { 
