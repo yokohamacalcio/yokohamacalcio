@@ -19,67 +19,98 @@
 <body>
 
 <header class="header">
-  <div class="container">
-    <div class="logo-title">
-      <a href="index.html"><img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo"></a>
-      <span class="brand-name">YOKOHAMA CALCIO</span>
-    </div>
-
-    <div class="desktop-nav-wrapper">
-      <nav class="main-nav">
-        <a href="index.html#about">チーム紹介</a>
-        <a href="matches.html">試合日程・結果</a>
-        <a href="players.html" style="color: var(--primary-sky);">選手紹介</a>
-        <a href="stats.html">成績・スタッツ</a>
-        <a href="faq.html">よくある質問</a>
-        <a href="index.html#gallery">ギャラリー</a>
-        <a href="index.html#shop">ショップ</a>
-        <a href="index.html#sponsors">スポンサー</a>
-        <a href="index.html#contact">お問い合わせ</a>
-      </nav>
-      <div class="header-social-icons">
+  <!-- TOP BAR: SOCIAL & SWITCHER LINGUA -->
+  <div class="top-bar">
+    <div class="container top-bar-container">
+      <div class="top-bar-social">
         <a href="https://x.com/yokohamacalcio" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
         <a href="https://instagram.com/yokohamacalcio" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
         <a href="https://youtube.com/@yokohamacalcio?si=NBPkZ0qFxFVrOIof" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
       </div>
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="ja">JP</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="it">IT</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
     </div>
-
-    <button class="mobile-menu-toggle" aria-label="Menu">
-      <i class="fas fa-bars"></i>
-    </button>
   </div>
 
-  <nav class="mobile-nav hidden">
-    <a href="index.html#about" class="mobile-link">チーム紹介</a>
-    <a href="matches.html" class="mobile-link">試合日程・結果</a>
-    <a href="players.html" class="mobile-link">選手紹介</a>
-    <a href="stats.html" class="mobile-link">成績・スタッツ</a>
-    <a href="faq.html" class="mobile-link">よくある質問</a>
-    <a href="index.html#gallery" class="mobile-link">ギャラリー</a>
-    <a href="index.html#shop" class="mobile-link">ショップ</a>
-    <a href="index.html#sponsors" class="mobile-link">スポンサー</a>
-    <a href="index.html#contact" class="mobile-link">お問い合わせ</a>
-    <div class="mobile-social-icons">
-      <a href="https://x.com/yokohamacalcio" target="_blank"><i class="fab fa-x-twitter"></i></a>
-      <a href="https://instagram.com/yokohamacalcio" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://youtube.com/@yokohamacalcio?si=NBPkZ0qFxFVrOIof" target="_blank"><i class="fab fa-youtube"></i></a>
+  <!-- MAIN NAVIGATION BAR -->
+  <div class="main-header-bar">
+    <div class="container header-container">
+      <div class="logo-title">
+        <a href="index.html"><img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo"></a>
+        <span class="brand-name">YOKOHAMA CALCIO</span>
+      </div>
+
+      <div class="desktop-nav-wrapper">
+        <nav class="main-nav">
+          <!-- DROPDOWN SQUADRA -->
+          <div class="nav-item dropdown">
+            <a href="index.html#about" class="dropdown-toggle"><span data-i18n="nav.team">チーム</span> <i class="fas fa-chevron-down nav-arrow"></i></a>
+            <div class="dropdown-menu">
+              <a href="index.html#about" data-i18n="nav.about">チーム紹介</a>
+              <a href="players.html" style="color: var(--primary-sky);" data-i18n="nav.players">選手紹介</a>
+              <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
+            </div>
+          </div>
+
+          <!-- LINK PARTITE -->
+          <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
+
+          <!-- DROPDOWN CLUB / MEDIA -->
+          <div class="nav-item dropdown">
+            <a href="index.html#gallery" class="dropdown-toggle"><span data-i18n="nav.club">クラブ</span> <i class="fas fa-chevron-down nav-arrow"></i></a>
+            <div class="dropdown-menu">
+              <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
+              <a href="index.html#sponsors" data-i18n="nav.sponsors">スポンサー</a>
+              <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
+            </div>
+          </div>
+
+          <!-- LINK SHOP -->
+          <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
+
+          <!-- BOTTONE CTA CONTATTI -->
+          <a href="index.html#contact" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
+        </nav>
+      </div>
+
+      <button class="mobile-menu-toggle" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
+  </div>
+
+  <!-- MOBILE NAVIGATION NAV -->
+  <nav class="mobile-nav hidden">
+    <a href="index.html#about" class="mobile-link" data-i18n="nav.about">チーム紹介</a>
+    <a href="matches.html" class="mobile-link" data-i18n="nav.matches">試合日程・結果</a>
+    <a href="players.html" class="mobile-link" data-i18n="nav.players">選手紹介</a>
+    <a href="stats.html" class="mobile-link" data-i18n="nav.stats">成績・スタッツ</a>
+    <a href="faq.html" class="mobile-link" data-i18n="nav.faq">よくある質問</a>
+    <a href="index.html#gallery" class="mobile-link" data-i18n="nav.gallery">ギャラリー</a>
+    <a href="index.html#shop" class="mobile-link" data-i18n="nav.shop">ショップ</a>
+    <a href="index.html#sponsors" class="mobile-link" data-i18n="nav.sponsors">スポンサー</a>
+    <a href="index.html#contact" class="mobile-link mobile-cta" data-i18n="nav.contact">お問い合わせ</a>
   </nav>
 </header>
 
 <section class="section players-page-section">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-users"></i> 選手・スタッフ紹介</h2>
-        <p class="players-intro">カードをタップすると詳細情報・個人成績をご覧いただけます。</p>
+        <h2 class="section-title"><i class="fas fa-users"></i> <span data-i18n="players_page.title">選手・スタッフ紹介</span></h2>
+        <p class="players-intro" data-i18n="players_page.intro">カードをタップすると詳細情報・個人成績をご覧いただけます。</p>
 
         <!-- FILTRI PER RUOLO -->
         <div class="filter-wrapper">
-            <button class="filter-btn active" data-role-filter="all">すべて (ALL)</button>
-            <button class="filter-btn" data-role-filter="gk">GK</button>
-            <button class="filter-btn" data-role-filter="df">DF</button>
-            <button class="filter-btn" data-role-filter="mf">MF</button>
-            <button class="filter-btn" data-role-filter="fw">FW</button>
-            <button class="filter-btn" data-role-filter="staff">STAFF</button>
+            <button class="filter-btn active" data-role-filter="all" data-i18n="role_filter.all">すべて (ALL)</button>
+            <button class="filter-btn" data-role-filter="gk" data-i18n="role_filter.gk">GK</button>
+            <button class="filter-btn" data-role-filter="df" data-i18n="role_filter.df">DF</button>
+            <button class="filter-btn" data-role-filter="mf" data-i18n="role_filter.mf">MF</button>
+            <button class="filter-btn" data-role-filter="fw" data-i18n="role_filter.fw">FW</button>
+            <button class="filter-btn" data-role-filter="staff" data-i18n="role_filter.staff">STAFF</button>
         </div>
 
         <!-- GOALKEEPER (GK) -->
@@ -99,11 +130,11 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>熊本県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>24 歳</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>熊本県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>24 歳</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -127,13 +158,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>20 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>20 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -151,13 +182,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>メキシコ</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>35 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>メキシコ</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>35 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -175,13 +206,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>30 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>30 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -199,13 +230,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>- 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>- 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -223,13 +254,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>24 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>24 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -247,13 +278,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>21 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>21 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -271,13 +302,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>25 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>25 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -301,13 +332,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>イタリア</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>38 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>イタリア</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>38 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -325,13 +356,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>愛知県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>20 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>愛知県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>20 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -349,13 +380,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>静岡県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>20 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>静岡県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>20 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -373,13 +404,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>20 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>20 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -397,13 +428,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>茨城県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>35 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>茨城県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>35 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -421,13 +452,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>静岡県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>28 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>静岡県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>30 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -445,13 +476,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>25 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>25 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -469,13 +500,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>- 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>- 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -493,13 +524,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>- 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>- 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -517,13 +548,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>30 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>30 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -541,13 +572,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>23 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>23 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -571,13 +602,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>31 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>31 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -595,13 +626,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>26 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>26 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -619,13 +650,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>佐賀県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>21 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>佐賀県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>21 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -643,13 +674,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>イタリア</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>23 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>イタリア</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>23 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -667,13 +698,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>27 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>27 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -691,13 +722,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>22 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>22 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -715,13 +746,13 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>年齢:</span> <strong>24 歳</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> 得点:</span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> アシスト:</span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong>24 歳</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
                             <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> 警告:</span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
-                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> 退場:</span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                            <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
                         </div>
                     </div>
                 </div>
@@ -745,8 +776,8 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>新潟県</strong></div>
-                            <div class="player-detail-row"><span>役割:</span> <strong>マネージャー</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>新潟県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.staff_role">役割:</span> <strong data-i18n="role.manager">マネージャー</strong></div>
                         </div>
                     </div>
                 </div>
@@ -764,8 +795,8 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>埼玉県</strong></div>
-                            <div class="player-detail-row"><span>役割:</span> <strong>マネージャー</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>埼玉県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.staff_role">役割:</span> <strong data-i18n="role.manager">マネージャー</strong></div>
                         </div>
                     </div>
                 </div>
@@ -783,8 +814,8 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>役割:</span> <strong>マネージャー</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.staff_role">役割:</span> <strong data-i18n="role.manager">マネージャー</strong></div>
                         </div>
                     </div>
                 </div>
@@ -802,8 +833,8 @@
                     </div>
                     <div class="player-details-expand">
                         <div class="player-details-inner">
-                            <div class="player-detail-row"><span>出身地:</span> <strong>神奈川県</strong></div>
-                            <div class="player-detail-row"><span>役割:</span> <strong>マネージャー</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong>神奈川県</strong></div>
+                            <div class="player-detail-row"><span data-i18n="label.staff_role">役割:</span> <strong data-i18n="role.manager">マネージャー</strong></div>
                         </div>
                     </div>
                 </div>
@@ -812,7 +843,7 @@
 
         <div class="back-home-wrapper">
             <a href="index.html" class="google-form-btn back-btn">
-                <i class="fas fa-arrow-left"></i> ホームに戻る
+                <i class="fas fa-arrow-left"></i> <span data-i18n="btn.back_home">ホームに戻る</span>
             </a>
         </div>
     </div>
@@ -825,6 +856,124 @@
 </footer>
 
 <script>
+    // DIZIONARIO TRADUZIONI MULTILINGUA (JP, IT, EN)
+    const translations = {
+        ja: {
+            "nav.team": "チーム",
+            "nav.about": "チーム紹介",
+            "nav.players": "選手紹介",
+            "nav.stats": "成績・スタッツ",
+            "nav.matches": "試合日程・結果",
+            "nav.club": "クラブ",
+            "nav.gallery": "ギャラリー",
+            "nav.sponsors": "スポンサー",
+            "nav.faq": "よくある質問",
+            "nav.shop": "ショップ",
+            "nav.contact": "お問い合わせ",
+            "players_page.title": "選手・スタッフ紹介",
+            "players_page.intro": "カードをタップすると詳細情報・個人成績をご覧いただけます。",
+            "role_filter.all": "すべて (ALL)",
+            "role_filter.gk": "GK",
+            "role_filter.df": "DF",
+            "role_filter.mf": "MF",
+            "role_filter.fw": "FW",
+            "role_filter.staff": "STAFF",
+            "btn.back_home": "ホームに戻る",
+            "label.hometown": "出身地:",
+            "label.age": "年齢:",
+            "label.goals": "得点:",
+            "label.assists": "アシスト:",
+            "label.yellows": "警告:",
+            "label.reds": "退場:",
+            "label.staff_role": "役割:",
+            "role.manager": "マネージャー"
+        },
+        it: {
+            "nav.team": "SQUADRA",
+            "nav.about": "Chi Siamo",
+            "nav.players": "Giocatori",
+            "nav.stats": "Statistiche",
+            "nav.matches": "Partite & Risultati",
+            "nav.club": "CLUB",
+            "nav.gallery": "Galleria",
+            "nav.sponsors": "Sponsor",
+            "nav.faq": "FAQ",
+            "nav.shop": "Shop",
+            "nav.contact": "Contatti",
+            "players_page.title": "Rosa & Staff",
+            "players_page.intro": "Tocca la scheda per visualizzare i dettagli e le statistiche personali.",
+            "role_filter.all": "Tutti",
+            "role_filter.gk": "Portieri",
+            "role_filter.df": "Difensori",
+            "role_filter.mf": "Centrocampisti",
+            "role_filter.fw": "Attaccanti",
+            "role_filter.staff": "Staff",
+            "btn.back_home": "Torna alla Home",
+            "label.hometown": "Origine:",
+            "label.age": "Età:",
+            "label.goals": "Gol:",
+            "label.assists": "Assist:",
+            "label.yellows": "Amm:",
+            "label.reds": "Esp:",
+            "label.staff_role": "Ruolo:",
+            "role.manager": "Manager"
+        },
+        en: {
+            "nav.team": "TEAM",
+            "nav.about": "About Us",
+            "nav.players": "Players",
+            "nav.stats": "Stats",
+            "nav.matches": "Matches & Results",
+            "nav.club": "CLUB",
+            "nav.gallery": "Gallery",
+            "nav.sponsors": "Sponsors",
+            "nav.faq": "FAQ",
+            "nav.shop": "Shop",
+            "nav.contact": "Contact Us",
+            "players_page.title": "Players & Staff",
+            "players_page.intro": "Tap a card to view detailed info and personal stats.",
+            "role_filter.all": "All Players",
+            "role_filter.gk": "GK",
+            "role_filter.df": "DF",
+            "role_filter.mf": "MF",
+            "role_filter.fw": "FW",
+            "role_filter.staff": "Staff",
+            "btn.back_home": "Back to Home",
+            "label.hometown": "Hometown:",
+            "label.age": "Age:",
+            "label.goals": "Goals:",
+            "label.assists": "Assists:",
+            "label.yellows": "Yellows:",
+            "label.reds": "Reds:",
+            "label.staff_role": "Role:",
+            "role.manager": "Manager"
+        }
+    };
+
+    // GESTIONE CAMBIO LINGUA
+    function setLanguage(lang) {
+        if (!translations[lang]) return;
+        localStorage.setItem('preferred_lang', lang);
+
+        document.querySelectorAll('[data-i18n]').forEach(elem => {
+            const key = elem.getAttribute('data-i18n');
+            if (translations[lang][key]) {
+                elem.innerHTML = translations[lang][key];
+            }
+        });
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            setLanguage(lang);
+        });
+    });
+
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
     }
@@ -834,7 +983,11 @@
     }
 
     window.scrollTo(0, 0);
-    window.addEventListener('DOMContentLoaded', () => window.scrollTo(0, 0));
+    window.addEventListener('DOMContentLoaded', () => {
+        window.scrollTo(0, 0);
+        const savedLang = localStorage.getItem('preferred_lang') || 'ja';
+        setLanguage(savedLang);
+    });
     window.addEventListener('load', () => window.scrollTo(0, 0));
 
     // Mobile Menu Toggle
