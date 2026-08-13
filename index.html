@@ -81,64 +81,64 @@
     </div>
   </div>
 
-  <!-- MAIN NAVIGATION BAR -->
+  <!-- MAIN NAVIGATION BAR (SOLO IN GIAPPONESE) -->
   <div class="main-header-bar">
     <div class="container header-container">
-      
-      <!-- LOGO & BRAND NAME (su 2 righe da desktop) -->
       <div class="logo-title">
-        <a href="index.html">
-          <img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo">
-        </a>
-        <a href="index.html" class="brand-name">
-          <span>YOKOHAMA</span>
-          <span class="brand-sub">CALCIO</span>
-        </a>
+        <a href="#"><img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo"></a>
+        <span class="brand-name">YOKOHAMA CALCIO</span>
       </div>
 
-      <!-- DESKTOP NAV -->
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
-          <!-- DROPDOWN 1: SQUADRA -->
+          <!-- DROPDOWN SQUADRA -->
           <div class="nav-item dropdown">
-            <a href="index.html#about" class="dropdown-toggle"><span data-i18n="nav.team">チーム</span> <i class="fas fa-chevron-down nav-arrow"></i></a>
+            <a href="#about" class="dropdown-toggle">チーム <i class="fas fa-chevron-down nav-arrow"></i></a>
             <div class="dropdown-menu">
-              <a href="index.html#about" data-i18n="nav.about">チーム紹介</a>
-              <a href="players.html" data-i18n="nav.players">選手紹介</a>
-              <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
-              <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
+              <a href="#about">チーム紹介</a>
+              <a href="players.html">選手紹介</a>
+              <a href="stats.html">成績・スタッツ</a>
             </div>
           </div>
 
-          <!-- LINK DIRETTI -->
-          <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
-          <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
-          <a href="index.html#sponsors" data-i18n="nav.sponsors">スポンサー</a>
-          <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
+          <!-- LINK PARTITE -->
+          <a href="matches.html">試合日程・結果</a>
+
+          <!-- DROPDOWN CLUB / MEDIA -->
+          <div class="nav-item dropdown">
+            <a href="#gallery" class="dropdown-toggle">クラブ <i class="fas fa-chevron-down nav-arrow"></i></a>
+            <div class="dropdown-menu">
+              <a href="#gallery">ギャラリー</a>
+              <a href="#sponsors">スポンサー</a>
+              <a href="faq.html">よくある質問</a>
+            </div>
+          </div>
+
+          <!-- LINK SHOP -->
+          <a href="#shop">ショップ</a>
 
           <!-- BOTTONE CTA CONTATTI -->
-          <a href="index.html#contact" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
+          <a href="#contact" class="nav-cta-btn">お問い合わせ</a>
         </nav>
       </div>
 
-      <!-- HAMBURGER MENU (MOBILE) -->
       <button class="mobile-menu-toggle" aria-label="Menu">
         <i class="fas fa-bars"></i>
       </button>
     </div>
   </div>
 
-  <!-- MOBILE NAVIGATION NAV -->
+  <!-- MOBILE NAVIGATION NAV (SOLO IN GIAPPONESE) -->
   <nav class="mobile-nav hidden">
-    <a href="index.html#about" class="mobile-link" data-i18n="nav.about">チーム紹介</a>
-    <a href="players.html" class="mobile-link" data-i18n="nav.players">選手紹介</a>
-    <a href="stats.html" class="mobile-link" data-i18n="nav.stats">成績・スタッツ</a>
-    <a href="index.html#gallery" class="mobile-link" data-i18n="nav.gallery">ギャラリー</a>
-    <a href="matches.html" class="mobile-link" data-i18n="nav.matches">試合日程・結果</a>
-    <a href="index.html#shop" class="mobile-link" data-i18n="nav.shop">ショップ</a>
-    <a href="index.html#sponsors" class="mobile-link" data-i18n="nav.sponsors">スポンサー</a>
-    <a href="faq.html" class="mobile-link" data-i18n="nav.faq">よくある質問</a>
-    <a href="index.html#contact" class="mobile-link mobile-cta" data-i18n="nav.contact">お問い合わせ</a>
+    <a href="#about" class="mobile-link">チーム紹介</a>
+    <a href="matches.html" class="mobile-link">試合日程・結果</a>
+    <a href="players.html" class="mobile-link">選手紹介</a>
+    <a href="stats.html" class="mobile-link">成績・スタッツ</a>
+    <a href="faq.html" class="mobile-link">よくある質問</a>
+    <a href="#gallery" class="mobile-link">ギャラリー</a>
+    <a href="#shop" class="mobile-link">ショップ</a>
+    <a href="#sponsors" class="mobile-link">スポンサー</a>
+    <a href="#contact" class="mobile-link mobile-cta">お問い合わせ</a>
   </nav>
 </header>
 
@@ -189,13 +189,101 @@
     </div>
 </section>
 
-<!-- CAROSELLO RISULTATI E PROSSIME PARTITE (DINAMICO DA MATCHES.HTML) -->
+<!-- CAROSELLO RISULTATI E PROSSIME PARTITE -->
 <section class="section results-section" id="results">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-trophy"></i> <span data-i18n="results.title">試合結果・日程</span></h2>
         <div class="results-carousel-container">
             <div class="results-track" id="resultsTrack">
-                <!-- Verrà popolato automaticamente dallo script caricando i dati da matches.html -->
+
+                <!-- 1. PROSSIMA: YSCCミドル (30 Agosto - 11:00 KO) -->
+                <div class="result-card match-upcoming">
+                    <div class="match-badge badge-next" data-i18n="results.next_badge">次戦 (練習試合)</div>
+                    <div class="match-date">2026.08.30 (11:00 KO)</div>
+                    <div class="match-location"><i class="fas fa-map-marker-alt"></i> 新横浜公園第一運動広場</div>
+                    <div class="match-content">
+                        <div class="team-box">
+                            <img src="./immagini/logo.png" alt="Yokohama Calcio" class="team-logo">
+                            <span class="team-name">Yokohama Calcio</span>
+                        </div>
+                        <div class="score-box">
+                            <span class="score-text">VS</span>
+                            <span class="match-status next-time">30 Aug</span>
+                            <a href="matches.html#match-1" class="match-card-link"><i class="fas fa-info-circle"></i> <span data-i18n="results.detail">詳細</span></a>
+                        </div>
+                        <div class="team-box">
+                            <img src="https://ui-avatars.com/api/?name=YSCC+Middle&background=15803d&color=ffffff&size=100&bold=true" alt="YSCCミドル" class="team-logo opponent-logo">
+                            <span class="team-name">YSCCミドル</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. PROSSIMA: Nishiya AFC (16 Agosto - 19:00 KO) -->
+                <div class="result-card match-upcoming">
+                    <div class="match-badge badge-next" data-i18n="results.next_badge">次戦 (練習試合)</div>
+                    <div class="match-date">2026.08.16 (19:00 KO)</div>
+                    <div class="match-location"><i class="fas fa-map-marker-alt"></i> 西谷中学校</div>
+                    <div class="match-content">
+                        <div class="team-box">
+                            <img src="./immagini/logo.png" alt="Yokohama Calcio" class="team-logo">
+                            <span class="team-name">Yokohama Calcio</span>
+                        </div>
+                        <div class="score-box">
+                            <span class="score-text">VS</span>
+                            <span class="match-status next-time">16 Aug</span>
+                            <a href="matches.html#match-2" class="match-card-link"><i class="fas fa-info-circle"></i> <span data-i18n="results.detail">詳細</span></a>
+                        </div>
+                        <div class="team-box">
+                            <img src="https://ui-avatars.com/api/?name=Nishiya+AFC&background=0284c7&color=ffffff&size=100&bold=true" alt="Nishiya AFC" class="team-logo opponent-logo">
+                            <span class="team-name">Nishiya AFC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. RECENTE: YSCCミドル (9 Agosto - 15:00 KO) -->
+                <div class="result-card">
+                    <div class="match-badge badge-friendly" data-i18n="results.friendly_badge">練習試合</div>
+                    <div class="match-date">2026.08.09 (15:00 KO)</div>
+                    <div class="match-location"><i class="fas fa-map-marker-alt"></i> 新横浜公園第一運動広場</div>
+                    <div class="match-content">
+                        <div class="team-box">
+                            <img src="./immagini/logo.png" alt="Yokohama Calcio" class="team-logo">
+                            <span class="team-name">Yokohama Calcio</span>
+                        </div>
+                        <div class="score-box">
+                            <span class="score-text">1 - 4</span>
+                            <span class="match-status lose">LOSE</span>
+                            <a href="matches.html#match-3" class="match-card-link"><i class="fas fa-info-circle"></i> <span data-i18n="results.detail">詳細</span></a>
+                        </div>
+                        <div class="team-box">
+                            <img src="https://ui-avatars.com/api/?name=YSCC+Middle&background=15803d&color=ffffff&size=100&bold=true" alt="YSCCミドル" class="team-logo opponent-logo">
+                            <span class="team-name">YSCCミドル</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. RECENTE: YC&AC Pulse (19 Luglio - 11:00 KO) -->
+                <div class="result-card">
+                    <div class="match-badge badge-friendly" data-i18n="results.friendly_badge">練習試合</div>
+                    <div class="match-date">2026.07.19 (11:00 KO)</div>
+                    <div class="match-location"><i class="fas fa-map-marker-alt"></i> YC&ACグラウンド</div>
+                    <div class="match-content">
+                        <div class="team-box">
+                            <img src="./immagini/logo.png" alt="Yokohama Calcio" class="team-logo">
+                            <span class="team-name">Yokohama Calcio</span>
+                        </div>
+                        <div class="score-box">
+                            <span class="score-text">1 - 4</span>
+                            <span class="match-status lose">LOSE</span>
+                            <a href="matches.html#match-4" class="match-card-link"><i class="fas fa-info-circle"></i> <span data-i18n="results.detail">詳細</span></a>
+                        </div>
+                        <div class="team-box">
+                            <img src="https://ui-avatars.com/api/?name=YCAC+Pulse&background=dc2626&color=ffffff&size=100&bold=true" alt="YC&AC Pulse" class="team-logo opponent-logo">
+                            <span class="team-name">YC&AC Pulse</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -331,16 +419,6 @@
     // DIZIONARIO TRADUZIONI MULTILINGUA (JP, IT, EN)
     const translations = {
         ja: {
-            "nav.team": "チーム",
-            "nav.about": "チーム紹介",
-            "nav.players": "選手紹介",
-            "nav.stats": "成績・スタッツ",
-            "nav.matches": "試合日程・結果",
-            "nav.gallery": "ギャラリー",
-            "nav.sponsors": "スポンサー",
-            "nav.faq": "よくある質問",
-            "nav.shop": "ショップ",
-            "nav.contact": "お問い合わせ",
             "hero.title": "横浜に咲くイタリアの情熱",
             "hero.subtitle": "サッカーで心をつなぐ場所",
             "about.title": "Yokohama Calcioとは",
@@ -381,16 +459,6 @@
             "contact.btn": "お問い合わせフォームを開く"
         },
         it: {
-            "nav.team": "SQUADRA",
-            "nav.about": "Chi Siamo",
-            "nav.players": "Giocatori",
-            "nav.stats": "Statistiche",
-            "nav.matches": "Partite & Risultati",
-            "nav.gallery": "Galleria",
-            "nav.sponsors": "Sponsor",
-            "nav.faq": "FAQ",
-            "nav.shop": "Shop",
-            "nav.contact": "Contatti",
             "hero.title": "La passione italiana nel cuore di Yokohama",
             "hero.subtitle": "Il calcio che unisce le persone",
             "about.title": "Cos'è lo Yokohama Calcio",
@@ -431,16 +499,6 @@
             "contact.btn": "Apri Modulo Contatti"
         },
         en: {
-            "nav.team": "TEAM",
-            "nav.about": "About Us",
-            "nav.players": "Players",
-            "nav.stats": "Stats",
-            "nav.matches": "Matches & Results",
-            "nav.gallery": "Gallery",
-            "nav.sponsors": "Sponsors",
-            "nav.faq": "FAQ",
-            "nav.shop": "Shop",
-            "nav.contact": "Contact Us",
             "hero.title": "Italian Football Passion in Yokohama",
             "hero.subtitle": "Where Football Connects People",
             "about.title": "About Yokohama Calcio",
@@ -506,7 +564,7 @@
         });
     });
 
-    // Reset Scroll
+    // 1. Reset Scroll al Refresh Page & Init Language
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
     }
@@ -516,88 +574,44 @@
     }
 
     window.scrollTo(0, 0);
+    window.addEventListener('DOMContentLoaded', () => {
+        window.scrollTo(0, 0);
+        const savedLang = localStorage.getItem('preferred_lang') || 'ja';
+        setLanguage(savedLang);
+    });
+    window.addEventListener('load', () => window.scrollTo(0, 0));
 
-    // 1. CARICAMENTO DINAMICO CAROSELLO DA MATCHES.HTML E AVVIO SCORRIMENTO
-    async function initDynamicCarousel() {
-        const resultsTrack = document.getElementById('resultsTrack');
-        if (!resultsTrack) return;
+    // 2. Menu Mobile Toggle
+    const menuBtn = document.querySelector('.mobile-menu-toggle');
+    const mobileNav = document.querySelector('.mobile-nav');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+    
+    if (menuBtn && mobileNav) {
+        menuBtn.addEventListener('click', () => {
+            mobileNav.classList.toggle('hidden');
+            const icon = menuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
 
-        try {
-            const response = await fetch('matches.html');
-            if (!response.ok) return;
-            const text = await response.text();
-            const doc = new DOMParser().parseFromString(text, 'text/html');
-
-            const upcomingCards = Array.from(doc.querySelectorAll('#upcomingContainer .match-detail-card'));
-            const pastCards = Array.from(doc.querySelectorAll('#pastContainer .match-past-item')).slice(0, 3);
-            const allCards = [...upcomingCards, ...pastCards];
-
-            if (allCards.length === 0) return;
-
-            resultsTrack.innerHTML = '';
-
-            allCards.forEach(card => {
-                const matchId = card.getAttribute('id');
-                const badgeText = card.querySelector('.match-badge')?.outerHTML || '';
-                const dateText = card.querySelector('.match-date-text')?.textContent || '';
-                const venueText = card.querySelector('[data-i18n="label.venue"]')?.nextElementSibling?.textContent || '';
-                
-                const team1Img = card.querySelectorAll('.match-team img')[0]?.src || './immagini/logo.png';
-                const team1Name = card.querySelectorAll('.match-team span')[0]?.textContent || 'Yokohama Calcio';
-                const scoreOrVs = card.querySelector('.match-vs-score')?.textContent.trim() || 'VS';
-                const team2Img = card.querySelectorAll('.match-team img')[1]?.src || '';
-                const team2Name = card.querySelectorAll('.match-team span')[1]?.textContent || '';
-
-                const cardDiv = document.createElement('div');
-                cardDiv.className = 'result-card' + (card.classList.contains('match-upcoming') ? ' match-upcoming' : '');
-                cardDiv.style.cursor = 'pointer';
-
-                cardDiv.innerHTML = `
-                    ${badgeText}
-                    <div class="match-date">${dateText}</div>
-                    <div class="match-location"><i class="fas fa-map-marker-alt"></i> ${venueText}</div>
-                    <div class="match-content">
-                        <div class="team-box">
-                            <img src="${team1Img}" alt="${team1Name}" class="team-logo">
-                            <span class="team-name">${team1Name}</span>
-                        </div>
-                        <div class="score-box">
-                            <span class="score-text">${scoreOrVs}</span>
-                            <a href="matches.html#${matchId}" class="match-card-link"><i class="fas fa-info-circle"></i> <span data-i18n="results.detail">詳細</span></a>
-                        </div>
-                        <div class="team-box">
-                            <img src="${team2Img}" alt="${team2Name}" class="team-logo opponent-logo">
-                            <span class="team-name">${team2Name}</span>
-                        </div>
-                    </div>
-                `;
-
-                cardDiv.addEventListener('click', (e) => {
-                    if (!e.target.closest('a')) {
-                        window.location.href = `matches.html#${matchId}`;
-                    }
-                });
-
-                resultsTrack.appendChild(cardDiv);
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.add('hidden');
+                const icon = menuBtn.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
             });
-
-            // Clona le schede per lo scorrimento infinito continuo
-            const originalCards = Array.from(resultsTrack.children);
-            originalCards.forEach(card => {
-                resultsTrack.appendChild(card.cloneNode(true));
-            });
-
-            startCarouselAnimation();
-
-        } catch (e) {
-            console.error("Errore nel caricamento del carosello:", e);
-        }
+        });
     }
 
-    // SCORRIMENTO AUTOMATICO E GESTIONE DRAG/SWIPE CAROSELLO
-    function startCarouselAnimation() {
-        const resultsTrack = document.getElementById('resultsTrack');
-        if (!resultsTrack) return;
+    // 3. Carosello Risultati
+    const resultsTrack = document.getElementById('resultsTrack');
+
+    if (resultsTrack && resultsTrack.children.length > 0) {
+        const originalCards = Array.from(resultsTrack.children);
+        originalCards.forEach(card => {
+            resultsTrack.appendChild(card.cloneNode(true));
+        });
 
         let scrollPos = 0;
         let isInteracting = false;
@@ -658,36 +672,7 @@
         container.addEventListener('touchmove', onMove, { passive: true });
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-        const savedLang = localStorage.getItem('preferred_lang') || 'ja';
-        setLanguage(savedLang);
-        initDynamicCarousel();
-    });
-
-    // Menu Mobile Toggle
-    const menuBtn = document.querySelector('.mobile-menu-toggle');
-    const mobileNav = document.querySelector('.mobile-nav');
-    const mobileLinks = document.querySelectorAll('.mobile-link');
-    
-    if (menuBtn && mobileNav) {
-        menuBtn.addEventListener('click', () => {
-            mobileNav.classList.toggle('hidden');
-            const icon = menuBtn.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
-        });
-
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileNav.classList.add('hidden');
-                const icon = menuBtn.querySelector('i');
-                icon.classList.add('fa-bars');
-                icon.classList.remove('fa-times');
-            });
-        });
-    }
-
-    // Fotogallery ad Scorrimento Automatico
+    // 4. Fotogallery ad Scorrimento Automatico
     const galleryData = [
         './immagini/gallery/foto1.jpeg',
         './immagini/gallery/foto2.jpeg',
@@ -772,7 +757,7 @@
         }));
     }
 
-    // Carosello Sponsor
+    // 5. Carosello Sponsor
     const sponsorsTrack = document.getElementById('sponsorsTrack');
 
     if (sponsorsTrack && sponsorsTrack.children.length > 0) {
@@ -796,7 +781,7 @@
         requestAnimationFrame(scrollSponsorsStep);
     }
 
-    // Pulsante Scroll to Top
+    // 6. Pulsante Scroll to Top
     const topBtn = document.getElementById('scrollToTopBtn');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
@@ -810,7 +795,7 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Copyright Year
+    // 7. Aggiornamento automatico dell'anno nel copyright
     const yearSpan = document.getElementById('currentYear');
     if (yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
@@ -818,4 +803,3 @@
 </script>
 </body>
 </html>
-
