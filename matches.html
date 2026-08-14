@@ -5,87 +5,234 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>試合日程・結果 | Yokohama Calcio</title>
     <meta name="description" content="Yokohama Calcioの試合日程および過去の対戦結果一覧です。">
+    
     <link rel="icon" href="./immagini/logo.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        .badge-live { background: #ef4444 !important; color: #ffffff !important; animation: pulse 1.5s infinite; }
     </style>
 </head>
 <body>
 
-<!-- (Header invariato) -->
+<header class="header">
+  <div class="top-bar">
+    <div class="container top-bar-container">
+      <div class="top-bar-social">
+        <a href="https://x.com/yokohamacalcio" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://instagram.com/yokohamacalcio" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://youtube.com/@yokohamacalcio?si=NBPkZ0qFxFVrOIof" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      </div>
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="ja">JP</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="it">IT</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-header-bar">
+    <div class="container header-container">
+      <div class="logo-title">
+        <a href="index.html">
+          <img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo">
+        </a>
+        <a href="index.html" class="brand-name">
+          <span>YOKOHAMA</span>
+          <span class="brand-sub">CALCIO</span>
+        </a>
+      </div>
+
+      <div class="desktop-nav-wrapper">
+        <nav class="main-nav">
+          <div class="nav-item dropdown">
+            <a href="index.html#about" class="dropdown-toggle"><span data-i18n="nav.team">チーム</span> <i class="fas fa-chevron-down nav-arrow"></i></a>
+            <div class="dropdown-menu">
+              <a href="index.html#about" data-i18n="nav.about">チーム紹介</a>
+              <a href="players.html" data-i18n="nav.players">選手紹介</a>
+              <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
+              <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
+            </div>
+          </div>
+          <a href="matches.html" style="color: var(--primary-sky);" data-i18n="nav.matches">試合日程・結果</a>
+          <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
+          <a href="index.html#sponsors" data-i18n="nav.sponsors">スポンサー</a>
+          <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
+          <a href="index.html#contact" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
+        </nav>
+      </div>
+
+      <button class="mobile-menu-toggle" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </div>
+
+  <nav class="mobile-nav hidden">
+    <a href="index.html#about" class="mobile-link" data-i18n="nav.about">チーム紹介</a>
+    <a href="players.html" class="mobile-link" data-i18n="nav.players">選手紹介</a>
+    <a href="stats.html" class="mobile-link" data-i18n="nav.stats">成績・スタッツ</a>
+    <a href="index.html#gallery" class="mobile-link" data-i18n="nav.gallery">ギャラリー</a>
+    <a href="matches.html" class="mobile-link" data-i18n="nav.matches">試合日程・結果</a>
+    <a href="index.html#shop" class="mobile-link" data-i18n="nav.shop">ショップ</a>
+    <a href="index.html#sponsors" class="mobile-link" data-i18n="nav.sponsors">スポンサー</a>
+    <a href="faq.html" class="mobile-link" data-i18n="nav.faq">よくある質問</a>
+    <a href="index.html#contact" class="mobile-link mobile-cta" data-i18n="nav.contact">お問い合わせ</a>
+  </nav>
+</header>
 
 <section class="section matches-page-section">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-trophy"></i> <span data-i18n="matches_page.title">試合日程・結果一覧</span></h2>
-        
+        <p class="matches-intro" data-i18n="matches_page.intro">Yokohama Calcioの試合スケジュールと対戦情報です。</p>
+
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 30px;">
+            <div class="filter-wrapper" style="margin-bottom: 0;">
+                <button class="filter-btn active" data-match-filter="all" data-i18n="filter.all">すべて</button>
+                <button class="filter-btn" data-match-filter="league" data-i18n="filter.league">リーグ戦</button>
+                <button class="filter-btn" data-match-filter="cup" data-i18n="filter.cup">カップ戦</button>
+                <button class="filter-btn" data-match-filter="friendly" data-i18n="filter.friendly">練習試合</button>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <label for="matchSeasonSelect" style="font-weight: 700; color: var(--dark-navy); font-size: 0.9rem;">
+                    <i class="fas fa-calendar-alt"></i> <span data-i18n="matches_page.season_label">シーズン:</span>
+                </label>
+                <select id="matchSeasonSelect" class="filter-btn" style="padding: 6px 14px; cursor: pointer; outline: none;">
+                    <option value="all" data-i18n="matches_page.all_seasons">全期間</option>
+                    <option value="2026" selected>2026年</option>
+                    <option value="2025">2025年</option>
+                </select>
+            </div>
+        </div>
+
         <div class="matches-list-wrapper">
-            <!-- CALENDARIO -->
             <div class="matches-section-block">
                 <h3 class="ranking-title" style="margin-bottom: 20px;">
                     <i class="fas fa-calendar-check" style="color: var(--primary-sky);"></i> <span data-i18n="matches_page.upcoming_title">試合日程</span>
                 </h3>
+
                 <div id="upcomingContainer" style="display: flex; flex-direction: column; gap: 20px;"></div>
             </div>
 
-            <!-- RISULTATI -->
             <div class="matches-section-block" style="margin-top: 50px;">
                 <h3 class="ranking-title" style="margin-bottom: 20px;">
                     <i class="fas fa-history" style="color: var(--primary-sky);"></i> <span data-i18n="matches_page.past_title">試合結果</span>
                 </h3>
+
                 <div id="pastContainer" style="display: flex; flex-direction: column; gap: 20px;"></div>
+
+                <div style="text-align: center; margin-top: 25px;">
+                    <button id="loadMoreMatchesBtn" class="filter-btn" style="background: var(--dark-navy); color: var(--white); border: none; padding: 10px 24px; display: inline-flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-chevron-down"></i> <span data-i18n="btn.load_more">過去の試合をもっと見る</span>
+                    </button>
+                </div>
             </div>
+        </div>
+
+        <div class="back-home-wrapper" style="margin-top: 50px;">
+            <a href="index.html" class="google-form-btn back-btn" style="max-width: 250px; margin: 0 auto;">
+                <i class="fas fa-arrow-left"></i> <span data-i18n="btn.back_home">ホームに戻る</span>
+            </a>
         </div>
     </div>
 </section>
 
-<script>
-    async function loadMatches() {
-        const response = await fetch('matches.json');
-        const matches = await response.json();
-        const upcomingContainer = document.getElementById('upcomingContainer');
-        const pastContainer = document.getElementById('pastContainer');
+<button id="scrollToTopBtn" aria-label="Torna in cima"><i class="fas fa-chevron-up"></i></button>
 
-        matches.forEach(m => {
-            const isPast = m.status === 'past';
-            const badgeClass = isPast ? 'badge-friendly' : 'badge-next';
-            const badgeText = isPast ? '練習試合' : m.type;
-            const liveBadge = m.status === 'live' ? '<span class="match-badge" style="background:#ef4444; color:white; animation: pulse 1.5s infinite;">🔴 LIVE</span>' : `<span class="match-badge ${badgeClass}">${badgeText}</span>`;
-            
-            const cardHtml = `
-                <div class="match-detail-card ${isPast ? 'match-past-item' : 'match-upcoming'}">
-                    <div class="match-header-row">
-                        ${liveBadge}
-                        <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${m.date}</span>
-                    </div>
-                    <div class="match-teams-row">
-                        <div class="match-team"><img src="./immagini/logo.png"><span>${m.team1Name}</span></div>
-                        <div class="match-vs-score ${isPast ? 'score-past' : ''}">${m.score}</div>
-                        <div class="match-team"><img src="${m.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.team2Name)}&background=random&color=ffffff&size=100&bold=true`}" class="opponent-logo"><span>${m.team2Name}</span></div>
-                    </div>
-                    <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> <span>詳細を見る</span></button>
-                    <div class="match-expand-details" style="display:none;">
-                        <div class="details-inner">
-                            <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong>会場:</strong> ${m.venue}</span></div>
-                            ${m.scorers ? `<div class="detail-item"><i class="fas fa-futbol"></i> <span><strong>得点者:</strong> ${m.scorers}</span></div>` : ''}
+<footer class="footer">
+    <p>&copy; <span id="currentYear">2026</span> Yokohama Calcio. All Rights Reserved.</p>
+</footer>
+
+<script>
+    if ('scrollRestoration' in history) { history.scrollRestoration = 'auto'; }
+
+    async function loadMatchesFromJSON() {
+        try {
+            const response = await fetch('matches.json');
+            const matches = await response.json();
+
+            const upcomingContainer = document.getElementById('upcomingContainer');
+            const pastContainer = document.getElementById('pastContainer');
+
+            upcomingContainer.innerHTML = '';
+            pastContainer.innerHTML = '';
+
+            matches.forEach(m => {
+                const isPast = m.status === 'past';
+                const cardClass = isPast ? 'match-detail-card match-past-item' : 'match-detail-card match-upcoming';
+                const scoreClass = isPast ? 'match-vs-score score-past' : 'match-vs-score';
+                
+                let badgeHtml = '';
+                if (m.status === 'live') {
+                    badgeHtml = `<span class="match-badge badge-live">🔴 LIVE</span>`;
+                } else if (isPast) {
+                    badgeHtml = `<span class="match-badge badge-friendly" data-i18n="filter.friendly">${m.type || '練習試合'}</span>`;
+                } else {
+                    badgeHtml = `<span class="match-badge badge-next" data-i18n="badge.friendly">${m.type || '次戦 (練習試合)'}</span>`;
+                }
+
+                const team2Logo = m.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.team2Name)}&background=random&color=ffffff&size=100&bold=true`;
+
+                const rawDate = m.date.split(' ')[0].replace(/\./g, '-');
+
+                const cardHtml = `
+                    <div class="${cardClass}" id="${m.id}" data-match-category="${m.category}" data-match-date="${rawDate}">
+                        <div class="match-header-row">
+                            ${badgeHtml}
+                            <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${m.date}</span>
+                        </div>
+                        <div class="match-teams-row">
+                            <div class="match-team">
+                                <img src="./immagini/logo.png" alt="Yokohama Calcio">
+                                <span>Yokohama Calcio</span>
+                            </div>
+                            <div class="${scoreClass}">${m.score}</div>
+                            <div class="match-team">
+                                <img src="${team2Logo}" alt="${m.team2Name}" class="opponent-logo">
+                                <span>${m.team2Name}</span>
+                            </div>
+                        </div>
+                        <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> <span data-i18n="btn.details">詳細を見る</span></button>
+                        <div class="match-expand-details">
+                            <div class="details-inner">
+                                <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong>会場:</strong> ${m.venue}</span></div>
+                                ${m.scorers ? `<div class="detail-item"><i class="fas fa-futbol"></i> <span><strong>得点者:</strong> ${m.scorers}</span></div>` : ''}
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
-            (isPast ? pastContainer : upcomingContainer).insertAdjacentHTML('beforeend', cardHtml);
-        });
+                `;
 
-        // Riattiva la logica di apertura/chiusura dettagli
-        document.querySelectorAll('.toggle-details-btn').forEach(btn => {
-            btn.onclick = () => {
-                const details = btn.nextElementSibling;
-                details.style.display = details.style.display === 'none' ? 'block' : 'none';
-            };
-        });
+                if (m.status === 'past') {
+                    pastContainer.insertAdjacentHTML('beforeend', cardHtml);
+                } else {
+                    upcomingContainer.insertAdjacentHTML('beforeend', cardHtml);
+                }
+            });
+
+            // Re-bind la funzionalità dei dettagli espandibili
+            document.querySelectorAll('.toggle-details-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.match-detail-card');
+                    card.classList.toggle('active');
+                });
+            });
+
+        } catch (error) {
+            console.error("Errore nel caricamento del file JSON:", error);
+        }
     }
-    window.addEventListener('DOMContentLoaded', loadMatches);
+
+    window.addEventListener('DOMContentLoaded', () => {
+        loadMatchesFromJSON().then(() => {
+            const savedLang = localStorage.getItem('preferred_lang') || 'ja';
+            if (typeof setLanguage === 'function') setLanguage(savedLang);
+            if (typeof filterAndPaginateMatches === 'function') filterAndPaginateMatches();
+        });
+    });
 </script>
 </body>
 </html>
