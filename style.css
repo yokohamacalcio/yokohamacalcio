@@ -438,63 +438,128 @@ body {
 }
 
 /* ==========================================
-   CAROSELLO RISULTATI PARTITE IN HOMEPAGE
+   MATCH CENTER (BACHAECA 2 BOX FISSI IN HOMEPAGE)
    ========================================== */
-.results-section {
+.match-center-section {
     background: var(--light-bg);
-    overflow: hidden;
 }
 
-.results-carousel-container {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    padding: 10px 0;
-    cursor: grab;
-    user-select: none;
+.match-center-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
-.results-carousel-container:active {
-    cursor: grabbing;
-}
-
-.results-track {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    gap: 20px;
-    width: max-content !important;
-    will-change: transform;
-    align-items: stretch;
-}
-
-.result-card {
+.match-box {
     background: var(--white);
     border-radius: 16px;
-    padding: 20px 22px;
-    min-width: 330px;
-    box-shadow: 0 5px 20px rgba(0, 60, 130, 0.08);
+    padding: 24px;
     border: 1px solid #e2e8f0;
-    flex-shrink: 0;
+    box-shadow: 0 4px 18px rgba(0, 60, 130, 0.06);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-/* Badges Partite */
+.match-next-box {
+    border: 2px solid var(--primary-sky);
+}
+
+.match-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.match-box-date {
+    font-size: 0.82rem;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.match-box-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.match-box-team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 38%;
+    text-align: center;
+}
+
+.match-box-team img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    margin-bottom: 6px;
+    flex-shrink: 0;
+}
+
+.match-box-team span {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--dark-navy);
+    line-height: 1.2;
+}
+
+.match-box-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 24%;
+}
+
+.match-box-score span {
+    font-family: var(--font-brand);
+    font-size: 2.2rem;
+    color: var(--dark-navy);
+    line-height: 1;
+}
+
+.match-box-score .vs-text {
+    color: var(--primary-sky);
+}
+
+.match-box-link {
+    font-size: 0.78rem;
+    color: var(--primary-sky);
+    text-decoration: none;
+    font-weight: 700;
+    margin-top: 6px;
+    transition: color 0.2s ease;
+}
+
+.match-box-link:hover {
+    color: var(--dark-navy);
+}
+
+.match-box-venue {
+    font-size: 0.8rem;
+    color: var(--primary-sky);
+    font-weight: 600;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px dashed #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Badges Generici */
 .match-badge {
     display: inline-block;
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 700;
-    margin-bottom: 8px;
-    align-self: flex-start;
-}
-
-.badge-friendly {
-    background: rgba(18, 160, 215, 0.15);
-    color: var(--primary-sky);
 }
 
 .badge-official {
@@ -509,107 +574,169 @@ body {
     border: 1px solid var(--primary-sky);
 }
 
-.match-upcoming {
-    border: 1.5px dashed var(--primary-sky);
-    background: #fdfefe;
-}
-
-.match-date {
-    font-size: 0.8rem;
-    color: #64748b;
-    margin-bottom: 4px;
-}
-
-.match-location {
-    font-size: 0.78rem;
-    color: var(--primary-sky);
-    font-weight: 600;
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.match-location i {
-    font-size: 0.85rem;
-}
-
-.match-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.team-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 38%;
-}
-
-.team-logo {
-    width: 48px;
-    height: 48px;
-    object-fit: contain;
-    margin-bottom: 8px;
-    flex-shrink: 0;
-}
-
 .opponent-logo {
     border-radius: 50%;
 }
 
-.team-name {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--dark-navy);
-    text-align: center;
-    line-height: 1.25;
-    height: 2.5em;
+/* ==========================================
+   FOTOGALLERY COMPATTA & PULITA (INSTAGRAM STYLE)
+   ========================================== */
+.gallery-section {
+    padding: 60px 0;
+    background: var(--white);
+}
+
+.gallery-compact-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    max-width: 950px;
+    margin: 0 auto;
+}
+
+.gallery-compact-item {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+    background: #000000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.gallery-compact-item.item-featured {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.gallery-compact-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    display: block;
+}
+
+.gallery-compact-item:hover img {
+    transform: scale(1.06);
+    opacity: 0.88;
+}
+
+.gallery-zoom-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 60, 130, 0.35);
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #ffffff;
+    font-size: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.25s ease;
 }
 
-.score-box {
+.gallery-compact-item:hover .gallery-zoom-overlay {
+    opacity: 1;
+}
+
+/* Lightbox Modal Schermo Intero Essenziale */
+.lightbox-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(15, 23, 42, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    padding: 20px;
+}
+
+.lightbox-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 1100px;
+    max-height: 85vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.lightbox-img {
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: 8px;
+    object-fit: contain;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    width: 24%;
+    transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.score-text {
-    font-family: var(--font-brand);
-    font-size: 2rem;
-    color: var(--primary-sky);
-    line-height: 1;
-    letter-spacing: 2px;
+.lightbox-close:hover,
+.lightbox-prev:hover,
+.lightbox-next:hover {
+    background: var(--primary-sky);
 }
 
-.match-status {
-    font-size: 0.75rem;
-    font-weight: 800;
-    margin-top: 6px;
-    text-align: center;
+.lightbox-close {
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    font-size: 1.4rem;
 }
 
-.match-status.lose { color: #ef4444; }
-.match-status.next-time { color: var(--dark-navy); }
-
-.match-card-link {
-    display: inline-block;
-    margin-top: 8px;
-    font-size: 0.78rem;
-    color: var(--primary-sky);
-    font-weight: 700;
-    text-decoration: none;
-    transition: color 0.2s ease;
+.lightbox-prev,
+.lightbox-next {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    font-size: 1.3rem;
 }
 
-.match-card-link:hover {
-    color: var(--dark-navy);
+.lightbox-prev { left: 20px; }
+.lightbox-next { right: 20px; }
+
+@media (max-width: 768px) {
+    .match-center-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .gallery-compact-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .gallery-compact-item.item-featured {
+        grid-column: span 2;
+        grid-row: span 1;
+        aspect-ratio: 16 / 9;
+    }
+
+    .lightbox-prev { left: 10px; width: 40px; height: 40px; }
+    .lightbox-next { right: 10px; width: 40px; height: 40px; }
+    .lightbox-close { top: 10px; right: 10px; }
 }
 
 /* ==========================================
@@ -955,217 +1082,6 @@ body {
 .rank-1 { color: #f59e0b; font-size: 1.15rem; }
 .rank-2 { color: #94a3b8; }
 .rank-3 { color: #b45309; }
-
-/* ==========================================
-   GALLERIA FOTOGRAFICA A GRIGLIA & LIGHTBOX
-   ========================================== */
-.gallery-section {
-    padding: 70px 0;
-    background: var(--light-bg);
-}
-
-.gallery-filter-wrapper {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-}
-
-.gallery-filter-btn {
-    background: var(--white);
-    border: 1px solid #cbd5e1;
-    color: var(--dark-navy);
-    padding: 8px 18px;
-    border-radius: 20px;
-    font-weight: 700;
-    font-size: 0.88rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: var(--font-main);
-}
-
-.gallery-filter-btn:hover,
-.gallery-filter-btn.active {
-    background: var(--dark-navy);
-    color: var(--white);
-    border-color: var(--dark-navy);
-    box-shadow: 0 4px 12px rgba(0, 60, 130, 0.2);
-}
-
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-}
-
-.gallery-item {
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    background: #000000;
-    aspect-ratio: 4 / 3;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-}
-
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease, opacity 0.4s ease;
-    display: block;
-}
-
-.gallery-item:hover img {
-    transform: scale(1.08);
-    opacity: 0.85;
-}
-
-.gallery-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0, 60, 130, 0.85), transparent 60%);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 16px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.gallery-item:hover .gallery-overlay {
-    opacity: 1;
-}
-
-.gallery-overlay-title {
-    color: var(--white);
-    font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 2px;
-}
-
-.gallery-overlay-category {
-    color: var(--primary-sky);
-    font-size: 0.78rem;
-    font-weight: 800;
-    text-transform: uppercase;
-}
-
-.gallery-zoom-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.6);
-    width: 48px;
-    height: 48px;
-    background: rgba(255, 255, 255, 0.9);
-    color: var(--dark-navy);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    opacity: 0;
-    transition: all 0.3s ease;
-}
-
-.gallery-item:hover .gallery-zoom-icon {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-}
-
-/* Lightbox Modal Schermo Intero */
-.lightbox-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: rgba(15, 23, 42, 0.95);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    padding: 20px;
-}
-
-.lightbox-modal.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.lightbox-content {
-    position: relative;
-    max-width: 1100px;
-    max-height: 85vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.lightbox-img {
-    max-width: 100%;
-    max-height: 75vh;
-    border-radius: 8px;
-    object-fit: contain;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-.lightbox-caption {
-    color: var(--white);
-    margin-top: 15px;
-    font-weight: 700;
-    font-size: 1.1rem;
-    text-align: center;
-}
-
-.lightbox-close,
-.lightbox-prev,
-.lightbox-next {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.15);
-    color: var(--white);
-    border: none;
-    cursor: pointer;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.lightbox-close:hover,
-.lightbox-prev:hover,
-.lightbox-next:hover {
-    background: var(--primary-sky);
-}
-
-.lightbox-close {
-    top: 20px;
-    right: 20px;
-    width: 44px;
-    height: 44px;
-    font-size: 1.4rem;
-}
-
-.lightbox-prev,
-.lightbox-next {
-    top: 50%;
-    transform: translateY(-50%);
-    width: 50px;
-    height: 50px;
-    font-size: 1.3rem;
-}
-
-.lightbox-prev { left: 20px; }
-.lightbox-next { right: 20px; }
-
-@media (max-width: 768px) {
-    .lightbox-prev { left: 10px; width: 40px; height: 40px; }
-    .lightbox-next { right: 10px; width: 40px; height: 40px; }
-    .lightbox-close { top: 10px; right: 10px; }
-}
 
 /* ==========================================
    SEZIONE ONLINE SHOP
@@ -1757,15 +1673,6 @@ body {
 
     .section {
         padding: 50px 0;
-    }
-
-    .result-card {
-        min-width: 290px;
-        padding: 15px 16px;
-    }
-
-    .team-name {
-        font-size: 0.8rem;
     }
 
     .filter-wrapper {
