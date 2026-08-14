@@ -166,7 +166,7 @@
     let currentLang = localStorage.getItem('preferred_lang') || 'ja';
     let visiblePastMatchesCount = 3;
 
-    // Dizionario Traduzioni con "MVP" uguale per tutte le lingue
+    // Dizionario Traduzioni
     const translations = {
         ja: {
             "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
@@ -298,6 +298,36 @@
 
                 const team2Logo = m.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.team2Name)}&background=random&color=ffffff&size=100&bold=true`;
 
+                // --- NUOVA LOGICA: ordine squadre e punteggio in base a isHome ---
+                const isHome = m.isHome !== undefined ? m.isHome : true;
+                let leftTeamName, leftTeamLogo, rightTeamName, rightTeamLogo, displayScore;
+
+                if (isHome) {
+                    // Yokohama a sinistra (casa)
+                    leftTeamName = m.team1Name || 'Yokohama Calcio';
+                    leftTeamLogo = './immagini/logo.png';
+                    rightTeamName = m.team2Name || '-';
+                    rightTeamLogo = team2Logo;
+                    displayScore = m.score;
+                } else {
+                    // Yokohama a destra (trasferta)
+                    leftTeamName = m.team2Name || '-';
+                    leftTeamLogo = team2Logo;
+                    rightTeamName = m.team1Name || 'Yokohama Calcio';
+                    rightTeamLogo = './immagini/logo.png';
+                    // Inverti punteggio se non è "VS"
+                    if (m.score && m.score !== 'VS' && m.score.includes('-')) {
+                        const parts = m.score.split('-');
+                        if (parts.length === 2) {
+                            displayScore = `${parts[1].trim()} - ${parts[0].trim()}`;
+                        } else {
+                            displayScore = m.score;
+                        }
+                    } else {
+                        displayScore = m.score;
+                    }
+                }
+
                 const displayDateTime = m.time ? `${m.date} ${m.time}` : m.date;
 
                 let detailsHtml = `
@@ -328,13 +358,13 @@
                         </div>
                         <div class="match-teams-row">
                             <div class="match-team">
-                                <img src="./immagini/logo.png" alt="Yokohama Calcio">
-                                <span>Yokohama Calcio</span>
+                                <img src="${leftTeamLogo}" alt="${leftTeamName}">
+                                <span>${leftTeamName}</span>
                             </div>
-                            <div class="${scoreClass}">${m.score}</div>
+                            <div class="${scoreClass}">${displayScore}</div>
                             <div class="match-team">
-                                <img src="${team2Logo}" alt="${m.team2Name}" class="opponent-logo">
-                                <span>${m.team2Name}</span>
+                                <img src="${rightTeamLogo}" alt="${rightTeamName}" class="opponent-logo">
+                                <span>${rightTeamName}</span>
                             </div>
                         </div>
                         <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> <span data-i18n="btn.details">詳細を見る</span></button>
@@ -361,14 +391,12 @@
                     const details = card.querySelector('.match-expand-details');
                     const wasActive = card.classList.contains('active');
 
-                    // Chiudi tutti i dettagli aperti
                     document.querySelectorAll('.match-detail-card').forEach(c => {
                         c.classList.remove('active');
                         const det = c.querySelector('.match-expand-details');
                         if (det) det.style.display = 'none';
                     });
 
-                    // Se non era attiva, apri quella corrente
                     if (!wasActive) {
                         card.classList.add('active');
                         if (details) details.style.display = 'block';
@@ -386,18 +414,16 @@
         const hash = window.location.hash;
         if (!hash) return;
 
-        // Reimposta temporaneamente filtri e paginazione per mostrare la partita selezionata
         document.querySelectorAll('[data-match-filter]').forEach(btn => btn.classList.remove('active'));
         document.querySelector('[data-match-filter="all"]')?.classList.add('active');
         const seasonSelect = document.getElementById('matchSeasonSelect');
         if (seasonSelect) seasonSelect.value = 'all';
-        visiblePastMatchesCount = 1000; // Mostra tutte le partite passate
+        visiblePastMatchesCount = 1000;
 
         filterAndPaginateMatches();
 
         const targetCard = document.querySelector(hash);
         if (targetCard) {
-            // Dopo un piccolo ritardo per assicurarsi che la card sia visibile
             setTimeout(() => {
                 targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 targetCard.classList.add('active');
@@ -415,7 +441,7 @@
         
         setLanguage(currentLang);
         filterAndPaginateMatches();
-        handleHashOnLoad(); // Gestisce l'ancora se presente
+        handleHashOnLoad();
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
