@@ -54,6 +54,7 @@
     </script>
 
     <style>
+        /* STILI BADGES E FORMATTAZIONE LOGHI UNIFORMATA A MATCHES.HTML */
         .match-badge-group {
             display: flex;
             align-items: center;
@@ -71,9 +72,18 @@
         .badge-league { background: #003c82; color: #fff; }
         .badge-friendly { background: #64748b; color: #fff; }
         .badge-tournament { background: #d97706; color: #fff; }
-        .badge-home { background: #16a34a; color: #fff; }
-        .badge-away { background: #dc2626; color: #fff; }
-        .badge-neutral { background: #0284c7; color: #fff; }
+
+        /* UNIFORMAZIONE LOGHI AVVERSARI */
+        .match-box-team img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 2px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
     </style>
 </head>
 <body>
@@ -515,7 +525,7 @@
         });
     });
 
-    // Helper per estrarre la data ISO da "2026.08.30 (日)"
+    // Helper Parsing Date
     function parseMatchDate(dateStr) {
         if (!dateStr) return 0;
         const clean = dateStr.replace(/\./g, '/').replace(/-/g, '/');
@@ -563,36 +573,37 @@
             }
         };
 
+        // AVATAR IDENTICO A MATCHES.HTML (STESSA PALETTE E BOLD)
         const getAvatarUrl = (name) => {
-            const initial = (name && name !== '-') ? name.charAt(0).toUpperCase() : 'V';
-            return `https://ui-avatars.com/api/?name=${encodeURIComponent(initial)}&background=003c82&color=ffffff&size=120&bold=true`;
+            const cleanName = (name && name !== '-') ? name.trim() : 'VS';
+            const initial = cleanName.charAt(0).toUpperCase();
+            return `https://ui-avatars.com/api/?name=${encodeURIComponent(initial)}&background=003c82&color=12a0d7&size=200&bold=true`;
         };
 
         const fillMatchBox = (m, prefix) => {
-            // Data e Ora
             document.getElementById(`${prefix}MatchDate`).textContent = `${m.date} ${m.time || ''}`.trim();
             
-            // 1. Squadra 1 (Sempre Yokohama Calcio)
+            // Squadra 1 (Yokohama Calcio)
             document.getElementById(`${prefix}Team1Name`).textContent = m.team1Name || 'Yokohama Calcio';
             document.getElementById(`${prefix}Team1Logo`).src = './immagini/logo.png';
 
-            // 2. Squadra 2 (Avversario da team2Name)
+            // Squadra 2 (Avversario)
             const opponent = m.team2Name || '-';
             document.getElementById(`${prefix}Team2Name`).textContent = opponent;
             document.getElementById(`${prefix}Team2Logo`).src = getAvatarUrl(opponent);
 
-            // 3. Luogo
+            // Luogo
             const venueSpan = document.getElementById(`${prefix}MatchVenue`)?.querySelector('span');
             if (venueSpan) venueSpan.textContent = m.venue || '-';
 
-            // 4. Link Diretto al Badge id in matches.html (es. matches.html#match-1)
-            document.getElementById(`${prefix}DetailLink`).href = `matches.html#${m.id}`;
+            // LINK ALL'ID ESATTO DELLA CARD IN MATCHES.HTML
+            const matchAnchor = m.id ? m.id : `match-${m.date.replace(/[^0-9]/g, '')}`;
+            document.getElementById(`${prefix}DetailLink`).href = `matches.html#${matchAnchor}`;
 
-            // Badge Categoria (friendly, league, tournament)
             renderCategoryBadge(`${prefix}CategoryBadge`, m.category);
         };
 
-        // 1. Ultima Partita (status === 'past' con data più recente)
+        // 1. Ultimo Risultato (status === 'past' più recente)
         const pastMatches = matches
             .filter(m => m.status === 'past')
             .sort((a, b) => parseMatchDate(a.date) - parseMatchDate(b.date));
@@ -603,7 +614,7 @@
             document.getElementById('lastScore').textContent = lastMatch.score || '-';
         }
 
-        // 2. Prossima Partita (status === 'upcoming' con data più vicina)
+        // 2. Prossima Partita (status === 'upcoming' più vicina)
         const upcomingMatches = matches
             .filter(m => m.status === 'upcoming')
             .sort((a, b) => parseMatchDate(a.date) - parseMatchDate(b.date));
