@@ -85,7 +85,7 @@
   <div class="main-header-bar">
     <div class="container header-container">
       
-      <!-- LOGO & BRAND NAME (su 2 righe da desktop) -->
+      <!-- LOGO & BRAND NAME -->
       <div class="logo-title">
         <a href="index.html">
           <img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo">
@@ -189,17 +189,59 @@
     </div>
 </section>
 
-<!-- CAROSELLO RISULTATI E PROSSIME PARTITE (DINAMICO DA MATCHES.HTML) -->
-<section class="section results-section" id="results">
+<!-- MATCH CENTER (SOLUZIONE A: 2 BOX FISSI DINAMICI DA MATCHES.HTML) -->
+<section class="section match-center-section" id="results">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-trophy"></i> <span data-i18n="results.title">試合結果・日程</span></h2>
-        <div class="results-carousel-container">
-            <div class="results-track" id="resultsTrack">
-                <!-- Verrà popolato automaticamente dallo script caricando i dati da matches.html -->
+        
+        <div class="match-center-grid">
+            <!-- Box 1: Ultimo Risultato -->
+            <div class="match-box match-past-box">
+                <div class="match-box-header">
+                    <span class="match-badge badge-official" data-i18n="results.last_badge">前節結果</span>
+                    <span class="match-box-date" id="lastMatchDate">-</span>
+                </div>
+                <div class="match-box-content">
+                    <div class="match-box-team">
+                        <img src="./immagini/logo.png" alt="Yokohama Calcio" id="lastTeam1Logo">
+                        <span id="lastTeam1Name">Yokohama Calcio</span>
+                    </div>
+                    <div class="match-box-score">
+                        <span id="lastScore">-</span>
+                        <a href="matches.html" class="match-box-link" data-i18n="results.detail">詳細</a>
+                    </div>
+                    <div class="match-box-team">
+                        <img src="" alt="" id="lastTeam2Logo" class="opponent-logo">
+                        <span id="lastTeam2Name">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box 2: Prossima Partita -->
+            <div class="match-box match-next-box">
+                <div class="match-box-header">
+                    <span class="match-badge badge-next" data-i18n="results.next_badge">次戦</span>
+                    <span class="match-box-date" id="nextMatchDate">-</span>
+                </div>
+                <div class="match-box-content">
+                    <div class="match-box-team">
+                        <img src="./immagini/logo.png" alt="Yokohama Calcio" id="nextTeam1Logo">
+                        <span id="nextTeam1Name">Yokohama Calcio</span>
+                    </div>
+                    <div class="match-box-score">
+                        <span class="vs-text">VS</span>
+                        <a href="matches.html" class="match-box-link" data-i18n="results.detail">詳細</a>
+                    </div>
+                    <div class="match-box-team">
+                        <img src="" alt="" id="nextTeam2Logo" class="opponent-logo">
+                        <span id="nextTeam2Name">-</span>
+                    </div>
+                </div>
+                <div class="match-box-venue" id="nextMatchVenue"><i class="fas fa-map-marker-alt"></i> <span>-</span></div>
             </div>
         </div>
 
-        <div style="text-align: center; margin-top: 25px;">
+        <div style="text-align: center; margin-top: 30px;">
             <a href="matches.html" class="google-form-btn" style="max-width: 320px; margin: 0 auto;">
                 <i class="fas fa-list"></i> <span data-i18n="results.all_matches">全試合日程・詳細はこちら</span>
             </a>
@@ -207,82 +249,47 @@
     </div>
 </section>
 
-<!-- SEZIONE FOTOGALLERY CON GRIGLIA E LIGHTBOX -->
+<!-- FOTOGALLERY COMPATTA (INSTAGRAM-STYLE GRID + LIGHTBOX) -->
 <section class="section gallery-section" id="gallery">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-images"></i> <span data-i18n="gallery.title">フォトギャラリー</span></h2>
+        <h2 class="section-title"><i class="fas fa-camera"></i> <span data-i18n="gallery.title">フォトギャラリー</span></h2>
 
-        <!-- FILTRI CATEGORIA -->
-        <div class="gallery-filter-wrapper">
-            <button class="gallery-filter-btn active" data-gallery-filter="all" data-i18n="gallery_filter.all">すべて (ALL)</button>
-            <button class="gallery-filter-btn" data-gallery-filter="match" data-i18n="gallery_filter.match">試合 (Matches)</button>
-            <button class="gallery-filter-btn" data-gallery-filter="training" data-i18n="gallery_filter.training">練習 (Training)</button>
-            <button class="gallery-filter-btn" data-gallery-filter="team" data-i18n="gallery_filter.team">チーム (Team)</button>
-        </div>
-
-        <!-- GRIGLIA FOTO -->
-        <div class="gallery-grid">
-            <!-- Foto 1 -->
-            <div class="gallery-item" data-category="match" data-src="./immagini/gallery/foto1.jpeg" data-caption="Match Day Action">
-                <img src="./immagini/gallery/foto1.jpeg" alt="Match 1" loading="lazy">
-                <div class="gallery-zoom-icon"><i class="fas fa-search-plus"></i></div>
-                <div class="gallery-overlay">
-                    <span class="gallery-overlay-category">Matches</span>
-                    <div class="gallery-overlay-title">Match Action</div>
-                </div>
+        <div class="gallery-compact-grid">
+            <div class="gallery-compact-item item-featured" data-src="./immagini/gallery/foto1.jpeg">
+                <img src="./immagini/gallery/foto1.jpeg" alt="Yokohama Calcio" loading="lazy">
+                <div class="gallery-zoom-overlay"><i class="fas fa-search-plus"></i></div>
             </div>
-
-            <!-- Foto 2 -->
-            <div class="gallery-item" data-category="training" data-src="./immagini/gallery/foto2.jpeg" data-caption="Sessione di Allenamento">
-                <img src="./immagini/gallery/foto2.jpeg" alt="Training 1" loading="lazy">
-                <div class="gallery-zoom-icon"><i class="fas fa-search-plus"></i></div>
-                <div class="gallery-overlay">
-                    <span class="gallery-overlay-category">Training</span>
-                    <div class="gallery-overlay-title">Allenamento Tattico</div>
-                </div>
+            <div class="gallery-compact-item" data-src="./immagini/gallery/foto2.jpeg">
+                <img src="./immagini/gallery/foto2.jpeg" alt="Yokohama Calcio" loading="lazy">
+                <div class="gallery-zoom-overlay"><i class="fas fa-search-plus"></i></div>
             </div>
-
-            <!-- Foto 3 -->
-            <div class="gallery-item" data-category="team" data-src="./immagini/gallery/foto3.jpeg" data-caption="Foto di Gruppo">
-                <img src="./immagini/gallery/foto3.jpeg" alt="Team 1" loading="lazy">
-                <div class="gallery-zoom-icon"><i class="fas fa-search-plus"></i></div>
-                <div class="gallery-overlay">
-                    <span class="gallery-overlay-category">Team</span>
-                    <div class="gallery-overlay-title">Gruppo Squadra</div>
-                </div>
+            <div class="gallery-compact-item" data-src="./immagini/gallery/foto3.jpeg">
+                <img src="./immagini/gallery/foto3.jpeg" alt="Yokohama Calcio" loading="lazy">
+                <div class="gallery-zoom-overlay"><i class="fas fa-search-plus"></i></div>
             </div>
-
-            <!-- Foto 4 -->
-            <div class="gallery-item" data-category="match" data-src="./immagini/gallery/foto4.jpeg" data-caption="Azione di Gioco">
-                <img src="./immagini/gallery/foto4.jpeg" alt="Match 2" loading="lazy">
-                <div class="gallery-zoom-icon"><i class="fas fa-search-plus"></i></div>
-                <div class="gallery-overlay">
-                    <span class="gallery-overlay-category">Matches</span>
-                    <div class="gallery-overlay-title">Azione di Gioco</div>
-                </div>
+            <div class="gallery-compact-item" data-src="./immagini/gallery/foto4.jpeg">
+                <img src="./immagini/gallery/foto4.jpeg" alt="Yokohama Calcio" loading="lazy">
+                <div class="gallery-zoom-overlay"><i class="fas fa-search-plus"></i></div>
             </div>
-
-            <!-- Foto 5 -->
-            <div class="gallery-item" data-category="training" data-src="./immagini/gallery/foto5.jpeg" data-caption="Esercitazione con Palla">
-                <img src="./immagini/gallery/foto5.jpeg" alt="Training 2" loading="lazy">
-                <div class="gallery-zoom-icon"><i class="fas fa-search-plus"></i></div>
-                <div class="gallery-overlay">
-                    <span class="gallery-overlay-category">Training</span>
-                    <div class="gallery-overlay-title">Esercitazione Tattica</div>
-                </div>
+            <div class="gallery-compact-item" data-src="./immagini/gallery/foto5.jpeg">
+                <img src="./immagini/gallery/foto5.jpeg" alt="Yokohama Calcio" loading="lazy">
+                <div class="gallery-zoom-overlay"><i class="fas fa-search-plus"></i></div>
+            </div>
+            <div class="gallery-compact-item" data-src="./immagini/gallery/foto6.jpeg">
+                <img src="./immagini/gallery/foto6.jpeg" alt="Yokohama Calcio" loading="lazy">
+                <div class="gallery-zoom-overlay"><i class="fas fa-search-plus"></i></div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- LIGHTBOX MODAL SCHERMO INTERO -->
+<!-- LIGHTBOX MODAL ESSENZIALE PER ZOOM FOTO -->
 <div class="lightbox-modal" id="lightboxModal" aria-hidden="true">
     <button class="lightbox-close" id="lightboxClose" aria-label="Chiudi"><i class="fas fa-times"></i></button>
     <button class="lightbox-prev" id="lightboxPrev" aria-label="Precedente"><i class="fas fa-chevron-left"></i></button>
     <button class="lightbox-next" id="lightboxNext" aria-label="Successiva"><i class="fas fa-chevron-right"></i></button>
     <div class="lightbox-content">
-        <img src="" alt="" class="lightbox-img" id="lightboxImg">
-        <div class="lightbox-caption" id="lightboxCaption"></div>
+        <img src="" alt="Gallery Full" class="lightbox-img" id="lightboxImg">
     </div>
 </div>
 
@@ -413,15 +420,11 @@
             "about.val3_h": "フットボールへの情熱",
             "about.val3_d": "勝利を目指しながらも、真剣勝負を純粋に楽しむ気持ち",
             "results.title": "試合結果・日程",
-            "results.next_badge": "次戦 (練習試合)",
-            "results.friendly_badge": "練習試合",
+            "results.last_badge": "前節結果",
+            "results.next_badge": "次戦",
             "results.detail": "詳細",
             "results.all_matches": "全試合日程・詳細はこちら",
             "gallery.title": "フォトギャラリー",
-            "gallery_filter.all": "すべて (ALL)",
-            "gallery_filter.match": "試合 (Matches)",
-            "gallery_filter.training": "練習 (Training)",
-            "gallery_filter.team": "チーム (Team)",
             "shop.title": "公式オンラインショップ",
             "shop.card_title": "Yokohama Calcio オフィシャルグッズ",
             "shop.card_desc": "公式ユニフォーム、トレーニングウェア、オリジナルグッズはこちらからご購入いただけます。",
@@ -467,15 +470,11 @@
             "about.val3_h": "Passione per il Calcio",
             "about.val3_d": "Volontà di lottare per vincere vivendo la partita con autentica passione.",
             "results.title": "Calendario e Risultati",
-            "results.next_badge": "Prossima Match",
-            "results.friendly_badge": "Amichevole",
+            "results.last_badge": "Ultimo Match",
+            "results.next_badge": "Prossimo Match",
             "results.detail": "Dettagli",
             "results.all_matches": "Vedi tutte le partite",
             "gallery.title": "Galleria Fotografica",
-            "gallery_filter.all": "Tutti",
-            "gallery_filter.match": "Partite",
-            "gallery_filter.training": "Allenamenti",
-            "gallery_filter.team": "Squadra",
             "shop.title": "Online Shop Ufficiale",
             "shop.card_title": "Prodotti Ufficiali Yokohama Calcio",
             "shop.card_desc": "Acquista le maglie ufficiali, il materiale da allenamento e il merchandising del club.",
@@ -521,15 +520,11 @@
             "about.val3_h": "Passion for Football",
             "about.val3_d": "Competitive drive to win paired with a genuine enjoyment of the game.",
             "results.title": "Matches & Results",
+            "results.last_badge": "Last Match",
             "results.next_badge": "Next Match",
-            "results.friendly_badge": "Friendly Match",
             "results.detail": "Details",
             "results.all_matches": "View All Matches",
             "gallery.title": "Photo Gallery",
-            "gallery_filter.all": "All",
-            "gallery_filter.match": "Matches",
-            "gallery_filter.training": "Training",
-            "gallery_filter.team": "Team",
             "shop.title": "Official Online Shop",
             "shop.card_title": "Yokohama Calcio Official Gear",
             "shop.card_desc": "Purchase official kits, training gear, and club merchandise here.",
@@ -587,208 +582,65 @@
 
     window.scrollTo(0, 0);
 
-    // 1. CARICAMENTO DINAMICO CAROSELLO DA MATCHES.HTML E AVVIO SCORRIMENTO
-    async function initDynamicCarousel() {
-        const resultsTrack = document.getElementById('resultsTrack');
-        if (!resultsTrack) return;
-
+    // 1. CARICAMENTO DATI MATCH CENTER DA MATCHES.HTML
+    async function initMatchCenter() {
         try {
             const response = await fetch('matches.html');
             if (!response.ok) return;
             const text = await response.text();
             const doc = new DOMParser().parseFromString(text, 'text/html');
 
-            const upcomingCards = Array.from(doc.querySelectorAll('#upcomingContainer .match-detail-card'));
-            const pastCards = Array.from(doc.querySelectorAll('#pastContainer .match-past-item')).slice(0, 3);
-            const allCards = [...upcomingCards, ...pastCards];
-
-            if (allCards.length === 0) return;
-
-            resultsTrack.innerHTML = '';
-
-            allCards.forEach(card => {
-                const matchId = card.getAttribute('id');
-                const badgeText = card.querySelector('.match-badge')?.outerHTML || '';
-                const dateText = card.querySelector('.match-date-text')?.textContent || '';
-                const venueText = card.querySelector('[data-i18n="label.venue"]')?.nextElementSibling?.textContent || '';
+            // Popola Prossima Partita
+            const nextCard = doc.querySelector('#upcomingContainer .match-detail-card');
+            if (nextCard) {
+                document.getElementById('nextMatchDate').textContent = nextCard.querySelector('.match-date-text')?.textContent || '';
                 
-                const team1Img = card.querySelectorAll('.match-team img')[0]?.src || './immagini/logo.png';
-                const team1Name = card.querySelectorAll('.match-team span')[0]?.textContent || 'Yokohama Calcio';
-                const scoreOrVs = card.querySelector('.match-vs-score')?.textContent.trim() || 'VS';
-                const team2Img = card.querySelectorAll('.match-team img')[1]?.src || '';
-                const team2Name = card.querySelectorAll('.match-team span')[1]?.textContent || '';
-
-                const cardDiv = document.createElement('div');
-                cardDiv.className = 'result-card' + (card.classList.contains('match-upcoming') ? ' match-upcoming' : '');
-                cardDiv.style.cursor = 'pointer';
-
-                cardDiv.innerHTML = `
-                    ${badgeText}
-                    <div class="match-date">${dateText}</div>
-                    <div class="match-location"><i class="fas fa-map-marker-alt"></i> ${venueText}</div>
-                    <div class="match-content">
-                        <div class="team-box">
-                            <img src="${team1Img}" alt="${team1Name}" class="team-logo">
-                            <span class="team-name">${team1Name}</span>
-                        </div>
-                        <div class="score-box">
-                            <span class="score-text">${scoreOrVs}</span>
-                            <a href="matches.html#${matchId}" class="match-card-link"><i class="fas fa-info-circle"></i> <span data-i18n="results.detail">詳細</span></a>
-                        </div>
-                        <div class="team-box">
-                            <img src="${team2Img}" alt="${team2Name}" class="team-logo opponent-logo">
-                            <span class="team-name">${team2Name}</span>
-                        </div>
-                    </div>
-                `;
-
-                cardDiv.addEventListener('click', (e) => {
-                    if (!e.target.closest('a')) {
-                        window.location.href = `matches.html#${matchId}`;
-                    }
-                });
-
-                resultsTrack.appendChild(cardDiv);
-            });
-
-            // Clona le schede per lo scorrimento infinito continuo
-            const originalCards = Array.from(resultsTrack.children);
-            originalCards.forEach(card => {
-                resultsTrack.appendChild(card.cloneNode(true));
-            });
-
-            startCarouselAnimation();
-
-        } catch (e) {
-            console.error("Errore nel caricamento del carosello:", e);
-        }
-    }
-
-    // SCORRIMENTO AUTOMATICO E GESTIONE DRAG/SWIPE CAROSELLO RISULTATI
-    function startCarouselAnimation() {
-        const resultsTrack = document.getElementById('resultsTrack');
-        if (!resultsTrack) return;
-
-        let scrollPos = 0;
-        let isInteracting = false;
-        let startX = 0;
-        let isDown = false;
-        let resumeTimer = null;
-
-        function scrollStep() {
-            if (!isInteracting && !isDown) {
-                scrollPos += 0.8;
-                const halfWidth = resultsTrack.scrollWidth / 2;
-                if (scrollPos >= halfWidth) {
-                    scrollPos = 0;
+                const teams = nextCard.querySelectorAll('.match-team');
+                if (teams.length >= 2) {
+                    document.getElementById('nextTeam1Logo').src = teams[0].querySelector('img')?.src || './immagini/logo.png';
+                    document.getElementById('nextTeam1Name').textContent = teams[0].querySelector('span')?.textContent || 'Yokohama Calcio';
+                    document.getElementById('nextTeam2Logo').src = teams[1].querySelector('img')?.src || '';
+                    document.getElementById('nextTeam2Name').textContent = teams[1].querySelector('span')?.textContent || '';
                 }
-                resultsTrack.style.transform = `translateX(-${scrollPos}px)`;
+                const venue = nextCard.querySelector('[data-i18n="label.venue"]')?.nextElementSibling?.textContent || '';
+                document.getElementById('nextMatchVenue').querySelector('span').textContent = venue;
             }
-            requestAnimationFrame(scrollStep);
+
+            // Popola Ultimo Risultato
+            const lastCard = doc.querySelector('#pastContainer .match-past-item');
+            if (lastCard) {
+                document.getElementById('lastMatchDate').textContent = lastCard.querySelector('.match-date-text')?.textContent || '';
+                
+                const teams = lastCard.querySelectorAll('.match-team');
+                if (teams.length >= 2) {
+                    document.getElementById('lastTeam1Logo').src = teams[0].querySelector('img')?.src || './immagini/logo.png';
+                    document.getElementById('lastTeam1Name').textContent = teams[0].querySelector('span')?.textContent || 'Yokohama Calcio';
+                    document.getElementById('lastTeam2Logo').src = teams[1].querySelector('img')?.src || '';
+                    document.getElementById('lastTeam2Name').textContent = teams[1].querySelector('span')?.textContent || '';
+                }
+                document.getElementById('lastScore').textContent = lastCard.querySelector('.match-vs-score')?.textContent.trim() || '-';
+            }
+        } catch (e) {
+            console.error("Errore nel caricamento Match Center:", e);
         }
-
-        requestAnimationFrame(scrollStep);
-
-        const container = resultsTrack.parentElement;
-
-        const onStart = (e) => {
-            isDown = true;
-            isInteracting = true;
-            clearTimeout(resumeTimer);
-            startX = (e.pageX || e.touches[0].pageX) + scrollPos;
-        };
-
-        const onEnd = () => {
-            if (!isDown) return;
-            isDown = false;
-            resumeTimer = setTimeout(() => {
-                isInteracting = false;
-            }, 2500);
-        };
-
-        const onMove = (e) => {
-            if (!isDown) return;
-            const x = e.pageX || e.touches[0].pageX;
-            scrollPos = startX - x;
-
-            const halfWidth = resultsTrack.scrollWidth / 2;
-            if (scrollPos < 0) scrollPos = halfWidth + scrollPos;
-            if (scrollPos >= halfWidth) scrollPos = scrollPos - halfWidth;
-
-            resultsTrack.style.transform = `translateX(-${scrollPos}px)`;
-        };
-
-        container.addEventListener('mousedown', onStart);
-        container.addEventListener('mouseleave', onEnd);
-        container.addEventListener('mouseup', onEnd);
-        container.addEventListener('mousemove', onMove);
-
-        container.addEventListener('touchstart', onStart, { passive: true });
-        container.addEventListener('touchend', onEnd);
-        container.addEventListener('touchmove', onMove, { passive: true });
     }
 
-    // 2. LOGICA GALLERY FILTER & LIGHTBOX MODAL
-    function initGalleryAndLightbox() {
-        const filterBtns = document.querySelectorAll('[data-gallery-filter]');
-        const galleryItems = document.querySelectorAll('.gallery-item');
+    // 2. LOGICA LIGHTBOX ESSENZIALE PER FOTOGALLERY
+    function initCompactGallery() {
+        const items = document.querySelectorAll('.gallery-compact-item');
         const lightbox = document.getElementById('lightboxModal');
         const lightboxImg = document.getElementById('lightboxImg');
-        const lightboxCaption = document.getElementById('lightboxCaption');
         const closeBtn = document.getElementById('lightboxClose');
         const prevBtn = document.getElementById('lightboxPrev');
         const nextBtn = document.getElementById('lightboxNext');
 
-        if (!lightbox || galleryItems.length === 0) return;
+        if (!lightbox || items.length === 0) return;
 
-        let visibleItems = [];
         let currentIndex = 0;
 
-        function updateVisibleItems() {
-            visibleItems = Array.from(galleryItems).filter(item => item.style.display !== 'none');
-        }
-
-        // Filtro Categorie
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                const filter = btn.getAttribute('data-gallery-filter');
-
-                galleryItems.forEach(item => {
-                    const category = item.getAttribute('data-category');
-                    if (filter === 'all' || category === filter) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-                updateVisibleItems();
-            });
-        });
-
-        updateVisibleItems();
-
-        // Apertura Lightbox
-        galleryItems.forEach(item => {
-            item.addEventListener('click', () => {
-                currentIndex = visibleItems.indexOf(item);
-                if (currentIndex !== -1) {
-                    openLightbox(currentIndex);
-                }
-            });
-        });
-
         function openLightbox(index) {
-            const targetItem = visibleItems[index];
-            if (!targetItem) return;
-
-            const src = targetItem.getAttribute('data-src') || targetItem.querySelector('img').src;
-            const caption = targetItem.getAttribute('data-caption') || '';
-
-            lightboxImg.src = src;
-            lightboxCaption.textContent = caption;
+            currentIndex = index;
+            lightboxImg.src = items[currentIndex].getAttribute('data-src');
             lightbox.classList.add('active');
             lightbox.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
@@ -800,19 +652,13 @@
             document.body.style.overflow = '';
         }
 
-        function showPrev() {
-            currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
-            openLightbox(currentIndex);
-        }
-
-        function showNext() {
-            currentIndex = (currentIndex + 1) % visibleItems.length;
-            openLightbox(currentIndex);
-        }
+        items.forEach((item, idx) => {
+            item.addEventListener('click', () => openLightbox(idx));
+        });
 
         closeBtn?.addEventListener('click', closeLightbox);
-        prevBtn?.addEventListener('click', showPrev);
-        nextBtn?.addEventListener('click', showNext);
+        prevBtn?.addEventListener('click', () => openLightbox((currentIndex - 1 + items.length) % items.length));
+        nextBtn?.addEventListener('click', () => openLightbox((currentIndex + 1) % items.length));
 
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) closeLightbox();
@@ -821,11 +667,11 @@
         document.addEventListener('keydown', (e) => {
             if (!lightbox.classList.contains('active')) return;
             if (e.key === 'Escape') closeLightbox();
-            if (e.key === 'ArrowLeft') showPrev();
-            if (e.key === 'ArrowRight') showNext();
+            if (e.key === 'ArrowLeft') openLightbox((currentIndex - 1 + items.length) % items.length);
+            if (e.key === 'ArrowRight') openLightbox((currentIndex + 1) % items.length);
         });
 
-        // Swipe Touch per Smartphone su Lightbox
+        // Swipe Touch per Smartphone
         let touchStartX = 0;
         lightbox.addEventListener('touchstart', (e) => {
             touchStartX = e.touches[0].clientX;
@@ -835,8 +681,8 @@
             const touchEndX = e.changedTouches[0].clientX;
             const diffX = touchStartX - touchEndX;
             if (Math.abs(diffX) > 40) {
-                if (diffX > 0) showNext();
-                else showPrev();
+                if (diffX > 0) openLightbox((currentIndex + 1) % items.length);
+                else openLightbox((currentIndex - 1 + items.length) % items.length);
             }
         });
     }
@@ -844,8 +690,8 @@
     window.addEventListener('DOMContentLoaded', () => {
         const savedLang = localStorage.getItem('preferred_lang') || 'ja';
         setLanguage(savedLang);
-        initDynamicCarousel();
-        initGalleryAndLightbox();
+        initMatchCenter();
+        initCompactGallery();
     });
 
     // Menu Mobile Toggle
