@@ -11,21 +11,18 @@
     <link rel="stylesheet" href="style.css">
     <style>
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-        .badge-live { background: #ef4444; color: white; animation: pulse 1.5s infinite; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-<header class="header">
-  <!-- ... (Header invariato) ... -->
-</header>
+<!-- (Header invariato) -->
 
 <section class="section matches-page-section">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-trophy"></i> <span data-i18n="matches_page.title">試合日程・結果一覧</span></h2>
         
         <div class="matches-list-wrapper">
-            <!-- SEZIONE CALENDARIO -->
+            <!-- CALENDARIO -->
             <div class="matches-section-block">
                 <h3 class="ranking-title" style="margin-bottom: 20px;">
                     <i class="fas fa-calendar-check" style="color: var(--primary-sky);"></i> <span data-i18n="matches_page.upcoming_title">試合日程</span>
@@ -33,7 +30,7 @@
                 <div id="upcomingContainer" style="display: flex; flex-direction: column; gap: 20px;"></div>
             </div>
 
-            <!-- SEZIONE RISULTATI -->
+            <!-- RISULTATI -->
             <div class="matches-section-block" style="margin-top: 50px;">
                 <h3 class="ranking-title" style="margin-bottom: 20px;">
                     <i class="fas fa-history" style="color: var(--primary-sky);"></i> <span data-i18n="matches_page.past_title">試合結果</span>
@@ -46,43 +43,47 @@
 
 <script>
     async function loadMatches() {
-        try {
-            const response = await fetch('matches.json');
-            const matches = await response.json();
-            const upcomingContainer = document.getElementById('upcomingContainer');
-            const pastContainer = document.getElementById('pastContainer');
-            
-            matches.forEach(match => {
-                const team2Logo = match.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(match.team2Name)}&background=random&color=ffffff&size=100&bold=true`;
-                let badgeHtml = match.status === 'live' ? '<span class="badge-live">🔴 LIVE</span>' : `<span class="match-badge">${match.type}</span>`;
-                
-                const cardHtml = `
-                    <div class="match-detail-card">
-                        <div class="match-header-row">
-                            ${badgeHtml}
-                            <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${match.date}</span>
-                        </div>
-                        <div class="match-teams-row">
-                            <div class="match-team"><img src="./immagini/logo.png"><span>${match.team1Name}</span></div>
-                            <div class="match-vs-score ${match.status === 'past' ? 'score-past' : ''}">${match.score}</div>
-                            <div class="match-team"><img src="${team2Logo}" class="opponent-logo"><span>${match.team2Name}</span></div>
-                        </div>
-                        ${(match.scorers && match.scorers !== 'なし') ? `
-                        <div class="match-expand-details" style="display:block; margin-top:10px;">
-                            <div class="details-inner">
-                                <div class="detail-item"><i class="fas fa-futbol"></i> <strong>得点者:</strong> ${match.scorers}</div>
-                            </div>
-                        </div>` : ''}
-                    </div>
-                `;
+        const response = await fetch('matches.json');
+        const matches = await response.json();
+        const upcomingContainer = document.getElementById('upcomingContainer');
+        const pastContainer = document.getElementById('pastContainer');
 
-                if (match.status === 'upcoming' || match.status === 'live') {
-                    upcomingContainer.insertAdjacentHTML('beforeend', cardHtml);
-                } else {
-                    pastContainer.insertAdjacentHTML('beforeend', cardHtml);
-                }
-            });
-        } catch (e) { console.error("Errore caricamento:", e); }
+        matches.forEach(m => {
+            const isPast = m.status === 'past';
+            const badgeClass = isPast ? 'badge-friendly' : 'badge-next';
+            const badgeText = isPast ? '練習試合' : m.type;
+            const liveBadge = m.status === 'live' ? '<span class="match-badge" style="background:#ef4444; color:white; animation: pulse 1.5s infinite;">🔴 LIVE</span>' : `<span class="match-badge ${badgeClass}">${badgeText}</span>`;
+            
+            const cardHtml = `
+                <div class="match-detail-card ${isPast ? 'match-past-item' : 'match-upcoming'}">
+                    <div class="match-header-row">
+                        ${liveBadge}
+                        <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${m.date}</span>
+                    </div>
+                    <div class="match-teams-row">
+                        <div class="match-team"><img src="./immagini/logo.png"><span>${m.team1Name}</span></div>
+                        <div class="match-vs-score ${isPast ? 'score-past' : ''}">${m.score}</div>
+                        <div class="match-team"><img src="${m.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.team2Name)}&background=random&color=ffffff&size=100&bold=true`}" class="opponent-logo"><span>${m.team2Name}</span></div>
+                    </div>
+                    <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> <span>詳細を見る</span></button>
+                    <div class="match-expand-details" style="display:none;">
+                        <div class="details-inner">
+                            <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong>会場:</strong> ${m.venue}</span></div>
+                            ${m.scorers ? `<div class="detail-item"><i class="fas fa-futbol"></i> <span><strong>得点者:</strong> ${m.scorers}</span></div>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+            (isPast ? pastContainer : upcomingContainer).insertAdjacentHTML('beforeend', cardHtml);
+        });
+
+        // Riattiva la logica di apertura/chiusura dettagli
+        document.querySelectorAll('.toggle-details-btn').forEach(btn => {
+            btn.onclick = () => {
+                const details = btn.nextElementSibling;
+                details.style.display = details.style.display === 'none' ? 'block' : 'none';
+            };
+        });
     }
     window.addEventListener('DOMContentLoaded', loadMatches);
 </script>
