@@ -697,14 +697,34 @@
             // Data e Ora
             document.getElementById(`${prefix}MatchDate`).textContent = `${m.date} ${m.time || ''}`.trim();
             
-            // 1. Squadra 1 (Sempre Yokohama Calcio)
-            document.getElementById(`${prefix}Team1Name`).textContent = m.team1Name || 'Yokohama Calcio';
-            document.getElementById(`${prefix}Team1Logo`).src = './immagini/logo.png';
+            // Determina ordine squadre in base a isHome
+            const isHome = m.isHome !== undefined ? m.isHome : true;
+            let leftTeamName, leftTeamLogo, rightTeamName, rightTeamLogo;
 
-            // 2. Squadra 2 (Avversario)
-            const opponent = m.team2Name || '-';
-            document.getElementById(`${prefix}Team2Name`).textContent = opponent;
-            document.getElementById(`${prefix}Team2Logo`).src = getAvatarUrl(opponent, m.team2Logo);
+            if (isHome) {
+                // Yokohama a sinistra
+                leftTeamName = m.team1Name || 'Yokohama Calcio';
+                leftTeamLogo = './immagini/logo.png';
+                rightTeamName = m.team2Name || '-';
+                rightTeamLogo = getAvatarUrl(rightTeamName, m.team2Logo);
+            } else {
+                // Yokohama a destra
+                leftTeamName = m.team2Name || '-';
+                leftTeamLogo = getAvatarUrl(leftTeamName, m.team2Logo);
+                rightTeamName = m.team1Name || 'Yokohama Calcio';
+                rightTeamLogo = './immagini/logo.png';
+            }
+
+            document.getElementById(`${prefix}Team1Name`).textContent = leftTeamName;
+            document.getElementById(`${prefix}Team1Logo`).src = leftTeamLogo;
+            document.getElementById(`${prefix}Team2Name`).textContent = rightTeamName;
+            document.getElementById(`${prefix}Team2Logo`).src = rightTeamLogo;
+
+            // Aggiorna classi per rotondità (solo avversario)
+            const team1LogoEl = document.getElementById(`${prefix}Team1Logo`);
+            const team2LogoEl = document.getElementById(`${prefix}Team2Logo`);
+            if (team1LogoEl) team1LogoEl.className = isHome ? '' : 'opponent-logo';
+            if (team2LogoEl) team2LogoEl.className = isHome ? 'opponent-logo' : '';
 
             // 3. Luogo
             const venueSpan = document.getElementById(`${prefix}MatchVenue`)?.querySelector('span');
@@ -725,7 +745,14 @@
         if (pastMatches.length > 0) {
             const lastMatch = pastMatches[pastMatches.length - 1];
             fillMatchBox(lastMatch, 'last');
-            document.getElementById('lastScore').textContent = lastMatch.score || '-';
+            
+            // Gestione punteggio in base a isHome
+            let displayScore = lastMatch.score || '-';
+            if (lastMatch.isHome === false && displayScore !== '-' && displayScore !== 'VS' && displayScore.includes('-')) {
+                const parts = displayScore.split('-');
+                if (parts.length === 2) displayScore = `${parts[1].trim()} - ${parts[0].trim()}`;
+            }
+            document.getElementById('lastScore').textContent = displayScore;
         }
 
         // 2. Prossima Partita (status === 'upcoming' con data più vicina)
