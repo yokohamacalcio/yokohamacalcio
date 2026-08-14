@@ -129,7 +129,7 @@
                     <i class="fas fa-calendar-check" style="color: var(--primary-sky);"></i> <span data-i18n="matches_page.upcoming_title">試合日程</span>
                 </h3>
 
-                <div id="upcomingContainer">
+                <div id="upcomingContainer" style="display: flex; flex-direction: column; gap: 20px;">
                     <!-- MATCH 1: YSCCミドル (30 Agosto) -->
                     <div class="match-detail-card match-upcoming" id="match-1" data-match-category="friendly" data-match-date="2026.08.30">
                         <div class="match-header-row">
@@ -196,7 +196,7 @@
                     <i class="fas fa-history" style="color: var(--primary-sky);"></i> <span data-i18n="matches_page.past_title">試合結果</span>
                 </h3>
 
-                <div id="pastContainer">
+                <div id="pastContainer" style="display: flex; flex-direction: column; gap: 20px;">
                     <!-- MATCH 3: YSCCミドル (9 Agosto) -->
                     <div class="match-detail-card match-past-item" id="match-3" data-match-category="friendly" data-match-date="2026.08.09">
                         <div class="match-header-row">
@@ -602,7 +602,7 @@
     });
 
     if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
+        history.scrollRestoration = 'auto';
     }
 
     window.addEventListener('DOMContentLoaded', () => {
