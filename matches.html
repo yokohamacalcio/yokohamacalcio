@@ -416,12 +416,11 @@
         const hash = window.location.hash;
         if (!hash) return;
 
-        document.querySelectorAll('[data-match-filter]').forEach(btn => btn.classList.remove('active'));
-        document.querySelector('[data-match-filter="all"]')?.classList.add('active');
-        const seasonSelect = document.getElementById('matchSeasonSelect');
-        if (seasonSelect) seasonSelect.value = 'all';
-        visiblePastMatchesCount = 1000;
+        // Salva il conteggio corrente per ripristinarlo dopo
+        const previousCount = visiblePastMatchesCount;
 
+        // Mostra temporaneamente tutte le partite per trovare quella selezionata
+        visiblePastMatchesCount = 1000;
         filterAndPaginateMatches();
 
         const targetCard = document.querySelector(hash);
@@ -431,7 +430,17 @@
                 targetCard.classList.add('active');
                 const details = targetCard.querySelector('.match-expand-details');
                 if (details) details.style.display = 'block';
+
+                // Ripristina il conteggio originale
+                visiblePastMatchesCount = previousCount;
+                // Nascondi le card oltre il limite, ma forza la card selezionata a rimanere visibile
+                filterAndPaginateMatches();
+                targetCard.style.display = 'block';
             }, 100);
+        } else {
+            // Se la card non esiste, ripristina subito
+            visiblePastMatchesCount = previousCount;
+            filterAndPaginateMatches();
         }
     }
 
