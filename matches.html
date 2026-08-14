@@ -353,27 +353,57 @@
                 }
             });
 
-            // Gestione Click Espansione Dettagli
+            // Gestione Click Espansione Dettagli (chiude gli altri)
             document.querySelectorAll('.toggle-details-btn').forEach(btn => {
                 btn.onclick = function(e) {
                     e.preventDefault();
                     const card = this.closest('.match-detail-card');
                     const details = card.querySelector('.match-expand-details');
-                    
-                    card.classList.toggle('active');
-                    
-                    if (details) {
-                        if (details.style.display === 'none' || details.style.display === '') {
-                            details.style.display = 'block';
-                        } else {
-                            details.style.display = 'none';
-                        }
+                    const wasActive = card.classList.contains('active');
+
+                    // Chiudi tutti i dettagli aperti
+                    document.querySelectorAll('.match-detail-card').forEach(c => {
+                        c.classList.remove('active');
+                        const det = c.querySelector('.match-expand-details');
+                        if (det) det.style.display = 'none';
+                    });
+
+                    // Se non era attiva, apri quella corrente
+                    if (!wasActive) {
+                        card.classList.add('active');
+                        if (details) details.style.display = 'block';
                     }
                 };
             });
 
         } catch (error) {
             console.error("Errore nel caricamento del file JSON:", error);
+        }
+    }
+
+    // Apre automaticamente il dettaglio se l'URL contiene un hash (es. #match-1)
+    function handleHashOnLoad() {
+        const hash = window.location.hash;
+        if (!hash) return;
+
+        // Reimposta temporaneamente filtri e paginazione per mostrare la partita selezionata
+        document.querySelectorAll('[data-match-filter]').forEach(btn => btn.classList.remove('active'));
+        document.querySelector('[data-match-filter="all"]')?.classList.add('active');
+        const seasonSelect = document.getElementById('matchSeasonSelect');
+        if (seasonSelect) seasonSelect.value = 'all';
+        visiblePastMatchesCount = 1000; // Mostra tutte le partite passate
+
+        filterAndPaginateMatches();
+
+        const targetCard = document.querySelector(hash);
+        if (targetCard) {
+            // Dopo un piccolo ritardo per assicurarsi che la card sia visibile
+            setTimeout(() => {
+                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetCard.classList.add('active');
+                const details = targetCard.querySelector('.match-expand-details');
+                if (details) details.style.display = 'block';
+            }, 100);
         }
     }
 
@@ -385,6 +415,7 @@
         
         setLanguage(currentLang);
         filterAndPaginateMatches();
+        handleHashOnLoad(); // Gestisce l'ancora se presente
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
