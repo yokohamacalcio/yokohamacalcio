@@ -133,7 +133,7 @@
             transform: rotate(180deg);
         }
 
-        /* DETTAGLI ED ESPANSIONE (AGGIORNATO MAX-HEIGHT & SPACING) */
+        /* DETTAGLI ED ESPANSIONE */
         .player-details-expand {
             max-height: 0;
             overflow: hidden;
@@ -142,7 +142,7 @@
         }
 
         .player-card.active .player-details-expand {
-            max-height: 480px; /* Aumentato per impedire il taglio delle righe inferiori */
+            max-height: 480px;
             transition: max-height 0.4s cubic-bezier(1, 0, 1, 0);
         }
 
@@ -163,7 +163,6 @@
             gap: 8px;
         }
 
-        /* ALLINEAMENTO A DESTRA DEI VALORI TRADOTTI (ANCHE SU PIÙ RIGHE) */
         .player-detail-row strong {
             text-align: right;
             margin-left: auto;
@@ -215,36 +214,31 @@
       <!-- DESKTOP NAV -->
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
-          <!-- DROPDOWN 1: SQUADRA -->
           <div class="nav-item dropdown">
             <a href="index.html#about" class="dropdown-toggle"><span data-i18n="nav.team">チーム</span> <i class="fas fa-chevron-down nav-arrow"></i></a>
             <div class="dropdown-menu">
               <a href="index.html#about" data-i18n="nav.about">チーム紹介</a>
-              <a href="players.html" data-i18n="nav.players">選手紹介</a>
+              <a href="players.html" style="color: var(--primary-sky);" data-i18n="nav.players">選手紹介</a>
               <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
               <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
             </div>
           </div>
 
-          <!-- LINK DIRETTI -->
           <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
           <a href="index.html#sponsors" data-i18n="nav.sponsors">スポンサー</a>
           <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
 
-          <!-- BOTTONE CTA CONTATTI -->
           <a href="index.html#contact" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
         </nav>
       </div>
 
-      <!-- HAMBURGER MENU (MOBILE) -->
       <button class="mobile-menu-toggle" aria-label="Menu">
         <i class="fas fa-bars"></i>
       </button>
     </div>
   </div>
 
-  <!-- MOBILE NAVIGATION NAV -->
   <nav class="mobile-nav hidden">
     <a href="index.html#about" class="mobile-link" data-i18n="nav.about">チーム紹介</a>
     <a href="players.html" class="mobile-link" data-i18n="nav.players">選手紹介</a>
@@ -1195,192 +1189,68 @@
     // DIZIONARIO TRADUZIONI MULTILINGUA (JP, IT, EN)
     const translations = {
         ja: {
-            "nav.team": "チーム",
-            "nav.about": "チーム紹介",
-            "nav.players": "選手紹介",
-            "nav.stats": "成績・スタッツ",
-            "nav.matches": "試合日程・結果",
-            "nav.club": "クラブ",
-            "nav.gallery": "ギャラリー",
-            "nav.sponsors": "スポンサー",
-            "nav.faq": "よくある質問",
-            "nav.shop": "ショップ",
-            "nav.contact": "お問い合わせ",
-            "players_page.title": "選手・スタッフ紹介",
-            "players_page.intro": "カードをタップすると詳細情報・個人成績をご覧いただけます。",
-            "role_filter.all": "すべて (ALL)",
-            "role_filter.gk": "GK",
-            "role_filter.df": "DF",
-            "role_filter.mf": "MF",
-            "role_filter.fw": "FW",
-            "role_filter.staff": "STAFF",
-            "btn.back_home": "ホームに戻る",
-            "btn.details": "詳細・個人成績",
-            "btn.details_staff": "詳細情報",
-            "label.role_detail": "役割:",
-            "label.hometown": "出身地:",
-            "label.age": "年齢:",
-            "label.goals": "得点:",
-            "label.assists": "アシスト:",
-            "label.yellows": "警告:",
-            "label.reds": "退場:",
-            "label.staff_role": "役割:",
-            "role.manager": "マネージャー",
-            "unit.age": "歳",
-            "hometown.kumamoto": "熊本県",
-            "hometown.kanagawa": "神奈川県",
-            "hometown.mexico": "メキシコ",
-            "hometown.italy": "イタリア",
-            "hometown.aichi": "愛知県",
-            "hometown.shizuoka": "静岡県",
-            "hometown.ibaraki": "茨城県",
-            "hometown.saga": "佐賀県",
-            "hometown.niigata": "新潟県",
-            "hometown.saitama": "埼玉県",
-            "role_fullname.gk": "ゴールキーパー (GK)",
-            "role_fullname.cb": "センターバック (CB)",
-            "role_fullname.sb": "サイドバック (SB)",
-            "role_fullname.sb_sh": "サイドバック / サイドハーフ",
-            "role_fullname.cm": "セントラルMF (CM)",
-            "role_fullname.sh": "サイドハーフ (SH)",
-            "role_fullname.cm_sb": "CM / SB",
-            "role_fullname.cm_sh": "CM / SH",
-            "role_fullname.cm_cb": "CM / CB",
-            "role_fullname.sh_sb": "SH / SB",
-            "role_fullname.cm_cam": "CM / CAM",
-            "role_fullname.sh_fw": "SH / FW",
-            "role_fullname.cm_fw": "CM / FW",
-            "role_fullname.fw": "フォワード (FW)",
-            "role_fullname.fw_sh": "FW / SH",
-            "role_fullname.fw_sb": "FW / SB",
-            "role_fullname.fw_cam": "FW / SH / CAM",
-            "role_fullname.poly_def": "SB / CM / CAM",
+            "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
+            "nav.matches": "試合日程・結果", "nav.club": "クラブ", "nav.gallery": "ギャラリー", "nav.sponsors": "スポンサー",
+            "nav.faq": "よくある質問", "nav.shop": "ショップ", "nav.contact": "お問い合わせ",
+            "players_page.title": "選手・スタッフ紹介", "players_page.intro": "カードをタップすると詳細情報・個人成績をご覧いただけます。",
+            "role_filter.all": "すべて (ALL)", "role_filter.gk": "GK", "role_filter.df": "DF", "role_filter.mf": "MF",
+            "role_filter.fw": "FW", "role_filter.staff": "STAFF", "btn.back_home": "ホームに戻る", "btn.details": "詳細・個人成績",
+            "btn.details_staff": "詳細情報", "label.role_detail": "役割:", "label.hometown": "出身地:", "label.age": "年齢:",
+            "label.goals": "得点:", "label.assists": "アシスト:", "label.yellows": "警告:", "label.reds": "退場:",
+            "label.staff_role": "役割:", "role.manager": "マネージャー", "unit.age": "歳",
+            "hometown.kumamoto": "熊本県", "hometown.kanagawa": "神奈川県", "hometown.mexico": "メキシコ", "hometown.italy": "イタリア",
+            "hometown.aichi": "愛知県", "hometown.shizuoka": "静岡県", "hometown.ibaraki": "茨城県", "hometown.saga": "佐賀県",
+            "hometown.niigata": "新潟県", "hometown.saitama": "埼玉県",
+            "role_fullname.gk": "ゴールキーパー (GK)", "role_fullname.cb": "センターバック (CB)", "role_fullname.sb": "サイドバック (SB)",
+            "role_fullname.sb_sh": "サイドバック / サイドハーフ", "role_fullname.cm": "セントラルMF (CM)", "role_fullname.sh": "サイドハーフ (SH)",
+            "role_fullname.cm_sb": "CM / SB", "role_fullname.cm_sh": "CM / SH", "role_fullname.cm_cb": "CM / CB",
+            "role_fullname.sh_sb": "SH / SB", "role_fullname.cm_cam": "CM / CAM", "role_fullname.sh_fw": "SH / FW",
+            "role_fullname.cm_fw": "CM / FW", "role_fullname.fw": "フォワード (FW)", "role_fullname.fw_sh": "FW / SH",
+            "role_fullname.fw_sb": "FW / SB", "role_fullname.fw_cam": "FW / SH / CAM", "role_fullname.poly_def": "SB / CM / CAM",
             "role_fullname.poly_fw": "FW / SH / CM"
         },
         it: {
-            "nav.team": "SQUADRA",
-            "nav.about": "Chi Siamo",
-            "nav.players": "Giocatori",
-            "nav.stats": "Statistiche",
-            "nav.matches": "Partite & Risultati",
-            "nav.club": "CLUB",
-            "nav.gallery": "Galleria",
-            "nav.sponsors": "Sponsor",
-            "nav.faq": "FAQ",
-            "nav.shop": "Shop",
-            "nav.contact": "Contatti",
-            "players_page.title": "Rosa & Staff",
-            "players_page.intro": "Tocca la scheda per visualizzare i dettagli e le statistiche personali.",
-            "role_filter.all": "Tutti",
-            "role_filter.gk": "Portieri",
-            "role_filter.df": "Difensori",
-            "role_filter.mf": "Centrocampisti",
-            "role_filter.fw": "Attaccanti",
-            "role_filter.staff": "Staff",
-            "btn.back_home": "Torna alla Home",
-            "btn.details": "Dettagli & Stats",
-            "btn.details_staff": "Informazioni",
-            "label.role_detail": "Ruolo:",
-            "label.hometown": "Origine:",
-            "label.age": "Età:",
-            "label.goals": "Gol:",
-            "label.assists": "Assist:",
-            "label.yellows": "Amm:",
-            "label.reds": "Esp:",
-            "label.staff_role": "Ruolo:",
-            "role.manager": "Manager",
-            "unit.age": "anni",
-            "hometown.kumamoto": "Pref. di Kumamoto",
-            "hometown.kanagawa": "Pref. di Kanagawa",
-            "hometown.mexico": "Messico",
-            "hometown.italy": "Italia",
-            "hometown.aichi": "Pref. di Aichi",
-            "hometown.shizuoka": "Pref. di Shizuoka",
-            "hometown.ibaraki": "Pref. di Ibaraki",
-            "hometown.saga": "Pref. di Saga",
-            "hometown.niigata": "Pref. di Niigata",
-            "hometown.saitama": "Pref. di Saitama",
-            "role_fullname.gk": "Portiere",
-            "role_fullname.cb": "Difensore Centrale",
-            "role_fullname.sb": "Terzino",
-            "role_fullname.sb_sh": "Terzino",
-            "role_fullname.cm": "Centrocampista",
-            "role_fullname.sh": "Esterno",
-            "role_fullname.cm_sb": "Centrocampista",
-            "role_fullname.cm_sh": "Centrocampista",
-            "role_fullname.cm_cb": "Centrocampista",
-            "role_fullname.sh_sb": "Esterno",
-            "role_fullname.cm_cam": "Centrocampista",
-            "role_fullname.sh_fw": "Esterno",
-            "role_fullname.cm_fw": "Centrocampista",
-            "role_fullname.fw": "Attaccante",
-            "role_fullname.fw_sh": "Attaccante",
-            "role_fullname.fw_sb": "Attaccante",
-            "role_fullname.fw_cam": "Attaccante",
-            "role_fullname.poly_def": "Terzino",
+            "nav.team": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
+            "nav.matches": "Partite & Risultati", "nav.club": "CLUB", "nav.gallery": "Galleria", "nav.sponsors": "Sponsor",
+            "nav.faq": "FAQ", "nav.shop": "Shop", "nav.contact": "Contatti",
+            "players_page.title": "Rosa & Staff", "players_page.intro": "Tocca la scheda per visualizzare i dettagli e le statistiche personali.",
+            "role_filter.all": "Tutti", "role_filter.gk": "Portieri", "role_filter.df": "Difensori", "role_filter.mf": "Centrocampisti",
+            "role_filter.fw": "Attaccanti", "role_filter.staff": "Staff", "btn.back_home": "Torna alla Home",
+            "btn.details": "Dettagli & Stats", "btn.details_staff": "Informazioni", "label.role_detail": "Ruolo:",
+            "label.hometown": "Origine:", "label.age": "Età:", "label.goals": "Gol:", "label.assists": "Assist:",
+            "label.yellows": "Amm:", "label.reds": "Esp:", "label.staff_role": "Ruolo:", "role.manager": "Manager",
+            "unit.age": "anni", "hometown.kumamoto": "Pref. di Kumamoto", "hometown.kanagawa": "Pref. di Kanagawa",
+            "hometown.mexico": "Messico", "hometown.italy": "Italia", "hometown.aichi": "Pref. di Aichi",
+            "hometown.shizuoka": "Pref. di Shizuoka", "hometown.ibaraki": "Pref. di Ibaraki", "hometown.saga": "Pref. di Saga",
+            "hometown.niigata": "Pref. di Niigata", "hometown.saitama": "Pref. di Saitama",
+            "role_fullname.gk": "Portiere", "role_fullname.cb": "Difensore Centrale", "role_fullname.sb": "Terzino",
+            "role_fullname.sb_sh": "Terzino", "role_fullname.cm": "Centrocampista", "role_fullname.sh": "Esterno",
+            "role_fullname.cm_sb": "Centrocampista", "role_fullname.cm_sh": "Centrocampista", "role_fullname.cm_cb": "Centrocampista",
+            "role_fullname.sh_sb": "Esterno", "role_fullname.cm_cam": "Centrocampista", "role_fullname.sh_fw": "Esterno",
+            "role_fullname.cm_fw": "Centrocampista", "role_fullname.fw": "Attaccante", "role_fullname.fw_sh": "Attaccante",
+            "role_fullname.fw_sb": "Attaccante", "role_fullname.fw_cam": "Attaccante", "role_fullname.poly_def": "Terzino",
             "role_fullname.poly_fw": "Attaccante"
         },
         en: {
-            "nav.team": "TEAM",
-            "nav.about": "About Us",
-            "nav.players": "Players",
-            "nav.stats": "Stats",
-            "nav.matches": "Matches & Results",
-            "nav.club": "CLUB",
-            "nav.gallery": "Gallery",
-            "nav.sponsors": "Sponsors",
-            "nav.faq": "FAQ",
-            "nav.contact": "Contact Us",
-            "players_page.title": "Players & Staff",
-            "players_page.intro": "Tap a card to view detailed info and personal stats.",
-            "role_filter.all": "All Players",
-            "role_filter.gk": "GK",
-            "role_filter.df": "DF",
-            "role_filter.mf": "MF",
-            "role_filter.fw": "FW",
-            "role_filter.staff": "Staff",
-            "btn.back_home": "Back to Home",
-            "btn.details": "Stats & Details",
-            "btn.details_staff": "Staff Info",
-            "label.role_detail": "Position:",
-            "label.hometown": "Hometown:",
-            "label.age": "Age:",
-            "label.goals": "Goals:",
-            "label.assists": "Assists:",
-            "label.yellows": "Yellows:",
-            "label.reds": "Reds:",
-            "label.staff_role": "Role:",
-            "role.manager": "Manager",
-            "unit.age": "years old",
-            "hometown.kumamoto": "Kumamoto Pref.",
-            "hometown.kanagawa": "Kanagawa Pref.",
-            "hometown.mexico": "Mexico",
-            "hometown.italy": "Italy",
-            "hometown.aichi": "Aichi Pref.",
-            "hometown.shizuoka": "Shizuoka Pref.",
-            "hometown.ibaraki": "Ibaraki Pref.",
-            "hometown.saga": "Saga Pref.",
-            "hometown.niigata": "Niigata Pref.",
-            "hometown.saitama": "Saitama Pref.",
-            "role_fullname.gk": "Goalkeeper",
-            "role_fullname.cb": "Center Back",
-            "role_fullname.sb": "Full Back",
-            "role_fullname.sb_sh": "Full Back",
-            "role_fullname.cm": "Central Midfielder",
-            "role_fullname.sh": "Winger",
-            "role_fullname.cm_sb": "Central Midfielder",
-            "role_fullname.cm_sh": "Central Midfielder",
-            "role_fullname.cm_cb": "Central Midfielder",
-            "role_fullname.sh_sb": "Winger",
-            "role_fullname.cm_cam": "Central Midfielder",
-            "role_fullname.sh_fw": "Winger",
-            "role_fullname.cm_fw": "Central Midfielder",
-            "role_fullname.fw": "Forward",
-            "role_fullname.fw_sh": "Forward",
-            "role_fullname.fw_sb": "Forward",
-            "role_fullname.fw_cam": "Forward",
-            "role_fullname.poly_def": "Full Back",
-            "role_fullname.poly_fw": "Forward"
+            "nav.team": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
+            "nav.matches": "Matches & Results", "nav.club": "CLUB", "nav.gallery": "Gallery", "nav.sponsors": "Sponsors",
+            "nav.faq": "FAQ", "nav.shop": "Shop", "nav.contact": "Contact Us",
+            "players_page.title": "Players & Staff", "players_page.intro": "Tap a card to view detailed info and personal stats.",
+            "role_filter.all": "All Players", "role_filter.gk": "GK", "role_filter.df": "DF", "role_filter.mf": "MF",
+            "role_filter.fw": "FW", "role_filter.staff": "Staff", "btn.back_home": "Back to Home", "btn.details": "Stats & Details",
+            "btn.details_staff": "Staff Info", "label.role_detail": "Position:", "label.hometown": "Hometown:",
+            "label.age": "Age:", "label.goals": "Goals:", "label.assists": "Assists:", "label.yellows": "Yellows:",
+            "label.reds": "Reds:", "label.staff_role": "Role:", "role.manager": "Manager", "unit.age": "years old",
+            "hometown.kumamoto": "Kumamoto Pref.", "hometown.kanagawa": "Kanagawa Pref.", "hometown.mexico": "Mexico",
+            "hometown.italy": "Italy", "hometown.aichi": "Aichi Pref.", "hometown.shizuoka": "Shizuoka Pref.",
+            "hometown.ibaraki": "Ibaraki Pref.", "hometown.saga": "Saga Pref.", "hometown.niigata": "Niigata Pref.",
+            "hometown.saitama": "Saitama Pref.", "role_fullname.gk": "Goalkeeper", "role_fullname.cb": "Center Back",
+            "role_fullname.sb": "Full Back", "role_fullname.sb_sh": "Full Back", "role_fullname.cm": "Central Midfielder",
+            "role_fullname.sh": "Winger", "role_fullname.cm_sb": "Central Midfielder", "role_fullname.cm_sh": "Central Midfielder",
+            "role_fullname.cm_cb": "Central Midfielder", "role_fullname.sh_sb": "Winger", "role_fullname.cm_cam": "Central Midfielder",
+            "role_fullname.sh_fw": "Winger", "role_fullname.cm_fw": "Central Midfielder", "role_fullname.fw": "Forward",
+            "role_fullname.fw_sh": "Forward", "role_fullname.fw_sb": "Forward", "role_fullname.fw_cam": "Forward",
+            "role_fullname.poly_def": "Full Back", "role_fullname.poly_fw": "Forward"
         }
     };
 
@@ -1389,7 +1259,6 @@
         if (!translations[lang]) return;
         localStorage.setItem('preferred_lang', lang);
 
-        // 1. Traduzioni Generali
         document.querySelectorAll('[data-i18n]').forEach(elem => {
             const key = elem.getAttribute('data-i18n');
             if (translations[lang][key]) {
@@ -1397,12 +1266,10 @@
             }
         });
 
-        // 2. Traduzione Tasti Lingua
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
 
-        // 3. Traduzione Nomi Romaji / Katakana
         document.querySelectorAll('.player-card').forEach(card => {
             const kana = card.getAttribute('data-player-kana');
             const romaji = card.getAttribute('data-player-romaji');
@@ -1412,7 +1279,6 @@
             }
         });
 
-        // 4. Traduzione Hometown (Provenienza)
         document.querySelectorAll('[data-hometown]').forEach(elem => {
             const code = elem.getAttribute('data-hometown');
             const key = `hometown.${code}`;
@@ -1421,7 +1287,6 @@
             }
         });
 
-        // 5. Traduzione Età
         document.querySelectorAll('[data-age]').forEach(elem => {
             const num = elem.getAttribute('data-age');
             const unit = translations[lang]['unit.age'];
@@ -1440,21 +1305,11 @@
         });
     });
 
-    if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-    }
-
-    if (window.location.hash) {
-        history.replaceState(null, null, window.location.pathname);
-    }
-
-    window.scrollTo(0, 0);
     window.addEventListener('DOMContentLoaded', () => {
-        window.scrollTo(0, 0);
         const savedLang = localStorage.getItem('preferred_lang') || 'ja';
         setLanguage(savedLang);
+        calculateStatsFromMatchesJSON();
     });
-    window.addEventListener('load', () => window.scrollTo(0, 0));
 
     // Mobile Menu Toggle
     const menuBtn = document.querySelector('.mobile-menu-toggle');
@@ -1508,16 +1363,12 @@
         });
     });
 
-    // CALCOLO AUTOMATICO STATISTICHE (GOL, ASSIST, MVP, GIALLI, ROSSI) DA MATCHES.HTML
-    async function calculateStatsFromMatches() {
+    // CALCOLO AUTOMATICO STATISTICHE (GOL, ASSIST, MVP, GIALLI, ROSSI) DA MATCHES.JSON
+    async function calculateStatsFromMatchesJSON() {
         try {
-            const response = await fetch('matches.html');
+            const response = await fetch('matches.json');
             if (!response.ok) return;
-            const text = await response.text();
-            
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(text, 'text/html');
-            const matchCards = doc.querySelectorAll('.match-detail-card');
+            const matches = await response.json();
 
             const goalCounts = {};
             const assistCounts = {};
@@ -1525,116 +1376,52 @@
             const yellowCounts = {};
             const redCounts = {};
 
-            const addStat = (map, name, count) => {
+            const addStat = (map, name, count = 1) => {
                 if (!name) return;
-                map[name] = (map[name] || 0) + count;
+                const clean = name.trim();
+                if (clean && clean !== 'なし' && clean !== 'Nessuno') {
+                    map[clean] = (map[clean] || 0) + count;
+                }
             };
 
-            matchCards.forEach(card => {
-                const details = card.querySelectorAll('.detail-item');
-                details.forEach(item => {
-                    const textContent = item.textContent || '';
+            matches.forEach(m => {
+                if (m.status !== 'past') return;
 
-                    // 1. GOL ED ASSIST TRA PARENTESI
-                    if (textContent.includes('得点者:')) {
-                        const scorerText = textContent.replace('得点者:', '').trim();
-                        if (scorerText && scorerText !== 'なし') {
-                            const entries = scorerText.split(/(?<=\)),|(?<=[^)]),(?![^(]*\))/);
-                            entries.forEach(entry => {
-                                let str = entry.trim();
-                                if (!str) return;
+                // 1. MARCATORI ED ASSIST
+                if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
+                    m.scorers.split(',').forEach(entry => {
+                        let text = entry.trim();
+                        if (!text) return;
 
-                                let assisters = [];
-                                const bracketMatch = str.match(/\((.*?)\)/);
-                                if (bracketMatch) {
-                                    assisters = bracketMatch[1].split(',').map(a => a.trim());
-                                    str = str.replace(/\(.*?\)/, '').trim();
-                                }
-
-                                let count = 1;
-                                const countMatch = str.match(/x(\d+)/i);
-                                if (countMatch) {
-                                    count = parseInt(countMatch[1], 10);
-                                    str = str.replace(/x\d+/i, '').trim();
-                                }
-
-                                addStat(goalCounts, str.trim(), count);
-                                assisters.forEach(a => addStat(assistCounts, a, 1));
-                            });
+                        let assistName = '';
+                        const assistMatch = text.match(/\(([^)]+)\)/) || text.match(/（([^）]+)）/);
+                        if (assistMatch) {
+                            assistName = assistMatch[1].trim();
+                            text = text.replace(/\([^)]+\)/, '').replace(/（[^）]+）/, '').trim();
                         }
-                    }
 
-                    // 2. ASSIST DEDICATI
-                    if (textContent.includes('アシスト:')) {
-                        const assistText = textContent.replace('アシスト:', '').trim();
-                        if (assistText && assistText !== 'なし') {
-                            assistText.split(',').forEach(a => {
-                                let name = a.trim();
-                                let count = 1;
-                                const countMatch = name.match(/x(\d+)/i);
-                                if (countMatch) {
-                                    count = parseInt(countMatch[1], 10);
-                                    name = name.replace(/x\d+/i, '').trim();
-                                }
-                                addStat(assistCounts, name.replace(/\(.*\)/, '').trim(), count);
-                            });
-                        }
-                    }
+                        if (text) addStat(goalCounts, text);
+                        if (assistName) addStat(assistCounts, assistName);
+                    });
+                }
 
-                    // 3. MVP
-                    if (textContent.includes('MOM:') || textContent.includes('MVP:')) {
-                        const mvpText = textContent.replace(/(MOM:|MVP:)/, '').trim();
-                        if (mvpText && mvpText !== 'なし') {
-                            mvpText.split(',').forEach(m => {
-                                let name = m.trim();
-                                let count = 1;
-                                const countMatch = name.match(/x(\d+)/i);
-                                if (countMatch) {
-                                    count = parseInt(countMatch[1], 10);
-                                    name = name.replace(/x\d+/i, '').trim();
-                                }
-                                addStat(mvpCounts, name.replace(/\(.*\)/, '').trim(), count);
-                            });
-                        }
-                    }
+                // 2. MVP
+                if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
+                    m.mvp.split(',').forEach(name => addStat(mvpCounts, name));
+                }
 
-                    // 4. AMMONIZIONI
-                    if (textContent.includes('警告:')) {
-                        const yellowText = textContent.replace('警告:', '').trim();
-                        if (yellowText && yellowText !== 'なし') {
-                            yellowText.split(',').forEach(y => {
-                                let name = y.trim();
-                                let count = 1;
-                                const countMatch = name.match(/x(\d+)/i);
-                                if (countMatch) {
-                                    count = parseInt(countMatch[1], 10);
-                                    name = name.replace(/x\d+/i, '').trim();
-                                }
-                                addStat(yellowCounts, name.replace(/\(.*\)/, '').trim(), count);
-                            });
-                        }
-                    }
+                // 3. CARTELLINI GIALLI
+                if (m.yellow_cards && m.yellow_cards !== 'なし' && m.yellow_cards !== 'Nessuno') {
+                    m.yellow_cards.split(',').forEach(name => addStat(yellowCounts, name));
+                }
 
-                    // 5. ESPULSIONI
-                    if (textContent.includes('退場:')) {
-                        const redText = textContent.replace('退場:', '').trim();
-                        if (redText && redText !== 'なし') {
-                            redText.split(',').forEach(r => {
-                                let name = r.trim();
-                                let count = 1;
-                                const countMatch = name.match(/x(\d+)/i);
-                                if (countMatch) {
-                                    count = parseInt(countMatch[1], 10);
-                                    name = name.replace(/x\d+/i, '').trim();
-                                }
-                                addStat(redCounts, name.replace(/\(.*\)/, '').trim(), count);
-                            });
-                        }
-                    }
-                });
+                // 4. CARTELLINI ROSSI
+                if (m.red_cards && m.red_cards !== 'なし' && m.red_cards !== 'Nessuno') {
+                    m.red_cards.split(',').forEach(name => addStat(redCounts, name));
+                }
             });
 
-            // ASSEGNAZIONE STATISTICHE AI GIOCATORI
+            // ASSEGNAZIONE STATISTICHE AI GIOCATORI DALL'HTML
             document.querySelectorAll('.player-card').forEach(card => {
                 const mainName = card.getAttribute('data-player-name');
                 const kanaName = card.getAttribute('data-player-kana');
@@ -1662,25 +1449,25 @@
             });
 
         } catch (e) {
-            console.log('Calcolo statistiche completato.');
+            console.error("Errore nel calcolo statistiche giocatori:", e);
         }
     }
 
-    calculateStatsFromMatches();
-
-    // Scroll to Top
+    // Scroll to Top Button
     const topBtn = document.getElementById('scrollToTopBtn');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            topBtn.classList.add('show');
-        } else {
-            topBtn.classList.remove('show');
-        }
-    });
+    if (topBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                topBtn.classList.add('show');
+            } else {
+                topBtn.classList.remove('show');
+            }
+        });
 
-    topBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+        topBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 
     const yearSpan = document.getElementById('currentYear');
     if (yearSpan) {
