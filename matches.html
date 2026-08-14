@@ -146,14 +146,13 @@
 </footer>
 
 <script>
-    // Aggiungo l'animazione pulsante per il LIVE dinamicamente senza dover toccare il file CSS
+    // Crea lo stile del badge LIVE dinamicamente
     const style = document.createElement('style');
     style.innerHTML = `@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }`;
     document.head.appendChild(style);
 
     if ('scrollRestoration' in history) { history.scrollRestoration = 'auto'; }
 
-    // Funzione principale che legge JSON e disegna le card
     async function loadMatchesFromJSON() {
         try {
             const response = await fetch('matches.json');
@@ -167,27 +166,24 @@
             matches.forEach(m => {
                 const isPast = m.status === 'past';
                 
-                // Variabili di classe dinamiche fondamentali per i FILTRI e per l'estetica
+                // Variabili critiche per i filtri preesistenti
                 const cardClass = isPast ? 'match-detail-card match-past-item' : 'match-detail-card match-upcoming';
                 const scoreClass = isPast ? 'match-vs-score score-past' : 'match-vs-score';
                 const rawDate = m.date.substring(0, 10); // Estrae "2026.08.30" essenziale per il filtro data
                 
-                // Variabili per i BADGE
                 let badgeHtml = '';
                 if (m.status === 'live') {
                     badgeHtml = `<span class="match-badge" style="background: #ef4444; color: white; animation: pulse 1.5s infinite;">🔴 LIVE</span>`;
                 } else if (isPast) {
-                    badgeHtml = `<span class="match-badge badge-friendly" data-i18n="filter.friendly">${m.type}</span>`;
+                    badgeHtml = `<span class="match-badge badge-friendly" data-i18n="filter.friendly">${m.type || '練習試合'}</span>`;
                 } else {
-                    badgeHtml = `<span class="match-badge badge-next" data-i18n="badge.friendly">${m.type}</span>`;
+                    badgeHtml = `<span class="match-badge badge-next" data-i18n="badge.friendly">${m.type || '次戦 (練習試合)'}</span>`;
                 }
 
-                // Generatore di Logo automatico se manca dal JSON
                 const team2Logo = m.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.team2Name)}&background=random&color=ffffff&size=100&bold=true`;
 
-                // Creazione della card HTML esatta come l'originale
                 const cardHtml = `
-                    <div class="${cardClass}" data-match-category="${m.category}" data-match-date="${rawDate}">
+                    <div class="${cardClass}" id="${m.id}" data-match-category="${m.category}" data-match-date="${rawDate}">
                         <div class="match-header-row">
                             ${badgeHtml}
                             <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${m.date}</span>
@@ -213,7 +209,6 @@
                     </div>
                 `;
 
-                // Inserisce la card nel contenitore giusto
                 if (isPast) {
                     pastContainer.insertAdjacentHTML('beforeend', cardHtml);
                 } else {
@@ -221,7 +216,7 @@
                 }
             });
 
-            // RIPRISTINA L'ESPANSIONE DEI DETTAGLI PER LE NUOVE CARD
+            // Ripristina l'apertura/chiusura dei dettagli
             document.querySelectorAll('.toggle-details-btn').forEach(btn => {
                 btn.onclick = function() {
                     const card = this.closest('.match-detail-card');
@@ -234,17 +229,15 @@
         }
     }
 
-    // Qui c'è la CHIAVE per far funzionare Filtri, Mostra Altro e Lingua
+    // Qui aspettiamo PRIMA il JSON, e POI eseguiamo filtri e traduzioni
     window.addEventListener('DOMContentLoaded', async () => {
-        // 1. PRIMA carichiamo il JSON e le card
+        // 1. Costruisce le card
         await loadMatchesFromJSON();
         
-        // 2. DOPO eseguiamo i filtri (così trovano le card già scritte nella pagina)
+        // 2. Ora che le card esistono, applica lingua e logiche esterne (se presenti nel tuo script.js)
         const savedLang = localStorage.getItem('preferred_lang') || 'ja';
         if (typeof setLanguage === 'function') setLanguage(savedLang);
         if (typeof filterAndPaginateMatches === 'function') filterAndPaginateMatches();
-        
-        // ... (Se c'è altro script originale per i menu a tendina o altro, è al sicuro)
     });
 </script>
 </body>
