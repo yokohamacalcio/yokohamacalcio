@@ -59,6 +59,30 @@
       ]
     }
     </script>
+
+    <style>
+        /* Stili aggiuntivi per i Badge nel Match Center */
+        .match-badge-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .match-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-league { background: #003c82; color: #fff; }
+        .badge-friendly { background: #64748b; color: #fff; }
+        .badge-tournament { background: #d97706; color: #fff; }
+        .badge-home { background: #16a34a; color: #fff; }
+        .badge-away { background: #dc2626; color: #fff; }
+        .badge-neutral { background: #0284c7; color: #fff; }
+    </style>
 </head>
 <body>
 
@@ -189,7 +213,7 @@
     </div>
 </section>
 
-<!-- MATCH CENTER (2 BOX FISSI DINAMICI DA MATCHES.HTML) -->
+<!-- MATCH CENTER (2 BOX FISSI DINAMICI DA MATCHES.JSON) -->
 <section class="section match-center-section" id="results">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-trophy"></i> <span data-i18n="results.title">試合結果・日程</span></h2>
@@ -198,7 +222,11 @@
             <!-- Box 1: Ultimo Risultato -->
             <div class="match-box match-past-box">
                 <div class="match-box-header">
-                    <span class="match-badge badge-official" data-i18n="results.last_badge">前節結果</span>
+                    <div class="match-badge-group">
+                        <span class="match-badge badge-official" data-i18n="results.last_badge">前節結果</span>
+                        <span id="lastTypeBadge" class="match-badge"></span>
+                        <span id="lastHomeAwayBadge" class="match-badge"></span>
+                    </div>
                     <span class="match-box-date" id="lastMatchDate">-</span>
                 </div>
                 <div class="match-box-content">
@@ -221,7 +249,11 @@
             <!-- Box 2: Prossima Partita -->
             <div class="match-box match-next-box">
                 <div class="match-box-header">
-                    <span class="match-badge badge-next" data-i18n="results.next_badge">次戦</span>
+                    <div class="match-badge-group">
+                        <span class="match-badge badge-next" data-i18n="results.next_badge">次戦</span>
+                        <span id="nextTypeBadge" class="match-badge"></span>
+                        <span id="nextHomeAwayBadge" class="match-badge"></span>
+                    </div>
                     <span class="match-box-date" id="nextMatchDate">-</span>
                 </div>
                 <div class="match-box-content">
@@ -421,6 +453,12 @@
             "results.next_badge": "次戦",
             "results.detail": "詳細",
             "results.all_matches": "全試合日程・詳細はこちら",
+            "badge.league": "公式戦",
+            "badge.friendly": "練習試合",
+            "badge.tournament": "大会",
+            "badge.home": "HOME",
+            "badge.away": "AWAY",
+            "badge.neutral": "FIELD",
             "gallery.title": "フォトギャラリー",
             "shop.title": "公式オンラインショップ",
             "shop.card_title": "Yokohama Calcio オフィシャルグッズ",
@@ -471,6 +509,12 @@
             "results.next_badge": "Prossimo Match",
             "results.detail": "Dettagli",
             "results.all_matches": "Vedi tutte le partite",
+            "badge.league": "Campionato",
+            "badge.friendly": "Amichevole",
+            "badge.tournament": "Torneo",
+            "badge.home": "CASA",
+            "badge.away": "TRASFERTA",
+            "badge.neutral": "CAMPO",
             "gallery.title": "Galleria Fotografica",
             "shop.title": "Online Shop Ufficiale",
             "shop.card_title": "Merchandising Ufficiale Yokohama Calcio",
@@ -521,6 +565,12 @@
             "results.next_badge": "Next Match",
             "results.detail": "Details",
             "results.all_matches": "View All Matches",
+            "badge.league": "League",
+            "badge.friendly": "Friendly",
+            "badge.tournament": "Tournament",
+            "badge.home": "HOME",
+            "badge.away": "AWAY",
+            "badge.neutral": "FIELD",
             "gallery.title": "Photo Gallery",
             "shop.title": "Official Online Shop",
             "shop.card_title": "Yokohama Calcio Official Merchandise",
@@ -544,6 +594,8 @@
         }
     };
 
+    let cachedMatches = [];
+
     // GESTIONE CAMBIO LINGUA
     function setLanguage(lang) {
         if (!translations[lang]) return;
@@ -559,6 +611,10 @@
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
+
+        if (cachedMatches.length > 0) {
+            renderMatchCenter(cachedMatches);
+        }
     }
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -568,102 +624,83 @@
         });
     });
 
-    // 1. CARICAMENTO DATI MATCH CENTER DA MATCHES.HTML (ESTRAE E STANDARDIZZA DATE E LUOGHI)
+    // 1. CARICAMENTO E RENDERING DINAMICO MATCH CENTER DA MATCHES.JSON
     async function initMatchCenter() {
         try {
-            const response = await fetch('matches.html');
+            const response = await fetch('matches.json');
             if (!response.ok) return;
-            const text = await response.text();
-            const doc = new DOMParser().parseFromString(text, 'text/html');
-
-            // Funzione di utilità per normalizzare/garantire la presenza del giorno della settimana
-            function formatMatchDate(rawText) {
-                if (!rawText) return '-';
-                // Se contiene già una parentesi con il giorno (es. Sun / 日), la lasciamo o puliamo, altrimenti la calcoliamo
-                const numbers = rawText.match(/\d+/g);
-                if (numbers && numbers.length >= 2) {
-                    let year = new Date().getFullYear();
-                    let month, day;
-                    if (numbers.length >= 3 && numbers[0].length === 4) {
-                        year = parseInt(numbers[0]);
-                        month = parseInt(numbers[1]) - 1;
-                        day = parseInt(numbers[2]);
-                    } else {
-                        month = parseInt(numbers[0]) - 1;
-                        day = parseInt(numbers[1]);
-                    }
-                    const d = new Date(year, month, day);
-                    if (!isNaN(d.getTime())) {
-                        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                        const dayName = days[d.getDay()];
-                        // Se non ha già la dicitura del giorno, la aggiungiamo standardizzata
-                        if (!rawText.includes('(')) {
-                            return `${rawText} (${dayName})`;
-                        }
-                    }
-                }
-                return rawText;
-            }
-
-            // Popola Prossima Partita
-            const upcomingCards = Array.from(doc.querySelectorAll('#upcomingContainer .match-detail-card'));
-            if (upcomingCards.length > 0) {
-                const sortedUpcoming = upcomingCards.map(card => {
-                    const dateText = card.querySelector('.match-date-text')?.textContent || '';
-                    const numbers = dateText.match(/\d+/g);
-                    let time = 9999999999999;
-                    if (numbers && numbers.length >= 2) {
-                        let year = new Date().getFullYear();
-                        let month, day;
-                        if (numbers.length >= 3 && numbers[0].length === 4) {
-                            year = parseInt(numbers[0]);
-                            month = parseInt(numbers[1]) - 1;
-                            day = parseInt(numbers[2]);
-                        } else {
-                            month = parseInt(numbers[1]) - 1;
-                            day = parseInt(numbers[2] || numbers[1]); // sicurezza
-                        }
-                        time = new Date(year, month, day).getTime();
-                    }
-                    return { card, time };
-                }).sort((a, b) => a.time - b.time);
-
-                const nextCard = sortedUpcoming[0].card;
-                const rawDate = nextCard.querySelector('.match-date-text')?.textContent || '';
-                document.getElementById('nextMatchDate').textContent = formatMatchDate(rawDate);
-                
-                const teams = nextCard.querySelectorAll('.match-team');
-                if (teams.length >= 2) {
-                    document.getElementById('nextTeam1Logo').src = teams[0].querySelector('img')?.src || './immagini/logo.png';
-                    document.getElementById('nextTeam1Name').textContent = teams[0].querySelector('span')?.textContent || 'Yokohama Calcio';
-                    document.getElementById('nextTeam2Logo').src = teams[1].querySelector('img')?.src || '';
-                    document.getElementById('nextTeam2Name').textContent = teams[1].querySelector('span')?.textContent || '';
-                }
-                const venue = nextCard.querySelector('[data-i18n="label.venue"]')?.nextElementSibling?.textContent || '';
-                document.getElementById('nextMatchVenue').querySelector('span').textContent = venue;
-            }
-
-            // Popola Ultimo Risultato
-            const lastCard = doc.querySelector('#pastContainer .match-past-item') || doc.querySelector('#pastContainer .match-detail-card');
-            if (lastCard) {
-                const rawDate = lastCard.querySelector('.match-date-text')?.textContent || '';
-                document.getElementById('lastMatchDate').textContent = formatMatchDate(rawDate);
-                
-                const teams = lastCard.querySelectorAll('.match-team');
-                if (teams.length >= 2) {
-                    document.getElementById('lastTeam1Logo').src = teams[0].querySelector('img')?.src || './immagini/logo.png';
-                    document.getElementById('lastTeam1Name').textContent = teams[0].querySelector('span')?.textContent || 'Yokohama Calcio';
-                    document.getElementById('lastTeam2Logo').src = teams[1].querySelector('img')?.src || '';
-                    document.getElementById('lastTeam2Name').textContent = teams[1].querySelector('span')?.textContent || '';
-                }
-                document.getElementById('lastScore').textContent = lastCard.querySelector('.match-vs-score')?.textContent.trim() || '-';
-                
-                const venueEl = lastCard.querySelector('[data-i18n="label.venue"]')?.nextElementSibling || lastCard.querySelector('.match-box-venue span') || lastCard.querySelector('.detail-item span');
-                const venue = venueEl?.textContent || '-';
-                document.getElementById('lastMatchVenue').querySelector('span').textContent = venue;
-            }
+            cachedMatches = await response.json();
+            renderMatchCenter(cachedMatches);
         } catch (e) {
-            console.error("Errore nel caricamento Match Center:", e);
+            console.error("Errore nel caricamento Match Center da JSON:", e);
+        }
+    }
+
+    function renderMatchCenter(matches) {
+        const lang = localStorage.getItem('preferred_lang') || 'ja';
+
+        const renderBadge = (elementId, rawType, typeCategory) => {
+            const elem = document.getElementById(elementId);
+            if (!elem) return;
+            elem.className = 'match-badge';
+
+            let key = '';
+            let cssClass = '';
+
+            if (typeCategory === 'type') {
+                if (rawType === 'league' || rawType === '公式戦') { key = 'badge.league'; cssClass = 'badge-league'; }
+                else if (rawType === 'friendly' || rawType === '練習試合') { key = 'badge.friendly'; cssClass = 'badge-friendly'; }
+                else if (rawType === 'tournament' || rawType === '大会') { key = 'badge.tournament'; cssClass = 'badge-tournament'; }
+            } else if (typeCategory === 'ha') {
+                if (rawType === 'home' || rawType === 'HOME') { key = 'badge.home'; cssClass = 'badge-home'; }
+                else if (rawType === 'away' || rawType === 'AWAY') { key = 'badge.away'; cssClass = 'badge-away'; }
+                else if (rawType === 'neutral' || rawType === 'FIELD') { key = 'badge.neutral'; cssClass = 'badge-neutral'; }
+            }
+
+            if (key && translations[lang][key]) {
+                elem.textContent = translations[lang][key];
+                elem.classList.add(cssClass);
+                elem.style.display = 'inline-block';
+            } else {
+                elem.style.display = 'none';
+            }
+        };
+
+        // 1. ULTIMO RISULTATO (PAST)
+        const pastMatches = matches.filter(m => m.status === 'past');
+        if (pastMatches.length > 0) {
+            const last = pastMatches[pastMatches.length - 1];
+            
+            document.getElementById('lastMatchDate').textContent = `${last.date} ${last.time || ''}`.trim();
+            document.getElementById('lastTeam1Logo').src = last.home_logo || './immagini/logo.png';
+            document.getElementById('lastTeam1Name').textContent = last.home_team || 'Yokohama Calcio';
+            document.getElementById('lastTeam2Logo').src = last.away_logo || '';
+            document.getElementById('lastTeam2Name').textContent = last.away_team || '';
+            document.getElementById('lastScore').textContent = last.score || '-';
+            
+            const venueSpan = document.getElementById('lastMatchVenue')?.querySelector('span');
+            if (venueSpan) venueSpan.textContent = last.venue || '-';
+
+            renderBadge('lastTypeBadge', last.match_type, 'type');
+            renderBadge('lastHomeAwayBadge', last.home_away, 'ha');
+        }
+
+        // 2. PROSSIMA PARTITA (UPCOMING)
+        const upcomingMatches = matches.filter(m => m.status === 'upcoming');
+        if (upcomingMatches.length > 0) {
+            const next = upcomingMatches[0];
+
+            document.getElementById('nextMatchDate').textContent = `${next.date} ${next.time || ''}`.trim();
+            document.getElementById('nextTeam1Logo').src = next.home_logo || './immagini/logo.png';
+            document.getElementById('nextTeam1Name').textContent = next.home_team || 'Yokohama Calcio';
+            document.getElementById('nextTeam2Logo').src = next.away_logo || '';
+            document.getElementById('nextTeam2Name').textContent = next.away_team || '';
+
+            const venueSpan = document.getElementById('nextMatchVenue')?.querySelector('span');
+            if (venueSpan) venueSpan.textContent = next.venue || '-';
+
+            renderBadge('nextTypeBadge', next.match_type, 'type');
+            renderBadge('nextHomeAwayBadge', next.home_away, 'ha');
         }
     }
 
