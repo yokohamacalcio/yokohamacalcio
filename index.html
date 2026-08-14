@@ -215,6 +215,7 @@
                         <span id="lastTeam2Name">-</span>
                     </div>
                 </div>
+                <div class="match-box-venue" id="lastMatchVenue"><i class="fas fa-map-marker-alt"></i> <span>-</span></div>
             </div>
 
             <!-- Box 2: Prossima Partita -->
@@ -297,7 +298,7 @@
             <div class="shop-content">
                 <i class="fas fa-tshirt shop-icon"></i>
                 <h3 data-i18n="shop.card_title">Yokohama Calcio オフィシャルグッズ</h3>
-                <p data-i18n="shop.card_desc">公式ユニフォーム、トレーニングウェア、オリジナルグッズはこちらからご購入いただけます。</p>
+                <p data-i18n="shop.card_desc">Tシャツ、キャップ、キーホルダー、マフラータオルなどのオリジナルグッズを取り揃えています。売上収益はチームの活動費として大切に活用させていただきます。</p>
                 <a href="https://yokohamacalcio.designstore.jp" target="_blank" rel="noopener noreferrer" class="google-form-btn shop-btn">
                     <i class="fas fa-store"></i>
                     <span data-i18n="shop.btn">公式ショップを見る</span>
@@ -423,7 +424,7 @@
             "gallery.title": "フォトギャラリー",
             "shop.title": "公式オンラインショップ",
             "shop.card_title": "Yokohama Calcio オフィシャルグッズ",
-            "shop.card_desc": "公式ユニフォーム、トレーニングウェア、オリジナルグッズはこちらからご購入いただけます。",
+            "shop.card_desc": "Tシャツ、キャップ、キーホルダー、マフラータオルなどのオリジナルグッズを取り揃えています。売上収益はチームの活動費として大切に活用させていただきます。",
             "shop.btn": "公式ショップを見る",
             "sponsors.title": "オフィシャルスポンサー",
             "sponsors.placeholder": "スポンサー募集中",
@@ -472,8 +473,8 @@
             "results.all_matches": "Vedi tutte le partite",
             "gallery.title": "Galleria Fotografica",
             "shop.title": "Online Shop Ufficiale",
-            "shop.card_title": "Prodotti Ufficiali Yokohama Calcio",
-            "shop.card_desc": "Acquista le maglie ufficiali, il materiale da allenamento e il merchandising del club.",
+            "shop.card_title": "Merchandising Ufficiale Yokohama Calcio",
+            "shop.card_desc": "Scopri t-shirt, cappellini, portachiavi e sciarpe per tifare la squadra. I proventi delle vendite servono a sostenere le attività della squadra.",
             "shop.btn": "Visita lo Store Ufficiale",
             "sponsors.title": "Sponsor Ufficiali",
             "sponsors.placeholder": "Cercasi Sponsor",
@@ -522,8 +523,8 @@
             "results.all_matches": "View All Matches",
             "gallery.title": "Photo Gallery",
             "shop.title": "Official Online Shop",
-            "shop.card_title": "Yokohama Calcio Official Gear",
-            "shop.card_desc": "Purchase official kits, training gear, and club merchandise here.",
+            "shop.card_title": "Yokohama Calcio Official Merchandise",
+            "shop.card_desc": "Discover t-shirts, caps, keychains, and scarves to support the team. Proceeds from sales are used to support the team's activities.",
             "shop.btn": "Visit Official Store",
             "sponsors.title": "Official Sponsors",
             "sponsors.placeholder": "Sponsors Wanted",
@@ -567,7 +568,7 @@
         });
     });
 
-    // 1. CARICAMENTO DATI MATCH CENTER DA MATCHES.HTML (ESTRAE I NUMERI DALLA DATA PER TROVARE LA PIÙ VICINA)
+    // 1. CARICAMENTO DATI MATCH CENTER DA MATCHES.HTML (ESTRAE E STANDARDIZZA DATE E LUOGHI)
     async function initMatchCenter() {
         try {
             const response = await fetch('matches.html');
@@ -575,35 +576,61 @@
             const text = await response.text();
             const doc = new DOMParser().parseFromString(text, 'text/html');
 
-            // Popola Prossima Partita (Seleziona la data più vicina estraendo i numeri)
+            // Funzione di utilità per normalizzare/garantire la presenza del giorno della settimana
+            function formatMatchDate(rawText) {
+                if (!rawText) return '-';
+                // Se contiene già una parentesi con il giorno (es. Sun / 日), la lasciamo o puliamo, altrimenti la calcoliamo
+                const numbers = rawText.match(/\d+/g);
+                if (numbers && numbers.length >= 2) {
+                    let year = new Date().getFullYear();
+                    let month, day;
+                    if (numbers.length >= 3 && numbers[0].length === 4) {
+                        year = parseInt(numbers[0]);
+                        month = parseInt(numbers[1]) - 1;
+                        day = parseInt(numbers[2]);
+                    } else {
+                        month = parseInt(numbers[0]) - 1;
+                        day = parseInt(numbers[1]);
+                    }
+                    const d = new Date(year, month, day);
+                    if (!isNaN(d.getTime())) {
+                        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                        const dayName = days[d.getDay()];
+                        // Se non ha già la dicitura del giorno, la aggiungiamo standardizzata
+                        if (!rawText.includes('(')) {
+                            return `${rawText} (${dayName})`;
+                        }
+                    }
+                }
+                return rawText;
+            }
+
+            // Popola Prossima Partita
             const upcomingCards = Array.from(doc.querySelectorAll('#upcomingContainer .match-detail-card'));
             if (upcomingCards.length > 0) {
                 const sortedUpcoming = upcomingCards.map(card => {
                     const dateText = card.querySelector('.match-date-text')?.textContent || '';
-                    // Estrae solo i numeri dalla data (es: "2026年10月25日" -> [2026, 10, 25])
                     const numbers = dateText.match(/\d+/g);
-                    let time = 9999999999999; // Data lontanissima come fallback
-                    
+                    let time = 9999999999999;
                     if (numbers && numbers.length >= 2) {
-                        let year = new Date().getFullYear(); // Anno corrente di default se manca
+                        let year = new Date().getFullYear();
                         let month, day;
-                        
                         if (numbers.length >= 3 && numbers[0].length === 4) {
                             year = parseInt(numbers[0]);
-                            month = parseInt(numbers[1]) - 1; // I mesi in JS partono da 0
+                            month = parseInt(numbers[1]) - 1;
                             day = parseInt(numbers[2]);
                         } else {
-                            month = parseInt(numbers[0]) - 1;
-                            day = parseInt(numbers[1]);
+                            month = parseInt(numbers[1]) - 1;
+                            day = parseInt(numbers[2] || numbers[1]); // sicurezza
                         }
                         time = new Date(year, month, day).getTime();
                     }
                     return { card, time };
-                }).sort((a, b) => a.time - b.time); // Ordina dalla più vicina alla più lontana
+                }).sort((a, b) => a.time - b.time);
 
-                const nextCard = sortedUpcoming[0].card; // Prende la prima in assoluto
-
-                document.getElementById('nextMatchDate').textContent = nextCard.querySelector('.match-date-text')?.textContent || '';
+                const nextCard = sortedUpcoming[0].card;
+                const rawDate = nextCard.querySelector('.match-date-text')?.textContent || '';
+                document.getElementById('nextMatchDate').textContent = formatMatchDate(rawDate);
                 
                 const teams = nextCard.querySelectorAll('.match-team');
                 if (teams.length >= 2) {
@@ -617,9 +644,10 @@
             }
 
             // Popola Ultimo Risultato
-            const lastCard = doc.querySelector('#pastContainer .match-past-item');
+            const lastCard = doc.querySelector('#pastContainer .match-past-item') || doc.querySelector('#pastContainer .match-detail-card');
             if (lastCard) {
-                document.getElementById('lastMatchDate').textContent = lastCard.querySelector('.match-date-text')?.textContent || '';
+                const rawDate = lastCard.querySelector('.match-date-text')?.textContent || '';
+                document.getElementById('lastMatchDate').textContent = formatMatchDate(rawDate);
                 
                 const teams = lastCard.querySelectorAll('.match-team');
                 if (teams.length >= 2) {
@@ -629,6 +657,10 @@
                     document.getElementById('lastTeam2Name').textContent = teams[1].querySelector('span')?.textContent || '';
                 }
                 document.getElementById('lastScore').textContent = lastCard.querySelector('.match-vs-score')?.textContent.trim() || '-';
+                
+                const venueEl = lastCard.querySelector('[data-i18n="label.venue"]')?.nextElementSibling || lastCard.querySelector('.match-box-venue span') || lastCard.querySelector('.detail-item span');
+                const venue = venueEl?.textContent || '-';
+                document.getElementById('lastMatchVenue').querySelector('span').textContent = venue;
             }
         } catch (e) {
             console.error("Errore nel caricamento Match Center:", e);
