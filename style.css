@@ -740,6 +740,101 @@ body {
 }
 
 /* ==========================================
+   PREVIEW PRODOTTI UP-T STORE ONLINE
+   ========================================== */
+.shop-section {
+    background: var(--light-bg);
+}
+
+.shop-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.shop-item-card {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 18px rgba(0, 60, 130, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    text-align: center;
+    text-decoration: none !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.shop-item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 60, 130, 0.12);
+    border-color: var(--primary-sky);
+}
+
+.shop-item-img {
+    position: relative;
+    background: var(--white);
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 180px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.shop-item-img img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.shop-item-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--dark-navy);
+    color: var(--white);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+}
+
+.shop-item-info {
+    padding: 16px;
+    background: var(--white);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.shop-item-title {
+    font-size: 0.95rem;
+    color: var(--dark-navy);
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.shop-item-desc {
+    font-size: 0.78rem;
+    color: var(--primary-sky);
+    font-weight: 600;
+}
+
+.shop-btn {
+    max-width: 380px;
+    margin: 0 auto;
+    background: var(--dark-navy);
+}
+
+.shop-btn:hover {
+    background: var(--primary-sky);
+}
+
+/* ==========================================
    FILTRI GENERALI
    ========================================== */
 .filter-wrapper {
@@ -1082,55 +1177,6 @@ body {
 .rank-1 { color: #f59e0b; font-size: 1.15rem; }
 .rank-2 { color: #94a3b8; }
 .rank-3 { color: #b45309; }
-
-/* ==========================================
-   SEZIONE ONLINE SHOP
-   ========================================== */
-.shop-section {
-    background: var(--light-bg);
-}
-
-.shop-card {
-    background: var(--white);
-    border-radius: 20px;
-    padding: 40px 30px;
-    max-width: 650px;
-    margin: 0 auto;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 10px 30px rgba(0, 60, 130, 0.08);
-    text-align: center;
-}
-
-.shop-icon {
-    font-size: 3rem;
-    color: var(--primary-sky);
-    margin-bottom: 15px;
-    display: block;
-}
-
-.shop-content h3 {
-    font-size: 1.4rem;
-    color: var(--dark-navy);
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-
-.shop-content p {
-    color: var(--text-color);
-    font-size: 0.95rem;
-    margin-bottom: 25px;
-    line-height: 1.6;
-}
-
-.shop-btn {
-    max-width: 300px;
-    margin: 0 auto;
-    background: var(--dark-navy);
-}
-
-.shop-btn:hover {
-    background: var(--primary-sky);
-}
 
 /* ==========================================
    SEZIONE SPONSOR
@@ -1693,7 +1739,12 @@ body {
         font-size: 0.85rem;
     }
 
-    .shop-card,
+    .shop-preview-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        max-width: 320px;
+    }
+
     .contact-card {
         padding: 25px 20px;
     }
