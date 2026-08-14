@@ -74,6 +74,103 @@
         .badge-home { background: #16a34a; color: #fff; }
         .badge-away { background: #dc2626; color: #fff; }
         .badge-neutral { background: #0284c7; color: #fff; }
+
+        /* Stili per la sezione contatti migliorata */
+        .contact-card-enhanced {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .contact-card-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .contact-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-sky);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: #fff;
+            font-size: 24px;
+        }
+
+        .contact-card-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-navy);
+            margin-bottom: 6px;
+        }
+
+        .contact-card-subtitle {
+            color: #666;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .contact-reasons-list-enhanced {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .contact-reasons-list-enhanced li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 12px 16px;
+        }
+
+        .contact-reasons-list-enhanced li i {
+            font-size: 20px;
+            color: var(--primary-sky);
+            width: 26px;
+            text-align: center;
+            margin-top: 2px;
+        }
+
+        .contact-reasons-list-enhanced li div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-reasons-list-enhanced li strong {
+            font-size: 1rem;
+            color: var(--dark-navy);
+        }
+
+        .contact-reasons-list-enhanced li span {
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        .contact-action {
+            text-align: center;
+        }
+
+        @media (max-width: 576px) {
+            .contact-card-enhanced {
+                padding: 20px 15px;
+            }
+            .contact-reasons-list-enhanced li {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -359,35 +456,60 @@
     </div>
 </section>
 
-<!-- CONTATTI -->
+<!-- CONTATTI MIGLIORATI -->
 <section class="section" id="contact">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-envelope"></i> <span data-i18n="contact.title">お問い合わせ</span></h2>
-        <div class="contact-card">
-            <div class="contact-header">
-                <i class="fas fa-paper-plane contact-icon"></i>
+        
+        <div class="contact-card-enhanced">
+            <div class="contact-card-header">
+                <div class="contact-icon-wrapper">
+                    <i class="fas fa-paper-plane"></i>
+                </div>
                 <h3 data-i18n="contact.subtitle">各種お申し込み・お問い合わせ</h3>
+                <p class="contact-card-subtitle" data-i18n="contact.card_subtitle">お気軽にご連絡ください</p>
             </div>
 
-            <ul class="contact-reasons-list">
-                <li><i class="fas fa-check-circle"></i> <strong data-i18n="contact.r1_h">体験練習・入部希望</strong>（<span data-i18n="contact.r1_d">18歳〜40歳の経験者対象・ブランク可</span>）</li>
-                <li><i class="fas fa-check-circle"></i> <strong data-i18n="contact.r2_h">練習試合・対戦のお申し込み</strong>（<span data-i18n="contact.r2_d">親善試合・グラウンド手配</span>）</li>
-                <li><i class="fas fa-check-circle"></i> <strong data-i18n="contact.r3_h">スポンサー・協賛のご相談</strong>（<span data-i18n="contact.r3_d">チーム支援・パートナーシップ</span>）</li>
-                <li><i class="fas fa-check-circle"></i> <strong data-i18n="contact.r4_h">その他チームに関するご質問</strong></li>
+            <ul class="contact-reasons-list-enhanced">
+                <li>
+                    <i class="fas fa-user-plus"></i>
+                    <div>
+                        <strong data-i18n="contact.r1_h">体験練習・入部希望</strong>
+                        <span data-i18n="contact.r1_d">18歳〜40歳の経験者対象・ブランク可</span>
+                    </div>
+                </li>
+                <li>
+                    <i class="fas fa-futbol"></i>
+                    <div>
+                        <strong data-i18n="contact.r2_h">練習試合・対戦のお申し込み</strong>
+                        <span data-i18n="contact.r2_d">親善試合・グラウンド手配</span>
+                    </div>
+                </li>
+                <li>
+                    <i class="fas fa-handshake"></i>
+                    <div>
+                        <strong data-i18n="contact.r3_h">スポンサー・協賛のご相談</strong>
+                        <span data-i18n="contact.r3_d">チーム支援・パートナーシップ</span>
+                    </div>
+                </li>
+                <li>
+                    <i class="fas fa-question-circle"></i>
+                    <div>
+                        <strong data-i18n="contact.r4_h">その他チームに関するご質問</strong>
+                    </div>
+                </li>
             </ul>
 
-            <p class="contact-desc" data-i18n="contact.desc">
-                すべてのお問い合わせは以下のGoogleフォームより受け付けております。<br>お気軽にご連絡ください！
-            </p>
-            
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfih85kdWDmDaGPWHjP239bDHk8ZfMsykXVA-K_XH0EZ7mP5g/viewform?usp=dialog" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="google-form-btn">
-                <i class="fab fa-google"></i>
-                <span data-i18n="contact.btn">お問い合わせフォームを開く</span>
-                <i class="fas fa-external-link-alt external-icon"></i>
-            </a>
+            <div class="contact-action">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfih85kdWDmDaGPWHjP239bDHk8ZfMsykXVA-K_XH0EZ7mP5g/viewform?usp=dialog" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="google-form-btn">
+                    <i class="fab fa-google"></i>
+                    <span data-i18n="contact.btn">お問い合わせフォームを開く</span>
+                    <i class="fas fa-external-link-alt external-icon"></i>
+                </a>
+            </div>
         </div>
     </div>
 </section>
@@ -421,7 +543,8 @@
             "shop.btn": "公式ショップを見る", "sponsors.title": "オフィシャルスポンサー", "sponsors.placeholder": "スポンサー募集中",
             "sponsors.recruit_text": "Yokohama Calcioでは、共にチームを応援・サポートしていただける企業様・パートナー様を募集しております。",
             "sponsors.btn": "スポンサー・パートナーシップについて問い合わせる", "contact.title": "お問い合わせ",
-            "contact.subtitle": "各種お申し込み・お問い合わせ", "contact.r1_h": "体験練習・入部希望",
+            "contact.subtitle": "各種お申し込み・お問い合わせ", "contact.card_subtitle": "お気軽にご連絡ください",
+            "contact.r1_h": "体験練習・入部希望",
             "contact.r1_d": "18歳〜40歳の経験者対象・ブランク可", "contact.r2_h": "練習試合・対戦のお申し込み",
             "contact.r2_d": "親善試合・グラウンド手配", "contact.r3_h": "スポンサー・協賛のご相談",
             "contact.r3_d": "チーム支援・パートナーシップ", "contact.r4_h": "その他チームに関するご質問",
@@ -449,7 +572,8 @@
             "shop.btn": "Visita lo Store Ufficiale", "sponsors.title": "Sponsor Ufficiali", "sponsors.placeholder": "Cercasi Sponsor",
             "sponsors.recruit_text": "Lo Yokohama Calcio è alla ricerca di partner e aziende disposte a sostenere il progetto.",
             "sponsors.btn": "Richiedi informazioni per Sponsorship", "contact.title": "Contatti",
-            "contact.subtitle": "Invia una richiesta o un messaggio", "contact.r1_h": "Prove & Nuovi Giocatori",
+            "contact.subtitle": "Invia una richiesta o un messaggio", "contact.card_subtitle": "Non esitare a contattarci",
+            "contact.r1_h": "Prove & Nuovi Giocatori",
             "contact.r1_d": "Dai 18 ai 40 anni con esperienza (anche dopo periodi di stop)", "contact.r2_h": "Richiesta Partita Amichevole",
             "contact.r2_d": "Organizzazione sfide e campi", "contact.r3_h": "Sponsorship & Partner",
             "contact.r3_d": "Sostieni il club", "contact.r4_h": "Altre domande sul club",
@@ -477,7 +601,8 @@
             "shop.btn": "Visit Official Store", "sponsors.title": "Official Sponsors", "sponsors.placeholder": "Sponsors Wanted",
             "sponsors.recruit_text": "Yokohama Calcio is seeking corporate partners and sponsors to support our project.",
             "sponsors.btn": "Inquire About Sponsorship", "contact.title": "Contact Us",
-            "contact.subtitle": "Inquiries & Applications", "contact.r1_h": "Join / Trial Training",
+            "contact.subtitle": "Inquiries & Applications", "contact.card_subtitle": "Feel free to reach out",
+            "contact.r1_h": "Join / Trial Training",
             "contact.r1_d": "Experienced players aged 18–40 (returning players OK)", "contact.r2_h": "Friendly Match Requests",
             "contact.r2_d": "Match scheduling & pitch setup", "contact.r3_h": "Sponsorship & Partnership",
             "contact.r3_d": "Support the club", "contact.r4_h": "General Questions",
