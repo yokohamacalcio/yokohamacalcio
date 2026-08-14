@@ -111,7 +111,7 @@
                     <i class="fas fa-calendar-check" style="color: var(--primary-sky);"></i> <span data-i18n="matches_page.upcoming_title">試合日程</span>
                 </h3>
 
-                <!-- Contenitore DINAMICO Partite Future -->
+                <!-- Contenitore Partite Future -->
                 <div id="upcomingContainer" style="display: flex; flex-direction: column; gap: 20px;"></div>
             </div>
 
@@ -120,7 +120,7 @@
                     <i class="fas fa-history" style="color: var(--primary-sky);"></i> <span data-i18n="matches_page.past_title">試合結果</span>
                 </h3>
 
-                <!-- Contenitore DINAMICO Risultati Passati -->
+                <!-- Contenitore Risultati Passati -->
                 <div id="pastContainer" style="display: flex; flex-direction: column; gap: 20px;"></div>
 
                 <div style="text-align: center; margin-top: 25px;">
@@ -146,12 +146,99 @@
 </footer>
 
 <script>
-    // Crea lo stile del badge LIVE dinamicamente
+    // Aggiunta dinamica stile animazione LIVE
     const style = document.createElement('style');
     style.innerHTML = `@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }`;
     document.head.appendChild(style);
 
     if ('scrollRestoration' in history) { history.scrollRestoration = 'auto'; }
+
+    let currentLang = localStorage.getItem('preferred_lang') || 'ja';
+    let visiblePastMatchesCount = 3;
+
+    // Dizionario Traduzioni completo (Compresi i Badge)
+    const translations = {
+        ja: {
+            "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
+            "nav.gallery": "ギャラリー", "nav.matches": "試合日程・結果", "nav.shop": "ショップ", "nav.sponsors": "スポンサー",
+            "nav.faq": "よくある質問", "nav.contact": "お問い合わせ", "matches_page.title": "試合日程・結果一覧",
+            "matches_page.intro": "Yokohama Calcioの試合スケジュールと対戦情報です。", "matches_page.upcoming_title": "試合日程",
+            "matches_page.past_title": "試合結果", "matches_page.season_label": "シーズン:", "matches_page.all_seasons": "全期間",
+            "filter.all": "すべて", "filter.league": "リーグ戦", "filter.cup": "カップ戦", "filter.friendly": "練習試合",
+            "badge.friendly": "次戦 (練習試合)", "badge.live": "🔴 LIVE", "badge.past_friendly": "練習試合",
+            "label.venue": "会場:", "label.scorers": "得点者:",
+            "btn.details": "詳細を見る", "btn.load_more": "過去の試合をもっと見る", "btn.back_home": "ホームに戻る"
+        },
+        it: {
+            "nav.team": "Squadra", "nav.about": "Info Squadra", "nav.players": "Giocatori", "nav.stats": "Statistiche",
+            "nav.gallery": "Galleria", "nav.matches": "Partite", "nav.shop": "Store", "nav.sponsors": "Sponsor",
+            "nav.faq": "FAQ", "nav.contact": "Contatti", "matches_page.title": "Calendario & Risultati",
+            "matches_page.intro": "Calendario delle partite e dettagli di Yokohama Calcio.", "matches_page.upcoming_title": "Prossime Partite",
+            "matches_page.past_title": "Risultati Passati", "matches_page.season_label": "Stagione:", "matches_page.all_seasons": "Tutte",
+            "filter.all": "Tutti", "filter.league": "Campionato", "filter.cup": "Coppa", "filter.friendly": "Amichevoli",
+            "badge.friendly": "Prossima (Amichevole)", "badge.live": "🔴 IN DIRETTA", "badge.past_friendly": "Amichevole",
+            "label.venue": "Campo:", "label.scorers": "Marcatori:",
+            "btn.details": "Dettagli", "btn.load_more": "Mostra altri risultati", "btn.back_home": "Torna alla Home"
+        },
+        en: {
+            "nav.team": "Team", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Statistics",
+            "nav.gallery": "Gallery", "nav.matches": "Matches", "nav.shop": "Shop", "nav.sponsors": "Sponsors",
+            "nav.faq": "FAQ", "nav.contact": "Contact", "matches_page.title": "Fixtures & Results",
+            "matches_page.intro": "Match schedule and match information for Yokohama Calcio.", "matches_page.upcoming_title": "Upcoming Matches",
+            "matches_page.past_title": "Match Results", "matches_page.season_label": "Season:", "matches_page.all_seasons": "All Time",
+            "filter.all": "All", "filter.league": "League", "filter.cup": "Cup", "filter.friendly": "Friendly",
+            "badge.friendly": "Next (Friendly)", "badge.live": "🔴 LIVE", "badge.past_friendly": "Friendly Match",
+            "label.venue": "Venue:", "label.scorers": "Scorers:",
+            "btn.details": "Details", "btn.load_more": "Load More Results", "btn.back_home": "Back to Home"
+        }
+    };
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('preferred_lang', lang);
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-lang') === lang));
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang] && translations[lang][key]) el.textContent = translations[lang][key];
+        });
+    }
+
+    function filterAndPaginateMatches() {
+        const activeCategory = document.querySelector('.filter-btn.active[data-match-filter]')?.getAttribute('data-match-filter') || 'all';
+        const activeSeason = document.getElementById('matchSeasonSelect')?.value || 'all';
+
+        const pastCards = document.querySelectorAll('#pastContainer .match-detail-card');
+        let visibleMatches = 0;
+
+        pastCards.forEach(card => {
+            const category = card.getAttribute('data-match-category');
+            const date = card.getAttribute('data-match-date') || '';
+            const matchYear = date.substring(0, 4);
+
+            const categoryMatch = (activeCategory === 'all' || category === activeCategory);
+            const seasonMatch = (activeSeason === 'all' || matchYear === activeSeason);
+
+            if (categoryMatch && seasonMatch) {
+                visibleMatches++;
+                card.style.display = (visibleMatches <= visiblePastMatchesCount) ? 'block' : 'none';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        const loadMoreBtn = document.getElementById('loadMoreMatchesBtn');
+        if (loadMoreBtn) loadMoreBtn.style.display = (visibleMatches > visiblePastMatchesCount) ? 'inline-flex' : 'none';
+
+        const upcomingCards = document.querySelectorAll('#upcomingContainer .match-detail-card');
+        upcomingCards.forEach(card => {
+            const category = card.getAttribute('data-match-category');
+            const date = card.getAttribute('data-match-date') || '';
+            const matchYear = date.substring(0, 4);
+            const categoryMatch = (activeCategory === 'all' || category === activeCategory);
+            const seasonMatch = (activeSeason === 'all' || matchYear === activeSeason);
+            card.style.display = (categoryMatch && seasonMatch) ? 'block' : 'none';
+        });
+    }
 
     async function loadMatchesFromJSON() {
         try {
@@ -165,17 +252,15 @@
 
             matches.forEach(m => {
                 const isPast = m.status === 'past';
-                
-                // Variabili critiche per i filtri preesistenti
                 const cardClass = isPast ? 'match-detail-card match-past-item' : 'match-detail-card match-upcoming';
                 const scoreClass = isPast ? 'match-vs-score score-past' : 'match-vs-score';
-                const rawDate = m.date.substring(0, 10); // Estrae "2026.08.30" essenziale per il filtro data
+                const rawDate = m.date.substring(0, 10);
                 
                 let badgeHtml = '';
                 if (m.status === 'live') {
-                    badgeHtml = `<span class="match-badge" style="background: #ef4444; color: white; animation: pulse 1.5s infinite;">🔴 LIVE</span>`;
+                    badgeHtml = `<span class="match-badge" style="background: #ef4444; color: white; animation: pulse 1.5s infinite;" data-i18n="badge.live">🔴 LIVE</span>`;
                 } else if (isPast) {
-                    badgeHtml = `<span class="match-badge badge-friendly" data-i18n="filter.friendly">${m.type || '練習試合'}</span>`;
+                    badgeHtml = `<span class="match-badge badge-friendly" data-i18n="badge.past_friendly">${m.type || '練習試合'}</span>`;
                 } else {
                     badgeHtml = `<span class="match-badge badge-next" data-i18n="badge.friendly">${m.type || '次戦 (練習試合)'}</span>`;
                 }
@@ -202,8 +287,8 @@
                         <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> <span data-i18n="btn.details">詳細を見る</span></button>
                         <div class="match-expand-details">
                             <div class="details-inner">
-                                <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong>会場:</strong> ${m.venue}</span></div>
-                                ${m.scorers ? `<div class="detail-item"><i class="fas fa-futbol"></i> <span><strong>得点者:</strong> ${m.scorers}</span></div>` : ''}
+                                <div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong data-i18n="label.venue">会場:</strong> ${m.venue}</span></div>
+                                ${m.scorers ? `<div class="detail-item"><i class="fas fa-futbol"></i> <span><strong data-i18n="label.scorers">得点者:</strong> ${m.scorers}</span></div>` : ''}
                             </div>
                         </div>
                     </div>
@@ -216,7 +301,7 @@
                 }
             });
 
-            // Ripristina l'apertura/chiusura dei dettagli
+            // Gestione Click Espansione Dettagli
             document.querySelectorAll('.toggle-details-btn').forEach(btn => {
                 btn.onclick = function() {
                     const card = this.closest('.match-detail-card');
@@ -229,15 +314,59 @@
         }
     }
 
-    // Qui aspettiamo PRIMA il JSON, e POI eseguiamo filtri e traduzioni
     window.addEventListener('DOMContentLoaded', async () => {
-        // 1. Costruisce le card
+        const currentYearEl = document.getElementById('currentYear');
+        if (currentYearEl) currentYearEl.textContent = new Date().getFullYear();
+
+        // 1. Carica le partite dal JSON
         await loadMatchesFromJSON();
         
-        // 2. Ora che le card esistono, applica lingua e logiche esterne (se presenti nel tuo script.js)
-        const savedLang = localStorage.getItem('preferred_lang') || 'ja';
-        if (typeof setLanguage === 'function') setLanguage(savedLang);
-        if (typeof filterAndPaginateMatches === 'function') filterAndPaginateMatches();
+        // 2. Inizializza Lingua e Filtri
+        setLanguage(currentLang);
+        filterAndPaginateMatches();
+
+        // Event Listener Cambio Lingua
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
+        });
+
+        // Event Listener Filtri
+        document.querySelectorAll('[data-match-filter]').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('[data-match-filter]').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                visiblePastMatchesCount = 3;
+                filterAndPaginateMatches();
+            });
+        });
+
+        const seasonSelect = document.getElementById('matchSeasonSelect');
+        if (seasonSelect) {
+            seasonSelect.addEventListener('change', () => {
+                visiblePastMatchesCount = 3;
+                filterAndPaginateMatches();
+            });
+        }
+
+        const loadMoreBtn = document.getElementById('loadMoreMatchesBtn');
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', () => {
+                visiblePastMatchesCount += 3;
+                filterAndPaginateMatches();
+            });
+        }
+
+        const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
+        const mobileNav = document.querySelector('.mobile-nav');
+        if (mobileMenuBtn && mobileNav) {
+            mobileMenuBtn.addEventListener('click', () => mobileNav.classList.toggle('hidden'));
+        }
+
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        if (scrollToTopBtn) {
+            window.addEventListener('scroll', () => scrollToTopBtn.style.display = window.scrollY > 300 ? 'block' : 'none');
+            scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        }
     });
 </script>
 </body>
