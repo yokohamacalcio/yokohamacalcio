@@ -10,10 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <style>
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-        .badge-live { background: #ef4444 !important; color: #ffffff !important; animation: pulse 1.5s infinite; }
-    </style>
 </head>
 <body>
 
@@ -115,6 +111,7 @@
                     <i class="fas fa-calendar-check" style="color: var(--primary-sky);"></i> <span data-i18n="matches_page.upcoming_title">試合日程</span>
                 </h3>
 
+                <!-- Contenitore DINAMICO Partite Future -->
                 <div id="upcomingContainer" style="display: flex; flex-direction: column; gap: 20px;"></div>
             </div>
 
@@ -123,6 +120,7 @@
                     <i class="fas fa-history" style="color: var(--primary-sky);"></i> <span data-i18n="matches_page.past_title">試合結果</span>
                 </h3>
 
+                <!-- Contenitore DINAMICO Risultati Passati -->
                 <div id="pastContainer" style="display: flex; flex-direction: column; gap: 20px;"></div>
 
                 <div style="text-align: center; margin-top: 25px;">
@@ -144,12 +142,18 @@
 <button id="scrollToTopBtn" aria-label="Torna in cima"><i class="fas fa-chevron-up"></i></button>
 
 <footer class="footer">
-    <p>&copy; <span id="currentYear">2026</span> Yokohama Calcio. All Rights Reserved.</p>
+    <p>&copy; <span id="currentYear"></span> Yokohama Calcio. All Rights Reserved.</p>
 </footer>
 
 <script>
+    // Aggiungo l'animazione pulsante per il LIVE dinamicamente senza dover toccare il file CSS
+    const style = document.createElement('style');
+    style.innerHTML = `@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }`;
+    document.head.appendChild(style);
+
     if ('scrollRestoration' in history) { history.scrollRestoration = 'auto'; }
 
+    // Funzione principale che legge JSON e disegna le card
     async function loadMatchesFromJSON() {
         try {
             const response = await fetch('matches.json');
@@ -157,30 +161,33 @@
 
             const upcomingContainer = document.getElementById('upcomingContainer');
             const pastContainer = document.getElementById('pastContainer');
-
             upcomingContainer.innerHTML = '';
             pastContainer.innerHTML = '';
 
             matches.forEach(m => {
                 const isPast = m.status === 'past';
+                
+                // Variabili di classe dinamiche fondamentali per i FILTRI e per l'estetica
                 const cardClass = isPast ? 'match-detail-card match-past-item' : 'match-detail-card match-upcoming';
                 const scoreClass = isPast ? 'match-vs-score score-past' : 'match-vs-score';
+                const rawDate = m.date.substring(0, 10); // Estrae "2026.08.30" essenziale per il filtro data
                 
+                // Variabili per i BADGE
                 let badgeHtml = '';
                 if (m.status === 'live') {
-                    badgeHtml = `<span class="match-badge badge-live">🔴 LIVE</span>`;
+                    badgeHtml = `<span class="match-badge" style="background: #ef4444; color: white; animation: pulse 1.5s infinite;">🔴 LIVE</span>`;
                 } else if (isPast) {
-                    badgeHtml = `<span class="match-badge badge-friendly" data-i18n="filter.friendly">${m.type || '練習試合'}</span>`;
+                    badgeHtml = `<span class="match-badge badge-friendly" data-i18n="filter.friendly">${m.type}</span>`;
                 } else {
-                    badgeHtml = `<span class="match-badge badge-next" data-i18n="badge.friendly">${m.type || '次戦 (練習試合)'}</span>`;
+                    badgeHtml = `<span class="match-badge badge-next" data-i18n="badge.friendly">${m.type}</span>`;
                 }
 
+                // Generatore di Logo automatico se manca dal JSON
                 const team2Logo = m.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.team2Name)}&background=random&color=ffffff&size=100&bold=true`;
 
-                const rawDate = m.date.split(' ')[0].replace(/\./g, '-');
-
+                // Creazione della card HTML esatta come l'originale
                 const cardHtml = `
-                    <div class="${cardClass}" id="${m.id}" data-match-category="${m.category}" data-match-date="${rawDate}">
+                    <div class="${cardClass}" data-match-category="${m.category}" data-match-date="${rawDate}">
                         <div class="match-header-row">
                             ${badgeHtml}
                             <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${m.date}</span>
@@ -206,19 +213,20 @@
                     </div>
                 `;
 
-                if (m.status === 'past') {
+                // Inserisce la card nel contenitore giusto
+                if (isPast) {
                     pastContainer.insertAdjacentHTML('beforeend', cardHtml);
                 } else {
                     upcomingContainer.insertAdjacentHTML('beforeend', cardHtml);
                 }
             });
 
-            // Re-bind la funzionalità dei dettagli espandibili
+            // RIPRISTINA L'ESPANSIONE DEI DETTAGLI PER LE NUOVE CARD
             document.querySelectorAll('.toggle-details-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.onclick = function() {
                     const card = this.closest('.match-detail-card');
                     card.classList.toggle('active');
-                });
+                };
             });
 
         } catch (error) {
@@ -226,12 +234,17 @@
         }
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-        loadMatchesFromJSON().then(() => {
-            const savedLang = localStorage.getItem('preferred_lang') || 'ja';
-            if (typeof setLanguage === 'function') setLanguage(savedLang);
-            if (typeof filterAndPaginateMatches === 'function') filterAndPaginateMatches();
-        });
+    // Qui c'è la CHIAVE per far funzionare Filtri, Mostra Altro e Lingua
+    window.addEventListener('DOMContentLoaded', async () => {
+        // 1. PRIMA carichiamo il JSON e le card
+        await loadMatchesFromJSON();
+        
+        // 2. DOPO eseguiamo i filtri (così trovano le card già scritte nella pagina)
+        const savedLang = localStorage.getItem('preferred_lang') || 'ja';
+        if (typeof setLanguage === 'function') setLanguage(savedLang);
+        if (typeof filterAndPaginateMatches === 'function') filterAndPaginateMatches();
+        
+        // ... (Se c'è altro script originale per i menu a tendina o altro, è al sicuro)
     });
 </script>
 </body>
