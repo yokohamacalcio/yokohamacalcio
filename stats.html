@@ -112,9 +112,7 @@
             </select>
         </div>
 
-        <!-- ================================================================= -->
-        <!-- MACRO MACRO SEZIONE 1: STATISTICHE DI SQUADRA -->
-        <!-- ================================================================= -->
+        <!-- MACRO SEZIONE 1: STATISTICHE DI SQUADRA -->
         <div class="stats-group" style="margin-bottom: 60px;">
             <h2 style="font-family: var(--font-brand); font-size: 1.8rem; color: var(--dark-navy); border-bottom: 3px solid var(--dark-navy); padding-bottom: 8px; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px;">
                 <i class="fas fa-shield-alt" style="color: var(--primary-sky);"></i> <span data-i18n="stats.sec_team">チーム戦績</span>
@@ -232,9 +230,7 @@
             </div>
         </div>
 
-        <!-- ================================================================= -->
         <!-- MACRO SEZIONE 2: STATISTICHE PERSONALI -->
-        <!-- ================================================================= -->
         <div class="stats-group">
             <h2 style="font-family: var(--font-brand); font-size: 1.8rem; color: var(--dark-navy); border-bottom: 3px solid var(--dark-navy); padding-bottom: 8px; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px;">
                 <i class="fas fa-users" style="color: var(--primary-sky);"></i> <span data-i18n="stats.sec_personal">個人スタッツ</span>
@@ -255,7 +251,7 @@
 
                 <!-- MVP -->
                 <div class="ranking-card">
-                    <h3 class="ranking-title"><i class="fas fa-trophy" style="color: #f59e0b;"></i> <span data-i18n="stats.mvp">MVP賞</span></h3>
+                    <h3 class="ranking-title"><i class="fas fa-star" style="color: #f59e0b;"></i> <span data-i18n="stats.mvp">MVP賞</span></h3>
                     <ul class="ranking-list" id="mvp-ranking"></ul>
                 </div>
 
@@ -291,147 +287,51 @@
     // DIZIONARIO TRADUZIONI MULTILINGUA
     const translations = {
         ja: {
-            "nav.team": "チーム",
-            "nav.about": "チーム紹介",
-            "nav.players": "選手紹介",
-            "nav.stats": "成績・スタッツ",
-            "nav.matches": "試合日程・結果",
-            "nav.gallery": "ギャラリー",
-            "nav.shop": "ショップ",
-            "nav.sponsors": "スポンサー",
-            "nav.faq": "よくある質問",
-            "nav.contact": "お問い合わせ",
-            "stats.title": "チーム・個人戦績",
-            "stats.season_label": "シーズン:",
-            "stats.all_seasons": "全期間 (All Time)",
-            "stats.sec_team": "チーム戦績",
-            "stats.sec_personal": "個人スタッツ",
-            "stats.team_stats": "試合勝敗・得失点",
-            "stats.disciplinary": "チーム規律・カード数",
-            "th.category": "区分",
-            "th.played": "試合数",
-            "th.wins": "勝",
-            "th.draws": "分",
-            "th.losses": "負",
-            "th.gf": "得点",
-            "th.ga": "失点",
-            "th.winrate": "勝率",
-            "th.yellow": "警告 (イエロー)",
-            "th.red": "退場 (レッド)",
-            "th.card_avg": "平均カード/試合",
-            "row.league": "リーグ戦",
-            "row.cup": "カップ戦",
-            "row.friendly": "練習試合",
-            "row.total": "通算",
-            "stats.standings": "リーグ順位表",
+            "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
+            "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.shop": "ショップ", "nav.sponsors": "スポンサー",
+            "nav.faq": "よくある質問", "nav.contact": "お問い合わせ", "stats.title": "チーム・個人戦績",
+            "stats.season_label": "シーズン:", "stats.all_seasons": "全期間 (All Time)", "stats.sec_team": "チーム戦績",
+            "stats.sec_personal": "個人スタッツ", "stats.team_stats": "試合勝敗・得失点", "stats.disciplinary": "チーム規律・カード数",
+            "th.category": "区分", "th.played": "試合数", "th.wins": "勝", "th.draws": "分", "th.losses": "負",
+            "th.gf": "得点", "th.ga": "失点", "th.winrate": "勝率", "th.yellow": "警告 (イエロー)", "th.red": "退場 (レッド)",
+            "th.card_avg": "平均カード/試合", "row.league": "リーグ戦", "row.cup": "カップ戦", "row.friendly": "練習試合",
+            "row.total": "通算", "stats.standings": "リーグ順位表",
             "stats.no_standings": "今シーズンは公式リーグ戦への参加がないため、順位表はありません。",
-            "stats.top_scorer": "得点王",
-            "stats.top_assist": "アシスト王",
-            "stats.mvp": "MVP賞",
-            "stats.top_yellows": "警告 (イエロー)",
-            "stats.top_reds": "退場 (レッド)",
-            "stats.no_data": "データなし",
-            "unit.goals": "点",
-            "unit.assists": "本",
-            "unit.mvp": "回",
-            "unit.yellows": "枚",
-            "unit.reds": "枚",
+            "stats.top_scorer": "得点王", "stats.top_assist": "アシスト王", "stats.mvp": "MVP賞",
+            "stats.top_yellows": "警告 (イエロー)", "stats.top_reds": "退場 (レッド)", "stats.no_data": "データなし",
+            "unit.goals": "点", "unit.assists": "本", "unit.mvp": "回", "unit.yellows": "枚", "unit.reds": "枚",
             "btn.back_home": "ホームに戻る"
         },
         it: {
-            "nav.team": "SQUADRA",
-            "nav.about": "Chi Siamo",
-            "nav.players": "Giocatori",
-            "nav.stats": "Statistiche",
-            "nav.matches": "Partite & Risultati",
-            "nav.gallery": "Galleria",
-            "nav.shop": "Shop",
-            "nav.sponsors": "Sponsor",
-            "nav.faq": "FAQ",
-            "nav.contact": "Contatti",
-            "stats.title": "Statistiche Squadra & Singoli",
-            "stats.season_label": "Stagione:",
-            "stats.all_seasons": "Tutte le stagioni",
-            "stats.sec_team": "Statistiche di Squadra",
-            "stats.sec_personal": "Statistiche Personali",
-            "stats.team_stats": "Rendimento & Gol",
-            "stats.disciplinary": "Bilancio Disciplinare",
-            "th.category": "Categoria",
-            "th.played": "G",
-            "th.wins": "V",
-            "th.draws": "N",
-            "th.losses": "P",
-            "th.gf": "GF",
-            "th.ga": "GS",
-            "th.winrate": "% Vittorie",
-            "th.yellow": "Gialli",
-            "th.red": "Rossi",
-            "th.card_avg": "Media Cartellini/G",
-            "row.league": "Campionato",
-            "row.cup": "Coppa",
-            "row.friendly": "Amichevoli",
-            "row.total": "Totale",
-            "stats.standings": "Classifica Campionato",
+            "nav.team": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
+            "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.shop": "Shop", "nav.sponsors": "Sponsor",
+            "nav.faq": "FAQ", "nav.contact": "Contatti", "stats.title": "Statistiche Squadra & Singoli",
+            "stats.season_label": "Stagione:", "stats.all_seasons": "Tutte le stagioni", "stats.sec_team": "Statistiche di Squadra",
+            "stats.sec_personal": "Statistiche Personali", "stats.team_stats": "Rendimento & Gol", "stats.disciplinary": "Bilancio Disciplinare",
+            "th.category": "Categoria", "th.played": "G", "th.wins": "V", "th.draws": "N", "th.losses": "P",
+            "th.gf": "GF", "th.ga": "GS", "th.winrate": "% Vittorie", "th.yellow": "Gialli", "th.red": "Rossi",
+            "th.card_avg": "Media Cartellini/G", "row.league": "Campionato", "row.cup": "Coppa", "row.friendly": "Amichevoli",
+            "row.total": "Totale", "stats.standings": "Classifica Campionato",
             "stats.no_standings": "Nessuna classifica disponibile per questa stagione (nessun campionato ufficiale iscritto).",
-            "stats.top_scorer": "Capocannoniere",
-            "stats.top_assist": "Assistman",
-            "stats.mvp": "Premio MVP",
-            "stats.top_yellows": "Ammonizioni",
-            "stats.top_reds": "Espulsioni",
-            "stats.no_data": "Nessun dato",
-            "unit.goals": "gol",
-            "unit.assists": "assist",
-            "unit.mvp": "volte",
-            "unit.yellows": "gialli",
-            "unit.reds": "rossi",
+            "stats.top_scorer": "Capocannoniere", "stats.top_assist": "Assistman", "stats.mvp": "MVP",
+            "stats.top_yellows": "Ammonizioni", "stats.top_reds": "Espulsioni", "stats.no_data": "Nessun dato",
+            "unit.goals": "gol", "unit.assists": "assist", "unit.mvp": "volte", "unit.yellows": "gialli", "unit.reds": "rossi",
             "btn.back_home": "Torna alla Home"
         },
         en: {
-            "nav.team": "TEAM",
-            "nav.about": "About Us",
-            "nav.players": "Players",
-            "nav.stats": "Stats",
-            "nav.matches": "Matches & Results",
-            "nav.gallery": "Gallery",
-            "nav.shop": "Shop",
-            "nav.sponsors": "Sponsors",
-            "nav.faq": "FAQ",
-            "nav.contact": "Contact Us",
-            "stats.title": "Team & Player Stats",
-            "stats.season_label": "Season:",
-            "stats.all_seasons": "All Time",
-            "stats.sec_team": "Team Statistics",
-            "stats.sec_personal": "Individual Stats",
-            "stats.team_stats": "Performance & Goals",
-            "stats.disciplinary": "Disciplinary Record",
-            "th.category": "Category",
-            "th.played": "P",
-            "th.wins": "W",
-            "th.draws": "D",
-            "th.losses": "L",
-            "th.gf": "GF",
-            "th.ga": "GA",
-            "th.winrate": "Win %",
-            "th.yellow": "Yellows",
-            "th.red": "Reds",
-            "th.card_avg": "Avg Cards/P",
-            "row.league": "League",
-            "row.cup": "Cup",
-            "row.friendly": "Friendly",
-            "row.total": "Total",
-            "stats.standings": "League Table",
+            "nav.team": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
+            "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.shop": "Shop", "nav.sponsors": "Sponsors",
+            "nav.faq": "FAQ", "nav.contact": "Contact Us", "stats.title": "Team & Player Stats",
+            "stats.season_label": "Season:", "stats.all_seasons": "All Time", "stats.sec_team": "Team Statistics",
+            "stats.sec_personal": "Individual Stats", "stats.team_stats": "Performance & Goals", "stats.disciplinary": "Disciplinary Record",
+            "th.category": "Category", "th.played": "P", "th.wins": "W", "th.draws": "D", "th.losses": "L",
+            "th.gf": "GF", "th.ga": "GA", "th.winrate": "Win %", "th.yellow": "Yellows", "th.red": "Reds",
+            "th.card_avg": "Avg Cards/P", "row.league": "League", "row.cup": "Cup", "row.friendly": "Friendly",
+            "row.total": "Total", "stats.standings": "League Table",
             "stats.no_standings": "No league table available for this season (not participating in official leagues).",
-            "stats.top_scorer": "Top Scorer",
-            "stats.top_assist": "Top Assists",
-            "stats.mvp": "MVP Award",
-            "stats.top_yellows": "Yellow Cards",
-            "stats.top_reds": "Red Cards",
-            "stats.no_data": "No data",
-            "unit.goals": "goals",
-            "unit.assists": "assists",
-            "unit.mvp": "times",
-            "unit.yellows": "yellows",
-            "unit.reds": "reds",
+            "stats.top_scorer": "Top Scorer", "stats.top_assist": "Top Assists", "stats.mvp": "MVP Award",
+            "stats.top_yellows": "Yellow Cards", "stats.top_reds": "Red Cards", "stats.no_data": "No data",
+            "unit.goals": "goals", "unit.assists": "assists", "unit.mvp": "times", "unit.yellows": "yellows", "unit.reds": "reds",
             "btn.back_home": "Back to Home"
         }
     };
@@ -464,10 +364,6 @@
         });
     });
 
-    if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-    }
-
     // Toggle Menu Mobile
     const menuBtn = document.querySelector('.mobile-menu-toggle');
     const mobileNav = document.querySelector('.mobile-nav');
@@ -493,31 +389,31 @@
 
     // Scroll to Top Button
     const topBtn = document.getElementById('scrollToTopBtn');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            topBtn.classList.add('show');
-        } else {
-            topBtn.classList.remove('show');
-        }
-    });
+    if (topBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                topBtn.classList.add('show');
+            } else {
+                topBtn.classList.remove('show');
+            }
+        });
 
-    topBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+        topBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 
     const yearSpan = document.getElementById('currentYear');
     if (yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
     }
 
-    // CALCOLO AUTOMATICO STATISTICHE DA MATCHES.HTML (3 CATEGORIE: LEAGUE, CUP, FRIENDLY)
+    // CALCOLO AUTOMATICO STATISTICHE DA MATCHES.JSON
     async function loadAndCalculateStats() {
         try {
-            const response = await fetch('matches.html');
+            const response = await fetch('matches.json');
             if (!response.ok) return;
-            const text = await response.text();
-            const doc = new DOMParser().parseFromString(text, 'text/html');
-            const matchCards = doc.querySelectorAll('.match-detail-card');
+            const matches = await response.json();
 
             const selectedSeason = document.getElementById('seasonSelect').value;
 
@@ -529,18 +425,24 @@
 
             let goalsMap = {}, assistsMap = {}, mvpMap = {}, yellowsMap = {}, redsMap = {};
 
-            matchCards.forEach(card => {
-                const dateText = card.querySelector('.match-date-text')?.textContent || '';
-                if (selectedSeason !== 'all' && !dateText.includes(selectedSeason)) {
+            matches.forEach(m => {
+                // Considera solo partite giocate (status === 'past')
+                if (m.status !== 'past') return;
+
+                // Filtro Stagione
+                const matchYear = m.date ? m.date.substring(0, 4) : '';
+                if (selectedSeason !== 'all' && matchYear !== selectedSeason) {
                     return; 
                 }
 
-                const cat = card.getAttribute('data-match-category'); // 'league', 'cup', or 'friendly'
+                // Categoria partita
+                const cat = m.category; 
                 let targetStats = stats.friendly;
                 if (cat === 'league' || cat === 'official') targetStats = stats.league;
                 else if (cat === 'cup') targetStats = stats.cup;
 
-                const scoreText = card.querySelector('.match-vs-score')?.textContent.trim();
+                // Punteggio e Rendimento
+                const scoreText = m.score ? m.score.trim() : '';
                 if (scoreText && scoreText.includes('-')) {
                     const parts = scoreText.split('-').map(n => parseInt(n.trim(), 10));
                     if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
@@ -555,75 +457,64 @@
                     }
                 }
 
-                const details = card.querySelectorAll('.detail-item');
-                details.forEach(item => {
-                    const txt = item.textContent || '';
-                    
-                    // GOL
-                    if (txt.includes('得点者:') || txt.includes('Marcatori:')) {
-                        const scorerText = txt.replace(/(得点者:|Marcatori:)/, '').trim();
-                        if (scorerText && scorerText !== 'なし' && scorerText !== 'Nessuno') {
-                            scorerText.split(',').forEach(entry => {
-                                let name = entry.trim();
-                                if (!name) return;
-                                let count = 1;
-                                const countMatch = name.match(/x(\d+)/i);
-                                if (countMatch) {
-                                    count = parseInt(countMatch[1], 10);
-                                    name = name.replace(/x\d+/i, '').trim();
-                                }
-                                goalsMap[name] = (goalsMap[name] || 0) + count;
-                            });
-                        }
-                    }
+                // MARCATORI E ASSIST
+                if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
+                    const entries = m.scorers.split(',');
+                    entries.forEach(entry => {
+                        let text = entry.trim();
+                        if (!text) return;
 
-                    // ASSIST
-                    if (txt.includes('アシスト:') || txt.includes('Assist:')) {
-                        const assistText = txt.replace(/(アシスト:|Assist:)/, '').trim();
-                        if (assistText && assistText !== 'なし' && assistText !== 'Nessuno') {
-                            assistText.split(',').forEach(entry => {
-                                let name = entry.trim();
-                                if (!name) return;
-                                let count = 1;
-                                const countMatch = name.match(/x(\d+)/i);
-                                if (countMatch) {
-                                    count = parseInt(countMatch[1], 10);
-                                    name = name.replace(/x\d+/i, '').trim();
-                                }
-                                assistsMap[name] = (assistsMap[name] || 0) + count;
-                            });
+                        // Gestione Assist se scritto tra parentesi es. "Marcatore (Assistman)"
+                        let assistName = '';
+                        const assistMatch = text.match(/\(([^)]+)\)/) || text.match(/（([^）]+)）/);
+                        if (assistMatch) {
+                            assistName = assistMatch[1].trim();
+                            text = text.replace(/\([^)]+\)/, '').replace(/（[^）]+）/, '').trim();
                         }
-                    }
 
-                    // MVP / MOM
-                    if (txt.includes('MVP:') || txt.includes('MOM:')) {
-                        const mvpName = txt.replace(/(MVP:|MOM:)/, '').trim();
-                        if (mvpName && mvpName !== 'なし' && mvpName !== 'Nessuno') {
-                            mvpMap[mvpName] = (mvpMap[mvpName] || 0) + 1;
+                        if (text) {
+                            goalsMap[text] = (goalsMap[text] || 0) + 1;
                         }
-                    }
-
-                    // CARTELLINI
-                    if (txt.includes('カード:') || txt.includes('警告・退場:') || txt.includes('Cartellini:')) {
-                        const cardsText = txt.replace(/(カード:|警告・退場:|Cartellini:)/, '').trim();
-                        if (cardsText && cardsText !== 'なし' && cardsText !== 'Nessuno') {
-                            cardsText.split(',').forEach(entry => {
-                                const cleanEntry = entry.trim();
-                                if (!cleanEntry) return;
-
-                                if (cleanEntry.includes('レッド') || cleanEntry.includes('赤') || cleanEntry.toLowerCase().includes('rosso') || cleanEntry.toLowerCase().includes('red')) {
-                                    let name = cleanEntry.replace(/\(.*\)/, '').replace(/（.*）/, '').trim();
-                                    redsMap[name] = (redsMap[name] || 0) + 1;
-                                    targetStats.red++;
-                                } else {
-                                    let name = cleanEntry.replace(/\(.*\)/, '').replace(/（.*）/, '').trim();
-                                    yellowsMap[name] = (yellowsMap[name] || 0) + 1;
-                                    targetStats.yellow++;
-                                }
-                            });
+                        if (assistName && assistName !== 'なし' && assistName !== 'Nessuno') {
+                            assistsMap[assistName] = (assistsMap[assistName] || 0) + 1;
                         }
-                    }
-                });
+                    });
+                }
+
+                // MVP / MOM
+                if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
+                    const mvpNames = m.mvp.split(',');
+                    mvpNames.forEach(name => {
+                        const cleanName = name.trim();
+                        if (cleanName) {
+                            mvpMap[cleanName] = (mvpMap[cleanName] || 0) + 1;
+                        }
+                    });
+                }
+
+                // CARTELLINI GIALLI
+                if (m.yellow_cards && m.yellow_cards !== 'なし' && m.yellow_cards !== 'Nessuno') {
+                    const names = m.yellow_cards.split(',');
+                    names.forEach(name => {
+                        const cleanName = name.trim();
+                        if (cleanName) {
+                            yellowsMap[cleanName] = (yellowsMap[cleanName] || 0) + 1;
+                            targetStats.yellow++;
+                        }
+                    });
+                }
+
+                // CARTELLINI ROSSI
+                if (m.red_cards && m.red_cards !== 'なし' && m.red_cards !== 'Nessuno') {
+                    const names = m.red_cards.split(',');
+                    names.forEach(name => {
+                        const cleanName = name.trim();
+                        if (cleanName) {
+                            redsMap[cleanName] = (redsMap[cleanName] || 0) + 1;
+                            targetStats.red++;
+                        }
+                    });
+                }
             });
 
             // Aggiorna Tabella Squadra Rendimento
@@ -693,7 +584,7 @@
             renderRanking('yellows-ranking', yellowsMap, 'unit.yellows');
             renderRanking('reds-ranking', redsMap, 'unit.reds');
 
-        } catch(e) { console.log(e); }
+        } catch(e) { console.error(e); }
     }
 
     // Event listener cambio anno
