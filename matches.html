@@ -25,25 +25,6 @@
             color: var(--dark-navy, #003c82);
             font-size: 0.9rem;
         }
-        .close-details-btn-bottom {
-            margin-top: 15px;
-            padding: 8px 16px;
-            font-size: 0.82rem;
-            background: #f1f5f9;
-            color: #475569;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-        .close-details-btn-bottom:hover {
-            background: #e2e8f0;
-            color: #0f172a;
-        }
     </style>
 </head>
 <body>
@@ -209,7 +190,7 @@
             "badge.friendly": "Prossima (Amichevole)", "badge.live": "🔴 IN DIRETTA", "badge.past_friendly": "Amichevole",
             "label.venue": "Campo:", "label.kickoff": "Calcio d'inizio:", "label.scorers": "Marcatori:",
             "label.mvp": "MVP:", "label.yellow_cards": "Ammoniti:", "label.red_cards": "Espulsi:",
-            "btn.details": "Dettagli", "btn.close_details": "Chiudi dettagli", "btn.load_more_3": "Mostra le prossime 3 partite", "btn.show_less": "Riduci elenco", "btn.back_home": "Torna alla Home"
+            "btn.details": "Mostra dettagli", "btn.close_details": "Chiudi dettagli", "btn.load_more_3": "Mostra le prossime 3 partite", "btn.show_less": "Riduci elenco", "btn.back_home": "Torna alla Home"
         },
         en: {
             "nav.team": "Team", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Statistics",
@@ -221,7 +202,7 @@
             "badge.friendly": "Next (Friendly)", "badge.live": "🔴 LIVE", "badge.past_friendly": "Friendly Match",
             "label.venue": "Venue:", "label.kickoff": "Kick-Off:", "label.scorers": "Scorers:",
             "label.mvp": "MVP:", "label.yellow_cards": "Yellow Cards:", "label.red_cards": "Red Cards:",
-            "btn.details": "Details", "btn.close_details": "Close details", "btn.load_more_3": "Show next 3 matches", "btn.show_less": "Show less", "btn.back_home": "Back to Home"
+            "btn.details": "Show details", "btn.close_details": "Close details", "btn.load_more_3": "Show next 3 matches", "btn.show_less": "Show less", "btn.back_home": "Back to Home"
         }
     };
 
@@ -229,12 +210,22 @@
         return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
     }
 
-    // Helper per verificare se un testo contiene caratteri Giapponesi (Kanji/Hiragana/Katakana)
     function containsJapaneseChars(text) {
         return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf\u3400-\u4dbf]/.test(text);
     }
 
-    // Ricerca del giocatore: preserva Kanji se presenti, usa Katakana per i nomi stranieri/Romaji in lingua JP
+    // Generatore di colore unico per lo sfondo dell'icona avversario (stessa logica di index.html)
+    function getOpponentColor(teamName) {
+        const colors = ['003C82', '0ea5e9', 'd97706', 'dc2626', '059669', '7c3aed', 'db2777', '4b5563'];
+        let hash = 0;
+        const str = teamName || 'Opponent';
+        for (let i = 0; i < str.length; i++) {
+            hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const index = Math.abs(hash) % colors.length;
+        return colors[index];
+    }
+
     function getPlayerNameInLang(query, lang) {
         if (!query || query === 'なし' || query === 'Nessuno') return query;
         if (!playersData || playersData.length === 0) return query;
@@ -250,14 +241,11 @@
         if (!player) return query;
 
         if (lang === 'ja') {
-            // Se name_kanji ha caratteri giapponesi (es. Kanji), usiamo name_kanji
             if (player.name_kanji && containsJapaneseChars(player.name_kanji)) {
                 return player.name_kanji;
             }
-            // Altrimenti se è un nome in Romaji/Straniero, in JP usiamo il Katakana (name_kana)
             return player.name_kana || player.name_kanji || player.name_romaji || query;
         } else {
-            // In Italiano/Inglese usiamo sempre il Romaji
             return player.name_romaji || player.name_kanji || query;
         }
     }
@@ -295,10 +283,10 @@
             if (mainBtnText) {
                 mainBtnText.textContent = isExpanded ? 
                     (translations[currentLang]['btn.close_details'] || 'Chiudi dettagli') : 
-                    (translations[currentLang]['btn.details'] || 'Dettagli');
+                    (translations[currentLang]['btn.details'] || 'Mostra dettagli');
             }
             if (mainBtnIcon) {
-                mainBtnIcon.className = isExpanded ? 'fas fa-chevron-up' : 'fas fa-info-circle';
+                mainBtnIcon.className = isExpanded ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
             }
         });
     }
@@ -423,7 +411,10 @@
                 badgeHtml = `<span class="match-badge badge-next" data-i18n="badge.friendly">${m.type || '次戦 (練習試合)'}</span>`;
             }
 
-            const team2Logo = m.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.team2Name || 'VS')}&background=003C82&color=ffffff&size=100&bold=true`;
+            // Generazione logo avversario dinamico con colore univoco per squadra
+            const oppName = m.team2Name || 'VS';
+            const oppColor = getOpponentColor(oppName);
+            const team2Logo = m.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(oppName)}&background=${oppColor}&color=ffffff&size=100&bold=true`;
 
             const isHome = m.isHome !== undefined ? m.isHome : true;
             let leftTeamName, leftTeamLogo, leftTeamLogoClass, rightTeamName, rightTeamLogo, rightTeamLogoClass, displayScore;
@@ -492,13 +483,10 @@
                             <span>${rightTeamName}</span>
                         </div>
                     </div>
-                    <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> <span class="btn-text" data-i18n="btn.details">詳細を見る</span></button>
+                    <button class="toggle-details-btn"><i class="fas fa-chevron-down"></i> <span class="btn-text" data-i18n="btn.details">詳細を見る</span></button>
                     <div class="match-expand-details" style="display: none;">
                         <div class="details-inner">
                             ${detailsHtml}
-                            <div style="text-align: center;">
-                                <button class="close-details-btn-bottom"><i class="fas fa-chevron-up"></i> <span data-i18n="btn.close_details">詳細を閉じる</span></button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -515,29 +503,29 @@
 
         document.querySelectorAll('.match-detail-card').forEach(card => {
             const toggleBtn = card.querySelector('.toggle-details-btn');
-            const closeBottomBtn = card.querySelector('.close-details-btn-bottom');
             const details = card.querySelector('.match-expand-details');
 
-            const toggleAction = (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                const wasActive = card.classList.contains('active');
+            if (toggleBtn) {
+                toggleBtn.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const wasActive = card.classList.contains('active');
 
-                document.querySelectorAll('.match-detail-card').forEach(c => {
-                    c.classList.remove('active');
-                    const det = c.querySelector('.match-expand-details');
-                    if (det) det.style.display = 'none';
-                });
+                    // Chiudi le altre schede
+                    document.querySelectorAll('.match-detail-card').forEach(c => {
+                        c.classList.remove('active');
+                        const det = c.querySelector('.match-expand-details');
+                        if (det) det.style.display = 'none';
+                    });
 
-                if (!wasActive) {
-                    card.classList.add('active');
-                    if (details) details.style.display = 'block';
-                }
-                updateBtnTexts();
-            };
-
-            if (toggleBtn) toggleBtn.onclick = toggleAction;
-            if (closeBottomBtn) closeBottomBtn.onclick = toggleAction;
+                    // Apri o Chiudi la scheda attuale
+                    if (!wasActive) {
+                        card.classList.add('active');
+                        if (details) details.style.display = 'block';
+                    }
+                    updateBtnTexts();
+                };
+            }
         });
 
         updateBtnTexts();
