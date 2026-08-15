@@ -104,21 +104,30 @@
             padding: 16px;
             text-align: center;
             flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .player-photo {
-            width: 110px;
-            height: 110px;
-            margin: 0 auto 12px;
+        /* Silhouette al posto dell'immagine */
+        .player-silhouette {
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid #e2e8f0;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #64748b;
+            margin-bottom: 16px;
         }
 
-        .player-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        /* Nome in basso */
+        .player-name-block {
+            text-align: center;
+            margin-bottom: 8px;
         }
 
         .player-name-kanji {
@@ -132,7 +141,6 @@
             font-size: 0.88rem;
             color: #64748b;
             font-weight: 600;
-            margin-bottom: 10px;
         }
 
         /* Pulsante flip */
@@ -431,8 +439,9 @@
         document.querySelectorAll('.player-card').forEach(card => {
             const kana = card.getAttribute('data-player-kana');
             const romaji = card.getAttribute('data-player-romaji');
+            const displayName = (lang === 'ja') ? (kana || romaji || '-') : (romaji || kana || '-');
             card.querySelectorAll('.player-name-romaji').forEach(el => {
-                el.textContent = (lang === 'ja') ? (kana || romaji || '-') : (romaji || kana || '-');
+                el.textContent = displayName;
             });
         });
 
@@ -478,12 +487,9 @@
         const numberDisplay = p.number ? `#${p.number}` : '#-';
         const roleClass = `role-badge-${p.role}`;
         const roleIcon = getRoleIcon(p.role);
-        const avatarBg = getAvatarBg(p.role);
         const nameKanji = p.name_kanji || '-';
         const nameKana = p.name_kana || nameKanji;
         const nameRomaji = p.name_romaji || nameKanji;
-        const initials = nameRomaji.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || '?';
-        const avatarUrl = `https://ui-avatars.com/api/?name=${initials}&background=${avatarBg}&color=ffffff&size=200&bold=true`;
         const hometownCode = p.hometown || '-';
         const age = calculateAge(p.birth_date);
         const roleLabel = isStaff ? 'MGR' : (p.position || '-');
@@ -527,7 +533,9 @@
                             <span class="role-badge-tactical ${roleClass}"><i class="fas ${roleIcon}"></i> ${roleLabel}</span>
                         </div>
                         <div class="player-body">
-                            <div class="player-photo"><img src="${avatarUrl}" alt="${nameKanji}"></div>
+                            <div class="player-silhouette"><i class="fas fa-user-circle"></i></div>
+                        </div>
+                        <div class="player-name-block">
                             <div class="player-name-kanji">${nameKanji}</div>
                             <div class="player-name-romaji">${nameKana}</div>
                         </div>
@@ -539,6 +547,10 @@
                         <div class="player-card-header">
                             <span class="player-number">${numberDisplay}</span>
                             <span class="role-badge-tactical ${roleClass}"><i class="fas ${roleIcon}"></i> ${roleLabel}</span>
+                        </div>
+                        <div class="player-name-block">
+                            <div class="player-name-kanji">${nameKanji}</div>
+                            <div class="player-name-romaji">${nameKana}</div>
                         </div>
                         <div class="player-details-inner">
                             ${detailsRows}
@@ -612,12 +624,6 @@
                 card.classList.toggle('is-flipped');
             }
             return;
-        }
-        // Opzionale: consenti il flip anche cliccando sulla card, ma solo se il click non è su un link/button interno
-        const card = e.target.closest('.player-card');
-        if (card && !e.target.closest('.player-flip-btn')) {
-            // Se non vogliamo che il click casuale faccia flip, commentare la riga successiva
-            // card.classList.toggle('is-flipped');
         }
     });
 
