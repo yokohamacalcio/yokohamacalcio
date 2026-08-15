@@ -13,9 +13,6 @@
     <style>
         .match-detail-card.active .match-expand-details {
             display: block !important;
-            max-height: 500px !important;
-            opacity: 1 !important;
-            visibility: visible !important;
             margin-top: 15px;
         }
         #matchesCounter {
@@ -114,7 +111,6 @@
                     <i class="fas fa-calendar-alt"></i> <span data-i18n="matches_page.season_label">シーズン:</span>
                 </label>
                 <select id="matchSeasonSelect" class="filter-btn" style="padding: 6px 14px; cursor: pointer; outline: none;">
-                    <!-- Opzioni popolate dinamicamente -->
                 </select>
             </div>
         </div>
@@ -157,7 +153,6 @@
 </footer>
 
 <script>
-    // Stile animazione per badge LIVE
     const style = document.createElement('style');
     style.innerHTML = `@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }`;
     document.head.appendChild(style);
@@ -166,8 +161,8 @@
 
     let currentLang = localStorage.getItem('preferred_lang') || 'ja';
     let visiblePastMatchesCount = 3;
+    let rawMatches = [];
 
-    // Dizionario Traduzioni
     const translations = {
         ja: {
             "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
@@ -210,19 +205,22 @@
     function setLanguage(lang) {
         currentLang = lang;
         localStorage.setItem('preferred_lang', lang);
-        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-lang') === lang));
+        
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (translations[lang] && translations[lang][key]) {
-                const icon = el.querySelector('i');
-                if (icon) {
-                    el.childNodes[el.childNodes.length - 1].textContent = " " + translations[lang][key];
-                } else {
-                    el.textContent = translations[lang][key];
-                }
+                el.textContent = translations[lang][key];
             }
         });
-        if (typeof filterAndPaginateMatches === 'function') filterAndPaginateMatches();
+
+        if (rawMatches.length > 0) {
+            renderMatches();
+            filterAndPaginateMatches();
+        }
     }
 
     function updateCounter(shown, total) {
@@ -243,7 +241,6 @@
     function filterAndPaginateMatches() {
         const activeCategory = document.querySelector('.filter-btn.active[data-match-filter]')?.getAttribute('data-match-filter') || 'all';
         const activeSeason = document.getElementById('matchSeasonSelect')?.value || 'all';
-
         const pastCards = document.querySelectorAll('#pastContainer .match-detail-card');
         let visibleMatches = 0;
 
@@ -251,17 +248,12 @@
             const category = card.getAttribute('data-match-category');
             const date = card.getAttribute('data-match-date') || '';
             const matchYear = date.substring(0, 4);
-
             const categoryMatch = (activeCategory === 'all' || category === activeCategory);
             const seasonMatch = (activeSeason === 'all' || matchYear === activeSeason);
 
             if (categoryMatch && seasonMatch) {
                 visibleMatches++;
-                if (visibleMatches <= visiblePastMatchesCount) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+                card.style.display = (visibleMatches <= visiblePastMatchesCount) ? 'block' : 'none';
             } else {
                 card.style.display = 'none';
             }
@@ -295,92 +287,214 @@
         });
     }
 
-    async function loadMatchesFromJSON() {
-        try {
-            const response = await fetch('matches.json');
-            const matches = await response.json();
+    function renderMatches() {
+        const upcomingContainer = document.getElementById('upcomingContainer');
+        const pastContainer = document.getElementById('pastContainer');
+        if (!upcomingContainer || !pastContainer) return;
 
-            const upcomingContainer = document.getElementById('upcomingContainer');
-            const pastContainer = document.getElementById('pastContainer');
-            upcomingContainer.innerHTML = '';
-            pastContainer.innerHTML = '';
+        upcomingContainer.innerHTML = '';
+        pastContainer.innerHTML = '';
 
-            matches.forEach(m => {
-                const isPast = m.status === 'past';
-                const cardClass = isPast ? 'match-detail-card match-past-item' : 'match-detail-card match-upcoming';
-                const scoreClass = isPast ? 'match-vs-score score-past' : 'match-vs-score';
-                
-                const rawDate = m.date ? m.date.trim().replace(/\./g, '-').substring(0, 10) : '';
+        rawMatches.forEach(m => {
+            const isPast = m.status === 'past';
+            const cardClass = isPast ? 'match-detail-card match-past-item' : 'match-detail-card match-upcoming';
+            const scoreClass = isPast ? 'match-vs-score score-past' : 'match-vs-score';
+            
+            const rawDate = m.date ? m.date.trim().replace(/\./g, '-').substring(0, 10) : '';
 
-                let badgeHtml = '';
-                if (m.status === 'live') {
-                    badgeHtml = `<span class="match-badge" style="background: #ef4444; color: white; animation: pulse 1.5s infinite;" data-i18n="badge.live">🔴 LIVE</span>`;
-                } else if (isPast) {
-                    badgeHtml = `<span class="match-badge badge-friendly" data-i18n="badge.past_friendly">${m.type || '練習試合'}</span>`;
+            let badgeHtml = '';
+            if (m.status === 'live') {
+                badgeHtml = `<span class="match-badge" style="background: #ef4444; color: white; animation: pulse 1.5s infinite;">${translations[currentLang]['badge.live']}</span>`;
+            } else if (isPast) {
+                badgeHtml = `<span class="match-badge badge-friendly">${m.type || '練習試合'}</span>`;
+            } else {
+                badgeHtml = `<span class="match-badge badge-next">${m.type || '次戦 (練習試合)'}</span>`;
+            }
+
+            const team2Logo = m.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.team2Name || 'VS')}&background=003C82&color=ffffff&size=100&bold=true`;
+
+            const isHome = m.isHome !== undefined ? m.isHome : true;
+            let leftTeamName, leftTeamLogo, leftTeamLogoClass, rightTeamName, rightTeamLogo, rightTeamLogoClass, displayScore;
+
+            if (isHome) {
+                leftTeamName = m.team1Name || 'Yokohama Calcio';
+                leftTeamLogo = './immagini/logo.png';
+                leftTeamLogoClass = '';
+                rightTeamName = m.team2Name || '-';
+                rightTeamLogo = team2Logo;
+                rightTeamLogoClass = 'opponent-logo';
+                displayScore = m.score;
+            } else {
+                leftTeamName = m.team2Name || '-';
+                leftTeamLogo = team2Logo;
+                leftTeamLogoClass = 'opponent-logo';
+                rightTeamName = m.team1Name || 'Yokohama Calcio';
+                rightTeamLogo = './immagini/logo.png';
+                rightTeamLogoClass = '';
+                if (m.score && m.score !== 'VS' && m.score.includes('-')) {
+                    const parts = m.score.split('-');
+                    displayScore = parts.length === 2 ? `${parts[1].trim()} - ${parts[0].trim()}` : m.score;
                 } else {
-                    badgeHtml = `<span class="match-badge badge-next" data-i18n="badge.friendly">${m.type || '次戦 (練習試合)'}</span>`;
-                }
-
-                const team2Logo = m.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.team2Name)}&background=random&color=ffffff&size=100&bold=true`;
-
-                const isHome = m.isHome !== undefined ? m.isHome : true;
-                let leftTeamName, leftTeamLogo, leftTeamLogoClass, rightTeamName, rightTeamLogo, rightTeamLogoClass, displayScore;
-
-                if (isHome) {
-                    leftTeamName = m.team1Name || 'Yokohama Calcio';
-                    leftTeamLogo = './immagini/logo.png';
-                    leftTeamLogoClass = '';
-                    rightTeamName = m.team2Name || '-';
-                    rightTeamLogo = team2Logo;
-                    rightTeamLogoClass = 'opponent-logo';
                     displayScore = m.score;
-                } else {
-                    leftTeamName = m.team2Name || '-';
-                    leftTeamLogo = team2Logo;
-                    leftTeamLogoClass = 'opponent-logo';
-                    rightTeamName = m.team1Name || 'Yokohama Calcio';
-                    rightTeamLogo = './immagini/logo.png';
-                    rightTeamLogoClass = '';
-                    if (m.score && m.score !== 'VS' && m.score.includes('-')) {
-                        const parts = m.score.split('-');
-                        displayScore = parts.length === 2 ? `${parts[1].trim()} - ${parts[0].trim()}` : m.score;
-                    } else {
-                        displayScore = m.score;
-                    }
                 }
+            }
 
-                const displayDateTime = m.time ? `${m.date} ${m.time}` : m.date;
+            const displayDateTime = m.time ? `${m.date} ${m.time}` : m.date;
 
-                let detailsHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong data-i18n="label.venue">会場:</strong> ${m.venue}</span></div>`;
-                if (m.time) detailsHtml += `<div class="detail-item"><i class="fas fa-clock"></i> <span><strong data-i18n="label.kickoff">キックオフ:</strong> ${m.time}</span></div>`;
-                if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') detailsHtml += `<div class="detail-item"><i class="fas fa-futbol"></i> <span><strong data-i18n="label.scorers">得点者:</strong> ${m.scorers}</span></div>`;
-                if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') detailsHtml += `<div class="detail-item"><i class="fas fa-star" style="color: #f59e0b;"></i> <span><strong data-i18n="label.mvp">MVP:</strong> ${m.mvp}</span></div>`;
-                if (m.yellow_cards && m.yellow_cards !== 'なし' && m.yellow_cards !== 'Nessuno') detailsHtml += `<div class="detail-item"><i class="fas fa-square" style="color: #eab308;"></i> <span><strong data-i18n="label.yellow_cards">警告:</strong> ${m.yellow_cards}</span></div>`;
-                if (m.red_cards && m.red_cards !== 'なし' && m.red_cards !== 'Nessuno') detailsHtml += `<div class="detail-item"><i class="fas fa-square" style="color: #ef4444;"></i> <span><strong data-i18n="label.red_cards">退場:</strong> ${m.red_cards}</span></div>`;
+            let detailsHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong>${translations[currentLang]['label.venue']}</strong> ${m.venue || '-'}</span></div>`;
+            if (m.time) detailsHtml += `<div class="detail-item"><i class="fas fa-clock"></i> <span><strong>${translations[currentLang]['label.kickoff']}</strong> ${m.time}</span></div>`;
+            if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') detailsHtml += `<div class="detail-item"><i class="fas fa-futbol"></i> <span><strong>${translations[currentLang]['label.scorers']}</strong> ${m.scorers}</span></div>`;
+            if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') detailsHtml += `<div class="detail-item"><i class="fas fa-star" style="color: #f59e0b;"></i> <span><strong>${translations[currentLang]['label.mvp']}</strong> ${m.mvp}</span></div>`;
+            if (m.yellow_cards && m.yellow_cards !== 'なし' && m.yellow_cards !== 'Nessuno') detailsHtml += `<div class="detail-item"><i class="fas fa-square" style="color: #eab308;"></i> <span><strong>${translations[currentLang]['label.yellow_cards']}</strong> ${m.yellow_cards}</span></div>`;
+            if (m.red_cards && m.red_cards !== 'なし' && m.red_cards !== 'Nessuno') detailsHtml += `<div class="detail-item"><i class="fas fa-square" style="color: #ef4444;"></i> <span><strong>${translations[currentLang]['label.red_cards']}</strong> ${m.red_cards}</span></div>`;
+            if (m.goalkeepers && m.goalkeepers !== '') detailsHtml += `<div class="detail-item"><i class="fas fa-hands"></i> <span><strong>GK:</strong> ${m.goalkeepers}</span></div>`;
 
-                const cardHtml = `
-                    <div class="${cardClass}" id="${m.id}" data-match-category="${m.category}" data-match-date="${rawDate}">
-                        <div class="match-header-row">
-                            ${badgeHtml}
-                            <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${displayDateTime}</span>
+            const cardHtml = `
+                <div class="${cardClass}" id="${m.id}" data-match-category="${m.category}" data-match-date="${rawDate}">
+                    <div class="match-header-row">
+                        ${badgeHtml}
+                        <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${displayDateTime}</span>
+                    </div>
+                    <div class="match-teams-row">
+                        <div class="match-team">
+                            <img src="${leftTeamLogo}" alt="${leftTeamName}" class="${leftTeamLogoClass}">
+                            <span>${leftTeamName}</span>
                         </div>
-                        <div class="match-teams-row">
-                            <div class="match-team">
-                                <img src="${leftTeamLogo}" alt="${leftTeamName}" class="${leftTeamLogoClass}">
-                                <span>${leftTeamName}</span>
-                            </div>
-                            <div class="${scoreClass}">${displayScore}</div>
-                            <div class="match-team">
-                                <img src="${rightTeamLogo}" alt="${rightTeamName}" class="${rightTeamLogoClass}">
-                                <span>${rightTeamName}</span>
-                            </div>
-                        </div>
-                        <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> <span data-i18n="btn.details">詳細を見る</span></button>
-                        <div class="match-expand-details" style="display: none;">
-                            <div class="details-inner">${detailsHtml}</div>
+                        <div class="${scoreClass}">${displayScore}</div>
+                        <div class="match-team">
+                            <img src="${rightTeamLogo}" alt="${rightTeamName}" class="${rightTeamLogoClass}">
+                            <span>${rightTeamName}</span>
                         </div>
                     </div>
-                `;
+                    <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> <span>${translations[currentLang]['btn.details']}</span></button>
+                    <div class="match-expand-details" style="display: none;">
+                        <div class="details-inner">${detailsHtml}</div>
+                    </div>
+                </div>
+            `;
 
-                if (isPast) {
-                    pastContainer.insertAdjacentHTML('beforeend',
+            (isPast ? pastContainer : upcomingContainer).insertAdjacentHTML('beforeend', cardHtml);
+        });
+
+        populateSeasonSelect(rawMatches);
+
+        document.querySelectorAll('.toggle-details-btn').forEach(btn => {
+            btn.onclick = function(e) {
+                e.preventDefault();
+                const card = this.closest('.match-detail-card');
+                const details = card.querySelector('.match-expand-details');
+                const wasActive = card.classList.contains('active');
+
+                document.querySelectorAll('.match-detail-card').forEach(c => {
+                    c.classList.remove('active');
+                    const det = c.querySelector('.match-expand-details');
+                    if (det) det.style.display = 'none';
+                });
+
+                if (!wasActive) {
+                    card.classList.add('active');
+                    if (details) details.style.display = 'block';
+                }
+            };
+        });
+    }
+
+    function populateSeasonSelect(matches) {
+        const select = document.getElementById('matchSeasonSelect');
+        if (!select) return;
+        const yearsSet = new Set();
+        matches.forEach(m => {
+            if (m.date) {
+                const y = m.date.substring(0, 4);
+                if (y && !isNaN(y)) yearsSet.add(y);
+            }
+        });
+        let years = Array.from(yearsSet).sort((a, b) => b - a);
+        select.innerHTML = '';
+        const allOption = document.createElement('option');
+        allOption.value = 'all';
+        allOption.textContent = translations[currentLang]['matches_page.all_seasons'] || '全期間';
+        select.appendChild(allOption);
+        years.forEach(year => {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = `${year}年`;
+            select.appendChild(option);
+        });
+        const currentYear = new Date().getFullYear().toString();
+        select.value = years.includes(currentYear) ? currentYear : (years.length > 0 ? years[0] : 'all');
+    }
+
+    async function loadData() {
+        try {
+            const response = await fetch('matches.json');
+            if (!response.ok) throw new Error('matches.json non trovato');
+            rawMatches = await response.json();
+
+            renderMatches();
+            filterAndPaginateMatches();
+        } catch (error) {
+            console.error("Errore nel caricamento di matches.json:", error);
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+        document.getElementById('currentYear')?.textContent = new Date().getFullYear();
+
+        await loadData();
+        setLanguage(currentLang);
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (lang) setLanguage(lang);
+            });
+        });
+
+        document.querySelectorAll('[data-match-filter]').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('[data-match-filter]').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                visiblePastMatchesCount = 3;
+                filterAndPaginateMatches();
+            });
+        });
+
+        const seasonSelect = document.getElementById('matchSeasonSelect');
+        seasonSelect?.addEventListener('change', () => {
+            visiblePastMatchesCount = 3;
+            filterAndPaginateMatches();
+        });
+
+        const loadMoreBtn = document.getElementById('loadMoreMatchesBtn');
+        loadMoreBtn?.addEventListener('click', (e) => {
+            e.preventDefault();
+            const activeCategory = document.querySelector('.filter-btn.active[data-match-filter]')?.getAttribute('data-match-filter') || 'all';
+            const activeSeason = document.getElementById('matchSeasonSelect')?.value || 'all';
+            const pastCards = document.querySelectorAll('#pastContainer .match-detail-card');
+            let totalPast = 0;
+            pastCards.forEach(card => {
+                const category = card.getAttribute('data-match-category');
+                const date = card.getAttribute('data-match-date') || '';
+                const matchYear = date.substring(0, 4);
+                if ((activeCategory === 'all' || category === activeCategory) && (activeSeason === 'all' || matchYear === activeSeason)) {
+                    totalPast++;
+                }
+            });
+            visiblePastMatchesCount = (visiblePastMatchesCount < totalPast) ? visiblePastMatchesCount + 3 : 3;
+            filterAndPaginateMatches();
+        });
+
+        const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
+        const mobileNav = document.querySelector('.mobile-nav');
+        mobileMenuBtn?.addEventListener('click', () => mobileNav.classList.toggle('hidden'));
+
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        if (scrollToTopBtn) {
+            window.addEventListener('scroll', () => scrollToTopBtn.style.display = window.scrollY > 300 ? 'block' : 'none');
+            scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        }
+    });
+</script>
+</body>
+</html>
