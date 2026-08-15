@@ -111,6 +111,7 @@
                     <i class="fas fa-calendar-alt"></i> <span data-i18n="matches_page.season_label">シーズン:</span>
                 </label>
                 <select id="matchSeasonSelect" class="filter-btn" style="padding: 6px 14px; cursor: pointer; outline: none;">
+                    <!-- Opzioni popolate dinamicamente -->
                 </select>
             </div>
         </div>
@@ -153,6 +154,7 @@
 </footer>
 
 <script>
+    // Stile animazione per badge LIVE
     const style = document.createElement('style');
     style.innerHTML = `@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }`;
     document.head.appendChild(style);
@@ -203,64 +205,41 @@
         }
     };
 
-    // Helper pulizia stringhe
     function normalizeStr(str) {
         return String(str || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
     }
 
-    // Ricerca intelligente in players.json
     function findPlayerData(nameQuery) {
-        if (!nameQuery || !playersData || playersData.length === 0) return null;
+        if (!nameQuery || playersData.length === 0) return null;
         const norm = normalizeStr(nameQuery);
         if (!norm) return null;
-
         return playersData.find(p => {
-            const k = normalizeStr(p.name_kanji);
-            const kn = normalizeStr(p.name_kana);
-            const r = normalizeStr(p.name_romaji);
-            return (k && (k === norm || k.includes(norm) || norm.includes(k))) ||
-                   (kn && (kn === norm || kn.includes(norm) || norm.includes(kn))) ||
-                   (r && (r === norm || r.includes(norm) || norm.includes(r)));
+            const values = [p.name_kanji, p.name_kana, p.name_romaji].map(n => normalizeStr(n));
+            return values.some(v => v && (v === norm || v.includes(norm) || norm.includes(v)));
         }) || null;
     }
 
     function formatPlayerName(rawName, lang) {
         if (!rawName) return '';
-        const cleanName = rawName.trim();
-        if (cleanName === 'なし' || cleanName === 'Nessuno') return cleanName;
-
-        const player = findPlayerData(cleanName);
-        if (!player) return cleanName;
-
-        if (lang === 'ja') {
-            return player.name_kanji || player.name_kana || player.name_romaji || cleanName;
-        } else {
-            return player.name_romaji || player.name_kanji || cleanName;
-        }
+        const clean = rawName.trim();
+        if (clean === 'なし' || clean === 'Nessuno') return clean;
+        const player = findPlayerData(clean);
+        if (!player) return clean;
+        return (lang === 'ja') ? (player.name_kanji || clean) : (player.name_romaji || clean);
     }
 
     function formatPlayerList(rawText, lang) {
         if (!rawText || typeof rawText !== 'string') return rawText || '';
         if (rawText === 'なし' || rawText === 'Nessuno') return rawText;
-
-        // Supporta sia virgole giapponesi che occidentali
-        const parts = rawText.split(/[,、]/);
-        return parts.map(part => {
+        return rawText.split(/[,、]/).map(part => {
             let item = part.trim();
             if (!item) return '';
-
-            // Regex flessibile: supporta parentesi occidentali () e giapponesi （）
             const bracketMatch = item.match(/^([^(（\n]+)[(（]([^)）\n]+)[)）]$/);
             if (bracketMatch) {
-                const mainName = bracketMatch[1].trim();
-                const extraVal = bracketMatch[2].trim();
-
-                const formattedMain = formatPlayerName(mainName, lang);
-                const formattedExtra = isNaN(extraVal) ? formatPlayerName(extraVal, lang) : extraVal;
-
-                return `${formattedMain} (${formattedExtra})`;
+                const main = bracketMatch[1].trim();
+                const extra = bracketMatch[2].trim();
+                return `${formatPlayerName(main, lang)} (${isNaN(extra) ? formatPlayerName(extra, lang) : extra})`;
             }
-
             return formatPlayerName(item, lang);
         }).filter(Boolean).join(', ');
     }
@@ -268,18 +247,11 @@
     function setLanguage(lang) {
         currentLang = lang;
         localStorage.setItem('preferred_lang', lang);
-        
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-        });
-
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-lang') === lang));
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
-            if (translations[lang] && translations[lang][key]) {
-                el.textContent = translations[lang][key];
-            }
+            if (translations[lang] && translations[lang][key]) el.textContent = translations[lang][key];
         });
-
         if (rawMatches.length > 0) {
             renderMatches();
             filterAndPaginateMatches();
@@ -362,8 +334,6 @@
             const isPast = m.status === 'past';
             const cardClass = isPast ? 'match-detail-card match-past-item' : 'match-detail-card match-upcoming';
             const scoreClass = isPast ? 'match-vs-score score-past' : 'match-vs-score';
-            
-            // Estrae pulitamente la data YYYY.MM.DD ignorando i giorni (日/土)
             const rawDate = m.date ? m.date.trim().replace(/\./g, '-').substring(0, 10) : '';
 
             let badgeHtml = '';
@@ -376,7 +346,6 @@
             }
 
             const team2Logo = m.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.team2Name || 'VS')}&background=003C82&color=ffffff&size=100&bold=true`;
-
             const isHome = m.isHome !== undefined ? m.isHome : true;
             let leftTeamName, leftTeamLogo, leftTeamLogoClass, rightTeamName, rightTeamLogo, rightTeamLogoClass, displayScore;
 
@@ -405,7 +374,6 @@
 
             const displayDateTime = m.time ? `${m.date} ${m.time}` : m.date;
 
-            // Formattazione multilingua dei nomi giocatori
             const scorers = formatPlayerList(m.scorers, currentLang);
             const mvp = formatPlayerList(m.mvp, currentLang);
             const yellowCards = formatPlayerList(m.yellow_cards, currentLang);
@@ -499,14 +467,11 @@
     async function loadData() {
         try {
             const matchesResponse = await fetch('matches.json');
-            if (!matchesResponse.ok) throw new Error('matches.json non trovato');
             rawMatches = await matchesResponse.json();
 
             try {
                 const playersResponse = await fetch('players.json');
-                if (playersResponse.ok) {
-                    playersData = await playersResponse.json();
-                }
+                if (playersResponse.ok) playersData = await playersResponse.json();
             } catch (e) {
                 console.warn("players.json non trovato. Proseguo senza conversione nomi.", e);
                 playersData = [];
@@ -526,10 +491,7 @@
         setLanguage(currentLang);
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const lang = btn.getAttribute('data-lang');
-                if (lang) setLanguage(lang);
-            });
+            btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
         });
 
         document.querySelectorAll('[data-match-filter]').forEach(btn => {
