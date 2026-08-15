@@ -229,7 +229,12 @@
         return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
     }
 
-    // Ricerca del giocatore e priorità al Katakana per il Giapponese
+    // Helper per verificare se un testo contiene caratteri Giapponesi (Kanji/Hiragana/Katakana)
+    function containsJapaneseChars(text) {
+        return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf\u3400-\u4dbf]/.test(text);
+    }
+
+    // Ricerca del giocatore: preserva Kanji se presenti, usa Katakana per i nomi stranieri/Romaji in lingua JP
     function getPlayerNameInLang(query, lang) {
         if (!query || query === 'なし' || query === 'Nessuno') return query;
         if (!playersData || playersData.length === 0) return query;
@@ -245,9 +250,14 @@
         if (!player) return query;
 
         if (lang === 'ja') {
-            // Se in Giapponese, dà priorità prima a name_kana (Katakana) o name_kanji
+            // Se name_kanji ha caratteri giapponesi (es. Kanji), usiamo name_kanji
+            if (player.name_kanji && containsJapaneseChars(player.name_kanji)) {
+                return player.name_kanji;
+            }
+            // Altrimenti se è un nome in Romaji/Straniero, in JP usiamo il Katakana (name_kana)
             return player.name_kana || player.name_kanji || player.name_romaji || query;
         } else {
+            // In Italiano/Inglese usiamo sempre il Romaji
             return player.name_romaji || player.name_kanji || query;
         }
     }
