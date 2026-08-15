@@ -153,7 +153,6 @@
 </footer>
 
 <script>
-    // Stile animazione per badge LIVE
     const style = document.createElement('style');
     style.innerHTML = `@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }`;
     document.head.appendChild(style);
@@ -188,7 +187,7 @@
             "badge.friendly": "Prossima (Amichevole)", "badge.live": "🔴 IN DIRETTA", "badge.past_friendly": "Amichevole",
             "label.venue": "Campo:", "label.kickoff": "Calcio d'inizio:", "label.scorers": "Marcatori:",
             "label.mvp": "MVP:", "label.yellow_cards": "Ammoniti:", "label.red_cards": "Espulsi:",
-            "label.details": "Dettagli", "btn.load_more_3": "Mostra le prossime 3 partite", "btn.show_less": "Riduci elenco", "btn.back_home": "Torna alla Home"
+            "btn.details": "Dettagli", "btn.load_more_3": "Mostra le prossime 3 partite", "btn.show_less": "Riduci elenco", "btn.back_home": "Torna alla Home"
         },
         en: {
             "nav.team": "Team", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Statistics",
@@ -204,11 +203,12 @@
         }
     };
 
-    // ----- LOGICA ROBUSTA D MATCHING GIOCATORI CON PLAYERS.JSON -----
+    // Helper pulizia stringhe
     function normalizeStr(str) {
-        return String(str || '').toLowerCase().replace(/\s+/g, '').trim();
+        return String(str || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
     }
 
+    // Ricerca intelligente in players.json
     function findPlayerData(nameQuery) {
         if (!nameQuery || !playersData || playersData.length === 0) return null;
         const norm = normalizeStr(nameQuery);
@@ -230,7 +230,7 @@
         if (cleanName === 'なし' || cleanName === 'Nessuno') return cleanName;
 
         const player = findPlayerData(cleanName);
-        if (!player) return cleanName; // Fallback al nome originale se non trovato
+        if (!player) return cleanName;
 
         if (lang === 'ja') {
             return player.name_kanji || player.name_kana || player.name_romaji || cleanName;
@@ -240,23 +240,22 @@
     }
 
     function formatPlayerList(rawText, lang) {
-        if (!rawText || typeof rawText !== 'string') return rawText;
+        if (!rawText || typeof rawText !== 'string') return rawText || '';
         if (rawText === 'なし' || rawText === 'Nessuno') return rawText;
 
-        // Gestisce elenchi separati da virgola e parentesi come "Cognome (Assist)" o "Portiere (2)"
-        const parts = rawText.split(',');
+        // Supporta sia virgole giapponesi che occidentali
+        const parts = rawText.split(/[,、]/);
         return parts.map(part => {
             let item = part.trim();
             if (!item) return '';
 
-            // Se ha parentesi es: "田中 (山田)" o "Tanaka (2)"
-            const bracketMatch = item.match(/^([^(（]+)[(（]([^)）]+)[)）]$/);
+            // Regex flessibile: supporta parentesi occidentali () e giapponesi （）
+            const bracketMatch = item.match(/^([^(（\n]+)[(（]([^)）\n]+)[)）]$/);
             if (bracketMatch) {
                 const mainName = bracketMatch[1].trim();
                 const extraVal = bracketMatch[2].trim();
 
                 const formattedMain = formatPlayerName(mainName, lang);
-                // Prova a formattare anche l'eventuale assistman dentro la parentesi
                 const formattedExtra = isNaN(extraVal) ? formatPlayerName(extraVal, lang) : extraVal;
 
                 return `${formattedMain} (${formattedExtra})`;
@@ -266,7 +265,6 @@
         }).filter(Boolean).join(', ');
     }
 
-    // ----- GESTIONE LINGUA -----
     function setLanguage(lang) {
         currentLang = lang;
         localStorage.setItem('preferred_lang', lang);
@@ -288,7 +286,6 @@
         }
     }
 
-    // ----- CONTATORE E FILTRAZIONE -----
     function updateCounter(shown, total) {
         const counterEl = document.getElementById('matchesCounter');
         if (!counterEl) return;
@@ -353,7 +350,6 @@
         });
     }
 
-    // ----- RENDER SCHEDE PARTITA -----
     function renderMatches() {
         const upcomingContainer = document.getElementById('upcomingContainer');
         const pastContainer = document.getElementById('pastContainer');
@@ -366,11 +362,13 @@
             const isPast = m.status === 'past';
             const cardClass = isPast ? 'match-detail-card match-past-item' : 'match-detail-card match-upcoming';
             const scoreClass = isPast ? 'match-vs-score score-past' : 'match-vs-score';
+            
+            // Estrae pulitamente la data YYYY.MM.DD ignorando i giorni (日/土)
             const rawDate = m.date ? m.date.trim().replace(/\./g, '-').substring(0, 10) : '';
 
             let badgeHtml = '';
             if (m.status === 'live') {
-                badgeHtml = `<span class="match-badge" style="background: #ef4444; color: white; animation: pulse 1.5s infinite;" data-i18n="badge.live">${translations[currentLang]['badge.live']}</span>`;
+                badgeHtml = `<span class="match-badge" style="background: #ef4444; color: white; animation: pulse 1.5s infinite;">${translations[currentLang]['badge.live']}</span>`;
             } else if (isPast) {
                 badgeHtml = `<span class="match-badge badge-friendly">${m.type || '練習試合'}</span>`;
             } else {
@@ -407,7 +405,7 @@
 
             const displayDateTime = m.time ? `${m.date} ${m.time}` : m.date;
 
-            // Formattazione sicura dei giocatori con supporto multilinea e multilingua
+            // Formattazione multilingua dei nomi giocatori
             const scorers = formatPlayerList(m.scorers, currentLang);
             const mvp = formatPlayerList(m.mvp, currentLang);
             const yellowCards = formatPlayerList(m.yellow_cards, currentLang);
@@ -416,11 +414,11 @@
 
             let detailsHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong>${translations[currentLang]['label.venue']}</strong> ${m.venue || '-'}</span></div>`;
             if (m.time) detailsHtml += `<div class="detail-item"><i class="fas fa-clock"></i> <span><strong>${translations[currentLang]['label.kickoff']}</strong> ${m.time}</span></div>`;
-            if (scorers && scorers !== 'なし' && scorers !== 'Nessuno') detailsHtml += `<div class="detail-item"><i class="fas fa-futbol"></i> <span><strong>${translations[currentLang]['label.scorers']}</strong> ${scorers}</span></div>`;
-            if (mvp && mvp !== 'なし' && mvp !== 'Nessuno') detailsHtml += `<div class="detail-item"><i class="fas fa-star" style="color: #f59e0b;"></i> <span><strong>${translations[currentLang]['label.mvp']}</strong> ${mvp}</span></div>`;
-            if (yellowCards && yellowCards !== 'なし' && yellowCards !== 'Nessuno') detailsHtml += `<div class="detail-item"><i class="fas fa-square" style="color: #eab308;"></i> <span><strong>${translations[currentLang]['label.yellow_cards']}</strong> ${yellowCards}</span></div>`;
-            if (redCards && redCards !== 'なし' && redCards !== 'Nessuno') detailsHtml += `<div class="detail-item"><i class="fas fa-square" style="color: #ef4444;"></i> <span><strong>${translations[currentLang]['label.red_cards']}</strong> ${redCards}</span></div>`;
-            if (goalkeepers && goalkeepers !== '') detailsHtml += `<div class="detail-item"><i class="fas fa-hands"></i> <span><strong>GK:</strong> ${goalkeepers}</span></div>`;
+            if (scorers) detailsHtml += `<div class="detail-item"><i class="fas fa-futbol"></i> <span><strong>${translations[currentLang]['label.scorers']}</strong> ${scorers}</span></div>`;
+            if (mvp) detailsHtml += `<div class="detail-item"><i class="fas fa-star" style="color: #f59e0b;"></i> <span><strong>${translations[currentLang]['label.mvp']}</strong> ${mvp}</span></div>`;
+            if (yellowCards) detailsHtml += `<div class="detail-item"><i class="fas fa-square" style="color: #eab308;"></i> <span><strong>${translations[currentLang]['label.yellow_cards']}</strong> ${yellowCards}</span></div>`;
+            if (redCards) detailsHtml += `<div class="detail-item"><i class="fas fa-square" style="color: #ef4444;"></i> <span><strong>${translations[currentLang]['label.red_cards']}</strong> ${redCards}</span></div>`;
+            if (goalkeepers) detailsHtml += `<div class="detail-item"><i class="fas fa-hands"></i> <span><strong>GK:</strong> ${goalkeepers}</span></div>`;
 
             const cardHtml = `
                 <div class="${cardClass}" id="${m.id}" data-match-category="${m.category}" data-match-date="${rawDate}">
@@ -451,7 +449,6 @@
 
         populateSeasonSelect(rawMatches);
 
-        // Handler per il toggle dei dettagli
         document.querySelectorAll('.toggle-details-btn').forEach(btn => {
             btn.onclick = function(e) {
                 e.preventDefault();
@@ -499,7 +496,6 @@
         select.value = years.includes(currentYear) ? currentYear : (years.length > 0 ? years[0] : 'all');
     }
 
-    // ----- CARICAMENTO ROBUSTO DEI JSON -----
     async function loadData() {
         try {
             const matchesResponse = await fetch('matches.json');
@@ -512,25 +508,23 @@
                     playersData = await playersResponse.json();
                 }
             } catch (e) {
-                console.warn("players.json non presente o con errori. Proseguo solo con matches.json.", e);
+                console.warn("players.json non trovato. Proseguo senza conversione nomi.", e);
                 playersData = [];
             }
 
             renderMatches();
             filterAndPaginateMatches();
         } catch (error) {
-            console.error("Errore fatale nel caricamento dei dati:", error);
+            console.error("Errore nel caricamento dei dati:", error);
         }
     }
 
-    // ----- INIZIALIZZAZIONE -----
     window.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('currentYear')?.textContent = new Date().getFullYear();
 
         await loadData();
         setLanguage(currentLang);
 
-        // Event listener puliti e unici per i pulsanti lingua
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const lang = btn.getAttribute('data-lang');
@@ -538,7 +532,6 @@
             });
         });
 
-        // Filtri di categoria
         document.querySelectorAll('[data-match-filter]').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('[data-match-filter]').forEach(b => b.classList.remove('active'));
@@ -548,14 +541,12 @@
             });
         });
 
-        // Filtro stagioni
         const seasonSelect = document.getElementById('matchSeasonSelect');
         seasonSelect?.addEventListener('change', () => {
             visiblePastMatchesCount = 3;
             filterAndPaginateMatches();
         });
 
-        // Load More
         const loadMoreBtn = document.getElementById('loadMoreMatchesBtn');
         loadMoreBtn?.addEventListener('click', (e) => {
             e.preventDefault();
@@ -575,12 +566,10 @@
             filterAndPaginateMatches();
         });
 
-        // Mobile Menu
         const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
         const mobileNav = document.querySelector('.mobile-nav');
         mobileMenuBtn?.addEventListener('click', () => mobileNav.classList.toggle('hidden'));
 
-        // Scroll to Top
         const scrollToTopBtn = document.getElementById('scrollToTopBtn');
         if (scrollToTopBtn) {
             window.addEventListener('scroll', () => scrollToTopBtn.style.display = window.scrollY > 300 ? 'block' : 'none');
