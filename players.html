@@ -21,7 +21,7 @@
         .player-card {
             perspective: 1000px;
             height: 400px;
-            cursor: pointer;
+            cursor: pointer; /* Indica che l'intera card è cliccabile */
         }
 
         .player-card-inner {
@@ -99,28 +99,29 @@
         .role-badge-fw { background: #dc2626; }
         .role-badge-staff { background: #db2777; }
 
-        /* Corpo front: silhouette */
+        /* Corpo front: silhouette calcistica realistica */
         .player-body {
             flex-grow: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
+            padding: 20px;
             overflow: hidden;
             position: relative;
         }
 
         .player-silhouette {
-            width: 90%;
-            height: 90%;
+            width: 100%;
+            height: 100%;
             display: flex;
-            align-items: flex-end;
+            align-items: center;
             justify-content: center;
+            opacity: 0.85; /* Resa visiva più morbida */
         }
 
         .player-silhouette svg {
-            width: 100%;
-            height: 100%;
+            width: 75%;
+            height: 75%;
             object-fit: contain;
         }
 
@@ -145,8 +146,8 @@
             font-weight: 600;
         }
 
-        /* Pulsante flip */
-        .player-flip-btn {
+        /* Indicatore di Flip (sostituisce il pulsante) */
+        .player-flip-indicator {
             background: #f1f5f9;
             color: var(--dark-navy, #003c82);
             font-size: 0.82rem;
@@ -156,14 +157,12 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            border: none;
             border-top: 1px solid #e2e8f0;
             width: 100%;
             transition: background 0.2s ease, color 0.2s ease;
-            cursor: pointer;
         }
 
-        .player-card:hover .player-flip-btn {
+        .player-card:hover .player-flip-indicator {
             background: var(--primary-sky, #12a0d7);
             color: #fff;
         }
@@ -208,7 +207,6 @@
 <body>
 
 <header class="header">
-  <!-- TOP BAR: SOCIAL & SWITCHER LINGUA -->
   <div class="top-bar">
     <div class="container top-bar-container">
       <div class="top-bar-social">
@@ -226,11 +224,8 @@
     </div>
   </div>
 
-  <!-- MAIN NAVIGATION BAR -->
   <div class="main-header-bar">
     <div class="container header-container">
-      
-      <!-- LOGO & BRAND NAME -->
       <div class="logo-title">
         <a href="index.html">
           <img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo">
@@ -241,7 +236,6 @@
         </a>
       </div>
 
-      <!-- DESKTOP NAV -->
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
           <div class="nav-item dropdown">
@@ -253,12 +247,10 @@
               <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
             </div>
           </div>
-
           <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
           <a href="index.html#sponsors" data-i18n="nav.sponsors">スポンサー</a>
           <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
-
           <a href="index.html#contact" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
         </nav>
       </div>
@@ -297,31 +289,26 @@
             <button class="filter-btn" data-role-filter="staff" data-i18n="role_filter.staff">STAFF</button>
         </div>
 
-        <!-- GOALKEEPER (GK) -->
         <div class="role-group" data-role-section="gk">
             <h3 class="role-title"><i class="fas fa-hands"></i> GOALKEEPER</h3>
             <div class="players-grid" id="players-gk"></div>
         </div>
 
-        <!-- DEFENDER (DF) -->
         <div class="role-group" data-role-section="df">
             <h3 class="role-title"><i class="fas fa-shield-alt"></i> DEFENDER</h3>
             <div class="players-grid" id="players-df"></div>
         </div>
 
-        <!-- MIDFIELDER (MF) -->
         <div class="role-group" data-role-section="mf">
             <h3 class="role-title"><i class="fas fa-running"></i> MIDFIELDER</h3>
             <div class="players-grid" id="players-mf"></div>
         </div>
 
-        <!-- FORWARD (FW) -->
         <div class="role-group" data-role-section="fw">
             <h3 class="role-title"><i class="fas fa-futbol"></i> FORWARD</h3>
             <div class="players-grid" id="players-fw"></div>
         </div>
 
-        <!-- STAFF / MANAGER -->
         <div class="role-group" data-role-section="staff">
             <h3 class="role-title"><i class="fas fa-clipboard-list"></i> STAFF & MANAGER</h3>
             <div class="players-grid" id="players-staff"></div>
@@ -342,7 +329,6 @@
 </footer>
 
 <script>
-    // DIZIONARIO TRADUZIONI MULTILINGUA (JP, IT, EN)
     const translations = {
         ja: {
             "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
@@ -485,19 +471,10 @@
         return icons[role] || 'fa-user';
     }
 
-    function getAvatarBg(role) {
-        const bg = { gk: '16a34a', df: '0284c7', mf: 'd97706', fw: 'dc2626', staff: 'f472b6' };
-        return bg[role] || '003C82';
-    }
-
-    // Silhouette SVG generica (busto e testa, con pallone)
+    // Silhouette calcistica dettagliata in SVG
     const silhouetteSVG = `
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="70" r="45" fill="#e2e8f0" />
-            <path d="M 55 160 Q 55 100 100 100 Q 145 100 145 160 Z" fill="#e2e8f0" />
-            <circle cx="60" cy="65" r="3" fill="#cbd5e1" />
-            <circle cx="140" cy="65" r="3" fill="#cbd5e1" />
-            <path d="M 85 165 L 85 185 M 115 165 L 115 185" stroke="#cbd5e1" stroke-width="6" />
+        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#cbd5e1" d="M370.4 133.7c17.5-16 18.7-43.2 2.7-60.7s-43.2-18.7-60.7-2.7c-17.5 16-18.7 43.2-2.7 60.7 16 17.6 43.2 18.8 60.7 2.7zm-147.2 29.8l15.1 52.4-60.5 30.6-32.9-50-34 14.5 46.2 70.1c5.9 9 16.3 13.5 26.6 12.6 1.1-.1 2.2-.3 3.2-.6 9.5-2.2 17.2-9 20.5-18.3l37.8-106.1 47 25-2.9 83.1 42.1 1.5 5.2-111.4c.5-9.8-4.4-19.1-12.8-24.3l-50.6-31.5 11.2-39.7 43.1 17.5 12.9-34.6-64.8-26.1c-9.6-3.8-20.5-2.4-28.7 3.8l-37 28.5zm-55.9 261l15.3-118 36.1 10.9-15.3 118-35.8-10.9zm138.8-154.5l17.7 32-55.2 56.4 28.5 14.2 55.2-56.4 17.7 32 28.5-14.2-46.2-96.1-46.2 32.1zm-213 189c-19.3 0-35 15.7-35 35s15.7 35 35 35 35-15.7 35-35-15.7-35-35-35z"/>
         </svg>
     `;
 
@@ -560,9 +537,9 @@
                             <div class="player-name-kanji">${nameKanji}</div>
                             <div class="player-name-romaji">${nameKana}</div>
                         </div>
-                        <button class="player-flip-btn" data-flip="to-back">
-                            <i class="fas fa-chart-bar"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </button>
+                        <div class="player-flip-indicator">
+                            <i class="fas fa-hand-pointer"></i> <span data-i18n="btn.details">詳細・個人成績</span>
+                        </div>
                     </div>
                     <div class="player-card-back">
                         <div class="player-back-name-block">
@@ -572,9 +549,9 @@
                         <div class="player-details-inner">
                             ${detailsRows}
                         </div>
-                        <button class="player-flip-btn" data-flip="to-front">
+                        <div class="player-flip-indicator">
                             <i class="fas fa-arrow-left"></i> <span data-i18n="btn.back">戻る</span>
-                        </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -632,15 +609,11 @@
         });
     }
 
-    // Flip card logic
+    // Flip card logic universale: basato sull'intera card
     document.addEventListener('click', (e) => {
-        const flipBtn = e.target.closest('.player-flip-btn');
-        if (flipBtn) {
-            const card = flipBtn.closest('.player-card');
-            if (card) {
-                card.classList.toggle('is-flipped');
-            }
-            return;
+        const card = e.target.closest('.player-card');
+        if (card) {
+            card.classList.toggle('is-flipped');
         }
     });
 
