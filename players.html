@@ -100,31 +100,29 @@
         .role-badge-fw { background: #dc2626; }
         .role-badge-staff { background: #db2777; }
 
-        /* Corpo front: Silhouette stile fotografia in penombra */
+        /* Corpo front: Avatar cerchiato con Iniziali */
         .player-body {
             flex-grow: 1;
             display: flex;
-            align-items: flex-end;
+            align-items: center;
             justify-content: center;
-            padding: 0;
-            overflow: hidden;
-            position: relative;
-            background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 16px;
+            background: #ffffff;
         }
 
-        .player-silhouette {
+        .player-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #f1f5f9;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .player-photo img {
             width: 100%;
             height: 100%;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-        }
-
-        .player-silhouette svg {
-            width: 85%;
-            height: 90%;
-            object-fit: contain;
-            filter: drop-shadow(0px 8px 12px rgba(0, 60, 130, 0.15));
+            object-fit: cover;
         }
 
         /* Nome in basso sul front */
@@ -149,13 +147,13 @@
             font-weight: 600;
         }
 
-        /* Nuovo Indicatore Flip sottile ed elegante */
+        /* Indicatore Flip sottile ed elegante */
         .player-flip-indicator {
             background: #f1f5f9;
             color: var(--dark-navy, #003c82);
             font-size: 0.78rem;
             font-weight: 700;
-            padding: 8px 16px;
+            padding: 10px 16px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -163,7 +161,7 @@
             border-top: 1px solid #e2e8f0;
             width: 100%;
             letter-spacing: 0.5px;
-            transition: all 0.25 ease;
+            transition: all 0.25s ease;
             z-index: 2;
         }
 
@@ -303,27 +301,27 @@
         </div>
 
         <div class="role-group" data-role-section="gk">
-            <h3 class="role-title"><i class="fas fa-hands"></i> GOALKEEPER</h3>
+            <h3 class="role-title"><i class="fas fa-hands"></i> <span data-i18n="section.gk">GOALKEEPER</span></h3>
             <div class="players-grid" id="players-gk"></div>
         </div>
 
         <div class="role-group" data-role-section="df">
-            <h3 class="role-title"><i class="fas fa-shield-alt"></i> DEFENDER</h3>
+            <h3 class="role-title"><i class="fas fa-shield-alt"></i> <span data-i18n="section.df">DEFENDER</span></h3>
             <div class="players-grid" id="players-df"></div>
         </div>
 
         <div class="role-group" data-role-section="mf">
-            <h3 class="role-title"><i class="fas fa-running"></i> MIDFIELDER</h3>
+            <h3 class="role-title"><i class="fas fa-running"></i> <span data-i18n="section.mf">MIDFIELDER</span></h3>
             <div class="players-grid" id="players-mf"></div>
         </div>
 
         <div class="role-group" data-role-section="fw">
-            <h3 class="role-title"><i class="fas fa-futbol"></i> FORWARD</h3>
+            <h3 class="role-title"><i class="fas fa-futbol"></i> <span data-i18n="section.fw">FORWARD</span></h3>
             <div class="players-grid" id="players-fw"></div>
         </div>
 
         <div class="role-group" data-role-section="staff">
-            <h3 class="role-title"><i class="fas fa-clipboard-list"></i> STAFF & MANAGER</h3>
+            <h3 class="role-title"><i class="fas fa-clipboard-list"></i> <span data-i18n="section.staff">STAFF & MANAGER</span></h3>
             <div class="players-grid" id="players-staff"></div>
         </div>
 
@@ -350,7 +348,8 @@
             "players_page.title": "選手・スタッフ紹介", "players_page.intro": "カードをタップすると詳細情報・個人成績をご覧いただけます。",
             "role_filter.all": "すべて (ALL)", "role_filter.gk": "GK", "role_filter.df": "DF", "role_filter.mf": "MF",
             "role_filter.fw": "FW", "role_filter.staff": "STAFF", "btn.back_home": "ホームに戻る",
-            "btn.details": "STATS & DETAILS", "btn.back": "BACK TO FRONT",
+            "btn.details": "詳細・個人成績", "btn.back": "戻る",
+            "section.gk": "GOALKEEPER", "section.df": "DEFENDER", "section.mf": "MIDFIELDER", "section.fw": "FORWARD", "section.staff": "STAFF & MANAGER",
             "label.role_detail": "役割:", "label.hometown": "出身地:", "label.age": "年齢:",
             "label.goals": "得点:", "label.assists": "アシスト:", "label.yellows": "警告:", "label.reds": "退場:",
             "label.goals_conceded": "失点:", "label.clean_sheets": "クリーンシート:",
@@ -373,7 +372,8 @@
             "players_page.title": "Rosa & Staff", "players_page.intro": "Tocca la scheda per visualizzare i dettagli e le statistiche personali.",
             "role_filter.all": "Tutti", "role_filter.gk": "Portieri", "role_filter.df": "Difensori", "role_filter.mf": "Centrocampisti",
             "role_filter.fw": "Attaccanti", "role_filter.staff": "Staff", "btn.back_home": "Torna alla Home",
-            "btn.details": "STATS & DETTAGLI", "btn.back": "TORNA ALLA FRONTE",
+            "btn.details": "Dettagli & Stats", "btn.back": "Torna alla fronte",
+            "section.gk": "PORTIERI", "section.df": "DIFENSORI", "section.mf": "CENTROCAMPISTI", "section.fw": "ATTACCANTI", "section.staff": "STAFF & MANAGER",
             "label.role_detail": "Ruolo:", "label.hometown": "Origine:", "label.age": "Età:",
             "label.goals": "Gol:", "label.assists": "Assist:", "label.yellows": "Amm:", "label.reds": "Esp:",
             "label.goals_conceded": "Gol subiti:", "label.clean_sheets": "Porta inviolata:",
@@ -383,12 +383,12 @@
             "hometown.ibaraki": "Pref. di Ibaraki", "hometown.saga": "Pref. di Saga", "hometown.niigata": "Pref. di Niigata",
             "hometown.saitama": "Pref. di Saitama",
             "role_fullname.gk": "Portiere", "role_fullname.cb": "Difensore Centrale", "role_fullname.sb": "Terzino",
-            "role_fullname.sb_sh": "Terzino", "role_fullname.cm": "Centrocampista", "role_fullname.sh": "Esterno",
-            "role_fullname.cm_sb": "Centrocampista", "role_fullname.cm_sh": "Centrocampista", "role_fullname.cm_cb": "Centrocampista",
-            "role_fullname.sh_sb": "Esterno", "role_fullname.cm_cam": "Centrocampista", "role_fullname.sh_fw": "Esterno",
-            "role_fullname.cm_fw": "Centrocampista", "role_fullname.fw": "Attaccante", "role_fullname.fw_sh": "Attaccante",
-            "role_fullname.fw_sb": "Attaccante", "role_fullname.fw_cam": "Attaccante", "role_fullname.poly_def": "Terzino",
-            "role_fullname.poly_fw": "Attaccante"
+            "role_fullname.sb_sh": "Terzino / Esterno", "role_fullname.cm": "Centrocampista", "role_fullname.sh": "Esterno",
+            "role_fullname.cm_sb": "Centrocampista / Terzino", "role_fullname.cm_sh": "Centrocampista / Esterno", "role_fullname.cm_cb": "Centrocampista / DC",
+            "role_fullname.sh_sb": "Esterno / Terzino", "role_fullname.cm_cam": "Centrocampista / Trequartista", "role_fullname.sh_fw": "Esterno / Punta",
+            "role_fullname.cm_fw": "Centrocampista / Punta", "role_fullname.fw": "Punta Centrale", "role_fullname.fw_sh": "Punta / Esterno",
+            "role_fullname.fw_sb": "Punta / Terzino", "role_fullname.fw_cam": "Punta / Trequartista", "role_fullname.poly_def": "Terzino / CC / Trq",
+            "role_fullname.poly_fw": "Punta / Esterno / CC"
         },
         en: {
             "nav.team": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
@@ -397,7 +397,8 @@
             "players_page.title": "Players & Staff", "players_page.intro": "Tap a card to view detailed info and personal stats.",
             "role_filter.all": "All Players", "role_filter.gk": "GK", "role_filter.df": "DF", "role_filter.mf": "MF",
             "role_filter.fw": "FW", "role_filter.staff": "Staff", "btn.back_home": "Back to Home",
-            "btn.details": "STATS & DETAILS", "btn.back": "BACK TO FRONT",
+            "btn.details": "Stats & Details", "btn.back": "Back to front",
+            "section.gk": "GOALKEEPERS", "section.df": "DEFENDERS", "section.mf": "MIDFIELDERS", "section.fw": "FORWARDS", "section.staff": "STAFF & MANAGERS",
             "label.role_detail": "Position:", "label.hometown": "Hometown:", "label.age": "Age:",
             "label.goals": "Goals:", "label.assists": "Assists:", "label.yellows": "Yellows:", "label.reds": "Reds:",
             "label.goals_conceded": "Goals conceded:", "label.clean_sheets": "Clean sheets:",
@@ -407,9 +408,9 @@
             "hometown.ibaraki": "Ibaraki Pref.", "hometown.saga": "Saga Pref.", "hometown.niigata": "Niigata Pref.",
             "hometown.saitama": "Saitama Pref.",
             "role_fullname.gk": "Goalkeeper", "role_fullname.cb": "Center Back", "role_fullname.sb": "Full Back",
-            "role_fullname.sb_sh": "Full Back", "role_fullname.cm": "Central Midfielder", "role_fullname.sh": "Winger",
+            "role_fullname.sb_sh": "Full Back / Winger", "role_fullname.cm": "Central Midfielder", "role_fullname.sh": "Winger",
             "role_fullname.cm_sb": "Central Midfielder", "role_fullname.cm_sh": "Central Midfielder", "role_fullname.cm_cb": "Central Midfielder",
-            "role_fullname.sh_sb": "Winger", "role_fullname.cm_cam": "Central Midfielder", "role_fullname.sh_fw": "Winger",
+            "role_fullname.sh_sb": "Winger", "role_fullname.cm_cam": "Central Midfielder", "role_fullname.sh_fw": "Winger / Forward",
             "role_fullname.cm_fw": "Central Midfielder", "role_fullname.fw": "Forward", "role_fullname.fw_sh": "Forward",
             "role_fullname.fw_sb": "Forward", "role_fullname.fw_cam": "Forward", "role_fullname.poly_def": "Full Back",
             "role_fullname.poly_fw": "Forward"
@@ -429,6 +430,37 @@
 
     let currentLang = localStorage.getItem('preferred_lang') || 'ja';
 
+    /* ABBREVIAZIONE RUOLI TATTICI PER LINGUA */
+    function getRoleAbbreviation(position, role, lang) {
+        if (role === 'staff') return 'MGR';
+        if (lang === 'it') {
+            const mapIT = {
+                'GK': 'Por',
+                'CB': 'DC',
+                'SB': 'Ter',
+                'CM': 'CC',
+                'SH': 'Est',
+                'CAM': 'Trq',
+                'FW': 'PC',
+                'SB / SH': 'Ter / Est',
+                'CM / SB': 'CC / Ter',
+                'CM / SH': 'CC / Est',
+                'CM / CB': 'CC / DC',
+                'SH / SB': 'Est / Ter',
+                'CM / CAM': 'CC / Trq',
+                'SH / FW': 'Est / PC',
+                'CM / FW': 'CC / PC',
+                'FW / SH': 'PC / Est',
+                'FW / SB': 'PC / Ter',
+                'FW / SH / CAM': 'PC / Trq',
+                'SB / CM / CAM': 'Ter / CC / Trq',
+                'FW / SH / CM': 'PC / Est / CC'
+            };
+            return mapIT[position] || position || 'GIO';
+        }
+        return position || role.toUpperCase();
+    }
+
     function setLanguage(lang) {
         if (!translations[lang]) return;
         currentLang = lang;
@@ -446,10 +478,18 @@
         document.querySelectorAll('.player-card').forEach(card => {
             const kana = card.getAttribute('data-player-kana');
             const romaji = card.getAttribute('data-player-romaji');
+            const pos = card.getAttribute('data-player-pos');
+            const role = card.getAttribute('data-player-role');
+            
             const displayName = (lang === 'ja') ? (kana || romaji || '-') : (romaji || kana || '-');
             card.querySelectorAll('.player-name-romaji').forEach(el => {
                 el.textContent = displayName;
             });
+
+            const badgeTextElem = card.querySelector('.role-badge-text');
+            if (badgeTextElem) {
+                badgeTextElem.textContent = getRoleAbbreviation(pos, role, lang);
+            }
         });
 
         document.querySelectorAll('[data-hometown]').forEach(elem => {
@@ -484,22 +524,19 @@
         return icons[role] || 'fa-user';
     }
 
-    /* SILHOUETTE CALCISTICA REALISTICA IN PENOMBRA (SVG) */
-    const silhouetteSVG = `
-        <svg viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="silhouetteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#003c82" stop-opacity="0.9" />
-                    <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
-                </linearGradient>
-            </defs>
-            <!-- Silhouette pulita in posa dinamica da calciatore -->
-            <path d="M152 48C161.941 48 170 39.9411 170 30C170 20.0589 161.941 12 152 12C142.059 12 134 20.0589 134 30C134 39.9411 142.059 48 152 48Z" fill="url(#silhouetteGrad)"/>
-            <path d="M205 105C198 88 178 72 152 72C128 72 108 85 98 100L65 125C58 130 55 140 60 148C65 155 75 158 82 152L105 135L98 220L72 310C68 322 75 335 88 338C100 341 112 334 115 322L138 245L158 245L180 340C183 352 195 360 208 357C220 354 228 341 224 328L198 215L208 150L228 170C234 176 244 176 250 170C256 164 256 154 250 148L205 105Z" fill="url(#silhouetteGrad)"/>
-            <!-- Pallone in penombra ai piedi -->
-            <circle cx="232" cy="355" r="18" fill="url(#silhouetteGrad)"/>
-        </svg>
-    `;
+    function getAvatarBg(role) {
+        const bg = { gk: '16a34a', df: '0284c7', mf: 'd97706', fw: 'dc2626', staff: 'f472b6' };
+        return bg[role] || '003C82';
+    }
+
+    function getInitials(name) {
+        if (!name) return 'YC';
+        const parts = name.trim().split(/\s+/);
+        if (parts.length >= 2) {
+            return (parts[0][0] + parts[1][0]).toUpperCase();
+        }
+        return name.substring(0, 2).toUpperCase();
+    }
 
     function createPlayerCard(p) {
         const isStaff = p.role === 'staff';
@@ -511,7 +548,12 @@
         const nameRomaji = p.name_romaji || nameKanji;
         const hometownCode = p.hometown || '-';
         const age = calculateAge(p.birth_date);
-        const roleLabel = isStaff ? 'MGR' : (p.position || '-');
+        const rawPosition = p.position || '-';
+        const abbrevPosition = getRoleAbbreviation(rawPosition, p.role, currentLang);
+
+        const initials = getInitials(nameRomaji !== '-' ? nameRomaji : nameKanji);
+        const avatarBg = getAvatarBg(p.role);
+        const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=${avatarBg}&color=ffffff&size=200&bold=true`;
 
         let detailsRows = '';
         if (isStaff) {
@@ -521,7 +563,7 @@
             `;
         } else if (p.role === 'gk') {
             detailsRows = `
-                <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong>${roleLabel}</strong></div>
+                <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong>${rawPosition}</strong></div>
                 <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="${hometownCode}"></strong></div>
                 <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="${age}">${age} 歳</strong></div>
                 <div class="player-detail-row"><span><i class="fas fa-shield-halved"></i> <span data-i18n="label.goals_conceded">失点:</span></span> <strong class="stats-highlight" data-stat="goals_conceded">0</strong></div>
@@ -532,7 +574,7 @@
             `;
         } else {
             detailsRows = `
-                <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong>${roleLabel}</strong></div>
+                <div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <strong>${rawPosition}</strong></div>
                 <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="${hometownCode}"></strong></div>
                 <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="${age}">${age} 歳</strong></div>
                 <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
@@ -544,16 +586,16 @@
         }
 
         return `
-            <div class="player-card" data-player-name="${nameKanji}" data-player-kana="${nameKana}" data-player-romaji="${nameRomaji}">
+            <div class="player-card" data-player-name="${nameKanji}" data-player-kana="${nameKana}" data-player-romaji="${nameRomaji}" data-player-pos="${rawPosition}" data-player-role="${p.role}">
                 <div class="player-card-inner">
                     <div class="player-card-front">
                         <div class="player-card-header">
                             <span class="player-number">${numberDisplay}</span>
-                            <span class="role-badge-tactical ${roleClass}"><i class="fas ${roleIcon}"></i> ${roleLabel}</span>
+                            <span class="role-badge-tactical ${roleClass}"><i class="fas ${roleIcon}"></i> <span class="role-badge-text">${abbrevPosition}</span></span>
                         </div>
                         <div class="player-body">
-                            <div class="player-silhouette">
-                                ${silhouetteSVG}
+                            <div class="player-photo">
+                                <img src="${avatarUrl}" alt="${nameKanji}">
                             </div>
                         </div>
                         <div class="player-name-block-front">
@@ -561,7 +603,7 @@
                             <div class="player-name-romaji">${nameKana}</div>
                         </div>
                         <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">STATS & DETAILS</span>
+                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
                         </div>
                     </div>
                     <div class="player-card-back">
@@ -573,7 +615,7 @@
                             ${detailsRows}
                         </div>
                         <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">BACK TO FRONT</span>
+                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
                         </div>
                     </div>
                 </div>
