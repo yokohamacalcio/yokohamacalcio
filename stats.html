@@ -102,19 +102,17 @@
 
         <!-- SELETTORE ANNO / STAGIONE -->
         <div style="display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin-bottom: 30px;">
-            <label for="seasonSelect" style="font-weight: 700; color: var(--dark-navy); font-size: 0.95rem;">
+            <label for="seasonSelect" style="font-weight: 700; color: var(--dark-navy, #003c82); font-size: 0.95rem;">
                 <i class="fas fa-calendar-alt"></i> <span data-i18n="stats.season_label">シーズン:</span>
             </label>
             <select id="seasonSelect" class="filter-btn" style="padding: 6px 16px; cursor: pointer; outline: none;">
-                <option value="all" data-i18n="stats.all_seasons">全期間 (All Time)</option>
-                <option value="2026" selected>2026年</option>
-                <option value="2025">2025年</option>
+                <!-- Opzioni popolate dinamicamente -->
             </select>
         </div>
 
         <!-- MACRO SEZIONE 1: STATISTICHE DI SQUADRA -->
         <div class="stats-group" style="margin-bottom: 60px;">
-            <h2 style="font-family: var(--font-brand); font-size: 1.8rem; color: var(--dark-navy); border-bottom: 3px solid var(--dark-navy); padding-bottom: 8px; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px;">
+            <h2 style="font-family: var(--font-brand); font-size: 1.8rem; color: var(--dark-navy, #003c82); border-bottom: 3px solid var(--dark-navy, #003c82); padding-bottom: 8px; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px;">
                 <i class="fas fa-shield-alt" style="color: var(--primary-sky);"></i> <span data-i18n="stats.sec_team">チーム戦績</span>
             </h2>
 
@@ -165,7 +163,7 @@
                             <td id="fr-ga">0</td>
                             <td id="fr-winrate" style="color: var(--primary-sky); font-weight: 700;">0%</td>
                         </tr>
-                        <tr style="background: var(--light-bg);">
+                        <tr style="background: var(--light-bg, #f8fafc);">
                             <td><strong data-i18n="row.total">通算</strong></td>
                             <td id="tot-played">0</td>
                             <td id="tot-wins">0</td>
@@ -210,11 +208,11 @@
                             <td id="fr-red">0</td>
                             <td id="fr-card-avg">0.0</td>
                         </tr>
-                        <tr style="background: var(--light-bg);">
+                        <tr style="background: var(--light-bg, #f8fafc);">
                             <td><strong data-i18n="row.total">通算</strong></td>
                             <td id="tot-yellow" style="color: #d97706; font-weight: 800;">0</td>
                             <td id="tot-red" style="color: #dc2626; font-weight: 800;">0</td>
-                            <td id="tot-card-avg" style="color: var(--dark-navy); font-weight: 800;">0.0</td>
+                            <td id="tot-card-avg" style="color: var(--dark-navy, #003c82); font-weight: 800;">0.0</td>
                         </tr>
                     </tbody>
                 </table>
@@ -232,7 +230,7 @@
 
         <!-- MACRO SEZIONE 2: STATISTICHE PERSONALI -->
         <div class="stats-group">
-            <h2 style="font-family: var(--font-brand); font-size: 1.8rem; color: var(--dark-navy); border-bottom: 3px solid var(--dark-navy); padding-bottom: 8px; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px;">
+            <h2 style="font-family: var(--font-brand); font-size: 1.8rem; color: var(--dark-navy, #003c82); border-bottom: 3px solid var(--dark-navy, #003c82); padding-bottom: 8px; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px;">
                 <i class="fas fa-users" style="color: var(--primary-sky);"></i> <span data-i18n="stats.sec_personal">個人スタッツ</span>
             </h2>
 
@@ -269,7 +267,7 @@
             </div>
         </div>
 
-        <div class="back-home-wrapper">
+        <div class="back-home-wrapper" style="margin-top: 50px;">
             <a href="index.html" class="google-form-btn back-btn" style="max-width: 250px; margin: 0 auto;">
                 <i class="fas fa-arrow-left"></i> <span data-i18n="btn.back_home">ホームに戻る</span>
             </a>
@@ -336,9 +334,46 @@
         }
     };
 
-    let currentLanguage = 'ja';
+    let currentLanguage = localStorage.getItem('preferred_lang') || 'ja';
+    let rawMatchesData = [];
+    let playersData = [];
 
-    // GESTIONE TRADUZIONI
+    function cleanStr(s) {
+        return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
+    }
+
+    function containsJapaneseChars(text) {
+        return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf\u3400-\u4dbf]/.test(text);
+    }
+
+    // Identifica in modo univoco l'oggetto giocatore da players.json
+    function findPlayerObj(query) {
+        if (!query || query === 'なし' || query === 'Nessuno') return null;
+        if (!playersData || playersData.length === 0) return null;
+
+        const target = cleanStr(query);
+        return playersData.find(p => {
+            const k = cleanStr(p.name_kanji);
+            const kn = cleanStr(p.name_kana);
+            const r = cleanStr(p.name_romaji);
+            return (k && k === target) || (kn && kn === target) || (r && r === target);
+        }) || null;
+    }
+
+    // Formatta il nome del giocatore in base alla lingua e alle regole stabilite
+    function formatPlayerName(playerObj, fallbackName, lang) {
+        if (!playerObj) return fallbackName;
+
+        if (lang === 'ja') {
+            if (playerObj.name_kanji && containsJapaneseChars(playerObj.name_kanji)) {
+                return playerObj.name_kanji;
+            }
+            return playerObj.name_kana || playerObj.name_kanji || playerObj.name_romaji || fallbackName;
+        } else {
+            return playerObj.name_romaji || playerObj.name_kanji || fallbackName;
+        }
+    }
+
     function setLanguage(lang) {
         if (!translations[lang]) return;
         currentLanguage = lang;
@@ -355,7 +390,9 @@
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
 
-        loadAndCalculateStats();
+        if (rawMatchesData.length > 0) {
+            calculateAndRenderStats();
+        }
     }
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -373,16 +410,20 @@
         menuBtn.addEventListener('click', () => {
             mobileNav.classList.toggle('hidden');
             const icon = menuBtn.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
+            if (icon) {
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            }
         });
 
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
                 mobileNav.classList.add('hidden');
                 const icon = menuBtn.querySelector('i');
-                icon.classList.add('fa-bars');
-                icon.classList.remove('fa-times');
+                if (icon) {
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
+                }
             });
         });
     }
@@ -391,11 +432,7 @@
     const topBtn = document.getElementById('scrollToTopBtn');
     if (topBtn) {
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                topBtn.classList.add('show');
-            } else {
-                topBtn.classList.remove('show');
-            }
+            topBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
         });
 
         topBtn.addEventListener('click', () => {
@@ -408,192 +445,261 @@
         yearSpan.textContent = new Date().getFullYear();
     }
 
-    // CALCOLO AUTOMATICO STATISTICHE DA MATCHES.JSON
-    async function loadAndCalculateStats() {
+    // POPOLA SELETTORE STAGIONE IN MODO DINAMICO
+    function populateSeasonSelect(matches) {
+        const select = document.getElementById('seasonSelect');
+        if (!select) return;
+
+        const currentSelected = select.value;
+        const yearsSet = new Set();
+        matches.forEach(m => {
+            if (m.date) {
+                const y = m.date.substring(0, 4);
+                if (y && !isNaN(y)) yearsSet.add(y);
+            }
+        });
+
+        let years = Array.from(yearsSet).sort((a, b) => b - a);
+        select.innerHTML = '';
+
+        const allOption = document.createElement('option');
+        allOption.value = 'all';
+        allOption.textContent = translations[currentLanguage]['stats.all_seasons'] || '全期間 (All Time)';
+        select.appendChild(allOption);
+
+        years.forEach(year => {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = `${year}年`;
+            select.appendChild(option);
+        });
+
+        const currentYearStr = new Date().getFullYear().toString();
+        if (currentSelected && (years.includes(currentSelected) || currentSelected === 'all')) {
+            select.value = currentSelected;
+        } else if (years.includes(currentYearStr)) {
+            select.value = currentYearStr;
+        } else if (years.length > 0) {
+            select.value = years[0];
+        } else {
+            select.value = 'all';
+        }
+    }
+
+    // CALCOLO E RENDERING STATISTICHE INTEGRI CON PLAYERS.JSON
+    function calculateAndRenderStats() {
+        const selectEl = document.getElementById('seasonSelect');
+        const selectedSeason = selectEl ? selectEl.value : 'all';
+
+        let stats = {
+            league:   { played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0, yellow: 0, red: 0 },
+            cup:      { played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0, yellow: 0, red: 0 },
+            friendly: { played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0, yellow: 0, red: 0 }
+        };
+
+        // Strutture per la tracciabilità univoca tramite ID del giocatore
+        let goalsMap = {}, assistsMap = {}, mvpMap = {}, yellowsMap = {}, redsMap = {};
+
+        const addStatCount = (map, rawName) => {
+            if (!rawName || rawName === 'なし' || rawName === 'Nessuno') return;
+            const pObj = findPlayerObj(rawName);
+            const key = pObj ? (pObj.id || pObj.number || pObj.name_kanji) : rawName;
+            
+            if (!map[key]) {
+                map[key] = { count: 0, pObj: pObj, rawName: rawName };
+            }
+            map[key].count++;
+        };
+
+        rawMatchesData.forEach(m => {
+            if (m.status !== 'past') return;
+
+            const matchYear = m.date ? m.date.substring(0, 4) : '';
+            if (selectedSeason !== 'all' && matchYear !== selectedSeason) {
+                return; 
+            }
+
+            const cat = m.category; 
+            let targetStats = stats.friendly;
+            if (cat === 'league' || cat === 'official') targetStats = stats.league;
+            else if (cat === 'cup') targetStats = stats.cup;
+
+            // Punteggio e Rendimento
+            const scoreText = m.score ? m.score.trim() : '';
+            if (scoreText && scoreText.includes('-')) {
+                const parts = scoreText.split('-').map(n => parseInt(n.trim(), 10));
+                if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+                    const isHome = m.isHome !== undefined ? m.isHome : true;
+                    const gf = isHome ? parts[0] : parts[1];
+                    const ga = isHome ? parts[1] : parts[0];
+
+                    targetStats.played++;
+                    targetStats.gf += gf;
+                    targetStats.ga += ga;
+                    if (gf > ga) targetStats.wins++;
+                    else if (gf === ga) targetStats.draws++;
+                    else targetStats.losses++;
+                }
+            }
+
+            // MARCATORI E ASSIST
+            if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
+                const entries = m.scorers.split(/[,、]/);
+                entries.forEach(entry => {
+                    let text = entry.trim();
+                    if (!text) return;
+
+                    let assistName = '';
+                    const assistMatch = text.match(/\(([^)]+)\)/) || text.match(/（([^）]+)）/);
+                    if (assistMatch) {
+                        assistName = assistMatch[1].trim();
+                        text = text.replace(/\([^)]+\)/, '').replace(/（[^）]+）/, '').trim();
+                    }
+
+                    if (text) addStatCount(goalsMap, text);
+                    if (assistName) addStatCount(assistsMap, assistName);
+                });
+            }
+
+            // MVP
+            if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
+                const mvpNames = m.mvp.split(/[,、]/);
+                mvpNames.forEach(name => {
+                    const cleanName = name.trim();
+                    if (cleanName) addStatCount(mvpMap, cleanName);
+                });
+            }
+
+            // CARTELLINI GIALLI
+            if (m.yellow_cards && m.yellow_cards !== 'なし' && m.yellow_cards !== 'Nessuno') {
+                const names = m.yellow_cards.split(/[,、]/);
+                names.forEach(name => {
+                    const cleanName = name.trim();
+                    if (cleanName) {
+                        addStatCount(yellowsMap, cleanName);
+                        targetStats.yellow++;
+                    }
+                });
+            }
+
+            // CARTELLINI ROSSI
+            if (m.red_cards && m.red_cards !== 'なし' && m.red_cards !== 'Nessuno') {
+                const names = m.red_cards.split(/[,、]/);
+                names.forEach(name => {
+                    const cleanName = name.trim();
+                    if (cleanName) {
+                        addStatCount(redsMap, cleanName);
+                        targetStats.red++;
+                    }
+                });
+            }
+        });
+
+        // Aggiorna Tabella Squadra Rendimento
+        const updateRow = (prefix, st) => {
+            document.getElementById(`${prefix}-played`).textContent = st.played;
+            document.getElementById(`${prefix}-wins`).textContent = st.wins;
+            document.getElementById(`${prefix}-draws`).textContent = st.draws;
+            document.getElementById(`${prefix}-losses`).textContent = st.losses;
+            document.getElementById(`${prefix}-gf`).textContent = st.gf;
+            document.getElementById(`${prefix}-ga`).textContent = st.ga;
+            const rate = st.played > 0 ? Math.round((st.wins / st.played) * 100) : 0;
+            document.getElementById(`${prefix}-winrate`).textContent = `${rate}%`;
+        };
+
+        updateRow('league', stats.league);
+        updateRow('cup', stats.cup);
+        updateRow('fr', stats.friendly);
+
+        const tot = {
+            played: stats.league.played + stats.cup.played + stats.friendly.played,
+            wins: stats.league.wins + stats.cup.wins + stats.friendly.wins,
+            draws: stats.league.draws + stats.cup.draws + stats.friendly.draws,
+            losses: stats.league.losses + stats.cup.losses + stats.friendly.losses,
+            gf: stats.league.gf + stats.cup.gf + stats.friendly.gf,
+            ga: stats.league.ga + stats.cup.ga + stats.friendly.ga,
+            yellow: stats.league.yellow + stats.cup.yellow + stats.friendly.yellow,
+            red: stats.league.red + stats.cup.red + stats.friendly.red
+        };
+        updateRow('tot', tot);
+
+        // Aggiorna Tabella Disciplinare Squadra
+        const updateDiscRow = (prefix, st) => {
+            document.getElementById(`${prefix}-yellow`).textContent = st.yellow;
+            document.getElementById(`${prefix}-red`).textContent = st.red;
+            const avg = st.played > 0 ? ((st.yellow + st.red) / st.played).toFixed(1) : "0.0";
+            document.getElementById(`${prefix}-card-avg`).textContent = avg;
+        };
+
+        updateDiscRow('league', stats.league);
+        updateDiscRow('cup', stats.cup);
+        updateDiscRow('fr', stats.friendly);
+        updateDiscRow('tot', tot);
+
+        // Renderizza Classifiche Individuali con Formattazione Lingua Dinamica
+        const renderRanking = (elementId, dataMap, unitKey) => {
+            const list = document.getElementById(elementId);
+            if (!list) return;
+
+            const sorted = Object.values(dataMap).sort((a,b) => b.count - a.count);
+            const noDataText = translations[currentLanguage]["stats.no_data"] || 'データなし';
+            const unit = translations[currentLanguage][unitKey] || '';
+
+            list.innerHTML = sorted.length === 0 ? `<li style="color:#94a3b8; text-align:center; padding:10px;">${noDataText}</li>` : '';
+            
+            sorted.slice(0, 5).forEach((item, index) => {
+                const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
+                const displayName = formatPlayerName(item.pObj, item.rawName, currentLanguage);
+
+                list.innerHTML += `
+                    <li class="ranking-item">
+                        <span><span class="rank-number ${rankClass}">${index + 1}</span> <strong>${displayName}</strong></span>
+                        <span class="stats-highlight">${item.count} ${unit}</span>
+                    </li>
+                `;
+            });
+        };
+
+        renderRanking('goals-ranking', goalsMap, 'unit.goals');
+        renderRanking('assists-ranking', assistsMap, 'unit.assists');
+        renderRanking('mvp-ranking', mvpMap, 'unit.mvp');
+        renderRanking('yellows-ranking', yellowsMap, 'unit.yellows');
+        renderRanking('reds-ranking', redsMap, 'unit.reds');
+    }
+
+    async function loadAllStatsData() {
         try {
             const response = await fetch('matches.json');
-            if (!response.ok) return;
-            const matches = await response.json();
+            if (!response.ok) throw new Error("matches.json non trovato");
+            rawMatchesData = await response.json();
 
-            const selectedSeason = document.getElementById('seasonSelect').value;
-
-            let stats = {
-                league:   { played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0, yellow: 0, red: 0 },
-                cup:      { played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0, yellow: 0, red: 0 },
-                friendly: { played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0, yellow: 0, red: 0 }
-            };
-
-            let goalsMap = {}, assistsMap = {}, mvpMap = {}, yellowsMap = {}, redsMap = {};
-
-            matches.forEach(m => {
-                // Considera solo partite giocate (status === 'past')
-                if (m.status !== 'past') return;
-
-                // Filtro Stagione
-                const matchYear = m.date ? m.date.substring(0, 4) : '';
-                if (selectedSeason !== 'all' && matchYear !== selectedSeason) {
-                    return; 
+            try {
+                const pResp = await fetch('players.json');
+                if (pResp.ok) {
+                    playersData = await pResp.json();
                 }
+            } catch (e) {
+                console.warn("players.json non trovato.");
+                playersData = [];
+            }
 
-                // Categoria partita
-                const cat = m.category; 
-                let targetStats = stats.friendly;
-                if (cat === 'league' || cat === 'official') targetStats = stats.league;
-                else if (cat === 'cup') targetStats = stats.cup;
-
-                // Punteggio e Rendimento
-                const scoreText = m.score ? m.score.trim() : '';
-                if (scoreText && scoreText.includes('-')) {
-                    const parts = scoreText.split('-').map(n => parseInt(n.trim(), 10));
-                    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-                        const gf = parts[0];
-                        const ga = parts[1];
-                        targetStats.played++;
-                        targetStats.gf += gf;
-                        targetStats.ga += ga;
-                        if (gf > ga) targetStats.wins++;
-                        else if (gf === ga) targetStats.draws++;
-                        else targetStats.losses++;
-                    }
-                }
-
-                // MARCATORI E ASSIST
-                if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
-                    const entries = m.scorers.split(',');
-                    entries.forEach(entry => {
-                        let text = entry.trim();
-                        if (!text) return;
-
-                        // Gestione Assist se scritto tra parentesi es. "Marcatore (Assistman)"
-                        let assistName = '';
-                        const assistMatch = text.match(/\(([^)]+)\)/) || text.match(/（([^）]+)）/);
-                        if (assistMatch) {
-                            assistName = assistMatch[1].trim();
-                            text = text.replace(/\([^)]+\)/, '').replace(/（[^）]+）/, '').trim();
-                        }
-
-                        if (text) {
-                            goalsMap[text] = (goalsMap[text] || 0) + 1;
-                        }
-                        if (assistName && assistName !== 'なし' && assistName !== 'Nessuno') {
-                            assistsMap[assistName] = (assistsMap[assistName] || 0) + 1;
-                        }
-                    });
-                }
-
-                // MVP / MOM
-                if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
-                    const mvpNames = m.mvp.split(',');
-                    mvpNames.forEach(name => {
-                        const cleanName = name.trim();
-                        if (cleanName) {
-                            mvpMap[cleanName] = (mvpMap[cleanName] || 0) + 1;
-                        }
-                    });
-                }
-
-                // CARTELLINI GIALLI
-                if (m.yellow_cards && m.yellow_cards !== 'なし' && m.yellow_cards !== 'Nessuno') {
-                    const names = m.yellow_cards.split(',');
-                    names.forEach(name => {
-                        const cleanName = name.trim();
-                        if (cleanName) {
-                            yellowsMap[cleanName] = (yellowsMap[cleanName] || 0) + 1;
-                            targetStats.yellow++;
-                        }
-                    });
-                }
-
-                // CARTELLINI ROSSI
-                if (m.red_cards && m.red_cards !== 'なし' && m.red_cards !== 'Nessuno') {
-                    const names = m.red_cards.split(',');
-                    names.forEach(name => {
-                        const cleanName = name.trim();
-                        if (cleanName) {
-                            redsMap[cleanName] = (redsMap[cleanName] || 0) + 1;
-                            targetStats.red++;
-                        }
-                    });
-                }
-            });
-
-            // Aggiorna Tabella Squadra Rendimento
-            const updateRow = (prefix, st) => {
-                document.getElementById(`${prefix}-played`).textContent = st.played;
-                document.getElementById(`${prefix}-wins`).textContent = st.wins;
-                document.getElementById(`${prefix}-draws`).textContent = st.draws;
-                document.getElementById(`${prefix}-losses`).textContent = st.losses;
-                document.getElementById(`${prefix}-gf`).textContent = st.gf;
-                document.getElementById(`${prefix}-ga`).textContent = st.ga;
-                const rate = st.played > 0 ? Math.round((st.wins / st.played) * 100) : 0;
-                document.getElementById(`${prefix}-winrate`).textContent = `${rate}%`;
-            };
-
-            updateRow('league', stats.league);
-            updateRow('cup', stats.cup);
-            updateRow('fr', stats.friendly);
-
-            const tot = {
-                played: stats.league.played + stats.cup.played + stats.friendly.played,
-                wins: stats.league.wins + stats.cup.wins + stats.friendly.wins,
-                draws: stats.league.draws + stats.cup.draws + stats.friendly.draws,
-                losses: stats.league.losses + stats.cup.losses + stats.friendly.losses,
-                gf: stats.league.gf + stats.cup.gf + stats.friendly.gf,
-                ga: stats.league.ga + stats.cup.ga + stats.friendly.ga,
-                yellow: stats.league.yellow + stats.cup.yellow + stats.friendly.yellow,
-                red: stats.league.red + stats.cup.red + stats.friendly.red
-            };
-            updateRow('tot', tot);
-
-            // Aggiorna Tabella Disciplinare Squadra
-            const updateDiscRow = (prefix, st) => {
-                document.getElementById(`${prefix}-yellow`).textContent = st.yellow;
-                document.getElementById(`${prefix}-red`).textContent = st.red;
-                const avg = st.played > 0 ? ((st.yellow + st.red) / st.played).toFixed(1) : "0.0";
-                document.getElementById(`${prefix}-card-avg`).textContent = avg;
-            };
-
-            updateDiscRow('league', stats.league);
-            updateDiscRow('cup', stats.cup);
-            updateDiscRow('fr', stats.friendly);
-            updateDiscRow('tot', tot);
-
-            // Renderizza Classifiche Individuali
-            const renderRanking = (elementId, dataMap, unitKey) => {
-                const list = document.getElementById(elementId);
-                const sorted = Object.entries(dataMap).sort((a,b) => b[1] - a[1]);
-                const noDataText = translations[currentLanguage]["stats.no_data"];
-                const unit = translations[currentLanguage][unitKey];
-
-                list.innerHTML = sorted.length === 0 ? `<li style="color:#94a3b8; text-align:center; padding:10px;">${noDataText}</li>` : '';
-                
-                sorted.slice(0, 5).forEach(([name, count], index) => {
-                    const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
-                    list.innerHTML += `
-                        <li class="ranking-item">
-                            <span><span class="rank-number ${rankClass}">${index + 1}</span> <strong>${name}</strong></span>
-                            <span class="stats-highlight">${count} ${unit}</span>
-                        </li>
-                    `;
-                });
-            };
-
-            renderRanking('goals-ranking', goalsMap, 'unit.goals');
-            renderRanking('assists-ranking', assistsMap, 'unit.assists');
-            renderRanking('mvp-ranking', mvpMap, 'unit.mvp');
-            renderRanking('yellows-ranking', yellowsMap, 'unit.yellows');
-            renderRanking('reds-ranking', redsMap, 'unit.reds');
-
-        } catch(e) { console.error(e); }
+            populateSeasonSelect(rawMatchesData);
+            calculateAndRenderStats();
+        } catch(e) { 
+            console.error("Errore nel caricamento dei dati di stats.html:", e); 
+        }
     }
 
     // Event listener cambio anno
-    document.getElementById('seasonSelect').addEventListener('change', loadAndCalculateStats);
+    const seasonSelect = document.getElementById('seasonSelect');
+    if (seasonSelect) {
+        seasonSelect.addEventListener('change', calculateAndRenderStats);
+    }
 
     // Inizializzazione
-    window.addEventListener('DOMContentLoaded', () => {
-        const savedLang = localStorage.getItem('preferred_lang') || 'ja';
-        setLanguage(savedLang);
+    window.addEventListener('DOMContentLoaded', async () => {
+        await loadAllStatsData();
+        setLanguage(currentLanguage);
     });
 </script>
 </body>
