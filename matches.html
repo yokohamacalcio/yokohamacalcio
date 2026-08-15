@@ -50,9 +50,15 @@
   <div class="main-header-bar">
     <div class="container header-container">
       <div class="logo-title">
-        <a href="index.html"><img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo"></a>
-        <a href="index.html" class="brand-name"><span>YOKOHAMA</span><span class="brand-sub">CALCIO</span></a>
+        <a href="index.html">
+          <img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo">
+        </a>
+        <a href="index.html" class="brand-name">
+          <span>YOKOHAMA</span>
+          <span class="brand-sub">CALCIO</span>
+        </a>
       </div>
+
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
           <div class="nav-item dropdown">
@@ -71,7 +77,10 @@
           <a href="index.html#contact" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
         </nav>
       </div>
-      <button class="mobile-menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+
+      <button class="mobile-menu-toggle" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
   </div>
 
@@ -200,20 +209,22 @@
         }
     };
 
-    // Funzioni per la gestione dei nomi giocatori
+    // ----- Funzioni per la gestione dei nomi dei giocatori -----
     function normalizeName(str) {
-        return str.toLowerCase().replace(/\s+/g, ' ').trim();
+        return String(str || '').toLowerCase().replace(/\s+/g, ' ').trim();
     }
 
     function findPlayerByPartialName(name, players) {
         const normalized = normalizeName(name);
         if (!normalized) return null;
+        // Corrispondenza esatta
         let match = players.find(p => 
             normalizeName(p.name_kanji) === normalized ||
             normalizeName(p.name_kana) === normalized ||
             normalizeName(p.name_romaji) === normalized
         );
         if (match) return match;
+        // Corrispondenza parziale (es. cognome)
         match = players.find(p => 
             normalizeName(p.name_kanji).includes(normalized) ||
             normalizeName(p.name_kana).includes(normalized) ||
@@ -224,16 +235,16 @@
 
     function getDisplayName(player, lang) {
         if (!player) return '';
-        if (lang === 'ja') return player.name_kanji;
-        return player.name_romaji;
+        if (lang === 'ja') return player.name_kanji || player.name_romaji || '';
+        return player.name_romaji || player.name_kanji || '';
     }
 
     function replacePlayerNames(text, players, lang) {
-        if (!text) return text;
+        if (typeof text !== 'string' || !text) return text;
         let result = text;
         players.forEach(player => {
             [player.name_kanji, player.name_kana, player.name_romaji].forEach(name => {
-                if (name && result.includes(name)) {
+                if (name && typeof name === 'string' && result.includes(name)) {
                     result = result.split(name).join(getDisplayName(player, lang));
                 }
             });
@@ -242,7 +253,7 @@
     }
 
     function replaceGoalkeepers(text, players, lang) {
-        if (!text) return text;
+        if (typeof text !== 'string' || !text) return text;
         return text.split(',').map(part => {
             const match = part.trim().match(/^(.+)\((\d+)\)$/);
             if (match) {
@@ -254,6 +265,7 @@
         }).join(', ');
     }
 
+    // ----- Gestione lingua -----
     function setLanguage(lang) {
         currentLang = lang;
         localStorage.setItem('preferred_lang', lang);
@@ -269,12 +281,14 @@
                 }
             }
         });
-        if (rawMatches.length > 0 && playersData.length > 0) {
+        // Ricarica le partite se già caricate (per aggiornare i nomi)
+        if (rawMatches.length > 0) {
             renderMatches();
             filterAndPaginateMatches();
         }
     }
 
+    // ----- Contatore e filtro/paginazione -----
     function updateCounter(shown, total) {
         const counterEl = document.getElementById('matchesCounter');
         if (!counterEl) return;
@@ -339,6 +353,7 @@
         });
     }
 
+    // ----- Generazione delle card partita -----
     function renderMatches() {
         const upcomingContainer = document.getElementById('upcomingContainer');
         const pastContainer = document.getElementById('pastContainer');
@@ -390,12 +405,12 @@
 
             const displayDateTime = m.time ? `${m.date} ${m.time}` : m.date;
 
-            // Sostituzione nomi giocatori
-            const scorers = replacePlayerNames(m.scorers, playersData, currentLang);
-            const mvp = replacePlayerNames(m.mvp, playersData, currentLang);
-            const yellowCards = replacePlayerNames(m.yellow_cards, playersData, currentLang);
-            const redCards = replacePlayerNames(m.red_cards, playersData, currentLang);
-            const goalkeepers = replaceGoalkeepers(m.goalkeepers, playersData, currentLang);
+            // Sostituzione nomi giocatori (solo se playersData non è vuoto)
+            const scorers = playersData.length > 0 ? replacePlayerNames(m.scorers, playersData, currentLang) : m.scorers;
+            const mvp = playersData.length > 0 ? replacePlayerNames(m.mvp, playersData, currentLang) : m.mvp;
+            const yellowCards = playersData.length > 0 ? replacePlayerNames(m.yellow_cards, playersData, currentLang) : m.yellow_cards;
+            const redCards = playersData.length > 0 ? replacePlayerNames(m.red_cards, playersData, currentLang) : m.red_cards;
+            const goalkeepers = playersData.length > 0 ? replaceGoalkeepers(m.goalkeepers, playersData, currentLang) : m.goalkeepers;
 
             let detailsHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong data-i18n="label.venue">会場:</strong> ${m.venue}</span></div>`;
             if (m.time) detailsHtml += `<div class="detail-item"><i class="fas fa-clock"></i> <span><strong data-i18n="label.kickoff">キックオフ:</strong> ${m.time}</span></div>`;
@@ -451,7 +466,7 @@
 
                 if (!wasActive) {
                     card.classList.add('active');
-                    details.style.display = 'block';
+                    if (details) details.style.display = 'block';
                 }
             };
         });
@@ -504,26 +519,37 @@
         }
     }
 
+    // ----- Caricamento dati (robusto) -----
     async function loadData() {
         try {
-            const [matchesResponse, playersResponse] = await Promise.all([
-                fetch('matches.json'),
-                fetch('players.json')
-            ]);
+            const matchesResponse = await fetch('matches.json');
             rawMatches = await matchesResponse.json();
-            playersData = await playersResponse.json();
+
+            // Prova a caricare players.json, ma non bloccare se fallisce
+            try {
+                const playersResponse = await fetch('players.json');
+                playersData = await playersResponse.json();
+            } catch (e) {
+                console.warn("players.json non trovato o non leggibile. Le sostituzioni dei nomi saranno disattivate.", e);
+                playersData = [];
+            }
+
             renderMatches();
+            filterAndPaginateMatches();
+            handleHashOnLoad();
         } catch (error) {
             console.error("Errore nel caricamento dei dati:", error);
         }
     }
 
+    // ----- Inizializzazione -----
     window.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('currentYear')?.textContent = new Date().getFullYear();
+
         await loadData();
+
         setLanguage(currentLang);
         filterAndPaginateMatches();
-        handleHashOnLoad();
 
         document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang'))));
         document.querySelectorAll('[data-match-filter]').forEach(btn => {
@@ -550,7 +576,9 @@
                 const category = card.getAttribute('data-match-category');
                 const date = card.getAttribute('data-match-date') || '';
                 const matchYear = date.substring(0, 4);
-                if ((activeCategory === 'all' || category === activeCategory) && (activeSeason === 'all' || matchYear === activeSeason)) totalPast++;
+                if ((activeCategory === 'all' || category === activeCategory) && (activeSeason === 'all' || matchYear === activeSeason)) {
+                    totalPast++;
+                }
             });
             visiblePastMatchesCount = (visiblePastMatchesCount < totalPast) ? visiblePastMatchesCount + 3 : 3;
             filterAndPaginateMatches();
