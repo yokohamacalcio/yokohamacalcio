@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Badge di categoria perfettamente conformi ad index.html */
+        /* STILI E PALETTE BADGE IDENTICI A INDEX.HTML */
         .match-badge-group {
             display: flex;
             align-items: center;
@@ -27,13 +27,13 @@
             letter-spacing: 0.5px;
             display: inline-block;
         }
-        .badge-official, .badge-league { background: #003c82; color: #fff; }
-        .badge-friendly { background: #64748b; color: #fff; }
-        .badge-tournament, .badge-cup { background: #d97706; color: #fff; }
-        .badge-next { background: #003c82; color: #fff; }
-        .badge-home { background: #16a34a; color: #fff; }
-        .badge-away { background: #dc2626; color: #fff; }
-        .badge-neutral { background: #0284c7; color: #fff; }
+        .badge-official, .badge-league { background: #003c82; color: #ffffff; }
+        .badge-friendly { background: #64748b; color: #ffffff; }
+        .badge-tournament, .badge-cup { background: #d97706; color: #ffffff; }
+        .badge-next { background: #003c82; color: #ffffff; }
+        .badge-home { background: #16a34a; color: #ffffff; }
+        .badge-away { background: #dc2626; color: #ffffff; }
+        .badge-neutral { background: #0284c7; color: #ffffff; }
 
         .match-detail-card.active .match-expand-details {
             display: block !important;
@@ -241,16 +241,10 @@
         return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf\u3400-\u4dbf]/.test(text);
     }
 
-    // Algoritmo di colore univoco coerente con index.html
-    function getOpponentColor(teamName) {
-        const colors = ['003C82', '0ea5e9', 'd97706', 'dc2626', '059669', '7c3aed', 'db2777', '4b5563'];
-        let hash = 0;
-        const str = teamName || 'Opponent';
-        for (let i = 0; i < str.length; i++) {
-            hash = str.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const index = Math.abs(hash) % colors.length;
-        return colors[index];
+    // Identica funzione usata in index.html per generare l'avatar dell'avversario
+    function getAvatarUrl(name, team2Logo) {
+        if (team2Logo) return team2Logo;
+        return `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'VS')}&background=random&color=ffffff&size=100&bold=true`;
     }
 
     function getPlayerNameInLang(query, lang) {
@@ -429,14 +423,14 @@
             
             const rawDate = m.date ? m.date.trim().replace(/\./g, '-').substring(0, 10) : '';
 
-            // Badge Categoria armonizzati con index.html
+            // Assegnazione Categoria e Classi Badge perfettamente conforme ad index.html
             let badgeHtml = '';
             let catKey = 'badge.friendly';
             let catClass = 'badge-friendly';
 
             if (m.category === 'league' || m.category === 'official') {
                 catKey = 'badge.league';
-                catClass = 'badge-league';
+                catClass = 'badge-official';
             } else if (m.category === 'cup') {
                 catKey = 'badge.cup';
                 catClass = 'badge-cup';
@@ -461,10 +455,8 @@
                 `;
             }
 
-            // Avatar avversario con colore casuale/coerente univoco
-            const oppName = m.team2Name || 'VS';
-            const oppColor = getOpponentColor(oppName);
-            const team2Logo = m.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(oppName)}&background=${oppColor}&color=ffffff&size=100&bold=true`;
+            const oppName = m.team2Name || '-';
+            const team2Logo = getAvatarUrl(oppName, m.team2Logo);
 
             const isHome = m.isHome !== undefined ? m.isHome : true;
             let leftTeamName, leftTeamLogo, leftTeamLogoClass, rightTeamName, rightTeamLogo, rightTeamLogoClass, displayScore;
