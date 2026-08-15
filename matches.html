@@ -11,7 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Garantisce la visibilità del blocco dettagli quando la card ha la classe active */
         .match-detail-card.active .match-expand-details {
             display: block !important;
             max-height: 500px !important;
@@ -23,8 +22,27 @@
             display: block;
             margin-bottom: 10px;
             font-weight: 600;
-            color: var(--dark-navy);
+            color: var(--dark-navy, #003c82);
             font-size: 0.9rem;
+        }
+        .close-details-btn-bottom {
+            margin-top: 15px;
+            padding: 8px 16px;
+            font-size: 0.82rem;
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .close-details-btn-bottom:hover {
+            background: #e2e8f0;
+            color: #0f172a;
         }
     </style>
 </head>
@@ -111,11 +129,10 @@
                 <button class="filter-btn" data-match-filter="friendly" data-i18n="filter.friendly">練習試合</button>
             </div>
             <div style="display: flex; align-items: center; gap: 8px;">
-                <label for="matchSeasonSelect" style="font-weight: 700; color: var(--dark-navy); font-size: 0.9rem;">
+                <label for="matchSeasonSelect" style="font-weight: 700; color: var(--dark-navy, #003c82); font-size: 0.9rem;">
                     <i class="fas fa-calendar-alt"></i> <span data-i18n="matches_page.season_label">シーズン:</span>
                 </label>
                 <select id="matchSeasonSelect" class="filter-btn" style="padding: 6px 14px; cursor: pointer; outline: none;">
-                    <!-- Opzioni popolate dinamicamente -->
                 </select>
             </div>
         </div>
@@ -136,7 +153,7 @@
 
                 <div style="text-align: center; margin-top: 25px;">
                     <span id="matchesCounter"></span>
-                    <button id="loadMoreMatchesBtn" class="filter-btn" style="background: var(--dark-navy); color: var(--white); border: none; padding: 10px 24px; display: inline-flex; align-items: center; gap: 8px;">
+                    <button id="loadMoreMatchesBtn" class="filter-btn" style="background: var(--dark-navy, #003c82); color: #ffffff; border: none; padding: 10px 24px; display: inline-flex; align-items: center; gap: 8px;">
                         <i class="fas fa-chevron-down"></i> <span id="loadMoreText">さらに3試合を表示</span>
                     </button>
                 </div>
@@ -158,7 +175,6 @@
 </footer>
 
 <script>
-    // Stile animazione per badge LIVE
     const style = document.createElement('style');
     style.innerHTML = `@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }`;
     document.head.appendChild(style);
@@ -170,7 +186,6 @@
     let rawMatches = [];
     let playersData = [];
 
-    // Dizionario Traduzioni
     const translations = {
         ja: {
             "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
@@ -182,7 +197,7 @@
             "badge.friendly": "次戦 (練習試合)", "badge.live": "🔴 LIVE", "badge.past_friendly": "練習試合",
             "label.venue": "会場:", "label.kickoff": "キックオフ:", "label.scorers": "得点者:",
             "label.mvp": "MVP:", "label.yellow_cards": "警告:", "label.red_cards": "退場:",
-            "btn.details": "詳細を見る", "btn.load_more_3": "さらに3試合を表示", "btn.show_less": "最初の3試合に戻す", "btn.back_home": "ホームに戻る"
+            "btn.details": "詳細を見る", "btn.close_details": "詳細を閉じる", "btn.load_more_3": "さらに3試合を表示", "btn.show_less": "最初の3試合に戻す", "btn.back_home": "ホームに戻る"
         },
         it: {
             "nav.team": "Squadra", "nav.about": "Info Squadra", "nav.players": "Giocatori", "nav.stats": "Statistiche",
@@ -194,7 +209,7 @@
             "badge.friendly": "Prossima (Amichevole)", "badge.live": "🔴 IN DIRETTA", "badge.past_friendly": "Amichevole",
             "label.venue": "Campo:", "label.kickoff": "Calcio d'inizio:", "label.scorers": "Marcatori:",
             "label.mvp": "MVP:", "label.yellow_cards": "Ammoniti:", "label.red_cards": "Espulsi:",
-            "btn.details": "Dettagli", "btn.load_more_3": "Mostra le prossime 3 partite", "btn.show_less": "Riduci elenco", "btn.back_home": "Torna alla Home"
+            "btn.details": "Dettagli", "btn.close_details": "Chiudi dettagli", "btn.load_more_3": "Mostra le prossime 3 partite", "btn.show_less": "Riduci elenco", "btn.back_home": "Torna alla Home"
         },
         en: {
             "nav.team": "Team", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Statistics",
@@ -206,15 +221,15 @@
             "badge.friendly": "Next (Friendly)", "badge.live": "🔴 LIVE", "badge.past_friendly": "Friendly Match",
             "label.venue": "Venue:", "label.kickoff": "Kick-Off:", "label.scorers": "Scorers:",
             "label.mvp": "MVP:", "label.yellow_cards": "Yellow Cards:", "label.red_cards": "Red Cards:",
-            "btn.details": "Details", "btn.load_more_3": "Show next 3 matches", "btn.show_less": "Show less", "btn.back_home": "Back to Home"
+            "btn.details": "Details", "btn.close_details": "Close details", "btn.load_more_3": "Show next 3 matches", "btn.show_less": "Show less", "btn.back_home": "Back to Home"
         }
     };
 
-    // --- LOGICA DI CONVERSIONE E TRADUZIONE NOMI GIOCATORI ---
     function cleanStr(s) {
         return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
     }
 
+    // Ricerca del giocatore e priorità al Katakana per il Giapponese
     function getPlayerNameInLang(query, lang) {
         if (!query || query === 'なし' || query === 'Nessuno') return query;
         if (!playersData || playersData.length === 0) return query;
@@ -230,7 +245,8 @@
         if (!player) return query;
 
         if (lang === 'ja') {
-            return player.name_kanji || player.name_kana || player.name_romaji || query;
+            // Se in Giapponese, dà priorità prima a name_kana (Katakana) o name_kanji
+            return player.name_kana || player.name_kanji || player.name_romaji || query;
         } else {
             return player.name_romaji || player.name_kanji || query;
         }
@@ -240,13 +256,11 @@
         if (!text || typeof text !== 'string') return text || '';
         if (text === 'なし' || text === 'Nessuno') return text;
 
-        // Gestisce elenchi separati da virgole
         const items = text.split(/[,、]/);
         return items.map(item => {
             let str = item.trim();
             if (!str) return '';
 
-            // Gestisce parentesi per assist o portieri es: "川合 翔（永野 壱門）" o "御村 葵(4)"
             const match = str.match(/^([^(（]+)[(（]([^)）]+)[)）]$/);
             if (match) {
                 const mainName = match[1].trim();
@@ -260,6 +274,23 @@
 
             return getPlayerNameInLang(str, lang);
         }).filter(Boolean).join(', ');
+    }
+
+    function updateBtnTexts() {
+        document.querySelectorAll('.match-detail-card').forEach(card => {
+            const isExpanded = card.classList.contains('active');
+            const mainBtnText = card.querySelector('.toggle-details-btn .btn-text');
+            const mainBtnIcon = card.querySelector('.toggle-details-btn i');
+            
+            if (mainBtnText) {
+                mainBtnText.textContent = isExpanded ? 
+                    (translations[currentLang]['btn.close_details'] || 'Chiudi dettagli') : 
+                    (translations[currentLang]['btn.details'] || 'Dettagli');
+            }
+            if (mainBtnIcon) {
+                mainBtnIcon.className = isExpanded ? 'fas fa-chevron-up' : 'fas fa-info-circle';
+            }
+        });
     }
 
     function setLanguage(lang) {
@@ -278,7 +309,6 @@
             }
         });
 
-        // Re-render per aggiornare le stringhe dei giocatori nelle schede
         if (rawMatches.length > 0) {
             renderMatches();
             filterAndPaginateMatches();
@@ -385,7 +415,6 @@
 
             const team2Logo = m.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.team2Name || 'VS')}&background=003C82&color=ffffff&size=100&bold=true`;
 
-            // --- Logica ordine squadre e punteggio ---
             const isHome = m.isHome !== undefined ? m.isHome : true;
             let leftTeamName, leftTeamLogo, leftTeamLogoClass, rightTeamName, rightTeamLogo, rightTeamLogoClass, displayScore;
 
@@ -414,12 +443,10 @@
 
             const displayDateTime = m.time ? `${m.date} ${m.time}` : m.date;
 
-            // Traduzione dinamica dei dettagli
             const scorersTranslated = translatePlayerText(m.scorers, currentLang);
             const mvpTranslated = translatePlayerText(m.mvp, currentLang);
             const yellowCardsTranslated = translatePlayerText(m.yellow_cards, currentLang);
             const redCardsTranslated = translatePlayerText(m.red_cards, currentLang);
-            const goalkeepersTranslated = translatePlayerText(m.goalkeepers, currentLang);
 
             let detailsHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong data-i18n="label.venue">会場:</strong> ${m.venue || '-'}</span></div>`;
             if (m.time) {
@@ -436,9 +463,6 @@
             }
             if (redCardsTranslated && redCardsTranslated !== 'なし' && redCardsTranslated !== 'Nessuno') {
                 detailsHtml += `<div class="detail-item"><i class="fas fa-square" style="color: #ef4444;"></i> <span><strong data-i18n="label.red_cards">退場:</strong> ${redCardsTranslated}</span></div>`;
-            }
-            if (goalkeepersTranslated && goalkeepersTranslated !== '') {
-                detailsHtml += `<div class="detail-item"><i class="fas fa-hands"></i> <span><strong>GK:</strong> ${goalkeepersTranslated}</span></div>`;
             }
 
             const cardHtml = `
@@ -458,10 +482,13 @@
                             <span>${rightTeamName}</span>
                         </div>
                     </div>
-                    <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> <span data-i18n="btn.details">詳細を見る</span></button>
+                    <button class="toggle-details-btn"><i class="fas fa-info-circle"></i> <span class="btn-text" data-i18n="btn.details">詳細を見る</span></button>
                     <div class="match-expand-details" style="display: none;">
                         <div class="details-inner">
                             ${detailsHtml}
+                            <div style="text-align: center;">
+                                <button class="close-details-btn-bottom"><i class="fas fa-chevron-up"></i> <span data-i18n="btn.close_details">詳細を閉じる</span></button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -474,15 +501,16 @@
             }
         });
 
-        // Popola il selettore delle stagioni PRIMA di applicare i filtri
         populateSeasonSelect(rawMatches);
 
-        // Gestione Espansione Dettagli
-        document.querySelectorAll('.toggle-details-btn').forEach(btn => {
-            btn.onclick = function(e) {
+        document.querySelectorAll('.match-detail-card').forEach(card => {
+            const toggleBtn = card.querySelector('.toggle-details-btn');
+            const closeBottomBtn = card.querySelector('.close-details-btn-bottom');
+            const details = card.querySelector('.match-expand-details');
+
+            const toggleAction = (e) => {
                 e.preventDefault();
-                const card = this.closest('.match-detail-card');
-                const details = card.querySelector('.match-expand-details');
+                e.stopPropagation();
                 const wasActive = card.classList.contains('active');
 
                 document.querySelectorAll('.match-detail-card').forEach(c => {
@@ -495,8 +523,14 @@
                     card.classList.add('active');
                     if (details) details.style.display = 'block';
                 }
+                updateBtnTexts();
             };
+
+            if (toggleBtn) toggleBtn.onclick = toggleAction;
+            if (closeBottomBtn) closeBottomBtn.onclick = toggleAction;
         });
+
+        updateBtnTexts();
     }
 
     function populateSeasonSelect(matches) {
@@ -555,6 +589,7 @@
                 visiblePastMatchesCount = previousCount;
                 filterAndPaginateMatches();
                 targetCard.style.display = 'block';
+                updateBtnTexts();
             }, 100);
         } else {
             visiblePastMatchesCount = previousCount;
@@ -568,14 +603,13 @@
             if (!response.ok) throw new Error("matches.json non trovato");
             rawMatches = await response.json();
 
-            // Tenta di caricare players.json ma SENZA bloccare il sito se fallisce
             try {
                 const pResp = await fetch('players.json');
                 if (pResp.ok) {
                     playersData = await pResp.json();
                 }
             } catch (e) {
-                console.warn("players.json non trovato, le schede verranno mostrate con i nomi originali di matches.json.");
+                console.warn("players.json non trovato.");
                 playersData = [];
             }
 
