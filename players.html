@@ -217,7 +217,7 @@
 
           <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
-          <a href="index.html#partners" data-i18n="nav.partners">パートナー</a>
+          <a href="index.html#sponsors" data-i18n="nav.sponsors">スポンサー</a>
           <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
           <a href="index.html#contact" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
         </nav>
@@ -236,7 +236,7 @@
     <a href="index.html#gallery" class="mobile-link" data-i18n="nav.gallery">ギャラリー</a>
     <a href="matches.html" class="mobile-link" data-i18n="nav.matches">試合日程・結果</a>
     <a href="index.html#shop" class="mobile-link" data-i18n="nav.shop">ショップ</a>
-    <a href="index.html#partners" class="mobile-link" data-i18n="nav.partners">パートナー</a>
+    <a href="index.html#sponsors" class="mobile-link" data-i18n="nav.sponsors">スポンサー</a>
     <a href="faq.html" class="mobile-link" data-i18n="nav.faq">よくある質問</a>
     <a href="index.html#contact" class="mobile-link mobile-cta" data-i18n="nav.contact">お問い合わせ</a>
   </nav>
@@ -299,7 +299,7 @@
     const translations = {
         ja: {
             "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
-            "nav.matches": "試合日程・結果", "nav.club": "クラブ", "nav.gallery": "ギャラリー", "nav.partners": "パートナー",
+            "nav.matches": "試合日程・結果", "nav.club": "クラブ", "nav.gallery": "ギャラリー", "nav.sponsors": "スポンサー",
             "nav.faq": "よくある質問", "nav.shop": "ショップ", "nav.contact": "お問い合わせ",
             "players_page.title": "選手・スタッフ紹介", "players_page.intro": "カードをタップすると詳細情報・個人成績をご覧いただけます。",
             "role_filter.all": "すべて (ALL)", "role_filter.gk": "GK", "role_filter.df": "DF", "role_filter.mf": "MF",
@@ -321,7 +321,7 @@
         },
         it: {
             "nav.team": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
-            "nav.matches": "Partite & Risultati", "nav.club": "CLUB", "nav.gallery": "Galleria", "nav.partners": "Partner",
+            "nav.matches": "Partite & Risultati", "nav.club": "CLUB", "nav.gallery": "Galleria", "nav.sponsors": "Sponsor",
             "nav.faq": "FAQ", "nav.shop": "Shop", "nav.contact": "Contatti",
             "players_page.title": "Rosa & Staff", "players_page.intro": "Tocca la scheda per visualizzare i dettagli e le statistiche personali.",
             "role_filter.all": "Tutti", "role_filter.gk": "Portieri", "role_filter.df": "Difensori", "role_filter.mf": "Centrocampisti",
@@ -345,7 +345,7 @@
         },
         en: {
             "nav.team": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
-            "nav.matches": "Matches & Results", "nav.club": "CLUB", "nav.gallery": "Gallery", "nav.partners": "Partners",
+            "nav.matches": "Matches & Results", "nav.club": "CLUB", "nav.gallery": "Gallery", "nav.sponsors": "Sponsors",
             "nav.faq": "FAQ", "nav.shop": "Shop", "nav.contact": "Contact Us",
             "players_page.title": "Players & Staff", "players_page.intro": "Tap a card to view detailed info and personal stats.",
             "role_filter.all": "All Players", "role_filter.gk": "GK", "role_filter.df": "DF", "role_filter.mf": "MF",
@@ -409,6 +409,8 @@
             const key = `hometown.${code}`;
             if (translations[lang][key]) {
                 elem.textContent = translations[lang][key];
+            } else {
+                elem.textContent = code; // fallback al valore originale
             }
         });
 
@@ -468,6 +470,9 @@
                 <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="${age}">${age} 歳</strong></div>
                 <div class="player-detail-row"><span><i class="fas fa-shield-halved"></i> <span data-i18n="label.goals_conceded">失点:</span></span> <strong class="stats-highlight" data-stat="goals_conceded">0</strong></div>
                 <div class="player-detail-row"><span><i class="fas fa-lock"></i> <span data-i18n="label.clean_sheets">クリーンシート:</span></span> <strong class="stats-highlight" data-stat="clean_sheets">0</strong></div>
+                <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight" data-stat="mvps">0</strong></div>
+                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight" data-stat="yellows">0</strong></div>
+                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight" data-stat="reds">0</strong></div>
             `;
         } else {
             detailsRows = `
@@ -521,7 +526,6 @@
             }
         });
 
-        // Dopo aver generato le card, applica la lingua corrente e calcola le statistiche
         setLanguage(currentLang);
         calculateStatsFromMatchesJSON();
     }
