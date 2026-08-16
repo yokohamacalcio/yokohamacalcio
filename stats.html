@@ -346,21 +346,37 @@
         return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf\u3400-\u4dbf]/.test(text);
     }
 
-    // Identifica in modo univoco l'oggetto giocatore da players.json
+    // Ricerca intelligente: trova l'oggetto giocatore anche da nomi parziali o cognomi
     function findPlayerObj(query) {
         if (!query || query === 'なし' || query === 'Nessuno') return null;
         if (!playersData || playersData.length === 0) return null;
 
         const target = cleanStr(query);
-        return playersData.find(p => {
+        if (!target) return null;
+
+        // 1. Uguaglianza esatta
+        let found = playersData.find(p => {
             const k = cleanStr(p.name_kanji);
             const kn = cleanStr(p.name_kana);
             const r = cleanStr(p.name_romaji);
             return (k && k === target) || (kn && kn === target) || (r && r === target);
+        });
+
+        if (found) return found;
+
+        // 2. Corrispondenza parziale (es. inserito solo cognome o nome parziale)
+        return playersData.find(p => {
+            const k = cleanStr(p.name_kanji);
+            const kn = cleanStr(p.name_kana);
+            const r = cleanStr(p.name_romaji);
+
+            return (k && (k.includes(target) || target.includes(k))) ||
+                   (kn && (kn.includes(target) || target.includes(kn))) ||
+                   (r && (r.includes(target) || target.includes(r)));
         }) || null;
     }
 
-    // Formatta il nome del giocatore in base alla lingua e alle regole stabilite
+    // Formatta il nome completo del giocatore in base alla lingua
     function formatPlayerName(playerObj, fallbackName, lang) {
         if (!playerObj) return fallbackName;
 
@@ -500,15 +516,28 @@
         // Strutture per la tracciabilità univoca tramite ID del giocatore
         let goalsMap = {}, assistsMap = {}, mvpMap = {}, yellowsMap = {}, redsMap = {};
 
-        const addStatCount = (map, rawName) => {
-            if (!rawName || rawName === 'なし' || rawName === 'Nessuno') return;
-            const pObj = findPlayerObj(rawName);
-            const key = pObj ? (pObj.id || pObj.number || pObj.name_kanji) : rawName;
+        const addStatCount = (map, rawInput, increment = 1) => {
+            if (!rawInput || rawInput === 'なし' || rawInput === 'Nessuno') return;
+
+            let cleanName = rawInput.trim();
+            let countToAdd = increment;
+
+            // Isola moltiplicatori come x2, x3 o (2) se presenti
+            const multMatch = cleanName.match(/(.*?)\s*(?:x|\*|\()(\d+)\)?$/i);
+            if (multMatch) {
+                cleanName = multMatch[1].trim();
+                countToAdd = parseInt(multMatch[2], 10) || increment;
+            }
+
+            if (!cleanName) return;
+
+            const pObj = findPlayerObj(cleanName);
+            const key = pObj ? (pObj.id || pObj.number || pObj.name_kanji) : cleanName;
             
             if (!map[key]) {
-                map[key] = { count: 0, pObj: pObj, rawName: rawName };
+                map[key] = { count: 0, pObj: pObj, rawName: cleanName };
             }
-            map[key].count++;
+            map[key].count += countToAdd;
         };
 
         rawMatchesData.forEach(m => {
@@ -565,8 +594,7 @@
             if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
                 const mvpNames = m.mvp.split(/[,、]/);
                 mvpNames.forEach(name => {
-                    const cleanName = name.trim();
-                    if (cleanName) addStatCount(mvpMap, cleanName);
+                    if (name.trim()) addStatCount(mvpMap, name.trim());
                 });
             }
 
@@ -574,9 +602,8 @@
             if (m.yellow_cards && m.yellow_cards !== 'なし' && m.yellow_cards !== 'Nessuno') {
                 const names = m.yellow_cards.split(/[,、]/);
                 names.forEach(name => {
-                    const cleanName = name.trim();
-                    if (cleanName) {
-                        addStatCount(yellowsMap, cleanName);
+                    if (name.trim()) {
+                        addStatCount(yellowsMap, name.trim());
                         targetStats.yellow++;
                     }
                 });
@@ -586,9 +613,8 @@
             if (m.red_cards && m.red_cards !== 'なし' && m.red_cards !== 'Nessuno') {
                 const names = m.red_cards.split(/[,、]/);
                 names.forEach(name => {
-                    const cleanName = name.trim();
-                    if (cleanName) {
-                        addStatCount(redsMap, cleanName);
+                    if (name.trim()) {
+                        addStatCount(redsMap, name.trim());
                         targetStats.red++;
                     }
                 });
@@ -636,7 +662,7 @@
         updateDiscRow('fr', stats.friendly);
         updateDiscRow('tot', tot);
 
-        // Renderizza Classifiche Individuali con Formattazione Lingua Dinamica
+        // Renderizza Classifiche Individuali con Formattazione Lingua Dinamica e Nomi Completi
         const renderRanking = (elementId, dataMap, unitKey) => {
             const list = document.getElementById(elementId);
             if (!list) return;
