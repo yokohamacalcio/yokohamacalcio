@@ -241,13 +241,12 @@
         return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf\u3400-\u4dbf]/.test(text);
     }
 
-    // Identica funzione usata in index.html per generare l'avatar dell'avversario
     function getAvatarUrl(name, team2Logo) {
         if (team2Logo) return team2Logo;
         return `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'VS')}&background=random&color=ffffff&size=100&bold=true`;
     }
 
-    // Ricerca intelligente del giocatore in players.json anche con nomi parziali (es. solo cognome)
+    // Ricerca flessibile del giocatore per nome esatto o parziale
     function findPlayerObj(query) {
         if (!query || query === 'なし' || query === 'Nessuno') return null;
         if (!playersData || playersData.length === 0) return null;
@@ -255,7 +254,6 @@
         const target = cleanStr(query);
         if (!target) return null;
 
-        // 1. Uguaglianza esatta
         let found = playersData.find(p => {
             const k = cleanStr(p.name_kanji);
             const kn = cleanStr(p.name_kana);
@@ -265,7 +263,6 @@
 
         if (found) return found;
 
-        // 2. Corrispondenza parziale (es. inserito solo cognome o nome)
         return playersData.find(p => {
             const k = cleanStr(p.name_kanji);
             const kn = cleanStr(p.name_kana);
@@ -277,10 +274,9 @@
         }) || null;
     }
 
-    // Ottiene il NOME COMPLETO del giocatore integrato con players.json
     function getPlayerNameInLang(query, lang) {
         const player = findPlayerObj(query);
-        if (!player) return query; // Se non trovato in players.json, restituisce la stringa originale
+        if (!player) return query;
 
         if (lang === 'ja') {
             if (player.name_kanji && containsJapaneseChars(player.name_kanji)) {
@@ -292,7 +288,6 @@
         }
     }
 
-    // Traduzione e formattazione avanzata di marcatori, assist e cartellini
     function translatePlayerText(text, lang) {
         if (!text || typeof text !== 'string') return text || '';
         if (text === 'なし' || text === 'Nessuno') return text;
@@ -302,7 +297,6 @@
             let str = item.trim();
             if (!str) return '';
 
-            // Isolamento di eventuali marcatori multipli come x2, x3 o (2)
             let multiplier = '';
             const multMatch = str.match(/(.*?)\s*(x\d+|\*\d+|\(\d+\))$/i);
             if (multMatch) {
@@ -310,7 +304,6 @@
                 multiplier = ' ' + multMatch[2];
             }
 
-            // Gestione parentesi: es. "Marcatore (Assistman)"
             const match = str.match(/^([^(（]+)[(（]([^)）]+)[)）]$/);
             if (match) {
                 const mainName = match[1].trim();
@@ -454,7 +447,6 @@
             
             const rawDate = m.date ? m.date.trim().replace(/\./g, '-').substring(0, 10) : '';
 
-            // Badge Categoria
             let badgeHtml = '';
             let catKey = 'badge.friendly';
             let catClass = 'badge-friendly';
@@ -606,6 +598,7 @@
         const select = document.getElementById('matchSeasonSelect');
         if (!select) return;
 
+        const currentSelected = select.value;
         const yearsSet = new Set();
         matches.forEach(m => {
             if (m.date) {
@@ -629,11 +622,8 @@
             select.appendChild(option);
         });
 
-        const currentYear = new Date().getFullYear().toString();
-        if (years.includes(currentYear)) {
-            select.value = currentYear;
-        } else if (years.length > 0) {
-            select.value = years[0];
+        if (currentSelected && (years.includes(currentSelected) || currentSelected === 'all')) {
+            select.value = currentSelected;
         } else {
             select.value = 'all';
         }
@@ -695,7 +685,6 @@
         if (currentYearEl) currentYearEl.textContent = new Date().getFullYear();
 
         await loadAllData();
-        setLanguage(currentLang);
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
