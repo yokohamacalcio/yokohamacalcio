@@ -100,7 +100,7 @@
         .role-badge-fw { background: #dc2626; }
         .role-badge-staff { background: #db2777; }
 
-        /* Corpo front: Avatar cerchiato con Iniziali */
+        /* Corpo front */
         .player-body {
             flex-grow: 1;
             display: flex;
@@ -368,7 +368,7 @@
         it: {
             "nav.team": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
             "nav.matches": "Partite & Risultati", "nav.club": "CLUB", "nav.gallery": "Galleria", "nav.sponsors": "Sponsor",
-            "nav.faq": "FAQ", "nav.shop": "Shop", "nav.contact": "Contatti",
+            "nav.faq": "FAQ", "nav.contact": "Contatti",
             "players_page.title": "Rosa & Staff", "players_page.intro": "Tocca la scheda per visualizzare i dettagli e le statistiche personali.",
             "role_filter.all": "Tutti", "role_filter.gk": "Portieri", "role_filter.df": "Difensori", "role_filter.mf": "Centrocampisti",
             "role_filter.fw": "Attaccanti", "role_filter.staff": "Staff", "btn.back_home": "Torna alla Home",
@@ -670,6 +670,7 @@
             matches.forEach(m => {
                 if (m.status !== 'past') return;
 
+                // MARCATORI E ASSIST
                 if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
                     const entries = m.scorers.split(/[,、]/);
                     entries.forEach(entry => {
@@ -688,23 +689,28 @@
                     });
                 }
 
+                // MVP
                 if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
                     m.mvp.split(/[,、]/).forEach(name => addStat(mvpCounts, name));
                 }
 
+                // AMMONIZIONI
                 if (m.yellow_cards && m.yellow_cards !== 'なし' && m.yellow_cards !== 'Nessuno') {
                     m.yellow_cards.split(/[,、]/).forEach(name => addStat(yellowCounts, name));
                 }
 
+                // ESPULSIONI
                 if (m.red_cards && m.red_cards !== 'なし' && m.red_cards !== 'Nessuno') {
                     m.red_cards.split(/[,、]/).forEach(name => addStat(redCounts, name));
                 }
 
+                // PARSING PORTIERI (supporta parentesi zenkaku/giapponesi ed ordinarie)
                 if (m.goalkeepers && m.goalkeepers !== '') {
                     m.goalkeepers.split(/[,、]/).forEach(entry => {
                         const clean = entry.trim();
                         if (!clean) return;
-                        const match = clean.match(/^(.+)\((\d+)\)$/);
+
+                        const match = clean.match(/^(.+?)\s*[(（](\d+)[)）]$/);
                         if (match) {
                             const rawGkName = match[1].trim();
                             const gkGoals = parseInt(match[2], 10) || 0;
@@ -712,15 +718,20 @@
                             const pObj = findPlayerObj(rawGkName);
                             const key = pObj ? (pObj.id || pObj.number || pObj.name_kanji) : rawGkName;
 
-                            if (!goalkeeperStats[key]) goalkeeperStats[key] = { appearances: 0, goals_conceded: 0, clean_sheets: 0 };
+                            if (!goalkeeperStats[key]) {
+                                goalkeeperStats[key] = { appearances: 0, goals_conceded: 0, clean_sheets: 0 };
+                            }
                             goalkeeperStats[key].appearances += 1;
                             goalkeeperStats[key].goals_conceded += gkGoals;
-                            if (gkGoals === 0) goalkeeperStats[key].clean_sheets += 1;
+                            if (gkGoals === 0) {
+                                goalkeeperStats[key].clean_sheets += 1;
+                            }
                         }
                     });
                 }
             });
 
+            // Assegnazione dei valori alle card
             document.querySelectorAll('.player-card').forEach(card => {
                 const cardKey = card.getAttribute('data-player-id');
                 const mainName = card.getAttribute('data-player-name');
@@ -766,7 +777,6 @@
         });
 
         setLanguage(currentLang);
-        // Garantisce che il calcolo avvenga DOPO il popolamento di globalPlayers ed Elementi DOM
         await calculateStatsFromMatchesJSON();
     }
 
