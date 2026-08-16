@@ -346,7 +346,7 @@
         return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf\u3400-\u4dbf]/.test(text);
     }
 
-    // Ricerca intelligente: trova l'oggetto giocatore anche da nomi parziali o cognomi
+    // Ricerca flessibile in players.json per uguaglianza esatta o parziale (cognomi/nomi)
     function findPlayerObj(query) {
         if (!query || query === 'なし' || query === 'Nessuno') return null;
         if (!playersData || playersData.length === 0) return null;
@@ -364,7 +364,7 @@
 
         if (found) return found;
 
-        // 2. Corrispondenza parziale (es. inserito solo cognome o nome parziale)
+        // 2. Corrispondenza parziale (es. solo cognome o parte del nome)
         return playersData.find(p => {
             const k = cleanStr(p.name_kanji);
             const kn = cleanStr(p.name_kana);
@@ -376,7 +376,7 @@
         }) || null;
     }
 
-    // Formatta il nome completo del giocatore in base alla lingua
+    // Restituisce il NOME COMPLETO del giocatore leggendo da players.json
     function formatPlayerName(playerObj, fallbackName, lang) {
         if (!playerObj) return fallbackName;
 
@@ -461,7 +461,7 @@
         yearSpan.textContent = new Date().getFullYear();
     }
 
-    // POPOLA SELETTORE STAGIONE IN MODO DINAMICO
+    // POPOLA SELETTORE STAGIONE IN MODO DINAMICO (default: "all")
     function populateSeasonSelect(matches) {
         const select = document.getElementById('seasonSelect');
         if (!select) return;
@@ -490,13 +490,8 @@
             select.appendChild(option);
         });
 
-        const currentYearStr = new Date().getFullYear().toString();
         if (currentSelected && (years.includes(currentSelected) || currentSelected === 'all')) {
             select.value = currentSelected;
-        } else if (years.includes(currentYearStr)) {
-            select.value = currentYearStr;
-        } else if (years.length > 0) {
-            select.value = years[0];
         } else {
             select.value = 'all';
         }
@@ -513,7 +508,7 @@
             friendly: { played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0, yellow: 0, red: 0 }
         };
 
-        // Strutture per la tracciabilità univoca tramite ID del giocatore
+        // Mappe per la tracciabilità univoca dei giocatori
         let goalsMap = {}, assistsMap = {}, mvpMap = {}, yellowsMap = {}, redsMap = {};
 
         const addStatCount = (map, rawInput, increment = 1) => {
@@ -522,7 +517,7 @@
             let cleanName = rawInput.trim();
             let countToAdd = increment;
 
-            // Isola moltiplicatori come x2, x3 o (2) se presenti
+            // Estrarre eventuali moltiplicatori come x2, x3 o (2)
             const multMatch = cleanName.match(/(.*?)\s*(?:x|\*|\()(\d+)\)?$/i);
             if (multMatch) {
                 cleanName = multMatch[1].trim();
@@ -571,18 +566,27 @@
                 }
             }
 
-            // MARCATORI E ASSIST
+            // MARCATORI ED ASSIST
             if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
                 const entries = m.scorers.split(/[,、]/);
                 entries.forEach(entry => {
                     let text = entry.trim();
                     if (!text) return;
 
+                    // Gestione assist in parentesi
                     let assistName = '';
-                    const assistMatch = text.match(/\(([^)]+)\)/) || text.match(/（([^）]+)）/);
+                    const assistMatch = text.match(/^(.*?)\s*[(（]([^)）]+)[)）]\s*(x\d+|\*\d+|\(\d+\))?$/i) || text.match(/\(([^)]+)\)/) || text.match(/（([^）]+)）/);
+                    
                     if (assistMatch) {
-                        assistName = assistMatch[1].trim();
-                        text = text.replace(/\([^)]+\)/, '').replace(/（[^）]+）/, '').trim();
+                        // Se c'è sia l'assist sia un moltiplicatore alla fine
+                        const parenthesisedMatch = text.match(/^([^(（]+)[(（]([^)）]+)[)）]\s*(.*)$/);
+                        if (parenthesisedMatch) {
+                            text = (parenthesisedMatch[1] + ' ' + parenthesisedMatch[3]).trim();
+                            assistName = parenthesisedMatch[2].trim();
+                        } else {
+                            assistName = assistMatch[1].trim();
+                            text = text.replace(/\([^)]+\)/, '').replace(/（[^）]+）/, '').trim();
+                        }
                     }
 
                     if (text) addStatCount(goalsMap, text);
@@ -662,7 +666,7 @@
         updateDiscRow('fr', stats.friendly);
         updateDiscRow('tot', tot);
 
-        // Renderizza Classifiche Individuali con Formattazione Lingua Dinamica e Nomi Completi
+        // Renderizza Classifiche Individuali
         const renderRanking = (elementId, dataMap, unitKey) => {
             const list = document.getElementById(elementId);
             if (!list) return;
@@ -725,7 +729,6 @@
     // Inizializzazione
     window.addEventListener('DOMContentLoaded', async () => {
         await loadAllStatsData();
-        setLanguage(currentLanguage);
     });
 </script>
 </body>
