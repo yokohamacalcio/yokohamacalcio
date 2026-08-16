@@ -147,7 +147,7 @@
             font-weight: 600;
         }
 
-        /* Indicatore Flip sottile ed elegante */
+        /* Indicatore Flip */
         .player-flip-indicator {
             background: #f1f5f9;
             color: var(--dark-navy, #003c82);
@@ -435,31 +435,15 @@
         return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
     }
 
-    /* ABBREVIAZIONE RUOLI TATTICI PER LINGUA */
     function getRoleAbbreviation(position, role, lang) {
         if (role === 'staff') return 'MGR';
         if (lang === 'it') {
             const mapIT = {
-                'GK': 'Por',
-                'CB': 'DC',
-                'SB': 'Ter',
-                'CM': 'CC',
-                'SH': 'Est',
-                'CAM': 'Trq',
-                'FW': 'PC',
-                'SB / SH': 'Ter / Est',
-                'CM / SB': 'CC / Ter',
-                'CM / SH': 'CC / Est',
-                'CM / CB': 'CC / DC',
-                'SH / SB': 'Est / Ter',
-                'CM / CAM': 'CC / Trq',
-                'SH / FW': 'Est / PC',
-                'CM / FW': 'CC / PC',
-                'FW / SH': 'PC / Est',
-                'FW / SB': 'PC / Ter',
-                'FW / SH / CAM': 'PC / Trq',
-                'SB / CM / CAM': 'Ter / CC / Trq',
-                'FW / SH / CM': 'PC / Est / CC'
+                'GK': 'Por', 'CB': 'DC', 'SB': 'Ter', 'CM': 'CC', 'SH': 'Est', 'CAM': 'Trq', 'FW': 'PC',
+                'SB / SH': 'Ter / Est', 'CM / SB': 'CC / Ter', 'CM / SH': 'CC / Est', 'CM / CB': 'CC / DC',
+                'SH / SB': 'Est / Ter', 'CM / CAM': 'CC / Trq', 'SH / FW': 'Est / PC', 'CM / FW': 'CC / PC',
+                'FW / SH': 'PC / Est', 'FW / SB': 'PC / Ter', 'FW / SH / CAM': 'PC / Trq',
+                'SB / CM / CAM': 'Ter / CC / Trq', 'FW / SH / CM': 'PC / Est / CC'
             };
             return mapIT[position] || position || 'GIO';
         }
@@ -519,9 +503,7 @@
     }
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            setLanguage(btn.getAttribute('data-lang'));
-        });
+        btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
     });
 
     function getRoleIcon(role) {
@@ -630,81 +612,6 @@
         `;
     }
 
-    function populatePlayers(players) {
-        globalPlayers = players;
-        const sections = { gk: [], df: [], mf: [], fw: [], staff: [] };
-        players.forEach(p => {
-            if (sections[p.role]) sections[p.role].push(p);
-        });
-
-        Object.keys(sections).forEach(role => {
-            const container = document.getElementById(`players-${role}`);
-            if (container) container.innerHTML = sections[role].map(createPlayerCard).join('');
-        });
-
-        setLanguage(currentLang);
-        calculateStatsFromMatchesJSON();
-    }
-
-    async function loadPlayersJSON() {
-        try {
-            const response = await fetch('players.json');
-            if (!response.ok) throw new Error('Errore nella fetch');
-            const players = await response.json();
-            populatePlayers(players);
-        } catch (error) {
-            console.error('Errore nel caricamento dei giocatori:', error);
-        }
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        setLanguage(currentLang);
-        loadPlayersJSON();
-    });
-
-    // Mobile menu toggle
-    const menuBtn = document.querySelector('.mobile-menu-toggle');
-    const mobileNav = document.querySelector('.mobile-nav');
-    const mobileLinks = document.querySelectorAll('.mobile-link');
-    if (menuBtn && mobileNav) {
-        menuBtn.addEventListener('click', () => {
-            mobileNav.classList.toggle('hidden');
-            const icon = menuBtn.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
-        });
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileNav.classList.add('hidden');
-                menuBtn.querySelector('i').classList.add('fa-bars');
-                menuBtn.querySelector('i').classList.remove('fa-times');
-            });
-        });
-    }
-
-    // Flip card logic
-    document.addEventListener('click', (e) => {
-        const card = e.target.closest('.player-card');
-        if (card) {
-            card.classList.toggle('is-flipped');
-        }
-    });
-
-    // Role filter
-    const roleFilterBtns = document.querySelectorAll('[data-role-filter]');
-    const roleSections = document.querySelectorAll('[data-role-section]');
-    roleFilterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            roleFilterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const filterVal = btn.getAttribute('data-role-filter');
-            roleSections.forEach(section => {
-                section.style.display = (filterVal === 'all' || section.getAttribute('data-role-section') === filterVal) ? 'block' : 'none';
-            });
-        });
-    });
-
-    // Match del nome per identificare l'oggetto giocatore univoco
     function findPlayerObj(query) {
         if (!query || query === 'なし' || query === 'Nessuno') return null;
         if (!globalPlayers || globalPlayers.length === 0) return null;
@@ -732,7 +639,6 @@
         }) || null;
     }
 
-    // Calcolo statistiche da matches.json
     async function calculateStatsFromMatchesJSON() {
         try {
             const response = await fetch('matches.json');
@@ -764,7 +670,6 @@
             matches.forEach(m => {
                 if (m.status !== 'past') return;
 
-                // SCORERS & ASSISTS
                 if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
                     const entries = m.scorers.split(/[,、]/);
                     entries.forEach(entry => {
@@ -783,22 +688,18 @@
                     });
                 }
 
-                // MVP
                 if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
                     m.mvp.split(/[,、]/).forEach(name => addStat(mvpCounts, name));
                 }
 
-                // AMMONIZIONI
                 if (m.yellow_cards && m.yellow_cards !== 'なし' && m.yellow_cards !== 'Nessuno') {
                     m.yellow_cards.split(/[,、]/).forEach(name => addStat(yellowCounts, name));
                 }
 
-                // ESPULSIONI
                 if (m.red_cards && m.red_cards !== 'なし' && m.red_cards !== 'Nessuno') {
                     m.red_cards.split(/[,、]/).forEach(name => addStat(redCounts, name));
                 }
 
-                // PORTIERI
                 if (m.goalkeepers && m.goalkeepers !== '') {
                     m.goalkeepers.split(/[,、]/).forEach(entry => {
                         const clean = entry.trim();
@@ -820,7 +721,6 @@
                 }
             });
 
-            // Assegnazione dei valori alle card
             document.querySelectorAll('.player-card').forEach(card => {
                 const cardKey = card.getAttribute('data-player-id');
                 const mainName = card.getAttribute('data-player-name');
@@ -853,7 +753,78 @@
         }
     }
 
-    // Scroll to top
+    async function populatePlayers(players) {
+        globalPlayers = players;
+        const sections = { gk: [], df: [], mf: [], fw: [], staff: [] };
+        players.forEach(p => {
+            if (sections[p.role]) sections[p.role].push(p);
+        });
+
+        Object.keys(sections).forEach(role => {
+            const container = document.getElementById(`players-${role}`);
+            if (container) container.innerHTML = sections[role].map(createPlayerCard).join('');
+        });
+
+        setLanguage(currentLang);
+        // Garantisce che il calcolo avvenga DOPO il popolamento di globalPlayers ed Elementi DOM
+        await calculateStatsFromMatchesJSON();
+    }
+
+    async function loadPlayersJSON() {
+        try {
+            const response = await fetch('players.json');
+            if (!response.ok) throw new Error('Errore nella fetch');
+            const players = await response.json();
+            await populatePlayers(players);
+        } catch (error) {
+            console.error('Errore nel caricamento dei giocatori:', error);
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        setLanguage(currentLang);
+        loadPlayersJSON();
+    });
+
+    const menuBtn = document.querySelector('.mobile-menu-toggle');
+    const mobileNav = document.querySelector('.mobile-nav');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+    if (menuBtn && mobileNav) {
+        menuBtn.addEventListener('click', () => {
+            mobileNav.classList.toggle('hidden');
+            const icon = menuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.add('hidden');
+                menuBtn.querySelector('i').classList.add('fa-bars');
+                menuBtn.querySelector('i').classList.remove('fa-times');
+            });
+        });
+    }
+
+    document.addEventListener('click', (e) => {
+        const card = e.target.closest('.player-card');
+        if (card) {
+            card.classList.toggle('is-flipped');
+        }
+    });
+
+    const roleFilterBtns = document.querySelectorAll('[data-role-filter]');
+    const roleSections = document.querySelectorAll('[data-role-section]');
+    roleFilterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            roleFilterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filterVal = btn.getAttribute('data-role-filter');
+            roleSections.forEach(section => {
+                section.style.display = (filterVal === 'all' || section.getAttribute('data-role-section') === filterVal) ? 'block' : 'none';
+            });
+        });
+    });
+
     const topBtn = document.getElementById('scrollToTopBtn');
     if (topBtn) {
         window.addEventListener('scroll', () => topBtn.style.display = window.scrollY > 300 ? 'block' : 'none');
