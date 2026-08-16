@@ -641,8 +641,34 @@
                 map[key] = (map[key] || 0) + countToAdd;
             };
 
+            const recordGKStat = (gkRawName, gaGoals) => {
+                if (!gkRawName) return;
+                const pObj = findPlayerObj(gkRawName);
+                const key = pObj ? (pObj.id || pObj.number || pObj.name_kanji) : gkRawName;
+
+                if (!goalkeeperStats[key]) {
+                    goalkeeperStats[key] = { appearances: 0, goals_conceded: 0, clean_sheets: 0 };
+                }
+                goalkeeperStats[key].appearances += 1;
+                goalkeeperStats[key].goals_conceded += gaGoals;
+                if (gaGoals === 0) {
+                    goalkeeperStats[key].clean_sheets += 1;
+                }
+            };
+
             matches.forEach(m => {
                 if (m.status !== 'past') return;
+
+                // Calcolo gol subiti dalla squadra nel match
+                let matchGA = 0;
+                const scoreText = m.score ? m.score.trim() : '';
+                if (scoreText && scoreText.includes('-')) {
+                    const parts = scoreText.split('-').map(n => parseInt(n.trim(), 10));
+                    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+                        const isHome = m.isHome !== undefined ? m.isHome : true;
+                        matchGA = isHome ? parts[1] : parts[0];
+                    }
+                }
 
                 // MARCATORI E ASSIST
                 if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
@@ -678,30 +704,39 @@
                     m.red_cards.split(/[,、]/).forEach(name => addStat(redCounts, name));
                 }
 
-                // ESTRAZIONE PORTIERI - Supporta vari formati: 御村（５）, 岡本(0), 御村 (2)
-                if (m.goalkeepers && m.goalkeepers !== '') {
+                // ESTRAZIONE PORTIERI DALLA STRINGA Dedicated o Fallback
+                let handledGK = false;
+                if (m.goalkeepers && m.goalkeepers.trim() !== '') {
                     m.goalkeepers.split(/[,、]/).forEach(entry => {
                         const clean = entry.trim();
                         if (!clean) return;
 
+                        // Estrazione sia con gol specificati tipo 御村（5） che solo nome 御村
                         const match = clean.match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
                         if (match) {
                             const rawGkName = match[1].trim();
-                            const gkGoals = parseInt(match[2], 10) || 0;
-
-                            const pObj = findPlayerObj(rawGkName);
-                            const key = pObj ? (pObj.id || pObj.number || pObj.name_kanji) : rawGkName;
-
-                            if (!goalkeeperStats[key]) {
-                                goalkeeperStats[key] = { appearances: 0, goals_conceded: 0, clean_sheets: 0 };
-                            }
-                            goalkeeperStats[key].appearances += 1;
-                            goalkeeperStats[key].goals_conceded += gkGoals;
-                            if (gkGoals === 0) {
-                                goalkeeperStats[key].clean_sheets += 1;
-                            }
+                            const gkGoals = parseInt(match[2], 10);
+                            recordGKStat(rawGkName, isNaN(gkGoals) ? matchGA : gkGoals);
+                            handledGK = true;
+                        } else {
+                            recordGKStat(clean, matchGA);
+                            handledGK = true;
                         }
                     });
+                }
+
+                // FALLBACK: Se goalkeepers non è presente, assegna ai portieri di ruolo registrati nella rosa
+                if (!handledGK && globalPlayers && globalPlayers.length > 0) {
+                    const defaultGK = globalPlayers.find(p => p.role === 'gk');
+                    if (defaultGK) {
+                        const key = defaultGK.id || defaultGK.number || defaultGK.name_kanji;
+                        if (!goalkeeperStats[key]) {
+                            goalkeeperStats[key] = { appearances: 0, goals_conceded: 0, clean_sheets: 0 };
+                        }
+                        goalkeeperStats[key].appearances += 1;
+                        goalkeeperStats[key].goals_conceded += matchGA;
+                        if (matchGA === 0) goalkeeperStats[key].clean_sheets += 1;
+                    }
                 }
             });
 
