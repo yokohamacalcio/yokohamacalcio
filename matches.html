@@ -247,19 +247,40 @@
         return `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'VS')}&background=random&color=ffffff&size=100&bold=true`;
     }
 
-    function getPlayerNameInLang(query, lang) {
-        if (!query || query === 'なし' || query === 'Nessuno') return query;
-        if (!playersData || playersData.length === 0) return query;
+    // Ricerca intelligente del giocatore in players.json anche con nomi parziali (es. solo cognome)
+    function findPlayerObj(query) {
+        if (!query || query === 'なし' || query === 'Nessuno') return null;
+        if (!playersData || playersData.length === 0) return null;
 
         const target = cleanStr(query);
-        const player = playersData.find(p => {
+        if (!target) return null;
+
+        // 1. Uguaglianza esatta
+        let found = playersData.find(p => {
             const k = cleanStr(p.name_kanji);
             const kn = cleanStr(p.name_kana);
             const r = cleanStr(p.name_romaji);
             return (k && k === target) || (kn && kn === target) || (r && r === target);
         });
 
-        if (!player) return query;
+        if (found) return found;
+
+        // 2. Corrispondenza parziale (es. inserito solo cognome o nome)
+        return playersData.find(p => {
+            const k = cleanStr(p.name_kanji);
+            const kn = cleanStr(p.name_kana);
+            const r = cleanStr(p.name_romaji);
+
+            return (k && (k.includes(target) || target.includes(k))) ||
+                   (kn && (kn.includes(target) || target.includes(kn))) ||
+                   (r && (r.includes(target) || target.includes(r)));
+        }) || null;
+    }
+
+    // Ottiene il NOME COMPLETO del giocatore integrato con players.json
+    function getPlayerNameInLang(query, lang) {
+        const player = findPlayerObj(query);
+        if (!player) return query; // Se non trovato in players.json, restituisce la stringa originale
 
         if (lang === 'ja') {
             if (player.name_kanji && containsJapaneseChars(player.name_kanji)) {
@@ -271,6 +292,7 @@
         }
     }
 
+    // Traduzione e formattazione avanzata di marcatori, assist e cartellini
     function translatePlayerText(text, lang) {
         if (!text || typeof text !== 'string') return text || '';
         if (text === 'なし' || text === 'Nessuno') return text;
@@ -280,6 +302,15 @@
             let str = item.trim();
             if (!str) return '';
 
+            // Isolamento di eventuali marcatori multipli come x2, x3 o (2)
+            let multiplier = '';
+            const multMatch = str.match(/(.*?)\s*(x\d+|\*\d+|\(\d+\))$/i);
+            if (multMatch) {
+                str = multMatch[1].trim();
+                multiplier = ' ' + multMatch[2];
+            }
+
+            // Gestione parentesi: es. "Marcatore (Assistman)"
             const match = str.match(/^([^(（]+)[(（]([^)）]+)[)）]$/);
             if (match) {
                 const mainName = match[1].trim();
@@ -288,10 +319,10 @@
                 const translatedMain = getPlayerNameInLang(mainName, lang);
                 const translatedExtra = isNaN(extraVal) ? getPlayerNameInLang(extraVal, lang) : extraVal;
 
-                return `${translatedMain} (${translatedExtra})`;
+                return `${translatedMain} (${translatedExtra})${multiplier}`;
             }
 
-            return getPlayerNameInLang(str, lang);
+            return `${getPlayerNameInLang(str, lang)}${multiplier}`;
         }).filter(Boolean).join(', ');
     }
 
@@ -423,7 +454,7 @@
             
             const rawDate = m.date ? m.date.trim().replace(/\./g, '-').substring(0, 10) : '';
 
-            // Assegnazione Categoria e Classi Badge perfettamente conforme ad index.html
+            // Badge Categoria
             let badgeHtml = '';
             let catKey = 'badge.friendly';
             let catClass = 'badge-friendly';
