@@ -19,6 +19,7 @@
     <style>
         .player-card {
             perspective: 1000px;
+            -webkit-perspective: 1000px;
             height: 400px;
             cursor: pointer;
         }
@@ -29,10 +30,12 @@
             height: 100%;
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
         }
 
         .player-card.is-flipped .player-card-inner {
             transform: rotateY(180deg);
+            -webkit-transform: rotateY(180deg);
         }
 
         .player-card-front,
@@ -42,8 +45,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden !important;
+            -webkit-backface-visibility: hidden !important;
             display: flex;
             flex-direction: column;
             border-radius: 12px;
@@ -55,11 +58,15 @@
 
         .player-card-front {
             z-index: 2;
+            transform: rotateY(0deg);
+            -webkit-transform: rotateY(0deg);
         }
 
         .player-card-back {
             transform: rotateY(180deg);
+            -webkit-transform: rotateY(180deg);
             background: #fafafa;
+            z-index: 1;
         }
 
         .player-card-header {
@@ -659,7 +666,6 @@
             matches.forEach(m => {
                 if (m.status !== 'past') return;
 
-                // Calcolo gol subiti nel match
                 let matchGA = 0;
                 const scoreText = m.score ? m.score.trim() : '';
                 if (scoreText && scoreText.includes('-')) {
@@ -670,7 +676,6 @@
                     }
                 }
 
-                // MARCATORI E ASSIST
                 if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
                     const entries = m.scorers.split(/[,、]/);
                     entries.forEach(entry => {
@@ -689,22 +694,18 @@
                     });
                 }
 
-                // MVP
                 if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
                     m.mvp.split(/[,、]/).forEach(name => addStat(mvpCounts, name));
                 }
 
-                // AMMONIZIONI
                 if (m.yellow_cards && m.yellow_cards !== 'なし' && m.yellow_cards !== 'Nessuno') {
                     m.yellow_cards.split(/[,、]/).forEach(name => addStat(yellowCounts, name));
                 }
 
-                // ESPULSIONI
                 if (m.red_cards && m.red_cards !== 'なし' && m.red_cards !== 'Nessuno') {
                     m.red_cards.split(/[,、]/).forEach(name => addStat(redCounts, name));
                 }
 
-                // PORTIERI
                 let handledGK = false;
                 if (m.goalkeepers && m.goalkeepers.trim() !== '') {
                     m.goalkeepers.split(/[,、]/).forEach(entry => {
@@ -738,7 +739,6 @@
                 }
             });
 
-            // Assegnazione dei valori calcolati alle card HTML
             document.querySelectorAll('.player-card').forEach(card => {
                 const cardKey = card.getAttribute('data-player-id');
                 const mainName = card.getAttribute('data-player-name');
@@ -783,7 +783,6 @@
             if (container) container.innerHTML = sections[role].map(createPlayerCard).join('');
         });
 
-        // Applica le traduzioni e POI inserisce i numeri delle statistiche
         setLanguage(currentLang);
         await calculateStatsFromMatchesJSON();
     }
