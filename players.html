@@ -659,7 +659,7 @@
             matches.forEach(m => {
                 if (m.status !== 'past') return;
 
-                // Calcolo gol subiti dalla squadra nel match
+                // Calcolo gol subiti nel match
                 let matchGA = 0;
                 const scoreText = m.score ? m.score.trim() : '';
                 if (scoreText && scoreText.includes('-')) {
@@ -704,14 +704,13 @@
                     m.red_cards.split(/[,、]/).forEach(name => addStat(redCounts, name));
                 }
 
-                // ESTRAZIONE PORTIERI DALLA STRINGA Dedicated o Fallback
+                // PORTIERI
                 let handledGK = false;
                 if (m.goalkeepers && m.goalkeepers.trim() !== '') {
                     m.goalkeepers.split(/[,、]/).forEach(entry => {
                         const clean = entry.trim();
                         if (!clean) return;
 
-                        // Estrazione sia con gol specificati tipo 御村（5） che solo nome 御村
                         const match = clean.match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
                         if (match) {
                             const rawGkName = match[1].trim();
@@ -725,7 +724,6 @@
                     });
                 }
 
-                // FALLBACK: Se goalkeepers non è presente, assegna ai portieri di ruolo registrati nella rosa
                 if (!handledGK && globalPlayers && globalPlayers.length > 0) {
                     const defaultGK = globalPlayers.find(p => p.role === 'gk');
                     if (defaultGK) {
@@ -785,6 +783,7 @@
             if (container) container.innerHTML = sections[role].map(createPlayerCard).join('');
         });
 
+        // Applica le traduzioni e POI inserisce i numeri delle statistiche
         setLanguage(currentLang);
         await calculateStatsFromMatchesJSON();
     }
