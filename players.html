@@ -13,7 +13,8 @@
 
     <link rel="icon" href="./immagini/logo.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Aggiunto font Oswald specifico per i nomi sulle maglie -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800;900&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
     <style>
@@ -75,8 +76,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
-            padding: 16px 12px 12px;
+            justify-content: center; /* Centra il numero perfettamente */
             background: linear-gradient(135deg, #12A0D7 0%, #0d7aa5 100%);
             position: relative;
             overflow: hidden;
@@ -107,40 +107,45 @@
             background: linear-gradient(135deg, #db2777 0%, #9d1751 100%);
         }
 
-        /* COGNOME PULITO E SPOSTATO PIÙ IN ALTO */
+        /* COGNOME - SPOSTATO IN ALTO, FONT OSWALD, PIÙ GRANDE */
         .jersey-surname-large {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.35rem;
-            font-weight: 900;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
             color: #ffffff;
             letter-spacing: 2px;
             text-transform: uppercase;
             text-align: center;
             line-height: 1.1;
-            margin-top: 4px;
-            margin-bottom: 8px;
-            max-width: 95%;
+            
+            /* Posizionamento in alto assoluto */
+            position: absolute;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             z-index: 1;
+            
             /* Bordatura pulita multi-direzionale in Blu Scuro per giocatori di movimento */
             text-shadow: 
                 -1.5px -1.5px 0 #00224a,
                  1.5px -1.5px 0 #00224a,
                 -1.5px  1.5px 0 #00224a,
                  1.5px  1.5px 0 #00224a,
-                 0px    2px 4px rgba(0,0,0,0.3);
+                 0px    2px 5px rgba(0,0,0,0.4);
         }
 
-        /* NUMERO DI MAGLIA */
+        /* NUMERO DI MAGLIA - CENTRATO E LEGGERMENTE INGRANDITO */
         .jersey-number-large {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 6.6rem;
+            font-size: 7rem;
             font-weight: 700;
             color: #ffffff;
-            line-height: 0.85;
-            margin-top: 2px;
+            line-height: 1;
             z-index: 1;
             /* Bordatura pulita multi-direzionale in Blu Scuro */
             text-shadow: 
@@ -148,7 +153,7 @@
                  2px -2px 0 #00224a,
                 -2px  2px 0 #00224a,
                  2px  2px 0 #00224a,
-                 0px   3px 6px rgba(0,0,0,0.3);
+                 0px   3px 8px rgba(0,0,0,0.4);
         }
 
         /* BORDATURA NERA SPECIFICA PER I PORTIERI */
@@ -158,7 +163,7 @@
                  1.5px -1.5px 0 #000000,
                 -1.5px  1.5px 0 #000000,
                  1.5px  1.5px 0 #000000,
-                 0px    2px 4px rgba(0,0,0,0.4);
+                 0px    2px 5px rgba(0,0,0,0.5);
         }
 
         .jersey-gk .jersey-number-large {
@@ -167,7 +172,7 @@
                  2px -2px 0 #000000,
                 -2px  2px 0 #000000,
                  2px  2px 0 #000000,
-                 0px   3px 6px rgba(0,0,0,0.4);
+                 0px   3px 8px rgba(0,0,0,0.5);
         }
 
         .player-name-block-front {
