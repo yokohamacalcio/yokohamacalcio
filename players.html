@@ -69,18 +69,18 @@
             z-index: 1;
         }
 
-        /* BODY A TUTTA SCHEDA TIPO RETRO MAGLIA (partenza dal bordo superiore) */
+        /* BODY A TUTTA SCHEDA TIPO RETRO MAGLIA */
         .player-body-jersey {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 24px 12px 16px;
+            justify-content: flex-start;
+            padding: 16px 12px 12px;
             background: linear-gradient(135deg, #12A0D7 0%, #0d7aa5 100%);
             position: relative;
             overflow: hidden;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.15);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.12);
         }
 
         /* Trama striata stile tessuto maglia */
@@ -98,43 +98,76 @@
             pointer-events: none;
         }
 
+        /* MAGLIA PORTIERE #32CD62 */
         .player-body-jersey.jersey-gk {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            background: linear-gradient(135deg, #32CD62 0%, #28a74e 100%);
         }
 
         .player-body-jersey.jersey-staff {
             background: linear-gradient(135deg, #db2777 0%, #9d1751 100%);
         }
 
-        /* NOME E NUMERO CON BORDATURA BLU SCURO (TEXT OUTLINE) */
+        /* COGNOME PULITO E SPOSTATO PIÙ IN ALTO */
         .jersey-surname-large {
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.45rem;
+            font-size: 1.35rem;
             font-weight: 900;
             color: #ffffff;
             letter-spacing: 2px;
             text-transform: uppercase;
             text-align: center;
             line-height: 1.1;
-            margin-bottom: 2px;
+            margin-top: 4px;
+            margin-bottom: 8px;
             max-width: 95%;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             z-index: 1;
-            -webkit-text-stroke: 1.5px #00224a;
-            text-shadow: 0 3px 6px rgba(0,34,74,0.5);
+            /* Bordatura pulita multi-direzionale in Blu Scuro per giocatori di movimento */
+            text-shadow: 
+                -1.5px -1.5px 0 #00224a,
+                 1.5px -1.5px 0 #00224a,
+                -1.5px  1.5px 0 #00224a,
+                 1.5px  1.5px 0 #00224a,
+                 0px    2px 4px rgba(0,0,0,0.3);
         }
 
+        /* NUMERO DI MAGLIA */
         .jersey-number-large {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 6.8rem;
+            font-size: 6.6rem;
             font-weight: 700;
             color: #ffffff;
-            line-height: 0.82;
+            line-height: 0.85;
+            margin-top: 2px;
             z-index: 1;
-            -webkit-text-stroke: 3px #00224a;
-            text-shadow: 0 4px 10px rgba(0,34,74,0.5);
+            /* Bordatura pulita multi-direzionale in Blu Scuro */
+            text-shadow: 
+                -2px -2px 0 #00224a,
+                 2px -2px 0 #00224a,
+                -2px  2px 0 #00224a,
+                 2px  2px 0 #00224a,
+                 0px   3px 6px rgba(0,0,0,0.3);
+        }
+
+        /* BORDATURA NERA SPECIFICA PER I PORTIERI */
+        .jersey-gk .jersey-surname-large {
+            text-shadow: 
+                -1.5px -1.5px 0 #000000,
+                 1.5px -1.5px 0 #000000,
+                -1.5px  1.5px 0 #000000,
+                 1.5px  1.5px 0 #000000,
+                 0px    2px 4px rgba(0,0,0,0.4);
+        }
+
+        .jersey-gk .jersey-number-large {
+            text-shadow: 
+                -2px -2px 0 #000000,
+                 2px -2px 0 #000000,
+                -2px  2px 0 #000000,
+                 2px  2px 0 #000000,
+                 0px   3px 6px rgba(0,0,0,0.4);
         }
 
         .player-name-block-front {
@@ -218,7 +251,7 @@
             word-break: break-word;
         }
 
-        /* RUOLO STILIZZATO SUL RETRO CON STEMMA/ICONA E COLORE */
+        /* BADGE DI RUOLO SUL RETRO SCHEDA */
         .role-badge-back {
             display: inline-flex;
             align-items: center;
@@ -230,7 +263,7 @@
             font-size: 0.8rem;
         }
 
-        .role-badge-back.role-badge-gk { background: #d97706; }
+        .role-badge-back.role-badge-gk { background: #32CD62; color: #000; }
         .role-badge-back.role-badge-df { background: #0284c7; }
         .role-badge-back.role-badge-mf { background: #12A0D7; }
         .role-badge-back.role-badge-fw { background: #dc2626; }
@@ -498,7 +531,6 @@
         return position || role.toUpperCase();
     }
 
-    // ESTRAZIONE INTELLIGENTE DEL COGNOME (gestisce "Di Rubbo", "De Rosa", ecc.)
     function getSurnameRomaji(nameRomaji, nameKanji) {
         const raw = (nameRomaji && nameRomaji !== '-') ? nameRomaji : nameKanji;
         if (!raw || raw === '-') return 'YOKOHAMA';
