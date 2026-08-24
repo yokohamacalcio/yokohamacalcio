@@ -186,6 +186,7 @@
 
     if ('scrollRestoration' in history) { history.scrollRestoration = 'auto'; }
 
+    // Lettura iniziale lingua salvata
     let currentLang = localStorage.getItem('preferred_lang') || 'ja';
     let visiblePastMatchesCount = 3;
     let rawMatches = [];
@@ -337,9 +338,14 @@
     }
 
     function setLanguage(lang) {
+        if (!translations[lang]) return;
+
         currentLang = lang;
+        // SALVA LA LINGUA SELEZIONATA
         localStorage.setItem('preferred_lang', lang);
+
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-lang') === lang));
+        
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (translations[lang] && translations[lang][key]) {
@@ -672,8 +678,8 @@
                 playersData = [];
             }
 
-            renderMatches();
-            filterAndPaginateMatches();
+            // APPLICA LINGUA PRIMA DEL RENDER E DELLA PAGINAZIONE
+            setLanguage(currentLang);
             handleHashOnLoad();
         } catch (error) {
             console.error("Errore nel caricamento dati:", error);
