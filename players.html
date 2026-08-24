@@ -113,19 +113,56 @@
             background: #ffffff;
         }
 
-        .player-photo {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid #f1f5f9;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        /* STILE RETRO MAGLIA SULLA FRONTE DELLA SCHEDA */
+        .jersey-back-display {
+            width: 140px;
+            height: 150px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #003c82 0%, #00224a 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 8px;
+            box-shadow: 0 6px 15px rgba(0,60,130,0.18);
+            border: 2px solid #ffffff;
+            outline: 1px solid #cbd5e1;
+            position: relative;
         }
 
-        .player-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .jersey-back-display.jersey-gk {
+            background: linear-gradient(135deg, #16a34a 0%, #0f6c31 100%);
+            box-shadow: 0 6px 15px rgba(22,163,74,0.18);
+        }
+
+        .jersey-back-display.jersey-staff {
+            background: linear-gradient(135deg, #db2777 0%, #9d1751 100%);
+            box-shadow: 0 6px 15px rgba(219,39,119,0.18);
+        }
+
+        .jersey-surname {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 1.1;
+            margin-bottom: 2px;
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .jersey-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 0.9;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .player-name-block-front {
@@ -429,6 +466,14 @@
         return position || role.toUpperCase();
     }
 
+    // Estrae l'ultimo termine (cognome) dalla stringa in Romaji
+    function getSurnameRomaji(nameRomaji, nameKanji) {
+        const raw = (nameRomaji && nameRomaji !== '-') ? nameRomaji : nameKanji;
+        if (!raw || raw === '-') return 'YOKOHAMA';
+        const parts = raw.trim().split(/\s+/);
+        return parts[parts.length - 1].toUpperCase();
+    }
+
     function setLanguage(lang) {
         if (!translations[lang]) return;
         currentLang = lang;
@@ -490,38 +535,24 @@
         return icons[role] || 'fa-user';
     }
 
-    function getAvatarBg(role) {
-        const bg = { gk: '16a34a', df: '0284c7', mf: 'd97706', fw: 'dc2626', staff: 'f472b6' };
-        return bg[role] || '003C82';
-    }
-
-    function getInitials(name) {
-        if (!name) return 'YC';
-        const parts = name.trim().split(/\s+/);
-        if (parts.length >= 2) {
-            return (parts[0][0] + parts[1][0]).toUpperCase();
-        }
-        return name.substring(0, 2).toUpperCase();
-    }
-
     function createPlayerCard(p) {
         const isStaff = p.role === 'staff';
         const isGK = (p.role === 'gk') || (p.position && p.position.toUpperCase().includes('GK'));
         
         const numberDisplay = p.number ? `#${p.number}` : '#-';
+        const numberOnly = p.number ? p.number : '-';
         const roleClass = `role-badge-${p.role}`;
         const roleIcon = getRoleIcon(p.role);
         const nameKanji = p.name_kanji || '-';
         const nameKana = p.name_kana || nameKanji;
         const nameRomaji = p.name_romaji || nameKanji;
+        const surnameRomaji = getSurnameRomaji(p.name_romaji, nameKanji);
         const hometownCode = p.hometown || '-';
         const age = calculateAge(p.birth_date);
         const rawPosition = p.position || '-';
         const abbrevPosition = getRoleAbbreviation(rawPosition, p.role, currentLang);
 
-        const initials = getInitials(nameRomaji !== '-' ? nameRomaji : nameKanji);
-        const avatarBg = getAvatarBg(p.role);
-        const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=${avatarBg}&color=ffffff&size=200&bold=true`;
+        const jerseyRoleClass = isGK ? 'jersey-gk' : (isStaff ? 'jersey-staff' : '');
 
         let detailsRows = '';
         if (isStaff) {
@@ -564,8 +595,9 @@
                             <span class="role-badge-tactical ${roleClass}"><i class="fas ${roleIcon}"></i> <span class="role-badge-text">${abbrevPosition}</span></span>
                         </div>
                         <div class="player-body">
-                            <div class="player-photo">
-                                <img src="${avatarUrl}" alt="${nameKanji}">
+                            <div class="jersey-back-display ${jerseyRoleClass}">
+                                <div class="jersey-surname">${surnameRomaji}</div>
+                                <div class="jersey-number">${numberOnly}</div>
                             </div>
                         </div>
                         <div class="player-name-block-front">
