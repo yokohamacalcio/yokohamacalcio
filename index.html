@@ -611,10 +611,15 @@
         }
     };
 
+    // Lettura iniziale della lingua salvata
+    let currentLang = localStorage.getItem('preferred_lang') || 'ja';
     let cachedMatches = [];
 
     function setLanguage(lang) {
         if (!translations[lang]) return;
+        
+        currentLang = lang;
+        // SALVA LA LINGUA NEL LOCALSTORAGE
         localStorage.setItem('preferred_lang', lang);
 
         document.querySelectorAll('[data-i18n]').forEach(elem => {
@@ -663,7 +668,7 @@
     }
 
     function renderMatchCenter(matches) {
-        const lang = localStorage.getItem('preferred_lang') || 'ja';
+        const lang = currentLang;
 
         const renderCategoryBadge = (elementId, category) => {
             const elem = document.getElementById(elementId);
@@ -827,9 +832,9 @@
         });
     }
 
+    // CARICAMENTO INIZIALE LINGUA E DATI
     window.addEventListener('DOMContentLoaded', () => {
-        const savedLang = localStorage.getItem('preferred_lang') || 'ja';
-        setLanguage(savedLang);
+        setLanguage(currentLang);
         initMatchCenter();
         initCompactGallery();
     });
