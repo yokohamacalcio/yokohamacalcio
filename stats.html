@@ -282,12 +282,10 @@
 </footer>
 
 <script>
-    // Reading preferred language from localStorage
     let currentLanguage = localStorage.getItem('preferred_lang') || 'ja';
     let rawMatchesData = [];
     let playersData = [];
 
-    // DIZIONARIO TRADUZIONI MULTILINGUA
     const translations = {
         ja: {
             "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
@@ -405,6 +403,7 @@
 
         if (rawMatchesData.length > 0) {
             calculateAndRenderStats();
+            loadStandingsData();
         }
     }
 
@@ -456,18 +455,22 @@
         yearSpan.textContent = new Date().getFullYear();
     }
 
+    // POPOLA E IMPOSTA L'ANNO CORRENTE COME DEFAULT
     function populateSeasonSelect(matches) {
         const select = document.getElementById('seasonSelect');
         if (!select) return;
 
-        const currentSelected = select.value;
+        const currentYearStr = new Date().getFullYear().toString();
         const yearsSet = new Set();
+        
         matches.forEach(m => {
             if (m.date) {
                 const y = m.date.substring(0, 4);
                 if (y && !isNaN(y)) yearsSet.add(y);
             }
         });
+
+        yearsSet.add(currentYearStr);
 
         let years = Array.from(yearsSet).sort((a, b) => b - a);
         select.innerHTML = '';
@@ -484,16 +487,98 @@
             select.appendChild(option);
         });
 
-        if (currentSelected && (years.includes(currentSelected) || currentSelected === 'all')) {
-            select.value = currentSelected;
-        } else {
-            select.value = 'all';
+        select.value = currentYearStr;
+    }
+
+    // CARICAMENTO E RENDERING CLASSIFICA DA STANDINGS.JSON
+    async function loadStandingsData() {
+        const standingsContainer = document.getElementById('standingsContainer');
+        if (!standingsContainer) return;
+
+        const selectEl = document.getElementById('seasonSelect');
+        const selectedSeason = selectEl ? selectEl.value : new Date().getFullYear().toString();
+
+        try {
+            const response = await fetch('standings.json');
+            if (!response.ok) throw new Error("standings.json non presente");
+
+            const allStandings = await response.json();
+            const seasonData = allStandings[selectedSeason];
+
+            if (!seasonData || seasonData.length === 0) {
+                renderDefaultNoStandings(standingsContainer);
+                return;
+            }
+
+            const processedTeams = seasonData.map(t => {
+                const pts = (t.wins * 3) + (t.draws * 1);
+                const gd = t.gf - t.ga;
+                return { ...t, pts, gd };
+            });
+
+            processedTeams.sort((a, b) => {
+                if (b.pts !== a.pts) return b.pts - a.pts;
+                if (b.gd !== a.gd) return b.gd - a.gd;
+                return b.gf - a.gf;
+            });
+
+            let tableHtml = `
+                <div class="stats-table-wrapper">
+                    <table class="stats-table">
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Squadra</th>
+                                <th>G</th>
+                                <th>V</th>
+                                <th>N</th>
+                                <th>P</th>
+                                <th>GF</th>
+                                <th>GS</th>
+                                <th>DR</th>
+                                <th>Pt</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+            processedTeams.forEach((t, index) => {
+                const isOurTeam = cleanStr(t.team).includes("yokohamacalcio") || cleanStr(t.team).includes("ヨコハマカルチョ");
+                const rowStyle = isOurTeam ? 'style="background: rgba(135, 206, 235, 0.18); font-weight: 700;"' : '';
+
+                tableHtml += `
+                    <tr ${rowStyle}>
+                        <td><strong>${index + 1}</strong></td>
+                        <td style="text-align: left;">${t.team}</td>
+                        <td>${t.played}</td>
+                        <td>${t.wins}</td>
+                        <td>${t.draws}</td>
+                        <td>${t.losses}</td>
+                        <td>${t.gf}</td>
+                        <td>${t.ga}</td>
+                        <td style="color: ${t.gd > 0 ? '#10b981' : t.gd < 0 ? '#ef4444' : 'inherit'};">${t.gd > 0 ? '+' + t.gd : t.gd}</td>
+                        <td style="color: var(--primary-sky); font-size: 1.05rem; font-weight: 800;">${t.pts}</td>
+                    </tr>`;
+            });
+
+            tableHtml += `</tbody></table></div>`;
+            standingsContainer.innerHTML = tableHtml;
+
+        } catch (e) {
+            renderDefaultNoStandings(standingsContainer);
         }
+    }
+
+    function renderDefaultNoStandings(container) {
+        container.innerHTML = `
+            <i class="fas fa-info-circle" style="font-size: 2rem; color: var(--primary-sky); margin-bottom: 10px;"></i>
+            <p id="noStandingsMsg" style="color: var(--text-color); font-weight: 600;" data-i18n="stats.no_standings">
+                ${translations[currentLanguage]["stats.no_standings"]}
+            </p>`;
     }
 
     function calculateAndRenderStats() {
         const selectEl = document.getElementById('seasonSelect');
-        const selectedSeason = selectEl ? selectEl.value : 'all';
+        const selectedSeason = selectEl ? selectEl.value : new Date().getFullYear().toString();
 
         let stats = {
             league:   { played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0, yellow: 0, red: 0 },
@@ -681,8 +766,11 @@
     async function loadAllStatsData() {
         try {
             const response = await fetch('matches.json');
-            if (!response.ok) throw new Error("matches.json non trovato");
-            rawMatchesData = await response.json();
+            if (response.ok) {
+                rawMatchesData = await response.json();
+            } else {
+                rawMatchesData = [];
+            }
 
             try {
                 const pResp = await fetch('players.json');
@@ -690,7 +778,6 @@
                     playersData = await pResp.json();
                 }
             } catch (e) {
-                console.warn("players.json non trovato.");
                 playersData = [];
             }
 
@@ -703,7 +790,10 @@
 
     const seasonSelect = document.getElementById('seasonSelect');
     if (seasonSelect) {
-        seasonSelect.addEventListener('change', calculateAndRenderStats);
+        seasonSelect.addEventListener('change', () => {
+            calculateAndRenderStats();
+            loadStandingsData();
+        });
     }
 
     window.addEventListener('DOMContentLoaded', async () => {
