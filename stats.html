@@ -505,12 +505,25 @@
             const allStandings = await response.json();
             const seasonData = allStandings[selectedSeason];
 
-            if (!seasonData || seasonData.length === 0) {
+            // Supporta sia struttura con oggetti { league_name, teams } che array diretto []
+            let teamsList = [];
+            let leagueName = '';
+
+            if (seasonData) {
+                if (Array.isArray(seasonData)) {
+                    teamsList = seasonData;
+                } else if (typeof seasonData === 'object') {
+                    teamsList = seasonData.teams || [];
+                    leagueName = seasonData.league_name || '';
+                }
+            }
+
+            if (!teamsList || teamsList.length === 0) {
                 renderDefaultNoStandings(standingsContainer);
                 return;
             }
 
-            const processedTeams = seasonData.map(t => {
+            const processedTeams = teamsList.map(t => {
                 const pts = (t.wins * 3) + (t.draws * 1);
                 const gd = t.gf - t.ga;
                 return { ...t, pts, gd };
@@ -522,7 +535,15 @@
                 return b.gf - a.gf;
             });
 
-            let tableHtml = `
+            const leagueTitleHtml = leagueName 
+                ? `<div style="text-align: center; margin-bottom: 15px;">
+                     <span style="background: var(--dark-navy, #003c82); color: #fff; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 0.9rem; display: inline-block;">
+                       <i class="fas fa-trophy" style="color: var(--primary-sky); margin-right: 6px;"></i>${leagueName}
+                     </span>
+                   </div>`
+                : '';
+
+            let tableHtml = leagueTitleHtml + `
                 <div class="stats-table-wrapper">
                     <table class="stats-table">
                         <thead>
