@@ -39,7 +39,7 @@
   <div class="main-header-bar">
     <div class="container header-container">
       
-      <!-- LOGO & BRAND NAME (su 2 righe da desktop) -->
+      <!-- LOGO & BRAND NAME -->
       <div class="logo-title">
         <a href="index.html">
           <img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo">
@@ -213,6 +213,9 @@
 </footer>
 
 <script>
+    // Reading preferred language
+    let currentLang = localStorage.getItem('preferred_lang') || 'ja';
+
     // DIZIONARIO TRADUZIONI FAQ
     const translations = {
         ja: {
@@ -322,9 +325,10 @@
         }
     };
 
-    // GESTIONE TRADUZIONI SITO (Protegge le icone nell'HTML)
+    // GESTIONE TRADUZIONI SITO
     function setLanguage(lang) {
         if (!translations[lang]) return;
+        currentLang = lang;
         localStorage.setItem('preferred_lang', lang);
 
         document.querySelectorAll('[data-i18n]').forEach(elem => {
@@ -332,7 +336,6 @@
             const translation = translations[lang][key];
 
             if (translation) {
-                // Se contiene codice HTML (come i tag <br>), usa innerHTML per preservarli
                 if (translation.includes('<br>')) {
                     elem.innerHTML = translation;
                 } else {
@@ -413,8 +416,7 @@
 
     // Inizializzazione lingua al caricamento della pagina
     window.addEventListener('DOMContentLoaded', () => {
-        const savedLang = localStorage.getItem('preferred_lang') || 'ja';
-        setLanguage(savedLang);
+        setLanguage(currentLang);
     });
 </script>
 </body>
