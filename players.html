@@ -145,7 +145,7 @@
                  0px   3px 8px rgba(0,0,0,0.4);
         }
 
-        /* Nome e Numero Portiere Neri con Bordi Bianchi */
+        /* Nome e Numero Portiere Neri con Bordo Bianco */
         .jersey-gk .jersey-surname-large {
             color: #000000;
             text-shadow: 
@@ -223,7 +223,7 @@
             background: #fafafa;
         }
 
-        /* Adattamento contenuti retro per eliminare la scroll bar */
+        /* Nessuna scrollbar sul retro delle schede */
         .player-details-inner {
             padding: 8px 12px;
             flex-grow: 1;
@@ -514,23 +514,31 @@
     let currentLang = localStorage.getItem('preferred_lang') || 'ja';
     let globalPlayers = [];
 
-    function cleanStr(s) {
-        return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
-    }
+    // Ricerca flessibile del giocatore nei referti (Kanji, Kana, Romaji o nomi parziali)
+    function findPlayerObj(query) {
+        if (!query || query === 'なし' || query === 'Nessuno') return null;
+        if (!globalPlayers || globalPlayers.length === 0) return null;
 
-    function getRoleAbbreviation(position, role, lang) {
-        if (role === 'staff') return 'MGR';
-        if (lang === 'it') {
-            const mapIT = {
-                'GK': 'Por', 'CB': 'DC', 'SB': 'Ter', 'CM': 'CC', 'SH': 'Est', 'CAM': 'Trq', 'FW': 'PC',
-                'SB / SH': 'Ter / Est', 'CM / SB': 'CC / Ter', 'CM / SH': 'CC / Est', 'CM / CB': 'CC / DC',
-                'SH / SB': 'Est / Ter', 'CM / CAM': 'CC / Trq', 'SH / FW': 'Est / PC', 'CM / FW': 'CC / PC',
-                'FW / SH': 'PC / Est', 'FW / SB': 'PC / Ter', 'FW / SH / CAM': 'PC / Trq',
-                'SB / CM / CAM': 'Ter / CC / Trq', 'FW / SH / CM': 'PC / Est / CC'
-            };
-            return mapIT[position] || position || 'GIO';
-        }
-        return position || role.toUpperCase();
+        const target = String(query).trim().toLowerCase();
+        if (!target) return null;
+
+        let found = globalPlayers.find(p => {
+            const k = (p.name_kanji || '').toLowerCase();
+            const kn = (p.name_kana || '').toLowerCase();
+            const r = (p.name_romaji || '').toLowerCase();
+            return k === target || kn === target || r === target;
+        });
+        if (found) return found;
+
+        return globalPlayers.find(p => {
+            const k = (p.name_kanji || '').toLowerCase();
+            const kn = (p.name_kana || '').toLowerCase();
+            const r = (p.name_romaji || '').toLowerCase();
+
+            return (k && (k.includes(target) || target.includes(k))) ||
+                   (kn && (kn.includes(target) || target.includes(kn))) ||
+                   (r && (r.includes(target) || target.includes(r)));
+        }) || null;
     }
 
     function getSurnameRomaji(nameRomaji, nameKanji) {
@@ -565,8 +573,6 @@
         document.querySelectorAll('.player-card').forEach(card => {
             const kana = card.getAttribute('data-player-kana');
             const romaji = card.getAttribute('data-player-romaji');
-            const pos = card.getAttribute('data-player-pos');
-            const role = card.getAttribute('data-player-role');
             
             const displayName = (lang === 'ja') ? (kana || romaji || '-') : (romaji || kana || '-');
             card.querySelectorAll('.player-name-romaji').forEach(el => {
@@ -690,33 +696,6 @@
                 </div>
             </div>
         `;
-    }
-
-    function findPlayerObj(query) {
-        if (!query || query === 'なし' || query === 'Nessuno') return null;
-        if (!globalPlayers || globalPlayers.length === 0) return null;
-
-        const target = cleanStr(query);
-        if (!target) return null;
-
-        let found = globalPlayers.find(p => {
-            const k = cleanStr(p.name_kanji);
-            const kn = cleanStr(p.name_kana);
-            const r = cleanStr(p.name_romaji);
-            return (k && k === target) || (kn && kn === target) || (r && r === target);
-        });
-
-        if (found) return found;
-
-        return globalPlayers.find(p => {
-            const k = cleanStr(p.name_kanji);
-            const kn = cleanStr(p.name_kana);
-            const r = cleanStr(p.name_romaji);
-
-            return (k && (k.includes(target) || target.includes(k))) ||
-                   (kn && (kn.includes(target) || target.includes(kn))) ||
-                   (r && (r.includes(target) || target.includes(r)));
-        }) || null;
     }
 
     async function calculateStatsFromMatchesJSON() {
