@@ -353,7 +353,6 @@
         <h2 class="section-title"><i class="fas fa-users"></i> <span data-i18n="players_page.title">選手・スタッフ紹介</span></h2>
         <p class="players-intro" data-i18n="players_page.intro">カードをタップすると詳細情報・個人成績をご覧いただけます。</p>
 
-        <!-- FILTRI PER RUOLO -->
         <div class="filter-wrapper">
             <button class="filter-btn active" data-role-filter="all" data-i18n="role_filter.all">すべて (ALL)</button>
             <button class="filter-btn" data-role-filter="gk" data-i18n="role_filter.gk">GK</button>
@@ -514,26 +513,33 @@
     let currentLang = localStorage.getItem('preferred_lang') || 'ja';
     let globalPlayers = [];
 
-    // Ricerca flessibile del giocatore nei referti (Kanji, Kana, Romaji o nomi parziali)
+    // Normalizzazione stringhe (rimuove spazi e trasforma in minuscolo)
+    function cleanStr(s) {
+        return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
+    }
+
+    // Ricerca flessibile del giocatore nei referti
     function findPlayerObj(query) {
         if (!query || query === 'なし' || query === 'Nessuno') return null;
         if (!globalPlayers || globalPlayers.length === 0) return null;
 
-        const target = String(query).trim().toLowerCase();
+        const target = cleanStr(query);
         if (!target) return null;
 
+        // 1. Match Esatto
         let found = globalPlayers.find(p => {
-            const k = (p.name_kanji || '').toLowerCase();
-            const kn = (p.name_kana || '').toLowerCase();
-            const r = (p.name_romaji || '').toLowerCase();
+            const k = cleanStr(p.name_kanji);
+            const kn = cleanStr(p.name_kana);
+            const r = cleanStr(p.name_romaji);
             return k === target || kn === target || r === target;
         });
         if (found) return found;
 
+        // 2. Match Parziale (Cognome o Nome contenuto)
         return globalPlayers.find(p => {
-            const k = (p.name_kanji || '').toLowerCase();
-            const kn = (p.name_kana || '').toLowerCase();
-            const r = (p.name_romaji || '').toLowerCase();
+            const k = cleanStr(p.name_kanji);
+            const kn = cleanStr(p.name_kana);
+            const r = cleanStr(p.name_romaji);
 
             return (k && (k.includes(target) || target.includes(k))) ||
                    (kn && (kn.includes(target) || target.includes(kn))) ||
@@ -711,19 +717,10 @@
                 let cleanName = rawName.trim();
                 if (!cleanName || cleanName === 'なし' || cleanName === 'Nessuno') return;
 
-                let countToAdd = count;
-                const multMatch = cleanName.match(/(.*?)\s*(?:x|\*|\()(\d+)\)?$/i);
-                if (multMatch) {
-                    cleanName = multMatch[1].trim();
-                    countToAdd = parseInt(multMatch[2], 10) || count;
-                }
-
-                if (!cleanName) return;
-
                 const pObj = findPlayerObj(cleanName);
                 const key = pObj ? (pObj.id || pObj.number || pObj.name_kanji) : cleanName;
 
-                map[key] = (map[key] || 0) + countToAdd;
+                map[key] = (map[key] || 0) + count;
             };
 
             const recordGKStat = (gkRawName, gaGoals) => {
@@ -754,36 +751,53 @@
                     }
                 }
 
+                // 1. Calcolo Marcatori (gestisce x2, X2, *2)
                 if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
                     const entries = m.scorers.split(/[,、]/);
                     entries.forEach(entry => {
                         let text = entry.trim();
                         if (!text) return;
 
-                        let assistName = '';
-                        const parenthesisedMatch = text.match(/^([^(（]+)[(（]([^)）]+)[)）]\s*(.*)$/);
-                        if (parenthesisedMatch) {
-                            text = (parenthesisedMatch[1] + ' ' + parenthesisedMatch[3]).trim();
-                            assistName = parenthesisedMatch[2].trim();
+                        let countGoals = 1;
+                        const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
+                        if (multMatch) {
+                            text = multMatch[1].trim();
+                            countGoals = parseInt(multMatch[2], 10) || 1;
                         }
 
-                        if (text) addStat(goalCounts, text);
-                        if (assistName) addStat(assistCounts, assistName);
+                        if (text) {
+                            addStat(goalCounts, text, countGoals);
+                        }
                     });
                 }
 
+                // 2. Calcolo Assistman (dal nuovo campo dedicato "assists")
+                if (m.assists && m.assists !== 'なし' && m.assists !== 'Nessuno') {
+                    const entries = m.assists.split(/[,、]/);
+                    entries.forEach(entry => {
+                        const cleanAst = entry.trim();
+                        if (cleanAst) {
+                            addStat(assistCounts, cleanAst, 1);
+                        }
+                    });
+                }
+
+                // 3. MVP
                 if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
                     m.mvp.split(/[,、]/).forEach(name => addStat(mvpCounts, name));
                 }
 
+                // 4. Cartellini Gialli
                 if (m.yellow_cards && m.yellow_cards !== 'なし' && m.yellow_cards !== 'Nessuno') {
                     m.yellow_cards.split(/[,、]/).forEach(name => addStat(yellowCounts, name));
                 }
 
+                // 5. Cartellini Rossi
                 if (m.red_cards && m.red_cards !== 'なし' && m.red_cards !== 'Nessuno') {
                     m.red_cards.split(/[,、]/).forEach(name => addStat(redCounts, name));
                 }
 
+                // 6. Portieri
                 let handledGK = false;
                 if (m.goalkeepers && m.goalkeepers.trim() !== '') {
                     m.goalkeepers.split(/[,、]/).forEach(entry => {
@@ -817,6 +831,7 @@
                 }
             });
 
+            // Assegnazione valori nell'HTML
             document.querySelectorAll('.player-card').forEach(card => {
                 const cardKey = card.getAttribute('data-player-id');
                 const mainName = card.getAttribute('data-player-name');
