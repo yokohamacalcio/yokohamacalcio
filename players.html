@@ -95,8 +95,9 @@
             pointer-events: none;
         }
 
+        /* Maglia Portiere Gialla */
         .player-body-jersey.jersey-gk {
-            background: linear-gradient(135deg, #32CD62 0%, #28a74e 100%);
+            background: linear-gradient(135deg, #FFD500 0%, #E59400 100%);
         }
 
         .player-body-jersey.jersey-staff {
@@ -144,41 +145,44 @@
                  0px   3px 8px rgba(0,0,0,0.4);
         }
 
+        /* Nome e Numero Portiere Neri con Bordi Bianchi */
         .jersey-gk .jersey-surname-large {
+            color: #000000;
             text-shadow: 
-                -1.5px -1.5px 0 #000000,
-                 1.5px -1.5px 0 #000000,
-                -1.5px  1.5px 0 #000000,
-                 1.5px  1.5px 0 #000000,
-                 0px    2px 5px rgba(0,0,0,0.5);
+                -1.5px -1.5px 0 #ffffff,
+                 1.5px -1.5px 0 #ffffff,
+                -1.5px  1.5px 0 #ffffff,
+                 1.5px  1.5px 0 #ffffff,
+                 0px    2px 5px rgba(0,0,0,0.2);
         }
 
         .jersey-gk .jersey-number-large {
+            color: #000000;
             text-shadow: 
-                -2px -2px 0 #000000,
-                 2px -2px 0 #000000,
-                -2px  2px 0 #000000,
-                 2px  2px 0 #000000,
-                 0px   3px 8px rgba(0,0,0,0.5);
+                -2px -2px 0 #ffffff,
+                 2px -2px 0 #ffffff,
+                -2px  2px 0 #ffffff,
+                 2px  2px 0 #ffffff,
+                 0px   3px 8px rgba(0,0,0,0.2);
         }
 
         .player-name-block-front {
             text-align: center;
-            padding: 10px 16px;
+            padding: 8px 12px;
             background: #ffffff;
             border-top: 1px solid #f1f5f9;
             z-index: 2;
         }
 
         .player-name-kanji {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: 800;
             color: var(--dark-navy, #003c82);
             margin-bottom: 2px;
         }
 
         .player-name-romaji {
-            font-size: 0.88rem;
+            font-size: 0.82rem;
             color: #64748b;
             font-weight: 600;
         }
@@ -186,9 +190,9 @@
         .player-flip-indicator {
             background: #f1f5f9;
             color: var(--dark-navy, #003c82);
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            padding: 10px 16px;
+            padding: 8px 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -215,18 +219,20 @@
 
         .player-back-name-block {
             text-align: center;
-            padding: 16px 16px 8px;
+            padding: 10px 12px 6px;
             background: #fafafa;
         }
 
+        /* Adattamento contenuti retro senza scroll bar */
         .player-details-inner {
-            padding: 12px 14px;
+            padding: 8px 12px;
             flex-grow: 1;
-            overflow-y: auto;
-            font-size: 0.83rem;
+            overflow: hidden; /* Nessuna scroll bar */
+            font-size: 0.78rem;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            justify-content: space-evenly;
+            gap: 2px;
         }
 
         .player-detail-row {
@@ -234,7 +240,13 @@
             justify-content: space-between;
             align-items: center;
             color: #475569;
-            gap: 8px;
+            gap: 6px;
+            padding: 2px 0;
+            border-bottom: 1px dashed #cbd5e1;
+        }
+
+        .player-detail-row:last-child {
+            border-bottom: none;
         }
 
         .player-detail-row strong {
@@ -246,15 +258,15 @@
         .role-badge-back {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 3px 10px;
-            border-radius: 12px;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 10px;
             font-weight: 700;
             color: #ffffff;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
 
-        .role-badge-back.role-badge-gk { background: #32CD62; color: #000; }
+        .role-badge-back.role-badge-gk { background: #FFD500; color: #000000; }
         .role-badge-back.role-badge-df { background: #0284c7; }
         .role-badge-back.role-badge-mf { background: #12A0D7; }
         .role-badge-back.role-badge-fw { background: #dc2626; }
@@ -311,7 +323,7 @@
           </div>
           <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
-          <a href="index.html#sponsors" data-i18n="nav.sponsors">スポンサー</a>
+          <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
           <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
           <a href="index.html#contact" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
         </nav>
@@ -330,7 +342,7 @@
     <a href="index.html#gallery" class="mobile-link" data-i18n="nav.gallery">ギャラリー</a>
     <a href="matches.html" class="mobile-link" data-i18n="nav.matches">試合日程・結果</a>
     <a href="index.html#shop" class="mobile-link" data-i18n="nav.shop">ショップ</a>
-    <a href="index.html#sponsors" class="mobile-link" data-i18n="nav.sponsors">スポンサー</a>
+    <a href="index.html#sponsors" class="mobile-link" data-i18n="nav.sponsors">パートナー</a>
     <a href="faq.html" class="mobile-link" data-i18n="nav.faq">よくある質問</a>
     <a href="index.html#contact" class="mobile-link mobile-cta" data-i18n="nav.contact">お問い合わせ</a>
   </nav>
@@ -446,7 +458,7 @@
     const translations = {
         ja: {
             "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
-            "nav.matches": "試合日程・結果", "nav.club": "クラブ", "nav.gallery": "ギャラリー", "nav.sponsors": "スポンサー",
+            "nav.matches": "試合日程・結果", "nav.club": "クラブ", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー",
             "nav.faq": "よくある質問", "nav.shop": "ショップ", "nav.contact": "お問い合わせ",
             "players_page.title": "選手・スタッフ紹介", "players_page.intro": "カードをタップすると詳細情報・個人成績をご覧いただけます。",
             "role_filter.all": "すべて (ALL)", "role_filter.gk": "GK", "role_filter.df": "DF", "role_filter.mf": "MF",
@@ -460,7 +472,7 @@
         },
         it: {
             "nav.team": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
-            "nav.matches": "Partite & Risultati", "nav.club": "CLUB", "nav.gallery": "Galleria", "nav.sponsors": "Sponsor",
+            "nav.matches": "Partite & Risultati", "nav.club": "CLUB", "nav.gallery": "Galleria", "nav.sponsors": "Partner",
             "nav.faq": "FAQ", "nav.contact": "Contatti",
             "players_page.title": "Rosa & Staff", "players_page.intro": "Tocca la scheda per visualizzare i dettagli e le statistiche personali.",
             "role_filter.all": "Tutti", "role_filter.gk": "Portieri", "role_filter.df": "Difensori", "role_filter.mf": "Centrocampisti",
@@ -474,7 +486,7 @@
         },
         en: {
             "nav.team": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
-            "nav.matches": "Matches & Results", "nav.club": "CLUB", "nav.gallery": "Gallery", "nav.sponsors": "Sponsors",
+            "nav.matches": "Matches & Results", "nav.club": "CLUB", "nav.gallery": "Gallery", "nav.sponsors": "Partners",
             "nav.faq": "FAQ", "nav.shop": "Shop", "nav.contact": "Contact Us",
             "players_page.title": "Players & Staff", "players_page.intro": "Tap a card to view detailed info and personal stats.",
             "role_filter.all": "All Players", "role_filter.gk": "GK", "role_filter.df": "DF", "role_filter.mf": "MF",
