@@ -13,6 +13,40 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        .show-more-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            margin-top: 15px;
+            padding: 8px 12px;
+            background: #f1f5f9;
+            color: var(--dark-navy, #003c82);
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .show-more-btn:hover {
+            background: var(--dark-navy, #003c82);
+            color: #ffffff;
+            border-color: var(--dark-navy, #003c82);
+        }
+
+        .show-more-btn i {
+            transition: transform 0.25s ease;
+        }
+
+        .show-more-btn.is-expanded i {
+            transform: rotate(180deg);
+        }
+    </style>
 </head>
 <body>
 
@@ -236,33 +270,38 @@
 
             <div class="stats-grid">
                 <!-- MARCATORI -->
-                <div class="ranking-card">
+                <div class="ranking-card" id="card-goals">
                     <h3 class="ranking-title"><i class="fas fa-futbol"></i> <span data-i18n="stats.top_scorer">得点王</span></h3>
                     <ul class="ranking-list" id="goals-ranking"></ul>
+                    <div class="btn-more-container"></div>
                 </div>
 
                 <!-- ASSISTMAN -->
-                <div class="ranking-card">
+                <div class="ranking-card" id="card-assists">
                     <h3 class="ranking-title"><i class="fas fa-shoe-prints"></i> <span data-i18n="stats.top_assist">アシスト王</span></h3>
                     <ul class="ranking-list" id="assists-ranking"></ul>
+                    <div class="btn-more-container"></div>
                 </div>
 
                 <!-- MVP -->
-                <div class="ranking-card">
+                <div class="ranking-card" id="card-mvp">
                     <h3 class="ranking-title"><i class="fas fa-star" style="color: #f59e0b;"></i> <span data-i18n="stats.mvp">MVP賞</span></h3>
                     <ul class="ranking-list" id="mvp-ranking"></ul>
+                    <div class="btn-more-container"></div>
                 </div>
 
                 <!-- CARTELLINI GIALLI -->
-                <div class="ranking-card">
+                <div class="ranking-card" id="card-yellows">
                     <h3 class="ranking-title"><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="stats.top_yellows">警告 (イエローカード)</span></h3>
                     <ul class="ranking-list" id="yellows-ranking"></ul>
+                    <div class="btn-more-container"></div>
                 </div>
 
                 <!-- CARTELLINI ROSSI -->
-                <div class="ranking-card">
+                <div class="ranking-card" id="card-reds">
                     <h3 class="ranking-title"><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="stats.top_reds">退場 (レッドカード)</span></h3>
                     <ul class="ranking-list" id="reds-ranking"></ul>
+                    <div class="btn-more-container"></div>
                 </div>
             </div>
         </div>
@@ -285,6 +324,13 @@
     let currentLanguage = localStorage.getItem('preferred_lang') || 'ja';
     let rawMatchesData = [];
     let playersData = [];
+    const expandedSections = {
+        'goals-ranking': false,
+        'assists-ranking': false,
+        'mvp-ranking': false,
+        'yellows-ranking': false,
+        'reds-ranking': false
+    };
 
     const translations = {
         ja: {
@@ -301,7 +347,7 @@
             "stats.top_scorer": "得点王", "stats.top_assist": "アシスト王", "stats.mvp": "MVP賞",
             "stats.top_yellows": "警告 (イエロー)", "stats.top_reds": "退場 (レッド)", "stats.no_data": "データなし",
             "unit.goals": "点", "unit.assists": "本", "unit.mvp": "回", "unit.yellows": "枚", "unit.reds": "枚",
-            "btn.back_home": "ホームに戻る"
+            "btn.back_home": "ホームに戻る", "btn.show_more": "もっと見る", "btn.show_less": "閉じる"
         },
         it: {
             "nav.team": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
@@ -317,7 +363,7 @@
             "stats.top_scorer": "Capocannoniere", "stats.top_assist": "Assistman", "stats.mvp": "MVP",
             "stats.top_yellows": "Ammonizioni", "stats.top_reds": "Espulsioni", "stats.no_data": "Nessun dato",
             "unit.goals": "gol", "unit.assists": "assist", "unit.mvp": "volte", "unit.yellows": "gialli", "unit.reds": "rossi",
-            "btn.back_home": "Torna alla Home"
+            "btn.back_home": "Torna alla Home", "btn.show_more": "Mostra tutti", "btn.show_less": "Mostra meno"
         },
         en: {
             "nav.team": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
@@ -333,7 +379,7 @@
             "stats.top_scorer": "Top Scorer", "stats.top_assist": "Top Assists", "stats.mvp": "MVP Award",
             "stats.top_yellows": "Yellow Cards", "stats.top_reds": "Red Cards", "stats.no_data": "No data",
             "unit.goals": "goals", "unit.assists": "assists", "unit.mvp": "times", "unit.yellows": "yellows", "unit.reds": "reds",
-            "btn.back_home": "Back to Home"
+            "btn.back_home": "Back to Home", "btn.show_more": "Show all", "btn.show_less": "Show less"
         }
     };
 
@@ -460,7 +506,6 @@
         yearSpan.textContent = new Date().getFullYear();
     }
 
-    // POPOLA E IMPOSTA L'ANNO CORRENTE COME DEFAULT
     function populateSeasonSelect(matches) {
         const select = document.getElementById('seasonSelect');
         if (!select) return;
@@ -495,7 +540,6 @@
         select.value = currentYearStr;
     }
 
-    // CARICAMENTO E RENDERING CLASSIFICA DA STANDINGS.JSON
     async function loadStandingsData() {
         const standingsContainer = document.getElementById('standingsContainer');
         if (!standingsContainer) return;
@@ -754,17 +798,29 @@
         updateDiscRow('fr', stats.friendly);
         updateDiscRow('tot', tot);
 
+        // Rendering classifiche con limite a 5 e pulsante "Visualizza altro"
         const renderRanking = (elementId, dataMap, unitKey) => {
             const list = document.getElementById(elementId);
             if (!list) return;
+
+            const card = list.closest('.ranking-card');
+            const btnContainer = card ? card.querySelector('.btn-more-container') : null;
 
             const sorted = Object.values(dataMap).sort((a,b) => b.count - a.count);
             const noDataText = translations[currentLanguage]["stats.no_data"] || 'データなし';
             const unit = translations[currentLanguage][unitKey] || '';
 
-            list.innerHTML = sorted.length === 0 ? `<li style="color:#94a3b8; text-align:center; padding:10px;">${noDataText}</li>` : '';
-            
-            sorted.slice(0, 5).forEach((item, index) => {
+            if (sorted.length === 0) {
+                list.innerHTML = `<li style="color:#94a3b8; text-align:center; padding:10px;">${noDataText}</li>`;
+                if (btnContainer) btnContainer.innerHTML = '';
+                return;
+            }
+
+            const isExpanded = expandedSections[elementId];
+            const visibleItems = isExpanded ? sorted : sorted.slice(0, 5);
+
+            list.innerHTML = '';
+            visibleItems.forEach((item, index) => {
                 const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
                 const displayName = formatPlayerName(item.pObj, item.rawName, currentLanguage);
 
@@ -775,6 +831,24 @@
                     </li>
                 `;
             });
+
+            // Gestione del pulsante se ci sono più di 5 elementi
+            if (btnContainer) {
+                if (sorted.length > 5) {
+                    const btnText = isExpanded 
+                        ? (translations[currentLanguage]["btn.show_less"] || "閉じる")
+                        : (translations[currentLanguage]["btn.show_more"] || "もっと見る");
+                    
+                    btnContainer.innerHTML = `
+                        <button class="show-more-btn ${isExpanded ? 'is-expanded' : ''}" data-target="${elementId}">
+                            <span>${btnText}</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    `;
+                } else {
+                    btnContainer.innerHTML = '';
+                }
+            }
         };
 
         renderRanking('goals-ranking', goalsMap, 'unit.goals');
@@ -783,6 +857,18 @@
         renderRanking('yellows-ranking', yellowsMap, 'unit.yellows');
         renderRanking('reds-ranking', redsMap, 'unit.reds');
     }
+
+    // Gestore eventi per espandere/comprimere le classifiche
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.show-more-btn');
+        if (btn) {
+            const targetId = btn.getAttribute('data-target');
+            if (targetId) {
+                expandedSections[targetId] = !expandedSections[targetId];
+                calculateAndRenderStats();
+            }
+        }
+    });
 
     async function loadAllStatsData() {
         try {
@@ -812,6 +898,8 @@
     const seasonSelect = document.getElementById('seasonSelect');
     if (seasonSelect) {
         seasonSelect.addEventListener('change', () => {
+            // Reset dello stato espanso quando si cambia stagione
+            Object.keys(expandedSections).forEach(k => expandedSections[k] = false);
             calculateAndRenderStats();
             loadStandingsData();
         });
