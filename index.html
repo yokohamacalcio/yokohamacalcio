@@ -75,6 +75,27 @@
         .badge-away { background: #dc2626; color: #fff; }
         .badge-neutral { background: #0284c7; color: #fff; }
 
+        .no-match-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 15px;
+            text-align: center;
+            gap: 10px;
+            color: #64748b;
+            flex-grow: 1;
+        }
+        .no-match-box i {
+            font-size: 2rem;
+            color: var(--primary-sky);
+        }
+        .no-match-box p {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
         /* Stili per la sezione contatti migliorata */
         .contact-card-enhanced {
             background: #ffffff;
@@ -219,7 +240,7 @@
 
           <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
-          <a href="index.html#sponsors" data-i18n="nav.sponsors">スポンサー</a>
+          <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
           <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
           <a href="index.html#contact" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
         </nav>
@@ -238,7 +259,7 @@
     <a href="index.html#gallery" class="mobile-link" data-i18n="nav.gallery">ギャラリー</a>
     <a href="matches.html" class="mobile-link" data-i18n="nav.matches">試合日程・結果</a>
     <a href="index.html#shop" class="mobile-link" data-i18n="nav.shop">ショップ</a>
-    <a href="index.html#sponsors" class="mobile-link" data-i18n="nav.sponsors">スポンサー</a>
+    <a href="index.html#sponsors" class="mobile-link" data-i18n="nav.sponsors">パートナー</a>
     <a href="faq.html" class="mobile-link" data-i18n="nav.faq">よくある質問</a>
     <a href="index.html#contact" class="mobile-link mobile-cta" data-i18n="nav.contact">お問い合わせ</a>
   </nav>
@@ -324,7 +345,7 @@
             </div>
 
             <!-- Box 2: Prossima Partita -->
-            <div class="match-box match-next-box">
+            <div class="match-box match-next-box" id="nextMatchBox">
                 <div class="match-box-header">
                     <div class="match-badge-group">
                         <span class="match-badge badge-next" data-i18n="results.next_badge">次戦</span>
@@ -332,7 +353,7 @@
                     </div>
                     <span class="match-box-date" id="nextMatchDate">-</span>
                 </div>
-                <div class="match-box-content">
+                <div class="match-box-content" id="nextMatchContent">
                     <div class="match-box-team">
                         <img src="./immagini/logo.png" alt="Yokohama Calcio" id="nextTeam1Logo">
                         <span id="nextTeam1Name">Yokohama Calcio</span>
@@ -345,6 +366,10 @@
                         <img src="" alt="Opponent" id="nextTeam2Logo" class="opponent-logo">
                         <span id="nextTeam2Name">-</span>
                     </div>
+                </div>
+                <div class="no-match-box hidden" id="noNextMatchBox">
+                    <i class="far fa-calendar-times"></i>
+                    <p data-i18n="results.no_next_match">次戦の日程はまだ決定していません。</p>
                 </div>
                 <div class="match-box-venue" id="nextMatchVenue"><i class="fas fa-map-marker-alt"></i> <span>-</span></div>
             </div>
@@ -416,32 +441,32 @@
     </div>
 </section>
 
-<!-- SEZIONE SPONSOR -->
+<!-- SEZIONE PARTNER -->
 <section class="section sponsors-section" id="sponsors">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-handshake"></i> <span data-i18n="sponsors.title">オフィシャルスポンサー</span></h2>
+        <h2 class="section-title"><i class="fas fa-handshake"></i> <span data-i18n="sponsors.title">オフィシャルパートナー</span></h2>
         
         <div class="sponsors-carousel-container">
             <div class="sponsors-track" id="sponsorsTrack">
                 <div class="sponsor-card sponsor-placeholder">
                     <i class="fas fa-plus-circle"></i>
-                    <span data-i18n="sponsors.placeholder">スポンサー募集中</span>
+                    <span data-i18n="sponsors.placeholder">パートナー募集中</span>
                 </div>
                 <div class="sponsor-card sponsor-placeholder">
                     <i class="fas fa-plus-circle"></i>
-                    <span data-i18n="sponsors.placeholder">スポンサー募集中</span>
+                    <span data-i18n="sponsors.placeholder">パートナー募集中</span>
                 </div>
                 <div class="sponsor-card sponsor-placeholder">
                     <i class="fas fa-plus-circle"></i>
-                    <span data-i18n="sponsors.placeholder">スポンサー募集中</span>
+                    <span data-i18n="sponsors.placeholder">パートナー募集中</span>
                 </div>
                 <div class="sponsor-card sponsor-placeholder">
                     <i class="fas fa-plus-circle"></i>
-                    <span data-i18n="sponsors.placeholder">スポンサー募集中</span>
+                    <span data-i18n="sponsors.placeholder">パートナー募集中</span>
                 </div>
                 <div class="sponsor-card sponsor-placeholder">
                     <i class="fas fa-plus-circle"></i>
-                    <span data-i18n="sponsors.placeholder">スポンサー募集中</span>
+                    <span data-i18n="sponsors.placeholder">パートナー募集中</span>
                 </div>
             </div>
         </div>
@@ -451,7 +476,7 @@
         </p>
         <a href="#contact" class="google-form-btn sponsor-contact-btn">
             <i class="fas fa-paper-plane"></i>
-            <span data-i18n="sponsors.btn">スポンサー・パートナーシップについて問い合わせる</span>
+            <span data-i18n="sponsors.btn">パートナーシップについて問い合わせる</span>
         </a>
     </div>
 </section>
@@ -488,7 +513,7 @@
                 <li>
                     <i class="fas fa-handshake"></i>
                     <div>
-                        <strong data-i18n="contact.r3_h">スポンサー・協賛のご相談</strong>
+                        <strong data-i18n="contact.r3_h">パートナー・協賛のご相談</strong>
                         <span data-i18n="contact.r3_d">チーム支援・パートナーシップ</span>
                     </div>
                 </li>
@@ -524,7 +549,7 @@
     const translations = {
         ja: {
             "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
-            "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.sponsors": "スポンサー", "nav.faq": "よくある質問",
+            "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー", "nav.faq": "よくある質問",
             "nav.shop": "ショップ", "nav.contact": "お問い合わせ", "hero.title": "横浜に咲くイタリアの情熱",
             "hero.subtitle": "サッカーで心をつなぐ場所", "about.title": "Yokohama Calcioとは",
             "about.subtitle": "横浜発、イタリアンスタイルの社会人サッカーチーム",
@@ -536,24 +561,25 @@
             "about.val3_h": "フットボールへの情熱", "about.val3_d": "勝利を目指しながらも、真剣勝負を純粋に楽しむ気持ち",
             "results.title": "試合結果・日程", "results.last_badge": "前節結果", "results.next_badge": "次戦",
             "results.detail": "詳細", "results.all_matches": "全試合日程・詳細はこちら",
+            "results.no_next_match": "次戦の日程はまだ決定していません。",
             "badge.league": "公式戦", "badge.friendly": "練習試合", "badge.tournament": "大会",
             "gallery.title": "フォトギャラリー", "shop.title": "公式オンラインショップ",
             "shop.card_title": "Yokohama Calcio オフィシャルグッズ",
             "shop.card_desc": "Tシャツ、キャップ、キーホルダー、マフラータオルなどのオリジナルグッズを取り揃えています。売上収益はチームの活動費として大切に活用させていただきます。",
-            "shop.btn": "公式ショップを見る", "sponsors.title": "オフィシャルスポンサー", "sponsors.placeholder": "スポンサー募集中",
+            "shop.btn": "公式ショップを見る", "sponsors.title": "オフィシャルパートナー", "sponsors.placeholder": "パートナー募集中",
             "sponsors.recruit_text": "Yokohama Calcioでは、共にチームを応援・サポートしていただける企業様・パートナー様を募集しております。",
-            "sponsors.btn": "スポンサー・パートナーシップについて問い合わせる", "contact.title": "お問い合わせ",
+            "sponsors.btn": "パートナーシップについて問い合わせる", "contact.title": "お問い合わせ",
             "contact.subtitle": "各種お申し込み・お問い合わせ", "contact.card_subtitle": "お気軽にご連絡ください",
             "contact.r1_h": "体験練習・入部希望",
             "contact.r1_d": "18歳〜40歳の経験者対象・ブランク可", "contact.r2_h": "練習試合・対戦のお申し込み",
-            "contact.r2_d": "親善試合・グラウンド手配", "contact.r3_h": "スポンサー・協賛のご相談",
+            "contact.r2_d": "親善試合・グラウンド手配", "contact.r3_h": "パートナー・協賛のご相談",
             "contact.r3_d": "チーム支援・パートナーシップ", "contact.r4_h": "その他チームに関するご質問",
             "contact.desc": "すべてのお問い合わせは以下のGoogleフォームより受け付けております。<br>お気軽にご連絡ください！",
             "contact.btn": "お問い合わせフォームを開く"
         },
         it: {
             "nav.team": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
-            "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.sponsors": "Sponsor", "nav.faq": "FAQ",
+            "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.sponsors": "Partner", "nav.faq": "FAQ",
             "nav.shop": "Shop", "nav.contact": "Contatti", "hero.title": "La passione italiana nel cuore di Yokohama",
             "hero.subtitle": "Il calcio che unisce le persone", "about.title": "Cos'è lo Yokohama Calcio",
             "about.subtitle": "Da Yokohama, una squadra dilettantistica in perfetto stile italiano",
@@ -565,24 +591,25 @@
             "about.val3_h": "Passione per il Calcio", "about.val3_d": "Volontà di lottare per vincere vivendo la partita con autentica passione.",
             "results.title": "Calendario e Risultati", "results.last_badge": "Ultimo Match", "results.next_badge": "Prossimo Match",
             "results.detail": "Dettagli", "results.all_matches": "Vedi tutte le partite",
+            "results.no_next_match": "La prossima partita non è ancora stata programmata.",
             "badge.league": "Campionato", "badge.friendly": "Amichevole", "badge.tournament": "Torneo",
             "gallery.title": "Galleria Fotografica", "shop.title": "Online Shop Ufficiale",
             "shop.card_title": "Merchandising Ufficiale Yokohama Calcio",
             "shop.card_desc": "Scopri t-shirt, cappellini, portachiavi e sciarpe per tifare la squadra. I proventi delle vendite servono a sostenere le attività della squadra.",
-            "shop.btn": "Visita lo Store Ufficiale", "sponsors.title": "Sponsor Ufficiali", "sponsors.placeholder": "Cercasi Sponsor",
+            "shop.btn": "Visita lo Store Ufficiale", "sponsors.title": "Partner Ufficiali", "sponsors.placeholder": "Cercasi Partner",
             "sponsors.recruit_text": "Lo Yokohama Calcio è alla ricerca di partner e aziende disposte a sostenere il progetto.",
-            "sponsors.btn": "Richiedi informazioni per Sponsorship", "contact.title": "Contatti",
+            "sponsors.btn": "Richiedi informazioni per Partnership", "contact.title": "Contatti",
             "contact.subtitle": "Invia una richiesta o un messaggio", "contact.card_subtitle": "Non esitare a contattarci",
             "contact.r1_h": "Prove & Nuovi Giocatori",
             "contact.r1_d": "Dai 18 ai 40 anni con esperienza (anche dopo periodi di stop)", "contact.r2_h": "Richiesta Partita Amichevole",
-            "contact.r2_d": "Organizzazione sfide e campi", "contact.r3_h": "Sponsorship & Partner",
+            "contact.r2_d": "Organizzazione sfide e campi", "contact.r3_h": "Partnership & Collaborazioni",
             "contact.r3_d": "Sostieni il club", "contact.r4_h": "Altre domande sul club",
             "contact.desc": "Tutte le richieste vengono gestite tramite il modulo Google ufficiale.<br>Non esitare a contattarci!",
             "contact.btn": "Apri Modulo Contatti"
         },
         en: {
             "nav.team": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
-            "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.sponsors": "Sponsors", "nav.faq": "FAQ",
+            "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.sponsors": "Partners", "nav.faq": "FAQ",
             "nav.shop": "Shop", "nav.contact": "Contact Us", "hero.title": "Italian Football Passion in Yokohama",
             "hero.subtitle": "Where Football Connects People", "about.title": "About Yokohama Calcio",
             "about.subtitle": "Italian-style Amateur Football Club in Yokohama",
@@ -594,17 +621,18 @@
             "about.val3_h": "Passion for Football", "about.val3_d": "Competitive drive to win paired with a genuine enjoyment of the game.",
             "results.title": "Matches & Results", "results.last_badge": "Last Match", "results.next_badge": "Next Match",
             "results.detail": "Details", "results.all_matches": "View All Matches",
+            "results.no_next_match": "The next match has not been scheduled yet.",
             "badge.league": "League", "badge.friendly": "Friendly", "badge.tournament": "Tournament",
             "gallery.title": "Photo Gallery", "shop.title": "Official Online Shop",
             "shop.card_title": "Yokohama Calcio Official Merchandise",
             "shop.card_desc": "Discover t-shirts, caps, keychains, and scarves to support the team. Proceeds from sales are used to support the team's activities.",
-            "shop.btn": "Visit Official Store", "sponsors.title": "Official Sponsors", "sponsors.placeholder": "Sponsors Wanted",
-            "sponsors.recruit_text": "Yokohama Calcio is seeking corporate partners and sponsors to support our project.",
-            "sponsors.btn": "Inquire About Sponsorship", "contact.title": "Contact Us",
+            "shop.btn": "Visit Official Store", "sponsors.title": "Official Partners", "sponsors.placeholder": "Partners Wanted",
+            "sponsors.recruit_text": "Yokohama Calcio is seeking corporate partners to support our project.",
+            "sponsors.btn": "Inquire About Partnership", "contact.title": "Contact Us",
             "contact.subtitle": "Inquiries & Applications", "contact.card_subtitle": "Feel free to reach out",
             "contact.r1_h": "Join / Trial Training",
             "contact.r1_d": "Experienced players aged 18–40 (returning players OK)", "contact.r2_h": "Friendly Match Requests",
-            "contact.r2_d": "Match scheduling & pitch setup", "contact.r3_h": "Sponsorship & Partnership",
+            "contact.r2_d": "Match scheduling & pitch setup", "contact.r3_h": "Partnership & Sponsorship",
             "contact.r3_d": "Support the club", "contact.r4_h": "General Questions",
             "contact.desc": "All inquiries are accepted via our official Google Form.<br>Feel free to reach out!",
             "contact.btn": "Open Contact Form"
@@ -765,9 +793,25 @@
             .filter(m => m.status === 'upcoming')
             .sort((a, b) => parseMatchDate(a.date) - parseMatchDate(b.date));
 
+        const nextMatchContent = document.getElementById('nextMatchContent');
+        const noNextMatchBox = document.getElementById('noNextMatchBox');
+        const nextCategoryBadge = document.getElementById('nextCategoryBadge');
+        const nextMatchDate = document.getElementById('nextMatchDate');
+        const nextMatchVenue = document.getElementById('nextMatchVenue');
+
         if (upcomingMatches.length > 0) {
             const nextMatch = upcomingMatches[0];
+            nextMatchContent?.classList.remove('hidden');
+            noNextMatchBox?.classList.add('hidden');
+            if (nextMatchVenue) nextMatchVenue.style.display = 'flex';
             fillMatchBox(nextMatch, 'next');
+        } else {
+            // Se non ci sono prossime partite
+            nextMatchContent?.classList.add('hidden');
+            noNextMatchBox?.classList.remove('hidden');
+            if (nextCategoryBadge) nextCategoryBadge.style.display = 'none';
+            if (nextMatchDate) nextMatchDate.textContent = '-';
+            if (nextMatchVenue) nextMatchVenue.style.display = 'none';
         }
     }
 
