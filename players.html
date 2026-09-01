@@ -95,7 +95,7 @@
             pointer-events: none;
         }
 
-        /* Maglia Portiere Gialla */
+        /* Maglia Portiere Gialla #FFD500 e #E59400 */
         .player-body-jersey.jersey-gk {
             background: linear-gradient(135deg, #FFD500 0%, #E59400 100%);
         }
@@ -223,11 +223,11 @@
             background: #fafafa;
         }
 
-        /* Adattamento contenuti retro senza scroll bar */
+        /* Adattamento contenuti retro per eliminare la scroll bar */
         .player-details-inner {
             padding: 8px 12px;
             flex-grow: 1;
-            overflow: hidden; /* Nessuna scroll bar */
+            overflow: hidden;
             font-size: 0.78rem;
             display: flex;
             flex-direction: column;
@@ -572,11 +572,6 @@
             card.querySelectorAll('.player-name-romaji').forEach(el => {
                 el.textContent = displayName;
             });
-
-            const badgeTextElem = card.querySelector('.role-badge-text');
-            if (badgeTextElem) {
-                badgeTextElem.textContent = getRoleAbbreviation(pos, role, lang);
-            }
         });
 
         document.querySelectorAll('[data-hometown]').forEach(elem => {
