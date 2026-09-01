@@ -67,7 +67,7 @@
           <!-- LINK DIRETTI -->
           <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
-          <a href="index.html#sponsors" data-i18n="nav.sponsors">スポンサー</a>
+          <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
           <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
 
           <!-- BOTTONE CTA CONTATTI -->
@@ -90,7 +90,7 @@
     <a href="index.html#gallery" class="mobile-link" data-i18n="nav.gallery">ギャラリー</a>
     <a href="matches.html" class="mobile-link" data-i18n="nav.matches">試合日程・結果</a>
     <a href="index.html#shop" class="mobile-link" data-i18n="nav.shop">ショップ</a>
-    <a href="index.html#sponsors" class="mobile-link" data-i18n="nav.sponsors">スポンサー</a>
+    <a href="index.html#sponsors" class="mobile-link" data-i18n="nav.sponsors">パートナー</a>
     <a href="faq.html" class="mobile-link" data-i18n="nav.faq">よくある質問</a>
     <a href="index.html#contact" class="mobile-link mobile-cta" data-i18n="nav.contact">お問い合わせ</a>
   </nav>
@@ -289,7 +289,7 @@
     const translations = {
         ja: {
             "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
-            "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.shop": "ショップ", "nav.sponsors": "スポンサー",
+            "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.shop": "ショップ", "nav.sponsors": "パートナー",
             "nav.faq": "よくある質問", "nav.contact": "お問い合わせ", "stats.title": "チーム・個人戦績",
             "stats.season_label": "シーズン:", "stats.all_seasons": "全期間 (All Time)", "stats.sec_team": "チーム戦績",
             "stats.sec_personal": "個人スタッツ", "stats.team_stats": "試合勝敗・得失点", "stats.disciplinary": "チーム規律・カード数",
@@ -305,7 +305,7 @@
         },
         it: {
             "nav.team": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
-            "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.shop": "Shop", "nav.sponsors": "Sponsor",
+            "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.shop": "Shop", "nav.sponsors": "Partner",
             "nav.faq": "FAQ", "nav.contact": "Contatti", "stats.title": "Statistiche Squadra & Singoli",
             "stats.season_label": "Stagione:", "stats.all_seasons": "Tutte le stagioni", "stats.sec_team": "Statistiche di Squadra",
             "stats.sec_personal": "Statistiche Personali", "stats.team_stats": "Rendimento & Gol", "stats.disciplinary": "Bilancio Disciplinare",
@@ -321,7 +321,7 @@
         },
         en: {
             "nav.team": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
-            "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.shop": "Shop", "nav.sponsors": "Sponsors",
+            "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.shop": "Shop", "nav.sponsors": "Partners",
             "nav.faq": "FAQ", "nav.contact": "Contact Us", "stats.title": "Team & Player Stats",
             "stats.season_label": "Season:", "stats.all_seasons": "All Time", "stats.sec_team": "Team Statistics",
             "stats.sec_personal": "Individual Stats", "stats.team_stats": "Performance & Goals", "stats.disciplinary": "Disciplinary Record",
@@ -440,20 +440,20 @@
     }
 
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-if (scrollToTopBtn) {
-    const checkScroll = () => {
-        if (window.scrollY > 300) {
-            scrollToTopBtn.classList.add('show');
-        } else {
-            scrollToTopBtn.classList.remove('show');
-        }
-    };
-    window.addEventListener('scroll', checkScroll);
-    window.addEventListener('load', checkScroll);
-    scrollToTopBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-}
+    if (scrollToTopBtn) {
+        const checkScroll = () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        };
+        window.addEventListener('scroll', checkScroll);
+        window.addEventListener('load', checkScroll);
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 
     const yearSpan = document.getElementById('currentYear');
     if (yearSpan) {
@@ -510,7 +510,6 @@ if (scrollToTopBtn) {
             const allStandings = await response.json();
             const seasonData = allStandings[selectedSeason];
 
-            // Supporta sia struttura con oggetti { league_name, teams } che array diretto []
             let teamsList = [];
             let leagueName = '';
 
@@ -620,7 +619,7 @@ if (scrollToTopBtn) {
             let cleanName = rawInput.trim();
             let countToAdd = increment;
 
-            const multMatch = cleanName.match(/(.*?)\s*(?:x|\*|\()(\d+)\)?$/i);
+            const multMatch = cleanName.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
             if (multMatch) {
                 cleanName = multMatch[1].trim();
                 countToAdd = parseInt(multMatch[2], 10) || increment;
@@ -667,31 +666,25 @@ if (scrollToTopBtn) {
                 }
             }
 
+            // 1. MARCATORI (gestisce x2, X2, *2)
             if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
                 const entries = m.scorers.split(/[,、]/);
                 entries.forEach(entry => {
-                    let text = entry.trim();
-                    if (!text) return;
-
-                    let assistName = '';
-                    const assistMatch = text.match(/^(.*?)\s*[(（]([^)）]+)[)）]\s*(x\d+|\*\d+|\(\d+\))?$/i) || text.match(/\(([^)]+)\)/) || text.match(/（([^）]+)）/);
-                    
-                    if (assistMatch) {
-                        const parenthesisedMatch = text.match(/^([^(（]+)[(（]([^)）]+)[)）]\s*(.*)$/);
-                        if (parenthesisedMatch) {
-                            text = (parenthesisedMatch[1] + ' ' + parenthesisedMatch[3]).trim();
-                            assistName = parenthesisedMatch[2].trim();
-                        } else {
-                            assistName = assistMatch[1].trim();
-                            text = text.replace(/\([^)]+\)/, '').replace(/（[^）]+）/, '').trim();
-                        }
-                    }
-
+                    const text = entry.trim();
                     if (text) addStatCount(goalsMap, text);
-                    if (assistName) addStatCount(assistsMap, assistName);
                 });
             }
 
+            // 2. ASSISTMAN (dal campo dedicato "assists")
+            if (m.assists && m.assists !== 'なし' && m.assists !== 'Nessuno') {
+                const entries = m.assists.split(/[,、]/);
+                entries.forEach(entry => {
+                    const text = entry.trim();
+                    if (text) addStatCount(assistsMap, text);
+                });
+            }
+
+            // 3. MVP
             if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
                 const mvpNames = m.mvp.split(/[,、]/);
                 mvpNames.forEach(name => {
@@ -699,6 +692,7 @@ if (scrollToTopBtn) {
                 });
             }
 
+            // 4. CARTELLINI GIALLI
             if (m.yellow_cards && m.yellow_cards !== 'なし' && m.yellow_cards !== 'Nessuno') {
                 const names = m.yellow_cards.split(/[,、]/);
                 names.forEach(name => {
@@ -709,6 +703,7 @@ if (scrollToTopBtn) {
                 });
             }
 
+            // 5. CARTELLINI ROSSI
             if (m.red_cards && m.red_cards !== 'なし' && m.red_cards !== 'Nessuno') {
                 const names = m.red_cards.split(/[,、]/);
                 names.forEach(name => {
