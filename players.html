@@ -512,13 +512,12 @@
 
     let currentLang = localStorage.getItem('preferred_lang') || 'ja';
     let globalPlayers = [];
+    let surnameCounts = {};
 
-    // Normalizzazione stringhe (rimuove spazi e trasforma in minuscolo)
     function cleanStr(s) {
         return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
     }
 
-    // Ricerca flessibile del giocatore nei referti
     function findPlayerObj(query) {
         if (!query || query === 'なし' || query === 'Nessuno') return null;
         if (!globalPlayers || globalPlayers.length === 0) return null;
@@ -526,7 +525,6 @@
         const target = cleanStr(query);
         if (!target) return null;
 
-        // 1. Match Esatto
         let found = globalPlayers.find(p => {
             const k = cleanStr(p.name_kanji);
             const kn = cleanStr(p.name_kana);
@@ -535,7 +533,6 @@
         });
         if (found) return found;
 
-        // 2. Match Parziale (Cognome o Nome contenuto)
         return globalPlayers.find(p => {
             const k = cleanStr(p.name_kanji);
             const kn = cleanStr(p.name_kana);
@@ -547,10 +544,22 @@
         }) || null;
     }
 
-    function getSurnameRomaji(nameRomaji, nameKanji) {
+    // Calcola il conteggio dei cognomi per identificare gli omonimi
+    function calculateSurnameCounts(players) {
+        surnameCounts = {};
+        players.forEach(p => {
+            const surname = getBaseSurname(p.name_romaji, p.name_kanji);
+            if (surname) {
+                surnameCounts[surname] = (surnameCounts[surname] || 0) + 1;
+            }
+        });
+    }
+
+    // Estrae il cognome base in maiuscolo
+    function getBaseSurname(nameRomaji, nameKanji) {
         const raw = (nameRomaji && nameRomaji !== '-') ? nameRomaji : nameKanji;
-        if (!raw || raw === '-') return 'YOKOHAMA';
-        
+        if (!raw || raw === '-') return '';
+
         const parts = raw.trim().split(/\s+/);
         if (parts.length === 1) return parts[0].toUpperCase();
 
@@ -560,6 +569,24 @@
         }
 
         return parts[0].toUpperCase();
+    }
+
+    // Genera il cognome da mostrare sulla maglia (aggiunge l'iniziale del nome se ci sono omonimi)
+    function getSurnameRomaji(nameRomaji, nameKanji) {
+        const raw = (nameRomaji && nameRomaji !== '-') ? nameRomaji : nameKanji;
+        if (!raw || raw === '-') return 'YOKOHAMA';
+
+        const surname = getBaseSurname(nameRomaji, nameKanji);
+        const parts = raw.trim().split(/\s+/);
+
+        // Se c'è più di un giocatore con questo cognome, aggiunge l'iniziale del nome (es. FUKUDA K.)
+        if (surnameCounts[surname] > 1 && parts.length > 1) {
+            const firstName = parts[parts.length - 1];
+            const initial = firstName.charAt(0).toUpperCase();
+            return `${surname} ${initial}.`;
+        }
+
+        return surname;
     }
 
     function setLanguage(lang) {
@@ -620,7 +647,7 @@
         const isStaff = p.role === 'staff';
         const isGK = (p.role === 'gk') || (p.position && p.position.toUpperCase().includes('GK'));
         
-        const numberOnly = p.number ? p.number : '-';
+        const numberOnly = (p.number !== null && p.number !== undefined) ? p.number : '-';
         const roleClass = `role-badge-${p.role}`;
         const roleIcon = getRoleIcon(p.role);
         const nameKanji = p.name_kanji || '-';
@@ -751,7 +778,7 @@
                     }
                 }
 
-                // 1. Calcolo Marcatori (gestisce x2, X2, *2)
+                // 1. Calcolo Marcatori
                 if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
                     const entries = m.scorers.split(/[,、]/);
                     entries.forEach(entry => {
@@ -771,7 +798,7 @@
                     });
                 }
 
-                // 2. Calcolo Assistman (dal nuovo campo dedicato "assists")
+                // 2. Calcolo Assistman
                 if (m.assists && m.assists !== 'なし' && m.assists !== 'Nessuno') {
                     const entries = m.assists.split(/[,、]/);
                     entries.forEach(entry => {
@@ -831,7 +858,6 @@
                 }
             });
 
-            // Assegnazione valori nell'HTML
             document.querySelectorAll('.player-card').forEach(card => {
                 const cardKey = card.getAttribute('data-player-id');
                 const mainName = card.getAttribute('data-player-name');
@@ -866,8 +892,17 @@
 
     async function populatePlayers(players) {
         globalPlayers = players;
+        calculateSurnameCounts(players);
+
+        // Ordinamento giocatori per numero (i senza numero in fondo)
+        const sortedPlayers = [...players].sort((a, b) => {
+            const numA = (a.number !== null && a.number !== undefined) ? parseInt(a.number, 10) : Infinity;
+            const numB = (b.number !== null && b.number !== undefined) ? parseInt(b.number, 10) : Infinity;
+            return numA - numB;
+        });
+
         const sections = { gk: [], df: [], mf: [], fw: [], staff: [] };
-        players.forEach(p => {
+        sortedPlayers.forEach(p => {
             if (sections[p.role]) sections[p.role].push(p);
         });
 
