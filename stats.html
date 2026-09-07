@@ -47,28 +47,72 @@
             transform: rotate(180deg);
         }
 
+        /* Struttura della riga di classifica */
+        .ranking-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            gap: 12px;
+        }
+
+        .player-info-wrapper {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: nowrap;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .player-name-text {
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         .trial-badge {
-            font-size: 0.72rem;
-            color: #64748b;
+            font-size: 0.70rem;
+            color: #475569;
             background: #e2e8f0;
             padding: 2px 6px;
             border-radius: 4px;
-            margin-left: 6px;
-            font-weight: 600;
+            font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
             display: inline-block;
         }
 
+        /* Blocco Statistiche Portiere (Destra) */
         .gk-stats-detail {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
             gap: 2px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .gk-stats-main {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--dark-navy, #003c82);
+            white-space: nowrap;
+        }
+
+        .gk-stats-main .gk-apps-text {
+            font-size: 0.78rem;
+            color: #64748b;
+            font-weight: 600;
+            margin-left: 3px;
         }
 
         .gk-stats-sub {
-            font-size: 0.75rem;
+            font-size: 0.74rem;
             color: #64748b;
             font-weight: 600;
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -384,8 +428,8 @@
             "stats.no_standings": "Nessuna classifica disponibile per questa stagione (nessun campionato ufficiale iscritto).",
             "stats.top_scorer": "Capocannoniere", "stats.top_assist": "Assistman", "stats.gk_goals_conceded": "Rendimento Portieri",
             "stats.mvp": "MVP", "stats.top_yellows": "Ammonizioni", "stats.top_reds": "Espulsioni", "stats.no_data": "Nessun dato",
-            "unit.goals": "gol", "unit.assists": "assist", "unit.gk_goals": "gol subiti", "unit.mvp": "volte", "unit.yellows": "gialli", "unit.reds": "rossi",
-            "gk.matches": "presenze", "gk.avg": "Media", "gk.per_match": "/gara",
+            "unit.goals": "gol", "unit.assists": "assist", "unit.gk_goals": "GS", "unit.mvp": "volte", "unit.yellows": "gialli", "unit.reds": "rossi",
+            "gk.matches": "pres.", "gk.avg": "Media", "gk.per_match": "/gara",
             "label.trial": "In prova",
             "btn.back_home": "Torna alla Home", "btn.show_more": "Mostra tutti", "btn.show_less": "Mostra meno"
         },
@@ -402,7 +446,7 @@
             "stats.no_standings": "No league table available for this season (not participating in official leagues).",
             "stats.top_scorer": "Top Scorer", "stats.top_assist": "Top Assists", "stats.gk_goals_conceded": "Goalkeeper Stats",
             "stats.mvp": "MVP Award", "stats.top_yellows": "Yellow Cards", "stats.top_reds": "Red Cards", "stats.no_data": "No data",
-            "unit.goals": "goals", "unit.assists": "assists", "unit.gk_goals": "conceded", "unit.mvp": "times", "unit.yellows": "yellows", "unit.reds": "reds",
+            "unit.goals": "goals", "unit.assists": "assists", "unit.gk_goals": "GA", "unit.mvp": "times", "unit.yellows": "yellows", "unit.reds": "reds",
             "gk.matches": "apps", "gk.avg": "Avg", "gk.per_match": "/match",
             "label.trial": "Trial",
             "btn.back_home": "Back to Home", "btn.show_more": "Show all", "btn.show_less": "Show less"
@@ -444,21 +488,35 @@
         }) || null;
     }
 
-    function formatPlayerName(playerObj, fallbackName, lang) {
+    function formatPlayerNameHtml(playerObj, fallbackName, lang) {
         const trialLabel = translations[lang]["label.trial"] || "練習生";
-        
+        let mainName = '';
+
         if (!playerObj) {
-            return `${fallbackName} <span class="trial-badge">${trialLabel}</span>`;
+            mainName = fallbackName;
+            return `
+                <div class="player-info-wrapper">
+                    <span class="player-name-text">${mainName}</span>
+                    <span class="trial-badge">${trialLabel}</span>
+                </div>
+            `;
         }
 
         if (lang === 'ja') {
             if (playerObj.name_kanji && containsJapaneseChars(playerObj.name_kanji)) {
-                return playerObj.name_kanji;
+                mainName = playerObj.name_kanji;
+            } else {
+                mainName = playerObj.name_kana || playerObj.name_kanji || playerObj.name_romaji || fallbackName;
             }
-            return playerObj.name_kana || playerObj.name_kanji || playerObj.name_romaji || fallbackName;
         } else {
-            return playerObj.name_romaji || playerObj.name_kanji || fallbackName;
+            mainName = playerObj.name_romaji || playerObj.name_kanji || fallbackName;
         }
+
+        return `
+            <div class="player-info-wrapper">
+                <span class="player-name-text">${mainName}</span>
+            </div>
+        `;
     }
 
     function setLanguage(lang) {
@@ -722,7 +780,7 @@
                 gkGoalsMap[key] = { count: 0, played: 0, pObj: pObj, rawName: cleanName };
             }
             gkGoalsMap[key].count += gaGoals;
-            gkGoalsMap[key].played += 1; // Incrementa il numero di presenze
+            gkGoalsMap[key].played += 1;
         };
 
         rawMatchesData.forEach(m => {
@@ -874,7 +932,7 @@
         updateDiscRow('fr', stats.friendly);
         updateDiscRow('tot', tot);
 
-        // Rendering classifiche standard (Marcatori, Assist, MVP, Cards)
+        // Rendering classifiche standard
         const renderRanking = (elementId, dataMap, unitKey, sortAscending = false) => {
             const list = document.getElementById(elementId);
             if (!list) return;
@@ -898,12 +956,15 @@
             list.innerHTML = '';
             visibleItems.forEach((item, index) => {
                 const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
-                const displayName = formatPlayerName(item.pObj, item.rawName, currentLanguage);
+                const nameHtml = formatPlayerNameHtml(item.pObj, item.rawName, currentLanguage);
 
                 list.innerHTML += `
                     <li class="ranking-item">
-                        <span><span class="rank-number ${rankClass}">${index + 1}</span> <strong>${displayName}</strong></span>
-                        <span class="stats-highlight">${item.count} ${unit}</span>
+                        <div style="display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1;">
+                            <span class="rank-number ${rankClass}" style="flex-shrink:0;">${index + 1}</span>
+                            ${nameHtml}
+                        </div>
+                        <span class="stats-highlight" style="white-space: nowrap; flex-shrink: 0;">${item.count} ${unit}</span>
                     </li>
                 `;
             });
@@ -934,13 +995,11 @@
             const card = list.closest('.ranking-card');
             const btnContainer = card ? card.querySelector('.btn-more-container') : null;
 
-            // Calcolo media e ordinamento per miglior media (minor numero di gol subiti per gara)
             const gkList = Object.values(gkGoalsMap).map(item => {
                 const avg = item.played > 0 ? (item.count / item.played) : 0;
                 return { ...item, avg: parseFloat(avg.toFixed(2)) };
             });
 
-            // Ordina per media gol subiti (crescente), poi per gol subiti totali
             gkList.sort((a, b) => {
                 if (a.avg !== b.avg) return a.avg - b.avg;
                 return a.count - b.count;
@@ -964,14 +1023,19 @@
             list.innerHTML = '';
             visibleItems.forEach((item, index) => {
                 const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
-                const displayName = formatPlayerName(item.pObj, item.rawName, currentLanguage);
+                const nameHtml = formatPlayerNameHtml(item.pObj, item.rawName, currentLanguage);
 
                 list.innerHTML += `
-                    <li class="ranking-item" style="align-items: center;">
-                        <span><span class="rank-number ${rankClass}">${index + 1}</span> <strong>${displayName}</strong></span>
+                    <li class="ranking-item">
+                        <div style="display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1;">
+                            <span class="rank-number ${rankClass}" style="flex-shrink:0;">${index + 1}</span>
+                            ${nameHtml}
+                        </div>
                         <div class="gk-stats-detail">
-                            <span class="stats-highlight">${item.count} ${unitGoals} <span style="font-size:0.8rem; color:#475569; font-weight:600;">(${item.played}${labelMatches})</span></span>
-                            <span class="gk-stats-sub">${labelAvg}: ${item.avg}${labelPerMatch}</span>
+                            <div class="gk-stats-main">
+                                ${item.count} ${unitGoals} <span class="gk-apps-text">(${item.played}${labelMatches})</span>
+                            </div>
+                            <div class="gk-stats-sub">${labelAvg}: ${item.avg}${labelPerMatch}</div>
                         </div>
                     </li>
                 `;
@@ -997,7 +1061,7 @@
 
         renderRanking('goals-ranking', goalsMap, 'unit.goals');
         renderRanking('assists-ranking', assistsMap, 'unit.assists');
-        renderGKRanking(); // Call dedicato portieri
+        renderGKRanking();
         renderRanking('mvp-ranking', mvpMap, 'unit.mvp');
         renderRanking('yellows-ranking', yellowsMap, 'unit.yellows');
         renderRanking('reds-ranking', redsMap, 'unit.reds');
