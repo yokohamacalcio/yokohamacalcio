@@ -57,6 +57,19 @@
             font-weight: 600;
             display: inline-block;
         }
+
+        .gk-stats-detail {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
+        }
+
+        .gk-stats-sub {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -284,7 +297,7 @@
 
                 <!-- GOL SUBITI PORTIERI -->
                 <div class="ranking-card" id="card-gk">
-                    <h3 class="ranking-title"><i class="fas fa-shield-halved"></i> <span data-i18n="stats.gk_goals_conceded">GK 失点数</span></h3>
+                    <h3 class="ranking-title"><i class="fas fa-shield-halved"></i> <span data-i18n="stats.gk_goals_conceded">GK 失点数・成績</span></h3>
                     <ul class="ranking-list" id="gk-ranking"></ul>
                     <div class="btn-more-container"></div>
                 </div>
@@ -351,9 +364,10 @@
             "th.card_avg": "平均カード/試合", "row.league": "リーグ戦", "row.cup": "カップ戦", "row.friendly": "練習試合",
             "row.total": "通算", "stats.standings": "リーグ順位表",
             "stats.no_standings": "今シーズンは公式リーグ戦への参加がないため、順位表はありません。",
-            "stats.top_scorer": "得点王", "stats.top_assist": "アシスト王", "stats.gk_goals_conceded": "GK 失点数",
+            "stats.top_scorer": "得点王", "stats.top_assist": "アシスト王", "stats.gk_goals_conceded": "GK 失点数・成績",
             "stats.mvp": "MVP賞", "stats.top_yellows": "警告 (イエロー)", "stats.top_reds": "退場 (レッド)", "stats.no_data": "データなし",
             "unit.goals": "点", "unit.assists": "本", "unit.gk_goals": "失点", "unit.mvp": "回", "unit.yellows": "枚", "unit.reds": "枚",
+            "gk.matches": "試合", "gk.avg": "平均", "gk.per_match": "/試合",
             "label.trial": "練習生",
             "btn.back_home": "ホームに戻る", "btn.show_more": "もっと見る", "btn.show_less": "閉じる"
         },
@@ -368,9 +382,10 @@
             "th.card_avg": "Media Cartellini/G", "row.league": "Campionato", "row.cup": "Coppa", "row.friendly": "Amichevoli",
             "row.total": "Totale", "stats.standings": "Classifica Campionato",
             "stats.no_standings": "Nessuna classifica disponibile per questa stagione (nessun campionato ufficiale iscritto).",
-            "stats.top_scorer": "Capocannoniere", "stats.top_assist": "Assistman", "stats.gk_goals_conceded": "Gol Subiti Portieri",
+            "stats.top_scorer": "Capocannoniere", "stats.top_assist": "Assistman", "stats.gk_goals_conceded": "Rendimento Portieri",
             "stats.mvp": "MVP", "stats.top_yellows": "Ammonizioni", "stats.top_reds": "Espulsioni", "stats.no_data": "Nessun dato",
             "unit.goals": "gol", "unit.assists": "assist", "unit.gk_goals": "gol subiti", "unit.mvp": "volte", "unit.yellows": "gialli", "unit.reds": "rossi",
+            "gk.matches": "presenze", "gk.avg": "Media", "gk.per_match": "/gara",
             "label.trial": "In prova",
             "btn.back_home": "Torna alla Home", "btn.show_more": "Mostra tutti", "btn.show_less": "Mostra meno"
         },
@@ -385,9 +400,10 @@
             "th.card_avg": "Avg Cards/P", "row.league": "League", "row.cup": "Cup", "row.friendly": "Friendly",
             "row.total": "Total", "stats.standings": "League Table",
             "stats.no_standings": "No league table available for this season (not participating in official leagues).",
-            "stats.top_scorer": "Top Scorer", "stats.top_assist": "Top Assists", "stats.gk_goals_conceded": "GK Goals Conceded",
+            "stats.top_scorer": "Top Scorer", "stats.top_assist": "Top Assists", "stats.gk_goals_conceded": "Goalkeeper Stats",
             "stats.mvp": "MVP Award", "stats.top_yellows": "Yellow Cards", "stats.top_reds": "Red Cards", "stats.no_data": "No data",
             "unit.goals": "goals", "unit.assists": "assists", "unit.gk_goals": "conceded", "unit.mvp": "times", "unit.yellows": "yellows", "unit.reds": "reds",
+            "gk.matches": "apps", "gk.avg": "Avg", "gk.per_match": "/match",
             "label.trial": "Trial",
             "btn.back_home": "Back to Home", "btn.show_more": "Show all", "btn.show_less": "Show less"
         }
@@ -703,9 +719,10 @@
             const key = pObj ? (pObj.id || pObj.number || pObj.name_kanji) : cleanName;
 
             if (!gkGoalsMap[key]) {
-                gkGoalsMap[key] = { count: 0, pObj: pObj, rawName: cleanName };
+                gkGoalsMap[key] = { count: 0, played: 0, pObj: pObj, rawName: cleanName };
             }
             gkGoalsMap[key].count += gaGoals;
+            gkGoalsMap[key].played += 1; // Incrementa il numero di presenze
         };
 
         rawMatchesData.forEach(m => {
@@ -857,7 +874,7 @@
         updateDiscRow('fr', stats.friendly);
         updateDiscRow('tot', tot);
 
-        // Rendering classifiche con limite a 5 e pulsante "Visualizza altro"
+        // Rendering classifiche standard (Marcatori, Assist, MVP, Cards)
         const renderRanking = (elementId, dataMap, unitKey, sortAscending = false) => {
             const list = document.getElementById(elementId);
             if (!list) return;
@@ -909,9 +926,78 @@
             }
         };
 
+        // Rendering DEDICATO per Portieri (Mostra Gol Subiti, Presenze e Media a partita)
+        const renderGKRanking = () => {
+            const list = document.getElementById('gk-ranking');
+            if (!list) return;
+
+            const card = list.closest('.ranking-card');
+            const btnContainer = card ? card.querySelector('.btn-more-container') : null;
+
+            // Calcolo media e ordinamento per miglior media (minor numero di gol subiti per gara)
+            const gkList = Object.values(gkGoalsMap).map(item => {
+                const avg = item.played > 0 ? (item.count / item.played) : 0;
+                return { ...item, avg: parseFloat(avg.toFixed(2)) };
+            });
+
+            // Ordina per media gol subiti (crescente), poi per gol subiti totali
+            gkList.sort((a, b) => {
+                if (a.avg !== b.avg) return a.avg - b.avg;
+                return a.count - b.count;
+            });
+
+            const noDataText = translations[currentLanguage]["stats.no_data"] || 'データなし';
+            const unitGoals = translations[currentLanguage]["unit.gk_goals"] || '';
+            const labelMatches = translations[currentLanguage]["gk.matches"] || '試合';
+            const labelAvg = translations[currentLanguage]["gk.avg"] || '平均';
+            const labelPerMatch = translations[currentLanguage]["gk.per_match"] || '/試合';
+
+            if (gkList.length === 0) {
+                list.innerHTML = `<li style="color:#94a3b8; text-align:center; padding:10px;">${noDataText}</li>`;
+                if (btnContainer) btnContainer.innerHTML = '';
+                return;
+            }
+
+            const isExpanded = expandedSections['gk-ranking'];
+            const visibleItems = isExpanded ? gkList : gkList.slice(0, 5);
+
+            list.innerHTML = '';
+            visibleItems.forEach((item, index) => {
+                const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
+                const displayName = formatPlayerName(item.pObj, item.rawName, currentLanguage);
+
+                list.innerHTML += `
+                    <li class="ranking-item" style="align-items: center;">
+                        <span><span class="rank-number ${rankClass}">${index + 1}</span> <strong>${displayName}</strong></span>
+                        <div class="gk-stats-detail">
+                            <span class="stats-highlight">${item.count} ${unitGoals} <span style="font-size:0.8rem; color:#475569; font-weight:600;">(${item.played}${labelMatches})</span></span>
+                            <span class="gk-stats-sub">${labelAvg}: ${item.avg}${labelPerMatch}</span>
+                        </div>
+                    </li>
+                `;
+            });
+
+            if (btnContainer) {
+                if (gkList.length > 5) {
+                    const btnText = isExpanded 
+                        ? (translations[currentLanguage]["btn.show_less"] || "閉じる")
+                        : (translations[currentLanguage]["btn.show_more"] || "もっと見る");
+                    
+                    btnContainer.innerHTML = `
+                        <button class="show-more-btn ${isExpanded ? 'is-expanded' : ''}" data-target="gk-ranking">
+                            <span>${btnText}</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    `;
+                } else {
+                    btnContainer.innerHTML = '';
+                }
+            }
+        };
+
         renderRanking('goals-ranking', goalsMap, 'unit.goals');
         renderRanking('assists-ranking', assistsMap, 'unit.assists');
-        renderRanking('gk-ranking', gkGoalsMap, 'unit.gk_goals', true); // Ordinamento crescente per gol subiti
+        renderGKRanking(); // Call dedicato portieri
         renderRanking('mvp-ranking', mvpMap, 'unit.mvp');
         renderRanking('yellows-ranking', yellowsMap, 'unit.yellows');
         renderRanking('reds-ranking', redsMap, 'unit.reds');
