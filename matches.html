@@ -49,6 +49,22 @@
             font-size: 0.9rem;
         }
 
+        /* --- STILI SPECIFICI NOMI SQUADRE SU UNA RIGA --- */
+        .team-column span, .team-name-col {
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            max-width: 130px !important;
+            font-size: 0.88rem !important;
+        }
+
+        @media (min-width: 500px) {
+            .team-column span, .team-name-col {
+                max-width: 180px !important;
+                font-size: 0.95rem !important;
+            }
+        }
+
         /* --- STILI SPECIFICI HERO CARD --- */
         .next-match-hero {
             background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%);
@@ -59,6 +75,12 @@
             border: 2px solid var(--primary-sky, #87ceeb);
             display: block;
             transition: all 0.3s ease;
+        }
+
+        .next-match-hero .team-column span {
+            color: #ffffff !important;
+            font-size: 1.05rem !important;
+            max-width: 200px !important;
         }
 
         .next-match-header {
@@ -615,12 +637,12 @@
                             <div class="match-teams-wrapper">
                                 <div class="team-column">
                                     <div class="hero-logo-wrap"><img src="${t1Logo}" alt="${t1Name}" class="${t1Class}"></div>
-                                    <span>${t1Name}</span>
+                                    <span title="${t1Name}">${t1Name}</span>
                                 </div>
                                 <div class="match-vs-center">VS</div>
                                 <div class="team-column">
                                     <div class="hero-logo-wrap"><img src="${t2Logo}" alt="${t2Name}" class="${t2Class}"></div>
-                                    <span>${t2Name}</span>
+                                    <span title="${t2Name}">${t2Name}</span>
                                 </div>
                             </div>
                             <div class="next-match-info">
@@ -631,26 +653,25 @@
                         </div>
                     `;
                 } else {
-                    // SCHEDE SUCCESSIVE
+                    // SCHEDE SUCCESSIVE (Senza orario in alto a destra, solo data)
                     const surfaceHtml = locInfo.surface ? `<span class="surface-badge-card">${locInfo.surface}</span>` : '';
-                    const displayDateTime = nextM.time ? `${formattedDate} ${nextM.time}` : formattedDate;
                     const mapsCardHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener" style="color:var(--dark-navy); text-decoration:underline;">${locInfo.name}</a>` : locInfo.name;
 
                     upcomingHtml += `
                         <div class="upcoming-item match-detail-card" data-match-category="${nextM.category}" data-match-date="${rawDate}" style="display: none;">
                             <div class="match-header-row">
                                 <span class="match-badge badge-friendly">${catText}</span>
-                                <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${displayDateTime}</span>
+                                <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${formattedDate}</span>
                             </div>
                             <div class="match-teams-wrapper">
                                 <div class="team-column">
                                     <div class="card-logo-wrap"><img src="${t1Logo}" alt="${t1Name}" class="${t1Class}"></div>
-                                    <span>${t1Name}</span>
+                                    <span title="${t1Name}">${t1Name}</span>
                                 </div>
                                 <div class="match-vs-center">VS</div>
                                 <div class="team-column">
                                     <div class="card-logo-wrap"><img src="${t2Logo}" alt="${t2Name}" class="${t2Class}"></div>
-                                    <span>${t2Name}</span>
+                                    <span title="${t2Name}">${t2Name}</span>
                                 </div>
                             </div>
                             <div style="padding: 12px 15px; background: #f8fafc; border-top: 1px solid #e2e8f0; border-radius: 0 0 8px 8px; font-size: 0.88rem; display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px;">
@@ -696,7 +717,7 @@
             upcomingContainer.innerHTML = `<div style="text-align: center; padding: 30px; background: #f8fafc; border-radius: 8px; margin-bottom: 30px;"><p style="color: #64748b; font-weight: 600;">${translations[currentLang]["matches.no_upcoming"]}</p></div>`;
         }
 
-        // 2. RENDER RISULTATI PASSATI
+        // 2. RENDER RISULTATI PASSATI (Senza orario in alto a destra, solo data)
         sortedPast.forEach(m => {
             const rawDate = m.date ? m.date.trim().replace(/\./g, '-').substring(0, 10) : '';
             const formattedDate = formatDateWithDay(m.date, currentLang);
@@ -745,7 +766,6 @@
                 }
             }
 
-            const displayDateTime = m.time ? `${formattedDate} ${m.time}` : formattedDate;
             const mapsHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener" style="color:var(--dark-navy); text-decoration:underline;">${locInfo.name}</a>` : locInfo.name;
             const surfaceHtml = locInfo.surface ? `<span class="surface-badge-card">${locInfo.surface}</span>` : '';
 
@@ -779,17 +799,17 @@
                 <div class="match-detail-card match-past-item" id="${m.id}" data-match-category="${m.category}" data-match-date="${rawDate}">
                     <div class="match-header-row">
                         ${badgeHtml}
-                        <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${displayDateTime}</span>
+                        <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${formattedDate}</span>
                     </div>
                     <div class="match-teams-wrapper">
                         <div class="team-column">
                             <div class="card-logo-wrap"><img src="${leftTeamLogo}" alt="${leftTeamName}" class="${leftTeamClass}"></div>
-                            <span>${leftTeamName}</span>
+                            <span title="${leftTeamName}">${leftTeamName}</span>
                         </div>
                         <div class="match-vs-center score-past">${displayScore}</div>
                         <div class="team-column">
                             <div class="card-logo-wrap"><img src="${rightTeamLogo}" alt="${rightTeamName}" class="${rightTeamClass}"></div>
-                            <span>${rightTeamName}</span>
+                            <span title="${rightTeamName}">${rightTeamName}</span>
                         </div>
                     </div>
                     <button class="toggle-details-btn"><i class="fas fa-chevron-down"></i> <span class="btn-text" data-i18n="btn.details">詳細を見る</span></button>
@@ -849,7 +869,7 @@
         });
 
         let years = Array.from(yearsSet).sort((a, b) => b - a);
-        const currentYearStr = new Date().getFullYear().toString(); // Stagione corrente (2026)
+        const currentYearStr = new Date().getFullYear().toString();
 
         select.innerHTML = '';
 
@@ -865,13 +885,12 @@
             select.appendChild(option);
         });
 
-        // Imposta di default la stagione corrente
         if (isUserSelected && currentSelected) {
             select.value = currentSelected;
         } else if (years.includes(currentYearStr)) {
             select.value = currentYearStr;
         } else if (years.length > 0) {
-            select.value = years[0]; // Prende l'anno più recente disponibile se il corrente non ha dati
+            select.value = years[0];
         } else {
             select.value = 'all';
         }
