@@ -544,7 +544,7 @@
         <h2 class="section-title"><i class="fas fa-trophy"></i> <span data-i18n="results.title">試合結果・日程</span></h2>
         
         <div class="match-center-grid">
-            <!-- Box 1: Ultimo Risultato (Cliccabile) -->
+            <!-- Box 1: Ultimo Risultato -->
             <a href="#" id="lastDetailLink" class="match-card-clickable match-past-box">
                 <div>
                     <div class="match-box-header">
@@ -572,7 +572,7 @@
                 <div class="match-box-venue" id="lastMatchVenue"><i class="fas fa-map-marker-alt"></i> <span>-</span></div>
             </a>
 
-            <!-- Box 2: Prossima Partita (Hero Card Cliccabile) -->
+            <!-- Box 2: Prossima Partita -->
             <a href="#" id="nextDetailLink" class="next-match-hero match-card-clickable" id="nextMatchBox">
                 <div>
                     <div class="next-match-header">
@@ -1004,7 +1004,7 @@
                 leftTeamClass = 'yokohama-logo';
                 rightTeamName = m.team2Name || '-';
                 rightTeamLogo = getAvatarUrl(rightTeamName, m.team2Logo);
-                rightTeamClass = prefix === 'next' ? 'opponent-logo' : 'opponent-logo';
+                rightTeamClass = 'opponent-logo';
             } else {
                 leftTeamName = m.team2Name || '-';
                 leftTeamLogo = getAvatarUrl(leftTeamName, m.team2Logo);
@@ -1200,17 +1200,20 @@
     }
 
     const topBtn = document.getElementById('scrollToTopBtn');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            topBtn.classList.add('show');
-        } else {
-            topBtn.classList.remove('show');
-        }
-    });
-
-    topBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    if (topBtn) {
+        const checkScroll = () => {
+            if (window.scrollY > 300) {
+                topBtn.classList.add('show');
+            } else {
+                topBtn.classList.remove('show');
+            }
+        };
+        window.addEventListener('scroll', checkScroll);
+        window.addEventListener('load', checkScroll);
+        topBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 
     const yearSpan = document.getElementById('currentYear');
     if (yearSpan) {
