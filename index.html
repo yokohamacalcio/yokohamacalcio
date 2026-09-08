@@ -190,18 +190,28 @@
             font-size: 1.8rem !important;
         }
 
-        /* --- HERO CARD STILE MATCHES.HTML --- */
-        .next-match-hero {
-            background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%);
-            color: #ffffff;
+        /* --- SCHEDE PARTITA STANDARD E HERO IDENTICHE A MATCHES.HTML --- */
+        .match-box-card {
+            background: var(--white, #ffffff);
             border-radius: 16px;
             padding: 24px;
+            border: 1px solid #e2e8f0;
             box-shadow: 0 4px 18px rgba(0, 60, 130, 0.06);
-            border: 2px solid var(--primary-sky, #87ceeb);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: all 0.3s ease;
+        }
+
+        .next-match-hero {
+            background: linear-gradient(135deg, #0b1d3a 0%, #17325c 100%);
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(11, 29, 58, 0.2);
+            border: 2px solid #38bdf8;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .next-match-hero .team-name-col {
@@ -212,20 +222,21 @@
 
         .next-match-hero .match-vs-center {
             font-size: 2.5rem !important;
+            color: #38bdf8 !important;
         }
 
         .next-match-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.15);
             padding-bottom: 12px;
             margin-bottom: 10px;
         }
 
         .next-match-badge {
-            background: var(--primary-sky, #87ceeb);
-            color: var(--dark-navy, #003c82);
+            background: #38bdf8;
+            color: #0b1d3a;
             font-weight: 800;
             padding: 3px 10px;
             border-radius: 20px;
@@ -251,32 +262,6 @@
             gap: 6px;
         }
 
-        .next-match-info-item a {
-            color: var(--primary-sky, #87ceeb);
-            text-decoration: underline;
-            font-weight: 700;
-        }
-
-        .match-card-clickable {
-            cursor: pointer;
-            text-decoration: none !important;
-            color: inherit !important;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            background: var(--white);
-            border-radius: 16px;
-            padding: 24px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 18px rgba(0, 60, 130, 0.06);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .match-card-clickable:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 60, 130, 0.12);
-        }
-
         .match-box-header {
             display: flex;
             justify-content: space-between;
@@ -294,12 +279,64 @@
             font-size: 0.8rem;
             color: var(--primary-sky);
             font-weight: 600;
-            margin-top: 15px;
+            margin-top: 12px;
             padding-top: 10px;
             border-top: 1px dashed #e2e8f0;
             display: flex;
             align-items: center;
             gap: 6px;
+        }
+
+        .match-card-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .match-card-footer-hero {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-match-detail {
+            background: var(--primary-sky, #003c82);
+            color: #ffffff;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s ease;
+        }
+
+        .btn-match-detail:hover {
+            background: #002b5c;
+        }
+
+        .btn-match-detail-hero {
+            background: #38bdf8;
+            color: #0b1d3a;
+            font-size: 0.78rem;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s ease;
+        }
+
+        .btn-match-detail-hero:hover {
+            opacity: 0.9;
         }
 
         .no-match-box {
@@ -545,7 +582,7 @@
         
         <div class="match-center-grid">
             <!-- Box 1: Ultimo Risultato -->
-            <a href="#" id="lastDetailLink" class="match-card-clickable match-past-box">
+            <div class="match-box-card match-past-box">
                 <div>
                     <div class="match-box-header">
                         <div class="match-badge-group">
@@ -569,11 +606,16 @@
                     </div>
                 </div>
 
-                <div class="match-box-venue" id="lastMatchVenue"><i class="fas fa-map-marker-alt"></i> <span>-</span></div>
-            </a>
+                <div>
+                    <div class="match-box-venue" id="lastMatchVenue"><i class="fas fa-map-marker-alt"></i> <span>-</span></div>
+                    <div class="match-card-footer">
+                        <a href="#" id="lastDetailLink" class="btn-match-detail"><span data-i18n="results.detail">詳細</span> <i class="fas fa-chevron-right"></i></a>
+                    </div>
+                </div>
+            </div>
 
-            <!-- Box 2: Prossima Partita -->
-            <a href="#" id="nextDetailLink" class="next-match-hero match-card-clickable" id="nextMatchBox">
+            <!-- Box 2: Prossima Partita (Hero Card) -->
+            <div class="next-match-hero" id="nextMatchBox">
                 <div>
                     <div class="next-match-header">
                         <div class="match-badge-group">
@@ -598,18 +640,23 @@
                         </div>
 
                         <div class="next-match-info" id="nextHeroInfoBar">
-                            <div class="next-match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span id="nextMatchTime">-</span></div>
+                            <div class="next-match-info-item"><i class="fas fa-clock" style="color: #38bdf8;"></i><span id="nextMatchTime">-</span></div>
                         </div>
                     </div>
 
                     <div class="no-match-box hidden" id="noNextMatchBox">
-                        <i class="far fa-calendar-times" style="color: var(--primary-sky);"></i>
+                        <i class="far fa-calendar-times" style="color: #38bdf8;"></i>
                         <p data-i18n="results.no_next_match" style="color: #ffffff;">次戦の日程はまだ決定していません。</p>
                     </div>
                 </div>
 
-                <div class="match-box-venue" id="nextMatchVenue" style="border-top-color: rgba(255,255,255,0.2);"><i class="fas fa-map-marker-alt"></i> <span>-</span></div>
-            </a>
+                <div>
+                    <div class="match-box-venue" id="nextMatchVenue" style="border-top-color: rgba(255,255,255,0.15);"><i class="fas fa-map-marker-alt"></i> <span>-</span></div>
+                    <div class="match-card-footer-hero">
+                        <a href="#" id="nextDetailLink" class="btn-match-detail-hero"><span data-i18n="results.detail">詳細</span> <i class="fas fa-chevron-right"></i></a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div style="text-align: center; margin-top: 30px;">
