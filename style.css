@@ -1429,7 +1429,7 @@ body {
 }
 
 /* ==========================================
-   PAGINA PARTITE (MATCHES.HTML) - STRUTTURA A 2 LIVELLI
+   PAGINA PARTITE (MATCHES.HTML) - LAYOUT CENTRATO
    ========================================== */
 .matches-page-section {
     min-height: 70vh;
@@ -1473,106 +1473,101 @@ body {
     color: #64748b;
 }
 
-/* STRUTTURA RIGIDA A 2 LIVELLI PER ALLINEARE I LOGHI */
+/* STRUTTURA A COLONNE INDIPENDENTI PER PERFECT CENTERING */
 .match-teams-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-    margin: 15px 0;
-}
-
-/* Riga 1: Solo Loghi e VS/Punteggio (Allineati perfettamente al centro dell'asse orizzontale) */
-.teams-logos-row {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    justify-items: center;
-    width: 100%;
-}
-
-/* Riga 2: Solo i Nomi delle Squadre (Centrati esattamente sotto il relativo logo) */
-.teams-names-row {
     display: grid !important;
     grid-template-columns: 1fr auto 1fr !important;
     align-items: start !important;
-    justify-items: center !important;
+    gap: 10px !important;
     width: 100% !important;
+    margin: 15px 0 !important;
 }
 
-.team-name-col {
+.team-column {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: center !important;
+    width: 100% !important;
+    gap: 8px !important;
+}
+
+.team-column span {
     font-weight: 700 !important;
     font-size: 0.95rem !important;
     line-height: 1.25 !important;
     color: var(--dark-navy) !important;
     text-align: center !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
     word-break: break-word !important;
 }
 
-.next-match-hero .team-name-col {
+.next-match-hero .team-column span {
     color: #ffffff !important;
     font-size: 1.05rem !important;
 }
 
-/* Box per loghi nella Hero Card */
+/* Box Fisso Loghi Hero */
 .hero-logo-wrap {
-    width: 75px;
-    height: 75px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    width: 75px !important;
+    height: 75px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
 }
 
-/* Box per loghi nelle schede standard */
+/* Box Fisso Loghi Schede Standard */
 .card-logo-wrap {
-    width: 55px;
-    height: 55px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    width: 55px !important;
+    height: 55px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
 }
 
 .hero-logo-wrap img, .card-logo-wrap img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
 }
 
 .card-logo-wrap img.opponent-logo {
-    border-radius: 50%;
+    border-radius: 50% !important;
 }
 
-/* Compensa i margini vuoti nell'immagine dello stemma di Yokohama Calcio */
+/* Compensa i margini vuoti del logo Yokohama Calcio */
 img.yokohama-logo {
-    transform: scale(1.2);
+    transform: scale(1.2) !important;
 }
 
 .match-vs-center {
-    font-family: var(--font-brand);
-    font-size: 2rem;
-    color: var(--primary-sky);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    padding: 0 10px;
+    font-family: var(--font-brand) !important;
+    font-size: 2rem !important;
+    color: var(--primary-sky) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 55px !important;
+    white-space: nowrap !important;
+    padding: 0 5px !important;
+}
+
+.next-match-hero .match-vs-center {
+    height: 75px !important;
+    font-size: 2.5rem !important;
 }
 
 /* Punteggio orizzontale per i match passati */
 .score-past {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    color: var(--dark-navy);
-    letter-spacing: 2px;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+    color: var(--dark-navy) !important;
+    letter-spacing: 2px !important;
 }
 
 .toggle-details-btn {
