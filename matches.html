@@ -604,7 +604,7 @@
                 const mapsHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener">${locInfo.name}</a>` : locInfo.name;
 
                 if (index === 0) {
-                    // HERO CARD (GRIGLIA CENTRATA A 3 COLONNE PERFECT)
+                    // HERO CARD
                     const surfaceHtml = locInfo.surface ? `<span class="surface-badge-hero">${locInfo.surface}</span>` : '';
                     upcomingHtml += `
                         <div class="upcoming-item match-detail-card next-match-hero" data-match-category="${nextM.category}" data-match-date="${rawDate}">
@@ -613,15 +613,14 @@
                                 <span style="font-weight: 700; color: var(--primary-sky);">${catText}</span>
                             </div>
                             <div class="match-teams-wrapper">
-                                <div class="teams-logos-row">
+                                <div class="team-column">
                                     <div class="hero-logo-wrap"><img src="${t1Logo}" alt="${t1Name}" class="${t1Class}"></div>
-                                    <div class="match-vs-center" style="color: var(--primary-sky); font-size: 2.5rem;">VS</div>
-                                    <div class="hero-logo-wrap"><img src="${t2Logo}" alt="${t2Name}" class="${t2Class}"></div>
+                                    <span>${t1Name}</span>
                                 </div>
-                                <div class="teams-names-row">
-                                    <div class="team-name-col">${t1Name}</div>
-                                    <div></div>
-                                    <div class="team-name-col">${t2Name}</div>
+                                <div class="match-vs-center">VS</div>
+                                <div class="team-column">
+                                    <div class="hero-logo-wrap"><img src="${t2Logo}" alt="${t2Name}" class="${t2Class}"></div>
+                                    <span>${t2Name}</span>
                                 </div>
                             </div>
                             <div class="next-match-info">
@@ -644,15 +643,14 @@
                                 <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${displayDateTime}</span>
                             </div>
                             <div class="match-teams-wrapper">
-                                <div class="teams-logos-row">
+                                <div class="team-column">
                                     <div class="card-logo-wrap"><img src="${t1Logo}" alt="${t1Name}" class="${t1Class}"></div>
-                                    <div class="match-vs-center">VS</div>
-                                    <div class="card-logo-wrap"><img src="${t2Logo}" alt="${t2Name}" class="${t2Class}"></div>
+                                    <span>${t1Name}</span>
                                 </div>
-                                <div class="teams-names-row">
-                                    <div class="team-name-col">${t1Name}</div>
-                                    <div></div>
-                                    <div class="team-name-col">${t2Name}</div>
+                                <div class="match-vs-center">VS</div>
+                                <div class="team-column">
+                                    <div class="card-logo-wrap"><img src="${t2Logo}" alt="${t2Name}" class="${t2Class}"></div>
+                                    <span>${t2Name}</span>
                                 </div>
                             </div>
                             <div style="padding: 12px 15px; background: #f8fafc; border-top: 1px solid #e2e8f0; border-radius: 0 0 8px 8px; font-size: 0.88rem; display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px;">
@@ -784,15 +782,14 @@
                         <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${displayDateTime}</span>
                     </div>
                     <div class="match-teams-wrapper">
-                        <div class="teams-logos-row">
+                        <div class="team-column">
                             <div class="card-logo-wrap"><img src="${leftTeamLogo}" alt="${leftTeamName}" class="${leftTeamClass}"></div>
-                            <div class="match-vs-center score-past">${displayScore}</div>
-                            <div class="card-logo-wrap"><img src="${rightTeamLogo}" alt="${rightTeamName}" class="${rightTeamClass}"></div>
+                            <span>${leftTeamName}</span>
                         </div>
-                        <div class="teams-names-row">
-                            <div class="team-name-col">${leftTeamName}</div>
-                            <div></div>
-                            <div class="team-name-col">${rightTeamName}</div>
+                        <div class="match-vs-center score-past">${displayScore}</div>
+                        <div class="team-column">
+                            <div class="card-logo-wrap"><img src="${rightTeamLogo}" alt="${rightTeamName}" class="${rightTeamClass}"></div>
+                            <span>${rightTeamName}</span>
                         </div>
                     </div>
                     <button class="toggle-details-btn"><i class="fas fa-chevron-down"></i> <span class="btn-text" data-i18n="btn.details">詳細を見る</span></button>
@@ -840,7 +837,9 @@
         const select = document.getElementById('matchSeasonSelect');
         if (!select) return;
 
+        const isUserSelected = select.dataset.userModified === "true";
         const currentSelected = select.value;
+        
         const yearsSet = new Set();
         matches.forEach(m => {
             if (m.date) {
@@ -850,6 +849,8 @@
         });
 
         let years = Array.from(yearsSet).sort((a, b) => b - a);
+        const currentYearStr = new Date().getFullYear().toString(); // Stagione corrente (2026)
+
         select.innerHTML = '';
 
         const allOption = document.createElement('option');
@@ -864,8 +865,13 @@
             select.appendChild(option);
         });
 
-        if (currentSelected && (years.includes(currentSelected) || currentSelected === 'all')) {
+        // Imposta di default la stagione corrente
+        if (isUserSelected && currentSelected) {
             select.value = currentSelected;
+        } else if (years.includes(currentYearStr)) {
+            select.value = currentYearStr;
+        } else if (years.length > 0) {
+            select.value = years[0]; // Prende l'anno più recente disponibile se il corrente non ha dati
         } else {
             select.value = 'all';
         }
@@ -938,7 +944,8 @@
 
         const seasonSelect = document.getElementById('matchSeasonSelect');
         if (seasonSelect) {
-            seasonSelect.addEventListener('change', () => {
+            seasonSelect.addEventListener('change', function() {
+                this.dataset.userModified = "true";
                 visiblePastMatchesCount = 3;
                 filterAndPaginateMatches();
             });
