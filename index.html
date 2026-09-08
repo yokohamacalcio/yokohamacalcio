@@ -67,13 +67,109 @@
             border-radius: 4px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            display: inline-block;
         }
-        .badge-league { background: #003c82; color: #fff; }
-        .badge-friendly { background: #64748b; color: #fff; }
-        .badge-tournament { background: #d97706; color: #fff; }
-        .badge-home { background: #16a34a; color: #fff; }
-        .badge-away { background: #dc2626; color: #fff; }
-        .badge-neutral { background: #0284c7; color: #fff; }
+        .badge-official, .badge-league { background: #003c82; color: #ffffff; }
+        .badge-friendly { background: #64748b; color: #ffffff; }
+        .badge-tournament, .badge-cup { background: #d97706; color: #ffffff; }
+        .badge-next { background: #003c82; color: #ffffff; }
+
+        .surface-badge-card {
+            font-size: 0.72rem;
+            background: #e2e8f0;
+            color: #475569;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-left: 5px;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        /* --- STRUTTURA A 2 RIGHE (LOGHI E NOMI) IDENTICA A MATCHES.HTML --- */
+        .match-teams-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            width: 100% !important;
+            margin: 15px 0 !important;
+        }
+
+        .teams-logos-row {
+            display: grid !important;
+            grid-template-columns: 1fr 60px 1fr !important;
+            align-items: center !important;
+            justify-items: center !important;
+            width: 100% !important;
+        }
+
+        .teams-names-row {
+            display: grid !important;
+            grid-template-columns: 1fr 60px 1fr !important;
+            align-items: start !important;
+            justify-items: center !important;
+            width: 100% !important;
+        }
+
+        .team-name-col {
+            font-weight: 700 !important;
+            font-size: 0.88rem !important;
+            line-height: 1.25 !important;
+            color: var(--dark-navy) !important;
+            text-align: center !important;
+            width: 100% !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            max-width: 130px !important;
+            padding: 0 5px !important;
+        }
+
+        @media (min-width: 500px) {
+            .team-name-col {
+                max-width: 180px !important;
+                font-size: 0.95rem !important;
+            }
+        }
+
+        .card-logo-wrap {
+            width: 55px !important;
+            height: 55px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
+        }
+
+        .card-logo-wrap img {
+            max-width: 100% !important;
+            max-height: 100% !important;
+            object-fit: contain !important;
+        }
+
+        .card-logo-wrap img.opponent-logo {
+            border-radius: 50% !important;
+        }
+
+        img.yokohama-logo {
+            transform: scale(1.2) !important;
+        }
+
+        .match-vs-center {
+            font-family: var(--font-brand) !important;
+            font-size: 2rem !important;
+            color: var(--primary-sky) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
+            white-space: nowrap !important;
+        }
+
+        .score-past {
+            color: var(--dark-navy) !important;
+            letter-spacing: 1px !important;
+            font-size: 1.8rem !important;
+        }
 
         .no-match-box {
             display: flex;
@@ -96,7 +192,6 @@
             margin: 0;
         }
 
-        /* Stili per la sezione contatti migliorata */
         .contact-card-enhanced {
             background: #ffffff;
             border-radius: 12px;
@@ -327,20 +422,24 @@
                     </div>
                     <span class="match-box-date" id="lastMatchDate">-</span>
                 </div>
-                <div class="match-box-content">
-                    <div class="match-box-team">
-                        <img src="./immagini/logo.png" alt="Yokohama Calcio" id="lastTeam1Logo">
-                        <span id="lastTeam1Name">Yokohama Calcio</span>
+                
+                <div class="match-teams-wrapper">
+                    <div class="teams-logos-row">
+                        <div class="card-logo-wrap"><img src="./immagini/logo.png" alt="Yokohama Calcio" id="lastTeam1Logo"></div>
+                        <div class="match-vs-center score-past" id="lastScore">-</div>
+                        <div class="card-logo-wrap"><img src="" alt="Opponent" id="lastTeam2Logo" class="opponent-logo"></div>
                     </div>
-                    <div class="match-box-score">
-                        <span id="lastScore">-</span>
-                        <a href="matches.html" id="lastDetailLink" class="match-box-link" data-i18n="results.detail">詳細</a>
-                    </div>
-                    <div class="match-box-team">
-                        <img src="" alt="Opponent" id="lastTeam2Logo" class="opponent-logo">
-                        <span id="lastTeam2Name">-</span>
+                    <div class="teams-names-row">
+                        <div class="team-name-col" id="lastTeam1Name">Yokohama Calcio</div>
+                        <div></div>
+                        <div class="team-name-col" id="lastTeam2Name">-</div>
                     </div>
                 </div>
+
+                <div style="text-align: right; margin-top: 5px;">
+                    <a href="matches.html" id="lastDetailLink" class="match-box-link" data-i18n="results.detail">詳細</a>
+                </div>
+
                 <div class="match-box-venue" id="lastMatchVenue"><i class="fas fa-map-marker-alt"></i> <span>-</span></div>
             </div>
 
@@ -353,24 +452,31 @@
                     </div>
                     <span class="match-box-date" id="nextMatchDate">-</span>
                 </div>
-                <div class="match-box-content" id="nextMatchContent">
-                    <div class="match-box-team">
-                        <img src="./immagini/logo.png" alt="Yokohama Calcio" id="nextTeam1Logo">
-                        <span id="nextTeam1Name">Yokohama Calcio</span>
+
+                <div id="nextMatchContent">
+                    <div class="match-teams-wrapper">
+                        <div class="teams-logos-row">
+                            <div class="card-logo-wrap"><img src="./immagini/logo.png" alt="Yokohama Calcio" id="nextTeam1Logo"></div>
+                            <div class="match-vs-center">VS</div>
+                            <div class="card-logo-wrap"><img src="" alt="Opponent" id="nextTeam2Logo" class="opponent-logo"></div>
+                        </div>
+                        <div class="teams-names-row">
+                            <div class="team-name-col" id="nextTeam1Name">Yokohama Calcio</div>
+                            <div></div>
+                            <div class="team-name-col" id="nextTeam2Name">-</div>
+                        </div>
                     </div>
-                    <div class="match-box-score">
-                        <span class="vs-text">VS</span>
+
+                    <div style="text-align: right; margin-top: 5px;">
                         <a href="matches.html" id="nextDetailLink" class="match-box-link" data-i18n="results.detail">詳細</a>
                     </div>
-                    <div class="match-box-team">
-                        <img src="" alt="Opponent" id="nextTeam2Logo" class="opponent-logo">
-                        <span id="nextTeam2Name">-</span>
-                    </div>
                 </div>
+
                 <div class="no-match-box hidden" id="noNextMatchBox">
                     <i class="far fa-calendar-times"></i>
                     <p data-i18n="results.no_next_match">次戦の日程はまだ決定していません。</p>
                 </div>
+
                 <div class="match-box-venue" id="nextMatchVenue"><i class="fas fa-map-marker-alt"></i> <span>-</span></div>
             </div>
         </div>
@@ -562,7 +668,7 @@
             "results.title": "試合結果・日程", "results.last_badge": "前節結果", "results.next_badge": "次戦",
             "results.detail": "詳細", "results.all_matches": "全試合日程・詳細はこちら",
             "results.no_next_match": "次戦の日程はまだ決定していません。",
-            "badge.league": "公式戦", "badge.friendly": "練習試合", "badge.tournament": "大会",
+            "badge.league": "公式戦", "badge.friendly": "練習試合", "badge.tournament": "大会", "badge.cup": "カップ戦",
             "gallery.title": "フォトギャラリー", "shop.title": "公式オンラインショップ",
             "shop.card_title": "Yokohama Calcio オフィシャルグッズ",
             "shop.card_desc": "Tシャツ、キャップ、キーホルダー、マフラータオルなどのオリジナルグッズを取り揃えています。売上収益はチームの活動費として大切に活用させていただきます。",
@@ -592,7 +698,7 @@
             "results.title": "Calendario e Risultati", "results.last_badge": "Ultimo Match", "results.next_badge": "Prossimo Match",
             "results.detail": "Dettagli", "results.all_matches": "Vedi tutte le partite",
             "results.no_next_match": "La prossima partita non è ancora stata programmata.",
-            "badge.league": "Campionato", "badge.friendly": "Amichevole", "badge.tournament": "Torneo",
+            "badge.league": "Campionato", "badge.friendly": "Amichevole", "badge.tournament": "Torneo", "badge.cup": "Coppa",
             "gallery.title": "Galleria Fotografica", "shop.title": "Online Shop Ufficiale",
             "shop.card_title": "Merchandising Ufficiale Yokohama Calcio",
             "shop.card_desc": "Scopri t-shirt, cappellini, portachiavi e sciarpe per tifare la squadra. I proventi delle vendite servono a sostenere le attività della squadra.",
@@ -622,7 +728,7 @@
             "results.title": "Matches & Results", "results.last_badge": "Last Match", "results.next_badge": "Next Match",
             "results.detail": "Details", "results.all_matches": "View All Matches",
             "results.no_next_match": "The next match has not been scheduled yet.",
-            "badge.league": "League", "badge.friendly": "Friendly", "badge.tournament": "Tournament",
+            "badge.league": "League", "badge.friendly": "Friendly", "badge.tournament": "Tournament", "badge.cup": "Cup",
             "gallery.title": "Photo Gallery", "shop.title": "Official Online Shop",
             "shop.card_title": "Yokohama Calcio Official Merchandise",
             "shop.card_desc": "Discover t-shirts, caps, keychains, and scarves to support the team. Proceeds from sales are used to support the team's activities.",
@@ -639,15 +745,14 @@
         }
     };
 
-    // Lettura iniziale della lingua salvata
     let currentLang = localStorage.getItem('preferred_lang') || 'ja';
     let cachedMatches = [];
+    let locationsData = {};
 
     function setLanguage(lang) {
         if (!translations[lang]) return;
         
         currentLang = lang;
-        // SALVA LA LINGUA NEL LOCALSTORAGE
         localStorage.setItem('preferred_lang', lang);
 
         document.querySelectorAll('[data-i18n]').forEach(elem => {
@@ -673,7 +778,6 @@
         });
     });
 
-    // Helper per estrarre la data ISO da "2026.08.30 (日)"
     function parseMatchDate(dateStr) {
         if (!dateStr) return 0;
         const clean = dateStr.replace(/\./g, '/').replace(/-/g, '/');
@@ -684,14 +788,28 @@
         return 0;
     }
 
+    function getLocationInfo(locId, venueFallback, lang) {
+        const loc = locationsData[locId];
+        if (!loc) return { name: venueFallback || locId || '-', surface: '' };
+
+        const name = loc[lang] || loc['ja'] || venueFallback || locId;
+        const surface = loc.surface ? (loc.surface[lang] || loc.surface['ja'] || '') : '';
+        return { name, surface };
+    }
+
     async function initMatchCenter() {
         try {
-            const response = await fetch('matches.json');
-            if (!response.ok) return;
-            cachedMatches = await response.json();
+            const [mResp, lResp] = await Promise.allSettled([
+                fetch('matches.json'),
+                fetch('locations.json')
+            ]);
+            
+            if (mResp.status === 'fulfilled' && mResp.value.ok) cachedMatches = await mResp.value.json();
+            if (lResp.status === 'fulfilled' && lResp.value.ok) locationsData = await lResp.value.json();
+
             renderMatchCenter(cachedMatches);
         } catch (e) {
-            console.error("Errore nel caricamento Match Center da JSON:", e);
+            console.error("Errore nel caricamento dati Match Center:", e);
         }
     }
 
@@ -706,9 +824,12 @@
             let key = 'badge.friendly';
             let cssClass = 'badge-friendly';
 
-            if (category === 'league') {
+            if (category === 'league' || category === 'official') {
                 key = 'badge.league';
-                cssClass = 'badge-league';
+                cssClass = 'badge-official';
+            } else if (category === 'cup') {
+                key = 'badge.cup';
+                cssClass = 'badge-cup';
             } else if (category === 'tournament') {
                 key = 'badge.tournament';
                 cssClass = 'badge-tournament';
@@ -723,63 +844,66 @@
 
         const getAvatarUrl = (name, team2Logo) => {
             if (team2Logo) return team2Logo;
-            return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=ffffff&size=100&bold=true`;
+            return `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'VS')}&background=random&color=ffffff&size=100&bold=true`;
         };
 
         const fillMatchBox = (m, prefix) => {
-            // Data e Ora
             document.getElementById(`${prefix}MatchDate`).textContent = `${m.date} ${m.time || ''}`.trim();
             
-            // Determina ordine squadre in base a isHome
             const isHome = m.isHome !== undefined ? m.isHome : true;
-            let leftTeamName, leftTeamLogo, rightTeamName, rightTeamLogo;
+            let leftTeamName, leftTeamLogo, leftTeamClass, rightTeamName, rightTeamLogo, rightTeamClass;
 
             if (isHome) {
-                // Yokohama a sinistra
                 leftTeamName = m.team1Name || 'Yokohama Calcio';
                 leftTeamLogo = './immagini/logo.png';
+                leftTeamClass = 'yokohama-logo';
                 rightTeamName = m.team2Name || '-';
                 rightTeamLogo = getAvatarUrl(rightTeamName, m.team2Logo);
+                rightTeamClass = 'opponent-logo';
             } else {
-                // Yokohama a destra
                 leftTeamName = m.team2Name || '-';
                 leftTeamLogo = getAvatarUrl(leftTeamName, m.team2Logo);
+                leftTeamClass = 'opponent-logo';
                 rightTeamName = m.team1Name || 'Yokohama Calcio';
                 rightTeamLogo = './immagini/logo.png';
+                rightTeamClass = 'yokohama-logo';
             }
 
-            document.getElementById(`${prefix}Team1Name`).textContent = leftTeamName;
-            document.getElementById(`${prefix}Team1Logo`).src = leftTeamLogo;
-            document.getElementById(`${prefix}Team2Name`).textContent = rightTeamName;
-            document.getElementById(`${prefix}Team2Logo`).src = rightTeamLogo;
-
-            // Aggiorna classi per rotondità (solo avversario)
+            const team1NameEl = document.getElementById(`${prefix}Team1Name`);
+            const team2NameEl = document.getElementById(`${prefix}Team2Name`);
             const team1LogoEl = document.getElementById(`${prefix}Team1Logo`);
             const team2LogoEl = document.getElementById(`${prefix}Team2Logo`);
-            if (team1LogoEl) team1LogoEl.className = isHome ? '' : 'opponent-logo';
-            if (team2LogoEl) team2LogoEl.className = isHome ? 'opponent-logo' : '';
 
-            // 3. Luogo
+            team1NameEl.textContent = leftTeamName;
+            team1NameEl.setAttribute('title', leftTeamName);
+            team1LogoEl.src = leftTeamLogo;
+            team1LogoEl.className = leftTeamClass;
+
+            team2NameEl.textContent = rightTeamName;
+            team2NameEl.setAttribute('title', rightTeamName);
+            team2LogoEl.src = rightTeamLogo;
+            team2LogoEl.className = rightTeamClass;
+
             const venueSpan = document.getElementById(`${prefix}MatchVenue`)?.querySelector('span');
-            if (venueSpan) venueSpan.textContent = m.venue || '-';
+            if (venueSpan) {
+                const locInfo = getLocationInfo(m.location_id, m.venue, lang);
+                const surfaceHtml = locInfo.surface ? `<span class="surface-badge-card">${locInfo.surface}</span>` : '';
+                venueSpan.innerHTML = `${locInfo.name} ${surfaceHtml}`;
+            }
 
-            // 4. Link al dettaglio
             document.getElementById(`${prefix}DetailLink`).href = `matches.html#${m.id}`;
 
-            // Badge categoria
             renderCategoryBadge(`${prefix}CategoryBadge`, m.category);
         };
 
-        // 1. Ultima Partita (status === 'past' con data più recente)
         const pastMatches = matches
-            .filter(m => m.status === 'past')
+            .filter(m => m.status === 'past' || m.status === 'live')
             .sort((a, b) => parseMatchDate(a.date) - parseMatchDate(b.date));
 
         if (pastMatches.length > 0) {
             const lastMatch = pastMatches[pastMatches.length - 1];
             fillMatchBox(lastMatch, 'last');
             
-            // Gestione punteggio in base a isHome
             let displayScore = lastMatch.score || '-';
             if (lastMatch.isHome === false && displayScore !== '-' && displayScore !== 'VS' && displayScore.includes('-')) {
                 const parts = displayScore.split('-');
@@ -788,7 +912,6 @@
             document.getElementById('lastScore').textContent = displayScore;
         }
 
-        // 2. Prossima Partita (status === 'upcoming' con data più vicina)
         const upcomingMatches = matches
             .filter(m => m.status === 'upcoming')
             .sort((a, b) => parseMatchDate(a.date) - parseMatchDate(b.date));
@@ -806,7 +929,6 @@
             if (nextMatchVenue) nextMatchVenue.style.display = 'flex';
             fillMatchBox(nextMatch, 'next');
         } else {
-            // Se non ci sono prossime partite
             nextMatchContent?.classList.add('hidden');
             noNextMatchBox?.classList.remove('hidden');
             if (nextCategoryBadge) nextCategoryBadge.style.display = 'none';
@@ -815,7 +937,6 @@
         }
     }
 
-    // Lightbox Fotogallery
     function initCompactGallery() {
         const items = document.querySelectorAll('.gallery-compact-item');
         const lightbox = document.getElementById('lightboxModal');
@@ -876,7 +997,6 @@
         });
     }
 
-    // CARICAMENTO INIZIALE LINGUA E DATI
     window.addEventListener('DOMContentLoaded', () => {
         setLanguage(currentLang);
         initMatchCenter();
