@@ -49,6 +49,121 @@
             color: var(--dark-navy, #003c82);
             font-size: 0.9rem;
         }
+
+        /* --- STILI HERO CARD "PROSSIMO MATCH" --- */
+        .next-match-hero {
+            background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%);
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 30px 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border: 2px solid var(--primary-sky, #87ceeb);
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .next-match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
+        .next-match-badge {
+            background: var(--primary-sky, #87ceeb);
+            color: var(--dark-navy, #003c82);
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .next-match-body {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .team-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .team-box img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            padding: 5px;
+        }
+
+        .team-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .match-vs {
+            font-family: var(--font-brand, 'Bebas Neue');
+            font-size: 2.5rem;
+            color: var(--primary-sky, #87ceeb);
+        }
+
+        .next-match-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px 25px;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .next-match-info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .next-match-info-item a {
+            color: var(--primary-sky, #87ceeb);
+            text-decoration: underline;
+            font-weight: 700;
+        }
+
+        .next-match-info-item a:hover {
+            color: #ffffff;
+        }
+
+        .surface-badge-hero {
+            font-size: 0.72rem;
+            background: rgba(255,255,255,0.2);
+            color: #ffffff;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-left: 5px;
+            font-weight: 600;
+        }
+
+        .surface-badge-card {
+            font-size: 0.72rem;
+            background: #e2e8f0;
+            color: #475569;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-left: 5px;
+            font-weight: 700;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -186,11 +301,11 @@
 
     if ('scrollRestoration' in history) { history.scrollRestoration = 'auto'; }
 
-    // Lettura iniziale lingua salvata
     let currentLang = localStorage.getItem('preferred_lang') || 'ja';
     let visiblePastMatchesCount = 3;
     let rawMatches = [];
     let playersData = [];
+    let locationsData = {}; // Nuovo dizionario campi
 
     const translations = {
         ja: {
@@ -201,7 +316,7 @@
             "matches_page.past_title": "試合結果", "matches_page.season_label": "シーズン:", "matches_page.all_seasons": "全期間",
             "filter.all": "すべて", "filter.league": "リーグ戦", "filter.cup": "カップ戦", "filter.friendly": "練習試合",
             "badge.league": "公式戦", "badge.friendly": "練習試合", "badge.tournament": "大会", "badge.cup": "カップ戦",
-            "badge.next": "次戦", "badge.live": "🔴 LIVE",
+            "badge.next": "次戦の予定", "badge.live": "🔴 LIVE", "matches.no_upcoming": "現在予定されている試合はありません。",
             "label.venue": "会場:", "label.kickoff": "キックオフ:", "label.scorers": "得点者:", "label.assists": "アシスト:",
             "label.mvp": "MVP:", "label.yellow_cards": "警告:", "label.red_cards": "退場:",
             "btn.details": "詳細を見る", "btn.close_details": "詳細を閉じる", "btn.load_more_3": "さらに3試合を表示", "btn.show_less": "最初の3試合に戻す", "btn.back_home": "ホームに戻る"
@@ -214,7 +329,7 @@
             "matches_page.past_title": "Risultati Passati", "matches_page.season_label": "Stagione:", "matches_page.all_seasons": "Tutte",
             "filter.all": "Tutti", "filter.league": "Campionato", "filter.cup": "Coppa", "filter.friendly": "Amichevoli",
             "badge.league": "Campionato", "badge.friendly": "Amichevole", "badge.tournament": "Torneo", "badge.cup": "Coppa",
-            "badge.next": "Prossimo Match", "badge.live": "🔴 IN DIRETTA",
+            "badge.next": "Prossima Partita", "badge.live": "🔴 IN DIRETTA", "matches.no_upcoming": "Nessuna partita in programma al momento.",
             "label.venue": "Campo:", "label.kickoff": "Calcio d'inizio:", "label.scorers": "Marcatori:", "label.assists": "Assist:",
             "label.mvp": "MVP:", "label.yellow_cards": "Ammoniti:", "label.red_cards": "Espulsi:",
             "btn.details": "Mostra dettagli", "btn.close_details": "Chiudi dettagli", "btn.load_more_3": "Mostra le prossime 3 partite", "btn.show_less": "Riduci elenco", "btn.back_home": "Torna alla Home"
@@ -227,7 +342,7 @@
             "matches_page.past_title": "Match Results", "matches_page.season_label": "Season:", "matches_page.all_seasons": "All Time",
             "filter.all": "All", "filter.league": "League", "filter.cup": "Cup", "filter.friendly": "Friendly",
             "badge.league": "League", "badge.friendly": "Friendly", "badge.tournament": "Tournament", "badge.cup": "Cup",
-            "badge.next": "Next Match", "badge.live": "🔴 LIVE",
+            "badge.next": "Next Match", "badge.live": "🔴 LIVE", "matches.no_upcoming": "No upcoming matches scheduled.",
             "label.venue": "Venue:", "label.kickoff": "Kick-Off:", "label.scorers": "Scorers:", "label.assists": "Assists:",
             "label.mvp": "MVP:", "label.yellow_cards": "Yellow Cards:", "label.red_cards": "Red Cards:",
             "btn.details": "Show details", "btn.close_details": "Close details", "btn.load_more_3": "Show next 3 matches", "btn.show_less": "Show less", "btn.back_home": "Back to Home"
@@ -247,7 +362,31 @@
         return `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'VS')}&background=random&color=ffffff&size=100&bold=true`;
     }
 
-    // Ricerca flessibile del giocatore per nome esatto o parziale
+    // GESTIONE DATA ISO -> LINGUA LOCALE
+    function formatDateWithDay(dateStr, lang) {
+        if (!dateStr) return '';
+        // Controlla se la data è un formato custom vecchio (es. 2026.10.31 (土)) e fa fallback
+        if (dateStr.includes('(')) return dateStr; 
+
+        const dateObj = new Date(dateStr);
+        if (isNaN(dateObj)) return dateStr;
+
+        const localeMap = { ja: 'ja-JP', it: 'it-IT', en: 'en-US' };
+        const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
+        return new Intl.DateTimeFormat(localeMap[lang] || 'ja-JP', options).format(dateObj);
+    }
+
+    // ESTRAZIONE DATI LOCATION
+    function getLocationInfo(locId, venueFallback, lang) {
+        const loc = locationsData[locId];
+        if (!loc) return { name: venueFallback || locId || '-', maps: '#', surface: '' };
+
+        const name = loc[lang] || loc['ja'] || venueFallback || locId;
+        const surface = loc.surface ? (loc.surface[lang] || loc.surface['ja'] || '') : '';
+        return { name, maps: loc.maps || '#', surface };
+    }
+
+    // Ricerca flessibile del giocatore
     function findPlayerObj(query) {
         if (!query || query === 'なし' || query === 'Nessuno') return null;
         if (!playersData || playersData.length === 0) return null;
@@ -263,12 +402,10 @@
         });
 
         if (found) return found;
-
         return playersData.find(p => {
             const k = cleanStr(p.name_kanji);
             const kn = cleanStr(p.name_kana);
             const r = cleanStr(p.name_romaji);
-
             return (k && (k.includes(target) || target.includes(k))) ||
                    (kn && (kn.includes(target) || target.includes(kn))) ||
                    (r && (r.includes(target) || target.includes(r)));
@@ -280,9 +417,7 @@
         if (!player) return query;
 
         if (lang === 'ja') {
-            if (player.name_kanji && containsJapaneseChars(player.name_kanji)) {
-                return player.name_kanji;
-            }
+            if (player.name_kanji && containsJapaneseChars(player.name_kanji)) return player.name_kanji;
             return player.name_kana || player.name_kanji || player.name_romaji || query;
         } else {
             return player.name_romaji || player.name_kanji || query;
@@ -309,10 +444,8 @@
             if (match) {
                 const mainName = match[1].trim();
                 const extraVal = match[2].trim();
-
                 const translatedMain = getPlayerNameInLang(mainName, lang);
                 const translatedExtra = isNaN(extraVal) ? getPlayerNameInLang(extraVal, lang) : extraVal;
-
                 return `${translatedMain} (${translatedExtra})${multiplier}`;
             }
 
@@ -341,7 +474,6 @@
         if (!translations[lang]) return;
 
         currentLang = lang;
-        // SALVA LA LINGUA SELEZIONATA
         localStorage.setItem('preferred_lang', lang);
 
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-lang') === lang));
@@ -427,6 +559,7 @@
             }
         }
 
+        // Il prossimo match eroe segue anch'esso i filtri (scompare se si cambia categoria)
         const upcomingCards = document.querySelectorAll('#upcomingContainer .match-detail-card');
         upcomingCards.forEach(card => {
             const category = card.getAttribute('data-match-category');
@@ -446,47 +579,80 @@
         upcomingContainer.innerHTML = '';
         pastContainer.innerHTML = '';
 
-        rawMatches.forEach(m => {
-            const isPast = m.status === 'past';
-            const cardClass = isPast ? 'match-detail-card match-past-item' : 'match-detail-card match-upcoming';
-            const scoreClass = isPast ? 'match-vs-score score-past' : 'match-vs-score';
+        // Sorting
+        const sortedUpcoming = rawMatches.filter(m => m.status === 'upcoming').sort((a,b) => new Date(a.date) - new Date(b.date));
+        const sortedPast = rawMatches.filter(m => m.status === 'past' || m.status === 'live').sort((a,b) => new Date(b.date) - new Date(a.date));
+
+        // 1. RENDER PROSSIMO MATCH EROE (SOLO IL PRIMO IN PROGRAMMA)
+        if (sortedUpcoming.length > 0) {
+            const nextM = sortedUpcoming[0];
+            const rawDate = nextM.date ? nextM.date.trim().replace(/\./g, '-').substring(0, 10) : '';
+            const formattedDate = formatDateWithDay(nextM.date, currentLang);
+            const locInfo = getLocationInfo(nextM.location_id, nextM.venue, currentLang);
             
+            let catKey = 'badge.friendly';
+            if (nextM.category === 'league' || nextM.category === 'official') catKey = 'badge.league';
+            else if (nextM.category === 'cup') catKey = 'badge.cup';
+            else if (nextM.category === 'tournament') catKey = 'badge.tournament';
+            const catText = translations[currentLang][catKey] || nextM.type || '練習試合';
+
+            const team2Logo = getAvatarUrl(nextM.team2Name, nextM.team2Logo);
+            const isHome = nextM.isHome !== undefined ? nextM.isHome : true;
+            
+            let t1Name = isHome ? (nextM.team1Name || 'Yokohama Calcio') : (nextM.team2Name || '-');
+            let t1Logo = isHome ? './immagini/logo.png' : team2Logo;
+            let t2Name = isHome ? (nextM.team2Name || '-') : (nextM.team1Name || 'Yokohama Calcio');
+            let t2Logo = isHome ? team2Logo : './immagini/logo.png';
+
+            const mapsHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener">${locInfo.name}</a>` : locInfo.name;
+            const surfaceHtml = locInfo.surface ? `<span class="surface-badge-hero">${locInfo.surface}</span>` : '';
+
+            const heroHtml = `
+                <div class="match-detail-card next-match-hero" data-match-category="${nextM.category}" data-match-date="${rawDate}">
+                    <div class="next-match-header">
+                        <span class="next-match-badge">${translations[currentLang]['badge.next'] || '次戦の予定'}</span>
+                        <span style="font-weight: 700; color: var(--primary-sky);">${catText}</span>
+                    </div>
+                    <div class="next-match-body">
+                        <div class="team-box"><img src="${t1Logo}" alt="${t1Name}"><span class="team-name">${t1Name}</span></div>
+                        <div class="match-vs">VS</div>
+                        <div class="team-box"><img src="${t2Logo}" alt="${t2Name}"><span class="team-name">${t2Name}</span></div>
+                    </div>
+                    <div class="next-match-info">
+                        <div class="next-match-info-item"><i class="fas fa-calendar-alt" style="color: var(--primary-sky);"></i><span>${formattedDate}</span></div>
+                        <div class="next-match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>${nextM.time || ''} K.O.</span></div>
+                        <div class="next-match-info-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i>${mapsHtml} ${surfaceHtml}</div>
+                    </div>
+                </div>
+            `;
+            upcomingContainer.innerHTML = heroHtml;
+        } else {
+            upcomingContainer.innerHTML = `<div style="text-align: center; padding: 30px; background: #f8fafc; border-radius: 8px; margin-bottom: 30px;"><p style="color: #64748b; font-weight: 600;">${translations[currentLang]["matches.no_upcoming"]}</p></div>`;
+        }
+
+        // 2. RENDER RISULTATI PASSATI
+        sortedPast.forEach(m => {
             const rawDate = m.date ? m.date.trim().replace(/\./g, '-').substring(0, 10) : '';
+            const formattedDate = formatDateWithDay(m.date, currentLang);
+            const locInfo = getLocationInfo(m.location_id, m.venue, currentLang);
 
             let badgeHtml = '';
             let catKey = 'badge.friendly';
             let catClass = 'badge-friendly';
 
-            if (m.category === 'league' || m.category === 'official') {
-                catKey = 'badge.league';
-                catClass = 'badge-official';
-            } else if (m.category === 'cup') {
-                catKey = 'badge.cup';
-                catClass = 'badge-cup';
-            } else if (m.category === 'tournament') {
-                catKey = 'badge.tournament';
-                catClass = 'badge-tournament';
-            }
+            if (m.category === 'league' || m.category === 'official') { catKey = 'badge.league'; catClass = 'badge-official'; } 
+            else if (m.category === 'cup') { catKey = 'badge.cup'; catClass = 'badge-cup'; } 
+            else if (m.category === 'tournament') { catKey = 'badge.tournament'; catClass = 'badge-tournament'; }
 
             const catText = translations[currentLang][catKey] || m.type || '練習試合';
 
             if (m.status === 'live') {
                 badgeHtml = `<span class="match-badge" style="background: #ef4444; color: white; animation: pulse 1.5s infinite;" data-i18n="badge.live">🔴 LIVE</span>`;
-            } else if (isPast) {
-                badgeHtml = `<span class="match-badge ${catClass}">${catText}</span>`;
             } else {
-                const nextText = translations[currentLang]['badge.next'] || '次戦';
-                badgeHtml = `
-                    <div class="match-badge-group">
-                        <span class="match-badge badge-next">${nextText}</span>
-                        <span class="match-badge ${catClass}">${catText}</span>
-                    </div>
-                `;
+                badgeHtml = `<span class="match-badge ${catClass}">${catText}</span>`;
             }
 
-            const oppName = m.team2Name || '-';
-            const team2Logo = getAvatarUrl(oppName, m.team2Logo);
-
+            const team2Logo = getAvatarUrl(m.team2Name, m.team2Logo);
             const isHome = m.isHome !== undefined ? m.isHome : true;
             let leftTeamName, leftTeamLogo, leftTeamLogoClass, rightTeamName, rightTeamLogo, rightTeamLogoClass, displayScore;
 
@@ -513,7 +679,9 @@
                 }
             }
 
-            const displayDateTime = m.time ? `${m.date} ${m.time}` : m.date;
+            const displayDateTime = m.time ? `${formattedDate} ${m.time}` : formattedDate;
+            const mapsHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener" style="color:var(--dark-navy); text-decoration:underline;">${locInfo.name}</a>` : locInfo.name;
+            const surfaceHtml = locInfo.surface ? `<span class="surface-badge-card">${locInfo.surface}</span>` : '';
 
             const scorersTranslated = translatePlayerText(m.scorers, currentLang);
             const assistsTranslated = translatePlayerText(m.assists, currentLang);
@@ -521,7 +689,7 @@
             const yellowCardsTranslated = translatePlayerText(m.yellow_cards, currentLang);
             const redCardsTranslated = translatePlayerText(m.red_cards, currentLang);
 
-            let detailsHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong data-i18n="label.venue">会場:</strong> ${m.venue || '-'}</span></div>`;
+            let detailsHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong data-i18n="label.venue">会場:</strong> ${mapsHtml} ${surfaceHtml}</span></div>`;
             if (m.time) {
                 detailsHtml += `<div class="detail-item"><i class="fas fa-clock"></i> <span><strong data-i18n="label.kickoff">キックオフ:</strong> ${m.time}</span></div>`;
             }
@@ -542,7 +710,7 @@
             }
 
             const cardHtml = `
-                <div class="${cardClass}" id="${m.id}" data-match-category="${m.category}" data-match-date="${rawDate}">
+                <div class="match-detail-card match-past-item" id="${m.id}" data-match-category="${m.category}" data-match-date="${rawDate}">
                     <div class="match-header-row">
                         ${badgeHtml}
                         <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${displayDateTime}</span>
@@ -552,7 +720,7 @@
                             <img src="${leftTeamLogo}" alt="${leftTeamName}" class="${leftTeamLogoClass}">
                             <span>${leftTeamName}</span>
                         </div>
-                        <div class="${scoreClass}">${displayScore}</div>
+                        <div class="match-vs-score score-past">${displayScore}</div>
                         <div class="match-team">
                             <img src="${rightTeamLogo}" alt="${rightTeamName}" class="${rightTeamLogoClass}">
                             <span>${rightTeamName}</span>
@@ -566,17 +734,12 @@
                     </div>
                 </div>
             `;
-
-            if (isPast) {
-                pastContainer.insertAdjacentHTML('beforeend', cardHtml);
-            } else {
-                upcomingContainer.insertAdjacentHTML('beforeend', cardHtml);
-            }
+            pastContainer.insertAdjacentHTML('beforeend', cardHtml);
         });
 
         populateSeasonSelect(rawMatches);
 
-        document.querySelectorAll('.match-detail-card').forEach(card => {
+        document.querySelectorAll('.match-detail-card:not(.next-match-hero)').forEach(card => {
             const toggleBtn = card.querySelector('.toggle-details-btn');
             const details = card.querySelector('.match-expand-details');
 
@@ -668,21 +831,16 @@
 
     async function loadAllData() {
         try {
-            const response = await fetch('matches.json');
-            if (!response.ok) throw new Error("matches.json non trovato");
-            rawMatches = await response.json();
+            const [mResp, lResp, pResp] = await Promise.allSettled([
+                fetch('matches.json'),
+                fetch('locations.json'),
+                fetch('players.json')
+            ]);
+            
+            if (mResp.status === 'fulfilled' && mResp.value.ok) rawMatches = await mResp.value.json();
+            if (lResp.status === 'fulfilled' && lResp.value.ok) locationsData = await lResp.value.json();
+            if (pResp.status === 'fulfilled' && pResp.value.ok) playersData = await pResp.value.json();
 
-            try {
-                const pResp = await fetch('players.json');
-                if (pResp.ok) {
-                    playersData = await pResp.json();
-                }
-            } catch (e) {
-                console.warn("players.json non trovato.");
-                playersData = [];
-            }
-
-            // APPLICA LINGUA PRIMA DEL RENDER E DELLA PAGINAZIONE
             setLanguage(currentLang);
             handleHashOnLoad();
         } catch (error) {
