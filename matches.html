@@ -83,7 +83,7 @@
         .next-match-body {
             display: grid;
             grid-template-columns: 1fr auto 1fr;
-            align-items: start; /* Allinea in alto per mantenere i loghi perfettamente centrati orizzontalmente */
+            align-items: center; /* Allinea perfettamente al centro della riga */
             gap: 20px;
             text-align: center;
             margin-bottom: 25px;
@@ -93,25 +93,27 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             gap: 10px;
         }
 
-        /* Contenitore fisso per i loghi della Hero Card */
+        /* Contenitore e dimensione bilanciata per la Hero Card */
         .hero-logo-wrap {
-            width: 75px;
-            height: 75px;
+            width: 80px;
+            height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.12);
             border-radius: 50%;
-            padding: 6px;
+            padding: 8px;
+            box-sizing: border-box;
             flex-shrink: 0;
         }
 
         .hero-logo-wrap img {
-            max-width: 100%;
-            max-height: 100%;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
         }
 
@@ -125,7 +127,6 @@
             font-family: var(--font-brand, 'Bebas Neue');
             font-size: 2.5rem;
             color: var(--primary-sky, #87ceeb);
-            height: 75px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -179,11 +180,11 @@
             display: inline-block;
         }
 
-        /* --- CORREZIONE ALLINEAMENTO LOGHI SCHEDE STANDARD --- */
+        /* --- CORREZIONE DEFINITIVA PER SCHEDE NON HERO (IN BASSO) --- */
         .match-teams-row {
             display: grid;
             grid-template-columns: 1fr auto 1fr;
-            align-items: start;
+            align-items: center; /* Allinea perfettamente al centro del contenitore */
             gap: 15px;
             text-align: center;
         }
@@ -192,30 +193,42 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             gap: 8px;
+            min-width: 0;
         }
 
-        /* Contenitore fisso per i loghi delle schede normali */
+        .match-team span {
+            font-weight: 700;
+            font-size: 0.95rem;
+            line-height: 1.3;
+        }
+
+        /* Contenitore con dimensione identica e rigida per tutte le schede standard */
         .card-logo-wrap {
-            width: 55px;
-            height: 55px;
+            width: 60px;
+            height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            box-sizing: border-box;
+            padding: 2px;
         }
 
         .card-logo-wrap img {
-            max-width: 100%;
-            max-height: 100%;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
+            display: block;
         }
 
         .match-vs-score {
-            height: 55px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-family: var(--font-brand, 'Bebas Neue');
+            font-size: 1.8rem;
         }
 
         .toggle-upcoming-btn {
@@ -634,7 +647,6 @@
             }
         }
 
-        // Filtri per i prossimi match
         const upcomingCards = document.querySelectorAll('#upcomingContainer .upcoming-item');
         upcomingCards.forEach((card, index) => {
             const category = card.getAttribute('data-match-category');
@@ -666,7 +678,7 @@
         const sortedUpcoming = rawMatches.filter(m => m.status === 'upcoming').sort((a,b) => new Date(a.date) - new Date(b.date));
         const sortedPast = rawMatches.filter(m => m.status === 'past' || m.status === 'live').sort((a,b) => new Date(b.date) - new Date(a.date));
 
-        // 1. RENDER PROSSIMI MATCH (Pillola Hero per il 1° + Schede Standard per i successivi)
+        // 1. RENDER PROSSIMI MATCH
         if (sortedUpcoming.length > 0) {
             let upcomingHtml = '';
 
@@ -695,7 +707,7 @@
                 const mapsHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener">${locInfo.name}</a>` : locInfo.name;
 
                 if (index === 0) {
-                    // HERO CARD PER LA PRIMA PARTITA IN PROGRAMMA
+                    // HERO CARD (PRIMO MATCH)
                     const surfaceHtml = locInfo.surface ? `<span class="surface-badge-hero">${locInfo.surface}</span>` : '';
                     upcomingHtml += `
                         <div class="upcoming-item match-detail-card next-match-hero" data-match-category="${nextM.category}" data-match-date="${rawDate}">
@@ -722,7 +734,7 @@
                         </div>
                     `;
                 } else {
-                    // CARD STANDARD PER LE PARTITE FUTURE DALLA 2° IN POI
+                    // CARD STANDARD SUCCESSIVE
                     const surfaceHtml = locInfo.surface ? `<span class="surface-badge-card">${locInfo.surface}</span>` : '';
                     const displayDateTime = nextM.time ? `${formattedDate} ${nextM.time}` : formattedDate;
                     const mapsCardHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener" style="color:var(--dark-navy); text-decoration:underline;">${locInfo.name}</a>` : locInfo.name;
