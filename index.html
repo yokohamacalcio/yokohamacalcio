@@ -122,22 +122,21 @@
 
         .team-name-col {
             font-weight: 700 !important;
-            font-size: 0.88rem !important;
-            line-height: 1.25 !important;
+            font-size: 0.82rem !important;
+            line-height: 1.2 !important;
             color: var(--dark-navy) !important;
             text-align: center !important;
             width: 100% !important;
-            white-space: nowrap !important;
+            padding: 0 4px !important;
+            display: -webkit-box !important;
+            -webkit-line-clamp: 2 !important;
+            -webkit-box-orient: vertical !important;
             overflow: hidden !important;
-            text-overflow: ellipsis !important;
-            max-width: 130px !important;
-            padding: 0 5px !important;
         }
 
         @media (min-width: 500px) {
             .team-name-col {
-                max-width: 180px !important;
-                font-size: 0.95rem !important;
+                font-size: 0.9rem !important;
             }
         }
 
@@ -203,12 +202,12 @@
         }
 
         .next-match-hero {
-            background: linear-gradient(135deg, #0b1d3a 0%, #17325c 100%);
+            background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%);
             color: #ffffff;
             border-radius: 16px;
             padding: 24px;
-            box-shadow: 0 10px 25px rgba(11, 29, 58, 0.2);
-            border: 2px solid #38bdf8;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border: 2px solid var(--primary-sky, #87ceeb);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -217,26 +216,25 @@
         .next-match-hero .team-name-col {
             color: #ffffff !important;
             font-size: 1.05rem !important;
-            max-width: 200px !important;
         }
 
         .next-match-hero .match-vs-center {
             font-size: 2.5rem !important;
-            color: #38bdf8 !important;
+            color: var(--primary-sky) !important;
         }
 
         .next-match-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.15);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
             padding-bottom: 12px;
             margin-bottom: 10px;
         }
 
         .next-match-badge {
-            background: #38bdf8;
-            color: #0b1d3a;
+            background: var(--primary-sky, #87ceeb);
+            color: var(--dark-navy, #003c82);
             font-weight: 800;
             padding: 3px 10px;
             border-radius: 20px;
@@ -287,6 +285,22 @@
             gap: 6px;
         }
 
+        .match-box-venue a {
+            color: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .match-box-venue a:hover {
+            text-decoration: underline;
+        }
+
+        .next-match-hero .match-box-venue a {
+            color: #ffffff;
+        }
+
         .match-card-footer {
             display: flex;
             justify-content: flex-end;
@@ -300,7 +314,7 @@
             justify-content: flex-end;
             margin-top: 12px;
             padding-top: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .btn-match-detail {
@@ -322,8 +336,8 @@
         }
 
         .btn-match-detail-hero {
-            background: #38bdf8;
-            color: #0b1d3a;
+            background: var(--primary-sky, #87ceeb);
+            color: var(--dark-navy, #003c82);
             font-size: 0.78rem;
             font-weight: 800;
             padding: 6px 14px;
@@ -607,7 +621,7 @@
                 </div>
 
                 <div>
-                    <div class="match-box-venue" id="lastMatchVenue"><i class="fas fa-map-marker-alt"></i> <span>-</span></div>
+                    <div class="match-box-venue" id="lastMatchVenue"></div>
                     <div class="match-card-footer">
                         <a href="#" id="lastDetailLink" class="btn-match-detail"><span data-i18n="results.detail">詳細</span> <i class="fas fa-chevron-right"></i></a>
                     </div>
@@ -640,18 +654,18 @@
                         </div>
 
                         <div class="next-match-info" id="nextHeroInfoBar">
-                            <div class="next-match-info-item"><i class="fas fa-clock" style="color: #38bdf8;"></i><span id="nextMatchTime">-</span></div>
+                            <div class="next-match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span id="nextMatchTime">-</span></div>
                         </div>
                     </div>
 
                     <div class="no-match-box hidden" id="noNextMatchBox">
-                        <i class="far fa-calendar-times" style="color: #38bdf8;"></i>
+                        <i class="far fa-calendar-times" style="color: var(--primary-sky);"></i>
                         <p data-i18n="results.no_next_match" style="color: #ffffff;">次戦の日程はまだ決定していません。</p>
                     </div>
                 </div>
 
                 <div>
-                    <div class="match-box-venue" id="nextMatchVenue" style="border-top-color: rgba(255,255,255,0.15);"><i class="fas fa-map-marker-alt"></i> <span>-</span></div>
+                    <div class="match-box-venue" id="nextMatchVenue" style="border-top-color: rgba(255,255,255,0.2);"></div>
                     <div class="match-card-footer-hero">
                         <a href="#" id="nextDetailLink" class="btn-match-detail-hero"><span data-i18n="results.detail">詳細</span> <i class="fas fa-chevron-right"></i></a>
                     </div>
@@ -981,11 +995,18 @@
 
     function getLocationInfo(locId, venueFallback, lang) {
         const loc = locationsData[locId];
-        if (!loc) return { name: venueFallback || locId || '-', surface: '' };
+        if (!loc) {
+            const fallbackName = venueFallback || locId || '-';
+            return { name: fallbackName, surface: '', url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fallbackName)}` };
+        }
 
         const name = loc[lang] || loc['ja'] || venueFallback || locId;
         const surface = loc.surface ? (loc.surface[lang] || loc.surface['ja'] || '') : '';
-        return { name, surface };
+        let url = loc.url;
+        if (!url) {
+            url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`;
+        }
+        return { name, surface, url };
     }
 
     async function initMatchCenter() {
@@ -1076,12 +1097,12 @@
             team2LogoEl.src = rightTeamLogo;
             team2LogoEl.className = rightTeamClass;
 
-            const venueSpan = document.getElementById(`${prefix}MatchVenue`)?.querySelector('span');
-            if (venueSpan) {
+            const venueContainer = document.getElementById(`${prefix}MatchVenue`);
+            if (venueContainer) {
                 const locInfo = getLocationInfo(m.location_id, m.venue, lang);
                 const surfaceBadgeClass = prefix === 'next' ? 'surface-badge-hero' : 'surface-badge-card';
                 const surfaceHtml = locInfo.surface ? `<span class="${surfaceBadgeClass}">${locInfo.surface}</span>` : '';
-                venueSpan.innerHTML = `${locInfo.name} ${surfaceHtml}`;
+                venueContainer.innerHTML = `<a href="${locInfo.url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> <span>${locInfo.name}</span> ${surfaceHtml} <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i></a>`;
             }
 
             if (prefix === 'next' && m.time) {
