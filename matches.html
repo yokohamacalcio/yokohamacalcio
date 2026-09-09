@@ -65,7 +65,7 @@
             }
         }
 
-        /* --- GESTIONE STEMMI --- */
+        /* --- GESTIONE STEMMI (LOGICA PULITA SENZA CONFLITTI) --- */
         .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important;
@@ -85,64 +85,45 @@
             height: 75px !important;
         }
 
-        /* Loghi avversari standard: taglio circolare ed eliminazione quadrati bianchi */
+        /* Stile di base per TUTTI i loghi (mantiene le proporzioni originali e trasparenze) */
         .card-logo-wrap img, .hero-logo-wrap img {
             max-width: 100% !important;
             max-height: 100% !important;
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: cover !important;
-            border-radius: 50% !important;
-            background: #ffffff !important;
-        }
-
-        /* IL TUO STEMMA: Massima specificità per tutte le schede (card e hero) */
-        div.card-logo-wrap img.yokohama-logo,
-        div.hero-logo-wrap img.yokohama-logo,
-        .card-logo-wrap img.yokohama-logo,
-        .hero-logo-wrap img.yokohama-logo,
-        .card-logo-wrap img[src*="logo.png"], 
-        .hero-logo-wrap img[src*="logo.png"],
-        img.yokohama-logo {
-            border-radius: 0 !important;
-            object-fit: contain !important;
-            background: transparent !important;
             width: auto !important;
             height: auto !important;
-            max-width: 100% !important;
-            max-height: 100% !important;
+            object-fit: contain !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+        }
+
+        /* IL TUO STEMMA: Ottimizzazione e scala dedicata */
+        .card-logo-wrap img.yokohama-logo,
+        .hero-logo-wrap img.yokohama-logo {
             transform: scale(1.15) !important;
         }
 
-        /* ECCEZIONE LEGALIA: Forma originale, trasparenza e proporzioni */
-        div.card-logo-wrap img[src*="legalia"],
-        div.hero-logo-wrap img[src*="legalia"],
+        /* LOGHI AVVERSARI E FALLBACK: Solo loro avranno il taglio circolare e sfondo bianco */
+        .card-logo-wrap img.opponent-logo,
+        .hero-logo-wrap img.opponent-logo,
+        .card-logo-wrap img[src*="ui-avatars.com"],
+        .hero-logo-wrap img[src*="ui-avatars.com"] {
+            border-radius: 50% !important;
+            object-fit: cover !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: #ffffff !important;
+            transform: none !important;
+        }
+
+        /* ECCEZIONE LEGALIA: Forma originale e proporzioni */
         .card-logo-wrap img[src*="legalia"], 
         .hero-logo-wrap img[src*="legalia"],
         .card-logo-wrap img[alt*="Legalia"], 
         .hero-logo-wrap img[alt*="Legalia"],
         .card-logo-wrap img[alt*="レガリア"], 
-        .hero-logo-wrap img[alt*="レガリア"],
-        img[src*="legalia"],
-        img[alt*="Legalia"],
-        img[alt*="レガリア"] {
+        .hero-logo-wrap img[alt*="レガリア"] {
             border-radius: 0 !important;
             object-fit: contain !important;
-            background: transparent !important;
-            width: auto !important;
-            height: auto !important;
-            max-width: 100% !important;
-            max-height: 100% !important;
-            transform: none !important;
-        }
-
-        /* Avatar di fallback generati da UI-Avatars */
-        .card-logo-wrap img[src*="ui-avatars.com"], 
-        .hero-logo-wrap img[src*="ui-avatars.com"] {
-            border-radius: 50% !important;
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: cover !important;
             background: transparent !important;
             transform: none !important;
         }
@@ -1139,7 +1120,7 @@
             seasonSelect.addEventListener('change', function() {
                 this.dataset.userModified = "true";
                 visiblePastMatchesCount = 3;
-                filterAndPadicateMatches();
+                filterAndPaginateMatches();
             });
         }
 
