@@ -140,14 +140,14 @@
             }
         }
 
-        /* --- GESTIONE TRASPARENZA E DIMENSIONI STEMMI --- */
+        /* --- GESTIONE STEMMI --- */
         .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             flex-shrink: 0 !important;
             background: transparent !important;
-            overflow: visible !important;
+            overflow: hidden !important;
         }
 
         .card-logo-wrap {
@@ -160,28 +160,53 @@
             height: 75px !important;
         }
 
+        /* Loghi avversari standard: taglio circolare ed eliminazione sfondi bianchi */
         .card-logo-wrap img, .hero-logo-wrap img {
             max-width: 100% !important;
             max-height: 100% !important;
-            width: auto !important;
-            height: auto !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            border-radius: 50% !important;
+            background: #ffffff !important;
+        }
+
+        /* IL TUO STEMMA: Bilanciato con scale(1.2) per avere la stessa presenza visiva dei cerchi */
+        img.yokohama-logo,
+        .card-logo-wrap img[src*="logo.png"], 
+        .hero-logo-wrap img[src*="logo.png"] {
+            border-radius: 0 !important;
             object-fit: contain !important;
             background: transparent !important;
-            border-radius: 0 !important;
-            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.12));
+            width: auto !important;
+            height: auto !important;
+            transform: scale(1.2) !important;
         }
 
-        /* Annulla ingrandimenti per mantenere i loghi perfettamente identici */
-        img.yokohama-logo {
-            transform: none !important;
+        /* ECCEZIONE: Lo stemma del Legalia - Forma originale, trasparenza e proporzioni */
+        .card-logo-wrap img[src*="legalia"], 
+        .hero-logo-wrap img[src*="legalia"],
+        .card-logo-wrap img[alt*="Legalia"], 
+        .hero-logo-wrap img[alt*="Legalia"],
+        .card-logo-wrap img[alt*="レガリア"], 
+        .hero-logo-wrap img[alt*="レガリア"] {
             border-radius: 0 !important;
+            object-fit: contain !important;
             background: transparent !important;
+            width: auto !important;
+            height: auto !important;
+            transform: none !important;
         }
 
-        /* AVATAR DI FALLBACK: CIRCOLARI */
+        /* Avatar di fallback generati da UI-Avatars */
         .card-logo-wrap img[src*="ui-avatars.com"], 
         .hero-logo-wrap img[src*="ui-avatars.com"] {
             border-radius: 50% !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            background: transparent !important;
+            transform: none !important;
         }
 
         .match-vs-center {
@@ -955,7 +980,6 @@
     let locationsData = {};
     let opponentsData = {};
 
-    /* --- GENERATORE DI COLORI HEX VIVACI E UNICI PER SQUADRA (HSL HASHING) --- */
     function getUniqueTeamColor(idOrName) {
         let hash = 0;
         const str = String(idOrName || 'opponent').toLowerCase();
@@ -976,7 +1000,6 @@
         return `${f(0)}${f(8)}${f(4)}`;
     }
 
-    /* --- ESTRAZIONE NOME ROMAJI PER LE INIZIALI ALFABETICHE --- */
     function getRomajiName(match, defaultName) {
         if (match && match.opponent_id && opponentsData[match.opponent_id]) {
             const opp = opponentsData[match.opponent_id];
@@ -989,7 +1012,6 @@
         return cleanLatin || defaultName || 'Opponent';
     }
 
-    /* --- GENERATORE AVATAR UI CON COLORE UNICO E INIZIALI ROMAJI --- */
     function getAvatarUrl(matchOrName, romajiFallback) {
         const identifier = (typeof matchOrName === 'object' && matchOrName !== null) 
             ? (matchOrName.opponent_id || matchOrName.team2Name || 'opponent') 
@@ -1003,7 +1025,6 @@
         return `https://ui-avatars.com/api/?name=${encodeURIComponent(romaji)}&background=${bgHex}&color=ffffff&bold=true&size=128`;
     }
 
-    /* --- GESTIONE OPPONENTS DALLA DATABASE OPPONENTS.JSON O FALLBACK --- */
     function getOpponentInfo(match, lang) {
         let name = '';
         let logo = '';
