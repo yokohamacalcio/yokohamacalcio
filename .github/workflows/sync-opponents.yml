@@ -1,0 +1,27 @@
+name: Auto Sync Opponents JSON
+
+on:
+  push:
+    paths:
+      - 'matches.json'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Sync Opponents
+        run: node sync.js
+
+      - name: Commit & Push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "auto: sincronizzazione opponents.json da matches.json"
