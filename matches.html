@@ -369,19 +369,48 @@
         return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf\u3400-\u4dbf]/.test(text);
     }
 
+    /* --- PALETTE COLORI UNICI PER SQUADRA --- */
+    const teamColorPalette = [
+        '003c82', '1e3a8a', '065f46', '991b1b', '9a3412', 
+        '854d0e', '3730a3', '5b21b6', '831843', '115e59', 
+        '1e293b', '4c1d95', '0f766e', '9f1239', '166534'
+    ];
+
+    function getTeamColor(name) {
+        let hash = 0;
+        const str = String(name || '');
+        for (let i = 0; i < str.length; i++) {
+            hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const index = Math.abs(hash) % teamColorPalette.length;
+        return teamColorPalette[index];
+    }
+
+    /* --- HELPER PER GENERARE AVATAR INIZIALI CON COLORE DEDICATO --- */
+    function getAvatarUrl(name) {
+        const bg = getTeamColor(name);
+        return `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'Opponent')}&background=${bg}&color=ffffff&bold=true&size=128`;
+    }
+
     /* --- GESTIONE OPPONENTS DALLA DATABASE OPPONENTS.JSON O FALLBACK --- */
     function getOpponentInfo(match, lang) {
+        let name = '';
+        let logo = '';
+
         if (match.opponent_id && opponentsData[match.opponent_id]) {
             const opp = opponentsData[match.opponent_id];
-            const name = (opp.name && (opp.name[lang] || opp.name['ja'])) || match.team2Name || 'Opponent';
-            const logo = opp.logo || match.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=003c82&color=ffffff&bold=true`;
-            return { name, logo };
+            name = (opp.name && (opp.name[lang] || opp.name['ja'])) || match.team2Name || 'Opponent';
+            logo = opp.logo || match.team2Logo || '';
+        } else {
+            name = match.team2Name || 'Opponent';
+            logo = match.team2Logo || '';
         }
 
-        const fallbackName = match.team2Name || 'Opponent';
-        const fallbackLogo = match.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(fallbackName)}&background=003c82&color=ffffff&bold=true`;
+        if (!logo || logo.trim() === '') {
+            logo = getAvatarUrl(name);
+        }
 
-        return { name: fallbackName, logo: fallbackLogo };
+        return { name, logo };
     }
 
     function formatDateWithDay(dateStr, lang) {
@@ -640,6 +669,10 @@
 
                 const mapsHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener">${locInfo.name}</a>` : locInfo.name;
 
+                /* Fallback automatico se il file PNG dell'avversario non esiste sul server */
+                const t1Err = isHome ? "" : `onerror="this.onerror=null;this.src='${getAvatarUrl(t1Name)}';"`;
+                const t2Err = isHome ? `onerror="this.onerror=null;this.src='${getAvatarUrl(t2Name)}';"` : "";
+
                 if (index === 0) {
                     // HERO CARD
                     const surfaceHtml = locInfo.surface ? `<span class="surface-badge-hero">${locInfo.surface}</span>` : '';
@@ -651,12 +684,12 @@
                             </div>
                             <div class="match-teams-wrapper">
                                 <div class="team-column">
-                                    <div class="hero-logo-wrap"><img src="${t1Logo}" alt="${t1Name}" class="${t1Class}"></div>
+                                    <div class="hero-logo-wrap"><img src="${t1Logo}" alt="${t1Name}" class="${t1Class}" ${t1Err}></div>
                                     <span title="${t1Name}">${t1Name}</span>
                                 </div>
                                 <div class="match-vs-center">VS</div>
                                 <div class="team-column">
-                                    <div class="hero-logo-wrap"><img src="${t2Logo}" alt="${t2Name}" class="${t2Class}"></div>
+                                    <div class="hero-logo-wrap"><img src="${t2Logo}" alt="${t2Name}" class="${t2Class}" ${t2Err}></div>
                                     <span title="${t2Name}">${t2Name}</span>
                                 </div>
                             </div>
@@ -680,12 +713,12 @@
                             </div>
                             <div class="match-teams-wrapper">
                                 <div class="team-column">
-                                    <div class="card-logo-wrap"><img src="${t1Logo}" alt="${t1Name}" class="${t1Class}"></div>
+                                    <div class="card-logo-wrap"><img src="${t1Logo}" alt="${t1Name}" class="${t1Class}" ${t1Err}></div>
                                     <span title="${t1Name}">${t1Name}</span>
                                 </div>
                                 <div class="match-vs-center">VS</div>
                                 <div class="team-column">
-                                    <div class="card-logo-wrap"><img src="${t2Logo}" alt="${t2Name}" class="${t2Class}"></div>
+                                    <div class="card-logo-wrap"><img src="${t2Logo}" alt="${t2Name}" class="${t2Class}" ${t2Err}></div>
                                     <span title="${t2Name}">${t2Name}</span>
                                 </div>
                             </div>
@@ -757,6 +790,7 @@
 
             const isHome = m.isHome !== undefined ? m.isHome : true;
             let leftTeamName, leftTeamLogo, leftTeamClass, rightTeamName, rightTeamLogo, rightTeamClass, displayScore;
+            let leftErr = "", rightErr = "";
 
             if (isHome) {
                 leftTeamName = m.team1Name || 'Yokohama Calcio';
@@ -765,11 +799,13 @@
                 rightTeamName = oppInfo.name;
                 rightTeamLogo = oppInfo.logo;
                 rightTeamClass = 'opponent-logo';
+                rightErr = `onerror="this.onerror=null;this.src='${getAvatarUrl(rightTeamName)}';"`;
                 displayScore = m.score;
             } else {
                 leftTeamName = oppInfo.name;
                 leftTeamLogo = oppInfo.logo;
                 leftTeamClass = 'opponent-logo';
+                leftErr = `onerror="this.onerror=null;this.src='${getAvatarUrl(leftTeamName)}';"`;
                 rightTeamName = m.team1Name || 'Yokohama Calcio';
                 rightTeamLogo = './immagini/logo.png';
                 rightTeamClass = 'yokohama-logo';
@@ -818,12 +854,12 @@
                     </div>
                     <div class="match-teams-wrapper">
                         <div class="team-column">
-                            <div class="card-logo-wrap"><img src="${leftTeamLogo}" alt="${leftTeamName}" class="${leftTeamClass}"></div>
+                            <div class="card-logo-wrap"><img src="${leftTeamLogo}" alt="${leftTeamName}" class="${leftTeamClass}" ${leftErr}></div>
                             <span title="${leftTeamName}">${leftTeamName}</span>
                         </div>
                         <div class="match-vs-center score-past">${displayScore}</div>
                         <div class="team-column">
-                            <div class="card-logo-wrap"><img src="${rightTeamLogo}" alt="${rightTeamName}" class="${rightTeamClass}"></div>
+                            <div class="card-logo-wrap"><img src="${rightTeamLogo}" alt="${rightTeamName}" class="${rightTeamClass}" ${rightErr}></div>
                             <span title="${rightTeamName}">${rightTeamName}</span>
                         </div>
                     </div>
