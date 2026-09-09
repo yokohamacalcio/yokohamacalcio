@@ -144,21 +144,32 @@
             text-transform: uppercase;
         }
 
+        /* LAYOUT INFO HERO: Gestione fluida anche con campi lunghi */
         .next-match-info {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px 25px;
+            align-items: center;
+            gap: 12px 20px;
             background: rgba(255, 255, 255, 0.08);
-            padding: 15px;
+            padding: 14px 18px;
             border-radius: 8px;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
+            margin-top: 15px;
         }
 
         .next-match-info-item {
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
+        }
+
+        /* Il nome del campo può estendersi o andare a capo pulito se molto lungo */
+        .next-match-info-item.venue-item {
+            white-space: normal !important;
+            text-align: center;
+            max-width: 100%;
         }
 
         .next-match-info-item a {
@@ -734,6 +745,7 @@
                 const t2Err = isHome ? `onerror="this.onerror=null;this.src='${fallbackAvatar}';"` : "";
 
                 if (index === 0) {
+                    const surfaceHtml = locInfo.surface ? `<div class="next-match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>${locInfo.surface}</span></div>` : '';
                     upcomingHtml += `
                         <div class="upcoming-item match-detail-card next-match-hero" data-match-category="${nextM.category}" data-match-date="${rawDate}">
                             <div class="next-match-header">
@@ -754,7 +766,8 @@
                             <div class="next-match-info">
                                 <div class="next-match-info-item"><i class="fas fa-calendar-alt" style="color: var(--primary-sky);"></i><span>${formattedDate}</span></div>
                                 <div class="next-match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>${nextM.time || ''} K.O.</span></div>
-                                <div class="next-match-info-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i>${mapsHtml}</div>
+                                ${surfaceHtml}
+                                <div class="next-match-info-item venue-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i>${mapsHtml}</div>
                             </div>
                         </div>
                     `;
