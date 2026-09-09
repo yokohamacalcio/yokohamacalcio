@@ -941,6 +941,78 @@
     let currentLang = localStorage.getItem('preferred_lang') || 'ja';
     let cachedMatches = [];
     let locationsData = {};
+    let opponentsData = {};
+
+    /* --- GENERATORE DI COLORI HEX VIVACI E UNICI PER SQUADRA (HSL HASHING) --- */
+    function getUniqueTeamColor(idOrName) {
+        let hash = 0;
+        const str = String(idOrName || 'opponent').toLowerCase();
+        for (let i = 0; i < str.length; i++) {
+            hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const hue = Math.abs(hash) % 360;
+        const saturation = 70 + (Math.abs(hash >> 3) % 20); // 70% - 90%
+        const lightness = 35 + (Math.abs(hash >> 5) % 15);  // 35% - 50%
+        
+        const l = lightness / 100;
+        const a = saturation * Math.min(l, 1 - l) / 100;
+        const f = n => {
+            const k = (n + hue / 30) % 12;
+            const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+            return Math.round(255 * color).toString(16).padStart(2, '0');
+        };
+        return `${f(0)}${f(8)}${f(4)}`;
+    }
+
+    /* --- ESTRAZIONE NOME ROMAJI PER LE INIZIALI ALFABETICHE --- */
+    function getRomajiName(match, defaultName) {
+        if (match && match.opponent_id && opponentsData[match.opponent_id]) {
+            const opp = opponentsData[match.opponent_id];
+            if (opp.name) {
+                const romaji = opp.name['en'] || opp.name['it'];
+                if (romaji) return romaji;
+            }
+        }
+        const cleanLatin = String(defaultName || '').replace(/[^\x00-\x7F]/g, '').trim();
+        return cleanLatin || defaultName || 'Opponent';
+    }
+
+    /* --- GENERATORE AVATAR UI CON COLORE UNICO E INIZIALI ROMAJI --- */
+    function getAvatarUrl(matchOrName, romajiFallback) {
+        const identifier = (typeof matchOrName === 'object' && matchOrName !== null) 
+            ? (matchOrName.opponent_id || matchOrName.team2Name || 'opponent') 
+            : String(matchOrName || 'opponent');
+            
+        const romaji = (typeof matchOrName === 'object' && matchOrName !== null) 
+            ? getRomajiName(matchOrName, matchOrName.team2Name) 
+            : (romajiFallback || identifier);
+        
+        const bgHex = getUniqueTeamColor(identifier);
+        return `https://ui-avatars.com/api/?name=${encodeURIComponent(romaji)}&background=${bgHex}&color=ffffff&bold=true&size=128`;
+    }
+
+    /* --- GESTIONE OPPONENTS DALLA DATABASE OPPONENTS.JSON O FALLBACK --- */
+    function getOpponentInfo(match, lang) {
+        let name = '';
+        let logo = '';
+
+        if (match.opponent_id && opponentsData[match.opponent_id]) {
+            const opp = opponentsData[match.opponent_id];
+            name = (opp.name && (opp.name[lang] || opp.name['ja'])) || match.team2Name || 'Opponent';
+            logo = opp.logo || match.team2Logo || '';
+        } else {
+            name = match.team2Name || 'Opponent';
+            logo = match.team2Logo || '';
+        }
+
+        const romajiName = getRomajiName(match, name);
+
+        if (!logo || logo.trim() === '') {
+            logo = getAvatarUrl(match, romajiName);
+        }
+
+        return { name, romajiName, logo };
+    }
 
     function setLanguage(lang) {
         if (!translations[lang]) return;
@@ -1011,13 +1083,15 @@
 
     async function initMatchCenter() {
         try {
-            const [mResp, lResp] = await Promise.allSettled([
+            const [mResp, lResp, oResp] = await Promise.allSettled([
                 fetch('matches.json'),
-                fetch('locations.json')
+                fetch('locations.json'),
+                fetch('opponents.json')
             ]);
             
             if (mResp.status === 'fulfilled' && mResp.value.ok) cachedMatches = await mResp.value.json();
             if (lResp.status === 'fulfilled' && lResp.value.ok) locationsData = await lResp.value.json();
+            if (oResp.status === 'fulfilled' && oResp.value.ok) opponentsData = await oResp.value.json();
 
             renderMatchCenter(cachedMatches);
         } catch (e) {
@@ -1054,29 +1128,30 @@
             }
         };
 
-        const getAvatarUrl = (name, team2Logo) => {
-            if (team2Logo) return team2Logo;
-            return `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'VS')}&background=random&color=ffffff&size=100&bold=true`;
-        };
-
         const fillMatchBox = (m, prefix) => {
             const formattedDate = formatDateWithDay(m.date, lang);
             document.getElementById(`${prefix}MatchDate`).textContent = formattedDate;
             
+            const oppInfo = getOpponentInfo(m, lang);
             const isHome = m.isHome !== undefined ? m.isHome : true;
             let leftTeamName, leftTeamLogo, leftTeamClass, rightTeamName, rightTeamLogo, rightTeamClass;
+            let leftErr = "", rightErr = "";
+
+            const fallbackAvatar = getAvatarUrl(m, oppInfo.romajiName);
 
             if (isHome) {
                 leftTeamName = m.team1Name || 'Yokohama Calcio';
                 leftTeamLogo = './immagini/logo.png';
                 leftTeamClass = 'yokohama-logo';
-                rightTeamName = m.team2Name || '-';
-                rightTeamLogo = getAvatarUrl(rightTeamName, m.team2Logo);
+                rightTeamName = oppInfo.name;
+                rightTeamLogo = oppInfo.logo;
                 rightTeamClass = 'opponent-logo';
+                rightErr = `onerror="this.onerror=null;this.src='${fallbackAvatar}';"`;
             } else {
-                leftTeamName = m.team2Name || '-';
-                leftTeamLogo = getAvatarUrl(leftTeamName, m.team2Logo);
+                leftTeamName = oppInfo.name;
+                leftTeamLogo = oppInfo.logo;
                 leftTeamClass = 'opponent-logo';
+                leftErr = `onerror="this.onerror=null;this.src='${fallbackAvatar}';"`;
                 rightTeamName = m.team1Name || 'Yokohama Calcio';
                 rightTeamLogo = './immagini/logo.png';
                 rightTeamClass = 'yokohama-logo';
@@ -1091,11 +1166,13 @@
             team1NameEl.setAttribute('title', leftTeamName);
             team1LogoEl.src = leftTeamLogo;
             team1LogoEl.className = leftTeamClass;
+            if (leftErr) team1LogoEl.setAttribute('onerror', leftErr.replace(/^onerror="/, '').replace(/"$/, ''));
 
             team2NameEl.textContent = rightTeamName;
             team2NameEl.setAttribute('title', rightTeamName);
             team2LogoEl.src = rightTeamLogo;
             team2LogoEl.className = rightTeamClass;
+            if (rightErr) team2LogoEl.setAttribute('onerror', rightErr.replace(/^onerror="/, '').replace(/"$/, ''));
 
             const venueContainer = document.getElementById(`${prefix}MatchVenue`);
             if (venueContainer) {
