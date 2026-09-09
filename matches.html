@@ -65,7 +65,7 @@
             }
         }
 
-        /* --- GESTIONE STEMMI (LOGICA PULITA SENZA CONFLITTI) --- */
+        /* --- GESTIONE STEMMI (LOGICA INVERTITA E SICURA) --- */
         .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important;
@@ -85,7 +85,7 @@
             height: 75px !important;
         }
 
-        /* Stile di base per TUTTI i loghi (mantiene le proporzioni originali e trasparenze) */
+        /* REGOLA DI BASE PER TUTTI I LOGHI: Nessun taglio circolare (forma originale e trasparenza) */
         .card-logo-wrap img, .hero-logo-wrap img {
             max-width: 100% !important;
             max-height: 100% !important;
@@ -96,16 +96,18 @@
             background: transparent !important;
         }
 
-        /* IL TUO STEMMA: Ottimizzazione e scala dedicata */
+        /* STEMMA YOKOHAMA CALCIO: Scala bilanciata */
         .card-logo-wrap img.yokohama-logo,
-        .hero-logo-wrap img.yokohama-logo {
+        .hero-logo-wrap img.yokohama-logo,
+        .card-logo-wrap img[src*="logo.png"], 
+        .hero-logo-wrap img[src*="logo.png"] {
             transform: scale(1.15) !important;
         }
 
-        /* LOGHI AVVERSARI E FALLBACK: Solo loro avranno il taglio circolare e sfondo bianco */
+        /* SOLO I LOGHI AVVERSARI (opponent-logo) E I FALLBACK RICEVONO IL TAGLIO CIRCOLARE */
         .card-logo-wrap img.opponent-logo,
         .hero-logo-wrap img.opponent-logo,
-        .card-logo-wrap img[src*="ui-avatars.com"],
+        .card-logo-wrap img[src*="ui-avatars.com"], 
         .hero-logo-wrap img[src*="ui-avatars.com"] {
             border-radius: 50% !important;
             object-fit: cover !important;
