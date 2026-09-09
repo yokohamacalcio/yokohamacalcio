@@ -313,6 +313,7 @@
     let rawMatches = [];
     let playersData = [];
     let locationsData = {};
+    let opponentsData = {};
     let isAllUpcomingVisible = false;
 
     const translations = {
@@ -368,9 +369,19 @@
         return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf\u3400-\u4dbf]/.test(text);
     }
 
-    function getAvatarUrl(name, team2Logo) {
-        if (team2Logo) return team2Logo;
-        return `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'VS')}&background=random&color=ffffff&size=100&bold=true`;
+    /* --- GESTIONE OPPONENTS DALLA DATABASE OPPONENTS.JSON O FALLBACK --- */
+    function getOpponentInfo(match, lang) {
+        if (match.opponent_id && opponentsData[match.opponent_id]) {
+            const opp = opponentsData[match.opponent_id];
+            const name = (opp.name && (opp.name[lang] || opp.name['ja'])) || match.team2Name || 'Opponent';
+            const logo = opp.logo || match.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=003c82&color=ffffff&bold=true`;
+            return { name, logo };
+        }
+
+        const fallbackName = match.team2Name || 'Opponent';
+        const fallbackLogo = match.team2Logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(fallbackName)}&background=003c82&color=ffffff&bold=true`;
+
+        return { name: fallbackName, logo: fallbackLogo };
     }
 
     function formatDateWithDay(dateStr, lang) {
@@ -387,11 +398,15 @@
 
     function getLocationInfo(locId, venueFallback, lang) {
         const loc = locationsData[locId];
-        if (!loc) return { name: venueFallback || locId || '-', maps: '#', surface: '' };
+        if (!loc) {
+            const fallbackName = venueFallback || locId || '-';
+            return { name: fallbackName, maps: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fallbackName)}`, surface: '' };
+        }
 
         const name = loc[lang] || loc['ja'] || venueFallback || locId;
         const surface = loc.surface ? (loc.surface[lang] || loc.surface['ja'] || '') : '';
-        return { name, maps: loc.maps || '#', surface };
+        const maps = loc.maps || loc.url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`;
+        return { name, maps, surface };
     }
 
     function findPlayerObj(query) {
@@ -605,6 +620,7 @@
                 const rawDate = nextM.date ? nextM.date.trim().replace(/\./g, '-').substring(0, 10) : '';
                 const formattedDate = formatDateWithDay(nextM.date, currentLang);
                 const locInfo = getLocationInfo(nextM.location_id, nextM.venue, currentLang);
+                const oppInfo = getOpponentInfo(nextM, currentLang);
                 
                 let catKey = 'badge.friendly';
                 if (nextM.category === 'league' || nextM.category === 'official') catKey = 'badge.league';
@@ -612,15 +628,14 @@
                 else if (nextM.category === 'tournament') catKey = 'badge.tournament';
                 const catText = translations[currentLang][catKey] || nextM.type || '練習試合';
 
-                const team2Logo = getAvatarUrl(nextM.team2Name, nextM.team2Logo);
                 const isHome = nextM.isHome !== undefined ? nextM.isHome : true;
                 
-                let t1Name = isHome ? (nextM.team1Name || 'Yokohama Calcio') : (nextM.team2Name || '-');
-                let t1Logo = isHome ? './immagini/logo.png' : team2Logo;
+                let t1Name = isHome ? (nextM.team1Name || 'Yokohama Calcio') : oppInfo.name;
+                let t1Logo = isHome ? './immagini/logo.png' : oppInfo.logo;
                 let t1Class = isHome ? 'yokohama-logo' : 'opponent-logo';
 
-                let t2Name = isHome ? (nextM.team2Name || '-') : (nextM.team1Name || 'Yokohama Calcio');
-                let t2Logo = isHome ? team2Logo : './immagini/logo.png';
+                let t2Name = isHome ? oppInfo.name : (nextM.team1Name || 'Yokohama Calcio');
+                let t2Logo = isHome ? oppInfo.logo : './immagini/logo.png';
                 let t2Class = isHome ? 'opponent-logo' : 'yokohama-logo';
 
                 const mapsHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener">${locInfo.name}</a>` : locInfo.name;
@@ -653,7 +668,7 @@
                         </div>
                     `;
                 } else {
-                    // SCHEDE SUCCESSIVE (Senza orario in alto a destra, solo data)
+                    // SCHEDE SUCCESSIVE
                     const surfaceHtml = locInfo.surface ? `<span class="surface-badge-card">${locInfo.surface}</span>` : '';
                     const mapsCardHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener" style="color:var(--dark-navy); text-decoration:underline;">${locInfo.name}</a>` : locInfo.name;
 
@@ -717,11 +732,12 @@
             upcomingContainer.innerHTML = `<div style="text-align: center; padding: 30px; background: #f8fafc; border-radius: 8px; margin-bottom: 30px;"><p style="color: #64748b; font-weight: 600;">${translations[currentLang]["matches.no_upcoming"]}</p></div>`;
         }
 
-        // 2. RENDER RISULTATI PASSATI (Senza orario in alto a destra, solo data)
+        // 2. RENDER RISULTATI PASSATI
         sortedPast.forEach(m => {
             const rawDate = m.date ? m.date.trim().replace(/\./g, '-').substring(0, 10) : '';
             const formattedDate = formatDateWithDay(m.date, currentLang);
             const locInfo = getLocationInfo(m.location_id, m.venue, currentLang);
+            const oppInfo = getOpponentInfo(m, currentLang);
 
             let badgeHtml = '';
             let catKey = 'badge.friendly';
@@ -739,7 +755,6 @@
                 badgeHtml = `<span class="match-badge ${catClass}">${catText}</span>`;
             }
 
-            const team2Logo = getAvatarUrl(m.team2Name, m.team2Logo);
             const isHome = m.isHome !== undefined ? m.isHome : true;
             let leftTeamName, leftTeamLogo, leftTeamClass, rightTeamName, rightTeamLogo, rightTeamClass, displayScore;
 
@@ -747,13 +762,13 @@
                 leftTeamName = m.team1Name || 'Yokohama Calcio';
                 leftTeamLogo = './immagini/logo.png';
                 leftTeamClass = 'yokohama-logo';
-                rightTeamName = m.team2Name || '-';
-                rightTeamLogo = team2Logo;
+                rightTeamName = oppInfo.name;
+                rightTeamLogo = oppInfo.logo;
                 rightTeamClass = 'opponent-logo';
                 displayScore = m.score;
             } else {
-                leftTeamName = m.team2Name || '-';
-                leftTeamLogo = team2Logo;
+                leftTeamName = oppInfo.name;
+                leftTeamLogo = oppInfo.logo;
                 leftTeamClass = 'opponent-logo';
                 rightTeamName = m.team1Name || 'Yokohama Calcio';
                 rightTeamLogo = './immagini/logo.png';
@@ -925,15 +940,17 @@
 
     async function loadAllData() {
         try {
-            const [mResp, lResp, pResp] = await Promise.allSettled([
+            const [mResp, lResp, pResp, oResp] = await Promise.allSettled([
                 fetch('matches.json'),
                 fetch('locations.json'),
-                fetch('players.json')
+                fetch('players.json'),
+                fetch('opponents.json')
             ]);
             
             if (mResp.status === 'fulfilled' && mResp.value.ok) rawMatches = await mResp.value.json();
             if (lResp.status === 'fulfilled' && lResp.value.ok) locationsData = await lResp.value.json();
             if (pResp.status === 'fulfilled' && pResp.value.ok) playersData = await pResp.value.json();
+            if (oResp.status === 'fulfilled' && oResp.value.ok) opponentsData = await oResp.value.json();
 
             setLanguage(currentLang);
             handleHashOnLoad();
