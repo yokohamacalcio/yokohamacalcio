@@ -72,7 +72,7 @@
             justify-content: center !important;
             flex-shrink: 0 !important;
             background: transparent !important;
-            overflow: hidden !important;
+            overflow: visible !important; /* Evita qualsiasi taglio dei bordi */
         }
 
         .card-logo-wrap {
@@ -83,6 +83,28 @@
         .hero-logo-wrap {
             width: 75px !important;
             height: 75px !important;
+        }
+
+        /* --- REGOLE UNIVERISALI: TUTTI I LOGHI MANTIENONO LA FORMA ORIGINALE --- */
+        .card-logo-wrap img, .hero-logo-wrap img {
+            max-width: 100% !important;
+            max-height: 100% !important;
+            width: auto !important;
+            height: auto !important;
+            object-fit: contain !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            transform: none !important;
+        }
+
+        /* --- SOLO GLI AVATAR GENERATI PER SQUADRE SENZA LOGO SARANNO CIRCOLARI --- */
+        .card-logo-wrap img[src*="ui-avatars.com"], 
+        .hero-logo-wrap img[src*="ui-avatars.com"] {
+            border-radius: 50% !important;
+            object-fit: cover !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: #ffffff !important;
         }
 
         /* --- HERO CARD PROSSIMA PARTITA --- */
@@ -732,15 +754,6 @@
                 const t1Err = isHome ? "" : `onerror="this.onerror=null;this.src='${fallbackAvatar}';"`;
                 const t2Err = isHome ? `onerror="this.onerror=null;this.src='${fallbackAvatar}';"` : "";
 
-                // STILI INLINE BULLETPROOF PER I LOGHI (Impossibile da sovrascrivere da style.css o cache)
-                const t1Style = t1Logo.includes('logo.png') 
-                    ? 'style="border-radius: 0 !important; background: transparent !important; object-fit: contain !important; transform: scale(1.15) !important;"' 
-                    : 'style="border-radius: 50% !important; object-fit: cover !important; background: #ffffff !important;"';
-
-                const t2Style = t2Logo.includes('logo.png') 
-                    ? 'style="border-radius: 0 !important; background: transparent !important; object-fit: contain !important; transform: scale(1.15) !important;"' 
-                    : 'style="border-radius: 50% !important; object-fit: cover !important; background: #ffffff !important;"';
-
                 if (index === 0) {
                     const surfaceHtml = locInfo.surface ? `<span class="surface-badge-hero">${locInfo.surface}</span>` : '';
                     upcomingHtml += `
@@ -751,12 +764,12 @@
                             </div>
                             <div class="match-teams-wrapper">
                                 <div class="team-column">
-                                    <div class="hero-logo-wrap"><img src="${t1Logo}" alt="${t1Name}" class="${t1Class}" ${t1Style} ${t1Err}></div>
+                                    <div class="hero-logo-wrap"><img src="${t1Logo}" alt="${t1Name}" class="${t1Class}" ${t1Err}></div>
                                     <span title="${t1Name}">${t1Name}</span>
                                 </div>
                                 <div class="match-vs-center">VS</div>
                                 <div class="team-column">
-                                    <div class="hero-logo-wrap"><img src="${t2Logo}" alt="${t2Name}" class="${t2Class}" ${t2Style} ${t2Err}></div>
+                                    <div class="hero-logo-wrap"><img src="${t2Logo}" alt="${t2Name}" class="${t2Class}" ${t2Err}></div>
                                     <span title="${t2Name}">${t2Name}</span>
                                 </div>
                             </div>
@@ -779,12 +792,12 @@
                             </div>
                             <div class="match-teams-wrapper">
                                 <div class="team-column">
-                                    <div class="card-logo-wrap"><img src="${t1Logo}" alt="${t1Name}" class="${t1Class}" ${t1Style} ${t1Err}></div>
+                                    <div class="card-logo-wrap"><img src="${t1Logo}" alt="${t1Name}" class="${t1Class}" ${t1Err}></div>
                                     <span title="${t1Name}">${t1Name}</span>
                                 </div>
                                 <div class="match-vs-center">VS</div>
                                 <div class="team-column">
-                                    <div class="card-logo-wrap"><img src="${t2Logo}" alt="${t2Name}" class="${t2Class}" ${t2Style} ${t2Err}></div>
+                                    <div class="card-logo-wrap"><img src="${t2Logo}" alt="${t2Name}" class="${t2Class}" ${t2Err}></div>
                                     <span title="${t2Name}">${t2Name}</span>
                                 </div>
                             </div>
@@ -884,15 +897,6 @@
                 }
             }
 
-            // STILI INLINE BULLETPROOF PER I LOGHI PASSATI
-            const leftStyle = leftTeamLogo.includes('logo.png') 
-                ? 'style="border-radius: 0 !important; background: transparent !important; object-fit: contain !important; transform: scale(1.15) !important;"' 
-                : 'style="border-radius: 50% !important; object-fit: cover !important; background: #ffffff !important;"';
-
-            const rightStyle = rightTeamLogo.includes('logo.png') 
-                ? 'style="border-radius: 0 !important; background: transparent !important; object-fit: contain !important; transform: scale(1.15) !important;"' 
-                : 'style="border-radius: 50% !important; object-fit: cover !important; background: #ffffff !important;"';
-
             const mapsHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener" style="color:var(--dark-navy); text-decoration:underline;">${locInfo.name}</a>` : locInfo.name;
             const surfaceHtml = locInfo.surface ? `<span class="surface-badge-card">${locInfo.surface}</span>` : '';
 
@@ -930,12 +934,12 @@
                     </div>
                     <div class="match-teams-wrapper">
                         <div class="team-column">
-                            <div class="card-logo-wrap"><img src="${leftTeamLogo}" alt="${leftTeamName}" class="${leftTeamClass}" ${leftStyle} ${leftErr}></div>
+                            <div class="card-logo-wrap"><img src="${leftTeamLogo}" alt="${leftTeamName}" class="${leftTeamClass}" ${leftErr}></div>
                             <span title="${leftTeamName}">${leftTeamName}</span>
                         </div>
                         <div class="match-vs-center score-past">${displayScore}</div>
                         <div class="team-column">
-                            <div class="card-logo-wrap"><img src="${rightTeamLogo}" alt="${rightTeamName}" class="${rightTeamClass}" ${rightStyle} ${rightErr}></div>
+                            <div class="card-logo-wrap"><img src="${rightTeamLogo}" alt="${rightTeamName}" class="${rightTeamClass}" ${rightErr}></div>
                             <span title="${rightTeamName}">${rightTeamName}</span>
                         </div>
                     </div>
