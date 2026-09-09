@@ -65,16 +65,45 @@
             }
         }
 
-        /* --- GESTIONE STEMMI SQUADRE: MANTIENE SCUDI E SAGOME ORIGINALI --- */
+        /* --- GESTIONE TRASPARENZA E DIMENSIONI STEMMI --- */
+        .card-logo-wrap, .hero-logo-wrap {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
+            background: transparent !important;
+            overflow: visible !important;
+        }
+
+        .card-logo-wrap {
+            width: 55px !important;
+            height: 55px !important;
+        }
+
+        .hero-logo-wrap {
+            width: 75px !important;
+            height: 75px !important;
+        }
+
         .card-logo-wrap img, .hero-logo-wrap img {
             max-width: 100% !important;
             max-height: 100% !important;
+            width: auto !important;
+            height: auto !important;
             object-fit: contain !important;
+            background: transparent !important;
             border-radius: 0 !important;
             filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.12));
         }
 
-        /* CIRCOLARI SOLTANTO PER AVATAR DI FALLBACK GENERATI DA UI-AVATARS */
+        /* Annulla ingrandimenti sproporzionati per mantenere i loghi perfettamente identici */
+        img.yokohama-logo {
+            transform: none !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+        }
+
+        /* Avatar di fallback (circolari) */
         .card-logo-wrap img[src*="ui-avatars.com"], 
         .hero-logo-wrap img[src*="ui-avatars.com"] {
             border-radius: 50% !important;
@@ -331,7 +360,6 @@
     let opponentsData = {};
     let isAllUpcomingVisible = false;
 
-    /* MAPPA DI FALLBACK DEDICATA AI NOMI GIAPPONESI SENZA OPPONENT_ID */
     const commonRomajiMap = {
         'レガリア川崎': 'Legalia Kawasaki',
         '東方チタニウム': 'Toho Titanium',
@@ -393,7 +421,6 @@
         return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf\u3400-\u4dbf]/.test(text);
     }
 
-    /* --- GENERATORE DI COLORI HEX VIVACI E UNICI PER SQUADRA (HSL HASHING) --- */
     function getUniqueTeamColor(idOrName) {
         let hash = 0;
         const str = String(idOrName || 'opponent').toLowerCase();
@@ -414,7 +441,6 @@
         return `${f(0)}${f(8)}${f(4)}`;
     }
 
-    /* --- ESTRAZIONE NOME ROMAJI PER LE INIZIALI ALFABETICHE --- */
     function getRomajiName(match, defaultName) {
         if (match && match.opponent_id && opponentsData[match.opponent_id]) {
             const opp = opponentsData[match.opponent_id];
@@ -435,7 +461,6 @@
         return rawName || 'Opponent';
     }
 
-    /* --- GENERATORE AVATAR UI CON COLORE UNICO E INIZIALI ROMAJI --- */
     function getAvatarUrl(matchOrName, romajiFallback) {
         const identifier = (typeof matchOrName === 'object' && matchOrName !== null) 
             ? (matchOrName.opponent_id || matchOrName.opponent_name || 'opponent') 
@@ -449,7 +474,6 @@
         return `https://ui-avatars.com/api/?name=${encodeURIComponent(romaji)}&background=${bgHex}&color=ffffff&bold=true&size=128`;
     }
 
-    /* --- GESTIONE OPPONENTS DALLA DATABASE OPPONENTS.JSON O FALLBACK COMPLETO --- */
     function getOpponentInfo(match, lang) {
         let name = '';
         let logo = '';
@@ -700,7 +724,6 @@
         const sortedUpcoming = rawMatches.filter(m => m.status === 'upcoming').sort((a,b) => new Date(a.date) - new Date(b.date));
         const sortedPast = rawMatches.filter(m => m.status === 'past' || m.status === 'live').sort((a,b) => new Date(b.date) - new Date(a.date));
 
-        // 1. RENDER PROSSIMI MATCH
         if (sortedUpcoming.length > 0) {
             let upcomingHtml = '';
 
@@ -822,7 +845,6 @@
             upcomingContainer.innerHTML = `<div style="text-align: center; padding: 30px; background: #f8fafc; border-radius: 8px; margin-bottom: 30px;"><p style="color: #64748b; font-weight: 600;">${translations[currentLang]["matches.no_upcoming"]}</p></div>`;
         }
 
-        // 2. RENDER RISULTATI PASSATI
         sortedPast.forEach(m => {
             const rawDate = m.date ? m.date.trim().replace(/\./g, '-').substring(0, 10) : '';
             const formattedDate = formatDateWithDay(m.date, currentLang);
