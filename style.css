@@ -574,8 +574,15 @@ body {
     border: 1px solid var(--primary-sky);
 }
 
+/* GESTIONE STEMMI SQUADRE: MANTIENE LA FORMA ORIGINALE PER GLI STEMMI REALI E APPLICA IL CERCHIO SOLO AGLI AVATAR DI FALLBACK */
 .opponent-logo {
-    border-radius: 50%;
+    border-radius: 0;
+}
+
+img.opponent-logo[src*="ui-avatars.com"],
+.card-logo-wrap img[src*="ui-avatars.com"],
+.hero-logo-wrap img[src*="ui-avatars.com"] {
+    border-radius: 50% !important;
 }
 
 /* ==========================================
@@ -1531,10 +1538,7 @@ body {
     max-width: 100% !important;
     max-height: 100% !important;
     object-fit: contain !important;
-}
-
-.card-logo-wrap img.opponent-logo {
-    border-radius: 50% !important;
+    border-radius: 0 !important;
 }
 
 /* Compensa i margini vuoti del logo Yokohama Calcio */
