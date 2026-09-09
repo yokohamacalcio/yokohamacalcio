@@ -74,27 +74,6 @@
         .badge-tournament, .badge-cup { background: #d97706; color: #ffffff; }
         .badge-next { background: #003c82; color: #ffffff; }
 
-        .surface-badge-card {
-            font-size: 0.72rem;
-            background: #e2e8f0;
-            color: #475569;
-            padding: 3px 8px;
-            border-radius: 4px;
-            margin-left: 5px;
-            font-weight: 700;
-            display: inline-block;
-        }
-
-        .surface-badge-hero {
-            font-size: 0.72rem;
-            background: rgba(255,255,255,0.2);
-            color: #ffffff;
-            padding: 3px 8px;
-            border-radius: 4px;
-            margin-left: 5px;
-            font-weight: 600;
-        }
-
         /* --- STRUTTURA A 2 RIGHE (LOGHI E NOMI) --- */
         .match-teams-wrapper {
             display: flex !important;
@@ -147,7 +126,7 @@
             justify-content: center !important;
             flex-shrink: 0 !important;
             background: transparent !important;
-            overflow: visible !important; /* Evita qualsiasi taglio dei bordi */
+            overflow: visible !important;
         }
 
         .card-logo-wrap {
@@ -1091,16 +1070,15 @@
         const loc = locationsData[locId];
         if (!loc) {
             const fallbackName = venueFallback || locId || '-';
-            return { name: fallbackName, surface: '', url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fallbackName)}` };
+            return { name: fallbackName, url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fallbackName)}` };
         }
 
         const name = loc[lang] || loc['ja'] || venueFallback || locId;
-        const surface = loc.surface ? (loc.surface[lang] || loc.surface['ja'] || '') : '';
         let url = loc.url;
         if (!url) {
             url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`;
         }
-        return { name, surface, url };
+        return { name, url };
     }
 
     async function initMatchCenter() {
@@ -1199,9 +1177,7 @@
             const venueContainer = document.getElementById(`${prefix}MatchVenue`);
             if (venueContainer) {
                 const locInfo = getLocationInfo(m.location_id, m.venue, lang);
-                const surfaceBadgeClass = prefix === 'next' ? 'surface-badge-hero' : 'surface-badge-card';
-                const surfaceHtml = locInfo.surface ? `<span class="${surfaceBadgeClass}">${locInfo.surface}</span>` : '';
-                venueContainer.innerHTML = `<a href="${locInfo.url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> <span>${locInfo.name}</span> ${surfaceHtml} <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i></a>`;
+                venueContainer.innerHTML = `<a href="${locInfo.url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> <span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i></a>`;
             }
 
             if (prefix === 'next' && m.time) {
