@@ -85,7 +85,7 @@
             height: 75px !important;
         }
 
-        /* Loghi avversari standard: taglio circolare */
+        /* Loghi avversari standard: taglio circolare ed eliminazione quadrati bianchi */
         .card-logo-wrap img, .hero-logo-wrap img {
             max-width: 100% !important;
             max-height: 100% !important;
@@ -96,8 +96,9 @@
             background: #ffffff !important;
         }
 
-        /* IL TUO STEMMA: Bilanciato con scale(1.2) per avere la stessa presenza visiva dei cerchi */
-        img.yokohama-logo,
+        /* IL TUO STEMMA: Alta specificità per impedire il taglio circolare, con scala bilanciata */
+        .card-logo-wrap img.yokohama-logo,
+        .hero-logo-wrap img.yokohama-logo,
         .card-logo-wrap img[src*="logo.png"], 
         .hero-logo-wrap img[src*="logo.png"] {
             border-radius: 0 !important;
@@ -105,10 +106,12 @@
             background: transparent !important;
             width: auto !important;
             height: auto !important;
-            transform: scale(1.2) !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            transform: scale(1.15) !important;
         }
 
-        /* ECCEZIONE 2: Lo stemma del Legalia - Forma originale, trasparenza e proporzioni */
+        /* ECCEZIONE LEGALIA: Forma originale, trasparenza e proporzioni */
         .card-logo-wrap img[src*="legalia"], 
         .hero-logo-wrap img[src*="legalia"],
         .card-logo-wrap img[alt*="Legalia"], 
@@ -120,6 +123,8 @@
             background: transparent !important;
             width: auto !important;
             height: auto !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
             transform: none !important;
         }
 
