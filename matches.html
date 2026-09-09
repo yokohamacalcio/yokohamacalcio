@@ -65,26 +65,29 @@
             }
         }
 
-        /* --- GESTIONE TRASPARENZA E DIMENSIONI STEMMI --- */
+        /* --- GESTIONE STEMMI: DIMENSIONI PERFETTAMENTE IDENTICHE --- */
         .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             flex-shrink: 0 !important;
             background: transparent !important;
-            overflow: visible !important;
+            overflow: hidden !important;
         }
 
+        /* Dimensioni fisse identiche per la scheda standard */
         .card-logo-wrap {
             width: 55px !important;
             height: 55px !important;
         }
 
+        /* Dimensioni fisse identiche per la Hero card (prossima partita) */
         .hero-logo-wrap {
             width: 75px !important;
             height: 75px !important;
         }
 
+        /* Regola universale: qualsiasi stemma si adatta perfettamente al box senza sgranare e mantenendo le proporzioni */
         .card-logo-wrap img, .hero-logo-wrap img {
             max-width: 100% !important;
             max-height: 100% !important;
@@ -93,20 +96,23 @@
             object-fit: contain !important;
             background: transparent !important;
             border-radius: 0 !important;
-            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.12));
+            transform: none !important;
         }
 
-        /* Annulla ingrandimenti sproporzionati per mantenere i loghi perfettamente identici */
+        /* Annulla forzature precedenti sul logo Yokohama */
         img.yokohama-logo {
             transform: none !important;
             border-radius: 0 !important;
             background: transparent !important;
         }
 
-        /* Avatar di fallback (circolari) */
+        /* Gli avatar di fallback (generati con le iniziali) restano circolari ed equidimensionati */
         .card-logo-wrap img[src*="ui-avatars.com"], 
         .hero-logo-wrap img[src*="ui-avatars.com"] {
             border-radius: 50% !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
         }
 
         /* --- STILI SPECIFICI HERO CARD --- */
