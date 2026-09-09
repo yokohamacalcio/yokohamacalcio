@@ -144,7 +144,6 @@
             text-transform: uppercase;
         }
 
-        /* LAYOUT INFO HERO: Gestione fluida anche con campi lunghi */
         .next-match-info {
             display: flex;
             flex-wrap: wrap;
@@ -165,7 +164,6 @@
             white-space: nowrap;
         }
 
-        /* Il nome del campo può estendersi o andare a capo pulito se molto lungo */
         .next-match-info-item.venue-item {
             white-space: normal !important;
             text-align: center;
@@ -745,7 +743,6 @@
                 const t2Err = isHome ? `onerror="this.onerror=null;this.src='${fallbackAvatar}';"` : "";
 
                 if (index === 0) {
-                    const surfaceHtml = locInfo.surface ? `<div class="next-match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>${locInfo.surface}</span></div>` : '';
                     upcomingHtml += `
                         <div class="upcoming-item match-detail-card next-match-hero" data-match-category="${nextM.category}" data-match-date="${rawDate}">
                             <div class="next-match-header">
@@ -766,7 +763,6 @@
                             <div class="next-match-info">
                                 <div class="next-match-info-item"><i class="fas fa-calendar-alt" style="color: var(--primary-sky);"></i><span>${formattedDate}</span></div>
                                 <div class="next-match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>${nextM.time || ''} K.O.</span></div>
-                                ${surfaceHtml}
                                 <div class="next-match-info-item venue-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i>${mapsHtml}</div>
                             </div>
                         </div>
@@ -793,6 +789,7 @@
                             </div>
                             <div style="padding: 12px 15px; background: #f8fafc; border-top: 1px solid #e2e8f0; border-radius: 0 0 8px 8px; font-size: 0.88rem; display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px;">
                                 <div><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i> <strong data-i18n="label.venue">会場:</strong> ${mapsCardHtml}</div>
+                                ${locInfo.surface ? `<div><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> <strong data-i18n="label.surface">ピッチ:</strong> ${locInfo.surface}</div>` : ''}
                                 ${nextM.time ? `<div><i class="fas fa-clock" style="color: var(--primary-sky);"></i> <strong data-i18n="label.kickoff">キックオフ:</strong> ${nextM.time}</div>` : ''}
                             </div>
                         </div>
