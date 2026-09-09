@@ -65,7 +65,7 @@
             }
         }
 
-        /* --- GESTIONE STEMMI: DIMENSIONI PERFETTAMENTE IDENTICHE --- */
+        /* --- GESTIONE STEMMI --- */
         .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important;
@@ -75,44 +75,63 @@
             overflow: hidden !important;
         }
 
-        /* Dimensioni fisse identiche per la scheda standard */
         .card-logo-wrap {
             width: 55px !important;
             height: 55px !important;
         }
 
-        /* Dimensioni fisse identiche per la Hero card (prossima partita) */
         .hero-logo-wrap {
             width: 75px !important;
             height: 75px !important;
         }
 
-        /* Regola universale: qualsiasi stemma si adatta perfettamente al box senza sgranare e mantenendo le proporzioni */
+        /* Loghi avversari standard: taglio circolare */
         .card-logo-wrap img, .hero-logo-wrap img {
             max-width: 100% !important;
             max-height: 100% !important;
-            width: auto !important;
-            height: auto !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            border-radius: 50% !important;
+            background: #ffffff !important;
+        }
+
+        /* IL TUO STEMMA: Bilanciato con scale(1.2) per avere la stessa presenza visiva dei cerchi */
+        img.yokohama-logo,
+        .card-logo-wrap img[src*="logo.png"], 
+        .hero-logo-wrap img[src*="logo.png"] {
+            border-radius: 0 !important;
             object-fit: contain !important;
             background: transparent !important;
-            border-radius: 0 !important;
-            transform: none !important;
+            width: auto !important;
+            height: auto !important;
+            transform: scale(1.2) !important;
         }
 
-        /* Annulla forzature precedenti sul logo Yokohama */
-        img.yokohama-logo {
-            transform: none !important;
+        /* ECCEZIONE 2: Lo stemma del Legalia - Forma originale, trasparenza e proporzioni */
+        .card-logo-wrap img[src*="legalia"], 
+        .hero-logo-wrap img[src*="legalia"],
+        .card-logo-wrap img[alt*="Legalia"], 
+        .hero-logo-wrap img[alt*="Legalia"],
+        .card-logo-wrap img[alt*="レガリア"], 
+        .hero-logo-wrap img[alt*="レガリア"] {
             border-radius: 0 !important;
+            object-fit: contain !important;
             background: transparent !important;
+            width: auto !important;
+            height: auto !important;
+            transform: none !important;
         }
 
-        /* Gli avatar di fallback (generati con le iniziali) restano circolari ed equidimensionati */
+        /* Avatar di fallback generati da UI-Avatars */
         .card-logo-wrap img[src*="ui-avatars.com"], 
         .hero-logo-wrap img[src*="ui-avatars.com"] {
             border-radius: 50% !important;
             width: 100% !important;
             height: 100% !important;
             object-fit: cover !important;
+            background: transparent !important;
+            transform: none !important;
         }
 
         /* --- STILI SPECIFICI HERO CARD --- */
@@ -548,7 +567,8 @@
             const r = cleanStr(p.name_romaji);
             return (k && (k.includes(target) || target.includes(k))) ||
                    (kn && (kn.includes(target) || target.includes(kn))) ||
-                   (r && (r.includes(target) || target.includes(r)));
+                   (r && (r.includes(target) || target.includes(r))) ||
+                   (p.id && cleanStr(p.id) === target);
         }) || null;
     }
 
