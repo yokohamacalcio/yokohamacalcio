@@ -369,24 +369,28 @@
         return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf\u3400-\u4dbf]/.test(text);
     }
 
-    /* --- PALETTE COLORI UNICI PER SQUADRA --- */
-    const teamColorPalette = [
-        '003c82', '1e3a8a', '065f46', '991b1b', '9a3412', 
-        '854d0e', '3730a3', '5b21b6', '831843', '115e59', 
-        '1e293b', '4c1d95', '0f766e', '9f1239', '166534'
-    ];
-
-    function getTeamColor(name) {
+    /* --- GENERATORE DI COLORI HEX VIVACI E UNICI PER SQUADRA (HSL HASHING) --- */
+    function getUniqueTeamColor(idOrName) {
         let hash = 0;
-        const str = String(name || '');
+        const str = String(idOrName || 'opponent').toLowerCase();
         for (let i = 0; i < str.length; i++) {
             hash = str.charCodeAt(i) + ((hash << 5) - hash);
         }
-        const index = Math.abs(hash) % teamColorPalette.length;
-        return teamColorPalette[index];
+        const hue = Math.abs(hash) % 360;
+        const saturation = 70 + (Math.abs(hash >> 3) % 20); // 70% - 90%
+        const lightness = 35 + (Math.abs(hash >> 5) % 15);  // 35% - 50%
+        
+        const l = lightness / 100;
+        const a = saturation * Math.min(l, 1 - l) / 100;
+        const f = n => {
+            const k = (n + hue / 30) % 12;
+            const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+            return Math.round(255 * color).toString(16).padStart(2, '0');
+        };
+        return `${f(0)}${f(8)}${f(4)}`;
     }
 
-    /* --- ESTRAZIONE NOME ROMAJI PER GENERARE INIZIALI ALFABETICHE --- */
+    /* --- ESTRAZIONE NOME ROMAJI PER LE INIZIALI ALFABETICHE --- */
     function getRomajiName(match, defaultName) {
         if (match && match.opponent_id && opponentsData[match.opponent_id]) {
             const opp = opponentsData[match.opponent_id];
@@ -399,10 +403,18 @@
         return cleanLatin || defaultName || 'Opponent';
     }
 
-    /* --- GENERATORE AVATAR CON INIZIALI ROMAJI E COLORE UNICO --- */
-    function getAvatarUrl(nameInRomaji) {
-        const bg = getTeamColor(nameInRomaji);
-        return `https://ui-avatars.com/api/?name=${encodeURIComponent(nameInRomaji)}&background=${bg}&color=ffffff&bold=true&size=128`;
+    /* --- GENERATORE AVATAR UI CON COLORE UNICO E INIZIALI ROMAJI --- */
+    function getAvatarUrl(matchOrName, romajiFallback) {
+        const identifier = (typeof matchOrName === 'object' && matchOrName !== null) 
+            ? (matchOrName.opponent_id || matchOrName.team2Name || 'opponent') 
+            : String(matchOrName || 'opponent');
+            
+        const romaji = (typeof matchOrName === 'object' && matchOrName !== null) 
+            ? getRomajiName(matchOrName, matchOrName.team2Name) 
+            : (romajiFallback || identifier);
+        
+        const bgHex = getUniqueTeamColor(identifier);
+        return `https://ui-avatars.com/api/?name=${encodeURIComponent(romaji)}&background=${bgHex}&color=ffffff&bold=true&size=128`;
     }
 
     /* --- GESTIONE OPPONENTS DALLA DATABASE OPPONENTS.JSON O FALLBACK --- */
@@ -422,7 +434,7 @@
         const romajiName = getRomajiName(match, name);
 
         if (!logo || logo.trim() === '') {
-            logo = getAvatarUrl(romajiName);
+            logo = getAvatarUrl(match, romajiName);
         }
 
         return { name, romajiName, logo };
@@ -684,10 +696,10 @@
 
                 const mapsHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener">${locInfo.name}</a>` : locInfo.name;
 
-                /* Fallback con nome in Romaji se il PNG non esiste */
-                const romajiName = oppInfo.romajiName || oppInfo.name;
-                const t1Err = isHome ? "" : `onerror="this.onerror=null;this.src='${getAvatarUrl(romajiName)}';"`;
-                const t2Err = isHome ? `onerror="this.onerror=null;this.src='${getAvatarUrl(romajiName)}';"` : "";
+                /* Fallback con colore univoco e nome Romaji se l'immagine PNG fallisce */
+                const fallbackAvatar = getAvatarUrl(nextM, oppInfo.romajiName);
+                const t1Err = isHome ? "" : `onerror="this.onerror=null;this.src='${fallbackAvatar}';"`;
+                const t2Err = isHome ? `onerror="this.onerror=null;this.src='${fallbackAvatar}';"` : "";
 
                 if (index === 0) {
                     // HERO CARD
@@ -808,7 +820,7 @@
             let leftTeamName, leftTeamLogo, leftTeamClass, rightTeamName, rightTeamLogo, rightTeamClass, displayScore;
             let leftErr = "", rightErr = "";
 
-            const romajiName = oppInfo.romajiName || oppInfo.name;
+            const fallbackAvatar = getAvatarUrl(m, oppInfo.romajiName);
 
             if (isHome) {
                 leftTeamName = m.team1Name || 'Yokohama Calcio';
@@ -817,13 +829,13 @@
                 rightTeamName = oppInfo.name;
                 rightTeamLogo = oppInfo.logo;
                 rightTeamClass = 'opponent-logo';
-                rightErr = `onerror="this.onerror=null;this.src='${getAvatarUrl(romajiName)}';"`;
+                rightErr = `onerror="this.onerror=null;this.src='${fallbackAvatar}';"`;
                 displayScore = m.score;
             } else {
                 leftTeamName = oppInfo.name;
                 leftTeamLogo = oppInfo.logo;
                 leftTeamClass = 'opponent-logo';
-                leftErr = `onerror="this.onerror=null;this.src='${getAvatarUrl(romajiName)}';"`;
+                leftErr = `onerror="this.onerror=null;this.src='${fallbackAvatar}';"`;
                 rightTeamName = m.team1Name || 'Yokohama Calcio';
                 rightTeamLogo = './immagini/logo.png';
                 rightTeamClass = 'yokohama-logo';
