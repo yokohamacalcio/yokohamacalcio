@@ -65,6 +65,21 @@
             }
         }
 
+        /* --- GESTIONE STEMMI SQUADRE: MANTIENE SCUDI E SAGOME ORIGINALI --- */
+        .card-logo-wrap img, .hero-logo-wrap img {
+            max-width: 100% !important;
+            max-height: 100% !important;
+            object-fit: contain !important;
+            border-radius: 0 !important;
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.12));
+        }
+
+        /* CIRCOLARI SOLTANTO PER AVATAR DI FALLBACK GENERATI DA UI-AVATARS */
+        .card-logo-wrap img[src*="ui-avatars.com"], 
+        .hero-logo-wrap img[src*="ui-avatars.com"] {
+            border-radius: 50% !important;
+        }
+
         /* --- STILI SPECIFICI HERO CARD --- */
         .next-match-hero {
             background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%);
@@ -316,6 +331,15 @@
     let opponentsData = {};
     let isAllUpcomingVisible = false;
 
+    /* MAPPA DI FALLBACK DEDICATA AI NOMI GIAPPONESI SENZA OPPONENT_ID */
+    const commonRomajiMap = {
+        'レガリア川崎': 'Legalia Kawasaki',
+        '東方チタニウム': 'Toho Titanium',
+        'ラ・マシア': 'La Masia',
+        'FCレジェンド': 'FC Legend',
+        'F.C.LEGEND': 'FC Legend'
+    };
+
     const translations = {
         ja: {
             "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
@@ -377,8 +401,8 @@
             hash = str.charCodeAt(i) + ((hash << 5) - hash);
         }
         const hue = Math.abs(hash) % 360;
-        const saturation = 70 + (Math.abs(hash >> 3) % 20); // 70% - 90%
-        const lightness = 35 + (Math.abs(hash >> 5) % 15);  // 35% - 50%
+        const saturation = 70 + (Math.abs(hash >> 3) % 20);
+        const lightness = 35 + (Math.abs(hash >> 5) % 15);
         
         const l = lightness / 100;
         const a = saturation * Math.min(l, 1 - l) / 100;
@@ -399,36 +423,44 @@
                 if (romaji) return romaji;
             }
         }
-        const cleanLatin = String(defaultName || '').replace(/[^\x00-\x7F]/g, '').trim();
-        return cleanLatin || defaultName || 'Opponent';
+
+        const rawName = defaultName || '';
+        if (commonRomajiMap[rawName]) {
+            return commonRomajiMap[rawName];
+        }
+
+        const cleanLatin = String(rawName).replace(/[^\x00-\x7F]/g, '').trim();
+        if (cleanLatin.length > 0) return cleanLatin;
+
+        return rawName || 'Opponent';
     }
 
     /* --- GENERATORE AVATAR UI CON COLORE UNICO E INIZIALI ROMAJI --- */
     function getAvatarUrl(matchOrName, romajiFallback) {
         const identifier = (typeof matchOrName === 'object' && matchOrName !== null) 
-            ? (matchOrName.opponent_id || matchOrName.team2Name || 'opponent') 
+            ? (matchOrName.opponent_id || matchOrName.opponent_name || 'opponent') 
             : String(matchOrName || 'opponent');
             
         const romaji = (typeof matchOrName === 'object' && matchOrName !== null) 
-            ? getRomajiName(matchOrName, matchOrName.team2Name) 
+            ? getRomajiName(matchOrName, romajiFallback) 
             : (romajiFallback || identifier);
         
         const bgHex = getUniqueTeamColor(identifier);
         return `https://ui-avatars.com/api/?name=${encodeURIComponent(romaji)}&background=${bgHex}&color=ffffff&bold=true&size=128`;
     }
 
-    /* --- GESTIONE OPPONENTS DALLA DATABASE OPPONENTS.JSON O FALLBACK --- */
+    /* --- GESTIONE OPPONENTS DALLA DATABASE OPPONENTS.JSON O FALLBACK COMPLETO --- */
     function getOpponentInfo(match, lang) {
         let name = '';
         let logo = '';
 
         if (match.opponent_id && opponentsData[match.opponent_id]) {
             const opp = opponentsData[match.opponent_id];
-            name = (opp.name && (opp.name[lang] || opp.name['ja'])) || match.team2Name || 'Opponent';
-            logo = opp.logo || match.team2Logo || '';
+            name = (opp.name && (opp.name[lang] || opp.name['ja'])) || match.opponent_name || match.team2Name || 'Opponent';
+            logo = opp.logo || match.opponent_logo || match.team2Logo || '';
         } else {
-            name = match.team2Name || 'Opponent';
-            logo = match.team2Logo || '';
+            name = match.opponent_name || match.team2Name || 'Opponent';
+            logo = match.opponent_logo || match.team2Logo || '';
         }
 
         const romajiName = getRomajiName(match, name);
@@ -696,13 +728,11 @@
 
                 const mapsHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener">${locInfo.name}</a>` : locInfo.name;
 
-                /* Fallback con colore univoco e nome Romaji se l'immagine PNG fallisce */
                 const fallbackAvatar = getAvatarUrl(nextM, oppInfo.romajiName);
                 const t1Err = isHome ? "" : `onerror="this.onerror=null;this.src='${fallbackAvatar}';"`;
                 const t2Err = isHome ? `onerror="this.onerror=null;this.src='${fallbackAvatar}';"` : "";
 
                 if (index === 0) {
-                    // HERO CARD
                     const surfaceHtml = locInfo.surface ? `<span class="surface-badge-hero">${locInfo.surface}</span>` : '';
                     upcomingHtml += `
                         <div class="upcoming-item match-detail-card next-match-hero" data-match-category="${nextM.category}" data-match-date="${rawDate}">
@@ -729,7 +759,6 @@
                         </div>
                     `;
                 } else {
-                    // SCHEDE SUCCESSIVE
                     const surfaceHtml = locInfo.surface ? `<span class="surface-badge-card">${locInfo.surface}</span>` : '';
                     const mapsCardHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener" style="color:var(--dark-navy); text-decoration:underline;">${locInfo.name}</a>` : locInfo.name;
 
