@@ -140,44 +140,48 @@
             }
         }
 
-        .card-logo-wrap {
-            width: 55px !important;
-            height: 55px !important;
+        /* --- GESTIONE TRASPARENZA E DIMENSIONI STEMMI --- */
+        .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             flex-shrink: 0 !important;
+            background: transparent !important;
             overflow: visible !important;
+        }
+
+        .card-logo-wrap {
+            width: 55px !important;
+            height: 55px !important;
         }
 
         .hero-logo-wrap {
             width: 75px !important;
             height: 75px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            flex-shrink: 0 !important;
-            overflow: visible !important;
         }
 
-        /* STEMMI REALI: MANTENGONO LA FORMA ORIGINALE */
         .card-logo-wrap img, .hero-logo-wrap img {
             max-width: 100% !important;
             max-height: 100% !important;
+            width: auto !important;
+            height: auto !important;
             object-fit: contain !important;
+            background: transparent !important;
             border-radius: 0 !important;
             filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.12));
+        }
+
+        /* Annulla ingrandimenti per mantenere i loghi perfettamente identici */
+        img.yokohama-logo {
+            transform: none !important;
+            border-radius: 0 !important;
+            background: transparent !important;
         }
 
         /* AVATAR DI FALLBACK: CIRCOLARI */
         .card-logo-wrap img[src*="ui-avatars.com"], 
         .hero-logo-wrap img[src*="ui-avatars.com"] {
             border-radius: 50% !important;
-        }
-
-        img.yokohama-logo {
-            transform: scale(1.2) !important;
-            border-radius: 0 !important;
         }
 
         .match-vs-center {
@@ -616,7 +620,7 @@
                     
                     <div class="match-teams-wrapper">
                         <div class="teams-logos-row">
-                            <div class="card-logo-wrap"><img src="./immagini/logo.png" alt="Yokohama Calcio" id="lastTeam1Logo"></div>
+                            <div class="card-logo-wrap"><img src="./immagini/logo.png" alt="Yokohama Calcio" id="lastTeam1Logo" class="yokohama-logo"></div>
                             <div class="match-vs-center score-past" id="lastScore">-</div>
                             <div class="card-logo-wrap"><img src="" alt="Opponent" id="lastTeam2Logo" class="opponent-logo"></div>
                         </div>
@@ -650,7 +654,7 @@
                     <div id="nextMatchContent">
                         <div class="match-teams-wrapper">
                             <div class="teams-logos-row">
-                                <div class="hero-logo-wrap"><img src="./immagini/logo.png" alt="Yokohama Calcio" id="nextTeam1Logo"></div>
+                                <div class="hero-logo-wrap"><img src="./immagini/logo.png" alt="Yokohama Calcio" id="nextTeam1Logo" class="yokohama-logo"></div>
                                 <div class="match-vs-center">VS</div>
                                 <div class="hero-logo-wrap"><img src="" alt="Opponent" id="nextTeam2Logo" class="opponent-logo"></div>
                             </div>
