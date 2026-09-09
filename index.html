@@ -95,7 +95,7 @@
             font-weight: 600;
         }
 
-        /* --- STRUTTURA A 2 RIGHE (LOGHI E NOMI) IDENTICA A MATCHES.HTML --- */
+        /* --- STRUTTURA A 2 RIGHE (LOGHI E NOMI) --- */
         .match-teams-wrapper {
             display: flex !important;
             flex-direction: column !important;
@@ -147,6 +147,7 @@
             align-items: center !important;
             justify-content: center !important;
             flex-shrink: 0 !important;
+            overflow: visible !important;
         }
 
         .hero-logo-wrap {
@@ -156,20 +157,27 @@
             align-items: center !important;
             justify-content: center !important;
             flex-shrink: 0 !important;
+            overflow: visible !important;
         }
 
+        /* STEMMI REALI: MANTENGONO LA FORMA ORIGINALE */
         .card-logo-wrap img, .hero-logo-wrap img {
             max-width: 100% !important;
             max-height: 100% !important;
             object-fit: contain !important;
+            border-radius: 0 !important;
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.12));
         }
 
-        .card-logo-wrap img.opponent-logo, .hero-logo-wrap img.opponent-logo {
+        /* AVATAR DI FALLBACK: CIRCOLARI */
+        .card-logo-wrap img[src*="ui-avatars.com"], 
+        .hero-logo-wrap img[src*="ui-avatars.com"] {
             border-radius: 50% !important;
         }
 
         img.yokohama-logo {
             transform: scale(1.2) !important;
+            border-radius: 0 !important;
         }
 
         .match-vs-center {
@@ -189,7 +197,7 @@
             font-size: 1.8rem !important;
         }
 
-        /* --- SCHEDE PARTITA STANDARD E HERO IDENTICHE A MATCHES.HTML --- */
+        /* --- SCHEDE PARTITA STANDARD E HERO --- */
         .match-box-card {
             background: var(--white, #ffffff);
             border-radius: 16px;
@@ -951,8 +959,8 @@
             hash = str.charCodeAt(i) + ((hash << 5) - hash);
         }
         const hue = Math.abs(hash) % 360;
-        const saturation = 70 + (Math.abs(hash >> 3) % 20); // 70% - 90%
-        const lightness = 35 + (Math.abs(hash >> 5) % 15);  // 35% - 50%
+        const saturation = 70 + (Math.abs(hash >> 3) % 20);
+        const lightness = 35 + (Math.abs(hash >> 5) % 15);
         
         const l = lightness / 100;
         const a = saturation * Math.min(l, 1 - l) / 100;
