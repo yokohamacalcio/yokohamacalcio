@@ -217,6 +217,9 @@ body {
     }
 }
 
+/* ==========================================
+   MENU DESKTOP RIORGANIZZATO
+   ========================================== */
 .desktop-nav-wrapper {
     display: flex;
     align-items: center;
@@ -228,34 +231,33 @@ body {
     gap: 22px;
 }
 
-.main-nav a {
+.main-nav a,
+.dropdown-toggle {
     text-decoration: none;
     color: var(--dark-navy);
     font-weight: 700;
     font-size: 0.92rem;
     transition: color 0.25s ease;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
 }
 
-.main-nav a:hover {
+.main-nav a:hover,
+.dropdown:hover .dropdown-toggle {
     color: var(--primary-sky);
 }
 
-/* Dropdown Menu Desktop */
+/* Dropdown Menu Container */
 .nav-item.dropdown {
     position: relative;
     display: inline-block;
 }
 
-.dropdown-toggle {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
-}
-
 .nav-arrow {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     transition: transform 0.25s ease;
 }
 
@@ -263,13 +265,14 @@ body {
     transform: rotate(180deg);
 }
 
+/* Sottomenu Dropdown Fluttuante Desktop */
 .dropdown-menu {
     position: absolute;
     top: 100%;
     left: 50%;
     transform: translateX(-50%) translateY(10px);
     background: var(--white);
-    min-width: 170px;
+    min-width: 180px;
     box-shadow: 0 10px 25px rgba(0, 60, 130, 0.12);
     border-radius: 12px;
     padding: 8px 0;
@@ -290,6 +293,7 @@ body {
     display: block;
     padding: 10px 18px;
     font-size: 0.88rem;
+    font-weight: 600;
     color: var(--dark-navy);
     margin: 0;
     transition: background 0.2s ease, color 0.2s ease;
@@ -300,19 +304,21 @@ body {
     color: var(--primary-sky);
 }
 
-/* Bottone CTA (Contatti) */
+/* Bottone CTA Desktop (Contatti in Evidenza) */
 .nav-cta-btn {
-    background: var(--primary-sky);
+    background: var(--dark-navy) !important;
     color: var(--white) !important;
-    padding: 9px 18px;
+    padding: 8px 18px !important;
     border-radius: 20px;
+    font-weight: 800 !important;
     transition: all 0.25s ease !important;
-    box-shadow: 0 3px 10px rgba(18, 160, 215, 0.25);
+    box-shadow: 0 3px 10px rgba(0, 60, 130, 0.2);
 }
 
 .nav-cta-btn:hover {
-    background: var(--dark-navy);
-    box-shadow: 0 5px 15px rgba(0, 60, 130, 0.3);
+    background: var(--primary-sky) !important;
+    color: var(--dark-navy) !important;
+    box-shadow: 0 5px 15px rgba(18, 160, 215, 0.3);
     transform: translateY(-1px);
 }
 
@@ -596,7 +602,6 @@ body {
     height: 80px !important;
 }
 
-/* Regola universale di base per tutti i loghi nelle card: proporzioni originali, no sfondo, no cerchio */
 .card-logo-wrap img, .hero-logo-wrap img {
     max-width: 100% !important;
     max-height: 100% !important;
@@ -608,12 +613,10 @@ body {
     background-color: transparent !important;
 }
 
-/* Bagliore morbido chiaro + ombra per i loghi nelle Hero Card (sfondo scuro) */
 .hero-logo-wrap img {
     filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.45)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4)) !important;
 }
 
-/* STEMMA YOKOHAMA CALCIO: Scala calibrata per presenza visiva */
 .card-logo-wrap img.yokohama-logo,
 .hero-logo-wrap img.yokohama-logo,
 .card-logo-wrap img[src*="logo.png"],
@@ -628,7 +631,6 @@ body {
     transform: scale(1.15) !important;
 }
 
-/* LOGHI AVVERSARI STANDARD: Trasparenza, sagoma originale e bilanciamento della scala */
 .card-logo-wrap img.opponent-logo,
 .hero-logo-wrap img.opponent-logo {
     border-radius: 0 !important;
@@ -646,7 +648,6 @@ body {
     transform: scale(1.1) !important;
 }
 
-/* AVATAR DI FALLBACK (UI-AVATARS): Sfondo bianco e forma circolare SOLO se il logo non è disponibile */
 .card-logo-wrap img[src*="ui-avatars.com"], 
 .hero-logo-wrap img[src*="ui-avatars.com"] {
     border-radius: 50% !important;
@@ -719,7 +720,6 @@ body {
     opacity: 1;
 }
 
-/* Lightbox Modal Schermo Intero Essenziale */
 .lightbox-modal {
     position: fixed;
     inset: 0;
@@ -1553,7 +1553,6 @@ body {
     color: #64748b;
 }
 
-/* STRUTTURA A COLONNE INDIPENDENTI PER PERFECT CENTERING */
 .match-teams-wrapper {
     display: grid !important;
     grid-template-columns: 1fr auto 1fr !important;
@@ -1604,7 +1603,6 @@ body {
     font-size: 2.5rem !important;
 }
 
-/* Punteggio orizzontale per i match passati */
 .score-past {
     display: flex !important;
     flex-direction: row !important;
@@ -1681,7 +1679,7 @@ body {
 }
 
 /* ==========================================
-   MOBILE RESPONSIVE OPTIMIZATIONS
+   MOBILE RESPONSIVE OPTIMIZATIONS & MENU MOBILE
    ========================================== */
 .mobile-menu-toggle {
     display: none;
@@ -1693,8 +1691,8 @@ body {
 }
 
 @media (max-width: 1024px) and (orientation: portrait), (max-width: 768px) {
-    .desktop-nav-wrapper { display: none; }
-    .mobile-menu-toggle { display: block; }
+    .desktop-nav-wrapper { display: none !important; }
+    .mobile-menu-toggle { display: block !important; }
 
     .brand-name {
         font-size: 1.6rem;
@@ -1709,27 +1707,106 @@ body {
         padding: 22px 18px;
     }
     
+    /* --- ESTRUTTURA E STILE MENU MOBILE PROFESSIONALE --- */
     .mobile-nav {
+        position: fixed;
+        top: 70px; /* Offset rispetto all'header sticky */
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: #001f42; /* Sfondo dark navy coordinato */
+        color: var(--white);
+        overflow-y: auto;
+        transition: all 0.3s ease;
+        z-index: 1000;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .mobile-nav.hidden {
+        display: none !important;
+    }
+
+    .mobile-nav-content {
         display: flex;
         flex-direction: column;
-        background: var(--white);
-        padding: 15px 25px 25px;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        z-index: 1001;
-        box-shadow: 0 10px 25px rgba(0, 60, 130, 0.15);
-        border-top: 1px solid #f1f5f9;
+        gap: 8px;
+        max-width: 420px;
+        margin: 0 auto;
     }
-    
-    .mobile-nav a {
-        padding: 14px 0;
-        text-decoration: none;
-        color: var(--dark-navy);
-        font-weight: 600;
-        border-bottom: 1px solid #f1f5f9;
+
+    .mobile-link, 
+    .mobile-dropdown-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 14px 16px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: var(--white);
         font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        box-sizing: border-box;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+    .mobile-link:hover, 
+    .mobile-dropdown-toggle:hover {
+        background: rgba(255, 255, 255, 0.12);
+    }
+
+    /* Accordion Sottomenu Mobile */
+    .mobile-submenu {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding-left: 20px;
+        margin-top: 6px;
+        margin-bottom: 6px;
+    }
+
+    .mobile-submenu.hidden {
+        display: none !important;
+    }
+
+    .mobile-link.sub {
+        background: rgba(0, 60, 130, 0.4);
+        font-size: 0.9rem;
+        padding: 10px 14px;
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    /* Pulsante CTA Mobile Fissa in Basso */
+    .mobile-cta-wrapper {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .mobile-cta-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 14px;
+        background: var(--primary-sky);
+        color: var(--dark-navy);
+        border-radius: 8px;
+        font-weight: 800;
+        font-size: 1rem;
+        text-decoration: none;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        transition: background 0.2s ease;
+    }
+
+    .mobile-cta-btn:hover {
+        background: var(--white);
     }
 
     .mobile-social-icons {
@@ -1740,7 +1817,7 @@ body {
     }
 
     .mobile-social-icons a {
-        color: var(--dark-navy);
+        color: var(--white);
         font-size: 1.3rem;
     }
 
