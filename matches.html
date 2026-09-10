@@ -172,11 +172,15 @@
 
         .next-match-info-item a {
             color: var(--primary-sky, #87ceeb);
-            text-decoration: underline;
+            text-decoration: none;
             font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .next-match-info-item a:hover {
+            text-decoration: underline;
             color: #ffffff;
         }
 
@@ -736,7 +740,7 @@
                 let t2Logo = isHome ? oppInfo.logo : './immagini/logo.png';
                 let t2Class = isHome ? 'opponent-logo' : 'yokohama-logo';
 
-                const mapsHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener">${locInfo.name}</a>` : locInfo.name;
+                const mapsHeroHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener"><span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.72rem; opacity: 0.8; margin-left: 3px;"></i></a>` : locInfo.name;
 
                 const fallbackAvatar = getAvatarUrl(nextM, oppInfo.romajiName);
                 const t1Err = isHome ? "" : `onerror="this.onerror=null;this.src='${fallbackAvatar}';"`;
@@ -762,13 +766,14 @@
                             </div>
                             <div class="next-match-info">
                                 <div class="next-match-info-item"><i class="fas fa-calendar-alt" style="color: var(--primary-sky);"></i><span>${formattedDate}</span></div>
-                                <div class="next-match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>${nextM.time || ''} K.O.</span></div>
-                                <div class="next-match-info-item venue-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i>${mapsHtml}</div>
+                                ${nextM.time ? `<div class="next-match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>${nextM.time} K.O.</span></div>` : ''}
+                                ${locInfo.surface ? `<div class="next-match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>${locInfo.surface}</span></div>` : ''}
+                                <div class="next-match-info-item venue-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i>${mapsHeroHtml}</div>
                             </div>
                         </div>
                     `;
                 } else {
-                    const mapsCardHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener" style="color:var(--dark-navy); text-decoration:underline;">${locInfo.name}</a>` : locInfo.name;
+                    const mapsCardHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener" style="color:var(--dark-navy); text-decoration:none;"><span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.72rem; opacity: 0.8; margin-left: 3px;"></i></a>` : locInfo.name;
 
                     upcomingHtml += `
                         <div class="upcoming-item match-detail-card" data-match-category="${nextM.category}" data-match-date="${rawDate}" style="display: none;">
@@ -787,7 +792,7 @@
                                     <span title="${t2Name}">${t2Name}</span>
                                 </div>
                             </div>
-                            <div style="padding: 12px 15px; background: #f8fafc; border-top: 1px solid #e2e8f0; border-radius: 0 0 8px 8px; font-size: 0.88rem; display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px;">
+                            <div style="padding: 12px 15px; background: #f8fafc; border-top: 1px solid #e2e8f0; border-radius: 0 0 8px 8px; font-size: 0.88rem; display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
                                 <div><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i> <strong data-i18n="label.venue">会場:</strong> ${mapsCardHtml}</div>
                                 ${locInfo.surface ? `<div><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> <strong data-i18n="label.surface">ピッチ:</strong> ${locInfo.surface}</div>` : ''}
                                 ${nextM.time ? `<div><i class="fas fa-clock" style="color: var(--primary-sky);"></i> <strong data-i18n="label.kickoff">キックオフ:</strong> ${nextM.time}</div>` : ''}
@@ -884,7 +889,7 @@
                 }
             }
 
-            const mapsHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener" style="color:var(--dark-navy); text-decoration:underline;">${locInfo.name}</a>` : locInfo.name;
+            const mapsHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener" style="color:var(--dark-navy); text-decoration:none;"><span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.72rem; opacity: 0.8; margin-left: 3px;"></i></a>` : locInfo.name;
 
             const scorersTranslated = translatePlayerText(m.scorers, currentLang);
             const assistsTranslated = translatePlayerText(m.assists, currentLang);
