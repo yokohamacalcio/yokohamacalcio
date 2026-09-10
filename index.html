@@ -561,7 +561,7 @@
     </div>
   </div>
 
-  <!-- MENU MOBILE NUOVO CON ACCORDION -->
+  <!-- MENU MOBILE CON ACCORDION E CHIUSURA AUTOMATICA -->
   <nav class="mobile-nav hidden">
     <div class="mobile-nav-content">
       <div class="mobile-dropdown-group">
@@ -1467,23 +1467,26 @@
         initCompactGallery();
     });
 
-    /* GESTIONE NUOVO MENU MOBILE & ACCORDION */
+    /* GESTIONE NUOVO MENU MOBILE & ACCORDION (CON CHIUSURA AUTOMATICA & CLICK OUTSIDE) */
     const menuBtn = document.querySelector('.mobile-menu-toggle');
     const mobileNav = document.querySelector('.mobile-nav');
     const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
     const mobileSubmenu = document.querySelector('.mobile-submenu');
-    
+
     if (menuBtn && mobileNav) {
-        menuBtn.addEventListener('click', () => {
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             mobileNav.classList.toggle('hidden');
             const icon = menuBtn.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
+            if (icon) {
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            }
         });
 
-        // Toggle Accordion per il Gruppo Team
         if (mobileDropdownToggle && mobileSubmenu) {
-            mobileDropdownToggle.addEventListener('click', () => {
+            mobileDropdownToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
                 mobileSubmenu.classList.toggle('hidden');
                 const arrow = mobileDropdownToggle.querySelector('.mobile-arrow');
                 if (arrow) {
@@ -1493,10 +1496,20 @@
             });
         }
 
-        // Chiusura menu al click sui link
         document.querySelectorAll('.mobile-link, .mobile-cta-btn').forEach(link => {
             link.addEventListener('click', () => {
-                if (!link.classList.contains('sub')) {
+                mobileNav.classList.add('hidden');
+                const icon = menuBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!mobileNav.classList.contains('hidden')) {
+                if (!mobileNav.contains(e.target) && !menuBtn.contains(e.target)) {
                     mobileNav.classList.add('hidden');
                     const icon = menuBtn.querySelector('i');
                     if (icon) {
@@ -1504,7 +1517,7 @@
                         icon.classList.remove('fa-times');
                     }
                 }
-            });
+            }
         });
     }
 
