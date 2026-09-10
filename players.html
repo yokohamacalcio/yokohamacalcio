@@ -17,6 +17,61 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
+        /* --- STILE OVERLAY MENU MOBILE DRAWER --- */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 15, 35, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .mobile-nav.hidden {
+            display: none !important;
+        }
+
+        .mobile-nav-content {
+            background: #ffffff;
+            width: 85%;
+            max-width: 320px;
+            height: 100%;
+            overflow-y: auto;
+            padding: 20px 18px;
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .mobile-nav-close {
+            background: transparent;
+            border: none;
+            font-size: 1.4rem;
+            color: var(--dark-navy, #003c82);
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+
+        .mobile-nav-close:active {
+            background: #f1f5f9;
+        }
+
+        /* --- SCHEDE GIOCATORI --- */
         .player-card {
             perspective: 1000px;
             -webkit-perspective: 1000px;
@@ -310,21 +365,40 @@
         </a>
       </div>
 
+      <!-- DESKTOP NAV RIORGANIZZATA -->
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
+          <!-- Dropdown Club -->
           <div class="nav-item dropdown">
-            <a href="index.html#about" class="dropdown-toggle"><span data-i18n="nav.team">チーム</span> <i class="fas fa-chevron-down nav-arrow"></i></a>
+            <a href="index.html#about" class="dropdown-toggle">
+              <span data-i18n="nav.about_group">クラブ</span> 
+              <i class="fas fa-chevron-down nav-arrow"></i>
+            </a>
             <div class="dropdown-menu">
               <a href="index.html#about" data-i18n="nav.about">チーム紹介</a>
-              <a href="players.html" style="color: var(--primary-sky);" data-i18n="nav.players">選手紹介</a>
-              <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
               <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
+              <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
             </div>
           </div>
+
+          <!-- Dropdown Squadra -->
+          <div class="nav-item dropdown">
+            <a href="players.html" class="dropdown-toggle" style="color: var(--primary-sky);">
+              <span data-i18n="nav.team_group">チーム・選手</span> 
+              <i class="fas fa-chevron-down nav-arrow"></i>
+            </a>
+            <div class="dropdown-menu">
+              <a href="players.html" style="color: var(--primary-sky); font-weight: 700;" data-i18n="nav.players">選手紹介</a>
+              <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
+            </div>
+          </div>
+
+          <!-- Link Diretti -->
           <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
           <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
-          <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
+
+          <!-- CTA Contatti -->
           <a href="index.html#contact" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
         </nav>
       </div>
@@ -335,16 +409,48 @@
     </div>
   </div>
 
+  <!-- MENU MOBILE CON CHIUSURA FACILE & PULSANTE X -->
   <nav class="mobile-nav hidden">
-    <a href="index.html#about" class="mobile-link" data-i18n="nav.about">チーム紹介</a>
-    <a href="players.html" class="mobile-link" data-i18n="nav.players">選手紹介</a>
-    <a href="stats.html" class="mobile-link" data-i18n="nav.stats">成績・スタッツ</a>
-    <a href="index.html#gallery" class="mobile-link" data-i18n="nav.gallery">ギャラリー</a>
-    <a href="matches.html" class="mobile-link" data-i18n="nav.matches">試合日程・結果</a>
-    <a href="index.html#shop" class="mobile-link" data-i18n="nav.shop">ショップ</a>
-    <a href="index.html#sponsors" class="mobile-link" data-i18n="nav.sponsors">パートナー</a>
-    <a href="faq.html" class="mobile-link" data-i18n="nav.faq">よくある質問</a>
-    <a href="index.html#contact" class="mobile-link mobile-cta" data-i18n="nav.contact">お問い合わせ</a>
+    <div class="mobile-nav-content">
+      <div class="mobile-nav-header">
+        <div class="logo-title" style="margin: 0;">
+          <span class="brand-name" style="font-size: 1.1rem;">YOKOHAMA <span class="brand-sub">CALCIO</span></span>
+        </div>
+        <button class="mobile-nav-close" aria-label="Chiudi"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="mobile-dropdown-group">
+        <button class="mobile-dropdown-toggle">
+          <span><i class="fas fa-shield-alt" style="color: var(--primary-sky); width: 24px;"></i> <span data-i18n="nav.team_group">チーム・選手</span></span>
+          <i class="fas fa-chevron-down mobile-arrow"></i>
+        </button>
+        <div class="mobile-submenu hidden">
+          <a href="index.html#about" class="mobile-link sub" data-i18n="nav.about">チーム紹介</a>
+          <a href="players.html" class="mobile-link sub" style="color: var(--primary-sky); font-weight: 800;" data-i18n="nav.players">選手紹介</a>
+          <a href="stats.html" class="mobile-link sub" data-i18n="nav.stats">成績・スタッツ</a>
+          <a href="index.html#gallery" class="mobile-link sub" data-i18n="nav.gallery">ギャラリー</a>
+        </div>
+      </div>
+
+      <a href="matches.html" class="mobile-link">
+        <i class="fas fa-calendar-alt" style="color: var(--primary-sky); width: 24px;"></i> <span data-i18n="nav.matches">試合日程・結果</span>
+      </a>
+      <a href="index.html#shop" class="mobile-link">
+        <i class="fas fa-shopping-bag" style="color: var(--primary-sky); width: 24px;"></i> <span data-i18n="nav.shop">ショップ</span>
+      </a>
+      <a href="index.html#sponsors" class="mobile-link">
+        <i class="fas fa-handshake" style="color: var(--primary-sky); width: 24px;"></i> <span data-i18n="nav.sponsors">パートナー</span>
+      </a>
+      <a href="faq.html" class="mobile-link">
+        <i class="fas fa-question-circle" style="color: var(--primary-sky); width: 24px;"></i> <span data-i18n="nav.faq">よくある質問</span>
+      </a>
+
+      <div class="mobile-cta-wrapper">
+        <a href="index.html#contact" class="mobile-cta-btn">
+          <i class="fas fa-paper-plane"></i> <span data-i18n="nav.contact">お問い合わせ</span>
+        </a>
+      </div>
+    </div>
   </nav>
 </header>
 
@@ -456,6 +562,7 @@
 
     const translations = {
         ja: {
+            "nav.about_group": "クラブ", "nav.team_group": "チーム・選手",
             "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
             "nav.matches": "試合日程・結果", "nav.club": "クラブ", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー",
             "nav.faq": "よくある質問", "nav.shop": "ショップ", "nav.contact": "お問い合わせ",
@@ -470,6 +577,7 @@
             "label.staff_role": "役割:", "role.manager": "マネージャー", "unit.age": "歳"
         },
         it: {
+            "nav.about_group": "CLUB", "nav.team_group": "SQUADRA",
             "nav.team": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
             "nav.matches": "Partite & Risultati", "nav.club": "CLUB", "nav.gallery": "Galleria", "nav.sponsors": "Partner",
             "nav.faq": "FAQ", "nav.contact": "Contatti",
@@ -484,6 +592,7 @@
             "label.staff_role": "Ruolo:", "role.manager": "Manager", "unit.age": "anni"
         },
         en: {
+            "nav.about_group": "CLUB", "nav.team_group": "TEAM",
             "nav.team": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
             "nav.matches": "Matches & Results", "nav.club": "CLUB", "nav.gallery": "Gallery", "nav.sponsors": "Partners",
             "nav.faq": "FAQ", "nav.shop": "Shop", "nav.contact": "Contact Us",
@@ -544,7 +653,6 @@
         }) || null;
     }
 
-    // Calcola il conteggio dei cognomi per identificare gli omonimi
     function calculateSurnameCounts(players) {
         surnameCounts = {};
         players.forEach(p => {
@@ -555,7 +663,6 @@
         });
     }
 
-    // Estrae il cognome base in maiuscolo
     function getBaseSurname(nameRomaji, nameKanji) {
         const raw = (nameRomaji && nameRomaji !== '-') ? nameRomaji : nameKanji;
         if (!raw || raw === '-') return '';
@@ -571,7 +678,6 @@
         return parts[0].toUpperCase();
     }
 
-    // Genera il cognome da mostrare sulla maglia (aggiunge l'iniziale del nome se ci sono omonimi)
     function getSurnameRomaji(nameRomaji, nameKanji) {
         const raw = (nameRomaji && nameRomaji !== '-') ? nameRomaji : nameKanji;
         if (!raw || raw === '-') return 'YOKOHAMA';
@@ -579,7 +685,6 @@
         const surname = getBaseSurname(nameRomaji, nameKanji);
         const parts = raw.trim().split(/\s+/);
 
-        // Se c'è più di un giocatore con questo cognome, aggiunge l'iniziale del nome (es. FUKUDA K.)
         if (surnameCounts[surname] > 1 && parts.length > 1) {
             const firstName = parts[parts.length - 1];
             const initial = firstName.charAt(0).toUpperCase();
@@ -778,7 +883,6 @@
                     }
                 }
 
-                // 1. Calcolo Marcatori
                 if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
                     const entries = m.scorers.split(/[,、]/);
                     entries.forEach(entry => {
@@ -798,7 +902,6 @@
                     });
                 }
 
-                // 2. Calcolo Assistman
                 if (m.assists && m.assists !== 'なし' && m.assists !== 'Nessuno') {
                     const entries = m.assists.split(/[,、]/);
                     entries.forEach(entry => {
@@ -809,22 +912,18 @@
                     });
                 }
 
-                // 3. MVP
                 if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
                     m.mvp.split(/[,、]/).forEach(name => addStat(mvpCounts, name));
                 }
 
-                // 4. Cartellini Gialli
                 if (m.yellow_cards && m.yellow_cards !== 'なし' && m.yellow_cards !== 'Nessuno') {
                     m.yellow_cards.split(/[,、]/).forEach(name => addStat(yellowCounts, name));
                 }
 
-                // 5. Cartellini Rossi
                 if (m.red_cards && m.red_cards !== 'なし' && m.red_cards !== 'Nessuno') {
                     m.red_cards.split(/[,、]/).forEach(name => addStat(redCounts, name));
                 }
 
-                // 6. Portieri
                 let handledGK = false;
                 if (m.goalkeepers && m.goalkeepers.trim() !== '') {
                     m.goalkeepers.split(/[,、]/).forEach(entry => {
@@ -894,7 +993,6 @@
         globalPlayers = players;
         calculateSurnameCounts(players);
 
-        // Ordinamento giocatori per numero (i senza numero in fondo)
         const sortedPlayers = [...players].sort((a, b) => {
             const numA = (a.number !== null && a.number !== undefined) ? parseInt(a.number, 10) : Infinity;
             const numB = (b.number !== null && b.number !== undefined) ? parseInt(b.number, 10) : Infinity;
@@ -931,22 +1029,66 @@
         loadPlayersJSON();
     });
 
-    const menuBtn = document.querySelector('.mobile-menu-toggle');
+    /* GESTIONE NUOVO MENU MOBILE & DRAWER SLIDE */
+    const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
     const mobileNav = document.querySelector('.mobile-nav');
-    const mobileLinks = document.querySelectorAll('.mobile-link');
-    if (menuBtn && mobileNav) {
-        menuBtn.addEventListener('click', () => {
-            mobileNav.classList.toggle('hidden');
-            const icon = menuBtn.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
+    const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
+    const mobileSubmenu = document.querySelector('.mobile-submenu');
+    const mobileCloseBtn = document.querySelector('.mobile-nav-close');
+
+    function closeMobileMenu() {
+        if (mobileNav) {
+            mobileNav.classList.add('hidden');
+            if (mobileMenuBtn) {
+                const icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
+                }
+            }
+        }
+    }
+
+    if (mobileMenuBtn && mobileNav) {
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isHidden = mobileNav.classList.contains('hidden');
+            if (isHidden) {
+                mobileNav.classList.remove('hidden');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                }
+            } else {
+                closeMobileMenu();
+            }
         });
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileNav.classList.add('hidden');
-                menuBtn.querySelector('i').classList.add('fa-bars');
-                menuBtn.querySelector('i').classList.remove('fa-times');
+
+        if (mobileDropdownToggle && mobileSubmenu) {
+            mobileDropdownToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileSubmenu.classList.toggle('hidden');
+                const arrow = mobileDropdownToggle.querySelector('.mobile-arrow');
+                if (arrow) {
+                    arrow.classList.toggle('fa-chevron-down');
+                    arrow.classList.toggle('fa-chevron-up');
+                }
             });
+        }
+
+        document.querySelectorAll('.mobile-link, .mobile-cta-btn').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        if (mobileCloseBtn) {
+            mobileCloseBtn.addEventListener('click', closeMobileMenu);
+        }
+
+        mobileNav.addEventListener('click', (e) => {
+            if (!e.target.closest('.mobile-nav-content') && !mobileMenuBtn.contains(e.target)) {
+                closeMobileMenu();
+            }
         });
     }
 
