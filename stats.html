@@ -15,6 +15,151 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
+        /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO --- */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 10, 25, 0.75);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .mobile-nav.hidden {
+            display: none !important;
+        }
+
+        .mobile-nav-content {
+            background: linear-gradient(145deg, #00224a 0%, #001229 100%);
+            color: #ffffff;
+            width: 100%;
+            max-width: 380px;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(135, 206, 235, 0.25);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+        }
+
+        .mobile-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .mobile-nav-header .brand-name {
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .mobile-nav-header .brand-sub {
+            color: #87ceeb;
+        }
+
+        .mobile-nav-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1.1rem;
+            color: #ffffff;
+            cursor: pointer;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-nav-close:active {
+            background: #87ceeb;
+            color: #00224a;
+        }
+
+        .mobile-link {
+            color: #ffffff !important;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 10px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+
+        .mobile-link:hover, .mobile-link:active {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .mobile-dropdown-toggle {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #ffffff !important;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 10px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .mobile-submenu {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
+            padding: 4px 0 4px 10px;
+            margin: 4px 0 8px 8px;
+            border-left: 2px solid #87ceeb;
+        }
+
+        .mobile-submenu .mobile-link.sub {
+            font-size: 0.88rem;
+            padding: 8px 10px;
+            color: #e2e8f0 !important;
+        }
+
+        .mobile-cta-wrapper {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .mobile-cta-btn {
+            background: #87ceeb;
+            color: #00224a !important;
+            font-weight: 800;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        /* --- STILI STATISTICHE & CLASSIFICHE --- */
         .show-more-btn {
             display: inline-flex;
             align-items: center;
@@ -47,7 +192,6 @@
             transform: rotate(180deg);
         }
 
-        /* Struttura della riga di classifica */
         .ranking-item {
             display: flex;
             justify-content: space-between;
@@ -84,7 +228,6 @@
             display: inline-block;
         }
 
-        /* Blocco Statistiche Portiere (Destra) */
         .gk-stats-detail {
             display: flex;
             flex-direction: column;
@@ -174,16 +317,48 @@
     </div>
   </div>
 
+  <!-- MENU MOBILE MODALE SCURO -->
   <nav class="mobile-nav hidden">
-    <a href="index.html#about" class="mobile-link" data-i18n="nav.about">チーム紹介</a>
-    <a href="players.html" class="mobile-link" data-i18n="nav.players">選手紹介</a>
-    <a href="stats.html" class="mobile-link" data-i18n="nav.stats">成績・スタッツ</a>
-    <a href="index.html#gallery" class="mobile-link" data-i18n="nav.gallery">ギャラリー</a>
-    <a href="matches.html" class="mobile-link" data-i18n="nav.matches">試合日程・結果</a>
-    <a href="index.html#shop" class="mobile-link" data-i18n="nav.shop">ショップ</a>
-    <a href="index.html#sponsors" class="mobile-link" data-i18n="nav.sponsors">パートナー</a>
-    <a href="faq.html" class="mobile-link" data-i18n="nav.faq">よくある質問</a>
-    <a href="index.html#contact" class="mobile-link mobile-cta" data-i18n="nav.contact">お問い合わせ</a>
+    <div class="mobile-nav-content">
+      <div class="mobile-nav-header">
+        <div class="logo-title" style="margin: 0;">
+          <span class="brand-name">YOKOHAMA <span class="brand-sub">CALCIO</span></span>
+        </div>
+        <button class="mobile-nav-close" aria-label="Chiudi"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="mobile-dropdown-group">
+        <button class="mobile-dropdown-toggle">
+          <span><i class="fas fa-shield-alt" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.team_group">チーム・選手</span></span>
+          <i class="fas fa-chevron-down mobile-arrow" style="color: #87ceeb;"></i>
+        </button>
+        <div class="mobile-submenu hidden">
+          <a href="index.html#about" class="mobile-link sub" data-i18n="nav.about">チーム紹介</a>
+          <a href="players.html" class="mobile-link sub" data-i18n="nav.players">選手紹介</a>
+          <a href="stats.html" class="mobile-link sub" style="color: #87ceeb !important; font-weight: 800;" data-i18n="nav.stats">成績・スタッツ</a>
+          <a href="index.html#gallery" class="mobile-link sub" data-i18n="nav.gallery">ギャラリー</a>
+        </div>
+      </div>
+
+      <a href="matches.html" class="mobile-link">
+        <i class="fas fa-calendar-alt" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.matches">試合日程・結果</span>
+      </a>
+      <a href="index.html#shop" class="mobile-link">
+        <i class="fas fa-shopping-bag" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.shop">ショップ</span>
+      </a>
+      <a href="index.html#sponsors" class="mobile-link">
+        <i class="fas fa-handshake" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.sponsors">パートナー</span>
+      </a>
+      <a href="faq.html" class="mobile-link">
+        <i class="fas fa-question-circle" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.faq">よくある質問</span>
+      </a>
+
+      <div class="mobile-cta-wrapper">
+        <a href="index.html#contact" class="mobile-cta-btn">
+          <i class="fas fa-paper-plane"></i> <span data-i18n="nav.contact">お問い合わせ</span>
+        </a>
+      </div>
+    </div>
   </nav>
 </header>
 
@@ -398,7 +573,7 @@
 
     const translations = {
         ja: {
-            "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
+            "nav.team": "チーム", "nav.team_group": "チーム・選手", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
             "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.shop": "ショップ", "nav.sponsors": "パートナー",
             "nav.faq": "よくある質問", "nav.contact": "お問い合わせ", "stats.title": "チーム・個人戦績",
             "stats.season_label": "シーズン:", "stats.all_seasons": "全期間 (All Time)", "stats.sec_team": "チーム戦績",
@@ -416,7 +591,7 @@
             "btn.back_home": "ホームに戻る", "btn.show_more": "もっと見る", "btn.show_less": "閉じる"
         },
         it: {
-            "nav.team": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
+            "nav.team": "SQUADRA", "nav.team_group": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
             "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.shop": "Shop", "nav.sponsors": "Partner",
             "nav.faq": "FAQ", "nav.contact": "Contatti", "stats.title": "Statistiche Squadra & Singoli",
             "stats.season_label": "Stagione:", "stats.all_seasons": "Tutte le stagioni", "stats.sec_team": "Statistiche di Squadra",
@@ -434,7 +609,7 @@
             "btn.back_home": "Torna alla Home", "btn.show_more": "Mostra tutti", "btn.show_less": "Mostra meno"
         },
         en: {
-            "nav.team": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
+            "nav.team": "TEAM", "nav.team_group": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
             "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.shop": "Shop", "nav.sponsors": "Partners",
             "nav.faq": "FAQ", "nav.contact": "Contact Us", "stats.title": "Team & Player Stats",
             "stats.season_label": "Season:", "stats.all_seasons": "All Time", "stats.sec_team": "Team Statistics",
@@ -547,29 +722,66 @@
         });
     });
 
-    const menuBtn = document.querySelector('.mobile-menu-toggle');
+    /* LOGICA GESTIONE MENU MOBILE MODALE */
+    const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
     const mobileNav = document.querySelector('.mobile-nav');
-    const mobileLinks = document.querySelectorAll('.mobile-link');
-    
-    if (menuBtn && mobileNav) {
-        menuBtn.addEventListener('click', () => {
-            mobileNav.classList.toggle('hidden');
-            const icon = menuBtn.querySelector('i');
-            if (icon) {
-                icon.classList.toggle('fa-bars');
-                icon.classList.toggle('fa-times');
-            }
-        });
+    const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
+    const mobileSubmenu = document.querySelector('.mobile-submenu');
+    const mobileCloseBtn = document.querySelector('.mobile-nav-close');
 
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileNav.classList.add('hidden');
-                const icon = menuBtn.querySelector('i');
+    function closeMobileMenu() {
+        if (mobileNav) {
+            mobileNav.classList.add('hidden');
+            if (mobileMenuBtn) {
+                const icon = mobileMenuBtn.querySelector('i');
                 if (icon) {
                     icon.classList.add('fa-bars');
                     icon.classList.remove('fa-times');
                 }
+            }
+        }
+    }
+
+    if (mobileMenuBtn && mobileNav) {
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isHidden = mobileNav.classList.contains('hidden');
+            if (isHidden) {
+                mobileNav.classList.remove('hidden');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                }
+            } else {
+                closeMobileMenu();
+            }
+        });
+
+        if (mobileDropdownToggle && mobileSubmenu) {
+            mobileDropdownToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileSubmenu.classList.toggle('hidden');
+                const arrow = mobileDropdownToggle.querySelector('.mobile-arrow');
+                if (arrow) {
+                    arrow.classList.toggle('fa-chevron-down');
+                    arrow.classList.toggle('fa-chevron-up');
+                }
             });
+        }
+
+        document.querySelectorAll('.mobile-link, .mobile-cta-btn').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        if (mobileCloseBtn) {
+            mobileCloseBtn.addEventListener('click', closeMobileMenu);
+        }
+
+        mobileNav.addEventListener('click', (e) => {
+            if (!e.target.closest('.mobile-nav-content') && !mobileMenuBtn.contains(e.target)) {
+                closeMobileMenu();
+            }
         });
     }
 
@@ -815,7 +1027,7 @@
                 }
             }
 
-            // 1. MARCATORI (gestisce x2, X2, *2)
+            // 1. MARCATORI
             if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
                 const entries = m.scorers.split(/[,、]/);
                 entries.forEach(entry => {
@@ -824,7 +1036,7 @@
                 });
             }
 
-            // 2. ASSISTMAN (dal campo dedicato "assists")
+            // 2. ASSISTMAN
             if (m.assists && m.assists !== 'なし' && m.assists !== 'Nessuno') {
                 const entries = m.assists.split(/[,、]/);
                 entries.forEach(entry => {
@@ -932,7 +1144,6 @@
         updateDiscRow('fr', stats.friendly);
         updateDiscRow('tot', tot);
 
-        // Rendering classifiche standard
         const renderRanking = (elementId, dataMap, unitKey, sortAscending = false) => {
             const list = document.getElementById(elementId);
             if (!list) return;
@@ -987,7 +1198,6 @@
             }
         };
 
-        // Rendering DEDICATO per Portieri (Mostra Gol Subiti, Presenze e Media a partita)
         const renderGKRanking = () => {
             const list = document.getElementById('gk-ranking');
             if (!list) return;
