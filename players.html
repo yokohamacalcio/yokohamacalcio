@@ -17,34 +17,43 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* --- STILE OVERLAY MENU MOBILE DRAWER --- */
+        /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO --- */
         .mobile-nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 15, 35, 0.6);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 10, 25, 0.75);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             z-index: 9999;
             display: flex;
-            justify-content: flex-end;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 15px;
+            box-sizing: border-box;
         }
 
         .mobile-nav.hidden {
             display: none !important;
         }
 
+        /* Pannello Menu: Card Elegante in Sfondo Blu Navy */
         .mobile-nav-content {
-            background: #ffffff;
-            width: 85%;
-            max-width: 320px;
-            height: 100%;
+            background: linear-gradient(145deg, #00224a 0%, #001229 100%);
+            color: #ffffff;
+            width: 100%;
+            max-width: 380px;
+            max-height: 85vh;
             overflow-y: auto;
-            padding: 20px 18px;
-            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.25);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(135, 206, 235, 0.25);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
+            margin-top: 10px;
         }
 
         .mobile-nav-header {
@@ -52,23 +61,105 @@
             justify-content: space-between;
             align-items: center;
             padding-bottom: 12px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .mobile-nav-header .brand-name {
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .mobile-nav-header .brand-sub {
+            color: #87ceeb;
         }
 
         .mobile-nav-close {
-            background: transparent;
-            border: none;
-            font-size: 1.4rem;
-            color: var(--dark-navy, #003c82);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1.1rem;
+            color: #ffffff;
             cursor: pointer;
-            padding: 6px 10px;
-            border-radius: 6px;
-            transition: background 0.2s ease;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
         }
 
         .mobile-nav-close:active {
-            background: #f1f5f9;
+            background: #87ceeb;
+            color: #00224a;
+        }
+
+        .mobile-link {
+            color: #ffffff !important;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 10px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+
+        .mobile-link:hover, .mobile-link:active {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .mobile-dropdown-toggle {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #ffffff !important;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 10px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .mobile-submenu {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
+            padding: 4px 0 4px 10px;
+            margin: 4px 0 8px 8px;
+            border-left: 2px solid #87ceeb;
+        }
+
+        .mobile-submenu .mobile-link.sub {
+            font-size: 0.88rem;
+            padding: 8px 10px;
+            color: #e2e8f0 !important;
+        }
+
+        .mobile-cta-wrapper {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .mobile-cta-btn {
+            background: #87ceeb;
+            color: #00224a !important;
+            font-weight: 800;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
         }
 
         /* --- SCHEDE GIOCATORI --- */
@@ -150,7 +241,6 @@
             pointer-events: none;
         }
 
-        /* Maglia Portiere Gialla #FFD500 e #E59400 */
         .player-body-jersey.jersey-gk {
             background: linear-gradient(135deg, #FFD500 0%, #E59400 100%);
         }
@@ -200,7 +290,6 @@
                  0px   3px 8px rgba(0,0,0,0.4);
         }
 
-        /* Nome e Numero Portiere Neri con Bordo Bianco */
         .jersey-gk .jersey-surname-large {
             color: #000000;
             text-shadow: 
@@ -278,7 +367,6 @@
             background: #fafafa;
         }
 
-        /* Nessuna scrollbar sul retro delle schede */
         .player-details-inner {
             padding: 8px 12px;
             flex-grow: 1;
@@ -365,10 +453,9 @@
         </a>
       </div>
 
-      <!-- DESKTOP NAV RIORGANIZZATA -->
+      <!-- DESKTOP NAV -->
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
-          <!-- Dropdown Club -->
           <div class="nav-item dropdown">
             <a href="index.html#about" class="dropdown-toggle">
               <span data-i18n="nav.about_group">クラブ</span> 
@@ -381,7 +468,6 @@
             </div>
           </div>
 
-          <!-- Dropdown Squadra -->
           <div class="nav-item dropdown">
             <a href="players.html" class="dropdown-toggle" style="color: var(--primary-sky);">
               <span data-i18n="nav.team_group">チーム・選手</span> 
@@ -393,12 +479,9 @@
             </div>
           </div>
 
-          <!-- Link Diretti -->
           <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
           <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
-
-          <!-- CTA Contatti -->
           <a href="index.html#contact" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
         </nav>
       </div>
@@ -409,40 +492,40 @@
     </div>
   </div>
 
-  <!-- MENU MOBILE CON CHIUSURA FACILE & PULSANTE X -->
+  <!-- MENU MOBILE MODALE SCURO -->
   <nav class="mobile-nav hidden">
     <div class="mobile-nav-content">
       <div class="mobile-nav-header">
         <div class="logo-title" style="margin: 0;">
-          <span class="brand-name" style="font-size: 1.1rem;">YOKOHAMA <span class="brand-sub">CALCIO</span></span>
+          <span class="brand-name">YOKOHAMA <span class="brand-sub">CALCIO</span></span>
         </div>
         <button class="mobile-nav-close" aria-label="Chiudi"><i class="fas fa-times"></i></button>
       </div>
 
       <div class="mobile-dropdown-group">
         <button class="mobile-dropdown-toggle">
-          <span><i class="fas fa-shield-alt" style="color: var(--primary-sky); width: 24px;"></i> <span data-i18n="nav.team_group">チーム・選手</span></span>
-          <i class="fas fa-chevron-down mobile-arrow"></i>
+          <span><i class="fas fa-shield-alt" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.team_group">チーム・選手</span></span>
+          <i class="fas fa-chevron-down mobile-arrow" style="color: #87ceeb;"></i>
         </button>
         <div class="mobile-submenu hidden">
           <a href="index.html#about" class="mobile-link sub" data-i18n="nav.about">チーム紹介</a>
-          <a href="players.html" class="mobile-link sub" style="color: var(--primary-sky); font-weight: 800;" data-i18n="nav.players">選手紹介</a>
+          <a href="players.html" class="mobile-link sub" style="color: #87ceeb !important; font-weight: 800;" data-i18n="nav.players">選手紹介</a>
           <a href="stats.html" class="mobile-link sub" data-i18n="nav.stats">成績・スタッツ</a>
           <a href="index.html#gallery" class="mobile-link sub" data-i18n="nav.gallery">ギャラリー</a>
         </div>
       </div>
 
       <a href="matches.html" class="mobile-link">
-        <i class="fas fa-calendar-alt" style="color: var(--primary-sky); width: 24px;"></i> <span data-i18n="nav.matches">試合日程・結果</span>
+        <i class="fas fa-calendar-alt" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.matches">試合日程・結果</span>
       </a>
       <a href="index.html#shop" class="mobile-link">
-        <i class="fas fa-shopping-bag" style="color: var(--primary-sky); width: 24px;"></i> <span data-i18n="nav.shop">ショップ</span>
+        <i class="fas fa-shopping-bag" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.shop">ショップ</span>
       </a>
       <a href="index.html#sponsors" class="mobile-link">
-        <i class="fas fa-handshake" style="color: var(--primary-sky); width: 24px;"></i> <span data-i18n="nav.sponsors">パートナー</span>
+        <i class="fas fa-handshake" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.sponsors">パートナー</span>
       </a>
       <a href="faq.html" class="mobile-link">
-        <i class="fas fa-question-circle" style="color: var(--primary-sky); width: 24px;"></i> <span data-i18n="nav.faq">よくある質問</span>
+        <i class="fas fa-question-circle" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.faq">よくある質問</span>
       </a>
 
       <div class="mobile-cta-wrapper">
@@ -1029,7 +1112,7 @@
         loadPlayersJSON();
     });
 
-    /* GESTIONE NUOVO MENU MOBILE & DRAWER SLIDE */
+    /* LOGICA GESTIONE MENU MOBILE MODALE */
     const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
     const mobileNav = document.querySelector('.mobile-nav');
     const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
@@ -1085,6 +1168,7 @@
             mobileCloseBtn.addEventListener('click', closeMobileMenu);
         }
 
+        // Chiusura automatica al tocco del backdrop esterno
         mobileNav.addEventListener('click', (e) => {
             if (!e.target.closest('.mobile-nav-content') && !mobileMenuBtn.contains(e.target)) {
                 closeMobileMenu();
