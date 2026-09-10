@@ -198,6 +198,7 @@
             text-decoration: none;
         }
 
+        /* --- STILI PER MATCH CENTER E BADGES --- */
         .match-badge-group {
             display: flex;
             align-items: center;
@@ -654,35 +655,22 @@
         </a>
       </div>
 
-      <!-- DESKTOP NAV -->
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
           <div class="nav-item dropdown">
-            <a href="index.html#about" class="dropdown-toggle">
-              <span data-i18n="nav.about_group">クラブ</span> 
-              <i class="fas fa-chevron-down nav-arrow"></i>
-            </a>
+            <a href="index.html#about" class="dropdown-toggle"><span data-i18n="nav.team">チーム</span> <i class="fas fa-chevron-down nav-arrow"></i></a>
             <div class="dropdown-menu">
               <a href="index.html#about" data-i18n="nav.about">チーム紹介</a>
-              <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
-              <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
-            </div>
-          </div>
-
-          <div class="nav-item dropdown">
-            <a href="players.html" class="dropdown-toggle">
-              <span data-i18n="nav.team_group">チーム・選手</span> 
-              <i class="fas fa-chevron-down nav-arrow"></i>
-            </a>
-            <div class="dropdown-menu">
               <a href="players.html" data-i18n="nav.players">選手紹介</a>
               <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
+              <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
             </div>
           </div>
 
           <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
           <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
+          <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
           <a href="index.html#contact" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
         </nav>
       </div>
@@ -849,6 +837,7 @@
                             </div>
                         </div>
 
+                        <!-- BARRA INFO HERO: Orario KO + Tipologia Terreno (Affiancati) -->
                         <div class="next-match-info" id="nextHeroInfoBar">
                             <div class="next-match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span id="nextMatchTime">-</span></div>
                             <div class="next-match-info-item" id="nextMatchSurfaceItem" style="display: none;"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span id="nextMatchSurface">-</span></div>
@@ -976,7 +965,7 @@
     </div>
 </section>
 
-<!-- CONTATTI -->
+<!-- CONTATTI MIGLIORATI -->
 <section class="section" id="contact">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-envelope"></i> <span data-i18n="contact.title">お問い合わせ</span></h2>
@@ -1051,173 +1040,93 @@
 
     const translations = {
         ja: {
-            "nav.about_group": "クラブ",
-            "nav.team_group": "チーム・選手",
-            "nav.about": "チーム紹介", 
-            "nav.players": "選手紹介", 
-            "nav.stats": "成績・スタッツ",
-            "nav.matches": "試合日程・結果", 
-            "nav.gallery": "ギャラリー", 
-            "nav.sponsors": "パートナー", 
-            "nav.faq": "よくある質問",
-            "nav.shop": "ショップ", 
-            "nav.contact": "お問い合わせ", 
-            "hero.title": "横浜に咲くイタリアの情熱",
-            "hero.subtitle": "サッカーで心をつなぐ場所", 
-            "about.title": "Yokohama Calcioとは",
+            "nav.team": "チーム", "nav.team_group": "チーム・選手", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
+            "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー", "nav.faq": "よくある質問",
+            "nav.shop": "ショップ", "nav.contact": "お問い合わせ", "hero.title": "横浜に咲くイタリアの情熱",
+            "hero.subtitle": "サッカーで心をつなぐ場所", "about.title": "Yokohama Calcioとは",
             "about.subtitle": "横浜発、イタリアンスタイルの社会人サッカーチーム",
             "about.p1": "Yokohama Calcioは、横浜を拠点に活動する社会人サッカーチームです。イタリアサッカーの伝統的で組織的な戦術アプローチと、真剣にフットボールを追及できる環境の融合を目指してスタートしました。",
             "about.p2": "当チームは、基礎技術を持ちチームのために走れる多様なバックグラウンドの仲間が集まるコミュニティです。個人のスタンドプレーではなく、チームワーク（Gioco di Squadra）と基本技術を大切にしながら、地域の試合やリーグ戦で一丸となって勝利を目指します。",
-            "about.values_title": "私たちのコアバリュー", 
-            "about.val1_h": "チームファースト (Gioco di Squadra)",
-            "about.val1_d": "組織的で互いを支え合う結束力", 
-            "about.val2_h": "基本の徹底と向上心",
+            "about.values_title": "私たちのコアバリュー", "about.val1_h": "チームファースト (Gioco di Squadra)",
+            "about.val1_d": "組織的で互いを支え合う結束力", "about.val2_h": "基本の徹底と向上心",
             "about.val2_d": "止める・蹴るの基本技術を大切にし、常に質の高いプレイを目指す姿勢",
-            "about.val3_h": "フットボールへの情熱", 
-            "about.val3_d": "勝利を目指しながらも、真剣勝負を純粋に楽しむ気持ち",
-            "results.title": "試合結果・日程", 
-            "results.last_badge": "前節結果", 
-            "results.next_badge": "次戦",
-            "results.detail": "詳細", 
-            "results.all_matches": "全試合日程・詳細はこちら",
+            "about.val3_h": "フットボールへの情熱", "about.val3_d": "勝利を目指しながらも、真剣勝負を純粋に楽しむ気持ち",
+            "results.title": "試合結果・日程", "results.last_badge": "前節結果", "results.next_badge": "次戦",
+            "results.detail": "詳細", "results.all_matches": "全試合日程・詳細はこちら",
             "results.no_next_match": "次戦の日程はまだ決定していません。",
-            "badge.league": "公式戦", 
-            "badge.friendly": "練習試合", 
-            "badge.tournament": "大会", 
-            "badge.cup": "カップ戦",
-            "gallery.title": "フォトギャラリー", 
-            "shop.title": "公式オンラインショップ",
+            "badge.league": "公式戦", "badge.friendly": "練習試合", "badge.tournament": "大会", "badge.cup": "カップ戦",
+            "gallery.title": "フォトギャラリー", "shop.title": "公式オンラインショップ",
             "shop.card_title": "Yokohama Calcio オフィシャルグッズ",
             "shop.card_desc": "Tシャツ、キャップ、キーホルダー、マフラータオルなどのオリジナルグッズを取り揃えています。売上収益はチームの活動費として大切に活用させていただきます。",
-            "shop.btn": "公式ショップを見る", 
-            "sponsors.title": "オフィシャルパートナー", 
-            "sponsors.placeholder": "パートナー募集中",
+            "shop.btn": "公式ショップを見る", "sponsors.title": "オフィシャルパートナー", "sponsors.placeholder": "パートナー募集中",
             "sponsors.recruit_text": "Yokohama Calcioでは、共にチームを応援・サポートしていただける企業様・パートナー様を募集しております。",
-            "sponsors.btn": "パートナーシップについて問い合わせる", 
-            "contact.title": "お問い合わせ",
-            "contact.subtitle": "各種お申し込み・お問い合わせ", 
-            "contact.card_subtitle": "お気軽にご連絡ください",
+            "sponsors.btn": "パートナーシップについて問い合わせる", "contact.title": "お問い合わせ",
+            "contact.subtitle": "各種お申し込み・お問い合わせ", "contact.card_subtitle": "お気軽にご連絡ください",
             "contact.r1_h": "体験練習・入部希望",
-            "contact.r1_d": "18歳〜40歳の経験者対象・ブランク可", 
-            "contact.r2_h": "練習試合・対戦のお申し込み",
-            "contact.r2_d": "親善試合・グラウンド手配", 
-            "contact.r3_h": "パートナー・協賛のご相談",
-            "contact.r3_d": "チーム支援・パートナーシップ", 
-            "contact.r4_h": "その他チームに関するご質問",
+            "contact.r1_d": "18歳〜40歳の経験者対象・ブランク可", "contact.r2_h": "練習試合・対戦のお申し込み",
+            "contact.r2_d": "親善試合・グラウンド手配", "contact.r3_h": "パートナー・協賛のご相談",
+            "contact.r3_d": "チーム支援・パートナーシップ", "contact.r4_h": "その他チームに関するご質問",
             "contact.desc": "すべてのお問い合わせは以下のGoogleフォームより受け付けております。<br>お気軽にご連絡ください！",
             "contact.btn": "お問い合わせフォームを開く"
         },
         it: {
-            "nav.about_group": "CLUB",
-            "nav.team_group": "SQUADRA",
-            "nav.about": "Chi Siamo", 
-            "nav.players": "Giocatori", 
-            "nav.stats": "Statistiche",
-            "nav.matches": "Partite & Risultati", 
-            "nav.gallery": "Galleria", 
-            "nav.sponsors": "Partner", 
-            "nav.faq": "FAQ",
-            "nav.shop": "Shop", 
-            "nav.contact": "Contatti", 
-            "hero.title": "La passione italiana nel cuore di Yokohama",
-            "hero.subtitle": "Il calcio che unisce le persone", 
-            "about.title": "Cos'è lo Yokohama Calcio",
+            "nav.team": "SQUADRA", "nav.team_group": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
+            "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.sponsors": "Partner", "nav.faq": "FAQ",
+            "nav.shop": "Shop", "nav.contact": "Contatti", "hero.title": "La passione italiana nel cuore di Yokohama",
+            "hero.subtitle": "Il calcio che unisce le persone", "about.title": "Cos'è lo Yokohama Calcio",
             "about.subtitle": "Da Yokohama, una squadra dilettantistica in perfetto stile italiano",
             "about.p1": "Lo Yokohama Calcio è una squadra dilettantistica con base a Yokohama, nata dall'unione tra la tradizione tattica del calcio italiano e il piacere di vivere il campo con serietà e passione.",
             "about.p2": "Siamo una realtà aperta a giocatori di diverse origini, uniti dalla passione per il calcio e sostenuti da solide basi tecniche. Rifiutiamo l'individualismo: mettiamo al centro il gioco di squadra, l'organizzazione e i fondamentali, scendendo in campo per lottare insieme e puntare alla vittoria in ogni partita.",
-            "about.values_title": "I nostri Valori Fondamentali", 
-            "about.val1_h": "Gioco di Squadra (Team First)",
-            "about.val1_d": "Organizzazione tattica, coesione e supporto reciproco in campo.", 
-            "about.val2_h": "Fondamentali & Crescita",
+            "about.values_title": "I nostri Valori Fondamentali", "about.val1_h": "Gioco di Squadra (Team First)",
+            "about.val1_d": "Organizzazione tattica, coesione e supporto reciproco in campo.", "about.val2_h": "Fondamentali & Crescita",
             "about.val2_d": "Cura dei fondamentali (controllo e passaggio) e motivazione costante a migliorare.",
-            "about.val3_h": "Passione per il Calcio", 
-            "about.val3_d": "Volontà di lottare per vincere vivendo la partita con autentica passione.",
-            "results.title": "Calendario e Risultati", 
-            "results.last_badge": "Ultimo Match", 
-            "results.next_badge": "Prossimo Match",
-            "results.detail": "Dettagli", 
-            "results.all_matches": "Vedi tutte le partite",
+            "about.val3_h": "Passione per il Calcio", "about.val3_d": "Volontà di lottare per vincere vivendo la partita con autentica passione.",
+            "results.title": "Calendario e Risultati", "results.last_badge": "Ultimo Match", "results.next_badge": "Prossimo Match",
+            "results.detail": "Dettagli", "results.all_matches": "Vedi tutte le partite",
             "results.no_next_match": "La prossima partita non è ancora stata programmata.",
-            "badge.league": "Campionato", 
-            "badge.friendly": "Amichevole", 
-            "badge.tournament": "Torneo", 
-            "badge.cup": "Coppa",
-            "gallery.title": "Galleria Fotografica", 
-            "shop.title": "Online Shop Ufficiale",
+            "badge.league": "Campionato", "badge.friendly": "Amichevole", "badge.tournament": "Torneo", "badge.cup": "Coppa",
+            "gallery.title": "Galleria Fotografica", "shop.title": "Online Shop Ufficiale",
             "shop.card_title": "Merchandising Ufficiale Yokohama Calcio",
             "shop.card_desc": "Scopri t-shirt, cappellini, portachiavi e sciarpe per tifare la squadra. I proventi delle vendite servono a sostenere le attività della squadra.",
-            "shop.btn": "Visita lo Store Ufficiale", 
-            "sponsors.title": "Partner Ufficiali", 
-            "sponsors.placeholder": "Cercasi Partner",
+            "shop.btn": "Visita lo Store Ufficiale", "sponsors.title": "Partner Ufficiali", "sponsors.placeholder": "Cercasi Partner",
             "sponsors.recruit_text": "Lo Yokohama Calcio è alla ricerca di partner e aziende disposte a sostenere il progetto.",
-            "sponsors.btn": "Richiedi informazioni per Partnership", 
-            "contact.title": "Contatti",
-            "contact.subtitle": "Invia una richiesta o un messaggio", 
-            "contact.card_subtitle": "Non esitare a contattarci",
+            "sponsors.btn": "Richiedi informazioni per Partnership", "contact.title": "Contatti",
+            "contact.subtitle": "Invia una richiesta o un messaggio", "contact.card_subtitle": "Non esitare a contattarci",
             "contact.r1_h": "Prove & Nuovi Giocatori",
-            "contact.r1_d": "Dai 18 ai 40 anni con esperienza (anche dopo periodi di stop)", 
-            "contact.r2_h": "Richiesta Partita Amichevole",
-            "contact.r2_d": "Organizzazione sfide e campi", 
-            "contact.r3_h": "Partnership & Collaborazioni",
-            "contact.r3_d": "Sostieni il club", 
-            "contact.r4_h": "Altre domande sul club",
+            "contact.r1_d": "Dai 18 ai 40 anni con esperienza (anche dopo periodi di stop)", "contact.r2_h": "Richiesta Partita Amichevole",
+            "contact.r2_d": "Organizzazione sfide e campi", "contact.r3_h": "Partnership & Collaborazioni",
+            "contact.r3_d": "Sostieni il club", "contact.r4_h": "Altre domande sul club",
             "contact.desc": "Tutte le richieste vengono gestite tramite il modulo Google ufficiale.<br>Non esitare a contattarci!",
             "contact.btn": "Apri Modulo Contatti"
         },
         en: {
-            "nav.about_group": "CLUB",
-            "nav.team_group": "TEAM",
-            "nav.about": "About Us", 
-            "nav.players": "Players", 
-            "nav.stats": "Stats",
-            "nav.matches": "Matches & Results", 
-            "nav.gallery": "Gallery", 
-            "nav.sponsors": "Partners", 
-            "nav.faq": "FAQ",
-            "nav.shop": "Shop", 
-            "nav.contact": "Contact Us", 
-            "hero.title": "Italian Football Passion in Yokohama",
+            "nav.team": "TEAM", "nav.team_group": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
+            "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.sponsors": "Partners", "nav.faq": "FAQ",
+            "nav.shop": "Shop", "nav.contact": "Contact Us", "hero.title": "Italian Football Passion in Yokohama",
             "hero.subtitle": "Where Football Connects People",
             "about.title": "About Yokohama Calcio",
             "about.subtitle": "Italian-style Amateur Football Club in Yokohama",
             "about.p1": "Yokohama Calcio is an amateur football club based in Yokohama. It was founded to combine the traditional tactical approach of Italian football with an environment dedicated to competitive passion.",
             "about.p2": "We are a diverse community of players from various backgrounds, united by a solid footballing foundation. Rejecting individual ego, we focus on teamwork (Gioco di Squadra), core fundamentals, and tactical cohesion as we fight together for victory in every match.",
-            "about.values_title": "Our Core Values", 
-            "about.val1_h": "Team First (Gioco di Squadra)",
+            "about.values_title": "Our Core Values", "about.val1_h": "Team First (Gioco di Squadra)",
             "about.val1_d": "Tactical organization, unit cohesion, and mutual support on the pitch.",
-            "about.val2_h": "Core Fundamentals & Growth", 
-            "about.val2_d": "Mastering the basics (control & passing) and continuous effort to improve.",
-            "about.val3_h": "Passion for Football", 
-            "about.val3_d": "Competitive drive to win paired with a genuine enjoyment of the game.",
-            "results.title": "Matches & Results", 
-            "results.last_badge": "Last Match", 
-            "results.next_badge": "Next Match",
-            "results.detail": "Details", 
-            "results.all_matches": "View All Matches",
+            "about.val2_h": "Core Fundamentals & Growth", "about.val2_d": "Mastering the basics (control & passing) and continuous effort to improve.",
+            "about.val3_h": "Passion for Football", "about.val3_d": "Competitive drive to win paired with a genuine enjoyment of the game.",
+            "results.title": "Matches & Results", "results.last_badge": "Last Match", "results.next_badge": "Next Match",
+            "results.detail": "Details", "results.all_matches": "View All Matches",
             "results.no_next_match": "The next match has not been scheduled yet.",
-            "badge.league": "League", 
-            "badge.friendly": "Friendly", 
-            "badge.tournament": "Tournament", 
-            "badge.cup": "Cup",
-            "gallery.title": "Photo Gallery", 
-            "shop.title": "Official Online Shop",
+            "badge.league": "League", "badge.friendly": "Friendly", "badge.tournament": "Tournament", "badge.cup": "Cup",
+            "gallery.title": "Photo Gallery", "shop.title": "Official Online Shop",
             "shop.card_title": "Yokohama Calcio Official Merchandise",
             "shop.card_desc": "Discover t-shirts, caps, keychains, and scarves to support the team. Proceeds from sales are used to support the team's activities.",
-            "shop.btn": "Visit Official Store", 
-            "sponsors.title": "Official Partners", 
-            "sponsors.placeholder": "Partners Wanted",
+            "shop.btn": "Visit Official Store", "sponsors.title": "Official Partners", "sponsors.placeholder": "Partners Wanted",
             "sponsors.recruit_text": "Yokohama Calcio is seeking corporate partners to support our project.",
-            "sponsors.btn": "Inquire About Partnership", 
-            "contact.title": "Contact Us",
-            "contact.subtitle": "Inquiries & Applications", 
-            "contact.card_subtitle": "Feel free to reach out",
+            "sponsors.btn": "Inquire About Partnership", "contact.title": "Contact Us",
+            "contact.subtitle": "Inquiries & Applications", "contact.card_subtitle": "Feel free to reach out",
             "contact.r1_h": "Join / Trial Training",
-            "contact.r1_d": "Experienced players aged 18–40 (returning players OK)", 
-            "contact.r2_h": "Friendly Match Requests",
-            "contact.r2_d": "Match scheduling & pitch setup", 
-            "contact.r3_h": "Partnership & Sponsorship",
-            "contact.r3_d": "Support the club", 
-            "contact.r4_h": "General Questions",
+            "contact.r1_d": "Experienced players aged 18–40 (returning players OK)", "contact.r2_h": "Friendly Match Requests",
+            "contact.r2_d": "Match scheduling & pitch setup", "contact.r3_h": "Partnership & Sponsorship",
+            "contact.r3_d": "Support the club", "contact.r4_h": "General Questions",
             "contact.desc": "All inquiries are accepted via our official Google Form.<br>Feel free to reach out!",
             "contact.btn": "Open Contact Form"
         }
@@ -1603,70 +1512,70 @@
         setLanguage(currentLang);
         initMatchCenter();
         initCompactGallery();
-    });
 
-    /* LOGICA GESTIONE MENU MOBILE MODALE */
-    const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
-    const mobileNav = document.querySelector('.mobile-nav');
-    const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
-    const mobileSubmenu = document.querySelector('.mobile-submenu');
-    const mobileCloseBtn = document.querySelector('.mobile-nav-close');
+        /* LOGICA GESTIONE MENU MOBILE MODALE */
+        const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
+        const mobileNav = document.querySelector('.mobile-nav');
+        const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
+        const mobileSubmenu = document.querySelector('.mobile-submenu');
+        const mobileCloseBtn = document.querySelector('.mobile-nav-close');
 
-    function closeMobileMenu() {
-        if (mobileNav) {
-            mobileNav.classList.add('hidden');
-            if (mobileMenuBtn) {
-                const icon = mobileMenuBtn.querySelector('i');
-                if (icon) {
-                    icon.classList.add('fa-bars');
-                    icon.classList.remove('fa-times');
+        function closeMobileMenu() {
+            if (mobileNav) {
+                mobileNav.classList.add('hidden');
+                if (mobileMenuBtn) {
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (icon) {
+                        icon.classList.add('fa-bars');
+                        icon.classList.remove('fa-times');
+                    }
                 }
             }
         }
-    }
 
-    if (mobileMenuBtn && mobileNav) {
-        mobileMenuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isHidden = mobileNav.classList.contains('hidden');
-            if (isHidden) {
-                mobileNav.classList.remove('hidden');
-                const icon = mobileMenuBtn.querySelector('i');
-                if (icon) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                }
-            } else {
-                closeMobileMenu();
-            }
-        });
-
-        if (mobileDropdownToggle && mobileSubmenu) {
-            mobileDropdownToggle.addEventListener('click', (e) => {
+        if (mobileMenuBtn && mobileNav) {
+            mobileMenuBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                mobileSubmenu.classList.toggle('hidden');
-                const arrow = mobileDropdownToggle.querySelector('.mobile-arrow');
-                if (arrow) {
-                    arrow.classList.toggle('fa-chevron-down');
-                    arrow.classList.toggle('fa-chevron-up');
+                const isHidden = mobileNav.classList.contains('hidden');
+                if (isHidden) {
+                    mobileNav.classList.remove('hidden');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    }
+                } else {
+                    closeMobileMenu();
+                }
+            });
+
+            if (mobileDropdownToggle && mobileSubmenu) {
+                mobileDropdownToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    mobileSubmenu.classList.toggle('hidden');
+                    const arrow = mobileDropdownToggle.querySelector('.mobile-arrow');
+                    if (arrow) {
+                        arrow.classList.toggle('fa-chevron-down');
+                        arrow.classList.toggle('fa-chevron-up');
+                    }
+                });
+            }
+
+            document.querySelectorAll('.mobile-link, .mobile-cta-btn').forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            if (mobileCloseBtn) {
+                mobileCloseBtn.addEventListener('click', closeMobileMenu);
+            }
+
+            mobileNav.addEventListener('click', (e) => {
+                if (!e.target.closest('.mobile-nav-content') && !mobileMenuBtn.contains(e.target)) {
+                    closeMobileMenu();
                 }
             });
         }
-
-        document.querySelectorAll('.mobile-link, .mobile-cta-btn').forEach(link => {
-            link.addEventListener('click', closeMobileMenu);
-        });
-
-        if (mobileCloseBtn) {
-            mobileCloseBtn.addEventListener('click', closeMobileMenu);
-        }
-
-        mobileNav.addEventListener('click', (e) => {
-            if (!e.target.closest('.mobile-nav-content') && !mobileMenuBtn.contains(e.target)) {
-                closeMobileMenu();
-            }
-        });
-    }
+    });
 
     const sponsorsTrack = document.getElementById('sponsorsTrack');
     if (sponsorsTrack && sponsorsTrack.children.length > 0) {
