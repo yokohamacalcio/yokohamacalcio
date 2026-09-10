@@ -139,7 +139,7 @@
             height: 75px !important;
         }
 
-        /* --- REGOLE UNIVERSALI LOGHI: NO SFONDO, NO RITAGLIO CIRCOLARE, NO SCALE ARTIFICIALE --- */
+        /* --- REGOLE UNIVERSALI LOGHI --- */
         .card-logo-wrap img, .hero-logo-wrap img {
             max-width: 100% !important;
             max-height: 100% !important;
@@ -153,12 +153,12 @@
             box-shadow: none !important;
         }
 
-        /* Bagliore morbido chiaro per far risaltare loghi scuri nella Hero Card su sfondo scuro */
+        /* Bagliore per la Hero Card */
         .hero-logo-wrap img {
             filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4)) !important;
         }
 
-        /* SOLO GLI AVATAR GENERATI PER SQUADRE SENZA LOGO SARANNO CIRCOLARI CON SFONDO BIANCO */
+        /* Avatar di fallback per squadre senza logo */
         .card-logo-wrap img[src*="ui-avatars.com"], 
         .hero-logo-wrap img[src*="ui-avatars.com"] {
             border-radius: 50% !important;
@@ -271,7 +271,7 @@
             font-weight: 600;
         }
 
-        /* VENUE & SURFACE PER SCHEDA NON-HERO */
+        /* --- UNIFORMAZIONE RIGA DEL CAMPO PER ENTRAMBE LE SCHEDE --- */
         .match-box-venue {
             font-size: 0.8rem;
             color: var(--primary-sky);
@@ -307,8 +307,16 @@
             gap: 4px;
         }
 
+        .next-match-hero .match-box-venue {
+            border-top-color: rgba(255,255,255,0.2);
+        }
+
         .next-match-hero .match-box-venue a {
             color: #ffffff;
+        }
+
+        .next-match-hero .venue-surface-tag {
+            color: rgba(255, 255, 255, 0.85);
         }
 
         .match-card-footer {
@@ -665,7 +673,6 @@
 
                         <div class="next-match-info" id="nextHeroInfoBar">
                             <div class="next-match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span id="nextMatchTime">-</span></div>
-                            <div class="next-match-info-item" id="nextMatchSurfaceItem" style="display: none;"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span id="nextMatchSurface">-</span></div>
                         </div>
                     </div>
 
@@ -676,7 +683,7 @@
                 </div>
 
                 <div>
-                    <div class="match-box-venue" id="nextMatchVenue" style="border-top-color: rgba(255,255,255,0.2);"></div>
+                    <div class="match-box-venue" id="nextMatchVenue"></div>
                     <div class="match-card-footer-hero">
                         <a href="#" id="nextDetailLink" class="btn-match-detail-hero"><span data-i18n="results.detail">詳細</span> <i class="fas fa-chevron-right"></i></a>
                     </div>
@@ -1197,34 +1204,18 @@
             team2LogoEl.className = rightTeamClass;
             if (rightErr) team2LogoEl.setAttribute('onerror', rightErr.replace(/^onerror="/, '').replace(/"$/, ''));
 
+            /* --- STRUTTURA UNIFICATA PER ENTRAMBE LE SCHEDE --- */
             const venueContainer = document.getElementById(`${prefix}MatchVenue`);
             const locInfo = getLocationInfo(m.location_id, m.venue, lang);
 
             if (venueContainer) {
-                if (prefix === 'last') {
-                    // SCHEDA NON-HERO: Nome campo + Superficie affiancati
-                    let surfaceSpan = locInfo.surface ? `<span class="venue-surface-tag"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> ${locInfo.surface}</span>` : '';
-                    venueContainer.innerHTML = `<a href="${locInfo.url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> <span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i></a>${surfaceSpan}`;
-                } else {
-                    // SCHEDA HERO: Nome campo linkabile in basso
-                    venueContainer.innerHTML = `<a href="${locInfo.url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> <span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i></a>`;
-                }
+                let surfaceSpan = locInfo.surface ? `<span class="venue-surface-tag"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> ${locInfo.surface}</span>` : '';
+                venueContainer.innerHTML = `<a href="${locInfo.url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> <span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i></a>${surfaceSpan}`;
             }
 
-            if (prefix === 'next') {
-                if (m.time) {
-                    const timeEl = document.getElementById('nextMatchTime');
-                    if (timeEl) timeEl.textContent = `${m.time} K.O.`;
-                }
-                // SCHEDA HERO: Superficie inserita nella barra centrale delle info
-                const surfaceItem = document.getElementById('nextMatchSurfaceItem');
-                const surfaceText = document.getElementById('nextMatchSurface');
-                if (locInfo.surface) {
-                    if (surfaceText) surfaceText.textContent = locInfo.surface;
-                    if (surfaceItem) surfaceItem.style.display = 'flex';
-                } else if (surfaceItem) {
-                    surfaceItem.style.display = 'none';
-                }
+            if (prefix === 'next' && m.time) {
+                const timeEl = document.getElementById('nextMatchTime');
+                if (timeEl) timeEl.textContent = `${m.time} K.O.`;
             }
 
             document.getElementById(`${prefix}DetailLink`).href = `matches.html#${m.id}`;
