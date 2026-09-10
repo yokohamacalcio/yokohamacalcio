@@ -130,27 +130,40 @@
         }
 
         .card-logo-wrap {
-            width: 55px !important;
-            height: 55px !important;
+            width: 58px !important;
+            height: 58px !important;
         }
 
         .hero-logo-wrap {
-            width: 75px !important;
-            height: 75px !important;
+            width: 80px !important;
+            height: 80px !important;
         }
 
         /* --- REGOLE UNIVERSALI LOGHI --- */
         .card-logo-wrap img, .hero-logo-wrap img {
+            width: 100% !important;
+            height: 100% !important;
             max-width: 100% !important;
             max-height: 100% !important;
-            width: auto !important;
-            height: auto !important;
             object-fit: contain !important;
             border-radius: 0 !important;
             background: transparent !important;
-            transform: none !important;
         }
 
+        /* Ombra e bagliore per risaltare sul fondo scuro della Hero Card */
+        .hero-logo-wrap img {
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.45)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4)) !important;
+        }
+
+        /* BILANCIAMENTO DIMENSIONE: Scala leggermente i loghi avversari per pareggiare l'area dei loghi circolari */
+        .hero-logo-wrap img.opponent-logo {
+            transform: scale(1.1) !important;
+        }
+        .card-logo-wrap img.opponent-logo {
+            transform: scale(1.08) !important;
+        }
+
+        /* Reset per avatar generati se manca il logo */
         .card-logo-wrap img[src*="ui-avatars.com"], 
         .hero-logo-wrap img[src*="ui-avatars.com"] {
             border-radius: 50% !important;
@@ -158,6 +171,8 @@
             width: 100% !important;
             height: 100% !important;
             background: #ffffff !important;
+            filter: none !important;
+            transform: none !important;
         }
 
         .match-vs-center {
@@ -1192,11 +1207,9 @@
 
             if (venueContainer) {
                 if (prefix === 'last') {
-                    // SCHEDA NON-HERO: Nome campo + Superficie affiancati
                     let surfaceSpan = locInfo.surface ? `<span class="venue-surface-tag"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> ${locInfo.surface}</span>` : '';
                     venueContainer.innerHTML = `<a href="${locInfo.url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> <span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i></a>${surfaceSpan}`;
                 } else {
-                    // SCHEDA HERO: Nome campo linkabile in basso
                     venueContainer.innerHTML = `<a href="${locInfo.url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> <span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i></a>`;
                 }
             }
@@ -1206,7 +1219,6 @@
                     const timeEl = document.getElementById('nextMatchTime');
                     if (timeEl) timeEl.textContent = `${m.time} K.O.`;
                 }
-                // SCHEDA HERO: Superficie inserita nella barra centrale delle info
                 const surfaceItem = document.getElementById('nextMatchSurfaceItem');
                 const surfaceText = document.getElementById('nextMatchSurface');
                 if (locInfo.surface) {
