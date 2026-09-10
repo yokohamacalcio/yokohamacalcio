@@ -239,21 +239,40 @@
         </a>
       </div>
 
+      <!-- NAVIGAZIONE DESKTOP RIORGANIZZATA -->
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
+          <!-- Dropdown Club -->
           <div class="nav-item dropdown">
-            <a href="index.html#about" class="dropdown-toggle"><span data-i18n="nav.team">チーム</span> <i class="fas fa-chevron-down nav-arrow"></i></a>
+            <a href="index.html#about" class="dropdown-toggle">
+              <span data-i18n="nav.about_group">クラブ</span> 
+              <i class="fas fa-chevron-down nav-arrow"></i>
+            </a>
             <div class="dropdown-menu">
               <a href="index.html#about" data-i18n="nav.about">チーム紹介</a>
-              <a href="players.html" data-i18n="nav.players">選手紹介</a>
-              <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
               <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
+              <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
             </div>
           </div>
+
+          <!-- Dropdown Squadra -->
+          <div class="nav-item dropdown">
+            <a href="players.html" class="dropdown-toggle">
+              <span data-i18n="nav.team_group">チーム・選手</span> 
+              <i class="fas fa-chevron-down nav-arrow"></i>
+            </a>
+            <div class="dropdown-menu">
+              <a href="players.html" data-i18n="nav.players">選手紹介</a>
+              <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
+            </div>
+          </div>
+
+          <!-- Link Diretti -->
           <a href="matches.html" style="color: var(--primary-sky);" data-i18n="nav.matches">試合日程・結果</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
           <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
-          <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
+
+          <!-- CTA Contatti -->
           <a href="index.html#contact" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
         </nav>
       </div>
@@ -264,16 +283,41 @@
     </div>
   </div>
 
+  <!-- MENU MOBILE CON ACCORDION E CHIUSURA AUTOMATICA -->
   <nav class="mobile-nav hidden">
-    <a href="index.html#about" class="mobile-link" data-i18n="nav.about">チーム紹介</a>
-    <a href="players.html" class="mobile-link" data-i18n="nav.players">選手紹介</a>
-    <a href="stats.html" class="mobile-link" data-i18n="nav.stats">成績・スタッツ</a>
-    <a href="index.html#gallery" class="mobile-link" data-i18n="nav.gallery">ギャラリー</a>
-    <a href="matches.html" class="mobile-link" data-i18n="nav.matches">試合日程・結果</a>
-    <a href="index.html#shop" class="mobile-link" data-i18n="nav.shop">ショップ</a>
-    <a href="index.html#sponsors" class="mobile-link" data-i18n="nav.sponsors">パートナー</a>
-    <a href="faq.html" class="mobile-link" data-i18n="nav.faq">よくある質問</a>
-    <a href="index.html#contact" class="mobile-link mobile-cta" data-i18n="nav.contact">お問い合わせ</a>
+    <div class="mobile-nav-content">
+      <div class="mobile-dropdown-group">
+        <button class="mobile-dropdown-toggle">
+          <span><i class="fas fa-shield-alt" style="color: var(--primary-sky); width: 24px;"></i> <span data-i18n="nav.team_group">チーム・選手</span></span>
+          <i class="fas fa-chevron-down mobile-arrow"></i>
+        </button>
+        <div class="mobile-submenu hidden">
+          <a href="index.html#about" class="mobile-link sub" data-i18n="nav.about">チーム紹介</a>
+          <a href="players.html" class="mobile-link sub" data-i18n="nav.players">選手紹介</a>
+          <a href="stats.html" class="mobile-link sub" data-i18n="nav.stats">成績・スタッツ</a>
+          <a href="index.html#gallery" class="mobile-link sub" data-i18n="nav.gallery">ギャラリー</a>
+        </div>
+      </div>
+
+      <a href="matches.html" class="mobile-link" style="color: var(--primary-sky); font-weight: 800;">
+        <i class="fas fa-calendar-alt" style="color: var(--primary-sky); width: 24px;"></i> <span data-i18n="nav.matches">試合日程・結果</span>
+      </a>
+      <a href="index.html#shop" class="mobile-link">
+        <i class="fas fa-shopping-bag" style="color: var(--primary-sky); width: 24px;"></i> <span data-i18n="nav.shop">ショップ</span>
+      </a>
+      <a href="index.html#sponsors" class="mobile-link">
+        <i class="fas fa-handshake" style="color: var(--primary-sky); width: 24px;"></i> <span data-i18n="nav.sponsors">パートナー</span>
+      </a>
+      <a href="faq.html" class="mobile-link">
+        <i class="fas fa-question-circle" style="color: var(--primary-sky); width: 24px;"></i> <span data-i18n="nav.faq">よくある質問</span>
+      </a>
+
+      <div class="mobile-cta-wrapper">
+        <a href="index.html#contact" class="mobile-cta-btn">
+          <i class="fas fa-paper-plane"></i> <span data-i18n="nav.contact">お問い合わせ</span>
+        </a>
+      </div>
+    </div>
   </nav>
 </header>
 
@@ -360,6 +404,8 @@
 
     const translations = {
         ja: {
+            "nav.about_group": "クラブ",
+            "nav.team_group": "チーム・選手",
             "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
             "nav.gallery": "ギャラリー", "nav.matches": "試合日程・結果", "nav.shop": "ショップ", "nav.sponsors": "パートナー",
             "nav.faq": "よくある質問", "nav.contact": "お問い合わせ", "matches_page.title": "試合日程・結果一覧",
@@ -374,6 +420,8 @@
             "btn.details": "詳細を見る", "btn.close_details": "詳細を閉じる", "btn.load_more_3": "さらに3試合を表示", "btn.show_less": "最初の3試合に戻す", "btn.back_home": "ホームに戻る"
         },
         it: {
+            "nav.about_group": "CLUB",
+            "nav.team_group": "SQUADRA",
             "nav.team": "Squadra", "nav.about": "Info Squadra", "nav.players": "Giocatori", "nav.stats": "Statistiche",
             "nav.gallery": "Galleria", "nav.matches": "Partite", "nav.shop": "Store", "nav.sponsors": "Partner",
             "nav.faq": "FAQ", "nav.contact": "Contatti", "matches_page.title": "Calendario & Risultati",
@@ -388,6 +436,8 @@
             "btn.details": "Mostra dettagli", "btn.close_details": "Chiudi dettagli", "btn.load_more_3": "Mostra le prossime 3 partite", "btn.show_less": "Riduci elenco", "btn.back_home": "Torna alla Home"
         },
         en: {
+            "nav.about_group": "CLUB",
+            "nav.team_group": "TEAM",
             "nav.team": "Team", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Statistics",
             "nav.gallery": "Gallery", "nav.matches": "Matches", "nav.shop": "Shop", "nav.sponsors": "Partners",
             "nav.faq": "FAQ", "nav.contact": "Contact", "matches_page.title": "Fixtures & Results",
@@ -1123,10 +1173,58 @@
             });
         }
 
+        /* GESTIONE NUOVO MENU MOBILE & ACCORDION (CON CHIUSURA AUTOMATICA & CLICK OUTSIDE) */
         const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
         const mobileNav = document.querySelector('.mobile-nav');
+        const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
+        const mobileSubmenu = document.querySelector('.mobile-submenu');
+
         if (mobileMenuBtn && mobileNav) {
-            mobileMenuBtn.addEventListener('click', () => mobileNav.classList.toggle('hidden'));
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileNav.classList.toggle('hidden');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.toggle('fa-bars');
+                    icon.classList.toggle('fa-times');
+                }
+            });
+
+            if (mobileDropdownToggle && mobileSubmenu) {
+                mobileDropdownToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    mobileSubmenu.classList.toggle('hidden');
+                    const arrow = mobileDropdownToggle.querySelector('.mobile-arrow');
+                    if (arrow) {
+                        arrow.classList.toggle('fa-chevron-down');
+                        arrow.classList.toggle('fa-chevron-up');
+                    }
+                });
+            }
+
+            document.querySelectorAll('.mobile-link, .mobile-cta-btn').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNav.classList.add('hidden');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (icon) {
+                        icon.classList.add('fa-bars');
+                        icon.classList.remove('fa-times');
+                    }
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!mobileNav.classList.contains('hidden')) {
+                    if (!mobileNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                        mobileNav.classList.add('hidden');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        if (icon) {
+                            icon.classList.add('fa-bars');
+                            icon.classList.remove('fa-times');
+                        }
+                    }
+                }
+            });
         }
 
         const scrollToTopBtn = document.getElementById('scrollToTopBtn');
