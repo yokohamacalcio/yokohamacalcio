@@ -583,20 +583,20 @@ body {
     justify-content: center !important;
     flex-shrink: 0 !important;
     background: transparent !important;
-    overflow: hidden !important;
+    overflow: visible !important;
 }
 
 .card-logo-wrap {
-    width: 55px !important;
-    height: 55px !important;
+    width: 58px !important;
+    height: 58px !important;
 }
 
 .hero-logo-wrap {
-    width: 75px !important;
-    height: 75px !important;
+    width: 80px !important;
+    height: 80px !important;
 }
 
-/* Regola universale di base per tutti i loghi nelle card: proporzioni originali, no cerchio */
+/* Regola universale di base per tutti i loghi nelle card: proporzioni originali, no sfondo, no cerchio */
 .card-logo-wrap img, .hero-logo-wrap img {
     max-width: 100% !important;
     max-height: 100% !important;
@@ -605,9 +605,15 @@ body {
     object-fit: contain !important;
     border-radius: 0 !important;
     background: transparent !important;
+    background-color: transparent !important;
 }
 
-/* STEMMA YOKOHAMA CALCIO: Massima priorità per evitare qualsiasi taglio circolare indesiderato */
+/* Bagliore morbido chiaro + ombra per i loghi nelle Hero Card (sfondo scuro) */
+.hero-logo-wrap img {
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.45)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4)) !important;
+}
+
+/* STEMMA YOKOHAMA CALCIO: Scala calibrata per presenza visiva */
 .card-logo-wrap img.yokohama-logo,
 .hero-logo-wrap img.yokohama-logo,
 .card-logo-wrap img[src*="logo.png"],
@@ -622,38 +628,33 @@ body {
     transform: scale(1.15) !important;
 }
 
-/* LOGHI AVVERSARI STANDARD: Taglio circolare e sfondo bianco dedicati esclusivamente a loro */
+/* LOGHI AVVERSARI STANDARD: Trasparenza, sagoma originale e bilanciamento della scala */
 .card-logo-wrap img.opponent-logo,
 .hero-logo-wrap img.opponent-logo {
-    border-radius: 50% !important;
-    object-fit: cover !important;
-    width: 100% !important;
-    height: 100% !important;
-    background: #ffffff !important;
-    transform: none !important;
+    border-radius: 0 !important;
+    object-fit: contain !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
 }
 
-/* AVATAR DI FALLBACK (UI-AVATARS): Taglio circolare */
+.card-logo-wrap img.opponent-logo {
+    transform: scale(1.08) !important;
+}
+
+.hero-logo-wrap img.opponent-logo {
+    transform: scale(1.1) !important;
+}
+
+/* AVATAR DI FALLBACK (UI-AVATARS): Sfondo bianco e forma circolare SOLO se il logo non è disponibile */
 .card-logo-wrap img[src*="ui-avatars.com"], 
 .hero-logo-wrap img[src*="ui-avatars.com"] {
     border-radius: 50% !important;
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
-    background: transparent !important;
-    transform: none !important;
-}
-
-/* ECCEZIONE LEGALIA: Forma originale e proporzioni */
-.card-logo-wrap img[src*="legalia"], 
-.hero-logo-wrap img[src*="legalia"],
-.card-logo-wrap img[alt*="Legalia"], 
-.hero-logo-wrap img[alt*="Legalia"],
-.card-logo-wrap img[alt*="レガリア"], 
-.hero-logo-wrap img[alt*="レガリア"] {
-    border-radius: 0 !important;
-    object-fit: contain !important;
-    background: transparent !important;
+    background: #ffffff !important;
+    filter: none !important;
     transform: none !important;
 }
 
