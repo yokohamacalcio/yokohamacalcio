@@ -263,7 +263,7 @@
             }
         }
 
-        /* --- LOGHI IDENTICI A MATCHES.HTML (NESSUN QUADRATO BIANCO) --- */
+        /* --- LOGHI IDENTICI A MATCHES.HTML --- */
         .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important;
@@ -835,7 +835,7 @@
                         </div>
                     </div>
 
-                    <!-- BARRA INFO PARTITA PASSATA: MARCATORI & MVP -->
+                    <!-- BARRA INFO PARTITA PASSATA: MARCATORI & MVP (Senza "MVP:" ridondante) -->
                     <div class="match-info-hero-bar" id="lastHeroInfoBar">
                         <div class="match-info-item" id="lastScorersItem" style="display: none;">
                             <i class="fas fa-futbol" style="color: var(--dark-navy);"></i>
@@ -843,7 +843,7 @@
                         </div>
                         <div class="match-info-item" id="lastMvpItem" style="display: none;">
                             <i class="fas fa-star" style="color: #f59e0b;"></i>
-                            <span>MVP: <strong id="lastMvpText" style="color: var(--dark-navy);">-</strong></span>
+                            <strong id="lastMvpText" style="color: var(--dark-navy);">-</strong>
                         </div>
                     </div>
                 </div>
@@ -1178,6 +1178,15 @@
     let cachedMatches = [];
     let locationsData = {};
     let opponentsData = {};
+    let playersData = [];
+
+    function cleanStr(s) {
+        return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
+    }
+
+    function containsJapaneseChars(text) {
+        return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf\u3400-\u4dbf]/.test(text);
+    }
 
     function getUniqueTeamColor(idOrName) {
         let hash = 0;
@@ -1254,6 +1263,74 @@
         return { name, romajiName, logo };
     }
 
+    /* --- TRADUZIONE DINAMICA DEI NOMI GIOCATORI DA PLAYERS.JSON --- */
+    function findPlayerObj(query) {
+        if (!query || query === 'なし' || query === 'Nessuno') return null;
+        if (!playersData || playersData.length === 0) return null;
+
+        const target = cleanStr(query);
+        if (!target) return null;
+
+        let found = playersData.find(p => {
+            const k = cleanStr(p.name_kanji);
+            const kn = cleanStr(p.name_kana);
+            const r = cleanStr(p.name_romaji);
+            return (k && k === target) || (kn && kn === target) || (r && r === target);
+        });
+
+        if (found) return found;
+        return playersData.find(p => {
+            const k = cleanStr(p.name_kanji);
+            const kn = cleanStr(p.name_kana);
+            const r = cleanStr(p.name_romaji);
+            return (k && (k.includes(target) || target.includes(k))) ||
+                   (kn && (kn.includes(target) || target.includes(kn))) ||
+                   (r && (r.includes(target) || target.includes(r))) ||
+                   (p.id && cleanStr(p.id) === target);
+        }) || null;
+    }
+
+    function getPlayerNameInLang(query, lang) {
+        const player = findPlayerObj(query);
+        if (!player) return query;
+
+        if (lang === 'ja') {
+            if (player.name_kanji && containsJapaneseChars(player.name_kanji)) return player.name_kanji;
+            return player.name_kana || player.name_kanji || player.name_romaji || query;
+        } else {
+            return player.name_romaji || player.name_kanji || query;
+        }
+    }
+
+    function translatePlayerText(text, lang) {
+        if (!text || typeof text !== 'string') return text || '';
+        if (text === 'なし' || text === 'Nessuno') return text;
+
+        const items = text.split(/[,、]/);
+        return items.map(item => {
+            let str = item.trim();
+            if (!str) return '';
+
+            let multiplier = '';
+            const multMatch = str.match(/(.*?)\s*(x\d+|\*\d+|\(\d+\))$/i);
+            if (multMatch) {
+                str = multMatch[1].trim();
+                multiplier = ' ' + multMatch[2];
+            }
+
+            const match = str.match(/^([^(（]+)[(（]([^)）]+)[)）]$/);
+            if (match) {
+                const mainName = match[1].trim();
+                const extraVal = match[2].trim();
+                const translatedMain = getPlayerNameInLang(mainName, lang);
+                const translatedExtra = isNaN(extraVal) ? getPlayerNameInLang(extraVal, lang) : extraVal;
+                return `${translatedMain} (${translatedExtra})${multiplier}`;
+            }
+
+            return `${getPlayerNameInLang(str, lang)}${multiplier}`;
+        }).filter(Boolean).join(', ');
+    }
+
     function setLanguage(lang) {
         if (!translations[lang]) return;
         
@@ -1323,15 +1400,17 @@
 
     async function initMatchCenter() {
         try {
-            const [mResp, lResp, oResp] = await Promise.allSettled([
+            const [mResp, lResp, oResp, pResp] = await Promise.allSettled([
                 fetch('matches.json'),
                 fetch('locations.json'),
-                fetch('opponents.json')
+                fetch('opponents.json'),
+                fetch('players.json')
             ]);
             
             if (mResp.status === 'fulfilled' && mResp.value.ok) cachedMatches = await mResp.value.json();
             if (lResp.status === 'fulfilled' && lResp.value.ok) locationsData = await lResp.value.json();
             if (oResp.status === 'fulfilled' && oResp.value.ok) opponentsData = await oResp.value.json();
+            if (pResp.status === 'fulfilled' && pResp.value.ok) playersData = await pResp.value.json();
 
             renderMatchCenter(cachedMatches);
         } catch (e) {
@@ -1454,11 +1533,13 @@
             }
             document.getElementById('lastScore').textContent = displayScore;
 
-            // GESTIONE MARCATORI E MVP NEL BOX ULTIMO RISULTATO
+            // MARCATORI E MVP CON TRADUZIONE DEI NOMI
             const scorersItem = document.getElementById('lastScorersItem');
             const scorersText = document.getElementById('lastScorersText');
-            if (lastMatch.scorers && lastMatch.scorers !== 'なし' && lastMatch.scorers !== 'Nessuno') {
-                if (scorersText) scorersText.textContent = lastMatch.scorers;
+            const scorersTranslated = translatePlayerText(lastMatch.scorers, lang);
+
+            if (scorersTranslated && scorersTranslated !== 'なし' && scorersTranslated !== 'Nessuno') {
+                if (scorersText) scorersText.textContent = scorersTranslated;
                 if (scorersItem) scorersItem.style.display = 'flex';
             } else if (scorersItem) {
                 scorersItem.style.display = 'none';
@@ -1466,8 +1547,10 @@
 
             const mvpItem = document.getElementById('lastMvpItem');
             const mvpText = document.getElementById('lastMvpText');
-            if (lastMatch.mvp && lastMatch.mvp !== 'なし' && lastMatch.mvp !== 'Nessuno') {
-                if (mvpText) mvpText.textContent = lastMatch.mvp;
+            const mvpTranslated = translatePlayerText(lastMatch.mvp, lang);
+
+            if (mvpTranslated && mvpTranslated !== 'なし' && mvpTranslated !== 'Nessuno') {
+                if (mvpText) mvpText.textContent = mvpTranslated;
                 if (mvpItem) mvpItem.style.display = 'flex';
             } else if (mvpItem) {
                 mvpItem.style.display = 'none';
@@ -1475,8 +1558,8 @@
 
             const lastHeroInfoBar = document.getElementById('lastHeroInfoBar');
             if (lastHeroInfoBar) {
-                const hasScorers = lastMatch.scorers && lastMatch.scorers !== 'なし' && lastMatch.scorers !== 'Nessuno';
-                const hasMvp = lastMatch.mvp && lastMatch.mvp !== 'なし' && lastMatch.mvp !== 'Nessuno';
+                const hasScorers = scorersTranslated && scorersTranslated !== 'なし' && scorersTranslated !== 'Nessuno';
+                const hasMvp = mvpTranslated && mvpTranslated !== 'なし' && mvpTranslated !== 'Nessuno';
                 lastHeroInfoBar.style.display = (hasScorers || hasMvp) ? 'flex' : 'none';
             }
         }
