@@ -259,7 +259,7 @@
 
         @media (min-width: 500px) {
             .team-name-col {
-                font-size: 0.9rem !important;
+                font-size: 0.95rem !important;
             }
         }
 
@@ -270,14 +270,6 @@
             flex-shrink: 0 !important;
             background: transparent !important;
             overflow: visible !important;
-        }
-
-        .card-logo-wrap {
-            width: 55px !important;
-            height: 55px !important;
-        }
-
-        .hero-logo-wrap {
             width: 75px !important;
             height: 75px !important;
         }
@@ -293,6 +285,7 @@
             background-color: transparent !important;
             transform: none !important;
             box-shadow: none !important;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15)) !important;
         }
 
         .hero-logo-wrap img {
@@ -312,7 +305,7 @@
 
         .match-vs-center {
             font-family: var(--font-brand) !important;
-            font-size: 2rem !important;
+            font-size: 2.2rem !important;
             color: var(--primary-sky) !important;
             display: flex !important;
             align-items: center !important;
@@ -324,9 +317,11 @@
         .score-past {
             color: var(--dark-navy) !important;
             letter-spacing: 1px !important;
-            font-size: 1.8rem !important;
+            font-size: 2.2rem !important;
+            font-weight: 800;
         }
 
+        /* CARD MATCH CENTER LAYOUT & FLEXBOX */
         .match-box-card {
             background: var(--white, #ffffff);
             border-radius: 16px;
@@ -336,6 +331,8 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            height: 100%;
+            box-sizing: border-box;
         }
 
         .next-match-hero {
@@ -348,6 +345,15 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .match-box-card-inner, .next-match-hero-inner {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-grow: 1;
         }
 
         .next-match-hero .team-name-col {
@@ -360,13 +366,17 @@
             color: var(--primary-sky) !important;
         }
 
-        .next-match-header {
+        .next-match-header, .match-past-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid #e2e8f0;
             padding-bottom: 12px;
             margin-bottom: 10px;
+        }
+
+        .next-match-header {
+            border-bottom-color: rgba(255,255,255,0.2);
         }
 
         .next-match-badge {
@@ -379,22 +389,40 @@
             text-transform: uppercase;
         }
 
-        .next-match-info {
+        /* BARRE INFO: CONFRONTO DEDICATO HERO vs LAST MATCH */
+        .match-info-hero-bar {
             display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            color: var(--dark-navy);
+            font-weight: 600;
+        }
+
+        .next-match-hero .match-info-hero-bar {
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            color: #ffffff;
+            flex-direction: row;
             flex-wrap: wrap;
             justify-content: center;
             gap: 10px 18px;
-            background: rgba(255, 255, 255, 0.08);
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 0.88rem;
-            margin-top: 15px;
         }
 
-        .next-match-info-item {
+        .match-info-item {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+        }
+
+        .match-info-item i {
+            width: 16px;
+            text-align: center;
         }
 
         .match-box-header {
@@ -434,15 +462,6 @@
 
         .match-box-venue a:hover {
             text-decoration: underline;
-        }
-
-        .venue-surface-tag {
-            font-size: 0.75rem;
-            color: #64748b;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
         }
 
         .next-match-hero .match-box-venue {
@@ -792,17 +811,17 @@
         <h2 class="section-title"><i class="fas fa-trophy"></i> <span data-i18n="results.title">試合結果・日程</span></h2>
         
         <div class="match-center-grid">
-            <!-- Box 1: Ultimo Risultato -->
+            <!-- Box 1: Ultimo Risultato (Marcatori ⚽ e MVP 🏆) -->
             <div class="match-box-card match-past-box">
-                <div>
-                    <div class="match-box-header">
-                        <div class="match-badge-group">
-                            <span class="match-badge badge-official" data-i18n="results.last_badge">前節結果</span>
-                            <span id="lastCategoryBadge" class="match-badge"></span>
-                        </div>
-                        <span class="match-box-date" id="lastMatchDate">-</span>
+                <div class="match-past-header">
+                    <div class="match-badge-group">
+                        <span class="match-badge badge-official" data-i18n="results.last_badge">前節結果</span>
+                        <span id="lastCategoryBadge" class="match-badge"></span>
                     </div>
-                    
+                    <span class="match-box-date" id="lastMatchDate">-</span>
+                </div>
+                
+                <div class="match-box-card-inner">
                     <div class="match-teams-wrapper">
                         <div class="teams-logos-row">
                             <div class="card-logo-wrap"><img src="./immagini/logo.png" alt="Yokohama Calcio" id="lastTeam1Logo" class="yokohama-logo"></div>
@@ -815,6 +834,18 @@
                             <div class="team-name-col" id="lastTeam2Name">-</div>
                         </div>
                     </div>
+
+                    <!-- BARRA INFO PARTITA PASSATA: MARCATORI & MVP -->
+                    <div class="match-info-hero-bar" id="lastHeroInfoBar">
+                        <div class="match-info-item" id="lastScorersItem" style="display: none;">
+                            <i class="fas fa-futbol" style="color: var(--dark-navy);"></i>
+                            <span id="lastScorersText">-</span>
+                        </div>
+                        <div class="match-info-item" id="lastMvpItem" style="display: none;">
+                            <i class="fas fa-star" style="color: #f59e0b;"></i>
+                            <span>MVP: <strong id="lastMvpText" style="color: var(--dark-navy);">-</strong></span>
+                        </div>
+                    </div>
                 </div>
 
                 <div>
@@ -825,42 +856,40 @@
                 </div>
             </div>
 
-            <!-- Box 2: Prossima Partita (Hero Card) -->
+            <!-- Box 2: Prossima Partita (Hero Card: Orario 🕒 e Terreno 🌿) -->
             <div class="next-match-hero" id="nextMatchBox">
-                <div>
-                    <div class="next-match-header">
-                        <div class="match-badge-group">
-                            <span class="next-match-badge" data-i18n="results.next_badge">次戦</span>
-                            <span id="nextCategoryBadge" class="match-badge"></span>
-                        </div>
-                        <span class="match-box-date" id="nextMatchDate" style="color: rgba(255,255,255,0.8);">-</span>
+                <div class="next-match-header">
+                    <div class="match-badge-group">
+                        <span class="next-match-badge" data-i18n="results.next_badge">次戦</span>
+                        <span id="nextCategoryBadge" class="match-badge"></span>
                     </div>
+                    <span class="match-box-date" id="nextMatchDate" style="color: rgba(255,255,255,0.8);">-</span>
+                </div>
 
-                    <div id="nextMatchContent">
-                        <div class="match-teams-wrapper">
-                            <div class="teams-logos-row">
-                                <div class="hero-logo-wrap"><img src="./immagini/logo.png" alt="Yokohama Calcio" id="nextTeam1Logo" class="yokohama-logo"></div>
-                                <div class="match-vs-center">VS</div>
-                                <div class="hero-logo-wrap"><img src="" alt="Opponent" id="nextTeam2Logo" class="opponent-logo"></div>
-                            </div>
-                            <div class="teams-names-row">
-                                <div class="team-name-col" id="nextTeam1Name" style="color: #ffffff;">Yokohama Calcio</div>
-                                <div></div>
-                                <div class="team-name-col" id="nextTeam2Name" style="color: #ffffff;">-</div>
-                            </div>
+                <div class="next-match-hero-inner" id="nextMatchContent">
+                    <div class="match-teams-wrapper">
+                        <div class="teams-logos-row">
+                            <div class="hero-logo-wrap"><img src="./immagini/logo.png" alt="Yokohama Calcio" id="nextTeam1Logo" class="yokohama-logo"></div>
+                            <div class="match-vs-center">VS</div>
+                            <div class="hero-logo-wrap"><img src="" alt="Opponent" id="nextTeam2Logo" class="opponent-logo"></div>
                         </div>
-
-                        <!-- BARRA INFO HERO: Orario KO + Tipologia Terreno (Affiancati) -->
-                        <div class="next-match-info" id="nextHeroInfoBar">
-                            <div class="next-match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span id="nextMatchTime">-</span></div>
-                            <div class="next-match-info-item" id="nextMatchSurfaceItem" style="display: none;"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span id="nextMatchSurface">-</span></div>
+                        <div class="teams-names-row">
+                            <div class="team-name-col" id="nextTeam1Name" style="color: #ffffff;">Yokohama Calcio</div>
+                            <div></div>
+                            <div class="team-name-col" id="nextTeam2Name" style="color: #ffffff;">-</div>
                         </div>
                     </div>
 
-                    <div class="no-match-box hidden" id="noNextMatchBox">
-                        <i class="far fa-calendar-times" style="color: var(--primary-sky);"></i>
-                        <p data-i18n="results.no_next_match" style="color: #ffffff;">次戦の日程はまだ決定していません。</p>
+                    <!-- BARRA INFO HERO -->
+                    <div class="match-info-hero-bar" id="nextHeroInfoBar">
+                        <div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span id="nextMatchTime">-</span></div>
+                        <div class="match-info-item" id="nextMatchSurfaceItem" style="display: none;"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span id="nextMatchSurface">-</span></div>
                     </div>
+                </div>
+
+                <div class="no-match-box hidden" id="noNextMatchBox">
+                    <i class="far fa-calendar-times" style="color: var(--primary-sky);"></i>
+                    <p data-i18n="results.no_next_match" style="color: #ffffff;">次戦の日程はまだ決定していません。</p>
                 </div>
 
                 <div>
@@ -1389,19 +1418,13 @@
             const locInfo = getLocationInfo(m.location_id, m.venue, lang);
 
             if (venueContainer) {
-                if (prefix === 'last') {
-                    let surfaceSpan = locInfo.surface ? `<span class="venue-surface-tag"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> ${locInfo.surface}</span>` : '';
-                    venueContainer.innerHTML = `<a href="${locInfo.url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> <span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i></a>${surfaceSpan}`;
-                } else {
-                    venueContainer.innerHTML = `<a href="${locInfo.url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> <span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i></a>`;
-                }
+                venueContainer.innerHTML = `<a href="${locInfo.url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> <span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i></a>`;
             }
 
             if (prefix === 'next') {
-                if (m.time) {
-                    const timeEl = document.getElementById('nextMatchTime');
-                    if (timeEl) timeEl.textContent = `${m.time} K.O.`;
-                }
+                const timeEl = document.getElementById('nextMatchTime');
+                if (timeEl) timeEl.textContent = m.time ? `${m.time} K.O.` : '-';
+                
                 const surfaceItem = document.getElementById('nextMatchSurfaceItem');
                 const surfaceText = document.getElementById('nextMatchSurface');
                 if (locInfo.surface) {
@@ -1413,7 +1436,6 @@
             }
 
             document.getElementById(`${prefix}DetailLink`).href = `matches.html#${m.id}`;
-
             renderCategoryBadge(`${prefix}CategoryBadge`, m.category);
         };
 
@@ -1431,6 +1453,33 @@
                 if (parts.length === 2) displayScore = `${parts[1].trim()} - ${parts[0].trim()}`;
             }
             document.getElementById('lastScore').textContent = displayScore;
+
+            // GESTIONE MARCATORI E MVP NEL BOX ULTIMO RISULTATO
+            const scorersItem = document.getElementById('lastScorersItem');
+            const scorersText = document.getElementById('lastScorersText');
+            if (lastMatch.scorers && lastMatch.scorers !== 'なし' && lastMatch.scorers !== 'Nessuno') {
+                if (scorersText) scorersText.textContent = lastMatch.scorers;
+                if (scorersItem) scorersItem.style.display = 'flex';
+            } else if (scorersItem) {
+                scorersItem.style.display = 'none';
+            }
+
+            const mvpItem = document.getElementById('lastMvpItem');
+            const mvpText = document.getElementById('lastMvpText');
+            if (lastMatch.mvp && lastMatch.mvp !== 'なし' && lastMatch.mvp !== 'Nessuno') {
+                if (mvpText) mvpText.textContent = lastMatch.mvp;
+                if (mvpItem) mvpItem.style.display = 'flex';
+            } else if (mvpItem) {
+                mvpItem.style.display = 'none';
+            }
+
+            // Nascondi completamente la barra se non ci sono né marcatori né MVP
+            const lastHeroInfoBar = document.getElementById('lastHeroInfoBar');
+            if (lastHeroInfoBar) {
+                const hasScorers = lastMatch.scorers && lastMatch.scorers !== 'なし' && lastMatch.scorers !== 'Nessuno';
+                const hasMvp = lastMatch.mvp && lastMatch.mvp !== 'なし' && lastMatch.mvp !== 'Nessuno';
+                lastHeroInfoBar.style.display = (hasScorers || hasMvp) ? 'flex' : 'none';
+            }
         }
 
         const upcomingMatches = matches
