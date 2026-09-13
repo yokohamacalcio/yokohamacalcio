@@ -198,7 +198,7 @@
             text-decoration: none;
         }
 
-        /* --- STILI PER MATCH CENTER E BADGES --- */
+        /* --- STILI BADGES MATCH --- */
         .match-badge-group {
             display: flex;
             align-items: center;
@@ -263,6 +263,7 @@
             }
         }
 
+        /* --- LOGHI IDENTICI A MATCHES.HTML (NESSUN QUADRATO BIANCO) --- */
         .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important;
@@ -270,6 +271,14 @@
             flex-shrink: 0 !important;
             background: transparent !important;
             overflow: visible !important;
+        }
+
+        .card-logo-wrap {
+            width: 75px !important;
+            height: 75px !important;
+        }
+
+        .hero-logo-wrap {
             width: 75px !important;
             height: 75px !important;
         }
@@ -282,14 +291,7 @@
             object-fit: contain !important;
             border-radius: 0 !important;
             background: transparent !important;
-            background-color: transparent !important;
             transform: none !important;
-            box-shadow: none !important;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15)) !important;
-        }
-
-        .hero-logo-wrap img {
-            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4)) !important;
         }
 
         .card-logo-wrap img[src*="ui-avatars.com"], 
@@ -299,8 +301,6 @@
             width: 100% !important;
             height: 100% !important;
             background: #ffffff !important;
-            filter: none !important;
-            transform: none !important;
         }
 
         .match-vs-center {
@@ -389,7 +389,7 @@
             text-transform: uppercase;
         }
 
-        /* BARRE INFO: CONFRONTO DEDICATO HERO vs LAST MATCH */
+        /* BARRE INFO: CONFRONTO HERO vs LAST MATCH */
         .match-info-hero-bar {
             display: flex;
             flex-direction: column;
@@ -1473,7 +1473,6 @@
                 mvpItem.style.display = 'none';
             }
 
-            // Nascondi completamente la barra se non ci sono né marcatori né MVP
             const lastHeroInfoBar = document.getElementById('lastHeroInfoBar');
             if (lastHeroInfoBar) {
                 const hasScorers = lastMatch.scorers && lastMatch.scorers !== 'なし' && lastMatch.scorers !== 'Nessuno';
