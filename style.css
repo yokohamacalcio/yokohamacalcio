@@ -1,8 +1,8 @@
 /* ==========================================
-   RESET & VARIABILI CROMATICHE DAL LOGO
+   1. RESET & VARIABILI CROMATICHE
    ========================================== */
 :root {
-    --primary-sky: #12A0D7;        /* Azzurro centrale skyline */
+    --primary-sky: #12A0D7;        /* Azzurro centrale logo */
     --primary-sky-hover: #0e86b5;  
     --dark-navy: #003C82;          /* Blu scuro anello esterno */
     --navy-hover: #002b5e;         
@@ -58,7 +58,7 @@ body {
 }
 
 /* ==========================================
-   HEADER & MENU (TOP BAR & MAIN NAVIGATION)
+   2. HEADER & BARRA SUPERIORE (TOP BAR & NAV)
    ========================================== */
 .header {
     background: var(--white);
@@ -68,7 +68,6 @@ body {
     z-index: 1000;
 }
 
-/* Top Bar (Social & Language Switcher) */
 .top-bar {
     background: var(--dark-navy);
     color: var(--white);
@@ -137,7 +136,6 @@ body {
     font-size: 0.75rem;
 }
 
-/* Main Header Bar */
 .main-header-bar {
     padding: 10px 0;
 }
@@ -166,7 +164,6 @@ body {
     object-fit: contain;
 }
 
-/* BRAND NAME */
 .brand-name {
     font-family: var(--font-brand);
     font-size: 1.6rem;
@@ -182,43 +179,12 @@ body {
     align-items: center;
 }
 
-/* DESKTOP LARGO (da 1025px in poi) */
-@media (min-width: 1025px) {
-    .brand-name {
-        font-size: 2rem;
-        gap: 8px;
-    }
-}
-
-/* MOBILE & TABLET IN ORIZZONTALE (LANDSCAPE) */
-@media (max-width: 1024px) and (orientation: landscape) {
-    .brand-name {
-        flex-direction: column;
-        align-items: flex-start;
-        font-size: 1.15rem;
-        line-height: 0.9;
-        gap: 0;
-    }
-    .desktop-nav-wrapper {
-        display: flex !important;
-    }
-    .mobile-menu-toggle {
-        display: none !important;
-    }
-}
-
-/* TABLET IN VERTICALE (PORTRAIT FINO A 1024px) */
-@media (max-width: 1024px) and (orientation: portrait) {
-    .desktop-nav-wrapper {
-        display: none !important;
-    }
-    .mobile-menu-toggle {
-        display: block !important;
-    }
+.brand-sub {
+    color: var(--primary-sky);
 }
 
 /* ==========================================
-   MENU DESKTOP RIORGANIZZATO
+   3. MENU DESKTOP & DROPDOWN
    ========================================== */
 .desktop-nav-wrapper {
     display: flex;
@@ -250,7 +216,6 @@ body {
     color: var(--primary-sky);
 }
 
-/* Dropdown Menu Container */
 .nav-item.dropdown {
     position: relative;
     display: inline-block;
@@ -265,7 +230,6 @@ body {
     transform: rotate(180deg);
 }
 
-/* Sottomenu Dropdown Fluttuante Desktop */
 .dropdown-menu {
     position: absolute;
     top: 100%;
@@ -304,7 +268,6 @@ body {
     color: var(--primary-sky);
 }
 
-/* Bottone CTA Desktop (Contatti in Evidenza) */
 .nav-cta-btn {
     background: var(--dark-navy) !important;
     color: var(--white) !important;
@@ -323,7 +286,157 @@ body {
 }
 
 /* ==========================================
-   HERO SECTION
+   4. OVERLAY MENU MOBILE SCURO MODALE
+   ========================================== */
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 10, 25, 0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.mobile-nav.hidden {
+    display: none !important;
+}
+
+.mobile-nav-content {
+    background: linear-gradient(145deg, #00224a 0%, #001229 100%);
+    color: #ffffff;
+    width: 100%;
+    max-width: 380px;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid rgba(135, 206, 235, 0.25);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.mobile-nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.mobile-nav-header .brand-name {
+    color: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.mobile-nav-header .brand-sub {
+    color: #87ceeb;
+}
+
+.mobile-nav-close {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 1.1rem;
+    color: #ffffff;
+    cursor: pointer;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.mobile-nav-close:active {
+    background: #87ceeb;
+    color: #00224a;
+}
+
+.mobile-link {
+    color: #ffffff !important;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 10px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.mobile-link:hover, .mobile-link:active {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.mobile-dropdown-toggle {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #ffffff !important;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 10px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.mobile-submenu {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    padding: 4px 0 4px 10px;
+    margin: 4px 0 8px 8px;
+    border-left: 2px solid #87ceeb;
+}
+
+.mobile-submenu.hidden {
+    display: none !important;
+}
+
+.mobile-submenu .mobile-link.sub {
+    font-size: 0.88rem;
+    padding: 8px 10px;
+    color: #e2e8f0 !important;
+}
+
+.mobile-cta-wrapper {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.mobile-cta-btn {
+    background: #87ceeb;
+    color: #00224a !important;
+    font-weight: 800;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+/* ==========================================
+   5. HERO SECTION
    ========================================== */
 .hero {
     background: linear-gradient(rgba(0, 60, 130, 0.78), rgba(0, 60, 130, 0.78)), 
@@ -365,7 +478,7 @@ body {
 .stripe.navy { background: var(--dark-navy); }
 
 /* ==========================================
-   ABOUT & MISSION
+   6. ABOUT & MISSION
    ========================================== */
 .about-grid {
     display: grid;
@@ -444,7 +557,7 @@ body {
 }
 
 /* ==========================================
-   MATCH CENTER (BACHECA MATCHES & HERO)
+   7. MATCH CENTER & SCHEDE PARTITE
    ========================================== */
 .match-center-section {
     background: var(--light-bg);
@@ -467,30 +580,278 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .next-match-hero {
-    background: linear-gradient(135deg, var(--dark-navy) 0%, #001f42 100%);
+    background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%);
     color: #ffffff;
     border-radius: 16px;
     padding: 24px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    border: 2px solid var(--primary-sky);
+    border: 2px solid var(--primary-sky, #87ceeb);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.match-box-card-inner, .next-match-hero-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.next-match-header, .match-past-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 12px;
+    margin-bottom: 10px;
+}
+
+.next-match-header {
+    border-bottom-color: rgba(255,255,255,0.2);
+}
+
+.next-match-badge {
+    background: var(--primary-sky, #87ceeb);
+    color: var(--dark-navy, #003c82);
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+}
+
+.match-badge-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.match-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+}
+
+.badge-official, .badge-league { background: #003c82; color: #ffffff; }
+.badge-friendly { background: #64748b; color: #ffffff; }
+.badge-tournament, .badge-cup { background: #d97706; color: #ffffff; }
+
+.match-info-hero-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-top: 15px;
+    color: var(--dark-navy);
+    font-weight: 600;
+}
+
+.next-match-hero .match-info-hero-bar {
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    color: #ffffff;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 18px;
+}
+
+.match-info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.match-info-item i {
+    width: 16px;
+    text-align: center;
+}
+
+.match-box-date {
+    font-size: 0.82rem;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.match-box-venue {
+    font-size: 0.8rem;
+    color: var(--primary-sky);
+    font-weight: 600;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed #e2e8f0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px 12px;
+}
+
+.match-box-venue a {
+    color: inherit;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.match-box-venue a:hover {
+    text-decoration: underline;
+}
+
+.next-match-hero .match-box-venue {
+    border-top-color: rgba(255,255,255,0.2);
+}
+
+.next-match-hero .match-box-venue a {
+    color: #ffffff;
+}
+
+.match-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.match-card-footer-hero {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-match-detail {
+    background: var(--primary-sky, #003c82);
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s ease;
+}
+
+.btn-match-detail:hover {
+    background: #002b5c;
+}
+
+.btn-match-detail-hero {
+    background: var(--primary-sky, #87ceeb);
+    color: var(--dark-navy, #003c82);
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: opacity 0.2s ease;
+}
+
+.btn-match-detail-hero:hover {
+    opacity: 0.9;
+}
+
+.no-match-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 15px;
+    text-align: center;
+    gap: 10px;
+    color: #64748b;
+    flex-grow: 1;
+}
+
+.no-match-box i {
+    font-size: 2rem;
+    color: var(--primary-sky);
+}
+
+.no-match-box p {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0;
 }
 
 /* ==========================================
-   GESTIONE DEFINITIVA STEMMI E LOGHI (UNIFORMATA)
+   8. SISTEMA LOGHI E STEMMI (ANTI-BUG SAFARI WEBKIT)
    ========================================== */
+.match-teams-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    width: 100% !important;
+    margin: 15px 0 !important;
+}
+
+.teams-logos-row {
+    display: grid !important;
+    grid-template-columns: 1fr 60px 1fr !important;
+    align-items: center !important;
+    justify-items: center !important;
+    width: 100% !important;
+}
+
+.teams-names-row {
+    display: grid !important;
+    grid-template-columns: 1fr 60px 1fr !important;
+    align-items: start !important;
+    justify-items: center !important;
+    width: 100% !important;
+}
+
+.team-name-col {
+    font-weight: 700 !important;
+    font-size: 0.82rem !important;
+    line-height: 1.2 !important;
+    color: var(--dark-navy) !important;
+    text-align: center !important;
+    width: 100% !important;
+    padding: 0 4px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+}
+
+.next-match-hero .team-name-col {
+    color: #ffffff !important;
+    font-size: 1.05rem !important;
+}
+
 .card-logo-wrap, .hero-logo-wrap {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     flex-shrink: 0 !important;
     background: transparent !important;
-    overflow: visible !important;
+    overflow: hidden !important;
 }
 
 .card-logo-wrap {
@@ -503,11 +864,13 @@ body {
     height: 64px !important;
 }
 
+/* SOLUZIONE DEFINTIVA AL BUG SAFARI WEBKIT:
+   In un contenitore Flex, l'immagine DEVE avere width: 100% e height: 100% per non gonfiarsi. */
 .card-logo-wrap img, .hero-logo-wrap img {
-    max-width: 88% !important;
-    max-height: 88% !important;
-    width: auto !important;
-    height: auto !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
     object-fit: contain !important;
     border-radius: 0 !important;
     background: transparent !important;
@@ -518,36 +881,35 @@ body {
 .hero-logo-wrap img[src*="ui-avatars.com"] {
     border-radius: 50% !important;
     object-fit: contain !important;
-    max-width: 88% !important;
-    max-height: 88% !important;
-    width: auto !important;
-    height: auto !important;
+    width: 100% !important;
+    height: 100% !important;
     background: #ffffff !important;
 }
 
-/* Badges Generici */
-.match-badge {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 700;
+.match-vs-center {
+    font-family: var(--font-brand) !important;
+    font-size: 2.2rem !important;
+    color: var(--primary-sky) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    white-space: nowrap !important;
 }
 
-.badge-official {
-    background: rgba(239, 68, 68, 0.12);
-    color: #ef4444;
-    border: 1px solid rgba(239, 68, 68, 0.3);
+.next-match-hero .match-vs-center {
+    font-size: 2.5rem !important;
 }
 
-.badge-next {
-    background: rgba(18, 160, 215, 0.2);
-    color: var(--primary-sky);
-    border: 1px solid var(--primary-sky);
+.score-past {
+    color: var(--dark-navy) !important;
+    letter-spacing: 1px !important;
+    font-size: 2.2rem !important;
+    font-weight: 800;
 }
 
 /* ==========================================
-   FOTOGALLERY COMPATTA (INSTAGRAM STYLE)
+   9. FOTOGALLERY COMPATTA & LIGHTBOX
    ========================================== */
 .gallery-section {
     padding: 60px 0;
@@ -685,7 +1047,7 @@ body {
 .lightbox-next { right: 20px; }
 
 /* ==========================================
-   SEZIONE SHOP CLASSICA
+   10. SHOP ONLINE
    ========================================== */
 .shop-section {
     background: var(--light-bg);
@@ -739,7 +1101,195 @@ body {
 }
 
 /* ==========================================
-   FILTRI GENERALI
+   11. CAROSELLO SPONSOR & PARTNER
+   ========================================== */
+.sponsors-section {
+    background: var(--white);
+    overflow: hidden;
+}
+
+.sponsors-carousel-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 10px 0;
+    margin-bottom: 25px;
+}
+
+.sponsors-track {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 20px;
+    width: max-content !important;
+    will-change: transform;
+}
+
+.sponsor-placeholder {
+    background: var(--light-bg);
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 25px 20px;
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #64748b;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+}
+
+.sponsor-placeholder i {
+    font-size: 1.8rem;
+    color: var(--primary-sky);
+}
+
+.sponsor-placeholder:hover {
+    border-color: var(--primary-sky);
+    background: #eef7fc;
+    color: var(--dark-navy);
+}
+
+.sponsor-recruit-text {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.sponsor-contact-btn {
+    max-width: 450px;
+    margin: 0 auto;
+    background: var(--dark-navy);
+}
+
+.sponsor-contact-btn:hover {
+    background: var(--primary-sky);
+}
+
+/* ==========================================
+   12. SCHEDA CONTATTI ENHANCED & GOOGLE FORM
+   ========================================== */
+.contact-card-enhanced {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.contact-card-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.contact-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    background: var(--primary-sky);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    color: #fff;
+    font-size: 24px;
+}
+
+.contact-card-header h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark-navy);
+    margin-bottom: 6px;
+}
+
+.contact-card-subtitle {
+    color: #666;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.contact-reasons-list-enhanced {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.contact-reasons-list-enhanced li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 12px 16px;
+}
+
+.contact-reasons-list-enhanced li i {
+    font-size: 20px;
+    color: var(--primary-sky);
+    width: 26px;
+    text-align: center;
+    margin-top: 2px;
+}
+
+.contact-reasons-list-enhanced li div {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-reasons-list-enhanced li strong {
+    font-size: 1rem;
+    color: var(--dark-navy);
+}
+
+.contact-reasons-list-enhanced li span {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.contact-action {
+    text-align: center;
+}
+
+.google-form-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: var(--primary-sky);
+    color: var(--white);
+    text-decoration: none;
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(18, 160, 215, 0.3);
+    width: 100%;
+}
+
+.google-form-btn:hover {
+    background: var(--dark-navy);
+    box-shadow: 0 6px 20px rgba(0, 60, 130, 0.3);
+    transform: translateY(-2px);
+}
+
+.external-icon {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+/* ==========================================
+   13. FILTRI E BOTTONI DI SEZIONE
    ========================================== */
 .filter-wrapper {
     display: flex;
@@ -773,8 +1323,22 @@ body {
     box-shadow: 0 4px 12px rgba(18, 160, 215, 0.25);
 }
 
+.back-home-wrapper {
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 20px;
+}
+
+.back-btn {
+    max-width: 260px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
 /* ==========================================
-   PAGINA GIOCATORI (PLAYERS.HTML)
+   14. PAGINA GIOCATORI (PLAYERS.HTML)
    ========================================== */
 .players-page-section {
     min-height: 70vh;
@@ -973,27 +1537,8 @@ body {
     color: var(--dark-navy);
 }
 
-.stats-highlight {
-    color: var(--primary-sky);
-    font-weight: 800;
-}
-
-.back-home-wrapper {
-    text-align: center;
-    margin-top: 60px;
-    margin-bottom: 20px;
-}
-
-.back-btn {
-    max-width: 260px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
 /* ==========================================
-   PAGINA STATISTICHE (STATS.HTML)
+   15. PAGINA STATISTICHE (STATS.HTML)
    ========================================== */
 .stats-table-wrapper {
     overflow-x: auto;
@@ -1082,214 +1627,13 @@ body {
 .rank-2 { color: #94a3b8; }
 .rank-3 { color: #b45309; }
 
-/* ==========================================
-   SEZIONE SPONSOR
-   ========================================== */
-.sponsors-section {
-    background: var(--white);
-    overflow: hidden;
-}
-
-.sponsors-carousel-container {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    padding: 10px 0;
-    margin-bottom: 25px;
-}
-
-.sponsors-track {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    gap: 20px;
-    width: max-content !important;
-    will-change: transform;
-}
-
-.sponsor-placeholder {
-    background: var(--light-bg);
-    border: 2px dashed #cbd5e1;
-    border-radius: 12px;
-    padding: 25px 20px;
-    min-width: 220px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    color: #64748b;
-    font-weight: 700;
-    font-size: 0.9rem;
-    flex-shrink: 0;
-    transition: all 0.25s ease;
-}
-
-.sponsor-placeholder i {
-    font-size: 1.8rem;
+.stats-highlight {
     color: var(--primary-sky);
-}
-
-.sponsor-placeholder:hover {
-    border-color: var(--primary-sky);
-    background: #eef7fc;
-    color: var(--dark-navy);
-}
-
-.sponsor-recruit-text {
-    font-size: 0.95rem;
-    color: var(--text-color);
-    text-align: center;
-    margin-bottom: 20px;
-    line-height: 1.6;
-}
-
-.sponsor-contact-btn {
-    max-width: 450px;
-    margin: 0 auto;
-    background: var(--dark-navy);
-}
-
-.sponsor-contact-btn:hover {
-    background: var(--primary-sky);
+    font-weight: 800;
 }
 
 /* ==========================================
-   BOX CONTATTO GOOGLE FORMS UNICO BOX
-   ========================================== */
-.contact-card {
-    background: var(--white);
-    border-radius: 20px;
-    padding: 40px 30px;
-    max-width: 650px;
-    margin: 0 auto;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 10px 30px rgba(0, 60, 130, 0.08);
-    text-align: center;
-}
-
-.contact-header {
-    margin-bottom: 15px;
-}
-
-.contact-icon {
-    font-size: 2.5rem;
-    color: var(--primary-sky);
-    margin-bottom: 10px;
-    display: block;
-}
-
-.contact-header h3 {
-    font-size: 1.35rem;
-    color: var(--dark-navy);
-    font-weight: 700;
-}
-
-.contact-reasons-list {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0 25px;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    background: var(--light-bg);
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid #e2e8f0;
-}
-
-.contact-reasons-list li {
-    font-size: 0.92rem;
-    color: var(--text-color);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    line-height: 1.4;
-}
-
-.contact-reasons-list li i {
-    color: var(--primary-sky);
-    font-size: 1.1rem;
-    flex-shrink: 0;
-}
-
-.contact-reasons-list li strong {
-    color: var(--dark-navy);
-}
-
-.contact-desc {
-    color: var(--text-color);
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 25px;
-}
-
-.google-form-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    background: var(--primary-sky);
-    color: var(--white);
-    text-decoration: none;
-    padding: 16px 24px;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 1rem;
-    transition: all 0.25s ease;
-    box-shadow: 0 4px 15px rgba(18, 160, 215, 0.3);
-    width: 100%;
-}
-
-.google-form-btn:hover {
-    background: var(--dark-navy);
-    box-shadow: 0 6px 20px rgba(0, 60, 130, 0.3);
-    transform: translateY(-2px);
-}
-
-.external-icon {
-    font-size: 0.85rem;
-    opacity: 0.8;
-}
-
-/* ==========================================
-   PULSANTE FLOATING TORNA SU
-   ========================================== */
-#scrollToTopBtn {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    width: 46px;
-    height: 46px;
-    background: var(--primary-sky);
-    color: var(--white);
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    box-shadow: 0 4px 15px rgba(0, 60, 130, 0.25);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    z-index: 9999;
-}
-
-#scrollToTopBtn.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-#scrollToTopBtn:hover {
-    background: var(--dark-navy);
-    transform: translateY(-3px);
-}
-
-/* ==========================================
-   PAGINA FAQ (FAQ.HTML)
+   16. PAGINA FAQ (FAQ.HTML)
    ========================================== */
 .faq-page-section {
     min-height: 70vh;
@@ -1396,7 +1740,7 @@ body {
 }
 
 /* ==========================================
-   PAGINA PARTITE (MATCHES.HTML) - LAYOUT CENTRATO
+   17. PAGINA PARTITE (MATCHES.HTML)
    ========================================== */
 .matches-page-section {
     min-height: 70vh;
@@ -1438,68 +1782,6 @@ body {
 .match-date-text {
     font-weight: 700;
     color: #64748b;
-}
-
-.match-teams-wrapper {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 10px !important;
-    width: 100% !important;
-    margin: 15px 0 !important;
-}
-
-.teams-logos-row {
-    display: grid !important;
-    grid-template-columns: 1fr 60px 1fr !important;
-    align-items: center !important;
-    justify-items: center !important;
-    width: 100% !important;
-}
-
-.teams-names-row {
-    display: grid !important;
-    grid-template-columns: 1fr 60px 1fr !important;
-    align-items: start !important;
-    justify-items: center !important;
-    width: 100% !important;
-}
-
-.team-name-col {
-    font-weight: 700 !important;
-    font-size: 0.82rem !important;
-    line-height: 1.2 !important;
-    color: var(--dark-navy) !important;
-    text-align: center !important;
-    width: 100% !important;
-    padding: 0 4px !important;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 2 !important;
-    -webkit-box-orient: vertical !important;
-    overflow: hidden !important;
-}
-
-@media (min-width: 500px) {
-    .team-name-col {
-        font-size: 0.95rem !important;
-    }
-}
-
-.match-vs-center {
-    font-family: var(--font-brand) !important;
-    font-size: 2.2rem !important;
-    color: var(--primary-sky) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-    white-space: nowrap !important;
-}
-
-.score-past {
-    color: var(--dark-navy) !important;
-    letter-spacing: 1px !important;
-    font-size: 2.2rem !important;
-    font-weight: 800;
 }
 
 .toggle-details-btn {
@@ -1556,8 +1838,40 @@ body {
 }
 
 /* ==========================================
-   FOOTER
+   18. FLOATING BUTTON & FOOTER
    ========================================== */
+#scrollToTopBtn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 46px;
+    height: 46px;
+    background: var(--primary-sky);
+    color: var(--white);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 15px rgba(0, 60, 130, 0.25);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 9999;
+}
+
+#scrollToTopBtn.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+#scrollToTopBtn:hover {
+    background: var(--dark-navy);
+    transform: translateY(-3px);
+}
+
 .footer {
     background: var(--dark-navy);
     color: #94a3b8;
@@ -1568,7 +1882,7 @@ body {
 }
 
 /* ==========================================
-   MOBILE RESPONSIVE OPTIMIZATIONS & MENU MOBILE
+   19. MEDIA QUERIES & RESPONSIVE DESIGN
    ========================================== */
 .mobile-menu-toggle {
     display: none;
@@ -1577,6 +1891,29 @@ body {
     font-size: 1.6rem;
     color: var(--dark-navy);
     cursor: pointer;
+}
+
+@media (min-width: 1025px) {
+    .brand-name {
+        font-size: 2rem;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 1024px) and (orientation: landscape) {
+    .brand-name {
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 1.15rem;
+        line-height: 0.9;
+        gap: 0;
+    }
+    .desktop-nav-wrapper {
+        display: flex !important;
+    }
+    .mobile-menu-toggle {
+        display: none !important;
+    }
 }
 
 @media (max-width: 1024px) and (orientation: portrait), (max-width: 768px) {
@@ -1618,21 +1955,18 @@ body {
         font-size: 0.82rem;
     }
 
-    .contact-reasons-list {
-        padding: 15px;
-        gap: 10px;
-    }
-
-    .contact-reasons-list li {
-        font-size: 0.85rem;
-    }
-
     .shop-card {
         padding: 30px 20px;
     }
 
-    .contact-card {
-        padding: 25px 20px;
+    .contact-card-enhanced {
+        padding: 20px 15px;
+    }
+
+    .contact-reasons-list-enhanced li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
     }
 
     .google-form-btn {
@@ -1640,10 +1974,19 @@ body {
         padding: 14px 18px;
     }
 
-    /* Match Center su mobile */
     .match-center-grid {
         grid-template-columns: 1fr;
         gap: 16px;
         max-width: 450px;
+    }
+}
+
+@media (max-width: 576px) {
+    .gallery-compact-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .gallery-compact-item.item-featured {
+        grid-column: span 2;
+        grid-row: span 2;
     }
 }
