@@ -1,13 +1,12 @@
 import json
 import os
 import re
+from datetime import date, datetime
 
 # ============================================================
 # PERCORSI ROBUSTI
 # ============================================================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# Se il file si trova nella root, BASE_DIR è già la ROOT_DIR.
-# Se si trova in una sottocartella (es. .github/scripts), sale di un livello.
 ROOT_DIR = (
     BASE_DIR
     if os.path.exists(os.path.join(BASE_DIR, 'matches.json'))
@@ -75,7 +74,7 @@ def get_category_label(cat):
 
 
 # ============================================================
-# GENERAZIONE HTML + SCHEMA
+# GENERAZIONE HTML + SCHEMA (MATCHES)
 # ============================================================
 def build_static_matches_html():
   matches = load_json('matches.json') or []
@@ -307,10 +306,302 @@ def build_static_matches_html():
 
 
 # ============================================================
+# GENERAZIONE HTML + SCHEMA GIOCATORI (NUOVO)
+# ============================================================
+
+# Icone per le intestazioni di sezione (uguali all'HTML attuale)
+SECTION_ICONS = {
+    'gk': 'fa-hands',
+    'df': 'fa-shield-alt',
+    'mf': 'fa-running',
+    'fw': 'fa-futbol',
+}
+
+# Icone per i badge interni alla card (uguali al JS getRoleIcon)
+BADGE_ICONS = {
+    'gk': 'fa-hands',
+    'df': 'fa-shield-alt',
+    'mf': 'fa-running',
+    'fw': 'fa-bullseye',
+}
+
+# Etichette sezione (già in i18n lato client, ma le mettiamo per SEO)
+SECTION_LABELS = {
+    'gk': 'GOALKEEPER',
+    'df': 'DEFENDER',
+    'mf': 'MIDFIELDER',
+    'fw': 'FORWARD',
+}
+
+# Classi CSS per i badge di ruolo
+ROLE_BADGE_CLASSES = {
+    'gk': 'role-badge-gk',
+    'df': 'role-badge-df',
+    'mf': 'role-badge-mf',
+    'fw': 'role-badge-fw',
+}
+
+
+def calculate_age(birth_date):
+  """Calcola l'età da una data di nascita in formato YYYY-MM-DD."""
+  if not birth_date:
+    return '-'
+  try:
+    birth = datetime.strptime(birth_date, '%Y-%m-%d').date()
+    today = date.today()
+    age = today.year - birth.year
+    if (today.month, today.day) < (birth.month, birth.day):
+      age -= 1
+    return age
+  except Exception:
+    return '-'
+
+
+def _extract_surname_parts(raw):
+  """Ritorna (surname, remaining_parts) dalla stringa del nome."""
+  if not raw:
+    return '', []
+  parts = raw.strip().split()
+  if not parts:
+    return '', []
+  prefixes = ['di', 'de', 'da', 'del', 'della', 'van', 'von', 'san', 'st.']
+  if len(parts) >= 2 and parts[0].lower() in prefixes:
+    return f'{parts[0]} {parts[1]}'.upper(), parts[2:]
+  return parts[0].upper(), parts[1:]
+
+
+def compute_surname_counts(players):
+  """Conta quante volte compare ogni cognome (per disambiguare con iniziale)."""
+  counts = {}
+  for p in players:
+    raw = (
+        p.get('name_romaji')
+        if p.get('name_romaji') and p.get('name_romaji') != '-'
+        else p.get('name_kanji', '')
+    ) or ''
+    surname, _ = _extract_surname_parts(raw)
+    if surname:
+      counts[surname] = counts.get(surname, 0) + 1
+  return counts
+
+
+def get_surname_display(p, surname_counts):
+  """Cognome in maiuscolo, con iniziale se duplicato (es. ROSSI M.)."""
+  raw = (
+      p.get('name_romaji')
+      if p.get('name_romaji') and p.get('name_romaji') != '-'
+      else p.get('name_kanji', '')
+  ) or 'YOKOHAMA'
+  surname, remaining = _extract_surname_parts(raw)
+  if not surname:
+    return 'YOKOHAMA'
+  if surname_counts.get(surname, 0) > 1 and remaining:
+    initial = remaining[-1][0].upper()
+    return f'{surname} {initial}.'
+  return surname
+
+
+def _build_details_rows(p):
+  """Genera le righe di dettaglio dietro la card (GK vs giocatore di movimento)."""
+  role = p.get('role', 'mf')
+  is_gk = role == 'gk'
+  position = p.get('position', '-')
+  hometown = p.get('hometown', '-')
+  age = calculate_age(p.get('birth_date'))
+  role_badge_class = ROLE_BADGE_CLASSES.get(role, 'role-badge-mf')
+  role_icon = BADGE_ICONS.get(role, 'fa-user')
+
+  role_row = (
+      '<div class="player-detail-row">'
+      '<span data-i18n="label.role_detail">役割:</span> '
+      f'<span class="role-badge-back {role_badge_class}">'
+      f'<i class="fas {role_icon}"></i> <strong>{position}</strong>'
+      '</span></div>'
+  )
+  hometown_row = (
+      '<div class="player-detail-row">'
+      '<span data-i18n="label.hometown">出身地:</span> '
+      f'<strong data-hometown="{hometown}"></strong></div>'
+  )
+  age_row = (
+      '<div class="player-detail-row">'
+      '<span data-i18n="label.age">年齢:</span> '
+      f'<strong data-age="{age}">{age} 歳</strong></div>'
+  )
+
+  if is_gk:
+    stat_rows = (
+        '<div class="player-detail-row">'
+        '<span><i class="fas fa-shield-halved"></i> '
+        '<span data-i18n="label.goals_conceded">失点:</span></span> '
+        '<strong class="stats-highlight" data-stat="goals_conceded">0</strong></div>'
+        '<div class="player-detail-row">'
+        '<span><i class="fas fa-lock"></i> '
+        '<span data-i18n="label.clean_sheets">クリーンシート:</span></span> '
+        '<strong class="stats-highlight" data-stat="clean_sheets">0</strong></div>'
+        '<div class="player-detail-row">'
+        '<span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> '
+        '<strong class="stats-highlight" data-stat="mvps">0</strong></div>'
+    )
+  else:
+    stat_rows = (
+        '<div class="player-detail-row">'
+        '<span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> '
+        '<span data-i18n="label.goals">得点:</span></span> '
+        '<strong class="stats-highlight" data-stat="goals">0</strong></div>'
+        '<div class="player-detail-row">'
+        '<span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> '
+        '<span data-i18n="label.assists">アシスト:</span></span> '
+        '<strong class="stats-highlight" data-stat="assists">0</strong></div>'
+        '<div class="player-detail-row">'
+        '<span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> '
+        '<strong class="stats-highlight" data-stat="mvps">0</strong></div>'
+    )
+
+  yellow_row = (
+      '<div class="player-detail-row">'
+      '<span><i class="fas fa-square" style="color: #f59e0b;"></i> '
+      '<span data-i18n="label.yellows">警告:</span></span> '
+      '<strong class="stats-highlight" data-stat="yellows">0</strong></div>'
+  )
+  red_row = (
+      '<div class="player-detail-row">'
+      '<span><i class="fas fa-square" style="color: #ef4444;"></i> '
+      '<span data-i18n="label.reds">退場:</span></span> '
+      '<strong class="stats-highlight" data-stat="reds">0</strong></div>'
+  )
+
+  return role_row + hometown_row + age_row + stat_rows + yellow_row + red_row
+
+
+def create_player_card_html(p, surname_counts):
+  """Genera l'HTML completo di una card giocatore (front + back)."""
+  role = p.get('role', 'mf')
+  is_gk = role == 'gk'
+
+  number = p.get('number')
+  number_str = str(number) if number is not None else '-'
+
+  name_kanji = p.get('name_kanji') or '-'
+  name_kana = p.get('name_kana') or name_kanji
+  name_romaji = p.get('name_romaji') or name_kanji
+  position = p.get('position', '-')
+
+  surname = get_surname_display(p, surname_counts)
+  jersey_class = 'jersey-gk' if is_gk else ''
+  details_rows = _build_details_rows(p)
+
+  player_id = p.get('id') or number or name_kanji
+
+  return f"""
+            <div class="player-card" data-player-id="{player_id}" data-player-name="{name_kanji}" data-player-kana="{name_kana}" data-player-romaji="{name_romaji}" data-player-pos="{position}" data-player-role="{role}">
+                <div class="player-card-inner">
+                    <div class="player-card-front">
+                        <div class="player-body-jersey {jersey_class}">
+                            <div class="jersey-surname-large">{surname}</div>
+                            <div class="jersey-number-large">{number_str}</div>
+                        </div>
+                        <div class="player-name-block-front">
+                            <div class="player-name-kanji">{name_kanji}</div>
+                            <div class="player-name-romaji">{name_kana}</div>
+                        </div>
+                        <div class="player-flip-indicator">
+                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
+                        </div>
+                    </div>
+                    <div class="player-card-back">
+                        <div class="player-back-name-block">
+                            <div class="player-name-kanji">{name_kanji}</div>
+                            <div class="player-name-romaji">{name_kana}</div>
+                        </div>
+                        <div class="player-details-inner">
+                            {details_rows}
+                        </div>
+                        <div class="player-flip-indicator">
+                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        """
+
+
+def build_players_html():
+  """Genera l'HTML dei 4 role-group + card e la lista di schema Person."""
+  players_data = load_json('players.json') or []
+  if not players_data:
+    print('⚠️ players.json vuoto o non trovato, salto generazione giocatori.')
+    return '', []
+
+  field_players = [p for p in players_data if p.get('role') != 'staff']
+
+  # Ordina per numero (None in fondo)
+  def sort_key(p):
+    n = p.get('number')
+    return (n is None, n if n is not None else 9999)
+
+  sorted_players = sorted(field_players, key=sort_key)
+  surname_counts = compute_surname_counts(field_players)
+
+  sections = {'gk': [], 'df': [], 'mf': [], 'fw': []}
+  for p in sorted_players:
+    role = p.get('role')
+    if role in sections:
+      sections[role].append(p)
+
+  html_parts = []
+  for role in ['gk', 'df', 'mf', 'fw']:
+    icon = SECTION_ICONS[role]
+    label = SECTION_LABELS[role]
+    cards_html = '\n'.join(
+        create_player_card_html(p, surname_counts) for p in sections[role]
+    )
+    html_parts.append(f"""
+        <div class="role-group" data-role-section="{role}">
+            <h3 class="role-title"><i class="fas {icon}"></i> <span data-i18n="section.{role}">{label}</span></h3>
+            <div class="players-grid" id="players-{role}">
+                {cards_html}
+            </div>
+        </div>
+        """)
+
+  # --- JSON-LD Person per ogni giocatore (per SEO) ---
+  schemas = []
+  for p in field_players:
+    name_kanji = p.get('name_kanji') or ''
+    name_romaji = p.get('name_romaji') or ''
+    position = p.get('position') or ''
+
+    person = {
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        'name': name_kanji or name_romaji or 'Player',
+        'memberOf': {
+            '@type': 'SportsTeam',
+            'name': 'Yokohama Calcio',
+            'url': YOKOHAMA_FULL_URL,
+        },
+    }
+    if name_romaji:
+      person['alternateName'] = name_romaji
+    if position:
+      person['jobTitle'] = f'Soccer Player ({position})'
+    if p.get('birth_date'):
+      person['birthDate'] = p['birth_date']
+    if p.get('hometown'):
+      person['birthPlace'] = {'@type': 'Place', 'name': p['hometown']}
+    if p.get('number') is not None:
+      person['identifier'] = str(p['number'])
+    schemas.append(person)
+
+  return '\n'.join(html_parts), schemas
+
+
+# ============================================================
 # INIEZIONE HTML STATICO (BASATA SUI MARKER)
 # ============================================================
 def inject_html_to_file(filename, upcoming_html, past_html):
-  """Inietta l'HTML statico tra i marker nel file di destinazione."""
+  """Inietta l'HTML statico tra i marker UPCOMING/PAST."""
   full_path = os.path.join(ROOT_DIR, filename)
   if not os.path.exists(full_path):
     print(f'⚠️ {filename} non trovato, salto.')
@@ -353,11 +644,41 @@ def inject_html_to_file(filename, upcoming_html, past_html):
     print(f'❌ Errore aggiornando {filename}: {e}')
 
 
+def inject_players_html_to_file(filename, players_html):
+  """Inietta le card giocatori tra i marker PLAYERS_START/END."""
+  if not players_html:
+    return
+  full_path = os.path.join(ROOT_DIR, filename)
+  if not os.path.exists(full_path):
+    print(f'⚠️ {filename} non trovato, salto.')
+    return
+
+  try:
+    with open(f/ull_path, 'r', encoding='utf-8') as f:
+      content = f.read()
+
+    if '<!-- PLAYERS_START -->' in content and '<!-- PLAYERS_END -->' in content:
+      content = re.sub(
+          r'(<!-- PLAYERS_START -->).*?(<!-- PLAYERS_END -->)',
+          lambda m: f'{m.group(1)}\n{players_html}\n{m.group(2)}',
+          content,
+          flags=re.DOTALL,
+      )
+      with open(full_path, 'w', encoding='utf-8') as f:
+        f.write(content)
+      print(f'✅ Card giocatori iniettate in {filename}')
+    else:
+      print(f'ℹ️ Nessun marker PLAYERS trovato in {filename}.')
+
+  except Exception as e:
+    print(f'❌ Errore players HTML in {filename}: {e}')
+
+
 # ============================================================
-# INIEZIONE JSON-LD NEL <head> (IN-PLACE REPLACEMENT)
+# INIEZIONE JSON-LD NEL <head>
 # ============================================================
 def inject_schema_into_head(filename, schema_events):
-  """Inietta i blocchi JSON-LD mantenendo esattamente la posizione dei marker nel <head>."""
+  """Inietta i blocchi JSON-LD degli eventi (SCHEMA_EVENTS_START/END)."""
   full_path = os.path.join(ROOT_DIR, filename)
   if not os.path.exists(full_path) or not schema_events:
     return
@@ -400,19 +721,68 @@ def inject_schema_into_head(filename, schema_events):
     print(f'❌ Errore schema in {filename}: {e}')
 
 
+def inject_players_schema_into_head(filename, schemas):
+  """Inietta i blocchi JSON-LD Person (SCHEMA_PLAYERS_START/END)."""
+  full_path = os.path.join(ROOT_DIR, filename)
+  if not os.path.exists(full_path) or not schemas:
+    return
+
+  try:
+    with open(full_path, 'r', encoding='utf-8') as f:
+      content = f.read()
+
+    blocks = []
+    for s in schemas:
+      blocks.append(
+          '<script type="applicationld+json">\n'
+          + json.dumps(s, ensure_ascii=False, indent=2)
+          + '\n</script>'
+      )
+
+    block_html = (
+        '<!-- SCHEMA_PLAYERS_START -->\n'
+        + '\n'.join(blocks)
+        + '\n<!-- SCHEMA_PLAYERS_END -->'
+    )
+
+    if (
+        '<!-- SCHEMA_PLAYERS_START -->' in content
+        and '<!-- SCHEMA_PLAYERS_END -->' in content
+    ):
+      content = re.sub(
+          r'<!-- SCHEMA_PLAYERS_START -->.*?<!-- SCHEMA_PLAYERS_END -->',
+          block_html,
+          content,
+          flags=re.DOTALL,
+      )
+      with open(full_path, 'w', encoding='utf-8') as f:
+        f.write(content)
+      print(f'✅ Player JSON-LD iniettato in {filename}')
+    else:
+      print(f'ℹ️ Nessun marker SCHEMA_PLAYERS trovato in {filename}.')
+
+  except Exception as e:
+    print(f'❌ Errore players schema in {filename}: {e}')
+
+
 # ============================================================
 # MAIN
 # ============================================================
 if __name__ == '__main__':
   print(f'📂 ROOT_DIR rilevata: {ROOT_DIR}')
 
+  # --- 1. Match center + event schema (index, matches, stats, players) ---
   upcoming_h, past_h, schema_events = build_static_matches_html()
 
-  # Elenco completo delle pagine su cui applicare le iniezioni
   TARGET_PAGES = ['index.html', 'matches.html', 'stats.html', 'players.html']
 
   for page in TARGET_PAGES:
     inject_html_to_file(page, upcoming_h, past_h)
     inject_schema_into_head(page, schema_events)
+
+  # --- 2. Players (solo players.html) ---
+  players_h, schema_players = build_players_html()
+  inject_players_html_to_file('players.html', players_h)
+  inject_players_schema_into_head('players.html', schema_players)
 
   print('🎉 Completato con successo per tutte le pagine target.')
