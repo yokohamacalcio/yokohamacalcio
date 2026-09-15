@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>試合日程・結果 (Fixtures & Results) | Yokohama Calcio</title>
+    <title>試合日程・結果 | Fixtures & Results | Yokohama Calcio</title>
     
     <meta name="description" content="Yokohama Calcioの試合日程および過去の試合結果・得点者一覧です。横浜市・神奈川県内の社会人サッカーリーグ・練習試合のスケジュールを掲載中。Match schedule and results for Yokohama Calcio.">
     <meta name="keywords" content="Yokohama Calcio 試合結果, 横浜 社会人サッカー 日程, 横浜 サッカー 練習試合, 神奈川県社会人サッカー, Yokohama Calcio Results, Amateur Football Match Yokohama">
@@ -54,7 +54,7 @@
     <!-- SCHEMA_EVENTS_END -->
     
     <style>
-        /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO --- */
+        /* --- OVERLAY MENU MOBILE SCURO COMPATTO --- */
         .mobile-nav {
             position: fixed;
             top: 0; left: 0;
@@ -130,7 +130,7 @@
             gap: 8px; text-decoration: none;
         }
 
-        /* --- BADGE MATCH --- */
+        /* --- BADGES --- */
         .match-badge-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
         .match-badge {
             font-size: 0.72rem; font-weight: 700;
@@ -153,6 +153,43 @@
         #matchesCounter {
             display: block; margin-bottom: 10px;
             font-weight: 600; color: var(--dark-navy, #003c82); font-size: 0.9rem;
+        }
+
+        /* --- REVISIONATO LAYOUT FILTRI E CONTROLLI SU MOBILE --- */
+        .matches-controls-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .matches-page-section .section-title {
+                font-size: 1.6rem !important;
+                text-align: center;
+                justify-content: center;
+            }
+            .matches-intro {
+                text-align: center;
+                font-size: 0.9rem;
+                margin-bottom: 20px;
+            }
+            .matches-controls-row {
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 12px !important;
+            }
+            .filter-wrapper {
+                justify-content: center !important;
+                width: 100% !important;
+                flex-wrap: wrap !important;
+            }
+            .season-filter-group {
+                justify-content: center !important;
+                width: 100% !important;
+            }
         }
 
         /* STRUTTURA A GRIGLIA PER NOMI E LOGHI SQUADRE */
@@ -195,7 +232,7 @@
             .team-name-col { font-size: 0.95rem !important; }
         }
 
-        /* DIMENSIONI LOGHI: HERO NETTAMENTE PIÙ GRANDE (88px) RISPETTO A NON-HERO (58px) */
+        /* DIMENSIONI STEMMI: HERO (88px) vs NON-HERO (58px) */
         .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important;
@@ -417,14 +454,14 @@
             <p>Please enable JavaScript to view the interactive schedule, or check our structured match events data.</p>
         </noscript>
 
-        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 30px;">
+        <div class="matches-controls-row">
             <div class="filter-wrapper" style="margin-bottom: 0;">
                 <button class="filter-btn active" data-match-filter="all" data-i18n="filter.all">すべて</button>
                 <button class="filter-btn" data-match-filter="league" data-i18n="filter.league">リーグ戦</button>
                 <button class="filter-btn" data-match-filter="cup" data-i18n="filter.cup">カップ戦</button>
                 <button class="filter-btn" data-match-filter="friendly" data-i18n="filter.friendly">練習試合</button>
             </div>
-            <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="season-filter-group" style="display: flex; align-items: center; gap: 8px;">
                 <label for="matchSeasonSelect" style="font-weight: 700; color: var(--dark-navy, #003c82); font-size: 0.9rem;">
                     <i class="fas fa-calendar-alt"></i> <span data-i18n="matches_page.season_label">シーズン:</span>
                 </label>
@@ -862,7 +899,7 @@
                 const t2Err = isHome ? `onerror="this.onerror=null;this.src='${fallbackAvatar}';"` : "";
 
                 if (index === 0) {
-                    /* --- HERO NEXT MATCH (SCHEDA IN EVIDENZA CON LOGHI GRANDI 88PX) --- */
+                    /* --- HERO NEXT MATCH (STEMMI GRANDI 88PX) --- */
                     upcomingHtml += `
                         <div class="upcoming-item match-detail-card next-match-hero" data-match-category="${nextM.category}" data-match-date="${rawDate}">
                             <div class="next-match-header">
@@ -890,12 +927,14 @@
                         </div>
                     `;
                 } else {
-                    /* --- SCHEDE PROSSIME PARTITE NON-HERO (DETTAGLI VISIBILI: ORARIO K.O., LUOGO, TIPO DI CAMPO) --- */
-                    let upcomingDetailsHtml = `
-                        <div class="detail-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i> <span><strong>${t('label.kickoff')}</strong> ${nextM.time ? nextM.time + ' K.O.' : '-'}</span></div>
-                        <div class="detail-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i> <span><strong>${t('label.venue')}</strong> ${mapsCardHtml}</span></div>
-                        ${locInfo.surface ? `<div class="detail-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> <span><strong>${t('label.surface')}</strong> ${locInfo.surface}</span></div>` : ''}
-                    `;
+                    /* --- SCHEDE PROSSIME PARTITE NON-HERO (CON PULSANTE ED ESPANSIONE DETTAGLI) --- */
+                    let upcomingDetailsHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong>${t('label.venue')}</strong> ${mapsCardHtml}</span></div>`;
+                    if (locInfo.surface) {
+                        upcomingDetailsHtml += `<div class="detail-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> <span><strong>${t('label.surface')}</strong> ${locInfo.surface}</span></div>`;
+                    }
+                    if (nextM.time) {
+                        upcomingDetailsHtml += `<div class="detail-item"><i class="fas fa-clock"></i> <span><strong>${t('label.kickoff')}</strong> ${nextM.time} K.O.</span></div>`;
+                    }
 
                     upcomingHtml += `
                         <div class="upcoming-item match-detail-card" data-match-category="${nextM.category}" data-match-date="${rawDate}" style="display: none;">
@@ -918,7 +957,8 @@
                                     <div class="team-name-col" title="${t2Name}">${t2Name}</div>
                                 </div>
                             </div>
-                            <div class="match-expand-details" style="display: block; margin-top: 15px;">
+                            <button class="toggle-details-btn"><i class="fas fa-chevron-down"></i> <span class="btn-text">${t('btn.details')}</span></button>
+                            <div class="match-expand-details" style="display: none;">
                                 <div class="details-inner">
                                     ${upcomingDetailsHtml}
                                 </div>
@@ -1077,6 +1117,7 @@
 
         populateSeasonSelect(rawMatches);
 
+        /* GESTIONE EVENTI TOGGLE DETTAGLI PER TUTTE LE SCHEDE NON-HERO (PROSSIME E PASSATE) */
         document.querySelectorAll('.match-detail-card:not(.next-match-hero)').forEach(card => {
             const toggleBtn = card.querySelector('.toggle-details-btn');
             const details = card.querySelector('.match-expand-details');
