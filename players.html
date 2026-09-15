@@ -61,6 +61,10 @@
     }
     </script>
 
+    <!-- MARKER PYTHON PER INIEZIONE AUTOMATICA JSON-LD GIOCATORI -->
+    <!-- SCHEMA_PLAYERS_START -->
+    <!-- SCHEMA_PLAYERS_END -->
+
     <style>
         /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO --- */
         .mobile-nav {
@@ -582,6 +586,12 @@
         <h2 class="section-title"><i class="fas fa-users"></i> <span data-i18n="players_page.title">選手紹介</span></h2>
         <p class="players-intro" data-i18n="players_page.intro">カードをタップすると詳細情報・個人成績をご覧いただけます。</p>
 
+        <!-- FALLBACK SEO PER DISABILITATI / CRAWLER SENZA JS -->
+        <noscript style="display:block; margin-bottom: 30px; background: #f8fafc; padding: 20px; border-radius: 8px;">
+            <h3>Yokohama Calcio Players Roster</h3>
+            <p>Please enable JavaScript to view the interactive player cards and personal statistics.</p>
+        </noscript>
+
         <div class="filter-wrapper">
             <button class="filter-btn active" data-role-filter="all" data-i18n="role_filter.all">すべて (ALL)</button>
             <button class="filter-btn" data-role-filter="gk" data-i18n="role_filter.gk">GK</button>
@@ -590,6 +600,8 @@
             <button class="filter-btn" data-role-filter="fw" data-i18n="role_filter.fw">FW</button>
         </div>
 
+        <!-- MARKER PYTHON PER INIEZIONE AUTOMATICA ROSA GIOCATORI -->
+        <!-- PLAYERS_START -->
         <div class="role-group" data-role-section="gk">
             <h3 class="role-title"><i class="fas fa-hands"></i> <span data-i18n="section.gk">GOALKEEPER</span></h3>
             <div class="players-grid" id="players-gk"></div>
@@ -609,6 +621,7 @@
             <h3 class="role-title"><i class="fas fa-futbol"></i> <span data-i18n="section.fw">FORWARD</span></h3>
             <div class="players-grid" id="players-fw"></div>
         </div>
+        <!-- PLAYERS_END -->
 
         <div class="back-home-wrapper" style="text-align: center; margin-top: 40px;">
             <a href="index.html" class="google-form-btn back-btn" style="display: inline-flex; justify-content: center; align-items: center; max-width: 250px; margin: 0 auto; gap: 8px;">
