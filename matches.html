@@ -4,47 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- TITLE OTTIMIZZATO PER SEO LOCALE & MULTILINGUA -->
     <title>試合日程・結果 (Fixtures & Results) | Yokohama Calcio</title>
     
-    <!-- META DESCRIPTION OTTIMIZZATA -->
     <meta name="description" content="Yokohama Calcioの試合日程および過去の試合結果・得点者一覧です。横浜市・神奈川県内の社会人サッカーリーグ・練習試合のスケジュールを掲載中。Match schedule and results for Yokohama Calcio.">
     <meta name="keywords" content="Yokohama Calcio 試合結果, 横浜 社会人サッカー 日程, 横浜 サッカー 練習試合, 神奈川県社会人サッカー, Yokohama Calcio Results, Amateur Football Match Yokohama">
     <meta name="author" content="Yokohama Calcio">
     <meta name="robots" content="index, follow">
 
-    <!-- SEO MULTILINGUA (HREFLANG) -->
     <link rel="alternate" hreflang="ja" href="https://yokohamacalcio.com/matches.html" />
     <link rel="alternate" hreflang="it" href="https://yokohamacalcio.com/matches.html?lang=it" />
     <link rel="alternate" hreflang="en" href="https://yokohamacalcio.com/matches.html?lang=en" />
     <link rel="alternate" hreflang="x-default" href="https://yokohamacalcio.com/matches.html" />
 
-    <!-- OPEN GRAPH (SOCIAL PREVIEW) -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://yokohamacalcio.com/matches.html">
     <meta property="og:title" content="試合日程・結果 | Yokohama Calcio">
     <meta property="og:description" content="Yokohama Calcioの試合日程、スケジュール、過去の試合結果と得点者一覧をご覧いただけます。">
     <meta property="og:image" content="https://yokohamacalcio.com/immagini/logo.png?v=2">
 
-    <!-- TWITTER CARDS -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@yokohamacalcio">
     <meta name="twitter:title" content="試合日程・結果 | Yokohama Calcio">
     <meta name="twitter:description" content="Yokohama Calcioの試合日程および過去の試合結果・得点者一覧。">
     <meta name="twitter:image" content="https://yokohamacalcio.com/immagini/logo.png?v=2">
     
-    <!-- FAVICON -->
     <link rel="icon" href="./immagini/logo.png?v=2" type="image/png">
     <link rel="apple-touch-icon" href="./immagini/logo.png?v=2">
-
-    <!-- SITEMAP LINK -->
     <link rel="sitemap" type="application/xml" title="Sitemap" href="https://yokohamacalcio.com/sitemap.xml" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
-    <!-- SCHEMA.ORG DATI STRUTTURATI ARRICCHITI PER BOT E AI -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -61,170 +52,91 @@
         /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO --- */
         .mobile-nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             background: rgba(0, 10, 25, 0.75);
             backdrop-filter: blur(6px);
             -webkit-backdrop-filter: blur(6px);
             z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 15px;
-            box-sizing: border-box;
+            display: flex; justify-content: center; align-items: flex-start;
+            padding: 15px; box-sizing: border-box;
         }
-
-        .mobile-nav.hidden {
-            display: none !important;
-        }
-
+        .mobile-nav.hidden { display: none !important; }
         .mobile-nav-content {
             background: linear-gradient(145deg, #00224a 0%, #001229 100%);
             color: #ffffff;
-            width: 100%;
-            max-width: 380px;
-            max-height: 85vh;
-            overflow-y: auto;
-            border-radius: 16px;
+            width: 100%; max-width: 380px; max-height: 85vh;
+            overflow-y: auto; border-radius: 16px;
             padding: 20px;
             border: 1px solid rgba(135, 206, 235, 0.25);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
-            margin-top: 10px;
+            display: flex; flex-direction: column; margin-top: 10px;
         }
-
         .mobile-nav-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 12px;
-            margin-bottom: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 12px; margin-bottom: 12px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.15);
         }
-
-        .mobile-nav-header .brand-name {
-            color: #ffffff;
-            font-size: 1.15rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-
-        .mobile-nav-header .brand-sub {
-            color: #87ceeb;
-        }
-
+        .mobile-nav-header .brand-name { color: #ffffff; font-size: 1.15rem; font-weight: 800; letter-spacing: 1px; }
+        .mobile-nav-header .brand-sub { color: #87ceeb; }
         .mobile-nav-close {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 1.1rem;
-            color: #ffffff;
-            cursor: pointer;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 1.1rem; color: #ffffff; cursor: pointer;
+            width: 34px; height: 34px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
             transition: all 0.2s ease;
         }
-
-        .mobile-nav-close:active {
-            background: #87ceeb;
-            color: #00224a;
-        }
-
+        .mobile-nav-close:active { background: #87ceeb; color: #00224a; }
         .mobile-link {
             color: #ffffff !important;
-            font-size: 0.95rem;
-            font-weight: 600;
-            padding: 10px 12px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            font-size: 0.95rem; font-weight: 600;
+            padding: 10px 12px; border-radius: 8px;
+            display: flex; align-items: center; gap: 12px;
             text-decoration: none;
             transition: background 0.2s ease;
         }
-
-        .mobile-link:hover, .mobile-link:active {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
+        .mobile-link:hover, .mobile-link:active { background: rgba(255, 255, 255, 0.08); }
         .mobile-dropdown-toggle {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: #ffffff !important;
-            font-size: 0.95rem;
-            font-weight: 600;
+            width: 100%; background: transparent; border: none;
+            color: #ffffff !important; font-size: 0.95rem; font-weight: 600;
             padding: 10px 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 8px;
-            cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center;
+            border-radius: 8px; cursor: pointer;
         }
-
         .mobile-submenu {
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: 8px;
-            padding: 4px 0 4px 10px;
-            margin: 4px 0 8px 8px;
+            background: rgba(0, 0, 0, 0.25); border-radius: 8px;
+            padding: 4px 0 4px 10px; margin: 4px 0 8px 8px;
             border-left: 2px solid #87ceeb;
         }
-
         .mobile-submenu .mobile-link.sub {
-            font-size: 0.88rem;
-            padding: 8px 10px;
+            font-size: 0.88rem; padding: 8px 10px;
             color: #e2e8f0 !important;
         }
-
         .mobile-cta-wrapper {
-            margin-top: 12px;
-            padding-top: 12px;
+            margin-top: 12px; padding-top: 12px;
             border-top: 1px solid rgba(255, 255, 255, 0.15);
         }
-
         .mobile-cta-btn {
-            background: #87ceeb;
-            color: #00224a !important;
-            font-weight: 800;
-            text-align: center;
-            padding: 10px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-decoration: none;
+            background: #87ceeb; color: #00224a !important;
+            font-weight: 800; text-align: center;
+            padding: 10px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; text-decoration: none;
         }
 
         /* --- BADGE MATCH --- */
-        .match-badge-group {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
+        .match-badge-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
         .match-badge {
-            font-size: 0.72rem;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 0.72rem; font-weight: 700;
+            padding: 3px 8px; border-radius: 4px;
+            text-transform: uppercase; letter-spacing: 0.5px;
             display: inline-block;
         }
         .badge-official, .badge-league { background: #003c82; color: #ffffff; }
         .badge-friendly { background: #64748b; color: #ffffff; }
         .badge-tournament, .badge-cup { background: #d97706; color: #ffffff; }
         .badge-next { background: #003c82; color: #ffffff; }
-        .badge-home { background: #16a34a; color: #ffffff; }
-        .badge-away { background: #dc2626; color: #ffffff; }
-        .badge-neutral { background: #0284c7; color: #ffffff; }
 
         .match-detail-card.active .match-expand-details {
             display: block !important;
@@ -234,14 +146,10 @@
             margin-top: 15px;
         }
         #matchesCounter {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: var(--dark-navy, #003c82);
-            font-size: 0.9rem;
+            display: block; margin-bottom: 10px;
+            font-weight: 600; color: var(--dark-navy, #003c82); font-size: 0.9rem;
         }
 
-        /* --- NOMI SQUADRE SU UNA RIGA --- */
         .team-column span, .team-name-col {
             white-space: nowrap !important;
             overflow: hidden !important;
@@ -249,7 +157,6 @@
             max-width: 130px !important;
             font-size: 0.88rem !important;
         }
-
         @media (min-width: 500px) {
             .team-column span, .team-name-col {
                 max-width: 180px !important;
@@ -257,143 +164,90 @@
             }
         }
 
-        /* --- CONTENITORI LOGHI --- */
         .card-logo-wrap, .hero-logo-wrap {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            flex-shrink: 0 !important;
-            background: transparent !important;
-            overflow: visible !important;
+            display: flex !important; align-items: center !important;
+            justify-content: center !important; flex-shrink: 0 !important;
+            background: transparent !important; overflow: visible !important;
         }
-
-        .card-logo-wrap {
-            width: 55px !important;
-            height: 55px !important;
-        }
-
-        .hero-logo-wrap {
-            width: 75px !important;
-            height: 75px !important;
-        }
-
+        .card-logo-wrap { width: 55px !important; height: 55px !important; }
+        .hero-logo-wrap { width: 75px !important; height: 75px !important; }
         .card-logo-wrap img, .hero-logo-wrap img {
-            max-width: 100% !important;
-            max-height: 100% !important;
-            width: auto !important;
-            height: auto !important;
+            max-width: 100% !important; max-height: 100% !important;
+            width: auto !important; height: auto !important;
             object-fit: contain !important;
             border-radius: 0 !important;
             background: transparent !important;
             transform: none !important;
         }
-
         .card-logo-wrap img[src*="ui-avatars.com"], 
         .hero-logo-wrap img[src*="ui-avatars.com"] {
             border-radius: 50% !important;
             object-fit: cover !important;
-            width: 100% !important;
-            height: 100% !important;
+            width: 100% !important; height: 100% !important;
             background: #ffffff !important;
         }
 
-        /* --- HERO CARD PROSSIMA PARTITA --- */
         .next-match-hero {
             background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%);
-            color: #ffffff;
-            border-radius: 12px;
+            color: #ffffff; border-radius: 12px;
             padding: 30px 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             border: 2px solid var(--primary-sky, #87ceeb);
-            display: block;
-            transition: all 0.3s ease;
+            display: block; transition: all 0.3s ease;
         }
-
         .next-match-hero .team-column span {
             color: #ffffff !important;
             font-size: 1.05rem !important;
             max-width: 200px !important;
         }
-
         .next-match-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.2);
-            padding-bottom: 12px;
-            margin-bottom: 20px;
+            padding-bottom: 12px; margin-bottom: 20px;
         }
-
         .next-match-badge {
             background: var(--primary-sky, #87ceeb);
             color: var(--dark-navy, #003c82);
-            font-weight: 800;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+            font-weight: 800; padding: 4px 12px;
+            border-radius: 20px; font-size: 0.85rem;
             text-transform: uppercase;
         }
-
         .next-match-info {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
+            display: flex; flex-wrap: wrap;
+            justify-content: center; align-items: center;
             gap: 12px 20px;
             background: rgba(255, 255, 255, 0.08);
-            padding: 14px 18px;
-            border-radius: 8px;
-            font-size: 0.92rem;
-            margin-top: 15px;
+            padding: 14px 18px; border-radius: 8px;
+            font-size: 0.92rem; margin-top: 15px;
         }
-
         .next-match-info-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            display: flex; align-items: center; gap: 8px;
             white-space: nowrap;
         }
-
         .next-match-info-item.venue-item {
             white-space: normal !important;
-            text-align: center;
-            max-width: 100%;
+            text-align: center; max-width: 100%;
         }
-
         .next-match-info-item a {
             color: var(--primary-sky, #87ceeb);
-            text-decoration: none;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+            text-decoration: none; font-weight: 700;
+            display: inline-flex; align-items: center; gap: 4px;
         }
-
         .next-match-info-item a:hover {
-            text-decoration: underline;
-            color: #ffffff;
+            text-decoration: underline; color: #ffffff;
         }
-
         .toggle-upcoming-btn {
-            background: #f1f5f9;
-            color: var(--dark-navy, #003c82);
+            background: #f1f5f9; color: var(--dark-navy, #003c82);
             border: 1px solid #cbd5e1;
-            padding: 10px 18px;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 0.9rem;
+            padding: 10px 18px; border-radius: 6px;
+            font-weight: 700; font-size: 0.9rem;
             cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 15px;
-            transition: all 0.2s ease;
+            display: inline-flex; align-items: center; gap: 8px;
+            margin-top: 15px; transition: all 0.2s ease;
         }
-
         .toggle-upcoming-btn:hover {
             background: var(--dark-navy, #003c82);
-            color: #ffffff;
-            border-color: var(--dark-navy, #003c82);
+            color: #ffffff; border-color: var(--dark-navy, #003c82);
         }
     </style>
 </head>
@@ -429,7 +283,6 @@
         </a>
       </div>
 
-      <!-- DESKTOP NAV -->
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
           <div class="nav-item dropdown">
@@ -468,7 +321,6 @@
     </div>
   </div>
 
-  <!-- MENU MOBILE MODALE SCURO -->
   <nav class="mobile-nav hidden">
     <div class="mobile-nav-content">
       <div class="mobile-nav-header">
@@ -518,7 +370,6 @@
         <h2 class="section-title"><i class="fas fa-trophy"></i> <span data-i18n="matches_page.title">試合日程・結果一覧</span></h2>
         <p class="matches-intro" data-i18n="matches_page.intro">Yokohama Calcioの試合スケジュールと対戦情報です。</p>
 
-        <!-- SEZIONE FALLBACK PER AI E CRAWLER (SEMPRE IN CHIARO NEL CODICE HTML) -->
         <noscript style="display:block; margin-bottom: 30px; background: #f8fafc; padding: 20px; border-radius: 8px;">
             <h3>Yokohama Calcio Match Schedule & Results</h3>
             <p>Please enable JavaScript to view the interactive schedule, or check our structured match events data.</p>
@@ -582,13 +433,10 @@
 </footer>
 
 <script>
-    /* INIEZIONE AUTOMATICA SCHEMA-EVENTS.JSON GENERATO DA GITHUB ACTIONS (LEGGIBILE PER LE AI) */
+    /* INIEZIONE AUTOMATICA SCHEMA-EVENTS.JSON */
     function loadSchemaEvents() {
         fetch('schema-events.json')
-            .then(res => {
-                if (!res.ok) return;
-                return res.json();
-            })
+            .then(res => { if (!res.ok) return; return res.json(); })
             .then(data => {
                 if (data && Array.isArray(data)) {
                     const aiContainer = document.createElement('div');
@@ -638,7 +486,7 @@
 
     const translations = {
         ja: {
-            "nav.team": "チーム", "nav.team_group": "チーム・選手", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
+            "nav.team": "チーム", "nav.team_group": "チーム・選手", "nav.about_group": "クラブ", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
             "nav.gallery": "ギャラリー", "nav.matches": "試合日程・結果", "nav.shop": "ショップ", "nav.sponsors": "パートナー",
             "nav.faq": "よくある質問", "nav.contact": "お問い合わせ", "matches_page.title": "試合日程・結果一覧",
             "matches_page.intro": "Yokohama Calcioの試合スケジュールと対戦情報です。", "matches_page.upcoming_title": "試合日程",
@@ -652,7 +500,7 @@
             "btn.details": "詳細を見る", "btn.close_details": "詳細を閉じる", "btn.load_more_3": "さらに3試合を表示", "btn.show_less": "最初の3試合に戻す", "btn.back_home": "ホームに戻る"
         },
         it: {
-            "nav.team": "Squadra", "nav.team_group": "SQUADRA", "nav.about": "Info Squadra", "nav.players": "Giocatori", "nav.stats": "Statistiche",
+            "nav.team": "Squadra", "nav.team_group": "SQUADRA", "nav.about_group": "CLUB", "nav.about": "Info Squadra", "nav.players": "Giocatori", "nav.stats": "Statistiche",
             "nav.gallery": "Galleria", "nav.matches": "Partite", "nav.shop": "Store", "nav.sponsors": "Partner",
             "nav.faq": "FAQ", "nav.contact": "Contatti", "matches_page.title": "Calendario & Risultati",
             "matches_page.intro": "Calendario delle partite e dettagli di Yokohama Calcio.", "matches_page.upcoming_title": "Prossime Partite",
@@ -666,12 +514,12 @@
             "btn.details": "Mostra dettagli", "btn.close_details": "Chiudi dettagli", "btn.load_more_3": "Mostra le prossime 3 partite", "btn.show_less": "Riduci elenco", "btn.back_home": "Torna alla Home"
         },
         en: {
-            "nav.team": "Team", "nav.team_group": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Statistics",
+            "nav.team": "Team", "nav.team_group": "TEAM", "nav.about_group": "CLUB", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Statistics",
             "nav.gallery": "Gallery", "nav.matches": "Matches", "nav.shop": "Shop", "nav.sponsors": "Partners",
-            "nav.faq": "FAQ", "nav.contact": "Contact", "matches_page.titlefilter": "Fixtures &.c Results",
+            "nav.faq": "FAQ", "nav.contact": "Contact", "matches_page.title": "Fixtures & Results",
             "matches_page.intro": "Match schedule and match information for Yokohama Calcio.", "matches_page.upcoming_title": "Upcoming Matches",
             "matches_page.past_title": "Match Results", "matches_page.season_label": "Season:", "matches_page.all_seasons": "All Time",
-            "filter.all": "All", "filter.league": "League", "up": "Cup", "filter.friendly": "Friendly",
+            "filter.all": "All", "filter.league": "League", "filter.cup": "Cup", "filter.friendly": "Friendly",
             "badge.league": "League", "badge.friendly": "Friendly", "badge.tournament": "Tournament", "badge.cup": "Cup",
             "badge.next": "Next Match", "badge.live": "🔴 LIVE", "matches.no_upcoming": "No upcoming matches scheduled.",
             "btn.show_all_upcoming": "Show full schedule", "btn.hide_upcoming": "Hide schedule",
@@ -680,6 +528,10 @@
             "btn.details": "Show details", "btn.close_details": "Close details", "btn.load_more_3": "Show next 3 matches", "btn.show_less": "Show less", "btn.back_home": "Back to Home"
         }
     };
+
+    function t(key) {
+        return (translations[currentLang] && translations[currentLang][key]) || key;
+    }
 
     function cleanStr(s) {
         return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
@@ -698,7 +550,6 @@
         const hue = Math.abs(hash) % 360;
         const saturation = 70 + (Math.abs(hash >> 3) % 20);
         const lightness = 35 + (Math.abs(hash >> 5) % 15);
-        
         const l = lightness / 100;
         const a = saturation * Math.min(l, 1 - l) / 100;
         const f = n => {
@@ -717,15 +568,10 @@
                 if (romaji) return romaji;
             }
         }
-
         const rawName = defaultName || '';
-        if (commonRomajiMap[rawName]) {
-            return commonRomajiMap[rawName];
-        }
-
+        if (commonRomajiMap[rawName]) return commonRomajiMap[rawName];
         const cleanLatin = String(rawName).replace(/[^\x00-\x7F]/g, '').trim();
         if (cleanLatin.length > 0) return cleanLatin;
-
         return rawName || 'Opponent';
     }
 
@@ -733,11 +579,9 @@
         const identifier = (typeof matchOrName === 'object' && matchOrName !== null) 
             ? (matchOrName.opponent_id || matchOrName.opponent_name || 'opponent') 
             : String(matchOrName || 'opponent');
-            
         const romaji = (typeof matchOrName === 'object' && matchOrName !== null) 
             ? getRomajiName(matchOrName, romajiFallback) 
             : (romajiFallback || identifier);
-        
         const bgHex = getUniqueTeamColor(identifier);
         return `https://ui-avatars.com/api/?name=${encodeURIComponent(romaji)}&background=${bgHex}&color=ffffff&bold=true&size=128`;
     }
@@ -745,7 +589,6 @@
     function getOpponentInfo(match, lang) {
         let name = '';
         let logo = '';
-
         if (match.opponent_id && opponentsData[match.opponent_id]) {
             const opp = opponentsData[match.opponent_id];
             name = (opp.name && (opp.name[lang] || opp.name['ja'])) || match.opponent_name || match.team2Name || 'Opponent';
@@ -754,23 +597,18 @@
             name = match.opponent_name || match.team2Name || 'Opponent';
             logo = match.opponent_logo || match.team2Logo || '';
         }
-
         const romajiName = getRomajiName(match, name);
-
         if (!logo || logo.trim() === '') {
             logo = getAvatarUrl(match, romajiName);
         }
-
         return { name, romajiName, logo };
     }
 
     function formatDateWithDay(dateStr, lang) {
         if (!dateStr) return '';
-        if (dateStr.includes('(')) return dateStr; 
-
+        if (dateStr.includes('(')) return dateStr;
         const dateObj = new Date(dateStr);
         if (isNaN(dateObj)) return dateStr;
-
         const localeMap = { ja: 'ja-JP', it: 'it-IT', en: 'en-US' };
         const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
         return new Intl.DateTimeFormat(localeMap[lang] || 'ja-JP', options).format(dateObj);
@@ -782,7 +620,6 @@
             const fallbackName = venueFallback || locId || '-';
             return { name: fallbackName, maps: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fallbackName)}`, surface: '' };
         }
-
         const name = loc[lang] || loc['ja'] || venueFallback || locId;
         const surface = loc.surface ? (loc.surface[lang] || loc.surface['ja'] || '') : '';
         const maps = loc.maps || loc.url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`;
@@ -792,7 +629,6 @@
     function findPlayerObj(query) {
         if (!query || query === 'なし' || query === 'Nessuno') return null;
         if (!playersData || playersData.length === 0) return null;
-
         const target = cleanStr(query);
         if (!target) return null;
 
@@ -802,8 +638,8 @@
             const r = cleanStr(p.name_romaji);
             return (k && k === target) || (kn && kn === target) || (r && r === target);
         });
-
         if (found) return found;
+
         return playersData.find(p => {
             const k = cleanStr(p.name_kanji);
             const kn = cleanStr(p.name_kana);
@@ -818,15 +654,14 @@
     function getPlayerNameInLang(query, lang) {
         const player = findPlayerObj(query);
         if (!player) return query;
-
         if (lang === 'ja') {
             if (player.name_kanji && containsJapaneseChars(player.name_kanji)) return player.name_kanji;
             return player.name_kana || player.name_kanji || player.name_romaji || query;
-        } else {
-            return player.name_romaji || player.name_kanji || query;
         }
+        return player.name_romaji || player.name_kanji || query;
     }
 
+    /* ✅ CORREZIONE 1: regex riparata (rimossi caratteri thailandesi) */
     function translatePlayerText(text, lang) {
         if (!text || typeof text !== 'string') return text || '';
         if (text === 'なし' || text === 'Nessuno') return text;
@@ -861,11 +696,8 @@
             const isExpanded = card.classList.contains('active');
             const mainBtnText = card.querySelector('.toggle-details-btn .btn-text');
             const mainBtnIcon = card.querySelector('.toggle-details-btn i');
-            
             if (mainBtnText) {
-                mainBtnText.textContent = isExpanded ? 
-                    (translations[currentLang]['btn.close_details'] || 'Chiudi dettagli') : 
-                    (translations[currentLang]['btn.details'] || 'Mostra dettagli');
+                mainBtnText.textContent = isExpanded ? t('btn.close_details') : t('btn.details');
             }
             if (mainBtnIcon) {
                 mainBtnIcon.className = isExpanded ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
@@ -875,15 +707,17 @@
 
     function setLanguage(lang) {
         if (!translations[lang]) return;
-
         currentLang = lang;
         localStorage.setItem('preferred_lang', lang);
 
-        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-lang') === lang));
-        
+        document.querySelectorAll('.lang-btn').forEach(btn => 
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang)
+        );
+
+        // 1. Traduci gli elementi con data-i18n (navbar, filtri, titoli)
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
-            if (translations[lang] && translations[lang][key]) {
+            if (translations[lang][key]) {
                 const icon = el.querySelector('i');
                 if (icon) {
                     el.childNodes[el.childNodes.length - 1].textContent = " " + translations[lang][key];
@@ -893,6 +727,7 @@
             }
         });
 
+        // 2. Rigenera le card (ora usano translations via t())
         if (rawMatches.length > 0) {
             renderMatches();
             filterAndPaginateMatches();
@@ -908,13 +743,9 @@
         }
         counterEl.style.display = 'block';
         let text = '';
-        if (currentLang === 'ja') {
-            text = `表示中: ${shown} / ${total} 試合`;
-        } else if (currentLang === 'it') {
-            text = `Mostrate: ${shown} di ${total} partite`;
-        } else {
-            text = `Showing: ${shown} of ${total} matches`;
-        }
+        if (currentLang === 'ja') text = `表示中: ${shown} / ${total} 試合`;
+        else if (currentLang === 'it') text = `Mostrate: ${shown} di ${total} partite`;
+        else text = `Showing: ${shown} of ${total} matches`;
         counterEl.textContent = text;
     }
 
@@ -929,17 +760,12 @@
             const category = card.getAttribute('data-match-category');
             const date = card.getAttribute('data-match-date') || '';
             const matchYear = date.substring(0, 4);
-
             const categoryMatch = (activeCategory === 'all' || category === activeCategory);
             const seasonMatch = (activeSeason === 'all' || matchYear === activeSeason);
 
             if (categoryMatch && seasonMatch) {
                 visibleMatches++;
-                if (visibleMatches <= visiblePastMatchesCount) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+                card.style.display = (visibleMatches <= visiblePastMatchesCount) ? 'block' : 'none';
             } else {
                 card.style.display = 'none';
             }
@@ -953,9 +779,9 @@
             if (visibleMatches > 0) {
                 loadMoreBtn.style.display = 'inline-flex';
                 if (visibleMatches > visiblePastMatchesCount) {
-                    loadMoreBtn.innerHTML = `<i class="fas fa-chevron-down"></i> <span>${translations[currentLang]['btn.load_more_3']}</span>`;
+                    loadMoreBtn.innerHTML = `<i class="fas fa-chevron-down"></i> <span>${t('btn.load_more_3')}</span>`;
                 } else {
-                    loadMoreBtn.innerHTML = `<i class="fas fa-chevron-up"></i> <span>${translations[currentLang]['btn.show_less']}</span>`;
+                    loadMoreBtn.innerHTML = `<i class="fas fa-chevron-up"></i> <span>${t('btn.show_less')}</span>`;
                 }
             } else {
                 loadMoreBtn.style.display = 'none';
@@ -971,11 +797,8 @@
             const seasonMatch = (activeSeason === 'all' || matchYear === activeSeason);
 
             if (categoryMatch && seasonMatch) {
-                if (index === 0 || isAllUpcomingVisible) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+                if (index === 0 || isAllUpcomingVisible) card.style.display = 'block';
+                else card.style.display = 'none';
             } else {
                 card.style.display = 'none';
             }
@@ -1006,7 +829,7 @@
                 if (nextM.category === 'league' || nextM.category === 'official') catKey = 'badge.league';
                 else if (nextM.category === 'cup') catKey = 'badge.cup';
                 else if (nextM.category === 'tournament') catKey = 'badge.tournament';
-                const catText = translations[currentLang][catKey] || nextM.type || '練習試合';
+                const catText = t(catKey);
 
                 const isHome = nextM.isHome !== undefined ? nextM.isHome : true;
                 
@@ -1028,7 +851,7 @@
                     upcomingHtml += `
                         <div class="upcoming-item match-detail-card next-match-hero" data-match-category="${nextM.category}" data-match-date="${rawDate}">
                             <div class="next-match-header">
-                                <span class="next-match-badge">${translations[currentLang]['badge.next'] || '次戦の予定'}</span>
+                                <span class="next-match-badge">${t('badge.next')}</span>
                                 <span style="font-weight: 700; color: var(--primary-sky);">${catText}</span>
                             </div>
                             <div class="match-teams-wrapper">
@@ -1071,9 +894,9 @@
                                 </div>
                             </div>
                             <div style="padding: 12px 15px; background: #f8fafc; border-top: 1px solid #e2e8f0; border-radius: 0 0 8px 8px; font-size: 0.88rem; display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
-                                <div><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i> <strong data-i18n="label.venue">会場:</strong> ${mapsCardHtml}</div>
-                                ${locInfo.surface ? `<div><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> <strong data-i18n="label.surface">ピッチ:</strong> ${locInfo.surface}</div>` : ''}
-                                ${nextM.time ? `<div><i class="fas fa-clock" style="color: var(--primary-sky);"></i> <strong data-i18n="label.kickoff">キックオフ:</strong> ${nextM.time}</div>` : ''}
+                                <div><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i> <strong>${t('label.venue')}</strong> ${mapsCardHtml}</div>
+                                ${locInfo.surface ? `<div><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> <strong>${t('label.surface')}</strong> ${locInfo.surface}</div>` : ''}
+                                ${nextM.time ? `<div><i class="fas fa-clock" style="color: var(--primary-sky);"></i> <strong>${t('label.kickoff')}</strong> ${nextM.time}</div>` : ''}
                             </div>
                         </div>
                     `;
@@ -1085,7 +908,7 @@
                     <div style="text-align: center; margin-top: 10px;">
                         <button id="toggleUpcomingBtn" class="toggle-upcoming-btn">
                             <i class="fas fa-calendar-alt"></i>
-                            <span id="toggleUpcomingText">${translations[currentLang]['btn.show_all_upcoming']} (${sortedUpcoming.length})</span>
+                            <span id="toggleUpcomingText">${t('btn.show_all_upcoming')} (${sortedUpcoming.length})</span>
                         </button>
                     </div>
                 `;
@@ -1098,12 +921,11 @@
                 toggleUpcomingBtn.addEventListener('click', () => {
                     isAllUpcomingVisible = !isAllUpcomingVisible;
                     const btnText = document.getElementById('toggleUpcomingText');
-                    
                     if (isAllUpcomingVisible) {
-                        btnText.textContent = translations[currentLang]['btn.hide_upcoming'];
+                        btnText.textContent = t('btn.hide_upcoming');
                         toggleUpcomingBtn.querySelector('i').className = 'fas fa-chevron-up';
                     } else {
-                        btnText.textContent = `${translations[currentLang]['btn.show_all_upcoming']} (${sortedUpcoming.length})`;
+                        btnText.textContent = `${t('btn.show_all_upcoming')} (${sortedUpcoming.length})`;
                         toggleUpcomingBtn.querySelector('i').className = 'fas fa-calendar-alt';
                     }
                     filterAndPaginateMatches();
@@ -1111,7 +933,7 @@
             }
 
         } else {
-            upcomingContainer.innerHTML = `<div style="text-align: center; padding: 30px; background: #f8fafc; border-radius: 8px; margin-bottom: 30px;"><p style="color: #64748b; font-weight: 600;">${translations[currentLang]["matches.no_upcoming"]}</p></div>`;
+            upcomingContainer.innerHTML = `<div style="text-align: center; padding: 30px; background: #f8fafc; border-radius: 8px; margin-bottom: 30px;"><p style="color: #64748b; font-weight: 600;">${t('matches.no_upcoming')}</p></div>`;
         }
 
         sortedPast.forEach(m => {
@@ -1128,10 +950,10 @@
             else if (m.category === 'cup') { catKey = 'badge.cup'; catClass = 'badge-cup'; } 
             else if (m.category === 'tournament') { catKey = 'badge.tournament'; catClass = 'badge-tournament'; }
 
-            const catText = translations[currentLang][catKey] || m.type || '練習試合';
+            const catText = t(catKey);
 
             if (m.status === 'live') {
-                badgeHtml = `<span class="match-badge" style="background: #ef4444; color: white; animation: pulse 1.5s infinite;" data-i18n="badge.live">🔴 LIVE</span>`;
+                badgeHtml = `<span class="match-badge" style="background: #ef4444; color: white; animation: pulse 1.5s infinite;">${t('badge.live')}</span>`;
             } else {
                 badgeHtml = `<span class="match-badge ${catClass}">${catText}</span>`;
             }
@@ -1175,27 +997,28 @@
             const yellowCardsTranslated = translatePlayerText(m.yellow_cards, currentLang);
             const redCardsTranslated = translatePlayerText(m.red_cards, currentLang);
 
-            let detailsHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong data-i18n="label.venue">会場:</strong> ${mapsHtml}</span></div>`;
+            // ✅ CORREZIONE 2: ora usa t() per tutte le etichette statiche
+            let detailsHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong>${t('label.venue')}</strong> ${mapsHtml}</span></div>`;
             if (locInfo.surface) {
-                detailsHtml += `<div class="detail-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> <span><strong data-i18n="label.surface">ピッチ:</strong> ${locInfo.surface}</span></div>`;
+                detailsHtml += `<div class="detail-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> <span><strong>${t('label.surface')}</strong> ${locInfo.surface}</span></div>`;
             }
             if (m.time) {
-                detailsHtml += `<div class="detail-item"><i class="fas fa-clock"></i> <span><strong data-i18n="label.kickoff">キックオフ:</strong> ${m.time}</span></div>`;
+                detailsHtml += `<div class="detail-item"><i class="fas fa-clock"></i> <span><strong>${t('label.kickoff')}</strong> ${m.time}</span></div>`;
             }
             if (scorersTranslated && scorersTranslated !== 'なし' && scorersTranslated !== 'Nessuno') {
-                detailsHtml += `<div class="detail-item"><i class="fas fa-futbol"></i> <span><strong data-i18n="label.scorers">得点者:</strong> ${scorersTranslated}</span></div>`;
+                detailsHtml += `<div class="detail-item"><i class="fas fa-futbol"></i> <span><strong>${t('label.scorers')}</strong> ${scorersTranslated}</span></div>`;
             }
             if (assistsTranslated && assistsTranslated !== 'なし' && assistsTranslated !== 'Nessuno') {
-                detailsHtml += `<div class="detail-item"><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span><strong data-i18n="label.assists">アシスト:</strong> ${assistsTranslated}</span></div>`;
+                detailsHtml += `<div class="detail-item"><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span><strong>${t('label.assists')}</strong> ${assistsTranslated}</span></div>`;
             }
             if (mvpTranslated && mvpTranslated !== 'なし' && mvpTranslated !== 'Nessuno') {
-                detailsHtml += `<div class="detail-item"><i class="fas fa-star" style="color: #f59e0b;"></i> <span><strong data-i18n="label.mvp">MVP:</strong> ${mvpTranslated}</span></div>`;
+                detailsHtml += `<div class="detail-item"><i class="fas fa-star" style="color: #f59e0b;"></i> <span><strong>${t('label.mvp')}</strong> ${mvpTranslated}</span></div>`;
             }
             if (yellowCardsTranslated && yellowCardsTranslated !== 'なし' && yellowCardsTranslated !== 'Nessuno') {
-                detailsHtml += `<div class="detail-item"><i class="fas fa-square" style="color: #eab308;"></i> <span><strong data-i18n="label.yellow_cards">警告:</strong> ${yellowCardsTranslated}</span></div>`;
+                detailsHtml += `<div class="detail-item"><i class="fas fa-square" style="color: #eab308;"></i> <span><strong>${t('label.yellow_cards')}</strong> ${yellowCardsTranslated}</span></div>`;
             }
             if (redCardsTranslated && redCardsTranslated !== 'なし' && redCardsTranslated !== 'Nessuno') {
-                detailsHtml += `<div class="detail-item"><i class="fas fa-square" style="color: #ef4444;"></i> <span><strong data-i18n="label.red_cards">退場:</strong> ${redCardsTranslated}</span></div>`;
+                detailsHtml += `<div class="detail-item"><i class="fas fa-square" style="color: #ef4444;"></i> <span><strong>${t('label.red_cards')}</strong> ${redCardsTranslated}</span></div>`;
             }
 
             const cardHtml = `
@@ -1215,7 +1038,7 @@
                             <span title="${rightTeamName}">${rightTeamName}</span>
                         </div>
                     </div>
-                    <button class="toggle-details-btn"><i class="fas fa-chevron-down"></i> <span class="btn-text" data-i18n="btn.details">詳細を見る</span></button>
+                    <button class="toggle-details-btn"><i class="fas fa-chevron-down"></i> <span class="btn-text">${t('btn.details')}</span></button>
                     <div class="match-expand-details" style="display: none;">
                         <div class="details-inner">
                             ${detailsHtml}
@@ -1278,7 +1101,7 @@
 
         const allOption = document.createElement('option');
         allOption.value = 'all';
-        allOption.textContent = translations[currentLang]['matches_page.all_seasons'] || '全期間';
+        allOption.textContent = t('matches_page.all_seasons');
         select.appendChild(allOption);
 
         years.forEach(year => {
@@ -1401,7 +1224,6 @@
             });
         }
 
-        /* LOGICA GESTIONE MENU MOBILE MODALE */
         const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
         const mobileNav = document.querySelector('.mobile-nav');
         const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
