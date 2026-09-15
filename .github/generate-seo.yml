@@ -1,4 +1,4 @@
-name: Generate Dynamic SEO & Sitemap
+name: Auto SEO, Validation & Google Notification
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - 'players.json'
 
 jobs:
-  build:
+  seo-automation:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -18,44 +18,93 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Generate Sitemap
+      # 1. VALIDAZIONE AUTOMATICA FILE JSON
+      - name: Validate JSON files
+        run: |
+          node -e '
+          const files = ["matches.json", "players.json"];
+          files.forEach(f => {
+            if (fs.existsSync(f)) {
+              try {
+                JSON.parse(fs.readFileSync(f, "utf8"));
+                console.log(`✅ ${f} è valido.`);
+              } catch (e) {
+                console.error(`❌ ERRORE SINTASSI IN ${f}:`, e.message);
+                process.exit(1);
+              }
+            }
+          });
+          '
+
+      # 2. AGGIORNAMENTO AUTOMATICO SITEMAP & GENERAZIONE SCHEMA.ORG (SPORTS EVENT)
+      - name: Update Sitemap & Generate Schema.org
         run: |
           node -e '
           const fs = require("fs");
           const today = new Date().toISOString().split("T")[0];
-          const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-            <url>
-              <loc>https://yokohamacalcio.com/</loc>
-              <lastmod>${today}</lastmod>
-              <changefreq>daily</changefreq>
-              <priority>1.0</priority>
-            </url>
-            <url>
-              <loc>https://yokohamacalcio.com/matches.html</loc>
-              <lastmod>${today}</lastmod>
-              <changefreq>daily</changefreq>
-              <priority>0.8</priority>
-            </url>
-            <url>
-              <loc>https://yokohamacalcio.com/players.html</loc>
-              <lastmod>${today}</lastmod>
-              <changefreq>weekly</changefreq>
-              <priority>0.7</priority>
-            </url>
-            <url>
-              <loc>https://yokohamacalcio.com/stats.html</loc>
-              <lastmod>${today}</lastmod>
-              <changefreq>weekly</changefreq>
-              <priority>0.7</priority>
-            </url>
-          </urlset>`;
-          fs.writeFileSync("sitemap.xml", sitemap);
+          
+          // Aggiornamento Sitemap
+          if (fs.existsSync("sitemap.xml")) {
+            let sitemap = fs.readFileSync("sitemap.xml", "utf8");
+            sitemap = sitemap.replace(/<lastmod>.*?<\/lastmod>/g, `<lastmod>${today}</lastmod>`);
+            fs.writeFileSync("sitemap.xml", sitemap);
+            console.log("✅ Sitemap.xml aggiornata.");
+          }
+
+          // Generazione Schema.org per le partite
+          if (fs.existsSync("matches.json")) {
+            try {
+              const matches = JSON.parse(fs.readFileSync("matches.json", "utf8"));
+              const pastMatches = matches.filter(m => m.status === "past" || m.status === "live");
+              const upcomingMatches = matches.filter(m => m.status === "upcoming");
+              
+              const schemaData = [];
+
+              if (pastMatches.length > 0) {
+                const last = pastMatches[pastMatches.length - 1];
+                schemaData.push({
+                  "@context": "https://schema.org",
+                  "@type": "SportsEvent",
+                  "name": `Yokohama Calcio vs ${last.opponent_name || last.team2Name || "Opponent"}`,
+                  "startDate": last.date,
+                  "location": { "@type": "Place", "name": last.venue || "Yokohama" },
+                  "homeTeam": { "@type": "SportsTeam", "name": last.isHome !== false ? "Yokohama Calcio" : (last.opponent_name || last.team2Name) },
+                  "awayTeam": { "@type": "SportsTeam", "name": last.isHome !== false ? (last.opponent_name || last.team2Name) : "Yokohama Calcio" },
+                  "description": `Risultato: ${last.score || "-"} | Marcatori: ${last.scorers || "Nessuno"}`
+                });
+              }
+
+              if (upcomingMatches.length > 0) {
+                const nextM = upcomingMatches[0];
+                schemaData.push({
+                  "@context": "https://schema.org",
+                  "@type": "SportsEvent",
+                  "name": `Yokohama Calcio vs ${nextM.opponent_name || nextM.team2Name || "Opponent"}`,
+                  "startDate": nextM.date,
+                  "location": { "@type": "Place", "name": nextM.venue || "Yokohama" },
+                  "homeTeam": { "@type": "SportsTeam", "name": nextM.isHome !== false ? "Yokohama Calcio" : (nextM.opponent_name || nextM.team2Name) },
+                  "awayTeam": { "@type": "SportsTeam", "name": nextM.isHome !== false ? (nextM.opponent_name || nextM.team2Name) : "Yokohama Calcio" }
+                });
+              }
+
+              fs.writeFileSync("schema-events.json", JSON.stringify(schemaData, null, 2));
+              console.log("✅ Schema.org generato con successo.");
+            } catch(err) {
+              console.error("Errore generazione Schema.org:", err);
+            }
+          }
           '
 
-      - name: Commit and Push Updated Sitemap
+      # 3. COMMIT & PUSH DELLE MODIFICHE
+      - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add sitemap.xml
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update sitemap.xml [skip ci]" && git push)
+          git add sitemap.xml schema-events.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update SEO, Schema & Sitemap [skip ci]" && git push)
+
+      # 4. PING AUTOMATICO A GOOGLE
+      - name: Ping Google Search Console
+        run: |
+          curl -s "https://www.google.com/ping?sitemap=https://yokohamacalcio.com/sitemap.xml" || true
+          console.log("✅ Notifica inviata a Google.");
