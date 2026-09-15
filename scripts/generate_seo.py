@@ -2,18 +2,32 @@ import json
 import re
 import os
 
-# Percorso ufficiale del logo Yokohama Calcio con anti-cache
+# ============================================================
+# PERCORSI ROBUSTI
+# ============================================================
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.dirname(BASE_DIR)  # sale da /scripts a /
+
 YOKOHAMA_LOGO = "./immagini/logo.png?v=2"
 YOKOHAMA_FULL_URL = "https://yokohamacalcio.com"
 
+
+# ============================================================
+# UTILITY
+# ============================================================
 def load_json(path):
+    """Carica un file JSON dalla root del progetto."""
+    full_path = os.path.join(ROOT_DIR, path)
     try:
-        if os.path.exists(path):
-            with open(path, 'r', encoding='utf-8') as f:
+        if os.path.exists(full_path):
+            with open(full_path, 'r', encoding='utf-8') as f:
                 return json.load(f)
+        else:
+            print(f"⚠️ File non trovato: {full_path}")
     except Exception as e:
-        print(f"Error loading {path}: {e}")
-    return {} if "matches" not in path and "players" not in path else []
+        print(f"❌ Errore caricamento {path}: {e}")
+    return None
+
 
 def get_opp_info(m, opponents):
     opp_id = m.get('opponent_id')
@@ -22,12 +36,14 @@ def get_opp_info(m, opponents):
     logo = opp.get('logo') or m.get('team2Logo') or YOKOHAMA_LOGO
     return name, logo
 
+
 def get_loc_info(loc_id, venue_fallback, locations):
     loc = locations.get(loc_id, {}) if isinstance(locations, dict) else {}
     name = loc.get('ja') or venue_fallback or '-'
     url = loc.get('url') or loc.get('maps') or f"https://www.google.com/maps/search/?api=1&query={name}"
     surface = loc.get('surface', {}).get('ja', '') if isinstance(loc.get('surface'), dict) else ''
     return name, url, surface
+
 
 def get_category_label(cat):
     labels = {
@@ -39,21 +55,28 @@ def get_category_label(cat):
     }
     return labels.get(cat, '試合')
 
+
+# ============================================================
+# GENERAZIONE HTML + SCHEMA
+# ============================================================
 def build_static_matches_html():
-    matches = load_json('matches.json')
-    locations = load_json('locations.json')
-    opponents = load_json('opponents.json')
+    matches = load_json('matches.json') or []
+    locations = load_json('locations.json') or {}
+    opponents = load_json('opponents.json') or {}
 
     if not matches:
+        print("⚠️ matches.json vuoto o non trovato, salto generazione HTML.")
         return "", "", []
 
     upcoming = [m for m in matches if m.get('status') == 'upcoming']
     past = [m for m in matches if m.get('status') in ['past', 'live']]
-    
+
     upcoming.sort(key=lambda x: x.get('date', ''))
     past.sort(key=lambda x: x.get('date', ''), reverse=True)
 
-    # 1. HERO NEXT MATCH HTML (Prossima Partita)
+    # ------------------------------------------------------------
+    # 1. HERO PROSSIMA PARTITA
+    # ------------------------------------------------------------
     upcoming_html = ""
     if upcoming:
         next_m = upcoming[0]
@@ -61,14 +84,17 @@ def build_static_matches_html():
         loc_name, loc_url, loc_surface = get_loc_info(next_m.get('location_id'), next_m.get('venue'), locations)
         is_home = next_m.get('isHome', True)
         cat_label = get_category_label(next_m.get('category', ''))
-        
+
         t1_name = "Yokohama Calcio" if is_home else opp_name
         t1_logo = YOKOHAMA_LOGO if is_home else opp_logo
         t2_name = opp_name if is_home else "Yokohama Calcio"
         t2_logo = opp_logo if is_home else YOKOHAMA_LOGO
-        
+
         date_str = next_m.get('date', '')
         time_str = f"{next_m.get('time')} K.O." if next_m.get('time') else ''
+
+        time_html = f'<div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>{time_str}</span></div>' if time_str else ''
+        surface_html = f'<div class="match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>{loc_surface}</span></div>' if loc_surface else ''
 
         upcoming_html = f'''
         <div class="next-match-hero" id="nextMatchBox">
@@ -93,8 +119,8 @@ def build_static_matches_html():
                     </div>
                 </div>
                 <div class="match-info-hero-bar">
-                    {f'<div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>{time_str}</span></div>' if time_str else ''}
-                    {f'<div class="match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>{loc_surface}</span></div>' if loc_surface else ''}
+                    {time_html}
+                    {surface_html}
                 </div>
             </div>
             <div>
@@ -110,7 +136,9 @@ def build_static_matches_html():
         </div>
         '''
 
-    # 2. ULTIMO RISULTATO HTML (Con Marcatori & MVP Completi)
+    # ------------------------------------------------------------
+    # 2. ULTIMO RISULTATO
+    # ------------------------------------------------------------
     past_html = ""
     if past:
         last_m = past[0]
@@ -186,22 +214,23 @@ def build_static_matches_html():
         </div>
         '''
 
-    # 3. GENERAZIONE SCHEMA.ORG EVENTI PER GOOGLE AI & SEARCH ENGINE
+    # ------------------------------------------------------------
+    # 3. SCHEMA.ORG EVENTI
+    # ------------------------------------------------------------
     schema_events = []
     for m in matches:
         opp_name, _ = get_opp_info(m, opponents)
         loc_name, _, _ = get_loc_info(m.get('location_id'), m.get('venue'), locations)
         is_home = m.get('isHome', True)
-        
+
         home_team = "Yokohama Calcio" if is_home else opp_name
         away_team = opp_name if is_home else "Yokohama Calcio"
         score = m.get('score', '')
-        
+
         status = m.get('status', 'upcoming')
         title_score = f" ({score})" if score and score != '-' else ""
         event_name = f"{home_team} vs {away_team}{title_score}"
-        
-        # Iniezione dettagli marcatori & MVP nella descrizione per farli leggere a Google AI
+
         desc_parts = [f"Match {event_name}."]
         if score:
             desc_parts.append(f"Score: {score}.")
@@ -230,19 +259,26 @@ def build_static_matches_html():
                 "name": away_team
             }
         }
-        
+
         if status == 'past' and score:
             event_schema["eventStatus"] = "https://schema.org/EventCompleted"
-        
+
         schema_events.append(event_schema)
 
     return upcoming_html, past_html, schema_events
 
+
+# ============================================================
+# INIEZIONE HTML
+# ============================================================
 def inject_html_to_file(filename, upcoming_html, past_html):
-    if not os.path.exists(filename):
+    full_path = os.path.join(ROOT_DIR, filename)
+    if not os.path.exists(full_path):
+        print(f"⚠️ {filename} non trovato, salto.")
         return
+
     try:
-        with open(filename, 'r', encoding='utf-8') as f:
+        with open(full_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
         if upcoming_html:
@@ -260,21 +296,31 @@ def inject_html_to_file(filename, upcoming_html, past_html):
                 flags=re.DOTALL
             )
 
-        with open(filename, 'w', encoding='utf-8') as f:
+        with open(full_path, 'w', encoding='utf-8') as f:
             f.write(content)
         print(f"✅ HTML Statico iniettato con successo in {filename}")
-    except Exception as e:
-        print(f"Error updating {filename}: {e}")
 
+    except Exception as e:
+        print(f"❌ Errore aggiornando {filename}: {e}")
+
+
+# ============================================================
+# MAIN
+# ============================================================
 if __name__ == '__main__':
+    print(f"📂 ROOT_DIR rilevata: {ROOT_DIR}")
+
     upcoming_h, past_h, schema_events = build_static_matches_html()
-    
+
     # Iniezione HTML nelle pagine del sito
     for page in ['index.html', 'matches.html', 'players.html', 'stats.html']:
         inject_html_to_file(page, upcoming_h, past_h)
 
-    # Salvataggio del file JSON-LD per lo Schema.org di Google AI
+    # Salvataggio schema-events.json
     if schema_events:
-        with open('schema-events.json', 'w', encoding='utf-8') as f:
+        out_path = os.path.join(ROOT_DIR, 'schema-events.json')
+        with open(out_path, 'w', encoding='utf-8') as f:
             json.dump(schema_events, f, ensure_ascii=False, indent=2)
-        print("✅ schema-events.json generato correttamente con Risultati, Marcatori e MVP per Google AI.")
+        print(f"✅ schema-events.json generato in {out_path}")
+    else:
+        print("⚠️ Nessun evento schema generato.")
