@@ -821,91 +821,95 @@
         <h2 class="section-title"><i class="fas fa-trophy"></i> <span data-i18n="results.title">試合結果・日程</span></h2>
         
         <div class="match-center-grid">
-            <!-- Box 1: Ultimo Risultato (Marcatori ⚽ e MVP 🏆) -->
-            <div class="match-box-card match-past-box">
-                <div class="match-past-header">
-                    <div class="match-badge-group">
-                        <span class="match-badge badge-official" data-i18n="results.last_badge">前節結果</span>
-                        <span id="lastCategoryBadge" class="match-badge"></span>
-                    </div>
-                    <span class="match-box-date" id="lastMatchDate">-</span>
-                </div>
-                
-                <div class="match-box-card-inner">
-                    <div class="match-teams-wrapper">
-                        <div class="teams-logos-row">
-                            <div class="card-logo-wrap"><img src="./immagini/logo.png" alt="Yokohama Calcio" id="lastTeam1Logo" class="yokohama-logo"></div>
-                            <div class="match-vs-center score-past" id="lastScore">-</div>
-                            <div class="card-logo-wrap"><img src="" alt="Opponent" id="lastTeam2Logo" class="opponent-logo"></div>
+            <!-- CONTENITORE PASTE (ULTIMO RISULTATO) AGGANCIATO ALL'AUTOMAZIONE -->
+            <div id="pastContainer">
+                <div class="match-box-card match-past-box">
+                    <div class="match-past-header">
+                        <div class="match-badge-group">
+                            <span class="match-badge badge-official" data-i18n="results.last_badge">前節結果</span>
+                            <span id="lastCategoryBadge" class="match-badge"></span>
                         </div>
-                        <div class="teams-names-row">
-                            <div class="team-name-col" id="lastTeam1Name">Yokohama Calcio</div>
-                            <div></div>
-                            <div class="team-name-col" id="lastTeam2Name">-</div>
+                        <span class="match-box-date" id="lastMatchDate">-</span>
+                    </div>
+                    
+                    <div class="match-box-card-inner">
+                        <div class="match-teams-wrapper">
+                            <div class="teams-logos-row">
+                                <div class="card-logo-wrap"><img src="./immagini/logo.png" alt="Yokohama Calcio" id="lastTeam1Logo" class="yokohama-logo"></div>
+                                <div class="match-vs-center score-past" id="lastScore">-</div>
+                                <div class="card-logo-wrap"><img src="" alt="Opponent" id="lastTeam2Logo" class="opponent-logo"></div>
+                            </div>
+                            <div class="teams-names-row">
+                                <div class="team-name-col" id="lastTeam1Name">Yokohama Calcio</div>
+                                <div></div>
+                                <div class="team-name-col" id="lastTeam2Name">-</div>
+                            </div>
+                        </div>
+
+                        <!-- BARRA INFO PARTITA PASSATA: MARCATORI & MVP -->
+                        <div class="match-info-hero-bar" id="lastHeroInfoBar">
+                            <div class="match-info-item" id="lastScorersItem" style="display: none;">
+                                <i class="fas fa-futbol" style="color: var(--dark-navy);"></i>
+                                <span id="lastScorersText">-</span>
+                            </div>
+                            <div class="match-info-item" id="lastMvpItem" style="display: none;">
+                                <i class="fas fa-star" style="color: #f59e0b;"></i>
+                                <strong id="lastMvpText" style="color: var(--dark-navy);">-</strong>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- BARRA INFO PARTITA PASSATA: MARCATORI & MVP -->
-                    <div class="match-info-hero-bar" id="lastHeroInfoBar">
-                        <div class="match-info-item" id="lastScorersItem" style="display: none;">
-                            <i class="fas fa-futbol" style="color: var(--dark-navy);"></i>
-                            <span id="lastScorersText">-</span>
+                    <div>
+                        <div class="match-box-venue" id="lastMatchVenue"></div>
+                        <div class="match-card-footer">
+                            <a href="#" id="lastDetailLink" class="btn-match-detail"><span data-i18n="results.detail">詳細</span> <i class="fas fa-chevron-right"></i></a>
                         </div>
-                        <div class="match-info-item" id="lastMvpItem" style="display: none;">
-                            <i class="fas fa-star" style="color: #f59e0b;"></i>
-                            <strong id="lastMvpText" style="color: var(--dark-navy);">-</strong>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="match-box-venue" id="lastMatchVenue"></div>
-                    <div class="match-card-footer">
-                        <a href="#" id="lastDetailLink" class="btn-match-detail"><span data-i18n="results.detail">詳細</span> <i class="fas fa-chevron-right"></i></a>
                     </div>
                 </div>
             </div>
 
-            <!-- Box 2: Prossima Partita (Hero Card: Orario 🕒 e Terreno 🌿) -->
-            <div class="next-match-hero" id="nextMatchBox">
-                <div class="next-match-header">
-                    <div class="match-badge-group">
-                        <span class="next-match-badge" data-i18n="results.next_badge">次戦</span>
-                        <span id="nextCategoryBadge" class="match-badge"></span>
-                    </div>
-                    <span class="match-box-date" id="nextMatchDate" style="color: rgba(255,255,255,0.8);">-</span>
-                </div>
-
-                <div class="next-match-hero-inner" id="nextMatchContent">
-                    <div class="match-teams-wrapper">
-                        <div class="teams-logos-row">
-                            <div class="hero-logo-wrap"><img src="./immagini/logo.png" alt="Yokohama Calcio" id="nextTeam1Logo" class="yokohama-logo"></div>
-                            <div class="match-vs-center">VS</div>
-                            <div class="hero-logo-wrap"><img src="" alt="Opponent" id="nextTeam2Logo" class="opponent-logo"></div>
+            <!-- CONTENITORE UPCOMING (PROSSIMA PARTITA HERO) AGGANCIATO ALL'AUTOMAZIONE -->
+            <div id="upcomingContainer">
+                <div class="next-match-hero" id="nextMatchBox">
+                    <div class="next-match-header">
+                        <div class="match-badge-group">
+                            <span class="next-match-badge" data-i18n="results.next_badge">次戦</span>
+                            <span id="nextCategoryBadge" class="match-badge"></span>
                         </div>
-                        <div class="teams-names-row">
-                            <div class="team-name-col" id="nextTeam1Name" style="color: #ffffff;">Yokohama Calcio</div>
-                            <div></div>
-                            <div class="team-name-col" id="nextTeam2Name" style="color: #ffffff;">-</div>
+                        <span class="match-box-date" id="nextMatchDate" style="color: rgba(255,255,255,0.8);">-</span>
+                    </div>
+
+                    <div class="next-match-hero-inner" id="nextMatchContent">
+                        <div class="match-teams-wrapper">
+                            <div class="teams-logos-row">
+                                <div class="hero-logo-wrap"><img src="./immagini/logo.png" alt="Yokohama Calcio" id="nextTeam1Logo" class="yokohama-logo"></div>
+                                <div class="match-vs-center">VS</div>
+                                <div class="hero-logo-wrap"><img src="" alt="Opponent" id="nextTeam2Logo" class="opponent-logo"></div>
+                            </div>
+                            <div class="teams-names-row">
+                                <div class="team-name-col" id="nextTeam1Name" style="color: #ffffff;">Yokohama Calcio</div>
+                                <div></div>
+                                <div class="team-name-col" id="nextTeam2Name" style="color: #ffffff;">-</div>
+                            </div>
+                        </div>
+
+                        <!-- BARRA INFO HERO -->
+                        <div class="match-info-hero-bar" id="nextHeroInfoBar">
+                            <div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span id="nextMatchTime">-</span></div>
+                            <div class="match-info-item" id="nextMatchSurfaceItem" style="display: none;"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span id="nextMatchSurface">-</span></div>
                         </div>
                     </div>
 
-                    <!-- BARRA INFO HERO -->
-                    <div class="match-info-hero-bar" id="nextHeroInfoBar">
-                        <div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span id="nextMatchTime">-</span></div>
-                        <div class="match-info-item" id="nextMatchSurfaceItem" style="display: none;"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span id="nextMatchSurface">-</span></div>
+                    <div class="no-match-box hidden" id="noNextMatchBox">
+                        <i class="far fa-calendar-times" style="color: var(--primary-sky);"></i>
+                        <p data-i18n="results.no_next_match" style="color: #ffffff;">次戦の日程はまだ決定していません。</p>
                     </div>
-                </div>
 
-                <div class="no-match-box hidden" id="noNextMatchBox">
-                    <i class="far fa-calendar-times" style="color: var(--primary-sky);"></i>
-                    <p data-i18n="results.no_next_match" style="color: #ffffff;">次戦の日程はまだ決定していません。</p>
-                </div>
-
-                <div>
-                    <div class="match-box-venue" id="nextMatchVenue"></div>
-                    <div class="match-card-footer-hero">
-                        <a href="#" id="nextDetailLink" class="btn-match-detail-hero"><span data-i18n="results.detail">詳細</span> <i class="fas fa-chevron-right"></i></a>
+                    <div>
+                        <div class="match-box-venue" id="nextMatchVenue"></div>
+                        <div class="match-card-footer-hero">
+                            <a href="#" id="nextDetailLink" class="btn-match-detail-hero"><span data-i18n="results.detail">詳細</span> <i class="fas fa-chevron-right"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1511,17 +1515,11 @@
             const team1LogoEl = document.getElementById(`${prefix}Team1Logo`);
             const team2LogoEl = document.getElementById(`${prefix}Team2Logo`);
 
-            team1NameEl.textContent = leftTeamName;
-            team1NameEl.setAttribute('title', leftTeamName);
-            team1LogoEl.src = leftTeamLogo;
-            team1LogoEl.className = leftTeamClass;
-            if (leftErr) team1LogoEl.setAttribute('onerror', leftErr.replace(/^onerror="/, '').replace(/"$/, ''));
+            if (team1NameEl) { team1NameEl.textContent = leftTeamName; team1NameEl.setAttribute('title', leftTeamName); }
+            if (team1LogoEl) { team1LogoEl.src = leftTeamLogo; team1LogoEl.className = leftTeamClass; if (leftErr) team1LogoEl.setAttribute('onerror', leftErr.replace(/^onerror="/, '').replace(/"$/, '')); }
 
-            team2NameEl.textContent = rightTeamName;
-            team2NameEl.setAttribute('title', rightTeamName);
-            team2LogoEl.src = rightTeamLogo;
-            team2LogoEl.className = rightTeamClass;
-            if (rightErr) team2LogoEl.setAttribute('onerror', rightErr.replace(/^onerror="/, '').replace(/"$/, ''));
+            if (team2NameEl) { team2NameEl.textContent = rightTeamName; team2NameEl.setAttribute('title', rightTeamName); }
+            if (team2LogoEl) { team2LogoEl.src = rightTeamLogo; team2LogoEl.className = rightTeamClass; if (rightErr) team2LogoEl.setAttribute('onerror', rightErr.replace(/^onerror="/, '').replace(/"$/, '')); }
 
             const venueContainer = document.getElementById(`${prefix}MatchVenue`);
             const locInfo = getLocationInfo(m.location_id, m.venue, lang);
@@ -1544,7 +1542,8 @@
                 }
             }
 
-            document.getElementById(`${prefix}DetailLink`).href = `matches.html#${m.id}`;
+            const linkEl = document.getElementById(`${prefix}DetailLink`);
+            if (linkEl) linkEl.href = `matches.html#${m.id}`;
             renderCategoryBadge(`${prefix}CategoryBadge`, m.category);
         };
 
@@ -1561,7 +1560,8 @@
                 const parts = displayScore.split('-');
                 if (parts.length === 2) displayScore = `${parts[1].trim()} - ${parts[0].trim()}`;
             }
-            document.getElementById('lastScore').textContent = displayScore;
+            const scoreEl = document.getElementById('lastScore');
+            if (scoreEl) scoreEl.textContent = displayScore;
 
             const scorersItem = document.getElementById('lastScorersItem');
             const scorersText = document.getElementById('lastScorersText');
