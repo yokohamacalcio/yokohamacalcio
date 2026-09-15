@@ -36,6 +36,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
+    <!-- DATI STRUTTURATI SQUADRA -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -47,6 +48,10 @@
       "description": "Yokohama Calcio official match schedule, fixtures and past results."
     }
     </script>
+    
+    <!-- MARKER PYTHON PER INIEZIONE AUTOMATICA JSON-LD EVENTI -->
+    <!-- SCHEMA_EVENTS_START -->
+    <!-- SCHEMA_EVENTS_END -->
     
     <style>
         /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO --- */
@@ -396,18 +401,20 @@
                 <h3 class="ranking-title" style="margin-bottom: 20px;">
                     <i class="fas fa-calendar-check" style="color: var(--primary-sky);"></i> <span data-i18n="matches_page.upcoming_title">試合日程</span>
                 </h3>
-                <!-- UPCOMING_START -->
-                <div id="upcomingContainer" style="display: flex; flex-direction: column; gap: 20px;"></div>
-                <!-- UPCOMING_END -->
+                <div id="upcomingContainer" style="display: flex; flex-direction: column; gap: 20px;">
+                    <!-- UPCOMING_START -->
+                    <!-- UPCOMING_END -->
+                </div>
             </div>
 
             <div class="matches-section-block" style="margin-top: 50px;">
                 <h3 class="ranking-title" style="margin-bottom: 20px;">
                     <i class="fas fa-history" style="color: var(--primary-sky);"></i> <span data-i18n="matches_page.past_title">試合結果</span>
                 </h3>
-                <!-- PAST_START -->
-                <div id="pastContainer" style="display: flex; flex-direction: column; gap: 20px;"></div>
-                <!-- PAST_END -->
+                <div id="pastContainer" style="display: flex; flex-direction: column; gap: 20px;">
+                    <!-- PAST_START -->
+                    <!-- PAST_END -->
+                </div>
 
                 <div style="text-align: center; margin-top: 25px;">
                     <span id="matchesCounter"></span>
@@ -433,35 +440,6 @@
 </footer>
 
 <script>
-    /* INIEZIONE AUTOMATICA SCHEMA-EVENTS.JSON */
-    function loadSchemaEvents() {
-        fetch('schema-events.json')
-            .then(res => { if (!res.ok) return; return res.json(); })
-            .then(data => {
-                if (data && Array.isArray(data)) {
-                    const aiContainer = document.createElement('div');
-                    aiContainer.style.display = 'none';
-                    aiContainer.id = 'ai-readable-matches';
-                    
-                    data.forEach(eventSchema => {
-                        const script = document.createElement('script');
-                        script.type = 'application/ld+json';
-                        script.text = JSON.stringify(eventSchema);
-                        document.head.appendChild(script);
-
-                        if (eventSchema.name && eventSchema.startDate) {
-                            const p = document.createElement('p');
-                            p.textContent = `Match: ${eventSchema.name}, Date: ${eventSchema.startDate}, Location: ${eventSchema.location?.name || 'TBD'}`;
-                            aiContainer.appendChild(p);
-                        }
-                    });
-                    document.body.appendChild(aiContainer);
-                }
-            })
-            .catch(err => console.log('Schema events not present yet:', err));
-    }
-    loadSchemaEvents();
-
     const style = document.createElement('style');
     style.innerHTML = `@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }`;
     document.head.appendChild(style);
@@ -661,7 +639,6 @@
         return player.name_romaji || player.name_kanji || query;
     }
 
-    /* ✅ CORREZIONE 1: regex riparata (rimossi caratteri thailandesi) */
     function translatePlayerText(text, lang) {
         if (!text || typeof text !== 'string') return text || '';
         if (text === 'なし' || text === 'Nessuno') return text;
@@ -714,7 +691,6 @@
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang)
         );
 
-        // 1. Traduci gli elementi con data-i18n (navbar, filtri, titoli)
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (translations[lang][key]) {
@@ -727,7 +703,6 @@
             }
         });
 
-        // 2. Rigenera le card (ora usano translations via t())
         if (rawMatches.length > 0) {
             renderMatches();
             filterAndPaginateMatches();
@@ -997,7 +972,6 @@
             const yellowCardsTranslated = translatePlayerText(m.yellow_cards, currentLang);
             const redCardsTranslated = translatePlayerText(m.red_cards, currentLang);
 
-            // ✅ CORREZIONE 2: ora usa t() per tutte le etichette statiche
             let detailsHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong>${t('label.venue')}</strong> ${mapsHtml}</span></div>`;
             if (locInfo.surface) {
                 detailsHtml += `<div class="detail-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> <span><strong>${t('label.surface')}</strong> ${locInfo.surface}</span></div>`;
