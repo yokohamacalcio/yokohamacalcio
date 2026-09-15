@@ -2,6 +2,10 @@ import json
 import re
 import os
 
+# Percorso ufficiale del logo Yokohama Calcio con anti-cache
+YOKOHAMA_LOGO = "./immagini/logo.png?v=2"
+YOKOHAMA_FULL_URL = "https://yokohamacalcio.com"
+
 def load_json(path):
     try:
         if os.path.exists(path):
@@ -11,13 +15,37 @@ def load_json(path):
         print(f"Error loading {path}: {e}")
     return {} if "matches" not in path and "players" not in path else []
 
+def get_opp_info(m, opponents):
+    opp_id = m.get('opponent_id')
+    opp = opponents.get(opp_id, {}) if isinstance(opponents, dict) else {}
+    name = opp.get('name', {}).get('ja') if isinstance(opp.get('name'), dict) else m.get('team2Name', 'Opponent')
+    logo = opp.get('logo') or m.get('team2Logo') or YOKOHAMA_LOGO
+    return name, logo
+
+def get_loc_info(loc_id, venue_fallback, locations):
+    loc = locations.get(loc_id, {}) if isinstance(locations, dict) else {}
+    name = loc.get('ja') or venue_fallback or '-'
+    url = loc.get('url') or loc.get('maps') or f"https://www.google.com/maps/search/?api=1&query={name}"
+    surface = loc.get('surface', {}).get('ja', '') if isinstance(loc.get('surface'), dict) else ''
+    return name, url, surface
+
+def get_category_label(cat):
+    labels = {
+        'official': '公式戦',
+        'league': '公式戦',
+        'friendly': '練習試合',
+        'tournament': '大会',
+        'cup': 'カップ戦'
+    }
+    return labels.get(cat, '試合')
+
 def build_static_matches_html():
     matches = load_json('matches.json')
     locations = load_json('locations.json')
     opponents = load_json('opponents.json')
 
     if not matches:
-        return "", ""
+        return "", "", []
 
     upcoming = [m for m in matches if m.get('status') == 'upcoming']
     past = [m for m in matches if m.get('status') in ['past', 'live']]
@@ -25,92 +53,190 @@ def build_static_matches_html():
     upcoming.sort(key=lambda x: x.get('date', ''))
     past.sort(key=lambda x: x.get('date', ''), reverse=True)
 
-    def get_opp_info(m):
-        opp_id = m.get('opponent_id')
-        opp = opponents.get(opp_id, {}) if isinstance(opponents, dict) else {}
-        name = opp.get('name', {}).get('ja') if isinstance(opp.get('name'), dict) else m.get('team2Name', 'Opponent')
-        logo = opp.get('logo') or m.get('team2Logo') or './immagini/logo.png'
-        return name, logo
-
-    def get_loc_info(loc_id, venue_fallback):
-        loc = locations.get(loc_id, {}) if isinstance(locations, dict) else {}
-        name = loc.get('ja') or venue_fallback or '-'
-        url = loc.get('url') or loc.get('maps') or f"https://www.google.com/maps/search/?api=1&query={name}"
-        return name, url
-
-    # 1. Hero Next Match HTML
+    # 1. HERO NEXT MATCH HTML (Prossima Partita)
     upcoming_html = ""
     if upcoming:
         next_m = upcoming[0]
-        opp_name, opp_logo = get_opp_info(next_m)
-        loc_name, loc_url = get_loc_info(next_m.get('location_id'), next_m.get('venue'))
+        opp_name, opp_logo = get_opp_info(next_m, opponents)
+        loc_name, loc_url, loc_surface = get_loc_info(next_m.get('location_id'), next_m.get('venue'), locations)
         is_home = next_m.get('isHome', True)
+        cat_label = get_category_label(next_m.get('category', ''))
         
         t1_name = "Yokohama Calcio" if is_home else opp_name
-        t1_logo = "./immagini/logo.png" if is_home else opp_logo
+        t1_logo = YOKOHAMA_LOGO if is_home else opp_logo
         t2_name = opp_name if is_home else "Yokohama Calcio"
-        t2_logo = opp_logo if is_home else "./immagini/logo.png"
+        t2_logo = opp_logo if is_home else YOKOHAMA_LOGO
+        
         date_str = next_m.get('date', '')
         time_str = f"{next_m.get('time')} K.O." if next_m.get('time') else ''
 
         upcoming_html = f'''
-        <div class="upcoming-item match-detail-card next-match-hero" data-match-category="{next_m.get('category', '')}" data-match-date="{date_str}">
+        <div class="next-match-hero" id="nextMatchBox">
             <div class="next-match-header">
-                <span class="next-match-badge">次戦の予定</span>
-                <span style="font-weight: 700; color: var(--primary-sky);">公式戦</span>
-            </div>
-            <div class="match-teams-wrapper">
-                <div class="team-column">
-                    <div class="hero-logo-wrap"><img src="{t1_logo}" alt="{t1_name}"></div>
-                    <span title="{t1_name}">{t1_name}</span>
+                <div class="match-badge-group">
+                    <span class="next-match-badge">次戦</span>
+                    <span class="match-badge badge-official">{cat_label}</span>
                 </div>
-                <div class="match-vs-center">VS</div>
-                <div class="team-column">
-                    <div class="hero-logo-wrap"><img src="{t2_logo}" alt="{t2_name}"></div>
-                    <span title="{t2_name}">{t2_name}</span>
+                <span class="match-box-date" style="color: rgba(255,255,255,0.8);">{date_str}</span>
+            </div>
+            <div class="next-match-hero-inner">
+                <div class="match-teams-wrapper">
+                    <div class="teams-logos-row">
+                        <div class="hero-logo-wrap"><img src="{t1_logo}" alt="{t1_name}"></div>
+                        <div class="match-vs-center">VS</div>
+                        <div class="hero-logo-wrap"><img src="{t2_logo}" alt="{t2_name}"></div>
+                    </div>
+                    <div class="teams-names-row">
+                        <div class="team-name-col" style="color: #ffffff;">{t1_name}</div>
+                        <div></div>
+                        <div class="team-name-col" style="color: #ffffff;">{t2_name}</div>
+                    </div>
+                </div>
+                <div class="match-info-hero-bar">
+                    {f'<div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>{time_str}</span></div>' if time_str else ''}
+                    {f'<div class="match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>{loc_surface}</span></div>' if loc_surface else ''}
                 </div>
             </div>
-            <div class="next-match-info">
-                <div class="next-match-info-item"><i class="fas fa-calendar-alt" style="color: var(--primary-sky);"></i><span>{date_str}</span></div>
-                {f'<div class="next-match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>{time_str}</span></div>' if time_str else ''}
-                <div class="next-match-info-item venue-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i><a href="{loc_url}" target="_blank" rel="noopener"><span>{loc_name}</span></a></div>
+            <div>
+                <div class="match-box-venue">
+                    <a href="{loc_url}" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-map-marker-alt"></i> <span>{loc_name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i>
+                    </a>
+                </div>
+                <div class="match-card-footer-hero">
+                    <a href="matches.html#{next_m.get('id', '')}" class="btn-match-detail-hero"><span>詳細</span> <i class="fas fa-chevron-right"></i></a>
+                </div>
             </div>
         </div>
         '''
 
-    # 2. Primi 3 risultati passati HTML
+    # 2. ULTIMO RISULTATO HTML (Con Marcatori & MVP Completi)
     past_html = ""
-    for m in past[:3]:
-        opp_name, opp_logo = get_opp_info(m)
-        is_home = m.get('isHome', True)
+    if past:
+        last_m = past[0]
+        opp_name, opp_logo = get_opp_info(last_m, opponents)
+        loc_name, loc_url, _ = get_loc_info(last_m.get('location_id'), last_m.get('venue'), locations)
+        is_home = last_m.get('isHome', True)
+        cat_label = get_category_label(last_m.get('category', ''))
 
         t1_name = "Yokohama Calcio" if is_home else opp_name
-        t1_logo = "./immagini/logo.png" if is_home else opp_logo
+        t1_logo = YOKOHAMA_LOGO if is_home else opp_logo
         t2_name = opp_name if is_home else "Yokohama Calcio"
-        t2_logo = opp_logo if is_home else "./immagini/logo.png"
-        score = m.get('score', '-')
+        t2_logo = opp_logo if is_home else YOKOHAMA_LOGO
+        score = last_m.get('score', '-')
 
-        past_html += f'''
-        <div class="match-detail-card match-past-item" id="{m.get('id', '')}" data-match-category="{m.get('category', '')}" data-match-date="{m.get('date', '')}">
-            <div class="match-header-row">
-                <span class="match-badge badge-official">公式戦</span>
-                <span class="match-date-text"><i class="far fa-calendar-alt"></i> {m.get('date', '')}</span>
-            </div>
-            <div class="match-teams-wrapper">
-                <div class="team-column">
-                    <div class="card-logo-wrap"><img src="{t1_logo}" alt="{t1_name}"></div>
-                    <span title="{t1_name}">{t1_name}</span>
+        scorers = last_m.get('scorers', '')
+        mvp = last_m.get('mvp', '')
+
+        scorers_html = f'''
+        <div class="match-info-item">
+            <i class="fas fa-futbol" style="color: var(--dark-navy);"></i>
+            <span>{scorers}</span>
+        </div>
+        ''' if scorers and scorers not in ['なし', 'Nessuno'] else ''
+
+        mvp_html = f'''
+        <div class="match-info-item">
+            <i class="fas fa-star" style="color: #f59e0b;"></i>
+            <strong style="color: var(--dark-navy);">{mvp}</strong>
+        </div>
+        ''' if mvp and mvp not in ['なし', 'Nessuno'] else ''
+
+        info_bar_html = f'''
+        <div class="match-info-hero-bar">
+            {scorers_html}
+            {mvp_html}
+        </div>
+        ''' if (scorers_html or mvp_html) else ''
+
+        past_html = f'''
+        <div class="match-box-card match-past-box" id="{last_m.get('id', '')}">
+            <div class="match-past-header">
+                <div class="match-badge-group">
+                    <span class="match-badge badge-official">前節結果</span>
+                    <span class="match-badge badge-official">{cat_label}</span>
                 </div>
-                <div class="match-vs-center score-past">{score}</div>
-                <div class="team-column">
-                    <div class="card-logo-wrap"><img src="{t2_logo}" alt="{t2_name}"></div>
-                    <span title="{t2_name}">{t2_name}</span>
+                <span class="match-box-date">{last_m.get('date', '')}</span>
+            </div>
+            <div class="match-box-card-inner">
+                <div class="match-teams-wrapper">
+                    <div class="teams-logos-row">
+                        <div class="card-logo-wrap"><img src="{t1_logo}" alt="{t1_name}"></div>
+                        <div class="match-vs-center score-past">{score}</div>
+                        <div class="card-logo-wrap"><img src="{t2_logo}" alt="{t2_name}"></div>
+                    </div>
+                    <div class="teams-names-row">
+                        <div class="team-name-col">{t1_name}</div>
+                        <div></div>
+                        <div class="team-name-col">{t2_name}</div>
+                    </div>
+                </div>
+                {info_bar_html}
+            </div>
+            <div>
+                <div class="match-box-venue">
+                    <a href="{loc_url}" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-map-marker-alt"></i> <span>{loc_name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i>
+                    </a>
+                </div>
+                <div class="match-card-footer">
+                    <a href="matches.html#{last_m.get('id', '')}" class="btn-match-detail"><span>詳細</span> <i class="fas fa-chevron-right"></i></a>
                 </div>
             </div>
         </div>
         '''
 
-    return upcoming_html, past_html
+    # 3. GENERAZIONE SCHEMA.ORG EVENTI PER GOOGLE AI & SEARCH ENGINE
+    schema_events = []
+    for m in matches:
+        opp_name, _ = get_opp_info(m, opponents)
+        loc_name, _, _ = get_loc_info(m.get('location_id'), m.get('venue'), locations)
+        is_home = m.get('isHome', True)
+        
+        home_team = "Yokohama Calcio" if is_home else opp_name
+        away_team = opp_name if is_home else "Yokohama Calcio"
+        score = m.get('score', '')
+        
+        status = m.get('status', 'upcoming')
+        title_score = f" ({score})" if score and score != '-' else ""
+        event_name = f"{home_team} vs {away_team}{title_score}"
+        
+        # Iniezione dettagli marcatori & MVP nella descrizione per farli leggere a Google AI
+        desc_parts = [f"Match {event_name}."]
+        if score:
+            desc_parts.append(f"Score: {score}.")
+        if m.get('scorers') and m.get('scorers') not in ['なし', 'Nessuno']:
+            desc_parts.append(f"Scorers: {m.get('scorers')}.")
+        if m.get('mvp') and m.get('mvp') not in ['なし', 'Nessuno']:
+            desc_parts.append(f"MVP: {m.get('mvp')}.")
+        desc_parts.append(f"Venue: {loc_name}.")
+
+        event_schema = {
+            "@context": "https://schema.org",
+            "@type": "SportsEvent",
+            "name": event_name,
+            "description": " ".join(desc_parts),
+            "startDate": f"{m.get('date', '')}T{m.get('time', '10:00')}:00+09:00",
+            "location": {
+                "@type": "Place",
+                "name": loc_name
+            },
+            "homeTeam": {
+                "@type": "SportsTeam",
+                "name": home_team
+            },
+            "awayTeam": {
+                "@type": "SportsTeam",
+                "name": away_team
+            }
+        }
+        
+        if status == 'past' and score:
+            event_schema["eventStatus"] = "https://schema.org/EventCompleted"
+        
+        schema_events.append(event_schema)
+
+    return upcoming_html, past_html, schema_events
 
 def inject_html_to_file(filename, upcoming_html, past_html):
     if not os.path.exists(filename):
@@ -136,13 +262,19 @@ def inject_html_to_file(filename, upcoming_html, past_html):
 
         with open(filename, 'w', encoding='utf-8') as f:
             f.write(content)
-        print(f"✅ Static HTML injected into {filename}")
+        print(f"✅ HTML Statico iniettato con successo in {filename}")
     except Exception as e:
         print(f"Error updating {filename}: {e}")
 
 if __name__ == '__main__':
-    upcoming_h, past_h = build_static_matches_html()
-    inject_html_to_file('matches.html', upcoming_h, past_h)
-    inject_html_to_file('index.html', upcoming_h, past_h)
-    inject_html_to_file('players.html', upcoming_h, past_h)
-    inject_html_to_file('stats.html', upcoming_h, past_h)
+    upcoming_h, past_h, schema_events = build_static_matches_html()
+    
+    # Iniezione HTML nelle pagine del sito
+    for page in ['index.html', 'matches.html', 'players.html', 'stats.html']:
+        inject_html_to_file(page, upcoming_h, past_h)
+
+    # Salvataggio del file JSON-LD per lo Schema.org di Google AI
+    if schema_events:
+        with open('schema-events.json', 'w', encoding='utf-8') as f:
+            json.dump(schema_events, f, ensure_ascii=False, indent=2)
+        print("✅ schema-events.json generato correttamente con Risultati, Marcatori e MVP per Google AI.")
