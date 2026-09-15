@@ -34,6 +34,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
+    <!-- DATI STRUTTURATI CLUB -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -58,6 +59,10 @@
       ]
     }
     </script>
+
+    <!-- MARKER PYTHON PER INIEZIONE AUTOMATICA JSON-LD EVENTI -->
+    <!-- SCHEMA_EVENTS_START -->
+    <!-- SCHEMA_EVENTS_END -->
 
     <style>
         /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO --- */
@@ -548,15 +553,15 @@
         <h2 class="section-title"><i class="fas fa-trophy"></i> <span data-i18n="results.title">試合結果・日程</span></h2>
         
         <div class="match-center-grid">
-            <!-- UPCOMING_START (colonna sinistra = ultimo risultato, ma contiene pastContainer) -->
-            <!-- PAST_START -->
-            <div id="pastContainer"></div>
-            <!-- PAST_END -->
-            <!-- UPCOMING_END -->
+            <div id="pastContainer">
+                <!-- PAST_START -->
+                <!-- PAST_END -->
+            </div>
 
-            <!-- UPCOMING_START -->
-            <div id="upcomingContainer"></div>
-            <!-- UPCOMING_END -->
+            <div id="upcomingContainer">
+                <!-- UPCOMING_START -->
+                <!-- UPCOMING_END -->
+            </div>
         </div>
 
         <div style="text-align: center; margin-top: 30px;">
@@ -726,23 +731,6 @@
 </footer>
 
 <script>
-    function loadSchemaEvents() {
-        fetch('schema-events.json')
-            .then(res => { if (!res.ok) return; return res.json(); })
-            .then(data => {
-                if (data && Array.isArray(data)) {
-                    data.forEach(eventSchema => {
-                        const script = document.createElement('script');
-                        script.type = 'application/ld+json';
-                        script.text = JSON.stringify(eventSchema);
-                        document.head.appendChild(script);
-                    });
-                }
-            })
-            .catch(err => console.log('Schema events not present yet:', err));
-    }
-    loadSchemaEvents();
-
     const commonRomajiMap = {
         'レガリア川崎': 'Legalia Kawasaki',
         '東方チタニウム': 'Toho Titanium',
