@@ -44,7 +44,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
-    <!-- SCHEMA.ORG DATI STRUTTURATI ARRICCHITI -->
+    <!-- SCHEMA.ORG DATI STRUTTURATI ARRICCHITI PER BOT E AI -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -518,6 +518,12 @@
         <h2 class="section-title"><i class="fas fa-trophy"></i> <span data-i18n="matches_page.title">試合日程・結果一覧</span></h2>
         <p class="matches-intro" data-i18n="matches_page.intro">Yokohama Calcioの試合スケジュールと対戦情報です。</p>
 
+        <!-- SEZIONE FALLBACK PER AI E CRAWLER (SEMPRE IN CHIARO NEL CODICE HTML) -->
+        <noscript style="display:block; margin-bottom: 30px; background: #f8fafc; padding: 20px; border-radius: 8px;">
+            <h3>Yokohama Calcio Match Schedule & Results</h3>
+            <p>Please enable JavaScript to view the interactive schedule, or check our structured match events data.</p>
+        </noscript>
+
         <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 30px;">
             <div class="filter-wrapper" style="margin-bottom: 0;">
                 <button class="filter-btn active" data-match-filter="all" data-i18n="filter.all">すべて</button>
@@ -572,7 +578,7 @@
 </footer>
 
 <script>
-    /* INIEZIONE AUTOMATICA SCHEMA-EVENTS.JSON GENERATO DA GITHUB ACTIONS */
+    /* INIEZIONE AUTOMATICA SCHEMA-EVENTS.JSON GENERATO DA GITHUB ACTIONS (LEGGIBILE PER LE AI) */
     function loadSchemaEvents() {
         fetch('schema-events.json')
             .then(res => {
@@ -581,12 +587,25 @@
             })
             .then(data => {
                 if (data && Array.isArray(data)) {
+                    // Crea un blocco testuale secondario leggibile dai bot e dai crawler testuali
+                    const aiContainer = document.createElement('div');
+                    aiContainer.style.display = 'none';
+                    aiContainer.id = 'ai-readable-matches';
+                    
                     data.forEach(eventSchema => {
                         const script = document.createElement('script');
                         script.type = 'application/ld+json';
                         script.text = JSON.stringify(eventSchema);
                         document.head.appendChild(script);
+
+                        // Aggiunge anche testo in chiaro invisibile agli utenti ma perfetto per le AI
+                        if (eventSchema.name && eventSchema.startDate) {
+                            const p = document.createElement('p');
+                            p.textContent = `Match: ${eventSchema.name}, Date: ${eventSchema.startDate}, Location: ${eventSchema.location?.name || 'TBD'}`;
+                            aiContainer.appendChild(p);
+                        }
                     });
+                    document.body.appendChild(aiContainer);
                 }
             })
             .catch(err => console.log('Schema events not present yet:', err));
@@ -1433,7 +1452,7 @@
             });
 
             if (mobileCloseBtn) {
-                mobileCloseBtn.addEventListener('click', closeMobileMenu);
+                mobileCloseBtn.appendEventListener ? mobileCloseBtn.addEventListener('click', closeMobileMenu) : mobileCloseBtn.onclick = closeMobileMenu;
             }
 
             mobileNav.addEventListener('click', (e) => {
