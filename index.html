@@ -164,13 +164,13 @@
         }
         .teams-logos-row {
             display: grid !important;
-            grid-template-columns: 1fr 60px 1fr !important;
+            grid-template-columns: 1fr 70px 1fr !important;
             align-items: center !important; justify-items: center !important;
             width: 100% !important;
         }
         .teams-names-row {
             display: grid !important;
-            grid-template-columns: 1fr 60px 1fr !important;
+            grid-template-columns: 1fr 70px 1fr !important;
             align-items: start !important; justify-items: center !important;
             width: 100% !important;
         }
@@ -189,7 +189,7 @@
         }
         @media (min-width: 500px) { .team-name-col { font-size: 0.95rem !important; } }
 
-        /* ✅ FIX DEFINITIVO SAFARI WEBKIT PER STEMMI E LOGHI */
+        /* ✅ FIX DIMENSIONI STEMMI: HERO (88px) vs NON-HERO (58px) */
         .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important; justify-content: center !important;
@@ -197,8 +197,9 @@
             background: transparent !important;
             overflow: hidden !important;
         }
-        .card-logo-wrap { width: 62px !important; height: 62px !important; }
-        .hero-logo-wrap { width: 64px !important; height: 64px !important; }
+        .card-logo-wrap { width: 58px !important; height: 58px !important; }
+        .hero-logo-wrap { width: 88px !important; height: 88px !important; }
+
         .card-logo-wrap img, .hero-logo-wrap img {
             width: 100% !important;
             height: 100% !important;
@@ -216,6 +217,21 @@
             width: 100% !important;
             height: 100% !important;
             background: #ffffff !important;
+        }
+
+        /* ✅ LAYOUT MATCH CENTER & INVERSIONE SCHEDE SU CELLULARE */
+        .match-center-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .match-center-grid {
+                display: flex !important;
+                flex-direction: column-reverse !important;
+                gap: 20px !important;
+            }
         }
 
         .match-vs-center {
