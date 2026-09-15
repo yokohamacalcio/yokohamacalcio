@@ -155,30 +155,62 @@
             font-weight: 600; color: var(--dark-navy, #003c82); font-size: 0.9rem;
         }
 
-        .team-column span, .team-name-col {
-            white-space: nowrap !important;
+        /* ✅ STRUTTURA A GRIGLIA PER NOMI E LOGHI SQUADRE */
+        .match-teams-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            width: 100% !important;
+            margin: 15px 0 !important;
+        }
+        .teams-logos-row {
+            display: grid !important;
+            grid-template-columns: 1fr 60px 1fr !important;
+            align-items: center !important;
+            justify-items: center !important;
+            width: 100% !important;
+        }
+        .teams-names-row {
+            display: grid !important;
+            grid-template-columns: 1fr 60px 1fr !important;
+            align-items: start !important;
+            justify-items: center !important;
+            width: 100% !important;
+        }
+        .team-name-col {
+            font-weight: 700 !important;
+            font-size: 0.85rem !important;
+            line-height: 1.25 !important;
+            color: var(--dark-navy) !important;
+            text-align: center !important;
+            width: 100% !important;
+            padding: 0 4px !important;
+            display: -webkit-box !important;
+            -webkit-line-clamp: 2 !important;
+            -webkit-box-orient: vertical !important;
             overflow: hidden !important;
-            text-overflow: ellipsis !important;
-            max-width: 130px !important;
-            font-size: 0.88rem !important;
+            word-break: break-word !important;
         }
         @media (min-width: 500px) {
-            .team-column span, .team-name-col {
-                max-width: 180px !important;
-                font-size: 0.95rem !important;
-            }
+            .team-name-col { font-size: 0.95rem !important; }
         }
 
+        /* ✅ FIX DEFINITIVO STEMMI E SAFARI WEBKIT */
         .card-logo-wrap, .hero-logo-wrap {
-            display: flex !important; align-items: center !important;
-            justify-content: center !important; flex-shrink: 0 !important;
-            background: transparent !important; overflow: visible !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
+            background: transparent !important;
+            overflow: hidden !important;
         }
-        .card-logo-wrap { width: 55px !important; height: 55px !important; }
-        .hero-logo-wrap { width: 75px !important; height: 75px !important; }
+        .card-logo-wrap { width: 62px !important; height: 62px !important; }
+        .hero-logo-wrap { width: 64px !important; height: 64px !important; }
         .card-logo-wrap img, .hero-logo-wrap img {
-            max-width: 100% !important; max-height: 100% !important;
-            width: auto !important; height: auto !important;
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
             object-fit: contain !important;
             border-radius: 0 !important;
             background: transparent !important;
@@ -187,28 +219,32 @@
         .card-logo-wrap img[src*="ui-avatars.com"], 
         .hero-logo-wrap img[src*="ui-avatars.com"] {
             border-radius: 50% !important;
-            object-fit: cover !important;
-            width: 100% !important; height: 100% !important;
+            object-fit: contain !important;
+            width: 100% !important;
+            height: 100% !important;
             background: #ffffff !important;
         }
 
         .next-match-hero {
             background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%);
-            color: #ffffff; border-radius: 12px;
-            padding: 30px 20px;
+            color: #ffffff; border-radius: 16px;
+            padding: 24px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             border: 2px solid var(--primary-sky, #87ceeb);
             display: block; transition: all 0.3s ease;
         }
-        .next-match-hero .team-column span {
+        .next-match-hero .team-name-col {
             color: #ffffff !important;
             font-size: 1.05rem !important;
-            max-width: 200px !important;
+        }
+        .next-match-hero .match-vs-center {
+            font-size: 2.5rem !important;
+            color: var(--primary-sky) !important;
         }
         .next-match-header {
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.2);
-            padding-bottom: 12px; margin-bottom: 20px;
+            padding-bottom: 12px; margin-bottom: 15px;
         }
         .next-match-badge {
             background: var(--primary-sky, #87ceeb);
@@ -555,7 +591,7 @@
 
     function getAvatarUrl(matchOrName, romajiFallback) {
         const identifier = (typeof matchOrName === 'object' && matchOrName !== null) 
-            ? (matchOrName.opponent_id || matchOrName.opponent_name || 'opponent') 
+            ? (matchOrName.opponent_id || matchOrName.opponent_name || matchOrName.team2Name || 'opponent') 
             : String(matchOrName || 'opponent');
         const romaji = (typeof matchOrName === 'object' && matchOrName !== null) 
             ? getRomajiName(matchOrName, romajiFallback) 
@@ -824,7 +860,7 @@
                 const t2Err = isHome ? `onerror="this.onerror=null;this.src='${fallbackAvatar}';"` : "";
 
                 if (index === 0) {
-                    // --- HERO: prima partita in evidenza (stile scuro dedicato) ---
+                    /* --- HERO NEXT MATCH (SCHEDA IN EVIDENZA) --- */
                     upcomingHtml += `
                         <div class="upcoming-item match-detail-card next-match-hero" data-match-category="${nextM.category}" data-match-date="${rawDate}">
                             <div class="next-match-header">
@@ -832,14 +868,15 @@
                                 <span style="font-weight: 700; color: var(--primary-sky);">${catText}</span>
                             </div>
                             <div class="match-teams-wrapper">
-                                <div class="team-column">
+                                <div class="teams-logos-row">
                                     <div class="hero-logo-wrap"><img src="${t1Logo}" alt="${t1Name}" class="${t1Class}" ${t1Err}></div>
-                                    <span title="${t1Name}">${t1Name}</span>
-                                </div>
-                                <div class="match-vs-center">VS</div>
-                                <div class="team-column">
+                                    <div class="match-vs-center">VS</div>
                                     <div class="hero-logo-wrap"><img src="${t2Logo}" alt="${t2Name}" class="${t2Class}" ${t2Err}></div>
-                                    <span title="${t2Name}">${t2Name}</span>
+                                </div>
+                                <div class="teams-names-row">
+                                    <div class="team-name-col" style="color: #ffffff;" title="${t1Name}">${t1Name}</div>
+                                    <div></div>
+                                    <div class="team-name-col" style="color: #ffffff;" title="${t2Name}">${t2Name}</div>
                                 </div>
                             </div>
                             <div class="next-match-info">
@@ -851,8 +888,7 @@
                         </div>
                     `;
                 } else {
-                    // --- SCHEDE UPCOMING SECONDARIE: stesso stile delle schede delle partite passate ---
-                    // I dettagli sono sempre visibili (non c'è pulsante toggle).
+                    /* --- SCHEDE NEXT MATCH SECONDARIE --- */
                     const mapsCardHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener"><span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.72rem; opacity: 0.8; margin-left: 3px;"></i></a>` : locInfo.name;
 
                     let detailsHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong>${t('label.venue')}</strong> ${mapsCardHtml}</span></div>`;
@@ -873,14 +909,15 @@
                                 <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${formattedDate}</span>
                             </div>
                             <div class="match-teams-wrapper">
-                                <div class="team-column">
+                                <div class="teams-logos-row">
                                     <div class="card-logo-wrap"><img src="${t1Logo}" alt="${t1Name}" class="${t1Class}" ${t1Err}></div>
-                                    <span title="${t1Name}">${t1Name}</span>
-                                </div>
-                                <div class="match-vs-center">VS</div>
-                                <div class="team-column">
+                                    <div class="match-vs-center">VS</div>
                                     <div class="card-logo-wrap"><img src="${t2Logo}" alt="${t2Name}" class="${t2Class}" ${t2Err}></div>
-                                    <span title="${t2Name}">${t2Name}</span>
+                                </div>
+                                <div class="teams-names-row">
+                                    <div class="team-name-col" title="${t1Name}">${t1Name}</div>
+                                    <div></div>
+                                    <div class="team-name-col" title="${t2Name}">${t2Name}</div>
                                 </div>
                             </div>
                             <div class="match-expand-details" style="display: block; margin-top: 15px;">
@@ -926,6 +963,7 @@
             upcomingContainer.innerHTML = `<div style="text-align: center; padding: 30px; background: #f8fafc; border-radius: 8px; margin-bottom: 30px;"><p style="color: #64748b; font-weight: 600;">${t('matches.no_upcoming')}</p></div>`;
         }
 
+        /* --- SCHEDE PARTITE PASSATE --- */
         sortedPast.forEach(m => {
             const rawDate = m.date ? m.date.trim().replace(/\./g, '-').substring(0, 10) : '';
             const formattedDate = formatDateWithDay(m.date, currentLang);
@@ -1017,14 +1055,15 @@
                         <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${formattedDate}</span>
                     </div>
                     <div class="match-teams-wrapper">
-                        <div class="team-column">
+                        <div class="teams-logos-row">
                             <div class="card-logo-wrap"><img src="${leftTeamLogo}" alt="${leftTeamName}" class="${leftTeamClass}" ${leftErr}></div>
-                            <span title="${leftTeamName}">${leftTeamName}</span>
-                        </div>
-                        <div class="match-vs-center score-past">${displayScore}</div>
-                        <div class="team-column">
+                            <div class="match-vs-center score-past">${displayScore}</div>
                             <div class="card-logo-wrap"><img src="${rightTeamLogo}" alt="${rightTeamName}" class="${rightTeamClass}" ${rightErr}></div>
-                            <span title="${rightTeamName}">${rightTeamName}</span>
+                        </div>
+                        <div class="teams-names-row">
+                            <div class="team-name-col" title="${leftTeamName}">${leftTeamName}</div>
+                            <div></div>
+                            <div class="team-name-col" title="${rightTeamName}">${rightTeamName}</div>
                         </div>
                     </div>
                     <button class="toggle-details-btn"><i class="fas fa-chevron-down"></i> <span class="btn-text">${t('btn.details')}</span></button>
