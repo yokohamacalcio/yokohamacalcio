@@ -4,15 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>選手紹介 | Yokohama Calcio</title>
+    <!-- TITLE OTTIMIZZATO PER SEO LOCALE & MULTILINGUA -->
+    <title>選手紹介 (Rosa & Players) | Yokohama Calcio</title>
     
-    <meta name="description" content="Yokohama Calcioの選手一覧です。">
-    <meta name="robots" content="noindex, nofollow">
+    <!-- META DESCRIPTION CON KEYWORDS STRATEGICHE -->
+    <meta name="description" content="Yokohama Calcio（ヨコハマ・カルチョ）の選手・スタッフ一覧とプロフィール。横浜市で活動する社会人サッカーチームのメンバー紹介。Amateur football club players roster in Yokohama.">
+    <meta name="keywords" content="Yokohama Calcio, 選手紹介, チームメンバー, 横浜 サッカーチーム, 選手一覧, Players Roster, Squadra Calcio Yokohama">
+    <meta name="author" content="Yokohama Calcio">
+    <meta name="robots" content="index, follow">
 
-    <link rel="icon" href="./immagini/logo.png" type="image/png">
+    <!-- SEO MULTILINGUA (HREFLANG) -->
+    <link rel="alternate" hreflang="ja" href="https://yokohamacalcio.com/players.html" />
+    <link rel="alternate" hreflang="it" href="https://yokohamacalcio.com/players.html?lang=it" />
+    <link rel="alternate" hreflang="en" href="https://yokohamacalcio.com/players.html?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://yokohamacalcio.com/players.html" />
+
+    <!-- OPEN GRAPH (SOCIAL PREVIEW) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yokohamacalcio.com/players.html">
+    <meta property="og:title" content="選手紹介 (Rosa & Players) | Yokohama Calcio">
+    <meta property="og:description" content="Yokohama Calcioの選手一覧・プロフィールページ。メンバーの詳細情報と個人成績をご覧いただけます。">
+    <meta property="og:image" content="https://yokohamacalcio.com/immagini/logo.png?v=2">
+
+    <!-- TWITTER CARDS -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@yokohamacalcio">
+    <meta name="twitter:title" content="選手紹介 | Yokohama Calcio">
+    <meta name="twitter:description" content="Yokohama Calcioの選手一覧・プロフィールページ。">
+    <meta name="twitter:image" content="https://yokohamacalcio.com/immagini/logo.png?v=2">
+
+    <!-- FAVICON -->
+    <link rel="icon" href="./immagini/logo.png?v=2" type="image/png">
+    <link rel="apple-touch-icon" href="./immagini/logo.png?v=2">
+
+    <!-- SITEMAP LINK -->
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="https://yokohamacalcio.com/sitemap.xml" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800;900&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <!-- SCHEMA.ORG DATI STRUTTURATI ARRICCHITI -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsTeam",
+      "name": "Yokohama Calcio",
+      "sport": "Soccer",
+      "url": "https://yokohamacalcio.com/players.html",
+      "logo": "https://yokohamacalcio.com/immagini/logo.png?v=2",
+      "description": "Yokohama Calcio official players roster and team members.",
+      "memberOf": {
+        "@type": "SportsOrganization",
+        "name": "Yokohama Football Community"
+      }
+    }
+    </script>
 
     <style>
         /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO --- */
@@ -664,7 +711,7 @@
         en: {
             "nav.about_group": "CLUB", "nav.team_group": "TEAM",
             "nav.team": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
-            "nav.matches": "Matches & Results", "nav.club": "CLUB", "nav.gallery": "Gallery", "nav.sponsors": "Partners",
+            "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.sponsors": "Partners",
             "nav.faq": "FAQ", "nav.shop": "Shop", "nav.contact": "Contact Us",
             "players_page.title": "Players", "players_page.intro": "Tap a card to view detailed info and personal stats.",
             "role_filter.all": "All Players", "role_filter.gk": "GK", "role_filter.df": "DF", "role_filter.mf": "MF",
@@ -1054,7 +1101,6 @@
     }
 
     async function populatePlayers(players) {
-        // Filtra eventuali profili staff da visualizzare come giocatori
         const fieldPlayers = players.filter(p => p.role !== 'staff');
         globalPlayers = fieldPlayers;
         calculateSurnameCounts(fieldPlayers);
@@ -1151,7 +1197,6 @@
             mobileCloseBtn.addEventListener('click', closeMobileMenu);
         }
 
-        // Chiusura automatica al tocco del backdrop esterno
         mobileNav.addEventListener('click', (e) => {
             if (!e.target.closest('.mobile-nav-content') && !mobileMenuBtn.contains(e.target)) {
                 closeMobileMenu();
