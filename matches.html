@@ -801,9 +801,10 @@
                 const oppInfo = getOpponentInfo(nextM, currentLang);
                 
                 let catKey = 'badge.friendly';
-                if (nextM.category === 'league' || nextM.category === 'official') catKey = 'badge.league';
-                else if (nextM.category === 'cup') catKey = 'badge.cup';
-                else if (nextM.category === 'tournament') catKey = 'badge.tournament';
+                let catClass = 'badge-friendly';
+                if (nextM.category === 'league' || nextM.category === 'official') { catKey = 'badge.league'; catClass = 'badge-official'; }
+                else if (nextM.category === 'cup') { catKey = 'badge.cup'; catClass = 'badge-cup'; }
+                else if (nextM.category === 'tournament') { catKey = 'badge.tournament'; catClass = 'badge-tournament'; }
                 const catText = t(catKey);
 
                 const isHome = nextM.isHome !== undefined ? nextM.isHome : true;
@@ -823,6 +824,7 @@
                 const t2Err = isHome ? `onerror="this.onerror=null;this.src='${fallbackAvatar}';"` : "";
 
                 if (index === 0) {
+                    // --- HERO: prima partita in evidenza (stile scuro dedicato) ---
                     upcomingHtml += `
                         <div class="upcoming-item match-detail-card next-match-hero" data-match-category="${nextM.category}" data-match-date="${rawDate}">
                             <div class="next-match-header">
@@ -849,12 +851,25 @@
                         </div>
                     `;
                 } else {
-                    const mapsCardHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener" style="color:var(--dark-navy); text-decoration:none;"><span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.72rem; opacity: 0.8; margin-left: 3px;"></i></a>` : locInfo.name;
+                    // --- SCHEDE UPCOMING SECONDARIE: stesso stile delle schede delle partite passate ---
+                    // I dettagli sono sempre visibili (non c'è pulsante toggle).
+                    const mapsCardHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener"><span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.72rem; opacity: 0.8; margin-left: 3px;"></i></a>` : locInfo.name;
+
+                    let detailsHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong>${t('label.venue')}</strong> ${mapsCardHtml}</span></div>`;
+                    if (locInfo.surface) {
+                        detailsHtml += `<div class="detail-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> <span><strong>${t('label.surface')}</strong> ${locInfo.surface}</span></div>`;
+                    }
+                    if (nextM.time) {
+                        detailsHtml += `<div class="detail-item"><i class="fas fa-clock"></i> <span><strong>${t('label.kickoff')}</strong> ${nextM.time}</span></div>`;
+                    }
 
                     upcomingHtml += `
                         <div class="upcoming-item match-detail-card" data-match-category="${nextM.category}" data-match-date="${rawDate}" style="display: none;">
                             <div class="match-header-row">
-                                <span class="match-badge badge-friendly">${catText}</span>
+                                <div class="match-badge-group">
+                                    <span class="match-badge badge-next">${t('badge.next')}</span>
+                                    <span class="match-badge ${catClass}">${catText}</span>
+                                </div>
                                 <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${formattedDate}</span>
                             </div>
                             <div class="match-teams-wrapper">
@@ -868,10 +883,10 @@
                                     <span title="${t2Name}">${t2Name}</span>
                                 </div>
                             </div>
-                            <div style="padding: 12px 15px; background: #f8fafc; border-top: 1px solid #e2e8f0; border-radius: 0 0 8px 8px; font-size: 0.88rem; display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
-                                <div><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i> <strong>${t('label.venue')}</strong> ${mapsCardHtml}</div>
-                                ${locInfo.surface ? `<div><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> <strong>${t('label.surface')}</strong> ${locInfo.surface}</div>` : ''}
-                                ${nextM.time ? `<div><i class="fas fa-clock" style="color: var(--primary-sky);"></i> <strong>${t('label.kickoff')}</strong> ${nextM.time}</div>` : ''}
+                            <div class="match-expand-details" style="display: block; margin-top: 15px;">
+                                <div class="details-inner">
+                                    ${detailsHtml}
+                                </div>
                             </div>
                         </div>
                     `;
