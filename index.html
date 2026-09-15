@@ -189,13 +189,13 @@
         }
         @media (min-width: 500px) { .team-name-col { font-size: 0.95rem !important; } }
 
-        /* ✅ FIX DIMENSIONI STEMMI: HERO (88px) vs NON-HERO (58px) */
+        /* ✅ FIX STEMMI E RIPRISTINO LUMINOSITÀ LOGHI HERO */
         .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important; justify-content: center !important;
             flex-shrink: 0 !important;
             background: transparent !important;
-            overflow: hidden !important;
+            overflow: visible !important;
         }
         .card-logo-wrap { width: 58px !important; height: 58px !important; }
         .hero-logo-wrap { width: 88px !important; height: 88px !important; }
@@ -209,6 +209,9 @@
             border-radius: 0 !important;
             background: transparent !important;
             transform: none !important;
+        }
+        .hero-logo-wrap img {
+            filter: drop-shadow(0 0 8px rgba(135, 206, 235, 0.75)) !important;
         }
         .card-logo-wrap img[src*="ui-avatars.com"], 
         .hero-logo-wrap img[src*="ui-avatars.com"] {
