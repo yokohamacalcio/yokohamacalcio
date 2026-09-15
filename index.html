@@ -4,17 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Yokohama Calcio | 横浜の社会人サッカーチーム・メンバー募集</title>
+    <!-- TITLE OTTIMIZZATO PER SEO LOCALE & MULTILINGUA -->
+    <title>Yokohama Calcio | 横浜の社会人サッカーチーム・メンバー＆対戦相手募集</title>
     
-    <meta name="description" content="Yokohama Calcio（ヨコハマ・カルチョ）は横浜市で活動する社会人サッカーチームです。イタリアンスタイルの組織的戦術とチームワーク（Gioco di Squadra）を大切に、メンバー・対戦相手を募集しています。">
-    <meta name="keywords" content="Yokohama Calcio, 横浜 サッカーチーム, 社会人サッカー 横浜, フットボールクラブ 横浜, メンバー募集 サッカー, 社会人サッカー メンバー募集">
+    <!-- META DESCRIPTION CON KEYWORDS STRATEGICHE -->
+    <meta name="description" content="Yokohama Calcio（ヨコハマ・カルチョ）は横浜市で活動する社会人サッカーチームです。イタリアンスタイルの組織的戦術とチームワークを大切に、新規メンバーおよび練習試合の対戦相手を募集しています。Amateur football club based in Yokohama, Japan.">
+    <meta name="keywords" content="Yokohama Calcio, 横浜 サッカーチーム, 社会人サッカー 横浜, フットボールクラブ 横浜, メンバー募集 サッカー, 社会人サッカー メンバー募集, 横浜 練習試合 対戦相手募集, Amateur Football Club Yokohama, Squadra calcio amatoriale Yokohama">
     <meta name="author" content="Yokohama Calcio">
     <meta name="robots" content="index, follow">
+
+    <!-- SEO MULTILINGUA (HREFLANG) -->
+    <link rel="alternate" hreflang="ja" href="https://yokohamacalcio.com/" />
+    <link rel="alternate" hreflang="it" href="https://yokohamacalcio.com/?lang=it" />
+    <link rel="alternate" hreflang="en" href="https://yokohamacalcio.com/?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://yokohamacalcio.com/" />
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://yokohamacalcio.com/">
     <meta property="og:title" content="Yokohama Calcio | 横浜の社会人サッカーチーム">
-    <meta property="og:description" content="横浜に咲くイタリアの情熱。Yokohama Calcioは横浜市で活動する社会人サッカーチームです。メンバー＆対戦相手募集中！">
+    <meta property="og:description" content="横浜発、イタリアンスタイルの社会人サッカーチーム。メンバー＆練習試合対戦相手募集中！">
     <meta property="og:image" content="https://yokohamacalcio.com/immagini/logo.png">
 
     <meta name="twitter:card" content="summary_large_image">
@@ -29,21 +37,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
+    <!-- SCHEMA.ORG DATI STRUTTURATI ARRICCHITI -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "SportsClub",
       "name": "Yokohama Calcio",
-      "alternateName": "ヨコハマ・カルチョ",
+      "alternateName": ["ヨコハマ・カルチョ", "Yokohama Calcio FC"],
       "url": "https://yokohamacalcio.com",
       "logo": "https://yokohamacalcio.com/immagini/logo.png",
-      "description": "横浜市を拠点に活動する社会人サッカーチーム。イタリアンスタイルのチームワークと情熱でフットボールを楽しむコミュニティです。",
+      "description": "Yokohama Calcio（ヨコハマ・カルチョ）は横浜市を拠点に活動する社会人サッカーチームです。イタリアンスタイルの組織的戦術とチームワークで競技に取り組んでいます。Amateur football club based in Yokohama.",
       "address": {
         "@type": "PostalAddress",
-        "addressLocality": "横浜市",
-        "addressRegion": "神奈川県",
+        "addressLocality": "Yokohama",
+        "addressRegion": "Kanagawa",
         "addressCountry": "JP"
       },
+      "sport": "Soccer",
       "sameAs": [
         "https://x.com/yokohamacalcio",
         "https://instagram.com/yokohamacalcio",
@@ -835,7 +845,7 @@
                         </div>
                     </div>
 
-                    <!-- BARRA INFO PARTITA PASSATA: MARCATORI & MVP (Senza "MVP:" ridondante) -->
+                    <!-- BARRA INFO PARTITA PASSATA: MARCATORI & MVP -->
                     <div class="match-info-hero-bar" id="lastHeroInfoBar">
                         <div class="match-info-item" id="lastScorersItem" style="display: none;">
                             <i class="fas fa-futbol" style="color: var(--dark-navy);"></i>
@@ -1072,6 +1082,27 @@
 </footer>
 
 <script>
+    /* INIEZIONE AUTOMATICA SCHEMA-EVENTS.JSON GENERATO DA GITHUB ACTIONS */
+    function loadSchemaEvents() {
+        fetch('schema-events.json')
+            .then(res => {
+                if (!res.ok) return;
+                return res.json();
+            })
+            .then(data => {
+                if (data && Array.isArray(data)) {
+                    data.forEach(eventSchema => {
+                        const script = document.createElement('script');
+                        script.type = 'application/ld+json';
+                        script.text = JSON.stringify(eventSchema);
+                        document.head.appendChild(script);
+                    });
+                }
+            })
+            .catch(err => console.log('Schema events not present yet:', err));
+    }
+    loadSchemaEvents();
+
     const commonRomajiMap = {
         'レガリア川崎': 'Legalia Kawasaki',
         '東方チタニウム': 'Toho Titanium',
@@ -1263,7 +1294,6 @@
         return { name, romajiName, logo };
     }
 
-    /* --- TRADUZIONE DINAMICA DEI NOMI GIOCATORI DA PLAYERS.JSON --- */
     function findPlayerObj(query) {
         if (!query || query === 'なし' || query === 'Nessuno') return null;
         if (!playersData || playersData.length === 0) return null;
@@ -1533,7 +1563,6 @@
             }
             document.getElementById('lastScore').textContent = displayScore;
 
-            // MARCATORI E MVP CON TRADUZIONE DEI NOMI
             const scorersItem = document.getElementById('lastScorersItem');
             const scorersText = document.getElementById('lastScorersText');
             const scorersTranslated = translatePlayerText(lastMatch.scorers, lang);
@@ -1657,7 +1686,6 @@
         initMatchCenter();
         initCompactGallery();
 
-        /* LOGICA GESTIONE MENU MOBILE MODALE */
         const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
         const mobileNav = document.querySelector('.mobile-nav');
         const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
