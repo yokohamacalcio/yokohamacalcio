@@ -155,7 +155,7 @@
             font-weight: 600; color: var(--dark-navy, #003c82); font-size: 0.9rem;
         }
 
-        /* ✅ STRUTTURA A GRIGLIA PER NOMI E LOGHI SQUADRE */
+        /* STRUTTURA A GRIGLIA PER NOMI E LOGHI SQUADRE */
         .match-teams-wrapper {
             display: flex !important;
             flex-direction: column !important;
@@ -165,14 +165,14 @@
         }
         .teams-logos-row {
             display: grid !important;
-            grid-template-columns: 1fr 60px 1fr !important;
+            grid-template-columns: 1fr 70px 1fr !important;
             align-items: center !important;
             justify-items: center !important;
             width: 100% !important;
         }
         .teams-names-row {
             display: grid !important;
-            grid-template-columns: 1fr 60px 1fr !important;
+            grid-template-columns: 1fr 70px 1fr !important;
             align-items: start !important;
             justify-items: center !important;
             width: 100% !important;
@@ -195,7 +195,7 @@
             .team-name-col { font-size: 0.95rem !important; }
         }
 
-        /* ✅ FIX DEFINITIVO STEMMI E SAFARI WEBKIT */
+        /* DIMENSIONI LOGHI: HERO NETTAMENTE PIÙ GRANDE (88px) RISPETTO A NON-HERO (58px) */
         .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important;
@@ -204,8 +204,9 @@
             background: transparent !important;
             overflow: hidden !important;
         }
-        .card-logo-wrap { width: 62px !important; height: 62px !important; }
-        .hero-logo-wrap { width: 64px !important; height: 64px !important; }
+        .card-logo-wrap { width: 58px !important; height: 58px !important; }
+        .hero-logo-wrap { width: 88px !important; height: 88px !important; }
+
         .card-logo-wrap img, .hero-logo-wrap img {
             width: 100% !important;
             height: 100% !important;
@@ -854,13 +855,14 @@
                 let t2Class = isHome ? 'opponent-logo' : 'yokohama-logo';
 
                 const mapsHeroHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener"><span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.72rem; opacity: 0.8; margin-left: 3px;"></i></a>` : locInfo.name;
+                const mapsCardHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener" style="color:var(--dark-navy); text-decoration:none;"><span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.72rem; opacity: 0.8; margin-left: 3px;"></i></a>` : locInfo.name;
 
                 const fallbackAvatar = getAvatarUrl(nextM, oppInfo.romajiName);
                 const t1Err = isHome ? "" : `onerror="this.onerror=null;this.src='${fallbackAvatar}';"`;
                 const t2Err = isHome ? `onerror="this.onerror=null;this.src='${fallbackAvatar}';"` : "";
 
                 if (index === 0) {
-                    /* --- HERO NEXT MATCH (SCHEDA IN EVIDENZA) --- */
+                    /* --- HERO NEXT MATCH (SCHEDA IN EVIDENZA CON LOGHI GRANDI 88PX) --- */
                     upcomingHtml += `
                         <div class="upcoming-item match-detail-card next-match-hero" data-match-category="${nextM.category}" data-match-date="${rawDate}">
                             <div class="next-match-header">
@@ -888,16 +890,12 @@
                         </div>
                     `;
                 } else {
-                    /* --- SCHEDE NEXT MATCH SECONDARIE --- */
-                    const mapsCardHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener"><span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.72rem; opacity: 0.8; margin-left: 3px;"></i></a>` : locInfo.name;
-
-                    let detailsHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong>${t('label.venue')}</strong> ${mapsCardHtml}</span></div>`;
-                    if (locInfo.surface) {
-                        detailsHtml += `<div class="detail-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> <span><strong>${t('label.surface')}</strong> ${locInfo.surface}</span></div>`;
-                    }
-                    if (nextM.time) {
-                        detailsHtml += `<div class="detail-item"><i class="fas fa-clock"></i> <span><strong>${t('label.kickoff')}</strong> ${nextM.time}</span></div>`;
-                    }
+                    /* --- SCHEDE PROSSIME PARTITE NON-HERO (DETTAGLI VISIBILI: ORARIO K.O., LUOGO, TIPO DI CAMPO) --- */
+                    let upcomingDetailsHtml = `
+                        <div class="detail-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i> <span><strong>${t('label.kickoff')}</strong> ${nextM.time ? nextM.time + ' K.O.' : '-'}</span></div>
+                        <div class="detail-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i> <span><strong>${t('label.venue')}</strong> ${mapsCardHtml}</span></div>
+                        ${locInfo.surface ? `<div class="detail-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i> <span><strong>${t('label.surface')}</strong> ${locInfo.surface}</span></div>` : ''}
+                    `;
 
                     upcomingHtml += `
                         <div class="upcoming-item match-detail-card" data-match-category="${nextM.category}" data-match-date="${rawDate}" style="display: none;">
@@ -922,7 +920,7 @@
                             </div>
                             <div class="match-expand-details" style="display: block; margin-top: 15px;">
                                 <div class="details-inner">
-                                    ${detailsHtml}
+                                    ${upcomingDetailsHtml}
                                 </div>
                             </div>
                         </div>
