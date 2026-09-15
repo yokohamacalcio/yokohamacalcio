@@ -113,14 +113,14 @@ def build_static_matches_html():
     time_str = f"{next_m.get('time')} K.O." if next_m.get('time') else ''
 
     time_html = (
-        '<div class="match-info-item"><i class="fas fa-clock" style="color:'
+        f'<div class="match-info-item"><i class="fas fa-clock" style="color:'
         f' var(--primary-sky);"></i><span>{time_str}</span></div>'
         if time_str
         else ''
     )
     surface_html = (
-        '<div class="match-info-item"><i class="fas fa-layer-group"'
-        ' style="color:'
+        f'<div class="match-info-item"><i class="fas fa-layer-group"'
+        f' style="color:'
         f' var(--primary-sky);"></i><span>{loc_surface}</span></div>'
         if loc_surface
         else ''
@@ -306,10 +306,9 @@ def build_static_matches_html():
 
 
 # ============================================================
-# GENERAZIONE HTML + SCHEMA GIOCATORI (NUOVO)
+# GENERAZIONE HTML + SCHEMA GIOCATORI
 # ============================================================
 
-# Icone per le intestazioni di sezione (uguali all'HTML attuale)
 SECTION_ICONS = {
     'gk': 'fa-hands',
     'df': 'fa-shield-alt',
@@ -317,7 +316,6 @@ SECTION_ICONS = {
     'fw': 'fa-futbol',
 }
 
-# Icone per i badge interni alla card (uguali al JS getRoleIcon)
 BADGE_ICONS = {
     'gk': 'fa-hands',
     'df': 'fa-shield-alt',
@@ -325,7 +323,6 @@ BADGE_ICONS = {
     'fw': 'fa-bullseye',
 }
 
-# Etichette sezione (già in i18n lato client, ma le mettiamo per SEO)
 SECTION_LABELS = {
     'gk': 'GOALKEEPER',
     'df': 'DEFENDER',
@@ -333,7 +330,6 @@ SECTION_LABELS = {
     'fw': 'FORWARD',
 }
 
-# Classi CSS per i badge di ruolo
 ROLE_BADGE_CLASSES = {
     'gk': 'role-badge-gk',
     'df': 'role-badge-df',
@@ -343,7 +339,6 @@ ROLE_BADGE_CLASSES = {
 
 
 def calculate_age(birth_date):
-  """Calcola l'età da una data di nascita in formato YYYY-MM-DD."""
   if not birth_date:
     return '-'
   try:
@@ -358,7 +353,6 @@ def calculate_age(birth_date):
 
 
 def _extract_surname_parts(raw):
-  """Ritorna (surname, remaining_parts) dalla stringa del nome."""
   if not raw:
     return '', []
   parts = raw.strip().split()
@@ -371,7 +365,6 @@ def _extract_surname_parts(raw):
 
 
 def compute_surname_counts(players):
-  """Conta quante volte compare ogni cognome (per disambiguare con iniziale)."""
   counts = {}
   for p in players:
     raw = (
@@ -386,7 +379,6 @@ def compute_surname_counts(players):
 
 
 def get_surname_display(p, surname_counts):
-  """Cognome in maiuscolo, con iniziale se duplicato (es. ROSSI M.)."""
   raw = (
       p.get('name_romaji')
       if p.get('name_romaji') and p.get('name_romaji') != '-'
@@ -402,7 +394,6 @@ def get_surname_display(p, surname_counts):
 
 
 def _build_details_rows(p):
-  """Genera le righe di dettaglio dietro la card (GK vs giocatore di movimento)."""
   role = p.get('role', 'mf')
   is_gk = role == 'gk'
   position = p.get('position', '-')
@@ -475,7 +466,6 @@ def _build_details_rows(p):
 
 
 def create_player_card_html(p, surname_counts):
-  """Genera l'HTML completo di una card giocatore (front + back)."""
   role = p.get('role', 'mf')
   is_gk = role == 'gk'
 
@@ -527,7 +517,6 @@ def create_player_card_html(p, surname_counts):
 
 
 def build_players_html():
-  """Genera l'HTML dei 4 role-group + card e la lista di schema Person."""
   players_data = load_json('players.json') or []
   if not players_data:
     print('⚠️ players.json vuoto o non trovato, salto generazione giocatori.')
@@ -535,7 +524,6 @@ def build_players_html():
 
   field_players = [p for p in players_data if p.get('role') != 'staff']
 
-  # Ordina per numero (None in fondo)
   def sort_key(p):
     n = p.get('number')
     return (n is None, n if n is not None else 9999)
@@ -565,7 +553,6 @@ def build_players_html():
         </div>
         """)
 
-  # --- JSON-LD Person per ogni giocatore (per SEO) ---
   schemas = []
   for p in field_players:
     name_kanji = p.get('name_kanji') or ''
@@ -601,7 +588,6 @@ def build_players_html():
 # INIEZIONE HTML STATICO (BASATA SUI MARKER)
 # ============================================================
 def inject_html_to_file(filename, upcoming_html, past_html):
-  """Inietta l'HTML statico tra i marker UPCOMING/PAST."""
   full_path = os.path.join(ROOT_DIR, filename)
   if not os.path.exists(full_path):
     print(f'⚠️ {filename} non trovato, salto.')
@@ -635,26 +621,22 @@ def inject_html_to_file(filename, upcoming_html, past_html):
         f.write(content)
       print(f'✅ HTML statico iniettato in {filename}')
     else:
-      print(
-          f'ℹ️ Nessun marker HTML trovato in {filename} (normale per pagine'
-          ' senza match center).'
-      )
+      print(f'ℹ️ Nessun marker HTML trovato in {filename}.')
 
   except Exception as e:
     print(f'❌ Errore aggiornando {filename}: {e}')
 
 
 def inject_players_html_to_file(filename, players_html):
-  """Inietta le card giocatori tra i marker PLAYERS_START/END."""
   if not players_html:
     return
-  full_path = os.path.join(ROOT_DIR, filename)
+  full_path = os.path.join(ROOT_DIR, filename)  # <-- CORRETTO (era f/ull_path)
   if not os.path.exists(full_path):
     print(f'⚠️ {filename} non trovato, salto.')
     return
 
   try:
-    with open(f/ull_path, 'r', encoding='utf-8') as f:
+    with open(full_path, 'r', encoding='utf-8') as f:
       content = f.read()
 
     if '<!-- PLAYERS_START -->' in content and '<!-- PLAYERS_END -->' in content:
@@ -678,7 +660,6 @@ def inject_players_html_to_file(filename, players_html):
 # INIEZIONE JSON-LD NEL <head>
 # ============================================================
 def inject_schema_into_head(filename, schema_events):
-  """Inietta i blocchi JSON-LD degli eventi (SCHEMA_EVENTS_START/END)."""
   full_path = os.path.join(ROOT_DIR, filename)
   if not os.path.exists(full_path) or not schema_events:
     return
@@ -713,7 +694,7 @@ def inject_schema_into_head(filename, schema_events):
       )
       with open(full_path, 'w', encoding='utf-8') as f:
         f.write(content)
-      print(f'✅ JSON-LD iniettato sui marker in {filename}')
+      print(f'✅ JSON-LD eventi iniettato in {filename}')
     else:
       print(f'ℹ️ Nessun marker SCHEMA_EVENTS trovato in {filename}.')
 
@@ -722,7 +703,6 @@ def inject_schema_into_head(filename, schema_events):
 
 
 def inject_players_schema_into_head(filename, schemas):
-  """Inietta i blocchi JSON-LD Person (SCHEMA_PLAYERS_START/END)."""
   full_path = os.path.join(ROOT_DIR, filename)
   if not os.path.exists(full_path) or not schemas:
     return
@@ -734,7 +714,7 @@ def inject_players_schema_into_head(filename, schemas):
     blocks = []
     for s in schemas:
       blocks.append(
-          '<script type="applicationld+json">\n'
+          '<script type="application/ld+json">\n'  # <-- CORRETTO (aggiunto lo slash)
           + json.dumps(s, ensure_ascii=False, indent=2)
           + '\n</script>'
       )
