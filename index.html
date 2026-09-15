@@ -189,28 +189,30 @@
         }
         @media (min-width: 500px) { .team-name-col { font-size: 0.95rem !important; } }
 
+        /* ✅ FIX DEFINITIVO SAFARI WEBKIT PER STEMMI E LOGHI */
         .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important; justify-content: center !important;
             flex-shrink: 0 !important;
             background: transparent !important;
-            overflow: visible !important;
+            overflow: hidden !important;
         }
-        .card-logo-wrap { width: 75px !important; height: 75px !important; }
-        .hero-logo-wrap { width: 75px !important; height: 75px !important; }
+        .card-logo-wrap { width: 62px !important; height: 62px !important; }
+        .hero-logo-wrap { width: 64px !important; height: 64px !important; }
         .card-logo-wrap img, .hero-logo-wrap img {
-            max-width: 100% !important; max-height: 100% !important;
-            width: auto !important; height: auto !important;
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
             object-fit: contain !important;
             border-radius: 0 !important;
             background: transparent !important;
             transform: none !important;
         }
-        /* ✅ FIX: stessa regola di matches.html per i loghi avversari (ui-avatars) */
         .card-logo-wrap img[src*="ui-avatars.com"], 
         .hero-logo-wrap img[src*="ui-avatars.com"] {
             border-radius: 50% !important;
-            object-fit: cover !important;
+            object-fit: contain !important;
             width: 100% !important;
             height: 100% !important;
             background: #ffffff !important;
