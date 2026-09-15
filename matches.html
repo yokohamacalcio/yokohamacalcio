@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- TITLE OTTIMIZZATO PER SEO LOCALE & MULTILINGUA -->
-    <title>試合日程・結果 | Yokohama Calcio (横浜の社会人サッカー)</title>
+    <title>試合日程・結果 (Fixtures & Results) | Yokohama Calcio</title>
     
     <!-- META DESCRIPTION OTTIMIZZATA -->
-    <meta name="description" content="Yokohama Calcioの試合日程および過去の試合結果・得点者一覧です。横浜市・神奈川県内の社会人サッカーリーグ・練習試合のスケジュールを掲載中。Yokohama Calcio match schedule and results.">
+    <meta name="description" content="Yokohama Calcioの試合日程および過去の試合結果・得点者一覧です。横浜市・神奈川県内の社会人サッカーリーグ・練習試合のスケジュールを掲載中。Match schedule and results for Yokohama Calcio.">
     <meta name="keywords" content="Yokohama Calcio 試合結果, 横浜 社会人サッカー 日程, 横浜 サッカー 練習試合, 神奈川県社会人サッカー, Yokohama Calcio Results, Amateur Football Match Yokohama">
     <meta name="author" content="Yokohama Calcio">
     <meta name="robots" content="index, follow">
@@ -18,11 +18,44 @@
     <link rel="alternate" hreflang="it" href="https://yokohamacalcio.com/matches.html?lang=it" />
     <link rel="alternate" hreflang="en" href="https://yokohamacalcio.com/matches.html?lang=en" />
     <link rel="alternate" hreflang="x-default" href="https://yokohamacalcio.com/matches.html" />
+
+    <!-- OPEN GRAPH (SOCIAL PREVIEW) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yokohamacalcio.com/matches.html">
+    <meta property="og:title" content="試合日程・結果 | Yokohama Calcio">
+    <meta property="og:description" content="Yokohama Calcioの試合日程、スケジュール、過去の試合結果と得点者一覧をご覧いただけます。">
+    <meta property="og:image" content="https://yokohamacalcio.com/immagini/logo.png?v=2">
+
+    <!-- TWITTER CARDS -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@yokohamacalcio">
+    <meta name="twitter:title" content="試合日程・結果 | Yokohama Calcio">
+    <meta name="twitter:description" content="Yokohama Calcioの試合日程および過去の試合結果・得点者一覧。">
+    <meta name="twitter:image" content="https://yokohamacalcio.com/immagini/logo.png?v=2">
     
-    <link rel="icon" href="./immagini/logo.png" type="image/png">
+    <!-- FAVICON -->
+    <link rel="icon" href="./immagini/logo.png?v=2" type="image/png">
+    <link rel="apple-touch-icon" href="./immagini/logo.png?v=2">
+
+    <!-- SITEMAP LINK -->
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="https://yokohamacalcio.com/sitemap.xml" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <!-- SCHEMA.ORG DATI STRUTTURATI ARRICCHITI -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsTeam",
+      "name": "Yokohama Calcio",
+      "sport": "Soccer",
+      "url": "https://yokohamacalcio.com/matches.html",
+      "logo": "https://yokohamacalcio.com/immagini/logo.png?v=2",
+      "description": "Yokohama Calcio official match schedule, fixtures and past results."
+    }
+    </script>
     
     <style>
         /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO --- */
@@ -388,7 +421,7 @@
     <div class="container header-container">
       <div class="logo-title">
         <a href="index.html">
-          <img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo">
+          <img src="./immagini/logo.png?v=2" alt="Yokohama Calcio" class="logo">
         </a>
         <a href="index.html" class="brand-name">
           <span>YOKOHAMA</span>
@@ -957,11 +990,11 @@
                 const isHome = nextM.isHome !== undefined ? nextM.isHome : true;
                 
                 let t1Name = isHome ? (nextM.team1Name || 'Yokohama Calcio') : oppInfo.name;
-                let t1Logo = isHome ? './immagini/logo.png' : oppInfo.logo;
+                let t1Logo = isHome ? './immagini/logo.png?v=2' : oppInfo.logo;
                 let t1Class = isHome ? 'yokohama-logo' : 'opponent-logo';
 
                 let t2Name = isHome ? oppInfo.name : (nextM.team1Name || 'Yokohama Calcio');
-                let t2Logo = isHome ? oppInfo.logo : './immagini/logo.png';
+                let t2Logo = isHome ? oppInfo.logo : './immagini/logo.png?v=2';
                 let t2Class = isHome ? 'opponent-logo' : 'yokohama-logo';
 
                 const mapsHeroHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener"><span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.72rem; opacity: 0.8; margin-left: 3px;"></i></a>` : locInfo.name;
@@ -1090,7 +1123,7 @@
 
             if (isHome) {
                 leftTeamName = m.team1Name || 'Yokohama Calcio';
-                leftTeamLogo = './immagini/logo.png';
+                leftTeamLogo = './immagini/logo.png?v=2';
                 leftTeamClass = 'yokohama-logo';
                 rightTeamName = oppInfo.name;
                 rightTeamLogo = oppInfo.logo;
@@ -1103,7 +1136,7 @@
                 leftTeamClass = 'opponent-logo';
                 leftErr = `onerror="this.onerror=null;this.src='${fallbackAvatar}';"`;
                 rightTeamName = m.team1Name || 'Yokohama Calcio';
-                rightTeamLogo = './immagini/logo.png';
+                rightTeamLogo = './immagini/logo.png?v=2';
                 rightTeamClass = 'yokohama-logo';
                 if (m.score && m.score !== 'VS' && m.score.includes('-')) {
                     const parts = m.score.split('-');
@@ -1152,12 +1185,12 @@
                     </div>
                     <div class="match-teams-wrapper">
                         <div class="team-column">
-                            <div class="card-logo-wrap"><img src="${leftTeamLogo}" alt="${leftTeamName}" class="${leftTeamClass}"></div>
+                            <div class="card-logo-wrap"><img src="${leftTeamLogo}" alt="${leftTeamName}" class="${leftTeamClass}" ${leftErr}></div>
                             <span title="${leftTeamName}">${leftTeamName}</span>
                         </div>
                         <div class="match-vs-center score-past">${displayScore}</div>
                         <div class="team-column">
-                            <div class="card-logo-wrap"><img src="${rightTeamLogo}" alt="${rightTeamName}" class="${rightTeamClass}"></div>
+                            <div class="card-logo-wrap"><img src="${rightTeamLogo}" alt="${rightTeamName}" class="${rightTeamClass}" ${rightErr}></div>
                             <span title="${rightTeamName}">${rightTeamName}</span>
                         </div>
                     </div>
