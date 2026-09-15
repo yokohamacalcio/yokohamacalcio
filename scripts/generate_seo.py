@@ -16,112 +16,112 @@ YOKOHAMA_FULL_URL = 'https://yokohamacalcio.com'
 # UTILITY
 # ============================================================
 def load_json(path):
-  """Carica un file JSON dalla root del progetto."""
-  full_path = os.path.join(ROOT_DIR, path)
-  try:
-    if os.path.exists(full_path):
-      with open(full_path, 'r', encoding='utf-8') as f:
-        return json.load(f)
-    else:
-      print(f'⚠️ File non trovato: {full_path}')
-  except Exception as e:
-    print(f'❌ Errore caricamento {path}: {e}')
-  return None
+    """Carica un file JSON dalla root del progetto."""
+    full_path = os.path.join(ROOT_DIR, path)
+    try:
+        if os.path.exists(full_path):
+            with open(full_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        else:
+            print(f'⚠️ File non trovato: {full_path}')
+    except Exception as e:
+        print(f'❌ Errore caricamento {path}: {e}')
+    return None
 
 
 def get_opp_info(m, opponents):
-  opp_id = m.get('opponent_id')
-  opp = opponents.get(opp_id, {}) if isinstance(opponents, dict) else {}
-  name = (
-      opp.get('name', {}).get('ja')
-      if isinstance(opp.get('name'), dict)
-      else m.get('team2Name', 'Opponent')
-  )
-  logo = opp.get('logo') or m.get('team2Logo') or YOKOHAMA_LOGO
-  return name, logo
+    opp_id = m.get('opponent_id')
+    opp = opponents.get(opp_id, {}) if isinstance(opponents, dict) else {}
+    name = (
+        opp.get('name', {}).get('ja')
+        if isinstance(opp.get('name'), dict)
+        else m.get('team2Name', 'Opponent')
+    )
+    logo = opp.get('logo') or m.get('team2Logo') or YOKOHAMA_LOGO
+    return name, logo
 
 
 def get_loc_info(loc_id, venue_fallback, locations):
-  loc = locations.get(loc_id, {}) if isinstance(locations, dict) else {}
-  name = loc.get('ja') or venue_fallback or '-'
-  url = (
-      loc.get('url')
-      or loc.get('maps')
-      or f'https://www.google.com/maps/search/?api=1&query={name}'
-  )
-  surface = (
-      loc.get('surface', {}).get('ja', '')
-      if isinstance(loc.get('surface'), dict)
-      else ''
-  )
-  return name, url, surface
+    loc = locations.get(loc_id, {}) if isinstance(locations, dict) else {}
+    name = loc.get('ja') or venue_fallback or '-'
+    url = (
+        loc.get('url')
+        or loc.get('maps')
+        or f'https://www.google.com/maps/search/?api=1&query={name}'
+    )
+    surface = (
+        loc.get('surface', {}).get('ja', '')
+        if isinstance(loc.get('surface'), dict)
+        else ''
+    )
+    return name, url, surface
 
 
 def get_category_label(cat):
-  labels = {
-      'official': '公式戦',
-      'league': '公式戦',
-      'friendly': '練習試合',
-      'tournament': '大会',
-      'cup': 'カップ戦',
-  }
-  return labels.get(cat, '試合')
+    labels = {
+        'official': '公式戦',
+        'league': '公式戦',
+        'friendly': '練習試合',
+        'tournament': '大会',
+        'cup': 'カップ戦',
+    }
+    return labels.get(cat, '試合')
 
 
 # ============================================================
 # GENERAZIONE HTML + SCHEMA
 # ============================================================
 def build_static_matches_html():
-  matches = load_json('matches.json') or []
-  locations = load_json('locations.json') or {}
-  opponents = load_json('opponents.json') or {}
+    matches = load_json('matches.json') or []
+    locations = load_json('locations.json') or {}
+    opponents = load_json('opponents.json') or {}
 
-  if not matches:
-    print('⚠️ matches.json vuoto o non trovato, salto generazione HTML.')
-    return '', '', []
+    if not matches:
+        print('⚠️ matches.json vuoto o non trovato, salto generazione HTML.')
+        return '', '', []
 
-  upcoming = [m for m in matches if m.get('status') == 'upcoming']
-  past = [m for m in matches if m.get('status') in ['past', 'live']]
+    upcoming = [m for m in matches if m.get('status') == 'upcoming']
+    past = [m for m in matches if m.get('status') in ['past', 'live']]
 
-  upcoming.sort(key=lambda x: x.get('date', ''))
-  past.sort(key=lambda x: x.get('date', ''), reverse=True)
+    upcoming.sort(key=lambda x: x.get('date', ''))
+    past.sort(key=lambda x: x.get('date', ''), reverse=True)
 
-  # ------------------------------------------------------------
-  # 1. HERO PROSSIMA PARTITA
-  # ------------------------------------------------------------
-  upcoming_html = ''
-  if upcoming:
-    next_m = upcoming[0]
-    opp_name, opp_logo = get_opp_info(next_m, opponents)
-    loc_name, loc_url, loc_surface = get_loc_info(
-        next_m.get('location_id'), next_m.get('venue'), locations
-    )
-    is_home = next_m.get('isHome', True)
-    cat_label = get_category_label(next_m.get('category', ''))
+    # ------------------------------------------------------------
+    # 1. HERO PROSSIMA PARTITA
+    # ------------------------------------------------------------
+    upcoming_html = ''
+    if upcoming:
+        next_m = upcoming[0]
+        opp_name, opp_logo = get_opp_info(next_m, opponents)
+        loc_name, loc_url, loc_surface = get_loc_info(
+            next_m.get('location_id'), next_m.get('venue'), locations
+        )
+        is_home = next_m.get('isHome', True)
+        cat_label = get_category_label(next_m.get('category', ''))
 
-    t1_name = 'Yokohama Calcio' if is_home else opp_name
-    t1_logo = YOKOHAMA_LOGO if is_home else opp_logo
-    t2_name = opp_name if is_home else 'Yokohama Calcio'
-    t2_logo = opp_logo if is_home else YOKOHAMA_LOGO
+        t1_name = 'Yokohama Calcio' if is_home else opp_name
+        t1_logo = YOKOHAMA_LOGO if is_home else opp_logo
+        t2_name = opp_name if is_home else 'Yokohama Calcio'
+        t2_logo = opp_logo if is_home else YOKOHAMA_LOGO
 
-    date_str = next_m.get('date', '')
-    time_str = f"{next_m.get('time')} K.O." if next_m.get('time') else ''
+        date_str = next_m.get('date', '')
+        time_str = f"{next_m.get('time')} K.O." if next_m.get('time') else ''
 
-    time_html = (
-        '<div class="match-info-item"><i class="fas fa-clock" style="color:'
-        f' var(--primary-sky);"></i><span>{time_str}</span></div>'
-        if time_str
-        else ''
-    )
-    surface_html = (
-        '<div class="match-info-item"><i class="fas fa-layer-group"'
-        ' style="color:'
-        f' var(--primary-sky);"></i><span>{loc_surface}</span></div>'
-        if loc_surface
-        else ''
-    )
+        time_html = (
+            '<div class="match-info-item"><i class="fas fa-clock" style="color:'
+            f' var(--primary-sky);"></i><span>{time_str}</span></div>'
+            if time_str
+            else ''
+        )
+        surface_html = (
+            '<div class="match-info-item"><i class="fas fa-layer-group"'
+            ' style="color:'
+            f' var(--primary-sky);"></i><span>{loc_surface}</span></div>'
+            if loc_surface
+            else ''
+        )
 
-    upcoming_html = f"""
+        upcoming_html = f"""
         <div class="next-match-hero" id="nextMatchBox">
             <div class="next-match-header">
                 <div class="match-badge-group">
@@ -161,62 +161,62 @@ def build_static_matches_html():
         </div>
         """
 
-  # ------------------------------------------------------------
-  # 2. ULTIMO RISULTATO
-  # ------------------------------------------------------------
-  past_html = ''
-  if past:
-    last_m = past[0]
-    opp_name, opp_logo = get_opp_info(last_m, opponents)
-    loc_name, loc_url, _ = get_loc_info(
-        last_m.get('location_id'), last_m.get('venue'), locations
-    )
-    is_home = last_m.get('isHome', True)
-    cat_label = get_category_label(last_m.get('category', ''))
+    # ------------------------------------------------------------
+    # 2. ULTIMO RISULTATO
+    # ------------------------------------------------------------
+    past_html = ''
+    if past:
+        last_m = past[0]
+        opp_name, opp_logo = get_opp_info(last_m, opponents)
+        loc_name, loc_url, _ = get_loc_info(
+            last_m.get('location_id'), last_m.get('venue'), locations
+        )
+        is_home = last_m.get('isHome', True)
+        cat_label = get_category_label(last_m.get('category', ''))
 
-    t1_name = 'Yokohama Calcio' if is_home else opp_name
-    t1_logo = YOKOHAMA_LOGO if is_home else opp_logo
-    t2_name = opp_name if is_home else 'Yokohama Calcio'
-    t2_logo = opp_logo if is_home else YOKOHAMA_LOGO
-    score = last_m.get('score', '-')
+        t1_name = 'Yokohama Calcio' if is_home else opp_name
+        t1_logo = YOKOHAMA_LOGO if is_home else opp_logo
+        t2_name = opp_name if is_home else 'Yokohama Calcio'
+        t2_logo = opp_logo if is_home else YOKOHAMA_LOGO
+        score = last_m.get('score', '-')
 
-    scorers = last_m.get('scorers', '')
-    mvp = last_m.get('mvp', '')
+        scorers = last_m.get('scorers', '')
+        mvp = last_m.get('mvp', '')
 
-    scorers_html = (
-        f"""
-        <div class="match-info-item">
-            <i class="fas fa-futbol" style="color: var(--dark-navy);"></i>
-            <span>{scorers}</span>
-        </div>
-        """
-        if scorers and scorers not in ['なし', 'Nessuno']
-        else ''
-    )
+        scorers_html = (
+            f"""
+            <div class="match-info-item">
+                <i class="fas fa-futbol" style="color: var(--dark-navy);"></i>
+                <span>{scorers}</span>
+            </div>
+            """
+            if scorers and scorers not in ['なし', 'Nessuno']
+            else ''
+        )
 
-    mvp_html = (
-        f"""
-        <div class="match-info-item">
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <strong style="color: var(--dark-navy);">{mvp}</strong>
-        </div>
-        """
-        if mvp and mvp not in ['なし', 'Nessuno']
-        else ''
-    )
+        mvp_html = (
+            f"""
+            <div class="match-info-item">
+                <i class="fas fa-star" style="color: #f59e0b;"></i>
+                <strong style="color: var(--dark-navy);">{mvp}</strong>
+            </div>
+            """
+            if mvp and mvp not in ['なし', 'Nessuno']
+            else ''
+        )
 
-    info_bar_html = (
-        f"""
-        <div class="match-info-hero-bar">
-            {scorers_html}
-            {mvp_html}
-        </div>
-        """
-        if (scorers_html or mvp_html)
-        else ''
-    )
+        info_bar_html = (
+            f"""
+            <div class="match-info-hero-bar">
+                {scorers_html}
+                {mvp_html}
+            </div>
+            """
+            if (scorers_html or mvp_html)
+            else ''
+        )
 
-    past_html = f"""
+        past_html = f"""
         <div class="match-box-card match-past-box" id="{last_m.get('id', '')}">
             <div class="match-past-header">
                 <div class="match-badge-group">
@@ -253,106 +253,154 @@ def build_static_matches_html():
         </div>
         """
 
-  # ------------------------------------------------------------
-  # 3. SCHEMA.ORG EVENTI (JSON-LD COMPLETO)
-  # ------------------------------------------------------------
-  schema_events = []
-  for m in matches:
-    opp_name, _ = get_opp_info(m, opponents)
-    loc_name, _, _ = get_loc_info(
-        m.get('location_id'), m.get('venue'), locations
-    )
-    is_home = m.get('isHome', True)
+    # ------------------------------------------------------------
+    # 3. SCHEMA.ORG EVENTI (JSON-LD COMPLETO)
+    # ------------------------------------------------------------
+    schema_events = []
+    for m in matches:
+        opp_name, _ = get_opp_info(m, opponents)
+        loc_name, _, _ = get_loc_info(
+            m.get('location_id'), m.get('venue'), locations
+        )
+        is_home = m.get('isHome', True)
 
-    home_team = 'Yokohama Calcio' if is_home else opp_name
-    away_team = opp_name if is_home else 'Yokohama Calcio'
-    score = m.get('score', '')
+        home_team = 'Yokohama Calcio' if is_home else opp_name
+        away_team = opp_name if is_home else 'Yokohama Calcio'
+        score = m.get('score', '')
 
-    status = m.get('status', 'upcoming')
-    title_score = f' ({score})' if score and score != '-' else ''
-    event_name = f'{home_team} vs {away_team}{title_score}'
+        status = m.get('status', 'upcoming')
+        title_score = f' ({score})' if score and score != '-' else ''
+        event_name = f'{home_team} vs {away_team}{title_score}'
 
-    desc_parts = [f'Match {event_name}.']
-    if score:
-      desc_parts.append(f'Score: {score}.')
-    if m.get('scorers') and m.get('scorers') not in ['なし', 'Nessuno']:
-      desc_parts.append(f"Scorers: {m.get('scorers')}.")
-    if m.get('mvp') and m.get('mvp') not in ['なし', 'Nessuno']:
-      desc_parts.append(f"MVP: {m.get('mvp')}.")
-    desc_parts.append(f'Venue: {loc_name}.')
+        desc_parts = [f'Match {event_name}.']
+        if score:
+            desc_parts.append(f'Score: {score}.')
+        if m.get('scorers') and m.get('scorers') not in ['なし', 'Nessuno']:
+            desc_parts.append(f"Scorers: {m.get('scorers')}.")
+        if m.get('mvp') and m.get('mvp') not in ['なし', 'Nessuno']:
+            desc_parts.append(f"MVP: {m.get('mvp')}.")
+        desc_parts.append(f'Venue: {loc_name}.')
 
-    event_schema = {
-        '@context': 'https://schema.org',
-        '@type': 'SportsEvent',
-        'name': event_name,
-        'description': ' '.join(desc_parts),
-        'startDate': f"{m.get('date', '')}T{m.get('time', '10:00')}:00+09:00",
-        'location': {'@type': 'Place', 'name': loc_name},
-        'homeTeam': {'@type': 'SportsTeam', 'name': home_team},
-        'awayTeam': {'@type': 'SportsTeam', 'name': away_team},
-    }
+        event_schema = {
+            '@context': 'https://schema.org',
+            '@type': 'SportsEvent',
+            'name': event_name,
+            'description': ' '.join(desc_parts),
+            'startDate': f"{m.get('date', '')}T{m.get('time', '10:00')}:00+09:00",
+            'location': {'@type': 'Place', 'name': loc_name},
+            'homeTeam': {'@type': 'SportsTeam', 'name': home_team},
+            'awayTeam': {'@type': 'SportsTeam', 'name': away_team},
+        }
 
-    if status == 'past' and score:
-      event_schema['eventStatus'] = 'https://schema.org/EventCompleted'
+        if status == 'past' and score:
+            event_schema['eventStatus'] = 'https://schema.org/EventCompleted'
 
-    schema_events.append(event_schema)
+        schema_events.append(event_schema)
 
-  return upcoming_html, past_html, schema_events
+    return upcoming_html, past_html, schema_events
 
 
 # ============================================================
-# INIEZIONE HTML SICURA
+# INIEZIONE HTML STATICO (BASATA SUI MARKER)
 # ============================================================
 def inject_html_to_file(filename, upcoming_html, past_html):
-  full_path = os.path.join(ROOT_DIR, filename)
-  if not os.path.exists(full_path):
-    print(f'⚠️ {filename} non trovato, salto.')
-    return
+    """Inietta l'HTML statico tra i marker nel file di destinazione.
+    I marker devono essere presenti nel file come:
+      <!-- UPCOMING_START --> ... <!-- UPCOMING_END -->
+      <!-- PAST_START --> ... <!-- PAST_END -->
+    """
+    full_path = os.path.join(ROOT_DIR, filename)
+    if not os.path.exists(full_path):
+        print(f'⚠️ {filename} non trovato, salto.')
+        return
 
-  try:
-    with open(full_path, 'r', encoding='utf-8') as f:
-      content = f.read()
+    try:
+        with open(full_path, 'r', encoding='utf-8') as f:
+            content = f.read()
 
-    if upcoming_html:
-      content = re.sub(
-          r'(<div id="upcomingContainer"[^>]*>)(.*?)(</div>)',
-          lambda match: f'{match.group(1)}\n{upcoming_html}\n{match.group(3)}',
-          content,
-          flags=re.DOTALL,
-      )
-    if past_html:
-      content = re.sub(
-          r'(<div id="pastContainer"[^>]*>)(.*?)(</div>)',
-          lambda match: f'{match.group(1)}\n{past_html}\n{match.group(3)}',
-          content,
-          flags=re.DOTALL,
-      )
+        if upcoming_html:
+            content = re.sub(
+                r'(<!-- UPCOMING_START -->).*?(<!-- UPCOMING_END -->)',
+                lambda m: f'{m.group(1)}\n{upcoming_html}\n{m.group(2)}',
+                content,
+                flags=re.DOTALL,
+            )
+        if past_html:
+            content = re.sub(
+                r'(<!-- PAST_START -->).*?(<!-- PAST_END -->)',
+                lambda m: f'{m.group(1)}\n{past_html}\n{m.group(2)}',
+                content,
+                flags=re.DOTALL,
+            )
 
-    with open(full_path, 'w', encoding='utf-8') as f:
-      f.write(content)
-    print(f'✅ HTML Statico iniettato con successo in {filename}')
+        with open(full_path, 'w', encoding='utf-8') as f:
+            f.write(content)
+        print(f'✅ HTML statico iniettato in {filename}')
 
-  except Exception as e:
-    print(f'❌ Errore aggiornando {filename}: {e}')
+    except Exception as e:
+        print(f'❌ Errore aggiornando {filename}: {e}')
+
+
+# ============================================================
+# INIEZIONE JSON-LD NEL <head>
+# ============================================================
+def inject_schema_into_head(filename, schema_events):
+    """Inietta i blocchi JSON-LD nel <head> del file, prima di </head>.
+    I blocchi sono racchiusi tra:
+      <!-- SCHEMA_EVENTS_START --> ... <!-- SCHEMA_EVENTS_END -->
+    """
+    full_path = os.path.join(ROOT_DIR, filename)
+    if not os.path.exists(full_path) or not schema_events:
+        return
+
+    try:
+        with open(full_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        # Rimuovi eventuale blocco precedente
+        content = re.sub(
+            r'<!-- SCHEMA_EVENTS_START -->.*?<!-- SCHEMA_EVENTS_END -->',
+            '',
+            content,
+            flags=re.DOTALL,
+        )
+
+        # Costruisci i blocchi JSON-LD
+        blocks = []
+        for event in schema_events:
+            blocks.append(
+                '<script type="application/ld+json">\n'
+                + json.dumps(event, ensure_ascii=False, indent=2)
+                + '\n</script>'
+            )
+        block_html = (
+            '<!-- SCHEMA_EVENTS_START -->\n'
+            + '\n'.join(blocks)
+            + '\n<!-- SCHEMA_EVENTS_END -->'
+        )
+
+        # Inserisci prima di </head>
+        content = content.replace('</head>', f'{block_html}\n</head>')
+
+        with open(full_path, 'w', encoding='utf-8') as f:
+            f.write(content)
+        print(f'✅ JSON-LD iniettato in {filename}')
+
+    except Exception as e:
+        print(f'❌ Errore schema in {filename}: {e}')
 
 
 # ============================================================
 # MAIN
 # ============================================================
 if __name__ == '__main__':
-  print(f'📂 ROOT_DIR rilevata: {ROOT_DIR}')
+    print(f'📂 ROOT_DIR rilevata: {ROOT_DIR}')
 
-  upcoming_h, past_h, schema_events = build_static_matches_html()
+    upcoming_h, past_h, schema_events = build_static_matches_html()
 
-  # Iniezione HTML nelle pagine del sito
-  for page in ['index.html', 'matches.html', 'players.html', 'stats.html']:
-    inject_html_to_file(page, upcoming_h, past_h)
+    # Inietta HTML statico + JSON-LD nelle pagine principali
+    for page in ['index.html', 'matches.html']:
+        inject_html_to_file(page, upcoming_h, past_h)
+        inject_schema_into_head(page, schema_events)
 
-  # Salvataggio schema-events.json
-  if schema_events:
-    out_path = os.path.join(ROOT_DIR, 'schema-events.json')
-    with open(out_path, 'w', encoding='utf-8') as f:
-      json.dump(schema_events, f, ensure_ascii=False, indent=2)
-    print(f'✅ schema-events.json generato in {out_path}')
-  else:
-    print('⚠️ Nessun evento schema generato.')
+    print('✅ Fatto. Nessun schema-events.json generato.')
