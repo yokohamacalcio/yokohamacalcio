@@ -357,7 +357,7 @@
                 <p data-i18n="about.philosophy_p2">個々の能力の高さはもちろん、組織としての結束力を武器に、観る者を魅了するサッカーを展開します。</p>
             </div>
 
-            <!-- LEADERSHIP / ORGANIGRAMMA (Con Vice Capitano e Link ID) -->
+            <!-- LEADERSHIP / ORGANIGRAMMA DINAMICO DA JSON -->
             <div class="about-block">
                 <h3><i class="fas fa-users-cog"></i> <span data-i18n="about.leadership_title">クラブリーダーシップ</span></h3>
                 <p data-i18n="about.leadership_desc">チームを牽引する主要メンバーです。名前をクリックすると選手名鑑の個人詳細をご覧いただけます。</p>
@@ -366,19 +366,25 @@
                     <div class="leader-card">
                         <div class="leader-role" data-i18n="role.manager">創設者・監督</div>
                         <div class="leader-name">
-                            <a href="players.html#luca">ディルッボ ルカ <i class="fas fa-external-link-alt"></i></a>
+                            <a href="players.html#di-rubbo-luca" data-player-id="di-rubbo-luca">
+                                <span class="player-display-name">ディルッボ ルカ</span> <i class="fas fa-external-link-alt"></i>
+                            </a>
                         </div>
                     </div>
                     <div class="leader-card">
                         <div class="leader-role" data-i18n="role.captain">チームキャプテン</div>
                         <div class="leader-name">
-                            <a href="players.html#nemoto">根本 <i class="fas fa-external-link-alt"></i></a>
+                            <a href="players.html#nemoto-satoshi" data-player-id="nemoto-satoshi">
+                                <span class="player-display-name">根本 智司</span> <i class="fas fa-external-link-alt"></i>
+                            </a>
                         </div>
                     </div>
                     <div class="leader-card">
                         <div class="leader-role" data-i18n="role.vice_captain">副キャプテン</div>
                         <div class="leader-name">
-                            <a href="players.html#lopez">ロペス <i class="fas fa-external-link-alt"></i></a>
+                            <a href="players.html#lopez-irving" data-player-id="lopez-irving">
+                                <span class="player-display-name">ロペス イルビン</span> <i class="fas fa-external-link-alt"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -407,6 +413,7 @@
 
 <script>
     let currentLang = localStorage.getItem('preferred_lang') || 'ja';
+    let playersData = [];
 
     const translations = {
         ja: {
@@ -468,6 +475,67 @@
         }
     };
 
+    /* UTILITY COMPATIBILITÀ UTENTI E RICERCA DA PLAYERS.JSON */
+    function cleanStr(s) {
+        return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
+    }
+
+    function containsJapaneseChars(text) {
+        return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf\u3400-\u4dbf]/.test(text);
+    }
+
+    function findPlayerObj(query) {
+        if (!query) return null;
+        if (!playersData || playersData.length === 0) return null;
+        const target = cleanStr(query);
+        if (!target) return null;
+
+        let found = playersData.find(p => p.id && cleanStr(p.id) === target);
+        if (found) return found;
+
+        found = playersData.find(p => {
+            const k = cleanStr(p.name_kanji);
+            const kn = cleanStr(p.name_kana);
+            const r = cleanStr(p.name_romaji);
+            return (k && k === target) || (kn && kn === target) || (r && r === target);
+        });
+        if (found) return found;
+
+        return playersData.find(p => {
+            const k = cleanStr(p.name_kanji);
+            const kn = cleanStr(p.name_kana);
+            const r = cleanStr(p.name_romaji);
+            return (k && (k.includes(target) || target.includes(k))) ||
+                   (kn && (kn.includes(target) || target.includes(kn))) ||
+                   (r && (r.includes(target) || target.includes(r)));
+        }) || null;
+    }
+
+    function getPlayerNameInLang(query, lang) {
+        const player = findPlayerObj(query);
+        if (!player) return query;
+        if (lang === 'ja') {
+            if (player.name_kanji && containsJapaneseChars(player.name_kanji)) return player.name_kanji;
+            return player.name_kana || player.name_kanji || player.name_romaji || query;
+        }
+        return player.name_romaji || player.name_kanji || query;
+    }
+
+    function updateLeadershipNames() {
+        document.querySelectorAll('[data-player-id]').forEach(elem => {
+            const queryId = elem.getAttribute('data-player-id');
+            const playerObj = findPlayerObj(queryId);
+            const realId = playerObj ? playerObj.id : queryId;
+
+            elem.setAttribute('href', `players.html#${realId}`);
+
+            const nameSpan = elem.querySelector('.player-display-name');
+            if (nameSpan) {
+                nameSpan.textContent = getPlayerNameInLang(queryId, currentLang);
+            }
+        });
+    }
+
     function setLanguage(lang) {
         if (!translations[lang]) return;
         currentLang = lang;
@@ -481,13 +549,23 @@
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
+
+        updateLeadershipNames();
     }
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
     });
 
-    window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const resp = await fetch('players.json');
+            if (resp.ok) {
+                playersData = await resp.json();
+            }
+        } catch(e) {
+            console.error("Errore durante il caricamento di players.json:", e);
+        }
         setLanguage(currentLang);
     });
 
