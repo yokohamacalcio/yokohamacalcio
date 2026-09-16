@@ -228,7 +228,7 @@
 <!-- SCHEMA_EVENTS_END -->
 
     <style>
-        /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO --- */
+        /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO CON ICONE PERFETTAMENTE ALLINEATE --- */
         .mobile-nav {
             position: fixed;
             top: 0;
@@ -323,6 +323,17 @@
             background: rgba(255, 255, 255, 0.08);
         }
 
+        /* ALLINEAMENTO RIGIDO DI TUTTE LE ICONE DEL MENU MOBILE */
+        .mobile-nav .menu-icon {
+            width: 24px !important;
+            min-width: 24px !important;
+            text-align: center !important;
+            color: #87ceeb !important;
+            font-size: 1.05rem !important;
+            display: inline-block !important;
+            flex-shrink: 0 !important;
+        }
+
         .mobile-dropdown-toggle {
             width: 100%;
             background: transparent;
@@ -336,6 +347,13 @@
             align-items: center;
             border-radius: 8px;
             cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .mobile-dropdown-toggle-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .mobile-submenu {
@@ -370,6 +388,43 @@
             justify-content: center;
             gap: 8px;
             text-decoration: none;
+        }
+
+        /* --- OPTIMIZATION RESPONSIVE TYPOGRAPHY PER SCHERMI MOBILE --- */
+        @media (max-width: 600px) {
+            .section-title {
+                font-size: 1.45rem !important;
+                line-height: 1.3 !important;
+                justify-content: center !important;
+                text-align: center !important;
+            }
+            .stats-group h2 {
+                font-size: 1.4rem !important;
+                line-height: 1.3 !important;
+            }
+            .ranking-title {
+                font-size: 1.15rem !important;
+                line-height: 1.35 !important;
+            }
+            .stats-table th, .stats-table td {
+                padding: 8px 5px !important;
+                font-size: 0.78rem !important;
+            }
+            .ranking-item {
+                padding: 8px 10px !important;
+            }
+            .player-name-text {
+                font-size: 0.88rem !important;
+            }
+            .stats-highlight {
+                font-size: 0.9rem !important;
+            }
+            .gk-stats-main {
+                font-size: 0.88rem !important;
+            }
+            .gk-stats-sub {
+                font-size: 0.7rem !important;
+            }
         }
 
         /* --- STILI STATISTICHE & CLASSIFICHE --- */
@@ -543,7 +598,7 @@
     </div>
   </div>
 
-  <!-- MENU MOBILE MODALE SCURO -->
+  <!-- MENU MOBILE MODALE SCURO CON ALLINEAMENTO PERFETTO DELLE ICONE -->
   <nav class="mobile-nav hidden">
     <div class="mobile-nav-content">
       <div class="mobile-nav-header">
@@ -553,9 +608,16 @@
         <button class="mobile-nav-close" aria-label="Chiudi"><i class="fas fa-times"></i></button>
       </div>
 
+      <a href="index.html" class="mobile-link">
+        <i class="fas fa-home menu-icon"></i> <span data-i18n="nav.home">ホーム</span>
+      </a>
+
       <div class="mobile-dropdown-group">
         <button class="mobile-dropdown-toggle">
-          <span><i class="fas fa-shield-alt" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.team_group">チーム・選手</span></span>
+          <div class="mobile-dropdown-toggle-left">
+            <i class="fas fa-shield-alt menu-icon"></i>
+            <span data-i18n="nav.team_group">チーム・選手</span>
+          </div>
           <i class="fas fa-chevron-down mobile-arrow" style="color: #87ceeb;"></i>
         </button>
         <div class="mobile-submenu hidden">
@@ -567,16 +629,16 @@
       </div>
 
       <a href="matches.html" class="mobile-link">
-        <i class="fas fa-calendar-alt" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.matches">試合日程・結果</span>
+        <i class="fas fa-calendar-alt menu-icon"></i> <span data-i18n="nav.matches">試合日程・結果</span>
       </a>
       <a href="index.html#shop" class="mobile-link">
-        <i class="fas fa-shopping-bag" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.shop">ショップ</span>
+        <i class="fas fa-shopping-bag menu-icon"></i> <span data-i18n="nav.shop">ショップ</span>
       </a>
       <a href="index.html#sponsors" class="mobile-link">
-        <i class="fas fa-handshake" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.sponsors">パートナー</span>
+        <i class="fas fa-handshake menu-icon"></i> <span data-i18n="nav.sponsors">パートナー</span>
       </a>
       <a href="faq.html" class="mobile-link">
-        <i class="fas fa-question-circle" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.faq">よくある質問</span>
+        <i class="fas fa-question-circle menu-icon"></i> <span data-i18n="nav.faq">よくある質問</span>
       </a>
 
       <div class="mobile-cta-wrapper">
@@ -785,6 +847,12 @@
 </footer>
 
 <script>
+    const pageTitles = {
+        ja: "成績・スタッツ (Statistics) | Yokohama Calcio",
+        it: "Statistiche & Rendimento | Yokohama Calcio",
+        en: "Team & Player Statistics | Yokohama Calcio"
+    };
+
     let currentLanguage = localStorage.getItem('preferred_lang') || 'ja';
     let rawMatchesData = [];
     let playersData = [];
@@ -799,7 +867,7 @@
 
     const translations = {
         ja: {
-            "nav.team": "チーム", "nav.team_group": "チーム・選手", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
+            "nav.home": "ホーム", "nav.team": "チーム", "nav.team_group": "チーム・選手", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
             "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.shop": "ショップ", "nav.sponsors": "パートナー",
             "nav.faq": "よくある質問", "nav.contact": "お問い合わせ", "stats.title": "チーム・個人戦績",
             "stats.season_label": "シーズン:", "stats.all_seasons": "全期間 (All Time)", "stats.sec_team": "チーム戦績",
@@ -817,7 +885,7 @@
             "btn.back_home": "ホームに戻る", "btn.show_more": "もっと見る", "btn.show_less": "閉じる"
         },
         it: {
-            "nav.team": "SQUADRA", "nav.team_group": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
+            "nav.home": "Home", "nav.team": "SQUADRA", "nav.team_group": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
             "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.shop": "Shop", "nav.sponsors": "Partner",
             "nav.faq": "FAQ", "nav.contact": "Contatti", "stats.title": "Statistiche Squadra & Singoli",
             "stats.season_label": "Stagione:", "stats.all_seasons": "Tutte le stagioni", "stats.sec_team": "Statistiche di Squadra",
@@ -835,7 +903,7 @@
             "btn.back_home": "Torna alla Home", "btn.show_more": "Mostra tutti", "btn.show_less": "Mostra meno"
         },
         en: {
-            "nav.team": "TEAM", "nav.team_group": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
+            "nav.home": "Home", "nav.team": "TEAM", "nav.team_group": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
             "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.shop": "Shop", "nav.sponsors": "Partners",
             "nav.faq": "FAQ", "nav.contact": "Contact Us", "stats.title": "Team & Player Stats",
             "stats.season_label": "Season:", "stats.all_seasons": "All Time", "stats.sec_team": "Team Statistics",
@@ -924,6 +992,15 @@
         if (!translations[lang]) return;
         currentLanguage = lang;
         localStorage.setItem('preferred_lang', lang);
+
+        // AGGIORNAMENTO DINAMICO TITOLO SEO E META TAG
+        if (pageTitles[lang]) {
+            document.title = pageTitles[lang];
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+            if (ogTitle) ogTitle.setAttribute('content', pageTitles[lang]);
+            if (twitterTitle) twitterTitle.setAttribute('content', pageTitles[lang]);
+        }
 
         document.querySelectorAll('[data-i18n]').forEach(elem => {
             const key = elem.getAttribute('data-i18n');
