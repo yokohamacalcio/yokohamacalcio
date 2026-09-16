@@ -239,7 +239,7 @@
 <!-- SCHEMA_EVENTS_END -->
 
     <style>
-        /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO --- */
+        /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO CON ICONE PERFETTAMENTE ALLINEATE --- */
         .mobile-nav {
             position: fixed;
             top: 0; left: 0;
@@ -281,6 +281,7 @@
             transition: all 0.2s ease;
         }
         .mobile-nav-close:active { background: #87ceeb; color: #00224a; }
+        
         .mobile-link {
             color: #ffffff !important;
             font-size: 0.95rem; font-weight: 600;
@@ -290,13 +291,32 @@
             transition: background 0.2s ease;
         }
         .mobile-link:hover, .mobile-link:active { background: rgba(255, 255, 255, 0.08); }
+
+        /* ALLINEAMENTO RIGIDO DI TUTTE LE ICONE DEL MENU MOBILE */
+        .mobile-nav .menu-icon {
+            width: 24px !important;
+            min-width: 24px !important;
+            text-align: center !important;
+            color: #87ceeb !important;
+            font-size: 1.05rem !important;
+            display: inline-block !important;
+            flex-shrink: 0 !important;
+        }
+
         .mobile-dropdown-toggle {
             width: 100%; background: transparent; border: none;
             color: #ffffff !important; font-size: 0.95rem; font-weight: 600;
             padding: 10px 12px;
             display: flex; justify-content: space-between; align-items: center;
             border-radius: 8px; cursor: pointer;
+            box-sizing: border-box;
         }
+        .mobile-dropdown-toggle-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
         .mobile-submenu {
             background: rgba(0, 0, 0, 0.25); border-radius: 8px;
             padding: 4px 0 4px 10px; margin: 4px 0 8px 8px;
@@ -363,18 +383,20 @@
         }
         @media (min-width: 500px) { .team-name-col { font-size: 0.95rem !important; } }
 
-        /* STEMMI E LUMINOSITÀ LOGHI HERO */
+        /* STEMMI E FIX DEFINITIVO GLITCH BAGLIORE LOGHI HERO */
         .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important; justify-content: center !important;
             flex-shrink: 0 !important;
             background: transparent !important;
             overflow: visible !important;
+            aspect-ratio: 1 / 1 !important;
         }
         .card-logo-wrap { width: 58px !important; height: 58px !important; }
         .hero-logo-wrap { width: 88px !important; height: 88px !important; }
 
         .card-logo-wrap img, .hero-logo-wrap img {
+            display: block !important;
             width: 100% !important;
             height: 100% !important;
             max-width: 100% !important;
@@ -386,6 +408,7 @@
         }
         .hero-logo-wrap img {
             filter: drop-shadow(0 0 8px rgba(135, 206, 235, 0.75)) !important;
+            will-change: filter;
         }
         .card-logo-wrap img[src*="ui-avatars.com"], 
         .hero-logo-wrap img[src*="ui-avatars.com"] {
@@ -656,6 +679,7 @@
     </div>
   </div>
 
+  <!-- MENU MOBILE MODALE SCURO CON ALLINEAMENTO PERFETTO DELLE ICONE -->
   <nav class="mobile-nav hidden">
     <div class="mobile-nav-content">
       <div class="mobile-nav-header">
@@ -666,12 +690,15 @@
       </div>
 
       <a href="index.html" class="mobile-link">
-        <i class="fas fa-home" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.home">ホーム</span>
+        <i class="fas fa-home menu-icon"></i> <span data-i18n="nav.home">ホーム</span>
       </a>
 
       <div class="mobile-dropdown-group">
         <button class="mobile-dropdown-toggle">
-          <span><i class="fas fa-shield-alt" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.team_group">チーム・選手</span></span>
+          <div class="mobile-dropdown-toggle-left">
+            <i class="fas fa-shield-alt menu-icon"></i>
+            <span data-i18n="nav.team_group">チーム・選手</span>
+          </div>
           <i class="fas fa-chevron-down mobile-arrow" style="color: #87ceeb;"></i>
         </button>
         <div class="mobile-submenu hidden">
@@ -683,16 +710,16 @@
       </div>
 
       <a href="matches.html" class="mobile-link">
-        <i class="fas fa-calendar-alt" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.matches">試合日程・結果</span>
+        <i class="fas fa-calendar-alt menu-icon"></i> <span data-i18n="nav.matches">試合日程・結果</span>
       </a>
       <a href="index.html#shop" class="mobile-link">
-        <i class="fas fa-shopping-bag" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.shop">ショップ</span>
+        <i class="fas fa-shopping-bag menu-icon"></i> <span data-i18n="nav.shop">ショップ</span>
       </a>
       <a href="index.html#sponsors" class="mobile-link">
-        <i class="fas fa-handshake" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.sponsors">パートナー</span>
+        <i class="fas fa-handshake menu-icon"></i> <span data-i18n="nav.sponsors">パートナー</span>
       </a>
       <a href="faq.html" class="mobile-link">
-        <i class="fas fa-question-circle" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.faq">よくある質問</span>
+        <i class="fas fa-question-circle menu-icon"></i> <span data-i18n="nav.faq">よくある質問</span>
       </a>
 
       <div class="mobile-cta-wrapper">
@@ -1024,6 +1051,12 @@
 </footer>
 
 <script>
+    const pageTitles = {
+        ja: "Yokohama Calcio | 横浜の社会人サッカーチーム・メンバー＆対戦相手募集",
+        it: "Yokohama Calcio | Squadra di Calcio Dilettantistica a Yokohama",
+        en: "Yokohama Calcio | Amateur Football Club based in Yokohama"
+    };
+
     const commonRomajiMap = {
         'レガリア川崎': 'Legalia Kawasaki',
         '東方チタニウム': 'Toho Titanium',
@@ -1271,6 +1304,15 @@
         if (!translations[lang]) return;
         currentLang = lang;
         localStorage.setItem('preferred_lang', lang);
+
+        // AGGIORNAMENTO DINAMICO TITOLO SEO E META TAG
+        if (pageTitles[lang]) {
+            document.title = pageTitles[lang];
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+            if (ogTitle) ogTitle.setAttribute('content', pageTitles[lang]);
+            if (twitterTitle) twitterTitle.setAttribute('content', pageTitles[lang]);
+        }
 
         document.querySelectorAll('[data-i18n]').forEach(elem => {
             const key = elem.getAttribute('data-i18n');
