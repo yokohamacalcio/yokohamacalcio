@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>よくある質問 | Yokohama Calcio</title>
-    <meta name="description" content="Yokohama Calcio（ヨコハマ・カルチョ）に関するよくある質問（FAQ）一覧です。">
-    <meta name="keywords" content="Yokohama Calcio, よくある質問, FAQ, 横浜 サッカーチーム">
+    <title>よくある質問 (FAQ) | Yokohama Calcio</title>
+    <meta name="description" content="Yokohama Calcio（ヨコハマ・カルチョ）に関するよくある質問（FAQ）一覧です。活動日程、費用、体験参加、スケジュール確定時期などについてまとめています。">
+    <meta name="keywords" content="Yokohama Calcio, よくある質問, FAQ, 横浜 サッカーチーム, 活動日程">
     <meta name="author" content="Yokohama Calcio">
     <meta name="robots" content="index, follow">
 
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO --- */
+        /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO CON ICONE ALLINEATE --- */
         .mobile-nav {
             position: fixed;
             top: 0;
@@ -110,6 +110,17 @@
             background: rgba(255, 255, 255, 0.08);
         }
 
+        /* ALLINEAMENTO RIGIDO DI TUTTE LE ICONE DEL MENU MOBILE */
+        .mobile-nav .menu-icon {
+            width: 24px !important;
+            min-width: 24px !important;
+            text-align: center !important;
+            color: #87ceeb !important;
+            font-size: 1.05rem !important;
+            display: inline-block !important;
+            flex-shrink: 0 !important;
+        }
+
         .mobile-dropdown-toggle {
             width: 100%;
             background: transparent;
@@ -123,6 +134,13 @@
             align-items: center;
             border-radius: 8px;
             cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .mobile-dropdown-toggle-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .mobile-submenu {
@@ -281,6 +299,27 @@
             color: #64748b;
             margin-bottom: 20px;
         }
+
+        /* --- OPTIMIZATION RESPONSIVE TYPOGRAPHY PER SCHERMI MOBILE --- */
+        @media (max-width: 600px) {
+            .section-title {
+                font-size: 1.45rem !important;
+                line-height: 1.3 !important;
+                justify-content: center !important;
+                text-align: center !important;
+            }
+            .faq-category-title {
+                font-size: 1.1rem !important;
+                line-height: 1.3 !important;
+            }
+            .faq-question {
+                padding: 14px 16px !important;
+                font-size: 0.9rem !important;
+            }
+            .faq-answer p {
+                font-size: 0.85rem !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -374,9 +413,16 @@
         <button class="mobile-nav-close" aria-label="Chiudi"><i class="fas fa-times"></i></button>
       </div>
 
+      <a href="index.html" class="mobile-link">
+        <i class="fas fa-home menu-icon"></i> <span data-i18n="nav.home">ホーム</span>
+      </a>
+
       <div class="mobile-dropdown-group">
         <button class="mobile-dropdown-toggle">
-          <span><i class="fas fa-shield-alt" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.team_group">チーム・選手</span></span>
+          <div class="mobile-dropdown-toggle-left">
+            <i class="fas fa-shield-alt menu-icon"></i>
+            <span data-i18n="nav.team_group">チーム・選手</span>
+          </div>
           <i class="fas fa-chevron-down mobile-arrow" style="color: #87ceeb;"></i>
         </button>
         <div class="mobile-submenu hidden">
@@ -388,16 +434,16 @@
       </div>
 
       <a href="matches.html" class="mobile-link">
-        <i class="fas fa-calendar-alt" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.matches">試合日程・結果</span>
+        <i class="fas fa-calendar-alt menu-icon"></i> <span data-i18n="nav.matches">試合日程・結果</span>
       </a>
       <a href="index.html#shop" class="mobile-link">
-        <i class="fas fa-shopping-bag" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.shop">ショップ</span>
+        <i class="fas fa-shopping-bag menu-icon"></i> <span data-i18n="nav.shop">ショップ</span>
       </a>
       <a href="index.html#sponsors" class="mobile-link">
-        <i class="fas fa-handshake" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.sponsors">パートナー</span>
+        <i class="fas fa-handshake menu-icon"></i> <span data-i18n="nav.sponsors">パートナー</span>
       </a>
       <a href="faq.html" class="mobile-link" style="color: #87ceeb !important; font-weight: 800;">
-        <i class="fas fa-question-circle" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.faq">よくある質問</span>
+        <i class="fas fa-question-circle menu-icon"></i> <span data-i18n="nav.faq">よくある質問</span>
       </a>
 
       <div class="mobile-cta-wrapper">
@@ -489,6 +535,17 @@
                 </button>
                 <div class="faq-answer">
                     <p data-i18n="faq.a5">主に日曜日をメインに活動しておりますが、土曜日に活動を行うこともあります。</p>
+                </div>
+            </div>
+
+            <!-- NUOVA FAQ: DETERMINAZIONE AGENDA E PREAVVISO BREVE -->
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span data-i18n="faq.q16">翌月のスケジュールはいつ頃確定しますか？急なイベントが発生することはありますか？</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p data-i18n="faq.a16">翌月の練習・試合スケジュールは、グラウンド抽選や対戦相手との調整を経て毎月25日以降に確定・発表されます。<br>なお、グラウンドのキャンセルの空き枠獲得や急遽決まる練習試合などにより、直前・短期間の通知でイベントが追加される場合もありますのでご了承ください。</p>
                 </div>
             </div>
 
@@ -599,10 +656,17 @@
 </footer>
 
 <script>
+    const pageTitles = {
+        ja: "よくある質問 (FAQ) | Yokohama Calcio",
+        it: "Domande Frequenti (FAQ) | Yokohama Calcio",
+        en: "Frequently Asked Questions (FAQ) | Yokohama Calcio"
+    };
+
     let currentLang = localStorage.getItem('preferred_lang') || 'ja';
 
     const translations = {
         ja: {
+            "nav.home": "ホーム",
             "nav.about_group": "クラブ",
             "nav.team_group": "チーム・選手",
             "nav.about": "チーム紹介",
@@ -633,6 +697,8 @@
             "faq.a4": "固定の専用グラウンドはありません。主に横浜市内の公共グラウンド（市営グラウンド等）や、学校のグラウンド・施設をお借りして活動しています。",
             "faq.q5": "活動の頻度や日時はいつですか？",
             "faq.a5": "主に日曜日をメインに活動しておりますが、土曜日に活動を行うこともあります。",
+            "faq.q16": "翌月のスケジュールはいつ頃確定しますか？急なイベントが発生することはありますか？",
+            "faq.a16": "翌月の練習・試合スケジュールは、グラウンド抽選や対戦相手との調整を経て毎月25日以降に確定・発表されます。<br>なお、グラウンドのキャンセルの空き枠獲得や急遽決まる練習試合などにより、直前・短期間の通知でイベントが追加される場合もありますのでご了承ください。",
             "faq.q12": "どのような試合や大会に参加していますか？",
             "faq.a12": "主に横浜市周辺のチームとの対外試合（練習試合）を中心に活動しています。また、時期に応じて地域カップ戦やワンデイ大会等にも積極的に参加しています。",
             "faq.q13": "雨天の場合は活動中止になりますか？",
@@ -658,6 +724,7 @@
             "btn.back_home": "ホームに戻る"
         },
         it: {
+            "nav.home": "Home",
             "nav.about_group": "CLUB",
             "nav.team_group": "SQUADRA",
             "nav.about": "Chi Siamo",
@@ -688,6 +755,8 @@
             "faq.a4": "Non abbiamo un campo fisso. Giochiamo principalmente nei campi pubblici della città di Yokohama e strutture scolastiche/sportive locali.",
             "faq.q5": "Quali sono i giorni e gli orari delle attività?",
             "faq.a5": "Ci alleniamo e giochiamo principalmente la domenica, con occasionali sessioni o amichevoli il sabato.",
+            "faq.q16": "Quando viene definito il calendario mensile? Ci sono eventi organizzati con scarso preavviso?",
+            "faq.a16": "Il calendario delle attività del mese successivo viene definito e comunicato a partire dal 25 di ogni mese, a seguito delle assegnazioni dei campi.<br>Tuttavia, in caso di prenotazioni straordinarie di campi o amichevoli concordate all'ultimo, potrebbero essere aggiunti eventi anche con breve preavviso.",
             "faq.q12": "Che tipo di partite e tornei disputate?",
             "faq.a12": "Organizziamo regolarmente amichevoli con altre squadre dell'area di Yokohama e partecipiamo a tornei locali o coppe amatoriali durante la stagione.",
             "faq.q13": "Cosa succede in caso di pioggia o maltempo?",
@@ -713,6 +782,7 @@
             "btn.back_home": "Torna alla Home"
         },
         en: {
+            "nav.home": "Home",
             "nav.about_group": "CLUB",
             "nav.team_group": "TEAM",
             "nav.about": "About Us",
@@ -743,6 +813,8 @@
             "faq.a4": "We do not have a dedicated home field. We mainly use public grounds and school facilities within Yokohama City.",
             "faq.q5": "When do activities take place?",
             "faq.a5": "Our activities are mainly scheduled on Sundays, with occasional sessions on Saturdays.",
+            "faq.q16": "When is the monthly schedule confirmed? Are there short-notice events?",
+            "faq.a16": "The upcoming month's training and match schedule is finalized and published from the 25th of each month.<br>Please note that occasional short-notice events may be added due to last-minute field openings or newly arranged friendly matches.",
             "faq.q12": "What kind of matches or tournaments do you participate in?",
             "faq.a12": "We regularly organize friendly matches against local teams in Yokohama and enter regional amateur tournaments and cup games during the season.",
             "faq.q13": "What happens in case of rain or bad weather?",
@@ -773,6 +845,15 @@
         if (!translations[lang]) return;
         currentLang = lang;
         localStorage.setItem('preferred_lang', lang);
+
+        // AGGIORNAMENTO DINAMICO TITOLO SEO E META TAG
+        if (pageTitles[lang]) {
+            document.title = pageTitles[lang];
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+            if (ogTitle) ogTitle.setAttribute('content', pageTitles[lang]);
+            if (twitterTitle) twitterTitle.setAttribute('content', pageTitles[lang]);
+        }
 
         document.querySelectorAll('[data-i18n]').forEach(elem => {
             const key = elem.getAttribute('data-i18n');
