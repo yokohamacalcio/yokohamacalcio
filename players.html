@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- TITLE OTTIMIZZATO PER SEO LOCALE & MULTILINGUA -->
-    <title>選手紹介 (Rosa & Players) | Yokohama Calcio</title>
+    <title>選手紹介 (Players Roster) | Yokohama Calcio</title>
+
     
     <!-- META DESCRIPTION CON KEYWORDS STRATEGICHE -->
     <meta name="description" content="Yokohama Calcio（ヨコハマ・カルチョ）の選手・スタッフ一覧とプロフィール。横浜市で活動する社会人サッカーチームのメンバー紹介。Amateur football club players roster in Yokohama.">
@@ -88,7 +89,6 @@
             display: none !important;
         }
 
-        /* Pannello Menu: Card Elegante in Sfondo Blu Navy */
         .mobile-nav-content {
             background: linear-gradient(145deg, #00224a 0%, #001229 100%);
             color: #ffffff;
@@ -217,6 +217,7 @@
             -webkit-perspective: 1000px;
             height: 400px;
             cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .player-card-inner {
@@ -292,6 +293,36 @@
 
         .player-body-jersey.jersey-gk {
             background: linear-gradient(135deg, #FFD500 0%, #E59400 100%);
+        }
+
+        /* BADGES CAPITANO E VICE CAPITANO (FASCIA MAGLIA) */
+        .captain-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd700 0%, #f59e0b 100%);
+            color: #00224a;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+            border: 2px solid #ffffff;
+            z-index: 3;
+            letter-spacing: -0.5px;
+        }
+
+        .captain-badge.vc-badge {
+            background: linear-gradient(135deg, #f1f5f9 0%, #94a3b8 100%);
+            color: #00224a;
+            font-size: 0.78rem;
+            width: 34px;
+            height: 34px;
         }
 
         .jersey-surname-large {
@@ -500,13 +531,15 @@
       <!-- DESKTOP NAV -->
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
+          <a href="index.html" data-i18n="nav.home">ホーム</a>
+
           <div class="nav-item dropdown">
-            <a href="index.html#about" class="dropdown-toggle">
+            <a href="about.html" class="dropdown-toggle">
               <span data-i18n="nav.about_group">クラブ</span> 
               <i class="fas fa-chevron-down nav-arrow"></i>
             </a>
             <div class="dropdown-menu">
-              <a href="index.html#about" data-i18n="nav.about">チーム紹介</a>
+              <a href="about.html" data-i18n="nav.about">チーム紹介</a>
               <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
               <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
             </div>
@@ -546,13 +579,17 @@
         <button class="mobile-nav-close" aria-label="Chiudi"><i class="fas fa-times"></i></button>
       </div>
 
+      <a href="index.html" class="mobile-link">
+        <i class="fas fa-home" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.home">ホーム</span>
+      </a>
+
       <div class="mobile-dropdown-group">
         <button class="mobile-dropdown-toggle">
           <span><i class="fas fa-shield-alt" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.team_group">チーム・選手</span></span>
           <i class="fas fa-chevron-down mobile-arrow" style="color: #87ceeb;"></i>
         </button>
         <div class="mobile-submenu hidden">
-          <a href="index.html#about" class="mobile-link sub" data-i18n="nav.about">チーム紹介</a>
+          <a href="about.html" class="mobile-link sub" data-i18n="nav.about">チーム紹介</a>
           <a href="players.html" class="mobile-link sub" style="color: #87ceeb !important; font-weight: 800;" data-i18n="nav.players">選手紹介</a>
           <a href="stats.html" class="mobile-link sub" data-i18n="nav.stats">成績・スタッツ</a>
           <a href="index.html#gallery" class="mobile-link sub" data-i18n="nav.gallery">ギャラリー</a>
@@ -692,7 +729,7 @@
 
     const translations = {
         ja: {
-            "nav.about_group": "クラブ", "nav.team_group": "チーム・選手",
+            "nav.home": "ホーム", "nav.about_group": "クラブ", "nav.team_group": "チーム・選手",
             "nav.team": "チーム", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
             "nav.matches": "試合日程・結果", "nav.club": "クラブ", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー",
             "nav.faq": "よくある質問", "nav.shop": "ショップ", "nav.contact": "お問い合わせ",
@@ -707,7 +744,7 @@
             "unit.age": "歳"
         },
         it: {
-            "nav.about_group": "CLUB", "nav.team_group": "SQUADRA",
+            "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "SQUADRA",
             "nav.team": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
             "nav.matches": "Partite & Risultati", "nav.club": "CLUB", "nav.gallery": "Galleria", "nav.sponsors": "Partner",
             "nav.faq": "FAQ", "nav.contact": "Contatti",
@@ -722,7 +759,7 @@
             "unit.age": "anni"
         },
         en: {
-            "nav.about_group": "CLUB", "nav.team_group": "TEAM",
+            "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "TEAM",
             "nav.team": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
             "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.sponsors": "Partners",
             "nav.faq": "FAQ", "nav.shop": "Shop", "nav.contact": "Contact Us",
@@ -764,7 +801,10 @@
         const target = cleanStr(query);
         if (!target) return null;
 
-        let found = globalPlayers.find(p => {
+        let found = globalPlayers.find(p => p.id && cleanStr(p.id) === target);
+        if (found) return found;
+
+        found = globalPlayers.find(p => {
             const k = cleanStr(p.name_kanji);
             const kn = cleanStr(p.name_kana);
             const r = cleanStr(p.name_romaji);
@@ -894,6 +934,14 @@
 
         const jerseyRoleClass = isGK ? 'jersey-gk' : '';
 
+        /* GESTIONE BADGE CAPITANO E VICE CAPITANO */
+        let captainBadgeHtml = '';
+        if (p.leadership_role === 'captain' || p.id === 'nemoto-satoshi') {
+            captainBadgeHtml = `<div class="captain-badge" title="Captain">C</div>`;
+        } else if (p.leadership_role === 'vice_captain' || p.id === 'lopez-irving') {
+            captainBadgeHtml = `<div class="captain-badge vc-badge" title="Vice Captain">VC</div>`;
+        }
+
         let detailsRows = '';
         if (isGK) {
             detailsRows = `
@@ -928,10 +976,11 @@
         const playerIdKey = p.id || p.number || nameKanji;
 
         return `
-            <div class="player-card" data-player-id="${playerIdKey}" data-player-name="${nameKanji}" data-player-kana="${nameKana}" data-player-romaji="${nameRomaji}" data-player-pos="${rawPosition}" data-player-role="${p.role}">
+            <div class="player-card" id="${playerIdKey}" data-player-id="${playerIdKey}" data-player-name="${nameKanji}" data-player-kana="${nameKana}" data-player-romaji="${nameRomaji}" data-player-pos="${rawPosition}" data-player-role="${p.role}">
                 <div class="player-card-inner">
                     <div class="player-card-front">
                         <div class="player-body-jersey ${jerseyRoleClass}">
+                            ${captainBadgeHtml}
                             <div class="jersey-surname-large">${surnameRomaji}</div>
                             <div class="jersey-number-large">${numberOnly}</div>
                         </div>
@@ -1113,6 +1162,44 @@
         }
     }
 
+    /* GESTIONE SCROLL FLUIDO ED EVIDENZIAZIONE DA LINK CON HASH (#id) */
+    function checkUrlHashAndScroll() {
+        const hash = window.location.hash.replace('#', '');
+        if (!hash) return;
+
+        const targetCard = document.getElementById(hash) || 
+                           document.querySelector(`.player-card[data-player-id="${hash}"]`);
+
+        if (targetCard) {
+            // Se la sezione è nascosta dai filtri attivi, mostra tutte le sezioni
+            const activeFilter = document.querySelector('.filter-btn.active');
+            if (activeFilter && activeFilter.getAttribute('data-role-filter') !== 'all') {
+                const roleFilterBtns = document.querySelectorAll('[data-role-filter]');
+                const roleSections = document.querySelectorAll('[data-role-section]');
+                roleFilterBtns.forEach(b => b.classList.remove('active'));
+                document.querySelector('[data-role-filter="all"]')?.classList.add('active');
+                roleSections.forEach(section => section.style.display = 'block');
+            }
+
+            setTimeout(() => {
+                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                if (!targetCard.classList.contains('is-flipped')) {
+                    targetCard.classList.add('is-flipped');
+                }
+
+                targetCard.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+                targetCard.style.transform = 'scale(1.04)';
+                targetCard.style.boxShadow = '0 0 25px rgba(135, 206, 235, 0.9)';
+                
+                setTimeout(() => {
+                    targetCard.style.transform = '';
+                    targetCard.style.boxShadow = '';
+                }, 2200);
+            }, 300);
+        }
+    }
+
     async function populatePlayers(players) {
         const fieldPlayers = players.filter(p => p.role !== 'staff');
         globalPlayers = fieldPlayers;
@@ -1136,6 +1223,7 @@
 
         setLanguage(currentLang);
         await calculateStatsFromMatchesJSON();
+        checkUrlHashAndScroll();
     }
 
     async function loadPlayersJSON() {
@@ -1153,6 +1241,8 @@
         setLanguage(currentLang);
         loadPlayersJSON();
     });
+
+    window.addEventListener('hashchange', checkUrlHashAndScroll);
 
     /* LOGICA GESTIONE MENU MOBILE MODALE */
     const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
