@@ -104,12 +104,29 @@
             transition: background 0.2s ease;
         }
         .mobile-link:hover, .mobile-link:active { background: rgba(255, 255, 255, 0.08); }
+
+        /* ALLINEAMENTO RIGIDO DI TUTTE LE ICONE DEL MENU MOBILE */
+        .mobile-nav .menu-icon {
+            width: 24px !important;
+            min-width: 24px !important;
+            text-align: center !important;
+            color: #87ceeb !important;
+            font-size: 1.05rem !important;
+            display: inline-block !important;
+            flex-shrink: 0 !important;
+        }
+
         .mobile-dropdown-toggle {
             width: 100%; background: transparent; border: none;
             color: #ffffff !important; font-size: 0.95rem; font-weight: 600;
             padding: 10px 12px;
             display: flex; justify-content: space-between; align-items: center;
-            border-radius: 8px; cursor: pointer;
+            border-radius: 8px; cursor: pointer; box-sizing: border-box;
+        }
+        .mobile-dropdown-toggle-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
         .mobile-submenu {
             background: rgba(0, 0, 0, 0.25); border-radius: 8px;
@@ -215,6 +232,22 @@
         .leader-name a i {
             font-size: 0.8rem;
         }
+
+        /* OPTIMIZATION RESPONSIVE TYPOGRAPHY PER MOBILE */
+        @media (max-width: 600px) {
+            .section-title {
+                font-size: 1.45rem !important;
+                line-height: 1.3 !important;
+                justify-content: center !important;
+                text-align: center !important;
+            }
+            .about-block h3 {
+                font-size: 1.15rem !important;
+            }
+            .about-block p {
+                font-size: 0.9rem !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -299,12 +332,15 @@
       </div>
 
       <a href="index.html" class="mobile-link">
-        <i class="fas fa-home" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.home">ホーム</span>
+        <i class="fas fa-home menu-icon"></i> <span data-i18n="nav.home">ホーム</span>
       </a>
 
       <div class="mobile-dropdown-group">
         <button class="mobile-dropdown-toggle">
-          <span><i class="fas fa-shield-alt" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.team_group">チーム・選手</span></span>
+          <div class="mobile-dropdown-toggle-left">
+            <i class="fas fa-shield-alt menu-icon"></i>
+            <span data-i18n="nav.team_group">チーム・選手</span>
+          </div>
           <i class="fas fa-chevron-down mobile-arrow" style="color: #87ceeb;"></i>
         </button>
         <div class="mobile-submenu hidden">
@@ -316,16 +352,16 @@
       </div>
 
       <a href="matches.html" class="mobile-link">
-        <i class="fas fa-calendar-alt" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.matches">試合日程・結果</span>
+        <i class="fas fa-calendar-alt menu-icon"></i> <span data-i18n="nav.matches">試合日程・結果</span>
       </a>
       <a href="index.html#shop" class="mobile-link">
-        <i class="fas fa-shopping-bag" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.shop">ショップ</span>
+        <i class="fas fa-shopping-bag menu-icon"></i> <span data-i18n="nav.shop">ショップ</span>
       </a>
       <a href="index.html#sponsors" class="mobile-link">
-        <i class="fas fa-handshake" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.sponsors">パートナー</span>
+        <i class="fas fa-handshake menu-icon"></i> <span data-i18n="nav.sponsors">パートナー</span>
       </a>
       <a href="faq.html" class="mobile-link">
-        <i class="fas fa-question-circle" style="color: #87ceeb; width: 22px;"></i> <span data-i18n="nav.faq">よくある質問</span>
+        <i class="fas fa-question-circle menu-icon"></i> <span data-i18n="nav.faq">よくある質問</span>
       </a>
 
       <div class="mobile-cta-wrapper">
@@ -340,7 +376,7 @@
 <section class="section about-page-section">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-shield-alt"></i> <span data-i18n="about_page.title">クラブ紹介・歴史</span></h2>
-        <p class="matches-intro" data-i18n="about_page.intro">Yokohama Calcioの精神、歴史、そしてチーム体制についてご紹介します。</p>
+        <p class="matches-intro" data-i18n="about_page.intro" style="text-align: center; color: #64748b; margin-bottom: 30px;">Yokohama Calcioの精神、歴史、そしてチーム体制についてご紹介します。</p>
 
         <div class="about-content-wrapper">
             <!-- STORIA E FONDAZIONE (2025) -->
@@ -412,6 +448,12 @@
 </footer>
 
 <script>
+    const pageTitles = {
+        ja: "クラブ紹介・歴史 | About Club | Yokohama Calcio",
+        it: "Chi Siamo & Storia | Yokohama Calcio",
+        en: "About Club & History | Yokohama Calcio"
+    };
+
     let currentLang = localStorage.getItem('preferred_lang') || 'ja';
     let playersData = [];
 
@@ -457,8 +499,7 @@
         en: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "TEAM",
             "nav.team": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
-            "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.sponsors": "Partners",
-            "nav.faq": "FAQ", "nav.shop": "Shop", "nav.contact": "Contact Us",
+            "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.shop": "Shop", "nav.contact": "Contact Us",
             "about_page.title": "About Club & History", "about_page.intro": "Discover the philosophy, history, and structure of Yokohama Calcio.",
             "about.history_title": "History & Foundation",
             "about.history_p1": "Yokohama Calcio is an amateur football club founded in 2025 based in Yokohama. Established with the core mission to play competitive football seriously while having fun, the club focuses on building a strong and welcoming community around the sport.",
@@ -475,7 +516,6 @@
         }
     };
 
-    /* UTILITY COMPATIBILITÀ UTENTI E RICERCA DA PLAYERS.JSON */
     function cleanStr(s) {
         return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
     }
@@ -540,6 +580,14 @@
         if (!translations[lang]) return;
         currentLang = lang;
         localStorage.setItem('preferred_lang', lang);
+
+        if (pageTitles[lang]) {
+            document.title = pageTitles[lang];
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+            if (ogTitle) ogTitle.setAttribute('content', pageTitles[lang]);
+            if (twitterTitle) twitterTitle.setAttribute('content', pageTitles[lang]);
+        }
 
         document.querySelectorAll('[data-i18n]').forEach(elem => {
             const key = elem.getAttribute('data-i18n');
