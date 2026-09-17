@@ -1,0 +1,59 @@
+name: Update Match Data & Lineups
+
+on:
+  workflow_dispatch:
+    inputs:
+      action_type:
+        description: 'Tipo di operazione (add_match)'
+        required: true
+        default: 'add_match'
+      match_data:
+        description: 'JSON String della partita'
+        required: true
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Update JSON Files
+        run: |
+          node -e '
+          const fs = require("fs");
+          const inputData = JSON.parse(process.env.MATCH_DATA);
+          
+          // 1. Leggi matches.json
+          let matches = [];
+          if (fs.existsSync("matches.json")) {
+            matches = JSON.parse(fs.readFileSync("matches.json", "utf8"));
+          }
+          
+          // Se la partita esiste già aggiorna, altrimenti aggiungi
+          const existingIdx = matches.findIndex(m => m.id === inputData.id);
+          if (existingIdx >= 0) {
+            matches[existingIdx] = inputData;
+          } else {
+            matches.push(inputData);
+          }
+          
+          // Salva matches.json formattato
+          fs.writeFileSync("matches.json", JSON.stringify(matches, null, 2), "utf8");
+          console.log("matches.json aggiornato con successo.");
+          '
+        env:
+          MATCH_DATA: ${{ github.event.inputs.match_data }}
+
+      - name: Commit & Push Changes
+        run: |
+          git config --global user.name "Yokohama Calcio Admin Bot"
+          git config --global user.email "bot@yokohamacalcio.com"
+          git add matches.json
+          git commit -m "Update match data via Admin Dashboard [skip ci]" || exit 0
+          git push
