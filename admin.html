@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yokohama Calcio | Admin Panel</title>
+    <title>Yokohama Calcio | Admin Panel Dynamic</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -23,14 +23,23 @@
         .login-box { max-width: 450px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 14px; box-shadow: 0 6px 25px rgba(0,0,0,0.1); border: 1px solid #cbd5e1; text-align: center; }
         .login-box i.lock-icon { font-size: 3rem; color: #003c82; margin-bottom: 15px; }
         
+        /* SCHEDE GIOCATORI */
         .player-select-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; margin-top: 10px; }
         .player-card { background: #ffffff; border: 1px solid #cbd5e1; padding: 10px; border-radius: 8px; font-size: 0.85rem; }
+        .player-card.trialist-card { border: 2px dashed #0284c7; background: #f0f9ff; }
         .player-card-header { display: flex; justify-content: space-between; align-items: center; font-weight: bold; margin-bottom: 8px; color: #003c82; }
         
         .role-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 4px; background: #f1f5f9; padding: 6px; border-radius: 6px; }
         .role-selector label { font-size: 0.78rem; cursor: pointer; display: flex; align-items: center; gap: 4px; font-weight: 600; color: #334155; }
-        .role-selector input[type="radio"] { cursor: pointer; }
         
+        /* DINAMICA STATISTICHE (GOAL/ASSIST) */
+        .stat-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; background: #fff; padding: 8px; border-radius: 6px; border: 1px solid #e2e8f0; }
+        .stat-row select { flex: 1; }
+        .stat-row input[type="number"] { width: 70px; text-align: center; }
+        .btn-remove-row { background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
+        .btn-add-row { background: #0284c7; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: bold; margin-top: 5px; }
+        .btn-add-trialist { background: #059669; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: bold; width: 100%; margin-top: 12px; }
+
         .btn-submit { background: #003c82; color: white; padding: 14px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.05rem; }
         .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
         .btn-logout { background: #ef4444; color: white; padding: 6px 14px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
@@ -44,11 +53,11 @@
 </head>
 <body>
 
-<!-- SCHERMATA LOGIN (MOSTRATA DI DEFAULT) -->
+<!-- LOGIN -->
 <div id="loginSection" class="login-box">
     <i class="fas fa-lock lock-icon"></i>
     <h2 style="margin-bottom: 10px;" data-i18n="login.title">Yokohama Calcio Admin</h2>
-    <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 20px;" data-i18n="login.subtitle">Inserisci il GitHub Personal Access Token per sbloccare il pannello.</p>
+    <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 20px;" data-i18n="login.subtitle">Inserisci il GitHub Token per sbloccare.</p>
 
     <div class="lang-switcher-admin" style="justify-content: center; margin-bottom: 20px;">
         <button class="lang-btn-admin active" data-lang="ja">JP</button>
@@ -66,7 +75,7 @@
     <div id="loginError" style="color: #dc2626; font-size: 0.85rem; margin-top: 15px; font-weight: bold;"></div>
 </div>
 
-<!-- DASHBOARD ADMIN (NASCOSTA FINO ALL'AUTENTICAZIONE) -->
+<!-- DASHBOARD ADMIN -->
 <div id="adminDashboard" class="admin-container hidden">
     <div class="admin-header-bar">
         <div>
@@ -132,14 +141,12 @@
 
             <div class="row">
                 <div class="form-group">
-                    <label data-i18n="sec1.opponent">Avversario (ID da opponents.json):</label>
-                    <input type="text" id="opponentId" class="form-control" list="opponentsList" placeholder="es. fc_legend" required>
-                    <datalist id="opponentsList"></datalist>
+                    <label data-i18n="sec1.opponent">Avversario (da opponents.json):</label>
+                    <select id="opponentSelect" class="form-control" required></select>
                 </div>
                 <div class="form-group">
-                    <label data-i18n="sec1.location">Campo (ID da locations.json):</label>
-                    <input type="text" id="locationId" class="form-control" list="locationsList" placeholder="es. tokiwa" required>
-                    <datalist id="locationsList"></datalist>
+                    <label data-i18n="sec1.location">Campo (da locations.json):</label>
+                    <select id="locationSelect" class="form-control" required></select>
                 </div>
             </div>
 
@@ -158,44 +165,54 @@
             </div>
         </div>
 
-        <!-- 2. EVENTI & PRESTAZIONI -->
+        <!-- 2. SELEZIONE GRAFICA STATISTICHES & EVENTI -->
         <div class="section-box">
-            <h3 data-i18n="sec2.title">2. Eventi & Prestazioni</h3>
-            <div class="row" style="margin-top: 10px;">
+            <h3 data-i18n="sec2.title">2. Eventi & Prestazioni (Selezione da Rosa)</h3>
+            
+            <!-- GOAL -->
+            <div class="form-group">
+                <label data-i18n="sec2.scorers"><i class="fas fa-futbol"></i> Marcatori (Gol segnati):</label>
+                <div id="scorersContainer"></div>
+                <button type="button" class="btn-add-row" onclick="addScorerRow()"><i class="fas fa-plus"></i> <span data-i18n="sec2.add_scorer">Aggiungi Marcatore</span></button>
+            </div>
+
+            <!-- ASSIST -->
+            <div class="form-group">
+                <label data-i18n="sec2.assists"><i class="fas fa-handshake"></i> Assistman:</label>
+                <div id="assistsContainer"></div>
+                <button type="button" class="btn-add-row" onclick="addAssistRow()"><i class="fas fa-plus"></i> <span data-i18n="sec2.add_assist">Aggiungi Assistman</span></button>
+            </div>
+
+            <div class="row">
                 <div class="form-group">
-                    <label data-i18n="sec2.scorers">Marcatori (es. 小金井 x2, 根本):</label>
-                    <input type="text" id="matchScorers" class="form-control" placeholder="小金井 x2">
+                    <label data-i18n="sec2.mvp"><i class="fas fa-star"></i> MVP del Match:</label>
+                    <select id="mvpSelect" class="form-control"></select>
                 </div>
                 <div class="form-group">
-                    <label data-i18n="sec2.assists">Assistman (es. 道下, 福田):</label>
-                    <input type="text" id="matchAssists" class="form-control" placeholder="道下, 福田">
+                    <label data-i18n="sec2.goalkeepers"><i class="fas fa-mitten"></i> Portiere Titolare:</label>
+                    <select id="gkSelect" class="form-control"></select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="sec2.gk_conceded">Gol Subiti dal Portiere:</label>
+                    <input type="number" id="gkConceded" class="form-control" value="0" min="0">
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group">
-                    <label data-i18n="sec2.mvp">MVP del Match:</label>
-                    <input type="text" id="matchMvp" class="form-control" placeholder="小金井">
+                    <label data-i18n="sec2.yellow">Cartellini Gialli (Giocatori ammoniti):</label>
+                    <div id="yellowCardsContainer"></div>
+                    <button type="button" class="btn-add-row" onclick="addYellowCardRow()"><i class="fas fa-plus"></i> Aggiungi Ammonito</button>
                 </div>
                 <div class="form-group">
-                    <label data-i18n="sec2.goalkeepers">Portiere Titolare & Gol Subiti (es. 御村 葵(5)):</label>
-                    <input type="text" id="goalkeepers" class="form-control" placeholder="御村 葵(5)">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <label data-i18n="sec2.yellow">Cartellini Gialli:</label>
-                    <input type="text" id="yellowCards" class="form-control" placeholder="">
-                </div>
-                <div class="form-group">
-                    <label data-i18n="sec2.red">Cartellini Rossi:</label>
-                    <input type="text" id="redCards" class="form-control" placeholder="">
+                    <label data-i18n="sec2.red">Cartellini Rossi (Giocatori espulsi):</label>
+                    <div id="redCardsContainer"></div>
+                    <button type="button" class="btn-add-row" onclick="addRedCardRow()"><i class="fas fa-plus"></i> Aggiungi Espulso</button>
                 </div>
             </div>
         </div>
 
-        <!-- 3. FORMAZIONE & CAMBI -->
+        <!-- 3. FORMAZIONE, PANCHINA & GIOCATORI IN PROVA -->
         <div class="section-box">
             <h3 data-i18n="sec3.title">3. Assetto Tattico & Convocati</h3>
             <div class="row" style="margin-bottom: 12px; margin-top: 10px;">
@@ -204,12 +221,19 @@
                     <input type="text" id="formation" class="form-control" value="4-4-2">
                 </div>
             </div>
+            
             <p style="font-size: 0.82rem; color: #64748b; margin-bottom: 10px;" data-i18n="sec3.subtitle">
-                Seleziona lo stato di ogni giocatore per la partita:
+                Seleziona lo stato di ogni giocatore della rosa o aggiungi un giocatore in prova:
             </p>
+
             <div class="player-select-grid" id="playersGrid">
                 <div style="color: #64748b;">Caricamento rosa...</div>
             </div>
+
+            <!-- BOTTONE AGGIUNGI GIOCATORE IN PROVA -->
+            <button type="button" class="btn-add-trialist" onclick="addTrialistPlayer()">
+                <i class="fas fa-user-plus"></i> <span data-i18n="sec3.add_trialist">+ Aggiungi Giocatore in Prova (Trialist)</span>
+            </button>
         </div>
 
         <button type="submit" class="btn-submit" id="submitBtn" data-i18n="admin.save_btn">
@@ -221,7 +245,7 @@
 </div>
 
 <script>
-    // --- TRADUZIONI MULTILINGUE ADMIN ---
+    // --- TRADUZIONI MULTILINGUE ---
     const adminTranslations = {
         ja: {
             "login.title": "Yokohama Calcio 管理パネル",
@@ -240,22 +264,26 @@
             "sec1.cat_official": "公式戦 (official)",
             "sec1.cat_cup": "カップ戦 (cup)",
             "sec1.type": "表示タイプ名:",
-            "sec1.opponent": "対戦相手 (opponents.jsonのID):",
-            "sec1.location": "会場 (locations.jsonのID):",
+            "sec1.opponent": "対戦相手 (opponents.json):",
+            "sec1.location": "会場 (locations.json):",
             "sec1.venue_type": "ホーム/アウェイ:",
             "sec1.home": "ホーム (Yokohama Calcio vs 対戦相手)",
             "sec1.away": "アウェイ (対戦相手 vs Yokohama Calcio)",
             "sec1.score": "スコア (例: 2 - 1 または VS):",
-            "sec2.title": "2. スタッツ・個人記録",
-            "sec2.scorers": "得点者 (例: 小金井 x2, 根本):",
-            "sec2.assists": "アシスト (例: 道下, 福田):",
+            "sec2.title": "2. スタッツ・個人記録 (選択式)",
+            "sec2.scorers": "得点者 (Gol segnati):",
+            "sec2.add_scorer": "得点者を追加",
+            "sec2.assists": "アシスト (Assistman):",
+            "sec2.add_assist": "アシストを追加",
             "sec2.mvp": "MOM / MVP:",
-            "sec2.goalkeepers": "GK・失点数 (例: 御村 葵(5)):",
+            "sec2.goalkeepers": "先発GK:",
+            "sec2.gk_conceded": "GK失点数:",
             "sec2.yellow": "警告 (イエローカード):",
             "sec2.red": "退場 (レッドカード):",
             "sec3.title": "3. 陣形・メンバー選出",
             "sec3.formation": "フォーメーション (例: 4-4-2):",
             "sec3.subtitle": "各選手の試合ステータスを選択してください:",
+            "sec3.add_trialist": "+ 体験・お試し選手を追加 (Trialist)",
             "role.absent": "欠席",
             "role.starter": "先発",
             "role.sub_in": "途中出場",
@@ -264,7 +292,7 @@
         },
         it: {
             "login.title": "Pannello Admin Yokohama Calcio",
-            "login.subtitle": "Inserisci il GitHub Personal Access Token per sbloccare il pannello.",
+            "login.subtitle": "Inserisci il GitHub Personal Access Token per sbloccare.",
             "login.btn": "Accedi",
             "admin.logout": "Logout",
             "sec1.title": "1. Informazioni Partita",
@@ -279,22 +307,26 @@
             "sec1.cat_official": "Campionato (official)",
             "sec1.cat_cup": "Coppa (cup)",
             "sec1.type": "Tipo (Etichetta visualizzata):",
-            "sec1.opponent": "Avversario (ID da opponents.json):",
-            "sec1.location": "Campo (ID da locations.json):",
+            "sec1.opponent": "Avversario (da opponents.json):",
+            "sec1.location": "Campo (da locations.json):",
             "sec1.venue_type": "Casa / Trasferta:",
             "sec1.home": "Casa (Yokohama Calcio vs Avversario)",
             "sec1.away": "Trasferta (Avversario vs Yokohama Calcio)",
             "sec1.score": "Risultato (es. 2 - 1 oppure VS):",
-            "sec2.title": "2. Eventi & Prestazioni",
-            "sec2.scorers": "Marcatori (es. 小金井 x2, 根本):",
-            "sec2.assists": "Assistman (es. 道下, 福田):",
+            "sec2.title": "2. Eventi & Prestazioni (Selezione da Rosa)",
+            "sec2.scorers": "Marcatori (Gol segnati):",
+            "sec2.add_scorer": "Aggiungi Marcatore",
+            "sec2.assists": "Assistman:",
+            "sec2.add_assist": "Aggiungi Assistman",
             "sec2.mvp": "MVP del Match:",
-            "sec2.goalkeepers": "Portiere Titolare & Gol Subiti (es. 御村 葵(5)):",
+            "sec2.goalkeepers": "Portiere Titolare:",
+            "sec2.gk_conceded": "Gol Subiti dal Portiere:",
             "sec2.yellow": "Cartellini Gialli:",
             "sec2.red": "Cartellini Rossi:",
             "sec3.title": "3. Assetto Tattico & Convocati",
             "sec3.formation": "Modulo (es. 4-4-2):",
-            "sec3.subtitle": "Seleziona lo stato di ogni giocatore per la partita:",
+            "sec3.subtitle": "Seleziona lo stato di ogni giocatore della rosa o aggiungi un giocatore in prova:",
+            "sec3.add_trialist": "+ Aggiungi Giocatore in Prova (Trialist)",
             "role.absent": "Assente",
             "role.starter": "Titolare",
             "role.sub_in": "Subentrato",
@@ -318,22 +350,26 @@
             "sec1.cat_official": "League (official)",
             "sec1.cat_cup": "Cup (cup)",
             "sec1.type": "Type Label:",
-            "sec1.opponent": "Opponent (ID from opponents.json):",
-            "sec1.location": "Venue (ID from locations.json):",
+            "sec1.opponent": "Opponent (from opponents.json):",
+            "sec1.location": "Venue (from locations.json):",
             "sec1.venue_type": "Home / Away:",
             "sec1.home": "Home (Yokohama Calcio vs Opponent)",
             "sec1.away": "Away (Opponent vs Yokohama Calcio)",
             "sec1.score": "Score (e.g. 2 - 1 or VS):",
-            "sec2.title": "2. Events & Stats",
-            "sec2.scorers": "Scorers (e.g. 小金井 x2, 根本):",
-            "sec2.assists": "Assists (e.g. 道下, 福田):",
+            "sec2.title": "2. Events & Stats (Squad Selector)",
+            "sec2.scorers": "Scorers (Goals scored):",
+            "sec2.add_scorer": "Add Scorer",
+            "sec2.assists": "Assists:",
+            "sec2.add_assist": "Add Assist",
             "sec2.mvp": "Match MVP:",
-            "sec2.goalkeepers": "Goalkeeper & Conceded (e.g. 御村 葵(5)):",
+            "sec2.goalkeepers": "Starting Goalkeeper:",
+            "sec2.gk_conceded": "Goals Conceded:",
             "sec2.yellow": "Yellow Cards:",
             "sec2.red": "Red Cards:",
             "sec3.title": "3. Formation & Squad Selection",
             "sec3.formation": "Formation (e.g. 4-4-2):",
-            "sec3.subtitle": "Select status for each squad member:",
+            "sec3.subtitle": "Select status for each squad member or add a trialist:",
+            "sec3.add_trialist": "+ Add Trial Player (Trialist)",
             "role.absent": "Absent",
             "role.starter": "Starter",
             "role.sub_in": "Subbed In",
@@ -345,17 +381,14 @@
     let currentAdminLang = localStorage.getItem('preferred_lang') || 'ja';
     let activeToken = localStorage.getItem('yc_gh_token') || '';
     let globalPlayers = [];
+    let trialistCount = 0;
 
     function setAdminLanguage(lang) {
         currentAdminLang = lang;
         document.querySelectorAll('[data-i18n]').forEach(elem => {
             const key = elem.getAttribute('data-i18n');
             if (adminTranslations[lang] && adminTranslations[lang][key]) {
-                if (elem.tagName === 'INPUT' && elem.type === 'submit') {
-                    elem.value = adminTranslations[lang][key];
-                } else {
-                    elem.innerHTML = adminTranslations[lang][key];
-                }
+                elem.innerHTML = adminTranslations[lang][key];
             }
         });
 
@@ -363,14 +396,17 @@
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
 
-        if (globalPlayers.length > 0) renderPlayers();
+        if (globalPlayers.length > 0) {
+            renderPlayers();
+            updateDropdownOptions();
+        }
     }
 
     document.querySelectorAll('.lang-btn-admin').forEach(btn => {
         btn.addEventListener('click', () => setAdminLanguage(btn.getAttribute('data-lang')));
     });
 
-    // --- AUTENTICAZIONE GITHUB TOKEN ---
+    // --- AUTENTICAZIONE GITHUB ---
     async function verifyAndLoginToken(token) {
         const loginErr = document.getElementById('loginError');
         const loginBtn = document.getElementById('loginBtn');
@@ -412,32 +448,41 @@
         location.reload();
     });
 
-    // Controllo automatico token salvato all'avvio
-    if (activeToken) {
-        verifyAndLoginToken(activeToken);
-    }
+    if (activeToken) verifyAndLoginToken(activeToken);
 
-    // --- CARICAMENTO AUTOCOMPLETE & GIOCATORI ---
+    // --- CARICAMENTO AUTOMATICO JSON (Opponents, Locations, Players) ---
     async function initData() {
         try {
-            const pRes = await fetch('players.json');
-            globalPlayers = await pRes.json();
-            renderPlayers();
-
+            // 1. Load Opponents
             try {
                 const oRes = await fetch('opponents.json');
                 const opps = await oRes.json();
-                document.getElementById('opponentsList').innerHTML = Object.keys(opps).map(k => `<option value="${k}">${opps[k].name?.ja || opps[k].name?.en || k}</option>`).join('');
+                const oppSelect = document.getElementById('opponentSelect');
+                oppSelect.innerHTML = Object.keys(opps).map(k => {
+                    const name = opps[k].name?.ja || opps[k].name?.en || k;
+                    return `<option value="${k}">${name} (${k})</option>`;
+                }).join('');
             } catch(e) {}
 
+            // 2. Load Locations
             try {
                 const lRes = await fetch('locations.json');
                 const locs = await lRes.json();
-                document.getElementById('locationsList').innerHTML = Object.keys(locs).map(k => `<option value="${k}">${locs[k].ja || locs[k].en || k}</option>`).join('');
+                const locSelect = document.getElementById('locationSelect');
+                locSelect.innerHTML = Object.keys(locs).map(k => {
+                    const name = locs[k].ja || locs[k].en || k;
+                    return `<option value="${k}">${name} (${k})</option>`;
+                }).join('');
             } catch(e) {}
 
+            // 3. Load Players
+            const pRes = await fetch('players.json');
+            globalPlayers = await pRes.json();
+            renderPlayers();
+            updateDropdownOptions();
+
         } catch(e) {
-            console.error("Errore dati:", e);
+            console.error("Errore caricamento dati:", e);
         }
     }
 
@@ -446,10 +491,13 @@
         const lang = currentAdminLang;
         const t = adminTranslations[lang] || adminTranslations['ja'];
 
-        grid.innerHTML = globalPlayers.map(p => {
+        // Mantieni eventuali trialists inseriti
+        const existingTrialistsHTML = Array.from(document.querySelectorAll('.trialist-card')).map(el => el.outerHTML).join('');
+
+        const playersHTML = globalPlayers.map(p => {
             const pName = (lang === 'ja') ? (p.name_kanji || p.name_romaji) : (p.name_romaji || p.name_kanji);
             return `
-                <div class="player-card">
+                <div class="player-card" data-player-name="${p.name_kanji || p.name_romaji}">
                     <div class="player-card-header">
                         <span>#${p.number || '-'} ${pName}</span>
                         <span style="font-size: 0.75rem; background: #e2e8f0; padding: 2px 6px; border-radius: 4px;">${p.position || 'MF'}</span>
@@ -463,36 +511,180 @@
                 </div>
             `;
         }).join('');
+
+        grid.innerHTML = playersHTML + existingTrialistsHTML;
+    }
+
+    // --- GESTIONE GIOCATORI IN PROVA (TRIALISTS) ---
+    function addTrialistPlayer() {
+        trialistCount++;
+        const tId = `trialist_${trialistCount}`;
+        const namePrompt = prompt("Nome del giocatore in prova (es. 山田 太郎):", "Giocatore In Prova " + trialistCount);
+        if (!namePrompt) return;
+
+        const lang = currentAdminLang;
+        const t = adminTranslations[lang] || adminTranslations['ja'];
+        const grid = document.getElementById('playersGrid');
+
+        const trialistCard = document.createElement('div');
+        trialistCard.className = "player-card trialist-card";
+        trialistCard.setAttribute("data-player-name", namePrompt);
+        trialistCard.innerHTML = `
+            <div class="player-card-header">
+                <span><i class="fas fa-user-clock"></i> ${namePrompt} (PROVA)</span>
+                <span style="font-size: 0.75rem; background: #0284c7; color: white; padding: 2px 6px; border-radius: 4px;">TRIAL</span>
+            </div>
+            <div class="role-selector">
+                <label><input type="radio" name="status_${tId}" value="absent"> ${t["role.absent"]}</label>
+                <label><input type="radio" name="status_${tId}" value="starter" checked> ${t["role.starter"]}</label>
+                <label><input type="radio" name="status_${tId}" value="sub_in"> ${t["role.sub_in"]}</label>
+                <label><input type="radio" name="status_${tId}" value="sub_unused"> ${t["role.sub_unused"]}</label>
+            </div>
+        `;
+        grid.appendChild(trialistCard);
+        
+        // Aggiungi temporaneamente ai nomi selezionabili nei gol/assist
+        globalPlayers.push({ id: tId, name_kanji: namePrompt, name_romaji: namePrompt, position: 'TRIAL' });
+        updateDropdownOptions();
+    }
+
+    // --- GENERATORE MENU A TENDINA PER MARCATORI / ASSIST / MVP ---
+    function getAllAvailablePlayerNames() {
+        const list = [{ name: "Nessuno / なし", value: "" }];
+        document.querySelectorAll('#playersGrid .player-card').forEach(card => {
+            const pName = card.getAttribute('data-player-name');
+            if (pName) list.push({ name: pName, value: pName });
+        });
+        return list;
+    }
+
+    function updateDropdownOptions() {
+        const players = getAllAvailablePlayerNames();
+        const optionsHTML = players.map(p => `<option value="${p.value}">${p.name}</option>`).join('');
+
+        document.getElementById('mvpSelect').innerHTML = optionsHTML;
+        document.getElementById('gkSelect').innerHTML = optionsHTML;
+    }
+
+    // --- SCORERS ROW GENERATOR ---
+    function addScorerRow() {
+        const container = document.getElementById('scorersContainer');
+        const players = getAllAvailablePlayerNames();
+        const div = document.createElement('div');
+        div.className = 'stat-row';
+        div.innerHTML = `
+            <select class="form-control scorer-player-select">
+                ${players.map(p => `<option value="${p.value}">${p.name}</option>`).join('')}
+            </select>
+            <label>Gol:</label>
+            <input type="number" class="form-control scorer-count" value="1" min="1" max="10">
+            <button type="button" class="btn-remove-row" onclick="this.parentElement.remove()"><i class="fas fa-trash"></i></button>
+        `;
+        container.appendChild(div);
+    }
+
+    // --- ASSISTS ROW GENERATOR ---
+    function addAssistRow() {
+        const container = document.getElementById('assistsContainer');
+        const players = getAllAvailablePlayerNames();
+        const div = document.createElement('div');
+        div.className = 'stat-row';
+        div.innerHTML = `
+            <select class="form-control assist-player-select">
+                ${players.map(p => `<option value="${p.value}">${p.name}</option>`).join('')}
+            </select>
+            <button type="button" class="btn-remove-row" onclick="this.parentElement.remove()"><i class="fas fa-trash"></i></button>
+        `;
+        container.appendChild(div);
+    }
+
+    // --- CARTELLINI ROW GENERATOR ---
+    function addYellowCardRow() {
+        const container = document.getElementById('yellowCardsContainer');
+        const players = getAllAvailablePlayerNames();
+        const div = document.createElement('div');
+        div.className = 'stat-row';
+        div.innerHTML = `
+            <select class="form-control yellow-player-select">
+                ${players.map(p => `<option value="${p.value}">${p.name}</option>`).join('')}
+            </select>
+            <button type="button" class="btn-remove-row" onclick="this.parentElement.remove()"><i class="fas fa-trash"></i></button>
+        `;
+        container.appendChild(div);
+    }
+
+    function addRedCardRow() {
+        const container = document.getElementById('redCardsContainer');
+        const players = getAllAvailablePlayerNames();
+        const div = document.createElement('div');
+        div.className = 'stat-row';
+        div.innerHTML = `
+            <select class="form-control red-player-select">
+                ${players.map(p => `<option value="${p.value}">${p.name}</option>`).join('')}
+            </select>
+            <button type="button" class="btn-remove-row" onclick="this.parentElement.remove()"><i class="fas fa-trash"></i></button>
+        `;
+        container.appendChild(div);
     }
 
     setAdminLanguage(currentAdminLang);
 
-    // --- SALVATAGGIO SU GITHUB ACTIONS ---
+    // --- COMPILAZIONE AUTOMATICA ED INVIO A GITHUB ACTIONS ---
     document.getElementById('matchForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const repo = document.getElementById('repoPath').value.trim();
         if (!activeToken || !repo) return;
 
+        // 1. Convocati e Presenze
         const starters = [];
         const substitutesIn = [];
         const substitutesUnused = [];
         const playedLineup = [];
 
-        globalPlayers.forEach(p => {
-            const pName = p.name_kanji || p.name_romaji;
-            const selectedStatus = document.querySelector(`input[name="status_${p.id}"]:checked`)?.value;
+        document.querySelectorAll('#playersGrid .player-card').forEach(card => {
+            const pName = card.getAttribute('data-player-name');
+            const radioChecked = card.querySelector('input[type="radio"]:checked')?.value;
 
-            if (selectedStatus === 'starter') {
+            if (radioChecked === 'starter') {
                 starters.push(pName);
                 playedLineup.push(pName);
-            } else if (selectedStatus === 'sub_in') {
+            } else if (radioChecked === 'sub_in') {
                 substitutesIn.push(pName);
                 playedLineup.push(pName);
-            } else if (selectedStatus === 'sub_unused') {
+            } else if (radioChecked === 'sub_unused') {
                 substitutesUnused.push(pName);
             }
         });
+
+        // 2. Compilazione Automatica Marcatori (es. "小金井 x2, 根本")
+        const scorerMap = {};
+        document.querySelectorAll('.stat-row .scorer-player-select').forEach(sel => {
+            const pName = sel.value;
+            const count = parseInt(sel.parentElement.querySelector('.scorer-count').value) || 1;
+            if (pName) {
+                scorerMap[pName] = (scorerMap[pName] || 0) + count;
+            }
+        });
+        const scorersString = Object.keys(scorerMap).map(k => scorerMap[k] > 1 ? `${k} x${scorerMap[k]}` : k).join(', ');
+
+        // 3. Compilazione Assist (es. "道下, 福田")
+        const assistsList = [];
+        document.querySelectorAll('.stat-row .assist-player-select').forEach(sel => {
+            if (sel.value) assistsList.push(sel.value);
+        });
+        const assistsString = assistsList.join(', ');
+
+        // 4. Cartellini
+        const yellowsList = [];
+        document.querySelectorAll('.stat-row .yellow-player-select').forEach(sel => { if (sel.value) yellowsList.push(sel.value); });
+        const redsList = [];
+        document.querySelectorAll('.stat-row .red-player-select').forEach(sel => { if (sel.value) redsList.push(sel.value); });
+
+        // 5. Portiere & Gol Subiti (es. "御村 葵(5)")
+        const gkName = document.getElementById('gkSelect').value;
+        const gkConcededVal = document.getElementById('gkConceded').value;
+        const gkString = gkName ? `${gkName}(${gkConcededVal})` : '';
 
         const matchPayload = {
             id: document.getElementById('matchId').value.trim(),
@@ -501,16 +693,16 @@
             time: document.getElementById('matchTime').value || '11:00',
             status: document.getElementById('matchStatus').value,
             type: document.getElementById('matchType').value.trim() || '練習試合',
-            opponent_id: document.getElementById('opponentId').value.trim(),
+            opponent_id: document.getElementById('opponentSelect').value,
             isHome: document.getElementById('isHome').value === 'true',
             score: document.getElementById('matchScore').value.trim() || 'VS',
-            scorers: document.getElementById('matchScorers').value.trim(),
-            assists: document.getElementById('matchAssists').value.trim(),
-            mvp: document.getElementById('matchMvp').value.trim(),
-            yellow_cards: document.getElementById('yellowCards').value.trim(),
-            red_cards: document.getElementById('redCards').value.trim(),
-            location_id: document.getElementById('locationId').value.trim(),
-            goalkeepers: document.getElementById('goalkeepers').value.trim(),
+            scorers: scorersString,
+            assists: assistsString,
+            mvp: document.getElementById('mvpSelect').value,
+            yellow_cards: yellowsList.join(', '),
+            red_cards: redsList.join(', '),
+            location_id: document.getElementById('locationSelect').value,
+            goalkeepers: gkString,
             formation: document.getElementById('formation').value.trim(),
             starters: starters,
             substitutes_in: substitutesIn,
@@ -523,7 +715,7 @@
         
         submitBtn.disabled = true;
         statusMsg.style.color = '#003c82';
-        statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving to GitHub...';
+        statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Invio in corso a GitHub...';
 
         try {
             const response = await fetch(`https://api.github.com/repos/${repo}/actions/workflows/update-data.yml/dispatches`, {
@@ -544,15 +736,15 @@
 
             if (response.ok) {
                 statusMsg.style.color = '#059669';
-                statusMsg.innerHTML = '✅ Saved! Site will update in ~30s.';
+                statusMsg.innerHTML = '✅ Partita salvata! Il sito si aggiornerà in ~30 secondi.';
             } else {
                 const errData = await response.json();
                 statusMsg.style.color = '#dc2626';
-                statusMsg.innerHTML = '❌ Error: ' + (errData.message || 'Check Token permissions.');
+                statusMsg.innerHTML = '❌ Errore API: ' + (errData.message || 'Verifica Token o Permessi.');
             }
         } catch (err) {
             statusMsg.style.color = '#dc2626';
-            statusMsg.innerHTML = '❌ Network Error.';
+            statusMsg.innerHTML = '❌ Errore di connessione.';
         } finally {
             submitBtn.disabled = false;
         }
