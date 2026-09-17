@@ -413,24 +413,6 @@
             gap: 4px;
         }
 
-        /* SPONSOR SECTION COMPATTA ED ELEGANTE */
-        .sponsor-simple-box {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 25px;
-            border: 1px solid #e2e8f0;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            box-shadow: 0 4px 15px rgba(0, 60, 130, 0.04);
-        }
-        .sponsor-simple-box p {
-            color: #475569;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
         /* MINI-FAQ ACCORDION IN HOME PAGE */
         .mini-faq-container {
             max-width: 800px;
@@ -1081,20 +1063,43 @@
     </div>
 </section>
 
-<!-- SEZIONE SPONSOR SEMPLIFICATA ED ELEGANTE -->
+<!-- SEZIONE SPONSOR CON CAROSELLO RISTABILITO -->
 <section class="section sponsors-section" id="sponsors">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-handshake"></i> <span data-i18n="sponsors.title">パートナー＆サポート</span></h2>
+        <h2 class="section-title"><i class="fas fa-handshake"></i> <span data-i18n="sponsors.title">オフィシャルパートナー</span></h2>
         
-        <div class="sponsor-simple-box">
-            <p data-i18n="sponsors.recruit_text">
-                Yokohama Calcioでは、チームの活動を温かく応援・サポートしていただける地域の企業様やパートナー様を募集しております。グラウンド手配や備品補助など、多様な形でのコラボレーションが可能です。
-            </p>
-            <a href="contact.html?type=sponsor" class="google-form-btn sponsor-contact-btn" style="max-width: 340px; margin: 0 auto;">
-                <i class="fas fa-paper-plane"></i>
-                <span data-i18n="sponsors.btn">パートナーシップについて問い合わせる</span>
-            </a>
+        <div class="sponsors-carousel-container">
+            <div class="sponsors-track" id="sponsorsTrack">
+                <div class="sponsor-card sponsor-placeholder">
+                    <i class="fas fa-plus-circle"></i>
+                    <span data-i18n="sponsors.placeholder">パートナー募集中</span>
+                </div>
+                <div class="sponsor-card sponsor-placeholder">
+                    <i class="fas fa-plus-circle"></i>
+                    <span data-i18n="sponsors.placeholder">パートナー募集中</span>
+                </div>
+                <div class="sponsor-card sponsor-placeholder">
+                    <i class="fas fa-plus-circle"></i>
+                    <span data-i18n="sponsors.placeholder">パートナー募集中</span>
+                </div>
+                <div class="sponsor-card sponsor-placeholder">
+                    <i class="fas fa-plus-circle"></i>
+                    <span data-i18n="sponsors.placeholder">パートナー募集中</span>
+                </div>
+                <div class="sponsor-card sponsor-placeholder">
+                    <i class="fas fa-plus-circle"></i>
+                    <span data-i18n="sponsors.placeholder">パートナー募集中</span>
+                </div>
+            </div>
         </div>
+
+        <p class="sponsor-recruit-text" data-i18n="sponsors.recruit_text">
+            Yokohama Calcioでは、共にチームを応援・サポートしていただける企業様・パートナー様を募集しております。
+        </p>
+        <a href="contact.html?type=sponsor" class="google-form-btn sponsor-contact-btn">
+            <i class="fas fa-paper-plane"></i>
+            <span data-i18n="sponsors.btn">パートナーシップについて問い合わせる</span>
+        </a>
     </div>
 </section>
 
@@ -1255,8 +1260,9 @@
             "players_preview.intro": "Yokohama Calcioを支える選手たち。組織的なフットボールで共に戦うメンバーです。",
             "players_preview.btn": "全選手プロフィールを見る",
 
-            "sponsors.title": "パートナー＆サポート",
-            "sponsors.recruit_text": "Yokohama Calcioでは、チームの活動を温かく応援・サポートしていただける地域の企業様やパートナー様を募集しております。グラウンド手配や備品補助など、多様な形でのコラボレーションが可能です。",
+            "sponsors.title": "オフィシャルパートナー",
+            "sponsors.placeholder": "パートナー募集中",
+            "sponsors.recruit_text": "Yokohama Calcioでは、共にチームを応援・サポートしていただける企業様・パートナー様を募集しております。",
             "sponsors.btn": "パートナーシップについて問い合わせる",
 
             "minifaq.title": "よくある質問（FAQ）",
@@ -1317,8 +1323,9 @@
             "players_preview.intro": "I protagonisti dello Yokohama Calcio. Giocatori uniti dall'organizzazione tattica e dalla passione.",
             "players_preview.btn": "Vedi tutti i giocatori",
 
-            "sponsors.title": "Partner & Supporto",
-            "sponsors.recruit_text": "Lo Yokohama Calcio accoglie con piacere il sostegno di aziende locali e sostenitori che desiderano affiancare la squadra. Dalla collaborazione sui campi alla fornitura di materiale, valutiamo insieme diverse forme di collaborazione.",
+            "sponsors.title": "Partner Ufficiali",
+            "sponsors.placeholder": "Cercasi Partner",
+            "sponsors.recruit_text": "Lo Yokohama Calcio è alla ricerca di partner e aziende disposte a sostenere il progetto.",
             "sponsors.btn": "Richiedi informazioni per Partnership",
 
             "minifaq.title": "Domande Frequenti (FAQ)",
@@ -1379,8 +1386,9 @@
             "players_preview.intro": "The players of Yokohama Calcio. Dedicated teammates focused on tactical execution and teamwork.",
             "players_preview.btn": "View Full Roster",
 
-            "sponsors.title": "Partners & Support",
-            "sponsors.recruit_text": "Yokohama Calcio welcomes support from local businesses and partners who wish to encourage our club. We are open to various forms of collaboration, from facility coordination to equipment support.",
+            "sponsors.title": "Official Partners",
+            "sponsors.placeholder": "Partners Wanted",
+            "sponsors.recruit_text": "Yokohama Calcio is seeking corporate partners to support our project.",
             "sponsors.btn": "Inquire About Partnership",
 
             "minifaq.title": "Frequently Asked Questions",
@@ -1493,7 +1501,7 @@
             const k = cleanStr(p.name_kanji);
             const kn = cleanStr(p.name_kana);
             const r = cleanStr(p.name_romaji);
-            return (k && k === target) || (kn && kn === target) || (r && r === target);
+            return (k && k === target) || (kn && kn === target) || (r && r === target) || (p.id && cleanStr(p.id) === target);
         });
         if (found) return found;
         return playersData.find(p => {
@@ -1502,8 +1510,7 @@
             const r = cleanStr(p.name_romaji);
             return (k && (k.includes(target) || target.includes(k))) ||
                    (kn && (kn.includes(target) || target.includes(kn))) ||
-                   (r && (r.includes(target) || target.includes(r))) ||
-                   (p.id && cleanStr(p.id) === target);
+                   (r && (r.includes(target) || target.includes(r)));
         }) || null;
     }
 
@@ -1627,47 +1634,112 @@
         }
     }
 
-    /* FUNZIONE DI CALCOLO STATISTICHE PORTIERE DA MATCHES.JSON */
-    function getGoalkeeperStats(player, matches) {
-        let appearances = 0;
-        let goalsConceded = 0;
+    /* SISTEMA DI CALCOLO DELLE STATISTICHE PER IL CAROSELLO GIOCATORI */
+    function calculateShowcaseStats(player, matches) {
+        let goals = 0;
+        let assists = 0;
+        let mvp = 0;
+        let gkApps = 0;
+        let gkGoalsConceded = 0;
 
-        if (!matches || matches.length === 0) {
-            return {
-                appearances: player.appearances || 0,
-                goalsConceded: player.goals_conceded !== undefined ? player.goals_conceded : (player.goals || 0)
-            };
-        }
+        const isGK = String(player.position || '').toUpperCase() === 'GK' || player.role === 'gk';
 
-        const pKanji = cleanStr(player.name_kanji);
-        const pRomaji = cleanStr(player.name_romaji);
-        const pKana = cleanStr(player.name_kana);
-
-        matches.forEach(m => {
-            if (m.status !== 'past' && m.status !== 'live') return;
-            if (!m.goalkeeper) return;
-
-            const gkClean = cleanStr(m.goalkeeper);
-            if (gkClean && (gkClean === pKanji || gkClean === pRomaji || gkClean === pKana || pKanji.includes(gkClean) || gkClean.includes(pKanji))) {
-                appearances++;
-
-                // Calcolo gol subiti dal punteggio della partita
-                if (m.score && m.score.includes('-')) {
-                    const parts = m.score.split('-');
-                    const isHome = m.isHome !== undefined ? m.isHome : true;
-                    if (parts.length === 2) {
-                        const score1 = parseInt(parts[0].trim(), 10) || 0;
-                        const score2 = parseInt(parts[1].trim(), 10) || 0;
-                        const conceded = isHome ? score2 : score1;
-                        goalsConceded += conceded;
-                    }
+        const checkMatchPlayer = (pObj, rawInput) => {
+            if (!rawInput || rawInput === 'なし' || rawInput === 'Nessuno') return 0;
+            let clean = rawInput.trim();
+            let count = 1;
+            const multMatch = clean.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
+            if (multMatch) {
+                clean = multMatch[1].trim();
+                count = parseInt(multMatch[2], 10) || 1;
+            }
+            if (!clean) return 0;
+            
+            const matchedObj = findPlayerObj(clean);
+            if (matchedObj) {
+                if (pObj && (matchedObj.id === pObj.id || matchedObj.number === pObj.number)) return count;
+            } else if (pObj) {
+                const target = cleanStr(clean);
+                const pK = cleanStr(pObj.name_kanji);
+                const pR = cleanStr(pObj.name_romaji);
+                const pKn = cleanStr(pObj.name_kana);
+                if ((pK && (pK === target || pK.includes(target))) || 
+                    (pR && (pR === target || pR.includes(target))) || 
+                    (pKn && (pKn === target || pKn.includes(target)))) {
+                    return count;
                 }
             }
-        });
+            return 0;
+        };
+
+        if (matches && matches.length > 0) {
+            matches.forEach(m => {
+                if (m.status !== 'past' && m.status !== 'live') return;
+
+                // Calcolo Gol
+                if (m.scorers) {
+                    m.scorers.split(/[,、]/).forEach(s => { goals += checkMatchPlayer(player, s); });
+                }
+                // Calcolo Assist
+                if (m.assists) {
+                    m.assists.split(/[,、]/).forEach(a => { assists += checkMatchPlayer(player, a); });
+                }
+                // Calcolo MVP
+                if (m.mvp) {
+                    m.mvp.split(/[,、]/).forEach(v => { mvp += checkMatchPlayer(player, v); });
+                }
+
+                // Calcolo specifico Portiere
+                if (isGK) {
+                    let isMatchGK = false;
+                    let gaInMatch = 0;
+
+                    // Estrarre gol subiti dalla partita
+                    if (m.score && m.score.includes('-')) {
+                        const parts = m.score.split('-').map(n => parseInt(n.trim(), 10));
+                        if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+                            const isHome = m.isHome !== undefined ? m.isHome : true;
+                            gaInMatch = isHome ? parts[1] : parts[0];
+                        }
+                    }
+
+                    if (m.goalkeepers) {
+                        m.goalkeepers.split(/[,、]/).forEach(gkEntry => {
+                            const clean = gkEntry.trim();
+                            if (!clean) return;
+                            const match = clean.match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
+                            if (match) {
+                                const rawGkName = match[1].trim();
+                                const gkSpecificGA = parseInt(match[2], 10);
+                                if (checkMatchPlayer(player, rawGkName) > 0) {
+                                    isMatchGK = true;
+                                    gkGoalsConceded += isNaN(gkSpecificGA) ? gaInMatch : gkSpecificGA;
+                                }
+                            } else {
+                                if (checkMatchPlayer(player, clean) > 0) {
+                                    isMatchGK = true;
+                                    gkGoalsConceded += gaInMatch;
+                                }
+                            }
+                        });
+                    } else if (m.goalkeeper) {
+                        if (checkMatchPlayer(player, m.goalkeeper) > 0) {
+                            isMatchGK = true;
+                            gkGoalsConceded += gaInMatch;
+                        }
+                    }
+
+                    if (isMatchGK) gkApps++;
+                }
+            });
+        }
 
         return {
-            appearances: Math.max(appearances, player.appearances || 0),
-            goalsConceded: goalsConceded
+            goals: Math.max(goals, player.goals || 0),
+            assists: Math.max(assists, player.assists || 0),
+            mvp: Math.max(mvp, player.mvp || 0),
+            gkApps: Math.max(gkApps, player.appearances || 0),
+            gkGoalsConceded: isGK ? Math.max(gkGoalsConceded, player.goals_conceded !== undefined ? player.goals_conceded : 0) : 0
         };
     }
 
@@ -1687,27 +1759,24 @@
             const pos = (p.position || 'MF').toUpperCase();
             const posClass = `pos-${pos.toLowerCase()}`;
             
-            const isGK = (pos === 'GK');
-            const mvpCount = p.mvp || 0;
+            const isGK = (pos === 'GK' || p.role === 'gk');
+            const stats = calculateShowcaseStats(p, cachedMatches);
 
             let statsHtml = '';
 
             if (isGK) {
-                // PORTIERE: Presenze, Gol Subiti (Conc.), MVP
-                const gkStats = getGoalkeeperStats(p, cachedMatches);
+                // PORTIERE: Presenze (Caps), Gol Subiti (Conc.), MVP
                 statsHtml = `
-                    <span><i class="fas fa-running" style="color: #2563eb;"></i> ${gkStats.appearances} Caps</span>
-                    <span><i class="fas fa-shield-alt" style="color: #dc2626;"></i> ${gkStats.goalsConceded} Conc.</span>
-                    ${mvpCount > 0 ? `<span><i class="fas fa-star" style="color: #f59e0b;"></i> ${mvpCount} MVP</span>` : ''}
+                    <span><i class="fas fa-running" style="color: #2563eb;"></i> ${stats.gkApps} Caps</span>
+                    <span><i class="fas fa-shield-alt" style="color: #dc2626;"></i> ${stats.gkGoalsConceded} Conc.</span>
+                    ${stats.mvp > 0 ? `<span><i class="fas fa-star" style="color: #f59e0b;"></i> ${stats.mvp} MVP</span>` : ''}
                 `;
             } else {
-                // GIOCATORE DI MOVIMENTO: Gol, Assist, MVP
-                const goals = p.goals || 0;
-                const assists = p.assists || 0;
+                // GIOCATORE DI MOVIMENTO: Gol, Assist, MVP (senza campo presenze)
                 statsHtml = `
-                    <span><i class="fas fa-futbol" style="color: #059669;"></i> ${goals} Goals</span>
-                    <span><i class="fas fa-hands-helping" style="color: #8b5cf6;"></i> ${assists} Ast</span>
-                    ${mvpCount > 0 ? `<span><i class="fas fa-star" style="color: #f59e0b;"></i> ${mvpCount} MVP</span>` : ''}
+                    <span><i class="fas fa-futbol" style="color: #059669;"></i> ${stats.goals} Goals</span>
+                    <span><i class="fas fa-hands-helping" style="color: #8b5cf6;"></i> ${stats.assists} Ast</span>
+                    ${stats.mvp > 0 ? `<span><i class="fas fa-star" style="color: #f59e0b;"></i> ${stats.mvp} MVP</span>` : ''}
                 `;
             }
 
@@ -2056,6 +2125,22 @@
             });
         }
     });
+
+    // CAROSELLO PARTNER/SPONSOR
+    const sponsorsTrack = document.getElementById('sponsorsTrack');
+    if (sponsorsTrack && sponsorsTrack.children.length > 0) {
+        const originalSponsorCards = Array.from(sponsorsTrack.children);
+        originalSponsorCards.forEach(card => sponsorsTrack.appendChild(card.cloneNode(true)));
+        let sponsorScrollPos = 0;
+        function scrollSponsorsStep() {
+            sponsorScrollPos += 0.6;
+            const halfWidth = sponsorsTrack.scrollWidth / 2;
+            if (sponsorScrollPos >= halfWidth) sponsorScrollPos = 0;
+            sponsorsTrack.style.transform = `translateX(-${sponsorScrollPos}px)`;
+            requestAnimationFrame(scrollSponsorsStep);
+        }
+        requestAnimationFrame(scrollSponsorsStep);
+    }
 
     const topBtn = document.getElementById('scrollToTopBtn');
     if (topBtn) {
