@@ -261,6 +261,247 @@
             transform: translateY(-2px);
         }
 
+        /* BANNER RECLUTAMENTO NUOVI GIOCATORI */
+        .recruitment-banner {
+            background: linear-gradient(135deg, #00224a 0%, #001229 100%);
+            border-radius: 16px;
+            padding: 35px 25px;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 34, 74, 0.2);
+            margin: 40px auto 0;
+            max-width: 1000px;
+        }
+        .recruitment-banner::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 6px; height: 100%;
+            background: linear-gradient(to bottom, #87ceeb 33%, #ffffff 33%, #ffffff 66%, #00224a 66%);
+        }
+        .recruitment-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+        @media (max-width: 768px) {
+            .recruitment-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        .recruitment-text-box h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #87ceeb;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        @media (max-width: 768px) {
+            .recruitment-text-box h3 {
+                justify-content: center;
+            }
+        }
+        .recruitment-text-box p {
+            font-size: 0.95rem;
+            color: #e2e8f0;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .recruitment-btn {
+            background: #87ceeb;
+            color: #00224a !important;
+            font-weight: 800;
+            font-size: 0.98rem;
+            padding: 14px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3);
+            transition: all 0.2s ease;
+        }
+        .recruitment-btn:hover {
+            background: #a0d8ef;
+            transform: translateY(-2px);
+        }
+
+        /* CARD GIOCATORI RANDOM SHOWCASE */
+        .players-showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+        }
+        @media (max-width: 850px) {
+            .players-showcase-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .player-preview-card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 15px rgba(0, 60, 130, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .player-preview-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 60, 130, 0.1);
+        }
+        .player-num-badge {
+            font-family: var(--font-brand, 'Bebas Neue', sans-serif);
+            font-size: 2.4rem;
+            line-height: 1;
+            color: #003c82;
+            width: 50px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .player-preview-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex-grow: 1;
+        }
+        .player-pos-badge {
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            width: fit-content;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+        .pos-gk { background: #d97706; }
+        .pos-df { background: #2563eb; }
+        .pos-mf { background: #059669; }
+        .pos-fw { background: #dc2626; }
+
+        .player-preview-name {
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: #003c82;
+        }
+        .player-preview-sub {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+        .player-preview-stats {
+            display: flex;
+            gap: 10px;
+            font-size: 0.78rem;
+            color: #475569;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        /* SPONSOR SECTION RIVISTA */
+        .sponsor-benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 25px 0 35px;
+        }
+        @media (max-width: 768px) {
+            .sponsor-benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .sponsor-benefit-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        .sponsor-benefit-card i {
+            font-size: 1.8rem;
+            color: #87ceeb;
+            background: #00224a;
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+        .sponsor-benefit-card h4 {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #003c82;
+            margin-bottom: 6px;
+        }
+        .sponsor-benefit-card p {
+            font-size: 0.85rem;
+            color: #64748b;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* MINI-FAQ ACCORDION IN HOME PAGE */
+        .mini-faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .faq-item {
+            background: #ffffff;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+        .faq-question {
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #003c82;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .faq-question:hover {
+            background: #f8fafc;
+        }
+        .faq-question i {
+            color: #87ceeb;
+            transition: transform 0.2s ease;
+        }
+        .faq-answer {
+            padding: 0 20px 16px 20px;
+            font-size: 0.88rem;
+            color: #475569;
+            line-height: 1.6;
+            display: none;
+            border-top: 1px dashed #f1f5f9;
+            padding-top: 12px;
+        }
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
         /* --- OPTIMIZATION RESPONSIVE TYPOGRAPHY PER SCHERMI MOBILE --- */
         @media (max-width: 600px) {
             .hero-content h2 {
@@ -504,11 +745,11 @@
         .no-match-box {
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
-            padding: 30px 15px; text-align: center;
-            gap: 10px; color: #64748b; flex-grow: 1;
+            padding: 25px 15px; text-align: center;
+            gap: 12px; color: #ffffff; flex-grow: 1;
         }
-        .no-match-box i { font-size: 2rem; color: var(--primary-sky); }
-        .no-match-box p { font-size: 0.95rem; font-weight: 600; margin: 0; }
+        .no-match-box i { font-size: 2.2rem; color: #87ceeb; }
+        .no-match-box p { font-size: 0.95rem; font-weight: 700; margin: 0; line-height: 1.5; }
 
         .contact-card-enhanced {
             background: #ffffff; border-radius: 12px;
@@ -693,8 +934,8 @@
         <a href="about.html" class="hero-btn hero-btn-outline">
             <i class="fas fa-shield-alt"></i> <span data-i18n="hero.btn_about">クラブ紹介</span>
         </a>
-        <a href="contact.html" class="hero-btn hero-btn-primary">
-            <i class="fas fa-paper-plane"></i> <span data-i18n="hero.btn_contact">お問い合わせ</span>
+        <a href="contact.html?type=trial" class="hero-btn hero-btn-primary">
+            <i class="fas fa-user-plus"></i> <span data-i18n="hero.btn_join">新新メンバー募集</span>
         </a>
     </div>
 
@@ -738,6 +979,20 @@
             </div>
         </div>
 
+        <!-- BANNER BANNER RECLUTAMENTO NUOVI GIOCATORI -->
+        <div class="recruitment-banner">
+            <div class="recruitment-content">
+                <div class="recruitment-text-box">
+                    <h3><i class="fas fa-futbol"></i> <span data-i18n="recruit.banner_title">新新メンバー募集中！(18〜40歳経験者)</span></h3>
+                    <p data-i18n="recruit.banner_desc">組織的なイタリアンフットボールを体感しませんか？真剣に勝利を目指しながら、共に進化できる仲間を探しています。体験練習へのご参加をお待ちしています！</p>
+                </div>
+                <a href="contact.html?type=trial" class="recruitment-btn">
+                    <i class="fas fa-paper-plane"></i>
+                    <span data-i18n="recruit.banner_btn">体験参加を申し込む</span>
+                </a>
+            </div>
+        </div>
+
         <div style="text-align: center; margin-top: 35px;">
             <a href="about.html" class="google-form-btn" style="max-width: 360px; margin: 0 auto; background: var(--dark-navy, #003c82); color: #ffffff;">
                 <i class="fas fa-book-open"></i> <span data-i18n="about.btn_more">クラブ紹介・歴史の詳細はこちら</span> <i class="fas fa-arrow-right"></i>
@@ -753,93 +1008,37 @@
         
         <div class="match-center-grid">
             <div id="pastContainer">
-                <!-- PAST_START -->
-                <div class="match-box-card match-past-box" id="match-1">
-                    <div class="match-past-header">
-                        <div class="match-badge-group">
-                            <span class="match-badge badge-official">前節結果</span>
-                            <span class="match-badge badge-official">練習試合</span>
-                        </div>
-                        <span class="match-box-date">2026-08-30</span>
-                    </div>
-                    <div class="match-box-card-inner">
-                        <div class="match-teams-wrapper">
-                            <div class="teams-logos-row">
-                                <div class="card-logo-wrap"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
-                                <div class="match-vs-center score-past">2 - 6</div>
-                                <div class="card-logo-wrap"><img src="./immagini/opponents/yscc_middle.png" alt="Y.S.C.C.ミドル"></div>
-                            </div>
-                            <div class="teams-names-row">
-                                <div class="team-name-col">Yokohama Calcio</div>
-                                <div></div>
-                                <div class="team-name-col">Y.S.C.C.ミドル</div>
-                            </div>
-                        </div>
-                        <div class="match-info-hero-bar">
-                            <div class="match-info-item"><i class="fas fa-futbol" style="color: var(--dark-navy);"></i><span>小金井 x2</span></div>
-                            <div class="match-info-item"><i class="fas fa-star" style="color: #f59e0b;"></i><strong style="color: var(--dark-navy);">小金井</strong></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="match-box-venue">
-                            <a href="https://maps.google.com/?q=新横浜公園第1運動広場" target="_blank" rel="noopener noreferrer">
-                                <i class="fas fa-map-marker-alt"></i> <span>新横浜公園第1運動広場</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i>
-                            </a>
-                        </div>
-                        <div class="match-card-footer">
-                            <a href="matches.html#match-1" class="btn-match-detail"><span>詳細</span> <i class="fas fa-chevron-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- PAST_END -->
+                <!-- CARICATO DINAMICAMENTE DA JS DA matches.json -->
             </div>
 
             <div id="upcomingContainer">
-                <!-- UPCOMING_START -->
-                <div class="next-match-hero" id="nextMatchBox">
-                    <div class="next-match-header">
-                        <div class="match-badge-group">
-                            <span class="next-match-badge">次戦</span>
-                            <span class="match-badge badge-official">練習試合</span>
-                        </div>
-                        <span class="match-box-date" style="color: rgba(255,255,255,0.8);">2026-09-20</span>
-                    </div>
-                    <div class="next-match-hero-inner">
-                        <div class="match-teams-wrapper">
-                            <div class="teams-logos-row">
-                                <div class="hero-logo-wrap"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
-                                <div class="match-vs-center">VS</div>
-                                <div class="hero-logo-wrap"><img src="./immagini/opponents/fc_legend.png" alt="FCレジェンド"></div>
-                            </div>
-                            <div class="teams-names-row">
-                                <div class="team-name-col" style="color: #ffffff;">Yokohama Calcio</div>
-                                <div></div>
-                                <div class="team-name-col" style="color: #ffffff;">FCレジェンド</div>
-                            </div>
-                        </div>
-                        <div class="match-info-hero-bar">
-                            <div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>11:00 K.O.</span></div>
-                            <div class="match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>クレー（土）</span></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="match-box-venue">
-                            <a href="https://maps.google.com/?q=常盤公園グラウンド" target="_blank" rel="noopener noreferrer">
-                                <i class="fas fa-map-marker-alt"></i> <span>常盤公園多目的グラウンド</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i>
-                            </a>
-                        </div>
-                        <div class="match-card-footer-hero">
-                            <a href="matches.html#match-7" class="btn-match-detail-hero"><span>詳細</span> <i class="fas fa-chevron-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- UPCOMING_END -->
+                <!-- CARICATO DINAMICAMENTE DA JS DA matches.json O FALLBACK AMICHEVOLI -->
             </div>
         </div>
 
         <div style="text-align: center; margin-top: 30px;">
             <a href="matches.html" class="google-form-btn" style="max-width: 320px; margin: 0 auto;">
                 <i class="fas fa-list"></i> <span data-i18n="results.all_matches">全試合日程・詳細はこちら</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- SEZIONE GIOCATORI IN EVIDENZA (RANDOM SHOWCASE) -->
+<section class="section" id="players-preview">
+    <div class="container">
+        <h2 class="section-title"><i class="fas fa-users"></i> <span data-i18n="players_preview.title">選手・メンバー</span></h2>
+        <p style="text-align: center; color: #64748b; margin-bottom: 20px; font-size: 0.95rem;" data-i18n="players_preview.intro">
+            Yokohama Calcioを支える選手たち。組織的なフットボールで共に戦うメンバーです。
+        </p>
+
+        <div class="players-showcase-grid" id="playersShowcaseGrid">
+            <!-- CARICATI RANDOM DA JS -->
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="players.html" class="google-form-btn" style="max-width: 300px; margin: 0 auto; background: var(--dark-navy, #003c82); color: #ffffff;">
+                <i class="fas fa-shield-alt"></i> <span data-i18n="players_preview.btn">全選手プロフィールを見る</span> <i class="fas fa-arrow-right"></i>
             </a>
         </div>
     </div>
@@ -901,10 +1100,29 @@
     </div>
 </section>
 
+<!-- SEZIONE SPONSOR RIVISTA -->
 <section class="section sponsors-section" id="sponsors">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-handshake"></i> <span data-i18n="sponsors.title">オフィシャルパートナー</span></h2>
         
+        <div class="sponsor-benefits-grid">
+            <div class="sponsor-benefit-card">
+                <i class="fas fa-bullhorn"></i>
+                <h4 data-i18n="sponsors.b1_title">地域社会へのPR効果</h4>
+                <p data-i18n="sponsors.b1_desc">ユニフォームロゴ掲載や公式WEB・SNSを通じて、横浜地域での認知度を高めます。</p>
+            </div>
+            <div class="sponsor-benefit-card">
+                <i class="fas fa-users-cog"></i>
+                <h4 data-i18n="sponsors.b2_title">健康・コミュニティ貢献</h4>
+                <p data-i18n="sponsors.b2_desc">アマチュアスポーツ推進と健康増進を通じた企業のCSR活動・地域貢献をサポート。</p>
+            </div>
+            <div class="sponsor-benefit-card">
+                <i class="fas fa-globe"></i>
+                <h4 data-i18n="sponsors.b3_title">国際色豊かな発信力</h4>
+                <p data-i18n="sponsors.b3_desc">イタリア文化と横浜を結ぶ独自のブランディングで、国内外に好印象を広げます。</p>
+            </div>
+        </div>
+
         <div class="sponsors-carousel-container">
             <div class="sponsors-track" id="sponsorsTrack">
                 <div class="sponsor-card sponsor-placeholder">
@@ -933,10 +1151,55 @@
         <p class="sponsor-recruit-text" data-i18n="sponsors.recruit_text">
             Yokohama Calcioでは、共にチームを応援・サポートしていただける企業様・パートナー様を募集しております。
         </p>
-        <a href="contact.html" class="google-form-btn sponsor-contact-btn">
+        <a href="contact.html?type=sponsor" class="google-form-btn sponsor-contact-btn">
             <i class="fas fa-paper-plane"></i>
             <span data-i18n="sponsors.btn">パートナーシップについて問い合わせる</span>
         </a>
+    </div>
+</section>
+
+<!-- MINI-FAQ INTEGRATA -->
+<section class="section" id="mini-faq" style="background: #f8fafc;">
+    <div class="container">
+        <h2 class="section-title"><i class="fas fa-question-circle"></i> <span data-i18n="minifaq.title">よくある質問（FAQ）</span></h2>
+        
+        <div class="mini-faq-container">
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span data-i18n="minifaq.q1">Q: 体験練習参加に必要な持ち物や費用はありますか？</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer" data-i18n="minifaq.a1">
+                    動ける服装（サッカーウェア）、スパイクまたはトレーニングシューズ、飲料水をお持ちください。体験参加時の費用は原則無料です。
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span data-i18n="minifaq.q2">Q: 募集対象の年齢やサッカー経験の基準は？</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer" data-i18n="minifaq.a2">
+                    18歳〜40歳程度のサッカー経験者が対象です。高校・大学部活出身者からブランクのある方まで、真剣かつ楽しくプレーできる方を募集しています。
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span data-i18n="minifaq.q3">Q: 活動の場所や頻度はどのくらいですか？</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer" data-i18n="minifaq.a3">
+                    主に土曜日・日曜日の午前または午後に、横浜市内および神奈川県内のグランド（新横浜公園、常盤公園、谷本公園など）で活動しています。
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 25px;">
+            <a href="faq.html" class="google-form-btn" style="max-width: 260px; margin: 0 auto; background: transparent; border: 2px solid #003c82; color: #003c82;">
+                <i class="fas fa-list-ul"></i> <span data-i18n="minifaq.btn">すべてのFAQを見る</span>
+            </a>
+        </div>
     </div>
 </section>
 
@@ -1024,12 +1287,12 @@
             "hero.title": "横浜に咲くイタリアの情熱",
             "hero.subtitle": "サッカーで心をつなぐ場所",
             "hero.btn_about": "クラブ紹介",
-            "hero.btn_contact": "お問い合わせ",
+            "hero.btn_join": "新メンバー募集",
 
             "about.title": "Yokohama Calcioとは",
             "about.subtitle": "横浜発、イタリアンスタイルの社会人サッカーチーム",
             "about.p1": "Yokohama Calcio（ヨコハマ・カルチョ）は、2025年に横浜で設立された社会人アマチュアサッカークラブです。イタリアサッカーの組織的な戦術アプローチからインスピレーションを受け、一人ひとりが役割を理解し連動するチームを目指しています。",
-            "about.p2": "「個人の成長、チームの進化」を理念に掲げ、年齢やバックグラウンドを超えた仲間が集まり、真剣にフットボールと向き合っています。楽しむことと真剣に取り組むことを両立しながら、地域の試合やリーグ戦で一丸となって成長し続けています。",
+            "about.p2": "「個人の成長、チームの進化」を理念に掲げ、年齢やバックグラウンドを超えた仲間が集まり、真銭にフットボールと向き合っています。楽しむことと真剣に取り組むことを両立しながら、地域の試合やリーグ戦で一丸となって成長し続けています。",
             "about.values_title": "私たちのコアバリュー", 
             "about.val1_h": "個人の成長、チームの進化",
             "about.val1_d": "個々の判断力と役割意識がつながる組織的フットボール", 
@@ -1039,18 +1302,45 @@
             "about.val3_d": "ポジショニング、連動した守備、素早い切り替えの徹底",
             "about.btn_more": "クラブ紹介・歴史の詳細はこちら",
 
+            "recruit.banner_title": "新メンバー募集中！(18〜40歳経験者)",
+            "recruit.banner_desc": "組織的なイタリアンフットボールを体感しませんか？真剣に勝利を目指しながら、共に進化できる仲間を探しています。",
+            "recruit.banner_btn": "体験参加を申し込む",
+
             "results.title": "試合結果・日程", "results.last_badge": "前節結果", "results.next_badge": "次戦",
             "results.detail": "詳細", "results.all_matches": "全試合日程・詳細はこちら",
-            "results.no_next_match": "次戦の日程はまだ決定していません。",
-            "badge.league": "公式戦", "badge.friendly": "練習試合", "badge.tournament": "大会", "badge.cup": "カップ戦",
-            "label.venue": "会場:", "label.surface": "ピッチ:", "label.kickoff": "キックオフ:", "label.scorers": "得点者:", "label.assists": "アシスト:",
-            "label.mvp": "MVP:",
+            "results.no_next_match": "現在、次の試合日程を調整中です。対戦相手も募集しています！",
+            "results.friendly_req_btn": "練習試合を申し込む",
+
+            "players_preview.title": "選手・メンバー",
+            "players_preview.intro": "Yokohama Calcioを支える選手たち。組織的なフットボールで共に戦うメンバーです。",
+            "players_preview.btn": "全選手プロフィールを見る",
+
+            "sponsors.title": "オフィシャルパートナー",
+            "sponsors.b1_title": "地域社会へのPR効果",
+            "sponsors.b1_desc": "ユニフォームロゴ掲載や公式WEB・SNSを通じて、横浜地域での認知度を高めます。",
+            "sponsors.b2_title": "健康・コミュニティ貢献",
+            "sponsors.b2_desc": "アマチュアスポーツ推進と健康増進を通じた企業のCSR活動・地域貢献をサポート。",
+            "sponsors.b3_title": "国際色豊かな発信力",
+            "sponsors.b3_desc": "イタリア文化と横浜を結ぶ独自のブランディングで、国内外に好印象を広げます。",
+            "sponsors.placeholder": "パートナー募集中",
+            "sponsors.recruit_text": "Yokohama Calcioでは、共にチームを応援・サポートしていただける企業様・パートナー様を募集しております。",
+            "sponsors.btn": "パートナーシップについて問い合わせる",
+
+            "minifaq.title": "よくある質問（FAQ）",
+            "minifaq.q1": "Q: 体験練習参加に必要な持ち物や費用はありますか？",
+            "minifaq.a1": "動ける服装（サッカーウェア）、スパイクまたはトレーニングシューズ、飲料水をお持ちください。体験参加時の費用は原則無料です。",
+            "minifaq.q2": "Q: 募集対象の年齢やサッカー経験の基準は？",
+            "minifaq.a2": "18歳〜40歳程度のサッカー経験者が対象です。高校・大学部活出身者からブランクのある方まで、真剣かつ楽しくプレーできる方を募集しています。",
+            "minifaq.q3": "Q: 活動の場所や頻度はどのくらいですか？",
+            "minifaq.a3": "主に土曜日・日曜日の午前または午後に、横浜市内および神奈川県内のグランド（新横浜公園、常盤公園、谷本公園など）で活動しています。",
+            "minifaq.btn": "すべてのFAQを見る",
+
             "gallery.title": "フォトギャラリー", "shop.title": "公式オンラインショップ",
             "shop.card_title": "Yokohama Calcio オフィシャルグッズ",
             "shop.card_desc": "Tシャツ、キャップ、キーホルダー、マフラータオルなどのオリジナルグッズを取り揃えています。売上収益はチームの活動費として大切に活用させていただきます。",
-            "shop.btn": "公式ショップを見る", "sponsors.title": "オフィシャルパートナー", "sponsors.placeholder": "パートナー募集中",
-            "sponsors.recruit_text": "Yokohama Calcioでは、共にチームを応援・サポートしていただける企業様・パートナー様を募集しております。",
-            "sponsors.btn": "パートナーシップについて問い合わせる", "contact.title": "お問い合わせ",
+            "shop.btn": "公式ショップを見る", 
+            
+            "contact.title": "お問い合わせ",
             "contact.subtitle": "各種お申し込み・お問い合わせ", "contact.card_subtitle": "お気軽にご連絡ください",
             "contact.r1_h": "体験練習・入部希望",
             "contact.r1_d": "18歳〜40歳の経験者対象・ブランク可", "contact.r2_h": "練習試合・対戦のお申し込み",
@@ -1066,7 +1356,7 @@
             "hero.title": "La passione italiana nel cuore di Yokohama",
             "hero.subtitle": "Il calcio che unisce le persone",
             "hero.btn_about": "Chi Siamo",
-            "hero.btn_contact": "Contatti",
+            "hero.btn_join": "Unisciti alla Squadra",
 
             "about.title": "Cos'è lo Yokohama Calcio",
             "about.subtitle": "Da Yokohama, una squadra dilettantistica in perfetto stile italiano",
@@ -1081,18 +1371,45 @@
             "about.val3_d": "Lettura degli spazi, difesa coordinata e transizioni veloci.",
             "about.btn_more": "Scopri di più sulla storia e la filosofia del club",
 
+            "recruit.banner_title": "Cercasi Nuovi Giocatori! (18–40 anni con esperienza)",
+            "recruit.banner_desc": "Vuoi provare l'organizzazione del calcio tattico italiano a Yokohama? Cerchiamo ragazzi motivati per crescere e vincere insieme.",
+            "recruit.banner_btn": "Prenota Allenamento di Prova",
+
             "results.title": "Calendario e Risultati", "results.last_badge": "Ultimo Match", "results.next_badge": "Prossimo Match",
             "results.detail": "Dettagli", "results.all_matches": "Vedi tutte le partite",
-            "results.no_next_match": "La prossima partita non è ancora stata programmata.",
-            "badge.league": "Campionato", "badge.friendly": "Amichevole", "badge.tournament": "Torneo", "badge.cup": "Coppa",
-            "label.venue": "Campo:", "label.surface": "Superficie:", "label.kickoff": "Calcio d'inizio:", "label.scorers": "Marcatori:", "label.assists": "Assist:",
-            "label.mvp": "MVP:",
+            "results.no_next_match": "Stiamo programmando le prossime partite. Cerchi una squadra per un'amichevole?",
+            "results.friendly_req_btn": "Organizza un'amichevole",
+
+            "players_preview.title": "La Rosa",
+            "players_preview.intro": "I protagonisti dello Yokohama Calcio. Giocatori uniti dall'organizzazione tattica e dalla passione.",
+            "players_preview.btn": "Vedi tutti i giocatori",
+
+            "sponsors.title": "Partner Ufficiali",
+            "sponsors.b1_title": "Visibilità Locale a Yokohama",
+            "sponsors.b1_desc": "Aumenta la notorietà del tuo brand su divisa, sito web ufficiale e canali social dedicati.",
+            "sponsors.b2_title": "Responsabilità Sociale (CSR)",
+            "sponsors.b2_desc": "Sostieni lo sport dilettantistico, la salute e i valori di aggregazione nella comunità locale.",
+            "sponsors.b3_title": "Brand Internazionale",
+            "sponsors.b3_desc": "Un'identità unica che unisce la cultura italiana e la città di Yokohama.",
+            "sponsors.placeholder": "Cercasi Partner",
+            "sponsors.recruit_text": "Lo Yokohama Calcio è alla ricerca di partner e aziende disposte a sostenere il progetto.",
+            "sponsors.btn": "Richiedi informazioni per Partnership",
+
+            "minifaq.title": "Domande Frequenti (FAQ)",
+            "minifaq.q1": "Q: Cosa serve per la prima prova e quanto costa?",
+            "minifaq.a1": "Porta abbigliamento sportivo, scarpe da calcio o calcetto e acqua. La prima sessione di prova è totalmente gratuita.",
+            "minifaq.q2": "Q: Quali sono i requisiti di età e livello?",
+            "minifaq.a2": "Cerchiamo giocatori dai 18 ai 40 anni con esperienza calcistica precedente (settore giovanile, club scolastici o universitari) motivati a giocare con serietà.",
+            "minifaq.q3": "Q: Dove e quando vi allenate?",
+            "minifaq.a3": "Ci alleniamo e giochiamo nei fine settimana (Sabato o Domenica) nei principali impianti di Yokohama e Kanagawa (Shin-Yokohama, Tokiwa, Tanimoto).",
+            "minifaq.btn": "Vedi tutte le FAQ",
+
             "gallery.title": "Galleria Fotografica", "shop.title": "Online Shop Ufficiale",
             "shop.card_title": "Merchandising Ufficiale Yokohama Calcio",
             "shop.card_desc": "Scopri t-shirt, cappellini, portachiavi e sciarpe per tifare la squadra. I proventi delle vendite servono a sostenere le attività della squadra.",
-            "shop.btn": "Visita lo Store Ufficiale", "sponsors.title": "Partner Ufficiali", "sponsors.placeholder": "Cercasi Partner",
-            "sponsors.recruit_text": "Lo Yokohama Calcio è alla ricerca di partner e aziende disposte a sostenere il progetto.",
-            "sponsors.btn": "Richiedi informazioni per Partnership", "contact.title": "Contatti",
+            "shop.btn": "Visita lo Store Ufficiale", 
+
+            "contact.title": "Contatti",
             "contact.subtitle": "Invia una richiesta o un messaggio", "contact.card_subtitle": "Non esitare a contattarci",
             "contact.r1_h": "Prove & Nuovi Giocatori",
             "contact.r1_d": "Dai 18 ai 40 anni con esperienza (anche dopo periodi di stop)", "contact.r2_h": "Richiesta Partita Amichevole",
@@ -1108,7 +1425,7 @@
             "hero.title": "Italian Football Passion in Yokohama",
             "hero.subtitle": "Where Football Connects People",
             "hero.btn_about": "About Club",
-            "hero.btn_contact": "Contact Us",
+            "hero.btn_join": "Join Team",
 
             "about.title": "About Yokohama Calcio",
             "about.subtitle": "Italian-style Amateur Football Club in Yokohama",
@@ -1123,18 +1440,45 @@
             "about.val3_d": "Positioning, organized defense, and rapid transitions.",
             "about.btn_more": "Learn more about club history & philosophy",
 
+            "recruit.banner_title": "Recruiting New Players! (18–40 yrs experienced)",
+            "recruit.banner_desc": "Experience tactical Italian football in Yokohama. We are looking for motivated players to grow and win together.",
+            "recruit.banner_btn": "Book a Trial Training",
+
             "results.title": "Matches & Results", "results.last_badge": "Last Match", "results.next_badge": "Next Match",
             "results.detail": "Details", "results.all_matches": "View All Matches",
-            "results.no_next_match": "The next match has not been scheduled yet.",
-            "badge.league": "League", "badge.friendly": "Friendly", "badge.tournament": "Tournament", "badge.cup": "Cup",
-            "label.venue": "Venue:", "label.surface": "Pitch:", "label.kickoff": "Kick-Off:", "label.scorers": "Scorers:", "label.assists": "Assists:",
-            "label.mvp": "MVP:",
+            "results.no_next_match": "Next match date is being scheduled. Looking for a friendly match?",
+            "results.friendly_req_btn": "Request Friendly Match",
+
+            "players_preview.title": "Squad Preview",
+            "players_preview.intro": "The players of Yokohama Calcio. Dedicated teammates focused on tactical execution and teamwork.",
+            "players_preview.btn": "View Full Roster",
+
+            "sponsors.title": "Official Partners",
+            "sponsors.b1_title": "Local Community Exposure",
+            "sponsors.b1_desc": "Enhance your brand presence in Yokohama via kit placement, official website, and active social channels.",
+            "sponsors.b2_title": "CSR & Social Contribution",
+            "sponsors.b2_desc": "Support local amateur sports, health promotion, and positive community engagement.",
+            "sponsors.b3_title": "Unique International Identity",
+            "sponsors.b3_desc": "A distinctive brand bridging Italian football culture with Yokohama.",
+            "sponsors.placeholder": "Partners Wanted",
+            "sponsors.recruit_text": "Yokohama Calcio is seeking corporate partners to support our project.",
+            "sponsors.btn": "Inquire About Partnership",
+
+            "minifaq.title": "Frequently Asked Questions",
+            "minifaq.q1": "Q: What should I bring for a trial session and is there a fee?",
+            "minifaq.a1": "Bring athletic wear, soccer cleats/turf shoes, and water. Trial training sessions are free of charge.",
+            "minifaq.q2": "Q: What are the age and experience requirements?",
+            "minifaq.a2": "We invite experienced players aged 18 to 40 (high school, university, or club background) who are dedicated to serious, enjoyable football.",
+            "minifaq.q3": "Q: Where and when do you train?",
+            "minifaq.a3": "We play on weekends (Saturdays or Sundays) at major grounds across Yokohama and Kanagawa (Shin-Yokohama Park, Tokiwa Park, Tanimoto Park).",
+            "minifaq.btn": "View All FAQs",
+
             "gallery.title": "Photo Gallery", "shop.title": "Official Online Shop",
             "shop.card_title": "Yokohama Calcio Official Merchandise",
             "shop.card_desc": "Discover t-shirts, caps, keychains, and scarves to support the team. Proceeds from sales are used to support the team's activities.",
-            "shop.btn": "Visit Official Store", "sponsors.title": "Official Partners", "sponsors.placeholder": "Partners Wanted",
-            "sponsors.recruit_text": "Yokohama Calcio is seeking corporate partners to support our project.",
-            "sponsors.btn": "Inquire About Partnership", "contact.title": "Contact Us",
+            "shop.btn": "Visit Official Store", 
+
+            "contact.title": "Contact Us",
             "contact.subtitle": "Inquiries & Applications", "contact.card_subtitle": "Feel free to reach out",
             "contact.r1_h": "Join / Trial Training",
             "contact.r1_d": "Experienced players aged 18–40 (returning players OK)", "contact.r2_h": "Friendly Match Requests",
@@ -1304,6 +1648,9 @@
         if (cachedMatches.length > 0) {
             renderMatchCenter(cachedMatches);
         }
+        if (playersData.length > 0) {
+            renderPlayersShowcase(playersData);
+        }
     }
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -1341,7 +1688,7 @@
         return { name, url, surface };
     }
 
-    async function initMatchCenter() {
+    async function initPageData() {
         try {
             const [mResp, lResp, oResp, pResp] = await Promise.allSettled([
                 fetch('matches.json'),
@@ -1353,10 +1700,46 @@
             if (lResp.status === 'fulfilled' && lResp.value.ok) locationsData = await lResp.value.json();
             if (oResp.status === 'fulfilled' && oResp.value.ok) opponentsData = await oResp.value.json();
             if (pResp.status === 'fulfilled' && pResp.value.ok) playersData = await pResp.value.json();
+            
             renderMatchCenter(cachedMatches);
+            renderPlayersShowcase(playersData);
         } catch (e) {
-            console.error("Errore nel caricamento dati Match Center:", e);
+            console.error("Errore nel caricamento dati:", e);
         }
+    }
+
+    function renderPlayersShowcase(players) {
+        const grid = document.getElementById('playersShowcaseGrid');
+        if (!grid || !players || players.length === 0) return;
+
+        // Seleziona 3 giocatori casuali dalla rosa
+        const shuffled = [...players].sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 3);
+
+        const lang = currentLang;
+
+        grid.innerHTML = selected.map(p => {
+            const name = (lang === 'ja') ? (p.name_kanji || p.name_romaji) : (p.name_romaji || p.name_kanji);
+            const posClass = `pos-${(p.position || 'mf').toLowerCase()}`;
+            const posName = p.position || 'MF';
+            const caps = p.appearances || 0;
+            const goals = p.goals || 0;
+
+            return `
+                <div class="player-preview-card">
+                    <div class="player-num-badge">${p.number || '#'}</div>
+                    <div class="player-preview-info">
+                        <span class="player-pos-badge ${posClass}">${posName}</span>
+                        <div class="player-preview-name">${name}</div>
+                        <div class="player-preview-sub">${p.name_kana || ''}</div>
+                        <div class="player-preview-stats">
+                            <span><i class="fas fa-running"></i> ${caps} Apps</span>
+                            <span><i class="fas fa-futbol"></i> ${goals} Goals</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
     }
 
     function generateLastMatchHtml(m, lang) {
@@ -1561,11 +1944,15 @@
             const nextMatch = upcomingMatches[0];
             upcomingContainer.innerHTML = generateNextMatchHeroHtml(nextMatch, lang);
         } else {
+            // FALLBACK CON CTA PER PROMOZIONE AMICHEVOLI
             upcomingContainer.innerHTML = `
-                <div class="next-match-hero">
+                <div class="next-match-hero" style="justify-content: center; align-items: center; text-align: center;">
                     <div class="no-match-box">
-                        <i class="far fa-calendar-times"></i>
-                        <p data-i18n="results.no_next_match" style="color: #ffffff;">${translations[lang]['results.no_next_match'] || '次戦の日程はまだ決定していません。'}</p>
+                        <i class="fas fa-handshake-angle"></i>
+                        <p>${translations[lang]['results.no_next_match'] || '現在、次の試合日程を調整中です。対戦相手も募集しています！'}</p>
+                        <a href="contact.html?type=match" class="btn-match-detail-hero" style="margin-top: 10px; font-size: 0.88rem; padding: 10px 20px;">
+                            <i class="fas fa-paper-plane"></i> <span>${translations[lang]['results.friendly_req_btn'] || '練習試合を申し込む'}</span>
+                        </a>
                     </div>
                 </div>
             `;
@@ -1619,10 +2006,26 @@
         });
     }
 
+    function initMiniFaqAccordion() {
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.closest('.faq-item');
+                const isOpen = item.classList.contains('active');
+                
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                
+                if (!isOpen) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
         setLanguage(currentLang);
-        initMatchCenter();
+        initPageData();
         initCompactGallery();
+        initMiniFaqAccordion();
 
         const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
         const mobileNav = document.querySelector('.mobile-nav');
