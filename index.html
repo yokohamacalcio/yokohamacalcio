@@ -413,47 +413,22 @@
             gap: 4px;
         }
 
-        /* SPONSOR SECTION RIVISTA */
-        .sponsor-benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin: 25px 0 35px;
-        }
-        @media (max-width: 768px) {
-            .sponsor-benefits-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        .sponsor-benefit-card {
+        /* SPONSOR SECTION COMPATTA ED ELEGANTE */
+        .sponsor-simple-box {
             background: #ffffff;
             border-radius: 12px;
-            padding: 20px;
+            padding: 25px;
             border: 1px solid #e2e8f0;
             text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 4px 15px rgba(0, 60, 130, 0.04);
         }
-        .sponsor-benefit-card i {
-            font-size: 1.8rem;
-            color: #87ceeb;
-            background: #00224a;
-            width: 50px; height: 50px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 12px;
-        }
-        .sponsor-benefit-card h4 {
-            font-size: 1rem;
-            font-weight: 800;
-            color: #003c82;
-            margin-bottom: 6px;
-        }
-        .sponsor-benefit-card p {
-            font-size: 0.85rem;
-            color: #64748b;
-            line-height: 1.5;
-            margin: 0;
+        .sponsor-simple-box p {
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
         }
 
         /* MINI-FAQ ACCORDION IN HOME PAGE */
@@ -940,8 +915,8 @@
         <a href="about.html" class="hero-btn hero-btn-outline">
             <i class="fas fa-shield-alt"></i> <span data-i18n="hero.btn_about">クラブ紹介</span>
         </a>
-        <a href="contact.html?type=trial" class="hero-btn hero-btn-primary">
-            <i class="fas fa-user-plus"></i> <span data-i18n="hero.btn_join">新メンバー募集</span>
+        <a href="contact.html" class="hero-btn hero-btn-primary">
+            <i class="fas fa-envelope"></i> <span data-i18n="hero.btn_contact">お問い合わせ</span>
         </a>
     </div>
 
@@ -1030,7 +1005,7 @@
     </div>
 </section>
 
-<!-- SEZIONE GIOCATORI IN EVIDENZA (RANDOM SHOWCASE CON STATS APPROFONDITE) -->
+<!-- SEZIONE GIOCATORI IN EVIDENZA (RANDOM SHOWCASE) -->
 <section class="section" id="players-preview">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-users"></i> <span data-i18n="players_preview.title">選手・メンバー</span></h2>
@@ -1106,61 +1081,20 @@
     </div>
 </section>
 
-<!-- SEZIONE SPONSOR RIVISTA -->
+<!-- SEZIONE SPONSOR SEMPLIFICATA ED ELEGANTE -->
 <section class="section sponsors-section" id="sponsors">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-handshake"></i> <span data-i18n="sponsors.title">オフィシャルパートナー</span></h2>
+        <h2 class="section-title"><i class="fas fa-handshake"></i> <span data-i18n="sponsors.title">パートナー＆サポート</span></h2>
         
-        <div class="sponsor-benefits-grid">
-            <div class="sponsor-benefit-card">
-                <i class="fas fa-bullhorn"></i>
-                <h4 data-i18n="sponsors.b1_title">地域社会へのPR効果</h4>
-                <p data-i18n="sponsors.b1_desc">ユニフォームロゴ掲載や公式WEB・SNSを通じて、横浜地域での認知度を高めます。</p>
-            </div>
-            <div class="sponsor-benefit-card">
-                <i class="fas fa-users-cog"></i>
-                <h4 data-i18n="sponsors.b2_title">健康・コミュニティ貢献</h4>
-                <p data-i18n="sponsors.b2_desc">アマチュアスポーツ推進と健康増進を通じた企業のCSR活動・地域貢献をサポート。</p>
-            </div>
-            <div class="sponsor-benefit-card">
-                <i class="fas fa-globe"></i>
-                <h4 data-i18n="sponsors.b3_title">国際色豊かな発信力</h4>
-                <p data-i18n="sponsors.b3_desc">イタリア文化と横浜を結ぶ独自のブランディングで、国内外に好印象を広げます。</p>
-            </div>
+        <div class="sponsor-simple-box">
+            <p data-i18n="sponsors.recruit_text">
+                Yokohama Calcioでは、チームの活動を温かく応援・サポートしていただける地域の企業様やパートナー様を募集しております。グラウンド手配や備品補助など、多様な形でのコラボレーションが可能です。
+            </p>
+            <a href="contact.html?type=sponsor" class="google-form-btn sponsor-contact-btn" style="max-width: 340px; margin: 0 auto;">
+                <i class="fas fa-paper-plane"></i>
+                <span data-i18n="sponsors.btn">パートナーシップについて問い合わせる</span>
+            </a>
         </div>
-
-        <div class="sponsors-carousel-container">
-            <div class="sponsors-track" id="sponsorsTrack">
-                <div class="sponsor-card sponsor-placeholder">
-                    <i class="fas fa-plus-circle"></i>
-                    <span data-i18n="sponsors.placeholder">パートナー募集中</span>
-                </div>
-                <div class="sponsor-card sponsor-placeholder">
-                    <i class="fas fa-plus-circle"></i>
-                    <span data-i18n="sponsors.placeholder">パートナー募集中</span>
-                </div>
-                <div class="sponsor-card sponsor-placeholder">
-                    <i class="fas fa-plus-circle"></i>
-                    <span data-i18n="sponsors.placeholder">パートナー募集中</span>
-                </div>
-                <div class="sponsor-card sponsor-placeholder">
-                    <i class="fas fa-plus-circle"></i>
-                    <span data-i18n="sponsors.placeholder">パートナー募集中</span>
-                </div>
-                <div class="sponsor-card sponsor-placeholder">
-                    <i class="fas fa-plus-circle"></i>
-                    <span data-i18n="sponsors.placeholder">パートナー募集中</span>
-                </div>
-            </div>
-        </div>
-
-        <p class="sponsor-recruit-text" data-i18n="sponsors.recruit_text">
-            Yokohama Calcioでは、共にチームを応援・サポートしていただける企業様・パートナー様を募集しております。
-        </p>
-        <a href="contact.html?type=sponsor" class="google-form-btn sponsor-contact-btn">
-            <i class="fas fa-paper-plane"></i>
-            <span data-i18n="sponsors.btn">パートナーシップについて問い合わせる</span>
-        </a>
     </div>
 </section>
 
@@ -1293,7 +1227,7 @@
             "hero.title": "横浜に咲くイタリアの情熱",
             "hero.subtitle": "サッカーで心をつなぐ場所",
             "hero.btn_about": "クラブ紹介",
-            "hero.btn_join": "新メンバー募集",
+            "hero.btn_contact": "お問い合わせ",
 
             "about.title": "Yokohama Calcioとは",
             "about.subtitle": "横浜発、イタリアンスタイルの社会人サッカーチーム",
@@ -1321,15 +1255,8 @@
             "players_preview.intro": "Yokohama Calcioを支える選手たち。組織的なフットボールで共に戦うメンバーです。",
             "players_preview.btn": "全選手プロフィールを見る",
 
-            "sponsors.title": "オフィシャルパートナー",
-            "sponsors.b1_title": "地域社会へのPR効果",
-            "sponsors.b1_desc": "ユニフォームロゴ掲載や公式WEB・SNSを通じて、横浜地域での認知度を高めます。",
-            "sponsors.b2_title": "健康・コミュニティ貢献",
-            "sponsors.b2_desc": "アマチュアスポーツ推進と健康増進を通じた企業のCSR活動・地域貢献をサポート。",
-            "sponsors.b3_title": "国際色豊かな発信力",
-            "sponsors.b3_desc": "イタリア文化と横浜を結ぶ独自のブランディングで、国内外に好印象を広げます。",
-            "sponsors.placeholder": "パートナー募集中",
-            "sponsors.recruit_text": "Yokohama Calcioでは、共にチームを応援・サポートしていただける企業様・パートナー様を募集しております。",
+            "sponsors.title": "パートナー＆サポート",
+            "sponsors.recruit_text": "Yokohama Calcioでは、チームの活動を温かく応援・サポートしていただける地域の企業様やパートナー様を募集しております。グラウンド手配や備品補助など、多様な形でのコラボレーションが可能です。",
             "sponsors.btn": "パートナーシップについて問い合わせる",
 
             "minifaq.title": "よくある質問（FAQ）",
@@ -1362,7 +1289,7 @@
             "hero.title": "La passione italiana nel cuore di Yokohama",
             "hero.subtitle": "Il calcio che unisce le persone",
             "hero.btn_about": "Chi Siamo",
-            "hero.btn_join": "Unisciti alla Squadra",
+            "hero.btn_contact": "Contattaci",
 
             "about.title": "Cos'è lo Yokohama Calcio",
             "about.subtitle": "Da Yokohama, una squadra dilettantistica in perfetto stile italiano",
@@ -1390,15 +1317,8 @@
             "players_preview.intro": "I protagonisti dello Yokohama Calcio. Giocatori uniti dall'organizzazione tattica e dalla passione.",
             "players_preview.btn": "Vedi tutti i giocatori",
 
-            "sponsors.title": "Partner Ufficiali",
-            "sponsors.b1_title": "Visibilità Locale a Yokohama",
-            "sponsors.b1_desc": "Aumenta la notorietà del tuo brand su divisa, sito web ufficiale e canali social dedicati.",
-            "sponsors.b2_title": "Responsabilità Sociale (CSR)",
-            "sponsors.b2_desc": "Sostieni lo sport dilettantistico, la salute e i valori di aggregazione nella comunità locale.",
-            "sponsors.b3_title": "Brand Internazionale",
-            "sponsors.b3_desc": "Un'identità unica che unisce la cultura italiana e la città di Yokohama.",
-            "sponsors.placeholder": "Cercasi Partner",
-            "sponsors.recruit_text": "Lo Yokohama Calcio è alla ricerca di partner e aziende disposte a sostenere il progetto.",
+            "sponsors.title": "Partner & Supporto",
+            "sponsors.recruit_text": "Lo Yokohama Calcio accoglie con piacere il sostegno di aziende locali e sostenitori che desiderano affiancare la squadra. Dalla collaborazione sui campi alla fornitura di materiale, valutiamo insieme diverse forme di collaborazione.",
             "sponsors.btn": "Richiedi informazioni per Partnership",
 
             "minifaq.title": "Domande Frequenti (FAQ)",
@@ -1431,7 +1351,7 @@
             "hero.title": "Italian Football Passion in Yokohama",
             "hero.subtitle": "Where Football Connects People",
             "hero.btn_about": "About Club",
-            "hero.btn_join": "Join Team",
+            "hero.btn_contact": "Contact Us",
 
             "about.title": "About Yokohama Calcio",
             "about.subtitle": "Italian-style Amateur Football Club in Yokohama",
@@ -1459,15 +1379,8 @@
             "players_preview.intro": "The players of Yokohama Calcio. Dedicated teammates focused on tactical execution and teamwork.",
             "players_preview.btn": "View Full Roster",
 
-            "sponsors.title": "Official Partners",
-            "sponsors.b1_title": "Local Community Exposure",
-            "sponsors.b1_desc": "Enhance your brand presence in Yokohama via kit placement, official website, and active social channels.",
-            "sponsors.b2_title": "CSR & Social Contribution",
-            "sponsors.b2_desc": "Support local amateur sports, health promotion, and positive community engagement.",
-            "sponsors.b3_title": "Unique International Identity",
-            "sponsors.b3_desc": "A distinctive brand bridging Italian football culture with Yokohama.",
-            "sponsors.placeholder": "Partners Wanted",
-            "sponsors.recruit_text": "Yokohama Calcio is seeking corporate partners to support our project.",
+            "sponsors.title": "Partners & Support",
+            "sponsors.recruit_text": "Yokohama Calcio welcomes support from local businesses and partners who wish to encourage our club. We are open to various forms of collaboration, from facility coordination to equipment support.",
             "sponsors.btn": "Inquire About Partnership",
 
             "minifaq.title": "Frequently Asked Questions",
@@ -1714,49 +1627,51 @@
         }
     }
 
-    /* FUNZIONE DI RIGUARDO PER IL CALCOLO PRESENZE PORTIERE / GIOCATORE */
-    function calculatePlayerAppearances(player, matches) {
-        if (!matches || matches.length === 0) return player.appearances || 0;
-        
+    /* FUNZIONE DI CALCOLO STATISTICHE PORTIERE DA MATCHES.JSON */
+    function getGoalkeeperStats(player, matches) {
+        let appearances = 0;
+        let goalsConceded = 0;
+
+        if (!matches || matches.length === 0) {
+            return {
+                appearances: player.appearances || 0,
+                goalsConceded: player.goals_conceded !== undefined ? player.goals_conceded : (player.goals || 0)
+            };
+        }
+
         const pKanji = cleanStr(player.name_kanji);
         const pRomaji = cleanStr(player.name_romaji);
         const pKana = cleanStr(player.name_kana);
 
-        let count = 0;
         matches.forEach(m => {
             if (m.status !== 'past' && m.status !== 'live') return;
+            if (!m.goalkeeper) return;
 
-            let isFound = false;
+            const gkClean = cleanStr(m.goalkeeper);
+            if (gkClean && (gkClean === pKanji || gkClean === pRomaji || gkClean === pKana || pKanji.includes(gkClean) || gkClean.includes(pKanji))) {
+                appearances++;
 
-            // Controlla il campo goalkeeper (particolarmente per portieri)
-            if (m.goalkeeper) {
-                const gkClean = cleanStr(m.goalkeeper);
-                if (gkClean && (gkClean === pKanji || gkClean === pRomaji || gkClean === pKana || pKanji.includes(gkClean) || gkClean.includes(pKanji))) {
-                    isFound = true;
+                // Calcolo gol subiti dal punteggio della partita
+                if (m.score && m.score.includes('-')) {
+                    const parts = m.score.split('-');
+                    const isHome = m.isHome !== undefined ? m.isHome : true;
+                    if (parts.length === 2) {
+                        const score1 = parseInt(parts[0].trim(), 10) || 0;
+                        const score2 = parseInt(parts[1].trim(), 10) || 0;
+                        const conceded = isHome ? score2 : score1;
+                        goalsConceded += conceded;
+                    }
                 }
             }
-
-            // Controlla nei lineup o giocate se disponibile
-            if (!isFound && m.lineup) {
-                const lineupStr = Array.isArray(m.lineup) ? m.lineup.join(' ') : String(m.lineup);
-                const lClean = cleanStr(lineupStr);
-                if (pKanji && lClean.includes(pKanji)) isFound = true;
-                if (!isFound && pRomaji && lClean.includes(pRomaji)) isFound = true;
-            }
-
-            // Fallback se appare nei marcatori/assist/mvp
-            if (!isFound) {
-                const allText = cleanStr((m.scorers || '') + (m.assists || '') + (m.mvp || ''));
-                if (pKanji && allText.includes(pKanji)) isFound = true;
-            }
-
-            if (isFound) count++;
         });
 
-        return Math.max(count, player.appearances || 0);
+        return {
+            appearances: Math.max(appearances, player.appearances || 0),
+            goalsConceded: goalsConceded
+        };
     }
 
-    /* RENDER SHOWCASE GIOCATORI CON VALORIZZAZIONE STATISTICHE DIFF. (GK vs CAMPO) */
+    /* RENDER SHOWCASE GIOCATORI */
     function renderPlayersShowcase(players) {
         const grid = document.getElementById('playersShowcaseGrid');
         if (!grid || !players || players.length === 0) return;
@@ -1773,25 +1688,23 @@
             const posClass = `pos-${pos.toLowerCase()}`;
             
             const isGK = (pos === 'GK');
-            const appearances = calculatePlayerAppearances(p, cachedMatches);
             const mvpCount = p.mvp || 0;
 
             let statsHtml = '';
 
             if (isGK) {
-                // PORTIERE: Presenze, Gol Subiti, MVP
-                const goalsConceded = p.goals_conceded !== undefined ? p.goals_conceded : (p.goals || 0);
+                // PORTIERE: Presenze, Gol Subiti (Conc.), MVP
+                const gkStats = getGoalkeeperStats(p, cachedMatches);
                 statsHtml = `
-                    <span><i class="fas fa-running" style="color: #2563eb;"></i> ${appearances} Caps</span>
-                    <span><i class="fas fa-shield-alt" style="color: #dc2626;"></i> ${goalsConceded} Conc.</span>
+                    <span><i class="fas fa-running" style="color: #2563eb;"></i> ${gkStats.appearances} Caps</span>
+                    <span><i class="fas fa-shield-alt" style="color: #dc2626;"></i> ${gkStats.goalsConceded} Conc.</span>
                     ${mvpCount > 0 ? `<span><i class="fas fa-star" style="color: #f59e0b;"></i> ${mvpCount} MVP</span>` : ''}
                 `;
             } else {
-                // GIOCATORE DI MOVIMENTO: Gol, Assist, MVP (o Presenze se utile)
+                // GIOCATORE DI MOVIMENTO: Gol, Assist, MVP
                 const goals = p.goals || 0;
                 const assists = p.assists || 0;
                 statsHtml = `
-                    <span><i class="fas fa-running" style="color: #2563eb;"></i> ${appearances} Caps</span>
                     <span><i class="fas fa-futbol" style="color: #059669;"></i> ${goals} Goals</span>
                     <span><i class="fas fa-hands-helping" style="color: #8b5cf6;"></i> ${assists} Ast</span>
                     ${mvpCount > 0 ? `<span><i class="fas fa-star" style="color: #f59e0b;"></i> ${mvpCount} MVP</span>` : ''}
@@ -2143,21 +2056,6 @@
             });
         }
     });
-
-    const sponsorsTrack = document.getElementById('sponsorsTrack');
-    if (sponsorsTrack && sponsorsTrack.children.length > 0) {
-        const originalSponsorCards = Array.from(sponsorsTrack.children);
-        originalSponsorCards.forEach(card => sponsorsTrack.appendChild(card.cloneNode(true)));
-        let sponsorScrollPos = 0;
-        function scrollSponsorsStep() {
-            sponsorScrollPos += 0.6;
-            const halfWidth = sponsorsTrack.scrollWidth / 2;
-            if (sponsorScrollPos >= halfWidth) sponsorScrollPos = 0;
-            sponsorsTrack.style.transform = `translateX(-${sponsorScrollPos}px)`;
-            requestAnimationFrame(scrollSponsorsStep);
-        }
-        requestAnimationFrame(scrollSponsorsStep);
-    }
 
     const topBtn = document.getElementById('scrollToTopBtn');
     if (topBtn) {
