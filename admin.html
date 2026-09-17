@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yokohama Calcio | Admin Panel Advanced</title>
+    <title>Yokohama Calcio | Admin Panel</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -26,34 +26,49 @@
         
         .btn-submit { background: #003c82; color: white; padding: 14px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.05rem; }
         .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+        .token-saved-badge { font-size: 0.75rem; color: #059669; font-weight: bold; margin-left: 8px; }
     </style>
 </head>
 <body>
 
 <div class="admin-container">
-    <h2><i class="fas fa-tactics"></i> Yokohama Calcio - Gestione Partita & Tattica</h2>
-    <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 20px;">Registra modulo, titolari, sostituti e dettagli statistici completi.</p>
+    <h2><i class="fas fa-shield-alt"></i> Yokohama Calcio - Gestione Partite</h2>
+    <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 20px;">Pannello di controllo sincronizzato con matches.json, opponents.json e locations.json.</p>
 
-    <!-- AUTENTICAZIONE -->
+    <!-- AUTENTICAZIONE CON REPEAT-MEMORY -->
     <div class="form-group">
-        <label for="ghToken"><i class="fas fa-key"></i> GitHub Token (PAT):</label>
-        <input type="password" id="ghToken" class="form-control" placeholder="Incolla il token generato">
+        <label for="ghToken"><i class="fas fa-key"></i> GitHub Token (PAT): <span id="tokenStatus" class="token-saved-badge"></span></label>
+        <input type="password" id="ghToken" class="form-control" placeholder="Incolla il token generato per memorizzarlo su questo device">
     </div>
 
     <form id="matchForm">
         <input type="hidden" id="repoPath" value="yokohamacalcio/yokohamacalcio">
 
-        <!-- 1. DATI GENERALE MATCH -->
+        <!-- 1. DATI PRINCIPALI MATCH -->
         <div class="section-box">
-            <h3>1. Info Partita & Tipo</h3>
+            <h3>1. Info Partita</h3>
             <div class="row">
                 <div class="form-group">
-                    <label>ID Match (es. match-2026-09-20):</label>
-                    <input type="text" id="matchId" class="form-control" placeholder="match-2026-09-20" required>
+                    <label>ID Match (es. match-9):</label>
+                    <input type="text" id="matchId" class="form-control" placeholder="match-9" required>
                 </div>
+                <div class="form-group">
+                    <label>Stato Partita:</label>
+                    <select id="matchStatus" class="form-control">
+                        <option value="past">Finita (past)</option>
+                        <option value="upcoming">In programma (upcoming)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="form-group">
                     <label>Data:</label>
                     <input type="date" id="matchDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Orario Calcio d'Inizio (K.O.):</label>
+                    <input type="time" id="matchTime" class="form-control" value="11:00">
                 </div>
             </div>
 
@@ -61,75 +76,99 @@
                 <div class="form-group">
                     <label>Categoria:</label>
                     <select id="matchCategory" class="form-control">
-                        <option value="official">Ufficiale (Campionato)</option>
-                        <option value="cup">Coppa</option>
-                        <option value="friendly">Amichevole</option>
+                        <option value="friendly">Amichevole (friendly)</option>
+                        <option value="official">Campionato (official)</option>
+                        <option value="cup">Coppa (cup)</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Avversario:</label>
-                    <input type="text" id="opponentName" class="form-control" placeholder="es. FC Legend" required>
-                </div>
-                <div class="form-group">
-                    <label>Risultato (es. 2-1):</label>
-                    <input type="text" id="matchScore" class="form-control" placeholder="2-1" required>
+                    <label>Tipo (Etichetta visualizzata):</label>
+                    <input type="text" id="matchType" class="form-control" value="練習試合">
                 </div>
             </div>
-        </div>
 
-        <!-- 2. INFORMAZIONI TATTICHE -->
-        <div class="section-box">
-            <h3>2. Assetto Tattico</h3>
             <div class="row">
                 <div class="form-group">
-                    <label>Modulo / Formazione iniziale:</label>
-                    <select id="formation" class="form-control">
-                        <option value="4-4-2">4-4-2 (Standard Sacchi)</option>
-                        <option value="4-3-3">4-3-3</option>
-                        <option value="4-2-3-1">4-2-3-1</option>
-                        <option value="3-5-2">3-5-2</option>
-                        <option value="Altro">Altro</option>
+                    <label>Avversario (seleziona o digita ID):</label>
+                    <input type="text" id="opponentId" class="form-control" list="opponentsList" placeholder="es. fc_legend" required>
+                    <datalist id="opponentsList"></datalist>
+                </div>
+                <div class="form-group">
+                    <label>Campo di gioco (seleziona o digita ID):</label>
+                    <input type="text" id="locationId" class="form-control" list="locationsList" placeholder="es. tokiwa" required>
+                    <datalist id="locationsList"></datalist>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Casa / Trasferta:</label>
+                    <select id="isHome" class="form-control">
+                        <option value="true">Casa (Yokohama Calcio vs Avversario)</option>
+                        <option value="false">Trasferta (Avversario vs Yokohama Calcio)</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label>Risultato (es. 2 - 1 oppure VS):</label>
+                    <input type="text" id="matchScore" class="form-control" placeholder="2 - 1" value="VS">
                 </div>
             </div>
         </div>
 
-        <!-- 3. MARCATURA & PRESTAZIONI -->
+        <!-- 2. DATI STATISTICI & EVENTI -->
         <div class="section-box">
-            <h3>3. Eventi & Statistiche Match</h3>
+            <h3>2. Eventi & Prestazioni</h3>
             <div class="row">
                 <div class="form-group">
                     <label>Marcatori (es. 小金井 x2, 根本):</label>
-                    <input type="text" id="matchScorers" class="form-control" placeholder="小金井 x2, 根本">
+                    <input type="text" id="matchScorers" class="form-control" placeholder="小金井 x2">
                 </div>
                 <div class="form-group">
-                    <label>Assistman (es. 川合 翔):</label>
-                    <input type="text" id="matchAssists" class="form-control" placeholder="川合 翔">
+                    <label>Assistman (es. 道下, 福田):</label>
+                    <input type="text" id="matchAssists" class="form-control" placeholder="道下, 福田">
                 </div>
             </div>
+
             <div class="row">
                 <div class="form-group">
                     <label>MVP del Match:</label>
-                    <input type="text" id="matchMvp" class="form-control" placeholder="es. 小金井">
+                    <input type="text" id="matchMvp" class="form-control" placeholder="小金井">
                 </div>
                 <div class="form-group">
-                    <label>Portiere Titolare & Gol Subiti (es. 御村 葵 (1)):</label>
-                    <input type="text" id="goalkeepers" class="form-control" placeholder="es. 御村 葵 (1)">
+                    <label>Portiere Titolare & Gol Subiti (es. 御村 葵(5) o 保坂 利晃):</label>
+                    <input type="text" id="goalkeepers" class="form-control" placeholder="御村 葵(5)">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Cartellini Gialli:</label>
+                    <input type="text" id="yellowCards" class="form-control" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label>Cartellini Rossi:</label>
+                    <input type="text" id="redCards" class="form-control" placeholder="">
                 </div>
             </div>
         </div>
 
-        <!-- 4. SELEZIONE CONVOCATI: TITOLARI VS SOSTITUTI -->
+        <!-- 3. GESTIONE TITOLARI & PANCHINA -->
         <div class="section-box">
-            <h3>4. Convocati, Titolari & Sostituti</h3>
-            <p style="font-size: 0.8rem; color: #64748b;">Seleziona il ruolo di ogni giocatore convocato per questa partita.</p>
+            <h3>3. Formazione & Convocati</h3>
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="form-group">
+                    <label>Modulo (es. 4-4-2):</label>
+                    <input type="text" id="formation" class="form-control" value="4-4-2">
+                </div>
+            </div>
+            <p style="font-size: 0.8rem; color: #64748b;">Seleziona lo status di ciascun membro per la partita:</p>
             <div class="player-select-grid" id="playersGrid">
                 <div style="color: #64748b;">Caricamento rosa...</div>
             </div>
         </div>
 
         <button type="submit" class="btn-submit" id="submitBtn">
-            <i class="fas fa-cloud-upload-alt"></i> Salva Partita e Aggiorna Database
+            <i class="fas fa-cloud-upload-alt"></i> Salva Partita su matches.json
         </button>
     </form>
 
@@ -137,50 +176,91 @@
 </div>
 
 <script>
-    document.getElementById('ghToken').value = localStorage.getItem('yc_gh_token') || '';
+    // --- GESTIONE TOKEN MEMORIZZATO PER DEVICE ---
+    const ghTokenInput = document.getElementById('ghToken');
+    const tokenStatus = document.getElementById('tokenStatus');
+    const savedToken = localStorage.getItem('yc_gh_token');
+
+    if (savedToken) {
+        ghTokenInput.value = savedToken;
+        tokenStatus.textContent = '✓ Token memorizzato su questo device';
+    }
+
+    ghTokenInput.addEventListener('input', () => {
+        const val = ghTokenInput.value.trim();
+        if (val) {
+            localStorage.setItem('yc_gh_token', val);
+            tokenStatus.textContent = '✓ Token salvato';
+        } else {
+            localStorage.removeItem('yc_gh_token');
+            tokenStatus.textContent = '';
+        }
+    });
 
     let globalPlayers = [];
 
-    async function loadPlayers() {
+    // --- CARICAMENTO AUTOMATICO DATI (Giocatori, Avversari, Campi) ---
+    async function initData() {
         try {
-            const res = await fetch('players.json');
-            globalPlayers = await res.json();
-            const grid = document.getElementById('playersGrid');
-            
-            grid.innerHTML = globalPlayers.map(p => {
-                const pName = p.name_kanji || p.name_romaji;
-                return `
-                    <div class="player-card">
-                        <div class="player-card-header">
-                            <span>#${p.number || '-'} ${pName}</span>
-                            <span style="font-size: 0.75rem; background: #e2e8f0; padding: 2px 6px; border-radius: 4px;">${p.position || 'MF'}</span>
-                        </div>
-                        <div class="role-selector">
-                            <label><input type="radio" name="status_${p.id}" value="absent" checked> Assente</label>
-                            <label><input type="radio" name="status_${p.id}" value="starter"> Titolare</label>
-                            <label><input type="radio" name="status_${p.id}" value="sub"> Sostituto</label>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+            // Carica Giocatori
+            const pRes = await fetch('players.json');
+            globalPlayers = await pRes.json();
+            renderPlayers();
+
+            // Carica Avversari per Autocompletamento
+            try {
+                const oRes = await fetch('opponents.json');
+                const opps = await oRes.json();
+                const oppList = document.getElementById('opponentsList');
+                oppList.innerHTML = Object.keys(opps).map(k => `<option value="${k}">${opps[k].name?.ja || opps[k].name?.en || k}</option>`).join('');
+            } catch(e) {}
+
+            // Carica Campi/Locations per Autocompletamento
+            try {
+                const lRes = await fetch('locations.json');
+                const locs = await lRes.json();
+                const locList = document.getElementById('locationsList');
+                locList.innerHTML = Object.keys(locs).map(k => `<option value="${k}">${locs[k].ja || locs[k].en || k}</option>`).join('');
+            } catch(e) {}
+
         } catch(e) {
-            document.getElementById('playersGrid').innerHTML = '<div style="color: red;">Errore caricamento players.json</div>';
+            console.error("Errore caricamento dati iniziali:", e);
         }
     }
-    loadPlayers();
 
+    function renderPlayers() {
+        const grid = document.getElementById('playersGrid');
+        grid.innerHTML = globalPlayers.map(p => {
+            const pName = p.name_kanji || p.name_romaji;
+            return `
+                <div class="player-card">
+                    <div class="player-card-header">
+                        <span>#${p.number || '-'} ${pName}</span>
+                        <span style="font-size: 0.75rem; background: #e2e8f0; padding: 2px 6px; border-radius: 4px;">${p.position || 'MF'}</span>
+                    </div>
+                    <div class="role-selector">
+                        <label><input type="radio" name="status_${p.id}" value="absent" checked> Assente</label>
+                        <label><input type="radio" name="status_${p.id}" value="starter"> Titolare</label>
+                        <label><input type="radio" name="status_${p.id}" value="sub"> Panchina</label>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    initData();
+
+    // --- INVIO DATI A GITHUB ACTIONS ---
     document.getElementById('matchForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const token = document.getElementById('ghToken').value.trim();
+        const token = ghTokenInput.value.trim();
         const repo = document.getElementById('repoPath').value.trim();
         
         if (!token || !repo) {
-            alert("Inserisci il Token GitHub!");
+            alert("Inserisci il Token GitHub per continuare!");
             return;
         }
-
-        localStorage.setItem('yc_gh_token', token);
 
         const starters = [];
         const substitutes = [];
@@ -201,16 +281,22 @@
 
         const matchPayload = {
             id: document.getElementById('matchId').value.trim(),
-            date: document.getElementById('matchDate').value,
             category: document.getElementById('matchCategory').value,
-            team2Name: document.getElementById('opponentName').value.trim(),
-            score: document.getElementById('matchScore').value.trim(),
-            formation: document.getElementById('formation').value,
-            scorers: document.getElementById('matchScorers').value.trim() || 'なし',
-            assists: document.getElementById('matchAssists').value.trim() || 'なし',
-            mvp: document.getElementById('matchMvp').value.trim() || 'なし',
-            goalkeepers: document.getElementById('goalkeepers').value.trim() || '',
-            status: 'past',
+            date: document.getElementById('matchDate').value,
+            time: document.getElementById('matchTime').value || '11:00',
+            status: document.getElementById('matchStatus').value,
+            type: document.getElementById('matchType').value.trim() || '練習試合',
+            opponent_id: document.getElementById('opponentId').value.trim(),
+            isHome: document.getElementById('isHome').value === 'true',
+            score: document.getElementById('matchScore').value.trim() || 'VS',
+            scorers: document.getElementById('matchScorers').value.trim(),
+            assists: document.getElementById('matchAssists').value.trim(),
+            mvp: document.getElementById('matchMvp').value.trim(),
+            yellow_cards: document.getElementById('yellowCards').value.trim(),
+            red_cards: document.getElementById('redCards').value.trim(),
+            location_id: document.getElementById('locationId').value.trim(),
+            goalkeepers: document.getElementById('goalkeepers').value.trim(),
+            formation: document.getElementById('formation').value.trim(),
             starters: starters,
             substitutes: substitutes,
             lineup: fullLineup
@@ -242,7 +328,7 @@
 
             if (response.ok) {
                 statusMsg.style.color = '#059669';
-                statusMsg.innerHTML = '✅ Partita salvata con successo! Il sito si aggiornerà in ~30 secondi.';
+                statusMsg.innerHTML = '✅ Partita salvata! Il sito si aggiornerà in ~30 secondi.';
             } else {
                 const errData = await response.json();
                 statusMsg.style.color = '#dc2626';
