@@ -400,11 +400,17 @@
         }
         .player-preview-stats {
             display: flex;
-            gap: 10px;
+            flex-wrap: wrap;
+            gap: 8px 12px;
             font-size: 0.78rem;
             color: #475569;
-            margin-top: 4px;
+            margin-top: 6px;
             font-weight: 600;
+        }
+        .player-preview-stats span {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
 
         /* SPONSOR SECTION RIVISTA */
@@ -935,7 +941,7 @@
             <i class="fas fa-shield-alt"></i> <span data-i18n="hero.btn_about">クラブ紹介</span>
         </a>
         <a href="contact.html?type=trial" class="hero-btn hero-btn-primary">
-            <i class="fas fa-user-plus"></i> <span data-i18n="hero.btn_join">新新メンバー募集</span>
+            <i class="fas fa-user-plus"></i> <span data-i18n="hero.btn_join">新メンバー募集</span>
         </a>
     </div>
 
@@ -979,11 +985,11 @@
             </div>
         </div>
 
-        <!-- BANNER BANNER RECLUTAMENTO NUOVI GIOCATORI -->
+        <!-- BANNER RECLUTAMENTO NUOVI GIOCATORI -->
         <div class="recruitment-banner">
             <div class="recruitment-content">
                 <div class="recruitment-text-box">
-                    <h3><i class="fas fa-futbol"></i> <span data-i18n="recruit.banner_title">新新メンバー募集中！(18〜40歳経験者)</span></h3>
+                    <h3><i class="fas fa-futbol"></i> <span data-i18n="recruit.banner_title">新メンバー募集中！(18〜40歳経験者)</span></h3>
                     <p data-i18n="recruit.banner_desc">組織的なイタリアンフットボールを体感しませんか？真剣に勝利を目指しながら、共に進化できる仲間を探しています。体験練習へのご参加をお待ちしています！</p>
                 </div>
                 <a href="contact.html?type=trial" class="recruitment-btn">
@@ -1008,11 +1014,11 @@
         
         <div class="match-center-grid">
             <div id="pastContainer">
-                <!-- CARICATO DINAMICAMENTE DA JS DA matches.json -->
+                <!-- CARICATO DINAMICAMENTE DA JS -->
             </div>
 
             <div id="upcomingContainer">
-                <!-- CARICATO DINAMICAMENTE DA JS DA matches.json O FALLBACK AMICHEVOLI -->
+                <!-- CARICATO DINAMICAMENTE DA JS -->
             </div>
         </div>
 
@@ -1024,7 +1030,7 @@
     </div>
 </section>
 
-<!-- SEZIONE GIOCATORI IN EVIDENZA (RANDOM SHOWCASE) -->
+<!-- SEZIONE GIOCATORI IN EVIDENZA (RANDOM SHOWCASE CON STATS APPROFONDITE) -->
 <section class="section" id="players-preview">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-users"></i> <span data-i18n="players_preview.title">選手・メンバー</span></h2>
@@ -1292,7 +1298,7 @@
             "about.title": "Yokohama Calcioとは",
             "about.subtitle": "横浜発、イタリアンスタイルの社会人サッカーチーム",
             "about.p1": "Yokohama Calcio（ヨコハマ・カルチョ）は、2025年に横浜で設立された社会人アマチュアサッカークラブです。イタリアサッカーの組織的な戦術アプローチからインスピレーションを受け、一人ひとりが役割を理解し連動するチームを目指しています。",
-            "about.p2": "「個人の成長、チームの進化」を理念に掲げ、年齢やバックグラウンドを超えた仲間が集まり、真銭にフットボールと向き合っています。楽しむことと真剣に取り組むことを両立しながら、地域の試合やリーグ戦で一丸となって成長し続けています。",
+            "about.p2": "「個人の成長、チームの進化」を理念に掲げ、年齢やバックグラウンドを超えた仲間が集まり、真剣にフットボールと向き合っています。楽しむことと真剣に取り組むことを両立しながら、地域の試合やリーグ戦で一丸となって成長し続けています。",
             "about.values_title": "私たちのコアバリュー", 
             "about.val1_h": "個人の成長、チームの進化",
             "about.val1_d": "個々の判断力と役割意識がつながる組織的フットボール", 
@@ -1708,11 +1714,54 @@
         }
     }
 
+    /* FUNZIONE DI RIGUARDO PER IL CALCOLO PRESENZE PORTIERE / GIOCATORE */
+    function calculatePlayerAppearances(player, matches) {
+        if (!matches || matches.length === 0) return player.appearances || 0;
+        
+        const pKanji = cleanStr(player.name_kanji);
+        const pRomaji = cleanStr(player.name_romaji);
+        const pKana = cleanStr(player.name_kana);
+
+        let count = 0;
+        matches.forEach(m => {
+            if (m.status !== 'past' && m.status !== 'live') return;
+
+            let isFound = false;
+
+            // Controlla il campo goalkeeper (particolarmente per portieri)
+            if (m.goalkeeper) {
+                const gkClean = cleanStr(m.goalkeeper);
+                if (gkClean && (gkClean === pKanji || gkClean === pRomaji || gkClean === pKana || pKanji.includes(gkClean) || gkClean.includes(pKanji))) {
+                    isFound = true;
+                }
+            }
+
+            // Controlla nei lineup o giocate se disponibile
+            if (!isFound && m.lineup) {
+                const lineupStr = Array.isArray(m.lineup) ? m.lineup.join(' ') : String(m.lineup);
+                const lClean = cleanStr(lineupStr);
+                if (pKanji && lClean.includes(pKanji)) isFound = true;
+                if (!isFound && pRomaji && lClean.includes(pRomaji)) isFound = true;
+            }
+
+            // Fallback se appare nei marcatori/assist/mvp
+            if (!isFound) {
+                const allText = cleanStr((m.scorers || '') + (m.assists || '') + (m.mvp || ''));
+                if (pKanji && allText.includes(pKanji)) isFound = true;
+            }
+
+            if (isFound) count++;
+        });
+
+        return Math.max(count, player.appearances || 0);
+    }
+
+    /* RENDER SHOWCASE GIOCATORI CON VALORIZZAZIONE STATISTICHE DIFF. (GK vs CAMPO) */
     function renderPlayersShowcase(players) {
         const grid = document.getElementById('playersShowcaseGrid');
         if (!grid || !players || players.length === 0) return;
 
-        // Seleziona 3 giocatori casuali dalla rosa
+        // Estrai 3 giocatori casuali
         const shuffled = [...players].sort(() => 0.5 - Math.random());
         const selected = shuffled.slice(0, 3);
 
@@ -1720,21 +1769,44 @@
 
         grid.innerHTML = selected.map(p => {
             const name = (lang === 'ja') ? (p.name_kanji || p.name_romaji) : (p.name_romaji || p.name_kanji);
-            const posClass = `pos-${(p.position || 'mf').toLowerCase()}`;
-            const posName = p.position || 'MF';
-            const caps = p.appearances || 0;
-            const goals = p.goals || 0;
+            const pos = (p.position || 'MF').toUpperCase();
+            const posClass = `pos-${pos.toLowerCase()}`;
+            
+            const isGK = (pos === 'GK');
+            const appearances = calculatePlayerAppearances(p, cachedMatches);
+            const mvpCount = p.mvp || 0;
+
+            let statsHtml = '';
+
+            if (isGK) {
+                // PORTIERE: Presenze, Gol Subiti, MVP
+                const goalsConceded = p.goals_conceded !== undefined ? p.goals_conceded : (p.goals || 0);
+                statsHtml = `
+                    <span><i class="fas fa-running" style="color: #2563eb;"></i> ${appearances} Caps</span>
+                    <span><i class="fas fa-shield-alt" style="color: #dc2626;"></i> ${goalsConceded} Conc.</span>
+                    ${mvpCount > 0 ? `<span><i class="fas fa-star" style="color: #f59e0b;"></i> ${mvpCount} MVP</span>` : ''}
+                `;
+            } else {
+                // GIOCATORE DI MOVIMENTO: Gol, Assist, MVP (o Presenze se utile)
+                const goals = p.goals || 0;
+                const assists = p.assists || 0;
+                statsHtml = `
+                    <span><i class="fas fa-running" style="color: #2563eb;"></i> ${appearances} Caps</span>
+                    <span><i class="fas fa-futbol" style="color: #059669;"></i> ${goals} Goals</span>
+                    <span><i class="fas fa-hands-helping" style="color: #8b5cf6;"></i> ${assists} Ast</span>
+                    ${mvpCount > 0 ? `<span><i class="fas fa-star" style="color: #f59e0b;"></i> ${mvpCount} MVP</span>` : ''}
+                `;
+            }
 
             return `
                 <div class="player-preview-card">
-                    <div class="player-num-badge">${p.number || '#'}</div>
+                    <div class="player-num-badge">${p.number ? '#' + p.number : '#'}</div>
                     <div class="player-preview-info">
-                        <span class="player-pos-badge ${posClass}">${posName}</span>
+                        <span class="player-pos-badge ${posClass}">${pos}</span>
                         <div class="player-preview-name">${name}</div>
                         <div class="player-preview-sub">${p.name_kana || ''}</div>
                         <div class="player-preview-stats">
-                            <span><i class="fas fa-running"></i> ${caps} Apps</span>
-                            <span><i class="fas fa-futbol"></i> ${goals} Goals</span>
+                            ${statsHtml}
                         </div>
                     </div>
                 </div>
@@ -1944,7 +2016,6 @@
             const nextMatch = upcomingMatches[0];
             upcomingContainer.innerHTML = generateNextMatchHeroHtml(nextMatch, lang);
         } else {
-            // FALLBACK CON CTA PER PROMOZIONE AMICHEVOLI
             upcomingContainer.innerHTML = `
                 <div class="next-match-hero" style="justify-content: center; align-items: center; text-align: center;">
                     <div class="no-match-box">
