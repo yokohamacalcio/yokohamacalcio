@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>お問い合わせ | Contact Us | Yokohama Calcio</title>
+    
+    <meta name="description" content="Yokohama Calcio（ヨコハマ・カルチョ）へのお問い合わせ・体験練習のお申し込み・対戦相手募集・スポンサーのご相談はこちらから。">
+    <meta name="keywords" content="Yokohama Calcio, お問い合わせ, 体験練習, メンバー募集, 練習試合 募集, 横浜 サッカー, Contact Yokohama Calcio">
+    <meta name="author" content="Yokohama Calcio">
+    <meta name="robots" content="index, follow">
+
+    <link rel="alternate" hreflang="ja" href="https://yokohamacalcio.com/contact.html" />
+    <link rel="alternate" hreflang="it" href="https://yokohamacalcio.com/contact.html?lang=it" />
+    <link rel="alternate" hreflang="en" href="https://yokohamacalcio.com/contact.html?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://yokohamacalcio.com/contact.html" />
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yokohamacalcio.com/contact.html">
+    <meta property="og:title" content="お問い合わせ | Yokohama Calcio">
+    <meta property="og:description" content="体験練習参加、練習試合、パートナーシップに関するお問い合わせはこちら。">
+    <meta property="og:image" content="https://yokohamacalcio.com/immagini/logo.png?v=2">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@yokohamacalcio">
+    <meta name="twitter:title" content="お問い合わせ | Yokohama Calcio">
+    <meta name="twitter:description" content="体験練習参加、練習試合、パートナーシップに関するお問い合わせはこちら。">
+    <meta name="twitter:image" content="https://yokohamacalcio.com/immagini/logo.png?v=2">
+    
+    <link rel="icon" href="./immagini/logo.png?v=2" type="image/png">
+    <link rel="apple-touch-icon" href="./immagini/logo.png?v=2">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="https://yokohamacalcio.com/sitemap.xml" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- OVERLAY MENU MOBILE SCURO COMPATTO --- */
+        .mobile-nav {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0, 10, 25, 0.75);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 9999;
+            display: flex; justify-content: center; align-items: flex-start;
+            padding: 15px; box-sizing: border-box;
+        }
+        .mobile-nav.hidden { display: none !important; }
+        .mobile-nav-content {
+            background: linear-gradient(145deg, #00224a 0%, #001229 100%);
+            color: #ffffff;
+            width: 100%; max-width: 380px; max-height: 85vh;
+            overflow-y: auto; border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(135, 206, 235, 0.25);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            display: flex; flex-direction: column; margin-top: 10px;
+        }
+        .mobile-nav-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 12px; margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .mobile-nav-header .brand-name { color: #ffffff; font-size: 1.15rem; font-weight: 800; letter-spacing: 1px; }
+        .mobile-nav-header .brand-sub { color: #87ceeb; }
+        .mobile-nav-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1.1rem; color: #ffffff; cursor: pointer;
+            width: 34px; height: 34px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .mobile-nav-close:active { background: #87ceeb; color: #00224a; }
+        .mobile-link {
+            color: #ffffff !important;
+            font-size: 0.95rem; font-weight: 600;
+            padding: 10px 12px; border-radius: 8px;
+            display: flex; align-items: center; gap: 12px;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+        .mobile-link:hover, .mobile-link:active { background: rgba(255, 255, 255, 0.08); }
+
+        .mobile-nav .menu-icon {
+            width: 24px !important;
+            min-width: 24px !important;
+            text-align: center !important;
+            color: #87ceeb !important;
+            font-size: 1.05rem !important;
+            display: inline-block !important;
+            flex-shrink: 0 !important;
+        }
+
+        .mobile-dropdown-toggle {
+            width: 100%; background: transparent; border: none;
+            color: #ffffff !important; font-size: 0.95rem; font-weight: 600;
+            padding: 10px 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-radius: 8px; cursor: pointer; box-sizing: border-box;
+        }
+        .mobile-dropdown-toggle-left { display: flex; align-items: center; gap: 12px; }
+        .mobile-submenu {
+            background: rgba(0, 0, 0, 0.25); border-radius: 8px;
+            padding: 4px 0 4px 10px; margin: 4px 0 8px 8px;
+            border-left: 2px solid #87ceeb;
+        }
+        .mobile-submenu .mobile-link.sub {
+            font-size: 0.88rem; padding: 8px 10px;
+            color: #e2e8f0 !important;
+        }
+        .mobile-cta-wrapper {
+            margin-top: 12px; padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .mobile-cta-btn {
+            background: #87ceeb; color: #00224a !important;
+            font-weight: 800; text-align: center;
+            padding: 10px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; text-decoration: none;
+        }
+
+        /* --- LAYOUT PAGINA CONTACT --- */
+        .contact-grid-container {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        @media (max-width: 880px) {
+            .contact-grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .contact-form-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 550px) {
+            .form-row-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group label {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--dark-navy, #003c82);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .form-group label .required-tag {
+            background: #ef4444;
+            color: #ffffff;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 800;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: #1e293b;
+            background: #f8fafc;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-sky, #87ceeb);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.25);
+        }
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* CARD INFORMAZIONI E DIRECT MAIL */
+        .contact-info-card {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .info-box {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 18px rgba(0, 60, 130, 0.05);
+        }
+        .info-box h4 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--dark-navy, #003c82);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 8px;
+        }
+        .info-box p {
+            font-size: 0.88rem;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        
+        .direct-email-box {
+            background: linear-gradient(135deg, #00224a 0%, #001229 100%);
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+        .direct-email-box h4 {
+            color: #87ceeb;
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .direct-email-box p {
+            font-size: 0.86rem;
+            color: #e2e8f0;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        .email-address-wrapper {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px dashed rgba(255, 255, 255, 0.25);
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: #ffffff;
+            word-break: break-all;
+            text-align: center;
+            margin-bottom: 12px;
+            user-select: all;
+        }
+        .btn-copy-email {
+            width: 100%;
+            background: #87ceeb;
+            color: #00224a;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s ease;
+        }
+        .btn-copy-email:hover {
+            background: #a0d8ef;
+        }
+
+        .submit-btn {
+            background: var(--dark-navy, #003c82);
+            color: #ffffff;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            transition: background 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 12px rgba(0, 60, 130, 0.2);
+        }
+        .submit-btn:hover {
+            background: #002b5c;
+            transform: translateY(-1px);
+        }
+
+        /* ANIMAZIONE TOAST COPPIA */
+        .toast-copy {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #10b981;
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .toast-copy.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* OPTIMIZATION RESPONSIVE TYPOGRAPHY PER MOBILE */
+        @media (max-width: 600px) {
+            .section-title {
+                font-size: 1.45rem !important;
+                text-align: center !important;
+            }
+            .contact-form-card {
+                padding: 20px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="top-bar">
+    <div class="container top-bar-container">
+      <div class="top-bar-social">
+        <a href="https://x.com/yokohamacalcio" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://instagram.com/yokohamacalcio" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://youtube.com/@yokohamacalcio?si=NBPkZ0qFxFVrOIof" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      </div>
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="ja">JP</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="it">IT</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-header-bar">
+    <div class="container header-container">
+      <div class="logo-title">
+        <a href="index.html">
+          <img src="./immagini/logo.png?v=2" alt="Yokohama Calcio" class="logo">
+        </a>
+        <a href="index.html" class="brand-name">
+          <span>YOKOHAMA</span>
+          <span class="brand-sub">CALCIO</span>
+        </a>
+      </div>
+
+      <div class="desktop-nav-wrapper">
+        <nav class="main-nav">
+          <a href="index.html" data-i18n="nav.home">ホーム</a>
+
+          <div class="nav-item dropdown">
+            <a href="about.html" class="dropdown-toggle">
+              <span data-i18n="nav.about_group">クラブ</span> 
+              <i class="fas fa-chevron-down nav-arrow"></i>
+            </a>
+            <div class="dropdown-menu">
+              <a href="about.html" data-i18n="nav.about">チーム紹介</a>
+              <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
+              <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
+            </div>
+          </div>
+
+          <div class="nav-item dropdown">
+            <a href="players.html" class="dropdown-toggle">
+              <span data-i18n="nav.team_group">チーム・選手</span> 
+              <i class="fas fa-chevron-down nav-arrow"></i>
+            </a>
+            <div class="dropdown-menu">
+              <a href="players.html" data-i18n="nav.players">選手紹介</a>
+              <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
+            </div>
+          </div>
+
+          <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
+          <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
+          <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
+          <a href="contact.html" class="nav-cta-btn" style="background: var(--primary-sky); color: #00224a;" data-i18n="nav.contact">お問い合わせ</a>
+        </nav>
+      </div>
+
+      <button class="mobile-menu-toggle" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </div>
+
+  <nav class="mobile-nav hidden">
+    <div class="mobile-nav-content">
+      <div class="mobile-nav-header">
+        <div class="logo-title" style="margin: 0;">
+          <span class="brand-name">YOKOHAMA <span class="brand-sub">CALCIO</span></span>
+        </div>
+        <button class="mobile-nav-close" aria-label="Chiudi"><i class="fas fa-times"></i></button>
+      </div>
+
+      <a href="index.html" class="mobile-link">
+        <i class="fas fa-home menu-icon"></i> <span data-i18n="nav.home">ホーム</span>
+      </a>
+
+      <div class="mobile-dropdown-group">
+        <button class="mobile-dropdown-toggle">
+          <div class="mobile-dropdown-toggle-left">
+            <i class="fas fa-shield-alt menu-icon"></i>
+            <span data-i18n="nav.team_group">チーム・選手</span>
+          </div>
+          <i class="fas fa-chevron-down mobile-arrow" style="color: #87ceeb;"></i>
+        </button>
+        <div class="mobile-submenu hidden">
+          <a href="about.html" class="mobile-link sub" data-i18n="nav.about">チーム紹介</a>
+          <a href="players.html" class="mobile-link sub" data-i18n="nav.players">選手紹介</a>
+          <a href="stats.html" class="mobile-link sub" data-i18n="nav.stats">成績・スタッツ</a>
+          <a href="index.html#gallery" class="mobile-link sub" data-i18n="nav.gallery">ギャラリー</a>
+        </div>
+      </div>
+
+      <a href="matches.html" class="mobile-link">
+        <i class="fas fa-calendar-alt menu-icon"></i> <span data-i18n="nav.matches">試合日程・結果</span>
+      </a>
+      <a href="index.html#shop" class="mobile-link">
+        <i class="fas fa-shopping-bag menu-icon"></i> <span data-i18n="nav.shop">ショップ</span>
+      </a>
+      <a href="index.html#sponsors" class="mobile-link">
+        <i class="fas fa-handshake menu-icon"></i> <span data-i18n="nav.sponsors">パートナー</span>
+      </a>
+      <a href="faq.html" class="mobile-link">
+        <i class="fas fa-question-circle menu-icon"></i> <span data-i18n="nav.faq">よくある質問</span>
+      </a>
+
+      <div class="mobile-cta-wrapper">
+        <a href="contact.html" class="mobile-cta-btn">
+          <i class="fas fa-paper-plane"></i> <span data-i18n="nav.contact">お問い合わせ</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title"><i class="fas fa-envelope"></i> <span data-i18n="contact_page.title">お問い合わせ</span></h2>
+        <p style="text-align: center; color: #64748b; margin-bottom: 35px; font-size: 0.98rem;" data-i18n="contact_page.intro">
+            体験練習参加、練習試合のお申し込み、パートナーシップに関するご質問など、お気軽にお問い合わせください。
+        </p>
+
+        <div class="contact-grid-container">
+            
+            <!-- MODULO DI CONTATTO NATIVO -->
+            <div class="contact-form-card">
+                <form id="contactForm" action="https://formspree.io/f/xknkyyy" method="POST">
+                    
+                    <!-- TIPO DI RICHIESTA -->
+                    <div class="form-group">
+                        <label for="category">
+                            <span data-i18n="form.category_label">お問い合わせ種別</span>
+                            <span class="required-tag" data-i18n="form.required">必須</span>
+                        </label>
+                        <select id="category" name="category" class="form-control" required>
+                            <option value="trial" data-i18n="form.opt_trial">体験練習・入部希望（18〜40歳経験者）</option>
+                            <option value="match" data-i18n="form.opt_match">練習試合・対戦のお申し込み</option>
+                            <option value="sponsor" data-i18n="form.opt_sponsor">パートナー・協賛のご相談</option>
+                            <option value="other" data-i18n="form.opt_other">その他のお問い合わせ</option>
+                        </select>
+                    </div>
+
+                    <!-- NOME E MAIL -->
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label for="name">
+                                <span data-i18n="form.name_label">お名前</span>
+                                <span class="required-tag" data-i18n="form.required">必須</span>
+                            </label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="山田 太郎" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">
+                                <span data-i18n="form.email_label">メールアドレス</span>
+                                <span class="required-tag" data-i18n="form.required">必須</span>
+                            </label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="example@email.com" required>
+                        </div>
+                    </div>
+
+                    <!-- CAMPI SPECIFICI DINAMICI PER PROVA (VISIBILI DI DEFAULT) -->
+                    <div id="trialFieldsWrapper">
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="birth_year">
+                                    <span data-i18n="form.birth_label">生まれ年 / 年齢</span>
+                                </label>
+                                <input type="text" id="birth_year" name="birth_year" class="form-control" placeholder="1998年 (28歳)">
+                            </div>
+                            <div class="form-group">
+                                <label for="position">
+                                    <span data-i18n="form.position_label">希望ポジション</span>
+                                </label>
+                                <select id="position" name="position" class="form-control">
+                                    <option value="" data-i18n="form.pos_select">選択してください</option>
+                                    <option value="GK" data-i18n="form.pos_gk">GK (ゴールキーパー)</option>
+                                    <option value="DF" data-i18n="form.pos_df">DF (ディフェンダー)</option>
+                                    <option value="MF" data-i18n="form.pos_mf">MF (ミッドフィルダー)</option>
+                                    <option value="FW" data-i18n="form.pos_fw">FW (フォワード)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="experience">
+                                <span data-i18n="form.exp_label">サッカー歴・前所属チーム</span>
+                            </label>
+                            <input type="text" id="experience" name="experience" class="form-control" placeholder="高校サッカー部、大学サークルなど">
+                        </div>
+                    </div>
+
+                    <!-- MESSAGGIO LIBERO -->
+                    <div class="form-group">
+                        <label for="message">
+                            <span data-i18n="form.message_label">メッセージ内容</span>
+                            <span class="required-tag" data-i18n="form.required">必須</span>
+                        </label>
+                        <textarea id="message" name="message" class="form-control" placeholder="ご質問や体験参加のご希望日時などをご記入ください。" required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        <span data-i18n="form.submit_btn">送信する</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- CARD INFORMAZIONI E DIRECT MAIL -->
+            <div class="contact-info-card">
+                
+                <div class="direct-email-box">
+                    <h4><i class="fas fa-envelope-open-text"></i> <span data-i18n="info.direct_title">直接メールで連絡</span></h4>
+                    <p data-i18n="info.direct_desc">お使いのメールソフトから直接ご連絡いただく場合は、以下のアドレス宛にお送りください。</p>
+                    
+                    <div class="email-address-wrapper" id="emailText">
+                        yokohamacalcio@gmail.com
+                    </div>
+
+                    <button class="btn-copy-email" id="copyEmailBtn">
+                        <i class="far fa-copy"></i>
+                        <span data-i18n="info.copy_btn">メールアドレスをコピー</span>
+                    </button>
+                </div>
+
+                <div class="info-box">
+                    <h4><i class="fas fa-info-circle"></i> <span data-i18n="info.notice_title">ご案内とお願い</span></h4>
+                    <p data-i18n="info.notice_p1">
+                        通常、お問い合わせをいただいてから24〜48時間以内に担当者よりご返信いたします。
+                    </p>
+                    <p data-i18n="info.notice_p2">
+                        携帯電話のメールアドレスをご利用の場合、ドメイン指定受信設定（@gmail.com）をご確認ください。
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="back-home-wrapper" style="text-align: center; margin-top: 50px;">
+            <a href="index.html" class="google-form-btn back-btn" style="display: inline-flex; justify-content: center; align-items: center; max-width: 250px; margin: 0 auto; gap: 8px;">
+                <i class="fas fa-arrow-left"></i> <span data-i18n="btn.back_home">ホームに戻る</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<div class="toast-copy" id="copyToast">
+    <i class="fas fa-check-circle"></i> <span data-i18n="info.toast_copied">メールアドレスをコピーしました！</span>
+</div>
+
+<button id="scrollToTopBtn" aria-label="Torna in cima"><i class="fas fa-chevron-up"></i></button>
+
+<footer class="footer">
+    <p>&copy; <span id="currentYear"></span> Yokohama Calcio. All Rights Reserved.</p>
+</footer>
+
+<script>
+    const pageTitles = {
+        ja: "お問い合わせ | Contact Us | Yokohama Calcio",
+        it: "Contatti | Yokohama Calcio",
+        en: "Contact Us | Yokohama Calcio"
+    };
+
+    let currentLang = localStorage.getItem('preferred_lang') || 'ja';
+
+    const translations = {
+        ja: {
+            "nav.home": "ホーム", "nav.about_group": "クラブ", "nav.team_group": "チーム・選手",
+            "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
+            "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー",
+            "nav.faq": "よくある質問", "nav.shop": "ショップ", "nav.contact": "お問い合わせ",
+            
+            "contact_page.title": "お問い合わせ",
+            "contact_page.intro": "体験練習参加、練習試合のお申し込み、パートナーシップに関するご質問など、お気軽にお問い合わせください。",
+            
+            "form.category_label": "お問い合わせ種別",
+            "form.required": "必須",
+            "form.opt_trial": "体験練習・入部希望（18〜40歳経験者）",
+            "form.opt_match": "練習試合・対戦のお申し込み",
+            "form.opt_sponsor": "パートナー・協賛のご相談",
+            "form.opt_other": "その他のお問い合わせ",
+            "form.name_label": "お名前",
+            "form.email_label": "メールアドレス",
+            "form.birth_label": "生まれ年 / 年齢",
+            "form.position_label": "希望ポジション",
+            "form.pos_select": "選択してください",
+            "form.pos_gk": "GK (ゴールキーパー)",
+            "form.pos_df": "DF (ディフェンダー)",
+            "form.pos_mf": "MF (ミッドフィルダー)",
+            "form.pos_fw": "FW (フォワード)",
+            "form.exp_label": "サッカー歴・前所属チーム",
+            "form.message_label": "メッセージ内容",
+            "form.submit_btn": "送信する",
+
+            "info.direct_title": "直接メールで連絡",
+            "info.direct_desc": "お使いのメールソフトから直接ご連絡いただく場合は、以下のアドレス宛にお送りください。",
+            "info.copy_btn": "メールアドレスをコピー",
+            "info.toast_copied": "メールアドレスをコピーしました！",
+            "info.notice_title": "ご案内とお願い",
+            "info.notice_p1": "通常、お問い合わせをいただいてから24〜48時間以内に担当者よりご返信いたします。",
+            "info.notice_p2": "携帯電話のメールアドレスをご利用の場合、返信メールが届くよう設定をご確認ください。",
+            "btn.back_home": "ホームに戻る"
+        },
+        it: {
+            "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "SQUADRA",
+            "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
+            "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.sponsors": "Partner",
+            "nav.faq": "FAQ", "nav.shop": "Shop", "nav.contact": "Contatti",
+            
+            "contact_page.title": "Contatti",
+            "contact_page.intro": "Compila il modulo per sostenere un allenamento di prova, organizzare un'amichevole o richiedere informazioni.",
+            
+            "form.category_label": "Tipo di Richiesta",
+            "form.required": "Obbligatorio",
+            "form.opt_trial": "Prova / Iscrizione (18-40 anni con esperienza)",
+            "form.opt_match": "Richiesta Partita Amichevole",
+            "form.opt_sponsor": "Sponsorship & Partner",
+            "form.opt_other": "Altra Richiesta",
+            "form.name_label": "Nome e Cognome",
+            "form.email_label": "Indirizzo Email",
+            "form.birth_label": "Anno di Nascita / Età",
+            "form.position_label": "Ruolo Preferito",
+            "form.pos_select": "Seleziona ruolo",
+            "form.pos_gk": "GK (Portiere)",
+            "form.pos_df": "DF (Difensore)",
+            "form.pos_mf": "MF (Centrocampista)",
+            "form.pos_fw": "FW (Attaccante)",
+            "form.exp_label": "Esperienza / Ultima Squadra",
+            "form.message_label": "Messaggio",
+            "form.submit_btn": "Invia Messaggio",
+
+            "info.direct_title": "Email Diretta",
+            "info.direct_desc": "Se preferisci scriverci direttamente dal tuo programma di posta, utilizza l'indirizzo sottostante:",
+            "info.copy_btn": "Copia Indirizzo Email",
+            "info.toast_copied": "Indirizzo email copiato!",
+            "info.notice_title": "Informazioni utili",
+            "info.notice_p1": "Rispondiamo solitamente a tutti i messaggi entro 24-48 ore.",
+            "info.notice_p2": "Assicurati di controllare la cartella Spam se non ricevi nostra risposta.",
+            "btn.back_home": "Torna alla Home"
+        },
+        en: {
+            "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "TEAM",
+            "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
+            "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.shop": "Shop", "nav.contact": "Contact Us",
+            
+            "contact_page.title": "Contact Us",
+            "contact_page.intro": "Feel free to reach out for trial trainings, friendly match requests, or partnership inquiries.",
+            
+            "form.category_label": "Inquiry Type",
+            "form.required": "Required",
+            "form.opt_trial": "Join / Trial Training (18–40 yrs experienced)",
+            "form.opt_match": "Friendly Match Request",
+            "form.opt_sponsor": "Sponsorship & Partnership",
+            "form.opt_other": "General Inquiry",
+            "form.name_label": "Full Name",
+            "form.email_label": "Email Address",
+            "form.birth_label": "Birth Year / Age",
+            "form.position_label": "Preferred Position",
+            "form.pos_select": "Select position",
+            "form.pos_gk": "GK (Goalkeeper)",
+            "form.pos_df": "DF (Defender)",
+            "form.pos_mf": "MF (Midfielder)",
+            "form.pos_fw": "FW (Forward)",
+            "form.exp_label": "Experience / Previous Team",
+            "form.message_label": "Message",
+            "form.submit_btn": "Send Message",
+
+            "info.direct_title": "Direct Email",
+            "info.direct_desc": "If you prefer writing directly from your mail client, please use the address below:",
+            "info.copy_btn": "Copy Email Address",
+            "info.toast_copied": "Email address copied!",
+            "info.notice_title": "Notice",
+            "info.notice_p1": "We usually respond to all inquiries within 24 to 48 hours.",
+            "info.notice_p2": "Please check your spam folder if you do not receive our reply.",
+            "btn.back_home": "Back to Home"
+        }
+    };
+
+    function setLanguage(lang) {
+        if (!translations[lang]) return;
+        currentLang = lang;
+        localStorage.setItem('preferred_lang', lang);
+
+        if (pageTitles[lang]) {
+            document.title = pageTitles[lang];
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+            if (ogTitle) ogTitle.setAttribute('content', pageTitles[lang]);
+            if (twitterTitle) twitterTitle.setAttribute('content', pageTitles[lang]);
+        }
+
+        document.querySelectorAll('[data-i18n]').forEach(elem => {
+            const key = elem.getAttribute('data-i18n');
+            if (translations[lang][key]) elem.innerHTML = translations[lang][key];
+        });
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
+    });
+
+    // MOSTRA/NASCONDI CAMPI SPECIFICI IN BASE ALLA SELEZIONE
+    const categorySelect = document.getElementById('category');
+    const trialFieldsWrapper = document.getElementById('trialFieldsWrapper');
+
+    if (categorySelect && trialFieldsWrapper) {
+        categorySelect.addEventListener('change', () => {
+            if (categorySelect.value === 'trial') {
+                trialFieldsWrapper.style.display = 'block';
+            } else {
+                trialFieldsWrapper.style.display = 'none';
+            }
+        });
+    }
+
+    // GESTIONE COPIA EMAIL
+    const copyEmailBtn = document.getElementById('copyEmailBtn');
+    const emailText = document.getElementById('emailText');
+    const copyToast = document.getElementById('copyToast');
+
+    if (copyEmailBtn && emailText) {
+        copyEmailBtn.addEventListener('click', () => {
+            const textToCopy = emailText.textContent.trim();
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                if (copyToast) {
+                    copyToast.classList.add('show');
+                    setTimeout(() => copyToast.classList.remove('show'), 3000);
+                }
+            }).catch(err => {
+                console.error("Errore nella copia:", err);
+            });
+        });
+    }
+
+    /* GESTIONE MENU MOBILE MODALE */
+    const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
+    const mobileNav = document.querySelector('.mobile-nav');
+    const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
+    const mobileSubmenu = document.querySelector('.mobile-submenu');
+    const mobileCloseBtn = document.querySelector('.mobile-nav-close');
+
+    function closeMobileMenu() {
+        if (mobileNav) {
+            mobileNav.classList.add('hidden');
+            if (mobileMenuBtn) {
+                const icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
+                }
+            }
+        }
+    }
+
+    if (mobileMenuBtn && mobileNav) {
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isHidden = mobileNav.classList.contains('hidden');
+            if (isHidden) {
+                mobileNav.classList.remove('hidden');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                }
+            } else {
+                closeMobileMenu();
+            }
+        });
+
+        if (mobileDropdownToggle && mobileSubmenu) {
+            mobileDropdownToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileSubmenu.classList.toggle('hidden');
+                const arrow = mobileDropdownToggle.querySelector('.mobile-arrow');
+                if (arrow) {
+                    arrow.classList.toggle('fa-chevron-down');
+                    arrow.classList.toggle('fa-chevron-up');
+                }
+            });
+        }
+
+        document.querySelectorAll('.mobile-link, .mobile-cta-btn').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        if (mobileCloseBtn) {
+            mobileCloseBtn.addEventListener('click', closeMobileMenu);
+        }
+
+        mobileNav.addEventListener('click', (e) => {
+            if (!e.target.closest('.mobile-nav-content') && !mobileMenuBtn.contains(e.target)) {
+                closeMobileMenu();
+            }
+        });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        setLanguage(currentLang);
+    });
+
+    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+    if (scrollToTopBtn) {
+        const checkScroll = () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        };
+        window.addEventListener('scroll', checkScroll);
+        window.addEventListener('load', checkScroll);
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    const yearSpan = document.getElementById('currentYear');
+    if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
