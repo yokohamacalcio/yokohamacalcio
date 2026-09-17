@@ -1634,7 +1634,7 @@
         }
     }
 
-    /* SISTEMA DI CALCOLO DELLE STATISTICHE PER IL CAROSELLO GIOCATORI */
+    /* SISTEMA DI CALCOLO DELLE STATISTICHE PER IL CAROSELLO GIOCATORI (CORRETTO) */
     function calculateShowcaseStats(player, matches) {
         let goals = 0;
         let assists = 0;
@@ -1645,27 +1645,43 @@
         const isGK = String(player.position || '').toUpperCase() === 'GK' || player.role === 'gk';
 
         const checkMatchPlayer = (pObj, rawInput) => {
-            if (!rawInput || rawInput === 'なし' || rawInput === 'Nessuno') return 0;
+            if (!rawInput || rawInput === 'なし' || rawInput === 'Nessuno' || !pObj) return 0;
             let clean = rawInput.trim();
             let count = 1;
+            
             const multMatch = clean.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
             if (multMatch) {
                 clean = multMatch[1].trim();
                 count = parseInt(multMatch[2], 10) || 1;
             }
+            
+            // Pulisce parentesi o notazioni extra
+            const bracketMatch = clean.match(/^([^(（]+)[(（]/);
+            if (bracketMatch) {
+                clean = bracketMatch[1].trim();
+            }
+
             if (!clean) return 0;
             
             const matchedObj = findPlayerObj(clean);
             if (matchedObj) {
-                if (pObj && (matchedObj.id === pObj.id || matchedObj.number === pObj.number)) return count;
-            } else if (pObj) {
+                if (matchedObj.id && pObj.id && matchedObj.id === pObj.id) return count;
+                if (matchedObj.number && pObj.number && matchedObj.number === pObj.number) return count;
+                
+                const mK = cleanStr(matchedObj.name_kanji);
+                const pK = cleanStr(pObj.name_kanji);
+                if (mK && pK && mK === pK) return count;
+                
+                const mR = cleanStr(matchedObj.name_romaji);
+                const pR = cleanStr(pObj.name_romaji);
+                if (mR && pR && mR === pR) return count;
+            } else {
                 const target = cleanStr(clean);
                 const pK = cleanStr(pObj.name_kanji);
                 const pR = cleanStr(pObj.name_romaji);
                 const pKn = cleanStr(pObj.name_kana);
-                if ((pK && (pK === target || pK.includes(target))) || 
-                    (pR && (pR === target || pR.includes(target))) || 
-                    (pKn && (pKn === target || pKn.includes(target)))) {
+                
+                if ((pK && pK === target) || (pR && pR === target) || (pKn && pKn === target)) {
                     return count;
                 }
             }
@@ -1694,7 +1710,6 @@
                     let isMatchGK = false;
                     let gaInMatch = 0;
 
-                    // Estrarre gol subiti dalla partita
                     if (m.score && m.score.includes('-')) {
                         const parts = m.score.split('-').map(n => parseInt(n.trim(), 10));
                         if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
@@ -1735,11 +1750,11 @@
         }
 
         return {
-            goals: Math.max(goals, player.goals || 0),
-            assists: Math.max(assists, player.assists || 0),
-            mvp: Math.max(mvp, player.mvp || 0),
-            gkApps: Math.max(gkApps, player.appearances || 0),
-            gkGoalsConceded: isGK ? Math.max(gkGoalsConceded, player.goals_conceded !== undefined ? player.goals_conceded : 0) : 0
+            goals: goals,
+            assists: assists,
+            mvp: mvp,
+            gkApps: gkApps,
+            gkGoalsConceded: isGK ? gkGoalsConceded : 0
         };
     }
 
@@ -1748,7 +1763,6 @@
         const grid = document.getElementById('playersShowcaseGrid');
         if (!grid || !players || players.length === 0) return;
 
-        // Estrai 3 giocatori casuali
         const shuffled = [...players].sort(() => 0.5 - Math.random());
         const selected = shuffled.slice(0, 3);
 
@@ -1765,14 +1779,12 @@
             let statsHtml = '';
 
             if (isGK) {
-                // PORTIERE: Presenze (Caps), Gol Subiti (Conc.), MVP
                 statsHtml = `
                     <span><i class="fas fa-running" style="color: #2563eb;"></i> ${stats.gkApps} Caps</span>
                     <span><i class="fas fa-shield-alt" style="color: #dc2626;"></i> ${stats.gkGoalsConceded} Conc.</span>
                     ${stats.mvp > 0 ? `<span><i class="fas fa-star" style="color: #f59e0b;"></i> ${stats.mvp} MVP</span>` : ''}
                 `;
             } else {
-                // GIOCATORE DI MOVIMENTO: Gol, Assist, MVP (senza campo presenze)
                 statsHtml = `
                     <span><i class="fas fa-futbol" style="color: #059669;"></i> ${stats.goals} Goals</span>
                     <span><i class="fas fa-hands-helping" style="color: #8b5cf6;"></i> ${stats.assists} Ast</span>
