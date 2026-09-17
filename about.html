@@ -6,8 +6,8 @@
     
     <title>クラブ紹介・歴史 | About Club | Yokohama Calcio</title>
     
-    <meta name="description" content="Yokohama Calcio（ヨコハマ・カルチョ）のクラブ紹介、チームの歴史、精神、代表・監督・キャプテンについて。横浜市を拠点とする社会人サッカークラブ。">
-    <meta name="keywords" content="Yokohama Calcio, クラブ紹介, チームの歴史, 横浜 サッカーチーム, チーム精神, キャプテン, About Yokohama Calcio, Amateur Football Club Yokohama">
+    <meta name="description" content="Yokohama Calcio（ヨコハマ・カルチョ）のクラブ紹介、歴史、理念、フットボール原則、およびリーダーシップについて。横浜市を拠点とする社会人サッカークラブ。">
+    <meta name="keywords" content="Yokohama Calcio, クラブ紹介, チームの歴史, 横浜 サッカーチーム, チーム理念, 戦術, About Yokohama Calcio, Amateur Football Club Yokohama">
     <meta name="author" content="Yokohama Calcio">
     <meta name="robots" content="index, follow">
 
@@ -45,7 +45,7 @@
       "sport": "Soccer",
       "url": "https://yokohamacalcio.com/about.html",
       "logo": "https://yokohamacalcio.com/immagini/logo.png?v=2",
-      "description": "Yokohama Calcio official club history, philosophy and team leadership.",
+      "description": "Yokohama Calcio official club history, philosophy, football principles and leadership.",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Yokohama",
@@ -164,6 +164,15 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             border: 1px solid #e2e8f0;
         }
+        .about-block-subtitle {
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: var(--primary-sky, #12A0D7);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            display: block;
+        }
         .about-block h3 {
             font-family: 'Montserrat', sans-serif;
             font-size: 1.35rem;
@@ -181,12 +190,42 @@
         .about-block p {
             color: #475569;
             line-height: 1.8;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             font-size: 0.98rem;
         }
         .about-block p:last-child {
             margin-bottom: 0;
         }
+
+        /* LISTA PRINCIPI DI GIOCO (FOOTBALL) */
+        .principles-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .principle-item {
+            background: #f8fafc;
+            border-left: 4px solid var(--primary-sky, #87ceeb);
+            padding: 14px 18px;
+            border-radius: 0 10px 10px 0;
+        }
+        .principle-title {
+            font-weight: 800;
+            color: var(--dark-navy, #003c82);
+            font-size: 1.02rem;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .principle-desc {
+            font-size: 0.92rem;
+            color: #475569;
+            line-height: 1.6;
+            margin: 0 !important;
+        }
+
         .leadership-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -379,18 +418,89 @@
         <p class="matches-intro" data-i18n="about_page.intro" style="text-align: center; color: #64748b; margin-bottom: 30px;">Yokohama Calcioの精神、歴史、そしてチーム体制についてご紹介します。</p>
 
         <div class="about-content-wrapper">
-            <!-- STORIA E FONDAZIONE (2025) -->
+            
+            <!-- 01. CLUB -->
             <div class="about-block">
-                <h3><i class="fas fa-landmark"></i> <span data-i18n="about.history_title">歴史と設立</span></h3>
-                <p data-i18n="about.history_p1">Yokohama Calcio（ヨコハマ・カルチョ）は2025年に設立された、横浜市を拠点とする社会人サッカークラブです。「真剣に、かつ楽しくフットボールを追求し、素晴らしいコミュニティを創出すること」を理念に掲げて誕生しました。</p>
-                <p data-i18n="about.history_p2">競技としてのサッカーに情熱を持って取り組みながらも、メンバー同士や地域との繋がりを大切にし、温かいコミュニティを広げていくことを目指しています。</p>
+                <span class="about-block-subtitle">01. CLUB</span>
+                <h3><i class="fas fa-shield-alt"></i> <span data-i18n="about.sec1_title">Yokohama Calcioとは</span></h3>
+                <p data-i18n="about.sec1_p1">Yokohama Calcio（ヨコハマ・カルチョ）は、2025年に横浜で設立された社会人アマチュアサッカークラブです。</p>
+                <p data-i18n="about.sec1_p2">年齢やバックグラウンドの異なるメンバーが集まり、「楽しくも真剣にプレーする」ことを大切にしながら、一人ひとりがフットボールをより深く楽しめるチームを目指しています。</p>
+                <p data-i18n="about.sec1_p3">私たちが目指すのは、ただ週末に集まって試合をするだけのチームではありません。</p>
+                <p data-i18n="about.sec1_p4">ピッチ上で一人ひとりが役割を理解し、仲間と連動しながら、一つのチームとしてプレーすること。</p>
+                <p data-i18n="about.sec1_p5">そのために、技術だけでなく、ポジショニングや判断、チームとしての動きまで含めてフットボールを考え、日々のトレーニングを積み重ねています。</p>
             </div>
 
-            <!-- FILOSOFIA E SPIRITO DI SQUADRA -->
+            <!-- 02. HISTORY -->
             <div class="about-block">
-                <h3><i class="fas fa-chess-board"></i> <span data-i18n="about.philosophy_title">チーム精神とプレースタイル</span></h3>
-                <p data-i18n="about.philosophy_p1">Yokohama Calcioの基盤にあるのは、規律と組織力、そして全員が一体となったハードワークです。ピッチ上の細やかな戦術やアプローチについてはチームの秘密事項となりますが、常に主導権を握り、アグレッシブに戦う姿勢を貫きます。</p>
-                <p data-i18n="about.philosophy_p2">個々の能力の高さはもちろん、組織としての結束力を武器に、観る者を魅了するサッカーを展開します。</p>
+                <span class="about-block-subtitle">02. HISTORY</span>
+                <h3><i class="fas fa-landmark"></i> <span data-i18n="about.sec2_title">クラブの歩み</span></h3>
+                <p data-i18n="about.sec2_p1">2025年、Yokohama Calcioは「横浜の地に、自分たちのフットボールを持つクラブをつくる」という思いからスタートしました。</p>
+                <p data-i18n="about.sec2_p2">クラブとしての歴史は、まだ始まったばかりです。</p>
+                <p data-i18n="about.sec2_p3">だからこそ、私たちは結果だけを追い求めるのではなく、日々のトレーニング、選手同士のコミュニケーション、そしてチームとして少しずつ成長していく過程そのものを大切にしています。</p>
+                <p data-i18n="about.sec2_p4">一人ひとりが成長し、その積み重ねによってチームが進化していく。</p>
+                <p data-i18n="about.sec2_p5">その歩みの一つひとつが、これからのYokohama Calcioの歴史になっていきます。</p>
+            </div>
+
+            <!-- 03. PHILOSOPHY -->
+            <div class="about-block">
+                <span class="about-block-subtitle">03. PHILOSOPHY</span>
+                <h3><i class="fas fa-compass"></i> <span data-i18n="about.sec3_title">クラブの理念</span></h3>
+                <p style="font-weight: 800; color: var(--dark-navy, #003c82); font-size: 1.1rem; margin-bottom: 12px;" data-i18n="about.sec3_motto">「個人の成長、チームの進化」</p>
+                <p data-i18n="about.sec3_p1">Yokohama Calcioが大切にしているのは、個人の成長とチームの成長を別々に考えないことです。</p>
+                <p data-i18n="about.sec3_p2">選手一人ひとりが技術や判断力を高め、それぞれの役割と責任を理解する。</p>
+                <p data-i18n="about.sec3_p3">アンド、個々の力がチームの中でつながったとき、個人だけでは生み出せないプレーが生まれ、チームはさらに成長していく。</p>
+                <p data-i18n="about.sec3_p4">私たちは、その相互作用こそがフットボールの面白さの一つだと考えています。</p>
+                
+                <p style="font-weight: 800; color: var(--dark-navy, #003c82); font-size: 1.05rem; margin-top: 20px; margin-bottom: 8px;" data-i18n="about.sec3_submotto">楽しくも、真剣に。</p>
+                <p data-i18n="about.sec3_p5">楽しむことと、真剣に取り組むことは、決して相反するものではありません。</p>
+                <p data-i18n="about.sec3_p6">真剣にトレーニングし、仲間と考え、難しいことにも挑戦する。</p>
+                <p data-i18n="about.sec3_p7">その先にある「できた」「つながった」「勝てた」という瞬間こそ、フットボールならではの楽しさだと私たちは考えています。</p>
+            </div>
+
+            <!-- 04. FOOTBALL -->
+            <div class="about-block">
+                <span class="about-block-subtitle">04. FOOTBALL</span>
+                <h3><i class="fas fa-chess-board"></i> <span data-i18n="about.sec4_title">私たちのフットボール</span></h3>
+                <p data-i18n="about.sec4_p1">Yokohama Calcioのフットボールは、イタリアのサッカー文化、特にチーム全体が連動し、一人ひとりの役割を組織の中で生かす考え方からインスピレーションを受けています。</p>
+                <p data-i18n="about.sec4_p2">私たちが大切にしているのは、決められた形をただ繰り返すことではありません。</p>
+                <p data-i18n="about.sec4_p3">選手同士の距離、スペース、相手の状況を全員が理解し、その瞬間に必要なプレーを判断する。</p>
+                <p data-i18n="about.sec4_p4">そのために、私たちは以下のようなプレー原則を大切にしています。</p>
+
+                <div class="principles-list">
+                    <div class="principle-item">
+                        <div class="principle-title"><i class="fas fa-vector-square" style="color: #12A0D7;"></i> <span data-i18n="about.p1_title">ポジションとスペース</span></div>
+                        <p class="principle-desc" data-i18n="about.p1_desc">自分の位置だけでなく、味方との距離やピッチ上のスペースを意識し、チーム全体でバランスの取れた形をつくる。</p>
+                    </div>
+                    <div class="principle-item">
+                        <div class="principle-title"><i class="fas fa-link" style="color: #12A0D7;"></i> <span data-i18n="about.p2_title">連動した守備</span></div>
+                        <p class="principle-desc" data-i18n="about.p2_desc">一人だけでボールを奪いに行くのではなく、プレッシャー、カバー、ラインの動きを連動させ、チームとしてボールを奪う。</p>
+                    </div>
+                    <div class="principle-item">
+                        <div class="principle-title"><i class="fas fa-sync-alt" style="color: #12A0D7;"></i> <span data-i18n="about.p3_title">攻守の切り替え</span></div>
+                        <p class="principle-desc" data-i18n="about.p3_desc">ボールを失った瞬間、奪った瞬間に、チーム全体が素早く次の局面へ切り替える。</p>
+                    </div>
+                    <div class="principle-item">
+                        <div class="principle-title"><i class="fas fa-brain" style="color: #12A0D7;"></i> <span data-i18n="about.p4_title">状況を読む力</span></div>
+                        <p class="principle-desc" data-i18n="about.p4_desc">決められた動きを覚えるだけではなく、周囲の状況を見て、自分で考え、判断する。</p>
+                    </div>
+                </div>
+
+                <p data-i18n="about.sec4_p5">これらは完成された答えではありません。</p>
+                <p data-i18n="about.sec4_p6">選手たちとのトレーニングや試合を通じて検証し、チームに合った形へと少しずつ磨き上げていく。</p>
+                <p data-i18n="about.sec4_p7">それが、Yokohama Calcioが目指すフットボールです。</p>
+            </div>
+
+            <!-- 05. FUTURE -->
+            <div class="about-block">
+                <span class="about-block-subtitle">05. FUTURE</span>
+                <h3><i class="fas fa-rocket"></i> <span data-i18n="about.sec5_title">これから</span></h3>
+                <p data-i18n="about.sec5_p1">Yokohama Calcioは、まだ発展途上のクラブです。</p>
+                <p data-i18n="about.sec5_p2">だからこそ、これからどのようなチームになっていくのかは、現在所属している選手だけでなく、これからクラブに加わる仲間とともにつくっていくものだと考えています。</p>
+                <p data-i18n="about.sec5_p3">ピッチ上では、より組織的で、より判断力のあるチームへ。</p>
+                <p data-i18n="about.sec5_p4">そしてピッチの外では、年齢や国籍、経験に関係なく、フットボールを通じて人と人がつながるコミュニティへ。</p>
+                <p data-i18n="about.sec5_p5">「個人の成長、チームの進化」。</p>
+                <p data-i18n="about.sec5_p6">この理念を軸に、一歩ずつ自分たちのフットボールを築いていきます。</p>
+                <p data-i18n="about.sec5_p7" style="font-weight: 700; color: var(--dark-navy, #003c82);">Yokohama Calcioの歴史は、これからも続いていきます。</p>
             </div>
 
             <!-- LEADERSHIP / ORGANIGRAMMA DINAMICO DA JSON -->
@@ -426,11 +536,6 @@
                 </div>
             </div>
 
-            <!-- ATTIVITÀ E ZONE -->
-            <div class="about-block">
-                <h3><i class="fas fa-map-marked-alt"></i> <span data-i18n="about.activity_title">活動拠点・エリア</span></h3>
-                <p data-i18n="about.activity_p1">チームは主に横浜市内および神奈川県内の公共施設・グラウンドを利用して活動しています。公式戦やトレーニングマッチを通じて、地域サッカーコミュニティとの交流を深めながら活動範囲を広げています。</p>
-            </div>
         </div>
 
         <div class="back-home-wrapper" style="text-align: center; margin-top: 50px;">
@@ -464,17 +569,61 @@
             "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー",
             "nav.faq": "よくある質問", "nav.shop": "ショップ", "nav.contact": "お問い合わせ",
             "about_page.title": "クラブ紹介・歴史", "about_page.intro": "Yokohama Calcioの精神、歴史、そしてチーム体制についてご紹介します。",
-            "about.history_title": "歴史と設立",
-            "about.history_p1": "Yokohama Calcio（ヨコハマ・カルチョ）は2025年に設立された、横浜市を拠点とする社会人サッカークラブです。「真剣に、かつ楽しくフットボールを追求し、素晴らしいコミュニティを創出すること」を理念に掲げて誕生しました。",
-            "about.history_p2": "競技としてのサッカーに情熱を持って取り組みながらも、メンバー同士や地域との繋がりを大切にし、温かいコミュニティを広げていくことを目指しています。",
-            "about.philosophy_title": "チーム精神とプレースタイル",
-            "about.philosophy_p1": "Yokohama Calcioの基盤にあるのは、規律と組織力、そして全員が一体となったハードワークです。ピッチ上の細やかな戦術やアプローチについてはチームの秘密事項となりますが、常に主導権を握り、アグレッシブに戦う姿勢を貫きます。",
-            "about.philosophy_p2": "個々の能力の高さはもちろん、組織としての結束力を武器に、観る者を魅了するサッカーを展開します。",
+            
+            "about.sec1_title": "Yokohama Calcioとは",
+            "about.sec1_p1": "Yokohama Calcio（ヨコハマ・カルチョ）は、2025年に横浜で設立された社会人アマチュアサッカークラブです。",
+            "about.sec1_p2": "年齢やバックグラウンドの異なるメンバーが集まり、「楽しくも真剣にプレーする」ことを大切にしながら、一人ひとりがフットボールをより深く楽しめるチームを目指しています。",
+            "about.sec1_p3": "私たちが目指すのは、ただ週末に集まって試合をするだけのチームではありません。",
+            "about.sec1_p4": "ピッチ上で一人ひとりが役割を理解し、仲間と連動しながら、一つのチームとしてプレーすること。",
+            "about.sec1_p5": "そのために、技術だけでなく、ポジショニングや判断、チームとしての動きまで含めてフットボールを考え、日々のトレーニングを積み重ねています。",
+
+            "about.sec2_title": "クラブの歩み",
+            "about.sec2_p1": "2025年、Yokohama Calcioは「横浜の地に、自分たちのフットボールを持つクラブをつくる」という思いからスタートしました。",
+            "about.sec2_p2": "クラブとしての歴史は、まだ始まったばかりです。",
+            "about.sec2_p3": "だからこそ、私たちは結果だけを追い求めるのではなく、日々のトレーニング、選手同士のコミュニケーション、そしてチームとして少しずつ成長していく過程そのものを大切にしています。",
+            "about.sec2_p4": "一人ひとりが成長し、その積み重ねによってチームが進化していく。",
+            "about.sec2_p5": "その歩みの一つひとつが、これからのYokohama Calcioの歴史になっていきます。",
+
+            "about.sec3_title": "クラブの理念",
+            "about.sec3_motto": "「個人の成長、チームの進化」",
+            "about.sec3_p1": "Yokohama Calcioが大切にしているのは、個人の成長とチームの成長を別々に考えないことです。",
+            "about.sec3_p2": "選手一人ひとりが技術や判断力を高め、それぞれの役割と責任を理解する。",
+            "about.sec3_p3": "そして、個々の力がチームの中でつながったとき、個人だけでは生み出せないプレーが生まれ、チームはさらに成長していく。",
+            "about.sec3_p4": "私たちは、その相互作用こそがフットボールの面白さの一つだと考えています。",
+            "about.sec3_submotto": "楽しくも、真剣に。",
+            "about.sec3_p5": "楽しむことと、真剣に取り組むことは、決して相反するものではありません。",
+            "about.sec3_p6": "真剣にトレーニングし、仲間と考え、難しいことにも挑戦する。",
+            "about.sec3_p7": "その先にある「できた」「つながった」「勝てた」という瞬間こそ、フットボールならではの楽しさだと私たちは考えています。",
+
+            "about.sec4_title": "私たちのフットボール",
+            "about.sec4_p1": "Yokohama Calcioのフットボールは、イタリアのサッカー文化、特にチーム全体が連動し、一人ひとりの役割を組織の中で生かす考え方からインスピレーションを受けています。",
+            "about.sec4_p2": "私たちが大切にしているのは、決められた形をただ繰り返すことではありません。",
+            "about.sec4_p3": "選手同士の距離、スペース、相手の状況を全員が理解し、その瞬間に必要なプレーを判断する。",
+            "about.sec4_p4": "そのために、私たちは以下のようなプレー原則を大切にしています。",
+            "about.p1_title": "ポジションとスペース",
+            "about.p1_desc": "自分の位置だけでなく、味方との距離やピッチ上のスペースを意識し、チーム全体でバランスの取れた形をつくる。",
+            "about.p2_title": "連動した守備",
+            "about.p2_desc": "一人だけでボールを奪いに行くのではなく、プレッシャー、カバー、ラインの動きを連動させ、チームとしてボールを奪う。",
+            "about.p3_title": "攻守の切り替え",
+            "about.p3_desc": "ボールを失った瞬間、奪った瞬間に、チーム全体が素早く次の局面へ切り替える。",
+            "about.p4_title": "状況を読む力",
+            "about.p4_desc": "決められた動きを覚えるだけではなく、周囲の状況を見て、自分で考え、判断する。",
+            "about.sec4_p5": "これらは完成された答えではありません。",
+            "about.sec4_p6": "選手たちとのトレーニングや試合を通じて検証し、チームに合った形へと少しずつ磨き上げていく。",
+            "about.sec4_p7": "それが、Yokohama Calcioが目指すフットボールです。",
+
+            "about.sec5_title": "これから",
+            "about.sec5_p1": "Yokohama Calcioは、まだ発展途上のクラブです。",
+            "about.sec5_p2": "だからこそ、これからどのようなチームになっていくのかは、現在所属している選手だけでなく、これからクラブに加わる仲間とともにつくっていくものだと考えています。",
+            "about.sec5_p3": "ピッチ上では、より組織的で、より判断力のあるチームへ。",
+            "about.sec5_p4": "そしてピッチの外では、年齢や国籍、経験に関係なく、フットボールを通じて人と人がつながるコミュニティへ。",
+            "about.sec5_p5": "「個人の成長、チームの進化」。",
+            "about.sec5_p6": "この理念を軸に、一歩ずつ自分たちのフットボールを築いていきます。",
+            "about.sec5_p7": "Yokohama Calcioの歴史は、これからも続いていきます。",
+
             "about.leadership_title": "クラブリーダーシップ",
             "about.leadership_desc": "チームを牽引する主要メンバーです。名前をクリックすると選手名鑑の個人詳細をご覧いただけます。",
             "role.manager": "創設者・監督", "role.captain": "チームキャプテン", "role.vice_captain": "副キャプテン",
-            "about.activity_title": "活動拠点・エリア",
-            "about.activity_p1": "チームは主に横浜市内および神奈川県内の公共施設・グラウンドを利用して活動しています。公式戦やトレーニングマッチを通じて、地域サッカーコミュニティとの交流を深めながら活動範囲を広げています。",
             "btn.back_home": "ホームに戻る"
         },
         it: {
@@ -483,17 +632,61 @@
             "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.sponsors": "Partner",
             "nav.faq": "FAQ", "nav.contact": "Contatti",
             "about_page.title": "Chi Siamo & Storia", "about_page.intro": "Scopri la filosofia, la storia e la struttura di Yokohama Calcio.",
-            "about.history_title": "Storia e Fondazione",
-            "about.history_p1": "Yokohama Calcio è un club calcistico dilettantistico fondato nel 2025 con sede a Yokohama. Nato con l'obiettivo di giocare a calcio in modo serio e competitivo ma al tempo stesso divertente, il club punta a creare una vera e propria comunità unita dalla passione per lo sport.",
-            "about.history_p2": "Oltre all'impegno agonistico sul campo, perseguiamo con forza il valore del gruppo, del rispetto e dell'inclusione, costruendo legami forti dentro e fuori dal rettangolo di gioco.",
-            "about.philosophy_title": "Spirito di Squadra & Stile",
-            "about.philosophy_p1": "Le basi di Yokohama Calcio poggiano su disciplina, organizzazione e coesione collettiva. I dettagli tattici e le strategie specifiche rimangono rigorosamente un segreto di spogliatoio, ma l'obiettivo in campo è sempre quello di mantenere il controllo e giocare con aggressività e mentalità vincente.",
-            "about.philosophy_p2": "Uniamo il talento individuale alla forza del collettivo per esprimere un calcio intenso e competitivo.",
+            
+            "about.sec1_title": "Cos'è lo Yokohama Calcio",
+            "about.sec1_p1": "Lo Yokohama Calcio è un club di calcio amatoriale fondato nel 2025 a Yokohama.",
+            "about.sec1_p2": "Riunisce giocatori di diverse età ed esperienze con l'obiettivo di divertirsi giocando un calcio serio e organizzato.",
+            "about.sec1_p3": "Non vogliamo essere semplicemente una squadra che si ritrova il fine settimana per fare una partita.",
+            "about.sec1_p4": "Ci impegniamo affinché ogni giocatore comprenda il proprio ruolo in campo e si muova in sinergia con i compagni come un unico blocco.",
+            "about.sec1_p5": "Per questo lavoriamo costantemente in allenamento non solo sulla tecnica, ma anche sul posizionamento, sulla lettura del gioco e sui movimenti di squadra.",
+
+            "about.sec2_title": "La Nostra Storia",
+            "about.sec2_p1": "Nel 2025 lo Yokohama Calcio è nato con un'idea chiara: creare a Yokohama una squadra con una propria precisa identità calcistica.",
+            "about.sec2_p2": "La storia del club è solo all'inizio.",
+            "about.sec2_p3": "Proprio per questo non rincorriamo solo il risultato, ma diamo valore ad ogni singolo allenamento, al dialogo nello spogliatoio e al percorso di crescita collettiva.",
+            "about.sec2_p4": "La crescita del singolo alimenta l'evoluzione della squadra.",
+            "about.sec2_p5": "Ogni passo di questo percorso costituisce la storia presente e futura dello Yokohama Calcio.",
+
+            "about.sec3_title": "La Filosofia del Club",
+            "about.sec3_motto": "“Crescita individuale, evoluzione della squadra”",
+            "about.sec3_p1": "Sviluppo individuale e crescita collettiva per noi sono indissolubili.",
+            "about.sec3_p2": "Ogni giocatore affina tecnica e capacità decisionale, comprendendo i propri compiti e le proprie responsabilità.",
+            "about.sec3_p3": "Quando le qualità dei singoli si connettono in campo, nascono giocate che il singolo da solo non potrebbe mai creare.",
+            "about.sec3_p4": "Crediamo che questa sinergia sia l'essenza più affascinante del calcio.",
+            "about.sec3_submotto": "Serietà e Divertimento.",
+            "about.sec3_p5": "Divertirsi e impegnarsi con serietà non sono concetti in contraddizione.",
+            "about.sec3_p6": "Allenarsi duramente, confrontarsi e affrontare le difficoltà insieme fa parte del gioco.",
+            "about.sec3_p7": "È proprio in quel momento in cui un movimento riesce, una giocata si chiude o si vince una partita che si prova la gioia autentica del calcio.",
+
+            "about.sec4_title": "Il Nostro Calcio",
+            "about.sec4_p1": "Il nostro calcio trae profonda ispirazione dalla cultura tattica italiana, fondata sull'organizzazione collettiva e sulla valorizzazione del singolo all'interno del sistema.",
+            "about.sec4_p2": "Non ci interessa ripetere a memoria schemi rigidi.",
+            "about.sec4_p3": "Vogliamo che tutti i giocatori leggano gli spazi, le distanze e la situazione dell'avversario per prendere la decisione migliore in ogni istante.",
+            "about.sec4_p4": "Per fare questo ci basiamo su quattro principi fondamentali:",
+            "about.p1_title": "Posizione e Spazio",
+            "about.p1_desc": "Mantenere l'equilibrio di squadra occupando correttamente il campo e valutando la distanza dai compagni.",
+            "about.p2_title": "Difesa Organizzata",
+            "about.p2_desc": "Recuperare palla di squadra attraverso pressione, coperture e movimenti di linea coordinati.",
+            "about.p3_title": "Transizioni Rapide",
+            "about.p3_desc": "Reagire immediatamente al momento della perdita o del recupero del pallone.",
+            "about.p4_title": "Lettura del Gioco",
+            "about.p4_desc": "Osservare ciò che accade intorno, pensare e decidere in autonomia anziché eseguire movimenti meccanici.",
+            "about.sec4_p5": "Questi principi non sono risposte dogmatiche.",
+            "about.sec4_p6": "Li testiamo e li affiniamo continuamente attraverso gli allenamenti e le partite per modellarli sulle caratteristiche dei nostri giocatori.",
+            "about.sec4_p7": "Questo è il calcio a cui aspira lo Yokohama Calcio.",
+
+            "about.sec5_title": "Il Futuro",
+            "about.sec5_p1": "Lo Yokohama Calcio è un club in piena evoluzione.",
+            "about.sec5_p2": "Il tipo di squadra che diventeremo dipenderà dal contributo di chi ne fa parte oggi e di chi si unirà a noi domani.",
+            "about.sec5_p3": "In campo puntiamo ad essere una squadra sempre più organizzata e intelligente.",
+            "about.sec5_p4": "Fuori dal campo vogliamo costruire una comunità aperta, capace di unire le persone attraverso il calcio indipendentemente da età, nazionalità o esperienza.",
+            "about.sec5_p5": "“Crescita individuale, evoluzione della squadra”.",
+            "about.sec5_p6": "Continueremo a costruire il nostro calcio passo dopo passo attorno a questo principio.",
+            "about.sec5_p7": "La storia dello Yokohama Calcio continua.",
+
             "about.leadership_title": "Leadership del Club",
             "about.leadership_desc": "I principali punti di riferimento della squadra. Clicca sui nomi per visualizzare le schede personali.",
             "role.manager": "Fondatore & Mister", "role.captain": "Capitano", "role.vice_captain": "Vice Capitano",
-            "about.activity_title": "Aree di Attività",
-            "about.activity_p1": "La squadra si allena e disputa le proprie partite in strutture pubbliche e campi selezionati nell'area di Yokohama e della prefettura di Kanagawa.",
             "btn.back_home": "Torna alla Home"
         },
         en: {
@@ -501,17 +694,61 @@
             "nav.team": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
             "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.shop": "Shop", "nav.contact": "Contact Us",
             "about_page.title": "About Club & History", "about_page.intro": "Discover the philosophy, history, and structure of Yokohama Calcio.",
-            "about.history_title": "History & Foundation",
-            "about.history_p1": "Yokohama Calcio is an amateur football club founded in 2025 based in Yokohama. Established with the core mission to play competitive football seriously while having fun, the club focuses on building a strong and welcoming community around the sport.",
-            "about.history_p2": "While pursuing athletic excellence, we prioritize team bonding and local community engagement both on and off the field.",
-            "about.philosophy_title": "Team Spirit & Play Style",
-            "about.philosophy_p1": "Yokohama Calcio is built on discipline, tactical organization, and collective hard work. While our specific match strategies and tactical details remain strictly inside the locker room, our pitch identity is always aggressive, proactive, and focused on controlling the game.",
-            "about.philosophy_p2": "We combine individual talent with fierce team unity to deliver intense and competitive football.",
+            
+            "about.sec1_title": "About Yokohama Calcio",
+            "about.sec1_p1": "Yokohama Calcio is an amateur adult football club founded in 2025 in Yokohama.",
+            "about.sec1_p2": "Bringing together players of diverse ages and backgrounds, we aim to build a team where everyone can enjoy football deeply while playing seriously and passionately.",
+            "about.sec1_p3": "We aspire to be more than just a group that meets for a casual match on weekends.",
+            "about.sec1_p4": "Our goal is for every player to understand their role, coordinate with teammates, and perform as one unified team on the pitch.",
+            "about.sec1_p5": "To achieve this, we dedicate ourselves to regular training focused on technique, positioning, decision-making, and collective movement.",
+
+            "about.sec2_title": "Club History",
+            "about.sec2_p1": "In 2025, Yokohama Calcio began with a vision: to establish a club with its own distinct football identity in Yokohama.",
+            "about.sec2_p2": "Our history as a club has just begun.",
+            "about.sec2_p3": "That is why we focus not only on match results, but on the process—valuing daily training, player communication, and gradual collective growth.",
+            "about.sec2_p4": "Individual progress fuels the team's evolution.",
+            "about.sec2_p5": "Every step forward forms the history of Yokohama Calcio.",
+
+            "about.sec3_title": "Club Philosophy",
+            "about.sec3_motto": "“Individual Growth, Team Evolution”",
+            "about.sec3_p1": "At Yokohama Calcio, individual growth and team development go hand in hand.",
+            "about.sec3_p2": "Each player improves their technical skills and decision-making while understanding their roles and responsibilities.",
+            "about.sec3_p3": "When individual strengths connect on the pitch, collective plays emerge that no single player could achieve alone.",
+            "about.sec3_p4": "We believe this synergy is one of the most rewarding aspects of football.",
+            "about.sec3_submotto": "Enjoyable, yet Serious.",
+            "about.sec3_p5": "Having fun and taking football seriously are never mutually exclusive.",
+            "about.sec3_p6": "Training hard, thinking together, and taking on challenges lead to genuine satisfaction.",
+            "about.sec3_p7": "The moments when things click, connections work, and victories are earned are what make football truly special.",
+
+            "about.sec4_title": "Our Football",
+            "about.sec4_p1": "Yokohama Calcio's football is inspired by Italian tactical culture—emphasizing collective organization and maximizing every player's role within the system.",
+            "about.sec4_p2": "We do not simply repeat rigid set plays.",
+            "about.sec4_p3": "We expect players to read distances, spaces, and opponent setups to make the best decision in every moment.",
+            "about.sec4_p4": "To guide our play, we follow four key principles:",
+            "about.p1_title": "Positioning & Space",
+            "about.p1_desc": "Maintaining collective balance by managing distance to teammates and occupying pitch spaces effectively.",
+            "about.p2_title": "Coordinated Defense",
+            "about.p2_desc": "Winning back possession as a unit through synchronized pressure, cover, and line movement.",
+            "about.p3_title": "Transitions",
+            "about.p3_desc": "Switching rapidly between attack and defense the moment possession changes hands.",
+            "about.p4_title": "Game Reading",
+            "about.p4_desc": "Observing surroundings, thinking independently, and making smart decisions rather than relying on memorized routines.",
+            "about.sec4_p5": "These principles are not fixed answers.",
+            "about.sec4_p6": "We continuously refine and adapt them through training and matches to fit our squad's qualities.",
+            "about.sec4_p7": "This is the football Yokohama Calcio strives for.",
+
+            "about.sec5_title": "Looking Ahead",
+            "about.sec5_p1": "Yokohama Calcio is a club continuously evolving.",
+            "about.sec5_p2": "The team we become tomorrow will be built together by our current squad and future members who join us.",
+            "about.sec5_p3": "On the pitch, we strive for greater tactical organization and sharper decision-making.",
+            "about.sec5_p4": "Off the pitch, we aim to cultivate an open community connecting people through football regardless of age, nationality, or experience.",
+            "about.sec5_p5": "“Individual Growth, Team Evolution”.",
+            "about.sec5_p6": "Guided by this core value, we will build our football step by step.",
+            "about.sec5_p7": "The journey of Yokohama Calcio continues.",
+
             "about.leadership_title": "Club Leadership",
             "about.leadership_desc": "Key figures guiding the team. Click on names to view full player profiles.",
             "role.manager": "Founder & Manager", "role.captain": "Team Captain", "role.vice_captain": "Vice Captain",
-            "about.activity_title": "Activities & Locations",
-            "about.activity_p1": "The team operates across sports facilities within Yokohama City and Kanagawa Prefecture, engaging regularly in official matches and friendlies.",
             "btn.back_home": "Back to Home"
         }
     };
