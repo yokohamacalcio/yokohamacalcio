@@ -483,7 +483,7 @@
 
         <div class="contact-grid-container">
             
-            <!-- MODULO DI CONTATTO NATIVO CON ENDPOINT AGGIORNATO -->
+            <!-- MODULO DI CONTATTO NATIVO -->
             <div class="contact-form-card">
                 <form id="contactForm" action="https://formspree.io/f/xeaoqkbl" method="POST">
                     
@@ -767,14 +767,30 @@
     const categorySelect = document.getElementById('category');
     const trialFieldsWrapper = document.getElementById('trialFieldsWrapper');
 
-    if (categorySelect && trialFieldsWrapper) {
-        categorySelect.addEventListener('change', () => {
+    function updateTrialFieldsVisibility() {
+        if (categorySelect && trialFieldsWrapper) {
             if (categorySelect.value === 'trial') {
                 trialFieldsWrapper.style.display = 'block';
             } else {
                 trialFieldsWrapper.style.display = 'none';
             }
-        });
+        }
+    }
+
+    if (categorySelect) {
+        categorySelect.addEventListener('change', updateTrialFieldsVisibility);
+    }
+
+    // PRESELEZIONE AUTOMATICA DA URL PARAMETER (es: contact.html?type=trial)
+    function handleUrlTypeParam() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const typeParam = urlParams.get('type');
+        if (typeParam && categorySelect) {
+            if (['trial', 'match', 'sponsor', 'other'].includes(typeParam)) {
+                categorySelect.value = typeParam;
+                updateTrialFieldsVisibility();
+            }
+        }
     }
 
     // GESTIONE COPIA EMAIL
@@ -861,6 +877,7 @@
 
     window.addEventListener('DOMContentLoaded', () => {
         setLanguage(currentLang);
+        handleUrlTypeParam();
     });
 
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');
