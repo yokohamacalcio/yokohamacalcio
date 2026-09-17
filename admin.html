@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yokohama Calcio | Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body { font-family: sans-serif; background: #f1f5f9; margin: 0; padding: 20px; }
+        .admin-container { max-width: 800px; margin: 20px auto; padding: 25px; background: #fff; border-radius: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #003c82; font-size: 0.95rem; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 0.95rem; }
+        .player-select-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 10px; }
+        .player-checkbox-card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 14px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+        .player-checkbox-card input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; }
+        .btn-submit { background: #003c82; color: white; padding: 14px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1rem; margin-top: 15px; }
+        .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+        .row { display: flex; gap: 12px; }
+        .row .form-group { flex: 1; }
+        @media (max-width: 600px) { .row { flex-direction: column; gap: 0; } }
+    </style>
+</head>
+<body>
+
+<div class="admin-container">
+    <h2 style="color: #003c82; margin-top: 0;"><i class="fas fa-user-shield"></i> Yokohama Calcio Admin</h2>
+    <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 20px;">Registra partita, marcatori e presenze direttamente da qui.</p>
+
+    <div class="form-group">
+        <label for="ghToken"><i class="fas fa-key"></i> GitHub Token (PAT):</label>
+        <input type="password" id="ghToken" class="form-control" placeholder="Incolla il token generato">
+    </div>
+
+    <form id="matchForm">
+        <div class="form-group">
+            <label><i class="fas fa-code-branch"></i> Repository (User/Repo):</label>
+            <input type="text" id="repoPath" class="form-control" value="yokohamacalcio/yokohamacalcio" required>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label>ID Match (es. match-2026-09-20):</label>
+                <input type="text" id="matchId" class="form-control" placeholder="match-2026-09-20" required>
+            </div>
+            <div class="form-group">
+                <label>Data:</label>
+                <input type="date" id="matchDate" class="form-control" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label>Avversario:</label>
+                <input type="text" id="opponentName" class="form-control" placeholder="es. FC Legend" required>
+            </div>
+            <div class="form-group">
+                <label>Risultato (es. 2-1):</label>
+                <input type="text" id="matchScore" class="form-control" placeholder="2-1">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label>Marcatori (es. 小金井 x2):</label>
+                <input type="text" id="matchScorers" class="form-control" placeholder="小金井 x2">
+            </div>
+            <div class="form-group">
+                <label>MVP:</label>
+                <input type="text" id="matchMvp" class="form-control" placeholder="小金井">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><i class="fas fa-user-check"></i> Giocatori Presenti (Lineup):</label>
+            <div class="player-select-grid" id="playersGrid">
+                <div style="color: #64748b; font-size: 0.9rem;">Caricamento rosa in corso...</div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+            <i class="fas fa-cloud-upload-alt"></i> Salva Partita e Pubblica
+        </button>
+    </form>
+
+    <div id="statusMsg" style="margin-top: 18px; font-weight: bold; text-align: center;"></div>
+</div>
+
+<script>
+    document.getElementById('ghToken').value = localStorage.getItem('yc_gh_token') || '';
+
+    async function loadPlayers() {
+        try {
+            const res = await fetch('players.json');
+            const playersData = await res.json();
+            const grid = document.getElementById('playersGrid');
+            grid.innerHTML = playersData.map(p => {
+                const pName = p.name_kanji || p.name_romaji;
+                return `
+                    <label class="player-checkbox-card">
+                        <div>
+                            <strong>#${p.number || '-'} ${pName}</strong>
+                            <div style="font-size: 0.75rem; color: #64748b;">${p.position || ''}</div>
+                        </div>
+                        <input type="checkbox" class="player-check" value="${pName}">
+                    </label>
+                `;
+            }).join('');
+        } catch(e) {
+            document.getElementById('playersGrid').innerHTML = '<div style="color: red;">Errore caricamento players.json</div>';
+        }
+    }
+    loadPlayers();
+
+    document.getElementById('matchForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const token = document.getElementById('ghToken').value.trim();
+        const repo = document.getElementById('repoPath').value.trim();
+        
+        if (!token || !repo) {
+            alert("Inserisci il Token GitHub!");
+            return;
+        }
+
+        localStorage.setItem('yc_gh_token', token);
+
+        const selectedLineup = [];
+        document.querySelectorAll('.player-check:checked').forEach(cb => {
+            selectedLineup.push(cb.value);
+        });
+
+        const matchPayload = {
+            id: document.getElementById('matchId').value.trim(),
+            date: document.getElementById('matchDate').value,
+            team2Name: document.getElementById('opponentName').value.trim(),
+            score: document.getElementById('matchScore').value.trim() || 'VS',
+            scorers: document.getElementById('matchScorers').value.trim(),
+            mvp: document.getElementById('matchMvp').value.trim(),
+            status: 'past',
+            lineup: selectedLineup
+        };
+
+        const submitBtn = document.getElementById('submitBtn');
+        const statusMsg = document.getElementById('statusMsg');
+        
+        submitBtn.disabled = true;
+        statusMsg.style.color = '#003c82';
+        statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Inizio aggiornamento...';
+
+        try {
+            const response = await fetch(`https://api.github.com/repos/${repo}/actions/workflows/update-data.yml/dispatches`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/vnd.github+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    ref: 'main',
+                    inputs: {
+                        action_type: 'add_match',
+                        match_data: JSON.stringify(matchPayload)
+                    }
+                })
+            });
+
+            if (response.ok) {
+                statusMsg.style.color = '#059669';
+                statusMsg.innerHTML = '✅ Partita inviata con successo! Il sito si aggiornerà in ~30 secondi.';
+            } else {
+                const errData = await response.json();
+                statusMsg.style.color = '#dc2626';
+                statusMsg.innerHTML = '❌ Errore API: ' + (errData.message || 'Verifica il Token o il nome Repo.');
+            }
+        } catch (err) {
+            statusMsg.style.color = '#dc2626';
+            statusMsg.innerHTML = '❌ Errore di connessione.';
+        } finally {
+            submitBtn.disabled = false;
+        }
+    });
+</script>
+</body>
+</html>
