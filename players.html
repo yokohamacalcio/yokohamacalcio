@@ -53,7 +53,6 @@
     </script>
 
     <style>
-        /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO --- */
         .mobile-nav {
             position: fixed; top: 0; left: 0;
             width: 100vw; height: 100vh;
@@ -125,10 +124,10 @@
             gap: 8px; text-decoration: none;
         }
 
-        /* --- SCHEDE GIOCATORI COMPATTE OPTIMIZED --- */
+        /* --- SCHEDE GIOCATORI --- */
         .player-card {
             perspective: 1000px; -webkit-perspective: 1000px;
-            height: 420px; cursor: pointer;
+            height: 440px !important; cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .player-card-inner {
@@ -193,19 +192,41 @@
         .player-name-romaji { font-size: 0.78rem; color: #64748b; font-weight: 600; }
         .player-flip-indicator {
             background: #f1f5f9; color: var(--dark-navy, #003c82); font-size: 0.72rem; font-weight: 700;
-            padding: 5px 10px; display: flex; align-items: center; justify-content: center; gap: 6px;
+            padding: 6px 10px; display: flex; align-items: center; justify-content: center; gap: 6px;
             border-top: 1px solid #e2e8f0; width: 100%; letter-spacing: 0.5px; transition: all 0.25s ease; z-index: 2;
         }
         .player-flip-indicator i { transition: transform 0.4s ease; }
         .player-card:hover .player-flip-indicator { background: var(--dark-navy, #003c82); color: #ffffff; }
         .player-card:hover .player-flip-indicator i { transform: rotate(180deg); }
-        .player-back-name-block { text-align: center; padding: 6px 10px 4px; background: #fafafa; border-bottom: 1px solid #e2e8f0; }
+        .player-back-name-block { text-align: center; padding: 6px 8px 4px; background: #fafafa; border-bottom: 1px solid #e2e8f0; flex-shrink: 0; }
         
-        /* DETTAGLI RETRO COMPATTI SU SINGOLA RIGA */
-        .player-details-inner { padding: 4px 8px; flex-grow: 1; overflow: hidden; font-size: 0.73rem; display: flex; flex-direction: column; justify-content: space-between; }
-        .player-detail-row { display: flex; justify-content: space-between; align-items: center; color: #475569; gap: 4px; padding: 2px 0; border-bottom: 1px dashed #e2e8f0; white-space: nowrap; }
+        /* ALTEZZA E RIGIDITÀ LAYOUT RIGHE */
+        .player-details-inner { 
+            padding: 4px 8px; 
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-evenly; 
+        }
+        .player-detail-row { 
+            display: flex !important; 
+            justify-content: space-between !important; 
+            align-items: center !important; 
+            color: #475569; 
+            padding: 1px 0; 
+            border-bottom: 1px dashed #e2e8f0; 
+            white-space: nowrap !important; 
+            font-size: 0.72rem;
+        }
         .player-detail-row:last-child { border-bottom: none; }
-        .player-detail-row strong { text-align: right; margin-left: auto; white-space: nowrap; font-size: 0.73rem; }
+        .player-detail-row > span { white-space: nowrap !important; flex-shrink: 0; }
+        .player-detail-row strong { 
+            text-align: right; 
+            margin-left: auto; 
+            white-space: nowrap !important; 
+            font-size: 0.72rem; 
+            flex-shrink: 0;
+        }
         .role-badge-back { display: inline-flex; align-items: center; gap: 4px; padding: 1px 6px; border-radius: 8px; font-weight: 700; color: #ffffff; font-size: 0.7rem; }
         .role-badge-back.role-badge-gk { background: #FFD500; color: #000000; }
         .role-badge-back.role-badge-df { background: #0284c7; }
@@ -213,13 +234,18 @@
         .role-badge-back.role-badge-fw { background: #dc2626; }
         .stats-highlight { font-weight: 700; color: var(--dark-navy, #003c82); }
         
-        /* TESTO PICCOLO PER PRESENZE IN LINEA */
-        .sub-stat-detail { font-size: 0.68rem; color: #64748b; font-weight: 600; margin-left: 2px; }
+        .sub-stat-detail { 
+            font-size: 0.65rem !important; 
+            color: #64748b; 
+            font-weight: 600; 
+            margin-left: 2px; 
+            letter-spacing: -0.2px;
+        }
 
         @media (max-width: 600px) {
             .section-title { font-size: 1.45rem !important; line-height: 1.3 !important; justify-content: center !important; text-align: center !important; }
             .role-title { font-size: 1.3rem !important; }
-            .player-card { height: 410px !important; }
+            .player-card { height: 435px !important; }
             .jersey-surname-large { font-size: 1.5rem !important; }
             .jersey-number-large { font-size: 6rem !important; }
             .player-name-kanji { font-size: 1rem !important; }
@@ -467,7 +493,7 @@
             "btn.details": "詳細・個人成績", "btn.back": "戻る",
             "section.gk": "GOALKEEPER", "section.df": "DEFENDER", "section.mf": "MIDFIELDER", "section.fw": "FORWARD",
             "label.role_detail": "役割:", "label.hometown": "出身地:", "label.age": "年齢:",
-            "label.appearances": "出場数:", "label.starter_abbr": "先発", "label.sub_abbr": "途中",
+            "label.appearances": "出場数", "label.starter_abbr": "先発", "label.sub_abbr": "途中",
             "label.goals": "得点:", "label.assists": "アシスト:", "label.yellows": "警告:", "label.reds": "退場:",
             "label.goals_conceded": "失点:", "label.clean_sheets": "クリーンシート:",
             "unit.age": "歳"
@@ -483,7 +509,7 @@
             "btn.details": "Dettagli & Stats", "btn.back": "Torna alla fronte",
             "section.gk": "PORTIERI", "section.df": "DIFENSORI", "section.mf": "CENTROCAMPISTI", "section.fw": "ATTACCANTI",
             "label.role_detail": "Ruolo:", "label.hometown": "Origine:", "label.age": "Età:",
-            "label.appearances": "Presenze:", "label.starter_abbr": "Tit", "label.sub_abbr": "Sub",
+            "label.appearances": "Presenze", "label.starter_abbr": "Tit", "label.sub_abbr": "Sub",
             "label.goals": "Gol:", "label.assists": "Assist:", "label.yellows": "Amm:", "label.reds": "Esp:",
             "label.goals_conceded": "Gol subiti:", "label.clean_sheets": "Porta inviolata:",
             "unit.age": "anni"
@@ -499,7 +525,7 @@
             "btn.details": "Stats & Details", "btn.back": "Back to front",
             "section.gk": "GOALKEEPERS", "section.df": "DEFENDERS", "section.mf": "MIDFIELDERS", "section.fw": "FORWARDS",
             "label.role_detail": "Position:", "label.hometown": "Hometown:", "label.age": "Age:",
-            "label.appearances": "Caps:", "label.starter_abbr": "GS", "label.sub_abbr": "Sub",
+            "label.appearances": "Caps", "label.starter_abbr": "GS", "label.sub_abbr": "Sub",
             "label.goals": "Goals:", "label.assists": "Assists:", "label.yellows": "Yellows:", "label.reds": "Reds:",
             "label.goals_conceded": "Goals conceded:", "label.clean_sheets": "Clean sheets:",
             "unit.age": "years old"
@@ -690,8 +716,8 @@
                 <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="${hometownCode}"></strong></div>
                 <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="${age}">${age} 歳</strong></div>
                 <div class="player-detail-row">
-                    <span><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数:</span></span> 
-                    <strong style="font-size: 0.73rem; white-space: nowrap;"><span class="stats-highlight" data-stat="caps">0</span> <span class="sub-stat-detail">(<span data-i18n="label.starter_abbr">先発</span><span data-stat="starters">0</span>/<span data-i18n="label.sub_abbr">途中</span><span data-stat="subs">0</span>)</span></strong>
+                    <span><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数</span> <span class="sub-stat-detail">(<span data-i18n="label.starter_abbr">先発</span><span data-stat="starters">0</span>/<span data-i18n="label.sub_abbr">途中</span><span data-stat="subs">0</span>):</span></span> 
+                    <strong class="stats-highlight" data-stat="caps">0</strong>
                 </div>
                 <div class="player-detail-row"><span><i class="fas fa-shield-halved"></i> <span data-i18n="label.goals_conceded">失点:</span></span> <strong class="stats-highlight" data-stat="goals_conceded">0</strong></div>
                 <div class="player-detail-row"><span><i class="fas fa-lock"></i> <span data-i18n="label.clean_sheets">クリーンシート:</span></span> <strong class="stats-highlight" data-stat="clean_sheets">0</strong></div>
@@ -708,8 +734,8 @@
                 <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="${hometownCode}"></strong></div>
                 <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="${age}">${age} 歳</strong></div>
                 <div class="player-detail-row">
-                    <span><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数:</span></span> 
-                    <strong style="font-size: 0.73rem; white-space: nowrap;"><span class="stats-highlight" data-stat="caps">0</span> <span class="sub-stat-detail">(<span data-i18n="label.starter_abbr">先発</span><span data-stat="starters">0</span>/<span data-i18n="label.sub_abbr">途中</span><span data-stat="subs">0</span>)</span></strong>
+                    <span><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数</span> <span class="sub-stat-detail">(<span data-i18n="label.starter_abbr">先発</span><span data-stat="starters">0</span>/<span data-i18n="label.sub_abbr">途中</span><span data-stat="subs">0</span>):</span></span> 
+                    <strong class="stats-highlight" data-stat="caps">0</strong>
                 </div>
                 <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight" data-stat="goals">0</strong></div>
                 <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight" data-stat="assists">0</strong></div>
@@ -803,7 +829,6 @@
                     }
                 }
 
-                // 1. TITOLARI (STARTERS)
                 if (Array.isArray(m.starters)) {
                     m.starters.forEach(name => {
                         addStat(starterCounts, name, 1);
@@ -811,7 +836,6 @@
                     });
                 }
 
-                // 2. SUBENTRATI (SUBSTITUTES IN)
                 if (Array.isArray(m.substitutes_in)) {
                     m.substitutes_in.forEach(name => {
                         addStat(subCounts, name, 1);
@@ -824,7 +848,6 @@
                     });
                 }
 
-                // 3. MARCATORI
                 if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
                     const entries = m.scorers.split(/[,、]/);
                     entries.forEach(entry => {
@@ -844,7 +867,6 @@
                     });
                 }
 
-                // 4. ASSISTMAN
                 if (m.assists && m.assists !== 'なし' && m.assists !== 'Nessuno') {
                     const entries = m.assists.split(/[,、]/);
                     entries.forEach(entry => {
@@ -864,12 +886,10 @@
                     });
                 }
 
-                // 5. MVP
                 if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
                     m.mvp.split(/[,、]/).forEach(name => addStat(mvpCounts, name));
                 }
 
-                // 6. CARTELLINI
                 if (m.yellow_cards && m.yellow_cards !== 'なし' && m.yellow_cards !== 'Nessuno') {
                     m.yellow_cards.split(/[,、]/).forEach(name => addStat(yellowCounts, name));
                 }
@@ -878,7 +898,6 @@
                     m.red_cards.split(/[,、]/).forEach(name => addStat(redCounts, name));
                 }
 
-                // 7. PORTIERI
                 let handledGK = false;
                 if (m.goalkeepers && m.goalkeepers.trim() !== '') {
                     m.goalkeepers.split(/[,、]/).forEach(entry => {
