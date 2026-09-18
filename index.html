@@ -1530,6 +1530,7 @@
     let locationsData = {};
     let opponentsData = {};
     let playersData = [];
+    let statsData = [];
 
     function cleanStr(s) {
         return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
@@ -1726,16 +1727,18 @@
 
     async function initPageData() {
         try {
-            const [mResp, lResp, oResp, pResp] = await Promise.allSettled([
+            const [mResp, lResp, oResp, pResp, sResp] = await Promise.allSettled([
                 fetch('matches.json'),
                 fetch('locations.json'),
                 fetch('opponents.json'),
-                fetch('players.json')
+                fetch('players.json'),
+                fetch('stats.json')
             ]);
             if (mResp.status === 'fulfilled' && mResp.value.ok) cachedMatches = await mResp.value.json();
             if (lResp.status === 'fulfilled' && lResp.value.ok) locationsData = await lResp.value.json();
             if (oResp.status === 'fulfilled' && oResp.value.ok) opponentsData = await oResp.value.json();
             if (pResp.status === 'fulfilled' && pResp.value.ok) playersData = await pResp.value.json();
+            if (sResp.status === 'fulfilled' && sResp.value.ok) statsData = await sResp.value.json();
             
             renderMatchCenter(cachedMatches);
             renderPlayersShowcase(playersData);
@@ -1744,138 +1747,26 @@
         }
     }
 
-    /* SISTEMA DI CALCOLO DELLE STATISTICHE PER IL CAROSELLO GIOCATORI (CORRETTO) */
-    function calculateShowcaseStats(player, matches) {
-        let goals = 0;
-        let assists = 0;
-        let mvp = 0;
-        let gkApps = 0;
-        let gkGoalsConceded = 0;
-
-        const isGK = String(player.position || '').toUpperCase() === 'GK' || player.role === 'gk';
-
-        const checkMatchPlayer = (pObj, rawInput) => {
-            if (!rawInput || rawInput === 'なし' || rawInput === 'Nessuno' || !pObj) return 0;
-            let clean = rawInput.trim();
-            let count = 1;
-            
-            const multMatch = clean.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
-            if (multMatch) {
-                clean = multMatch[1].trim();
-                count = parseInt(multMatch[2], 10) || 1;
-            }
-            
-            // Pulisce parentesi o notazioni extra
-            const bracketMatch = clean.match(/^([^(（]+)[(（]/);
-            if (bracketMatch) {
-                clean = bracketMatch[1].trim();
-            }
-
-            if (!clean) return 0;
-            
-            const matchedObj = findPlayerObj(clean);
-            if (matchedObj) {
-                if (matchedObj.id && pObj.id && matchedObj.id === pObj.id) return count;
-                if (matchedObj.number && pObj.number && matchedObj.number === pObj.number) return count;
-                
-                const mK = cleanStr(matchedObj.name_kanji);
-                const pK = cleanStr(pObj.name_kanji);
-                if (mK && pK && mK === pK) return count;
-                
-                const mR = cleanStr(matchedObj.name_romaji);
-                const pR = cleanStr(pObj.name_romaji);
-                if (mR && pR && mR === pR) return count;
-            } else {
-                const target = cleanStr(clean);
-                const pK = cleanStr(pObj.name_kanji);
-                const pR = cleanStr(pObj.name_romaji);
-                const pKn = cleanStr(pObj.name_kana);
-                
-                if ((pK && pK === target) || (pR && pR === target) || (pKn && pKn === target)) {
-                    return count;
-                }
-            }
-            return 0;
-        };
-
-        if (matches && matches.length > 0) {
-            matches.forEach(m => {
-                if (m.status !== 'past' && m.status !== 'live') return;
-
-                // Calcolo Gol
-                if (m.scorers) {
-                    m.scorers.split(/[,、]/).forEach(s => { goals += checkMatchPlayer(player, s); });
-                }
-                // Calcolo Assist
-                if (m.assists) {
-                    m.assists.split(/[,、]/).forEach(a => { assists += checkMatchPlayer(player, a); });
-                }
-                // Calcolo MVP
-                if (m.mvp) {
-                    m.mvp.split(/[,、]/).forEach(v => { mvp += checkMatchPlayer(player, v); });
-                }
-
-                // Calcolo specifico Portiere
-                if (isGK) {
-                    let isMatchGK = false;
-                    let gaInMatch = 0;
-
-                    if (m.score && m.score.includes('-')) {
-                        const parts = m.score.split('-').map(n => parseInt(n.trim(), 10));
-                        if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-                            const isHome = m.isHome !== undefined ? m.isHome : true;
-                            gaInMatch = isHome ? parts[1] : parts[0];
-                        }
-                    }
-
-                    if (m.goalkeepers) {
-                        m.goalkeepers.split(/[,、]/).forEach(gkEntry => {
-                            const clean = gkEntry.trim();
-                            if (!clean) return;
-                            const match = clean.match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
-                            if (match) {
-                                const rawGkName = match[1].trim();
-                                const gkSpecificGA = parseInt(match[2], 10);
-                                if (checkMatchPlayer(player, rawGkName) > 0) {
-                                    isMatchGK = true;
-                                    gkGoalsConceded += isNaN(gkSpecificGA) ? gaInMatch : gkSpecificGA;
-                                }
-                            } else {
-                                if (checkMatchPlayer(player, clean) > 0) {
-                                    isMatchGK = true;
-                                    gkGoalsConceded += gaInMatch;
-                                }
-                            }
-                        });
-                    } else if (m.goalkeeper) {
-                        if (checkMatchPlayer(player, m.goalkeeper) > 0) {
-                            isMatchGK = true;
-                            gkGoalsConceded += gaInMatch;
-                        }
-                    }
-
-                    if (isMatchGK) gkApps++;
-                }
-            });
-        }
-
-        return {
-            goals: goals,
-            assists: assists,
-            mvp: mvp,
-            gkApps: gkApps,
-            gkGoalsConceded: isGK ? gkGoalsConceded : 0
-        };
-    }
-
-    /* RENDER SHOWCASE GIOCATORI */
+    /* RENDER SHOWCASE GIOCATORI: preleva dati da stats.json, filtra per numero di maglia e presenza >= 1 */
     function renderPlayersShowcase(players) {
         const grid = document.getElementById('playersShowcaseGrid');
         if (!grid || !players || players.length === 0) return;
 
-        const shuffled = [...players].sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, 3);
+        // Filtra giocatori con numero di maglia valido e almeno 1 presenza in statsData
+        const eligiblePlayers = players.filter(p => {
+            if (!p.number || String(p.number).trim() === '') return false;
+            const pStat = statsData.find(s => String(s.id) === String(p.id) || String(s.number) === String(p.number) || cleanStr(s.name) === cleanStr(p.name_kanji));
+            const apps = pStat ? (parseInt(pStat.apps, 10) || 0) : 0;
+            return apps > 0;
+        });
 
+        if (eligiblePlayers.length === 0) {
+            grid.innerHTML = '<p style="text-align: center; color: #64748b; grid-column: 1 / -1;">Nessun giocatore disponibile con presenze.</p>';
+            return;
+        }
+
+        const shuffled = [...eligiblePlayers].sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 3);
         const lang = currentLang;
 
         grid.innerHTML = selected.map(p => {
@@ -1884,27 +1775,34 @@
             const posClass = `pos-${pos.toLowerCase()}`;
             
             const isGK = (pos === 'GK' || p.role === 'gk');
-            const stats = calculateShowcaseStats(p, cachedMatches);
+            
+            // Trova le statistiche nel file stats.json
+            const pStat = statsData.find(s => String(s.id) === String(p.id) || String(s.number) === String(p.number) || cleanStr(s.name) === cleanStr(p.name_kanji)) || {};
+            const apps = parseInt(pStat.apps, 10) || 0;
+            const goals = parseInt(pStat.goals, 10) || 0;
+            const assists = parseInt(pStat.assists, 10) || 0;
+            const mvp = parseInt(pStat.mvp, 10) || 0;
+            const conceded = parseInt(pStat.goals_conceded, 10) || 0;
 
             let statsHtml = '';
-
             if (isGK) {
                 statsHtml = `
-                    <span><i class="fas fa-running" style="color: #2563eb;"></i> ${stats.gkApps} Caps</span>
-                    <span><i class="fas fa-shield-alt" style="color: #dc2626;"></i> ${stats.gkGoalsConceded} Conc.</span>
-                    ${stats.mvp > 0 ? `<span><i class="fas fa-star" style="color: #f59e0b;"></i> ${stats.mvp} MVP</span>` : ''}
+                    <span><i class="fas fa-running" style="color: #2563eb;"></i> ${apps} Presenze</span>
+                    <span><i class="fas fa-shield-alt" style="color: #dc2626;"></i> ${conceded} Conc.</span>
+                    ${mvp > 0 ? `<span><i class="fas fa-star" style="color: #f59e0b;"></i> ${mvp} MVP</span>` : ''}
                 `;
             } else {
                 statsHtml = `
-                    <span><i class="fas fa-futbol" style="color: #059669;"></i> ${stats.goals} Goals</span>
-                    <span><i class="fas fa-hands-helping" style="color: #8b5cf6;"></i> ${stats.assists} Ast</span>
-                    ${stats.mvp > 0 ? `<span><i class="fas fa-star" style="color: #f59e0b;"></i> ${stats.mvp} MVP</span>` : ''}
+                    <span><i class="fas fa-running" style="color: #2563eb;"></i> ${apps} Presenze</span>
+                    <span><i class="fas fa-futbol" style="color: #059669;"></i> ${goals} Goals</span>
+                    <span><i class="fas fa-hands-helping" style="color: #8b5cf6;"></i> ${assists} Ast</span>
+                    ${mvp > 0 ? `<span><i class="fas fa-star" style="color: #f59e0b;"></i> ${mvp} MVP</span>` : ''}
                 `;
             }
 
             return `
                 <div class="player-preview-card">
-                    <div class="player-num-badge">${p.number ? '#' + p.number : '#'}</div>
+                    <div class="player-num-badge">#${p.number}</div>
                     <div class="player-preview-info">
                         <span class="player-pos-badge ${posClass}">${pos}</span>
                         <div class="player-preview-name">${name}</div>
@@ -1931,7 +1829,7 @@
         else if (m.category === 'tournament') { catKey = 'badge.tournament'; catClass = 'badge-tournament'; }
         const catText = translations[lang][catKey] || m.type || '練習試合';
 
-        let leftName, leftLogo, leftClass, rightName, rightLogo, rightClass, displayScore;
+        let leftName, leftLogo, leftClass, rightName, rightLogo, rightClass, rawScore;
         let leftErr = "", rightErr = "";
         const fallbackAvatar = getAvatarUrl(m, oppInfo.romajiName);
 
@@ -1943,7 +1841,7 @@
             rightLogo = oppInfo.logo;
             rightClass = 'opponent-logo';
             rightErr = `onerror="this.onerror=null;this.src='${fallbackAvatar}';"`;
-            displayScore = m.score;
+            rawScore = m.score;
         } else {
             leftName = oppInfo.name;
             leftLogo = oppInfo.logo;
@@ -1954,9 +1852,18 @@
             rightClass = 'yokohama-logo';
             if (m.score && m.score !== 'VS' && m.score.includes('-')) {
                 const parts = m.score.split('-');
-                displayScore = parts.length === 2 ? `${parts[1].trim()} - ${parts[0].trim()}` : m.score;
+                rawScore = parts.length === 2 ? `${parts[1].trim()}-${parts[0].trim()}` : m.score;
             } else {
-                displayScore = m.score;
+                rawScore = m.score;
+            }
+        }
+
+        // UNIFICAZIONE PUNTEGGIO: sempre con gli spazi intorno al trattino (es. "2 - 6")
+        let displayScore = rawScore;
+        if (rawScore && rawScore !== 'VS' && rawScore.includes('-')) {
+            const parts = rawScore.split('-');
+            if (parts.length === 2) {
+                displayScore = `${parts[0].trim()} - ${parts[1].trim()}`;
             }
         }
 
