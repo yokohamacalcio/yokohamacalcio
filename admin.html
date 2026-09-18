@@ -39,6 +39,9 @@
         .btn-remove-row { background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
         .btn-add-row { background: #0284c7; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: bold; margin-top: 5px; }
         .btn-add-trialist { background: #059669; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: bold; width: 100%; margin-top: 12px; }
+        
+        .btn-delete-trialist { background: transparent; color: #ef4444; border: none; font-size: 1rem; cursor: pointer; padding: 2px 6px; margin-left: 6px; }
+        .btn-delete-trialist:hover { color: #b91c1c; }
 
         .btn-submit { background: #003c82; color: white; padding: 14px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.05rem; }
         .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
@@ -183,7 +186,7 @@
                 <button type="button" class="btn-add-row" onclick="addAssistRow()"><i class="fas fa-plus"></i> <span data-i18n="sec2.add_assist">Aggiungi Assistman</span></button>
             </div>
 
-            <!-- PORTIERI & GOL SUBITI (SOLO PORTIERI) -->
+            <!-- PORTIERI & GOL SUBITI -->
             <div class="form-group">
                 <label data-i18n="sec2.goalkeepers"><i class="fas fa-mitten"></i> Portieri & Gol Subiti:</label>
                 <div id="gkContainer"></div>
@@ -511,7 +514,7 @@
         const existingTrialists = Array.from(document.querySelectorAll('.trialist-card'));
         
         // Ordina alfabeticamente la rosa in base al nome visualizzato
-        const sortedPlayers = [...globalPlayers].sort((a, b) => {
+        const sortedPlayers = [...globalPlayers].filter(p => p.position !== 'TRIAL').sort((a, b) => {
             return getPlayerDisplayName(a).localeCompare(getPlayerDisplayName(b), lang);
         });
 
@@ -538,7 +541,7 @@
         existingTrialists.forEach(el => grid.appendChild(el));
     }
 
-    // --- AGGIUNTA TRIALIST ---
+    // --- AGGIUNTA & RIMOZIONE TRIALIST ---
     function addTrialistPlayer() {
         trialistCount++;
         const tId = `trialist_${trialistCount}`;
@@ -551,11 +554,15 @@
 
         const trialistCard = document.createElement('div');
         trialistCard.className = "player-card trialist-card";
+        trialistCard.id = `card_${tId}`;
         trialistCard.setAttribute("data-player-id", tId);
         trialistCard.setAttribute("data-player-raw-name", namePrompt);
         trialistCard.innerHTML = `
             <div class="player-card-header">
-                <span><i class="fas fa-user-clock"></i> ${namePrompt} (PROVA)</span>
+                <span>
+                    <i class="fas fa-user-clock"></i> ${namePrompt} (PROVA)
+                    <button type="button" class="btn-delete-trialist" onclick="removeTrialistPlayer('${tId}')" title="Rimuovi Trialist"><i class="fas fa-trash-alt"></i></button>
+                </span>
                 <span style="font-size: 0.75rem; background: #0284c7; color: white; padding: 2px 6px; border-radius: 4px;">TRIAL</span>
             </div>
             <div class="role-selector">
@@ -568,6 +575,20 @@
         grid.appendChild(trialistCard);
         
         globalPlayers.push({ id: tId, name_kanji: namePrompt, name_romaji: namePrompt, position: 'TRIAL' });
+        updateAllPlayerDropdowns();
+    }
+
+    function removeTrialistPlayer(trialistId) {
+        if (!confirm("Rimuovere questo giocatore in prova dalla partita?")) return;
+        
+        // 1. Rimuovi la scheda visiva
+        const cardElem = document.getElementById(`card_${trialistId}`);
+        if (cardElem) cardElem.remove();
+
+        // 2. Rimuovi dall'array globale
+        globalPlayers = globalPlayers.filter(p => p.id !== trialistId);
+
+        // 3. Aggiorna tutti i menu a tendina
         updateAllPlayerDropdowns();
     }
 
