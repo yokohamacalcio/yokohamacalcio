@@ -856,6 +856,7 @@
     let currentLanguage = localStorage.getItem('preferred_lang') || 'ja';
     let rawMatchesData = [];
     let playersData = [];
+    let precomputedStats = null;
     const expandedSections = {
         'goals-ranking': false,
         'assists-ranking': false,
@@ -993,7 +994,6 @@
         currentLanguage = lang;
         localStorage.setItem('preferred_lang', lang);
 
-        // AGGIORNAMENTO DINAMICO TITOLO SEO E META TAG
         if (pageTitles[lang]) {
             document.title = pageTitles[lang];
             const ogTitle = document.querySelector('meta[property="og:title"]');
@@ -1013,7 +1013,7 @@
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
 
-        if (rawMatchesData.length > 0) {
+        if (rawMatchesData.length > 0 || precomputedStats) {
             calculateAndRenderStats();
             loadStandingsData();
         }
@@ -1025,7 +1025,6 @@
         });
     });
 
-    /* LOGICA GESTIONE MENU MOBILE MODALE */
     const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
     const mobileNav = document.querySelector('.mobile-nav');
     const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
@@ -1330,7 +1329,6 @@
                 }
             }
 
-            // 1. MARCATORI
             if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
                 const entries = m.scorers.split(/[,、]/);
                 entries.forEach(entry => {
@@ -1339,7 +1337,6 @@
                 });
             }
 
-            // 2. ASSISTMAN
             if (m.assists && m.assists !== 'なし' && m.assists !== 'Nessuno') {
                 const entries = m.assists.split(/[,、]/);
                 entries.forEach(entry => {
@@ -1348,7 +1345,6 @@
                 });
             }
 
-            // 3. GOL SUBITI PORTIERI
             let handledGK = false;
             if (m.goalkeepers && m.goalkeepers.trim() !== '') {
                 const entries = m.goalkeepers.split(/[,、]/);
@@ -1356,7 +1352,7 @@
                     const clean = entry.trim();
                     if (!clean) return;
 
-                    const match = clean.match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
+                    const match = clean.match(/^([^("+)]+)[(（]\s*(\d+)\s*[)）]$/);
                     if (match) {
                         const rawGkName = match[1].trim();
                         const gkGoals = parseInt(match[2], 10);
@@ -1377,7 +1373,6 @@
                 }
             }
 
-            // 4. MVP
             if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
                 const mvpNames = m.mvp.split(/[,、]/);
                 mvpNames.forEach(name => {
@@ -1385,7 +1380,6 @@
                 });
             }
 
-            // 5. CARTELLINI GIALLI
             if (m.yellow_cards && m.yellow_cards !== 'なし' && m.yellow_cards !== 'Nessuno') {
                 const names = m.yellow_cards.split(/[,、]/);
                 names.forEach(name => {
@@ -1396,7 +1390,6 @@
                 });
             }
 
-            // 6. CARTELLINI ROSSI
             if (m.red_cards && m.red_cards !== 'なし' && m.red_cards !== 'Nessuno') {
                 const names = m.red_cards.split(/[,、]/);
                 names.forEach(name => {
@@ -1407,6 +1400,21 @@
                 });
             }
         });
+
+        // Integrazione dati da stats.json se disponibili
+        if (precomputedStats && precomputedStats.players) {
+            Object.entries(precomputedStats.players).forEach(([playerId, pStats]) => {
+                const pObj = playersData.find(p => p.id === playerId) || { id: playerId, name_kanji: playerId, name_romaji: playerId };
+                if (pStats.goals > 0 && !goalsMap[playerId]) goalsMap[playerId] = { count: pStats.goals, pObj, rawName: playerId };
+                if (pStats.assists > 0 && !assistsMap[playerId]) assistsMap[playerId] = { count: pStats.assists, pObj, rawName: playerId };
+                if (pStats.mvps > 0 && !mvpMap[playerId]) mvpMap[playerId] = { count: pStats.mvps, pObj, rawName: playerId };
+                if (pStats.yellows > 0 && !yellowsMap[playerId]) yellowsMap[playerId] = { count: pStats.yellows, pObj, rawName: playerId };
+                if (pStats.reds > 0 && !redsMap[playerId]) redsMap[playerId] = { count: pStats.reds, pObj, rawName: playerId };
+                if (pStats.goals_conceded !== undefined && !gkGoalsMap[playerId]) {
+                    gkGoalsMap[playerId] = { count: pStats.goals_conceded, played: pStats.caps || 1, pObj, rawName: playerId };
+                }
+            });
+        }
 
         const updateRow = (prefix, st) => {
             document.getElementById(`${prefix}-played`).textContent = st.played;
@@ -1593,6 +1601,15 @@
 
     async function loadAllStatsData() {
         try {
+            try {
+                const statsResp = await fetch('stats.json');
+                if (statsResp.ok) {
+                    precomputedStats = await statsResp.json();
+                }
+            } catch (e) {
+                console.warn("stats.json non trovato, calcolo basato su matches.json.");
+            }
+
             const response = await fetch('matches.json');
             if (response.ok) {
                 rawMatchesData = await response.json();
