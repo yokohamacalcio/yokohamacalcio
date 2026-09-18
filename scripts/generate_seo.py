@@ -27,8 +27,6 @@ def load_json(path):
     if os.path.exists(full_path):
       with open(full_path, 'r', encoding='utf-8') as f:
         return json.load(f)
-    else:
-      print(f'⚠️ File non trovato: {full_path}')
   except Exception as e:
     print(f'❌ Errore caricamento {path}: {e}')
   return None
@@ -91,9 +89,7 @@ def build_static_matches_html():
   upcoming.sort(key=lambda x: x.get('date', ''))
   past.sort(key=lambda x: x.get('date', ''), reverse=True)
 
-  # ------------------------------------------------------------
   # 1. HERO PROSSIMA PARTITA
-  # ------------------------------------------------------------
   upcoming_html = ''
   if upcoming:
     next_m = upcoming[0]
@@ -166,9 +162,7 @@ def build_static_matches_html():
         </div>
         """
 
-  # ------------------------------------------------------------
   # 2. ULTIMO RISULTATO
-  # ------------------------------------------------------------
   past_html = ''
   if past:
     last_m = past[0]
@@ -258,9 +252,7 @@ def build_static_matches_html():
         </div>
         """
 
-  # ------------------------------------------------------------
-  # 3. SCHEMA.ORG EVENTI (JSON-LD COMPLETO)
-  # ------------------------------------------------------------
+  # 3. SCHEMA.ORG EVENTI
   schema_events = []
   for m in matches:
     opp_name, _ = get_opp_info(m, opponents)
@@ -306,7 +298,7 @@ def build_static_matches_html():
 
 
 # ============================================================
-# GENERAZIONE HTML + SCHEMA GIOCATORI
+# GENERAZIONE SCHEDE GIOCATORI CON INTEGRAZIONE STATS.JSON
 # ============================================================
 
 SECTION_ICONS = {
@@ -315,21 +307,18 @@ SECTION_ICONS = {
     'mf': 'fa-running',
     'fw': 'fa-futbol',
 }
-
 BADGE_ICONS = {
     'gk': 'fa-hands',
     'df': 'fa-shield-alt',
     'mf': 'fa-running',
     'fw': 'fa-bullseye',
 }
-
 SECTION_LABELS = {
     'gk': 'GOALKEEPER',
     'df': 'DEFENDER',
     'mf': 'MIDFIELDER',
     'fw': 'FORWARD',
 }
-
 ROLE_BADGE_CLASSES = {
     'gk': 'role-badge-gk',
     'df': 'role-badge-df',
@@ -393,7 +382,7 @@ def get_surname_display(p, surname_counts):
   return surname
 
 
-def _build_details_rows(p):
+def _build_details_rows(p, player_stats):
   role = p.get('role', 'mf')
   is_gk = role == 'gk'
   position = p.get('position', '-')
@@ -401,6 +390,19 @@ def _build_details_rows(p):
   age = calculate_age(p.get('birth_date'))
   role_badge_class = ROLE_BADGE_CLASSES.get(role, 'role-badge-mf')
   role_icon = BADGE_ICONS.get(role, 'fa-user')
+
+  # Recupero statistiche da stats.json (o fallback a 0)
+  st = player_stats or {}
+  caps = st.get('caps', 0)
+  starters = st.get('starters', 0)
+  subs = st.get('subs', 0)
+  goals = st.get('goals', 0)
+  assists = st.get('assists', 0)
+  mvps = st.get('mvps', 0)
+  yellows = st.get('yellows', 0)
+  reds = st.get('reds', 0)
+  goals_conceded = st.get('goals_conceded', 0)
+  clean_sheets = st.get('clean_sheets', 0)
 
   role_row = (
       '<div class="player-detail-row">'
@@ -420,52 +422,46 @@ def _build_details_rows(p):
       f'<strong data-age="{age}">{age} 歳</strong></div>'
   )
 
+  # RIGA PRESENZE ULTRA-FLUIDA (Nessun a capo + Chiarezza etichetta)
+  caps_row = f"""
+        <div class="player-detail-row" style="display: flex; justify-content: space-between; align-items: center; width: 100%; overflow: hidden;">
+            <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 1; margin-right: 4px;">
+                <i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> 
+                <span data-i18n="label.appearances">出場数 (先発/途中):</span>
+            </span> 
+            <strong class="stats-highlight" style="white-space: nowrap; flex-shrink: 0; text-align: right;">
+                <span class="stat-caps">{caps}</span> 
+                <span class="sub-stat-detail" style="font-size: 0.65rem; color: #64748b; font-weight: 600; margin-left: 2px;">(<span class="stat-starters">{starters}</span>/<span class="stat-subs">{subs}</span>)</span>
+            </strong>
+        </div>
+    """
+
   if is_gk:
     stat_rows = (
-        '<div class="player-detail-row">'
-        '<span><i class="fas fa-shield-halved"></i> '
-        '<span data-i18n="label.goals_conceded">失点:</span></span> '
-        '<strong class="stats-highlight" data-stat="goals_conceded">0</strong></div>'
-        '<div class="player-detail-row">'
-        '<span><i class="fas fa-lock"></i> '
-        '<span data-i18n="label.clean_sheets">クリーンシート:</span></span> '
-        '<strong class="stats-highlight" data-stat="clean_sheets">0</strong></div>'
-        '<div class="player-detail-row">'
-        '<span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> '
-        '<strong class="stats-highlight" data-stat="mvps">0</strong></div>'
+        caps_row
+        + f"""
+        <div class="player-detail-row"><span><i class="fas fa-shield-halved"></i> <span data-i18n="label.goals_conceded">失点:</span></span> <strong class="stats-highlight stat-goals-conceded">{goals_conceded}</strong></div>
+        <div class="player-detail-row"><span><i class="fas fa-lock"></i> <span data-i18n="label.clean_sheets">クリーンシート:</span></span> <strong class="stats-highlight stat-clean-sheets">{clean_sheets}</strong></div>
+        <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">{mvps}</strong></div>
+        """
     )
   else:
     stat_rows = (
-        '<div class="player-detail-row">'
-        '<span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> '
-        '<span data-i18n="label.goals">得点:</span></span> '
-        '<strong class="stats-highlight" data-stat="goals">0</strong></div>'
-        '<div class="player-detail-row">'
-        '<span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> '
-        '<span data-i18n="label.assists">アシスト:</span></span> '
-        '<strong class="stats-highlight" data-stat="assists">0</strong></div>'
-        '<div class="player-detail-row">'
-        '<span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> '
-        '<strong class="stats-highlight" data-stat="mvps">0</strong></div>'
+        caps_row
+        + f"""
+        <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">{goals}</strong></div>
+        <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">{assists}</strong></div>
+        <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">{mvps}</strong></div>
+        """
     )
 
-  yellow_row = (
-      '<div class="player-detail-row">'
-      '<span><i class="fas fa-square" style="color: #f59e0b;"></i> '
-      '<span data-i18n="label.yellows">警告:</span></span> '
-      '<strong class="stats-highlight" data-stat="yellows">0</strong></div>'
-  )
-  red_row = (
-      '<div class="player-detail-row">'
-      '<span><i class="fas fa-square" style="color: #ef4444;"></i> '
-      '<span data-i18n="label.reds">退場:</span></span> '
-      '<strong class="stats-highlight" data-stat="reds">0</strong></div>'
-  )
+  yellow_row = f'<div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">{yellows}</strong></div>'
+  red_row = f'<div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">{reds}</strong></div>'
 
   return role_row + hometown_row + age_row + stat_rows + yellow_row + red_row
 
 
-def create_player_card_html(p, surname_counts):
+def create_player_card_html(p, surname_counts, player_stats):
   role = p.get('role', 'mf')
   is_gk = role == 'gk'
 
@@ -479,12 +475,12 @@ def create_player_card_html(p, surname_counts):
 
   surname = get_surname_display(p, surname_counts)
   jersey_class = 'jersey-gk' if is_gk else ''
-  details_rows = _build_details_rows(p)
 
+  details_rows = _build_details_rows(p, player_stats)
   player_id = p.get('id') or number or name_kanji
 
   return f"""
-            <div class="player-card" data-player-id="{player_id}" data-player-name="{name_kanji}" data-player-kana="{name_kana}" data-player-romaji="{name_romaji}" data-player-pos="{position}" data-player-role="{role}">
+            <div class="player-card" id="{player_id}" data-player-id="{player_id}" data-player-name="{name_kanji}" data-player-kana="{name_kana}" data-player-romaji="{name_romaji}" data-player-pos="{position}" data-player-role="{role}">
                 <div class="player-card-inner">
                     <div class="player-card-front">
                         <div class="player-body-jersey {jersey_class}">
@@ -518,6 +514,9 @@ def create_player_card_html(p, surname_counts):
 
 def build_players_html():
   players_data = load_json('players.json') or []
+  stats_data = load_json('stats.json') or {}
+  player_stats_map = stats_data.get('players', {})
+
   if not players_data:
     print('⚠️ players.json vuoto o non trovato, salto generazione giocatori.')
     return '', []
@@ -535,14 +534,17 @@ def build_players_html():
   for p in sorted_players:
     role = p.get('role')
     if role in sections:
-      sections[role].append(p)
+      p_id = p.get('id') or str(p.get('number')) or p.get('name_kanji')
+      p_stats = player_stats_map.get(p_id, {})
+      sections[role].append((p, p_stats))
 
   html_parts = []
   for role in ['gk', 'df', 'mf', 'fw']:
     icon = SECTION_ICONS[role]
     label = SECTION_LABELS[role]
     cards_html = '\n'.join(
-        create_player_card_html(p, surname_counts) for p in sections[role]
+        create_player_card_html(p, surname_counts, p_stats)
+        for (p, p_stats) in sections[role]
     )
     html_parts.append(f"""
         <div class="role-group" data-role-section="{role}">
@@ -585,12 +587,11 @@ def build_players_html():
 
 
 # ============================================================
-# INIEZIONE HTML STATICO (BASATA SUI MARKER)
+# INIEZIONE HTML E JSON-LD
 # ============================================================
 def inject_html_to_file(filename, upcoming_html, past_html):
   full_path = os.path.join(ROOT_DIR, filename)
   if not os.path.exists(full_path):
-    print(f'⚠️ {filename} non trovato, salto.')
     return
 
   try:
@@ -620,8 +621,6 @@ def inject_html_to_file(filename, upcoming_html, past_html):
       with open(full_path, 'w', encoding='utf-8') as f:
         f.write(content)
       print(f'✅ HTML statico iniettato in {filename}')
-    else:
-      print(f'ℹ️ Nessun marker HTML trovato in {filename}.')
 
   except Exception as e:
     print(f'❌ Errore aggiornando {filename}: {e}')
@@ -630,9 +629,8 @@ def inject_html_to_file(filename, upcoming_html, past_html):
 def inject_players_html_to_file(filename, players_html):
   if not players_html:
     return
-  full_path = os.path.join(ROOT_DIR, filename)  # <-- CORRETTO (era f/ull_path)
+  full_path = os.path.join(ROOT_DIR, filename)
   if not os.path.exists(full_path):
-    print(f'⚠️ {filename} non trovato, salto.')
     return
 
   try:
@@ -649,16 +647,10 @@ def inject_players_html_to_file(filename, players_html):
       with open(full_path, 'w', encoding='utf-8') as f:
         f.write(content)
       print(f'✅ Card giocatori iniettate in {filename}')
-    else:
-      print(f'ℹ️ Nessun marker PLAYERS trovato in {filename}.')
-
   except Exception as e:
     print(f'❌ Errore players HTML in {filename}: {e}')
 
 
-# ============================================================
-# INIEZIONE JSON-LD NEL <head>
-# ============================================================
 def inject_schema_into_head(filename, schema_events):
   full_path = os.path.join(ROOT_DIR, filename)
   if not os.path.exists(full_path) or not schema_events:
@@ -668,14 +660,12 @@ def inject_schema_into_head(filename, schema_events):
     with open(full_path, 'r', encoding='utf-8') as f:
       content = f.read()
 
-    blocks = []
-    for event in schema_events:
-      blocks.append(
-          '<script type="application/ld+json">\n'
-          + json.dumps(event, ensure_ascii=False, indent=2)
-          + '\n</script>'
-      )
-
+    blocks = [
+        '<script type="application/ld+json">\n'
+        + json.dumps(event, ensure_ascii=False, indent=2)
+        + '\n</script>'
+        for event in schema_events
+    ]
     block_html = (
         '<!-- SCHEMA_EVENTS_START -->\n'
         + '\n'.join(blocks)
@@ -695,9 +685,6 @@ def inject_schema_into_head(filename, schema_events):
       with open(full_path, 'w', encoding='utf-8') as f:
         f.write(content)
       print(f'✅ JSON-LD eventi iniettato in {filename}')
-    else:
-      print(f'ℹ️ Nessun marker SCHEMA_EVENTS trovato in {filename}.')
-
   except Exception as e:
     print(f'❌ Errore schema in {filename}: {e}')
 
@@ -711,14 +698,12 @@ def inject_players_schema_into_head(filename, schemas):
     with open(full_path, 'r', encoding='utf-8') as f:
       content = f.read()
 
-    blocks = []
-    for s in schemas:
-      blocks.append(
-          '<script type="application/ld+json">\n'  # <-- CORRETTO (aggiunto lo slash)
-          + json.dumps(s, ensure_ascii=False, indent=2)
-          + '\n</script>'
-      )
-
+    blocks = [
+        '<script type="application/ld+json">\n'
+        + json.dumps(s, ensure_ascii=False, indent=2)
+        + '\n</script>'
+        for s in schemas
+    ]
     block_html = (
         '<!-- SCHEMA_PLAYERS_START -->\n'
         + '\n'.join(blocks)
@@ -738,9 +723,6 @@ def inject_players_schema_into_head(filename, schemas):
       with open(full_path, 'w', encoding='utf-8') as f:
         f.write(content)
       print(f'✅ Player JSON-LD iniettato in {filename}')
-    else:
-      print(f'ℹ️ Nessun marker SCHEMA_PLAYERS trovato in {filename}.')
-
   except Exception as e:
     print(f'❌ Errore players schema in {filename}: {e}')
 
@@ -751,18 +733,17 @@ def inject_players_schema_into_head(filename, schemas):
 if __name__ == '__main__':
   print(f'📂 ROOT_DIR rilevata: {ROOT_DIR}')
 
-  # --- 1. Match center + event schema (index, matches, stats, players) ---
+  # 1. Matches & Event Schema
   upcoming_h, past_h, schema_events = build_static_matches_html()
-
   TARGET_PAGES = ['index.html', 'matches.html', 'stats.html', 'players.html']
 
   for page in TARGET_PAGES:
     inject_html_to_file(page, upcoming_h, past_h)
     inject_schema_into_head(page, schema_events)
 
-  # --- 2. Players (solo players.html) ---
+  # 2. Players & Player Schema
   players_h, schema_players = build_players_html()
   inject_players_html_to_file('players.html', players_h)
   inject_players_schema_into_head('players.html', schema_players)
 
-  print('🎉 Completato con successo per tutte le pagine target.')
+  print('🎉 Script Python completato con successo!')
