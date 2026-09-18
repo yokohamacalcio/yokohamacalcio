@@ -21,7 +21,6 @@ YOKOHAMA_FULL_URL = 'https://yokohamacalcio.com'
 # UTILITY
 # ============================================================
 def load_json(path):
-  """Carica un file JSON dalla root del progetto."""
   full_path = os.path.join(ROOT_DIR, path)
   try:
     if os.path.exists(full_path):
@@ -69,34 +68,26 @@ def get_loc_info(loc_id, venue_fallback, locations):
 
 def get_category_label(cat):
   labels = {
-      'official': '公式戦',
-      'league': '公式戦',
-      'friendly': '練習試合',
-      'tournament': '大会',
-      'cup': 'カップ戦',
+      'official': '公式戦', 'league': '公式戦', 'friendly': '練習試合',
+      'tournament': '大会', 'cup': 'カップ戦',
   }
   return labels.get(cat, '試合')
 
 
 # ============================================================
-# PLAYER LOOKUP HELPER (per collegare performers agli eventi)
+# PLAYER LOOKUP
 # ============================================================
 def find_player_by_name(name_str, players_data):
-  """Trova un giocatore in players.json dato un nome (kanji/kana/romaji)."""
   if not name_str or not players_data:
     return None
   target = str(name_str).strip().lower().replace(' ', '').replace('　', '')
   if not target:
     return None
-
-  # Match esatto
   for pl in players_data:
     for key in ('name_kanji', 'name_kana', 'name_romaji'):
       v = str(pl.get(key, '')).strip().lower().replace(' ', '').replace('　', '')
       if v and v == target:
         return pl
-
-  # Match parziale (kanji cognome, ecc.)
   for pl in players_data:
     for key in ('name_kanji', 'name_kana', 'name_romaji'):
       v = str(pl.get(key, '')).strip().lower().replace(' ', '').replace('　', '')
@@ -106,7 +97,6 @@ def find_player_by_name(name_str, players_data):
 
 
 def person_reference_from_name(name_str, players_data):
-  """Restituisce un Person con @id se il giocatore è trovato, altrimenti Person base."""
   pl = find_player_by_name(name_str, players_data)
   if pl and pl.get('id'):
     return {
@@ -118,7 +108,7 @@ def person_reference_from_name(name_str, players_data):
 
 
 # ============================================================
-# GENERAZIONE HTML + SCHEMA (MATCHES)
+# MATCHES + EVENT SCHEMA
 # ============================================================
 def build_static_matches_html():
   matches = load_json('matches.json') or []
@@ -127,23 +117,21 @@ def build_static_matches_html():
   players_data = load_json('players.json') or []
 
   if not matches:
-    print('⚠️ matches.json vuoto o non trovato, salto generazione HTML.')
+    print('⚠️ matches.json vuoto, salto generazione HTML.')
     return '', '', []
 
   upcoming = [m for m in matches if m.get('status') == 'upcoming']
   past = [m for m in matches if m.get('status') in ['past', 'live']]
-
   upcoming.sort(key=lambda x: x.get('date', ''))
   past.sort(key=lambda x: x.get('date', ''), reverse=True)
 
-  # 1. HERO PROSSIMA PARTITA
+  # HERO PROSSIMA PARTITA
   upcoming_html = ''
   if upcoming:
     next_m = upcoming[0]
     opp_name, opp_logo = get_opp_info(next_m, opponents)
     loc_name, loc_url, loc_surface = get_loc_info(
-        next_m.get('location_id'), next_m.get('venue'), locations
-    )
+        next_m.get('location_id'), next_m.get('venue'), locations)
     is_home = next_m.get('isHome', True)
     cat_label = get_category_label(next_m.get('category', ''))
 
@@ -154,19 +142,8 @@ def build_static_matches_html():
 
     date_str = next_m.get('date', '')
     time_str = f"{next_m.get('time')} K.O." if next_m.get('time') else ''
-
-    time_html = (
-        f'<div class="match-info-item"><i class="fas fa-clock" style="color:'
-        f' var(--primary-sky);"></i><span>{time_str}</span></div>'
-        if time_str
-        else ''
-    )
-    surface_html = (
-        f'<div class="match-info-item"><i class="fas fa-layer-group"'
-        f' style="color: var(--primary-sky);"></i><span>{loc_surface}</span></div>'
-        if loc_surface
-        else ''
-    )
+    time_html = (f'<div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>{time_str}</span></div>' if time_str else '')
+    surface_html = (f'<div class="match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>{loc_surface}</span></div>' if loc_surface else '')
 
     upcoming_html = f"""
         <div class="next-match-hero" id="nextMatchBox">
@@ -190,10 +167,7 @@ def build_static_matches_html():
                         <div class="team-name-col" style="color: #ffffff;">{t2_name}</div>
                     </div>
                 </div>
-                <div class="match-info-hero-bar">
-                    {time_html}
-                    {surface_html}
-                </div>
+                <div class="match-info-hero-bar">{time_html}{surface_html}</div>
             </div>
             <div>
                 <div class="match-box-venue">
@@ -208,14 +182,12 @@ def build_static_matches_html():
         </div>
         """
 
-  # 2. ULTIMO RISULTATO
+  # ULTIMO RISULTATO
   past_html = ''
   if past:
     last_m = past[0]
     opp_name, opp_logo = get_opp_info(last_m, opponents)
-    loc_name, loc_url, _ = get_loc_info(
-        last_m.get('location_id'), last_m.get('venue'), locations
-    )
+    loc_name, loc_url, _ = get_loc_info(last_m.get('location_id'), last_m.get('venue'), locations)
     is_home = last_m.get('isHome', True)
     cat_label = get_category_label(last_m.get('category', ''))
 
@@ -227,22 +199,9 @@ def build_static_matches_html():
 
     scorers = last_m.get('scorers', '')
     mvp = last_m.get('mvp', '')
-
-    scorers_html = (
-        f'<div class="match-info-item"><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span>{scorers}</span></div>'
-        if scorers and scorers not in ['なし', 'Nessuno']
-        else ''
-    )
-    mvp_html = (
-        f'<div class="match-info-item"><i class="fas fa-star" style="color: #f59e0b;"></i> <strong style="color: var(--dark-navy);">{mvp}</strong></div>'
-        if mvp and mvp not in ['なし', 'Nessuno']
-        else ''
-    )
-    info_bar_html = (
-        f'<div class="match-info-hero-bar">{scorers_html}{mvp_html}</div>'
-        if (scorers_html or mvp_html)
-        else ''
-    )
+    scorers_html = (f'<div class="match-info-item"><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span>{scorers}</span></div>' if scorers and scorers not in ['なし', 'Nessuno'] else '')
+    mvp_html = (f'<div class="match-info-item"><i class="fas fa-star" style="color: #f59e0b;"></i> <strong style="color: var(--dark-navy);">{mvp}</strong></div>' if mvp and mvp not in ['なし', 'Nessuno'] else '')
+    info_bar_html = f'<div class="match-info-hero-bar">{scorers_html}{mvp_html}</div>' if (scorers_html or mvp_html) else ''
 
     past_html = f"""
         <div class="match-box-card match-past-box" id="{last_m.get('id', '')}">
@@ -281,26 +240,21 @@ def build_static_matches_html():
         </div>
         """
 
-  # 3. SCHEMA.ORG EVENTI (con performer collegati ai giocatori)
+  # SCHEMA EVENTI
   schema_events = []
   for m in matches:
     opp_name, _ = get_opp_info(m, opponents)
-    loc_name, _, _ = get_loc_info(
-        m.get('location_id'), m.get('venue'), locations
-    )
+    loc_name, _, _ = get_loc_info(m.get('location_id'), m.get('venue'), locations)
     is_home = m.get('isHome', True)
-
     home_team = 'Yokohama Calcio' if is_home else opp_name
     away_team = opp_name if is_home else 'Yokohama Calcio'
     score = m.get('score', '')
-
     status = m.get('status', 'upcoming')
     title_score = f' ({score})' if score and score != '-' else ''
     event_name = f'{home_team} vs {away_team}{title_score}'
 
     desc_parts = [f'Match {event_name}.']
-    if score:
-      desc_parts.append(f'Score: {score}.')
+    if score: desc_parts.append(f'Score: {score}.')
     if m.get('scorers') and m.get('scorers') not in ['なし', 'Nessuno']:
       desc_parts.append(f"Scorers: {m.get('scorers')}.")
     if m.get('mvp') and m.get('mvp') not in ['なし', 'Nessuno']:
@@ -319,7 +273,6 @@ def build_static_matches_html():
         'awayTeam': {'@type': 'SportsTeam', 'name': away_team},
     }
 
-    # Collega marcatori come performer (con @id verso players.html)
     performers = []
     scorers_str = str(m.get('scorers', '')).strip()
     if scorers_str and scorers_str not in ['なし', 'Nessuno', '']:
@@ -327,7 +280,6 @@ def build_static_matches_html():
         name_only = re.sub(r'\s*[xX\*]\s*\d+\s*$', '', s).strip()
         if name_only:
           performers.append(person_reference_from_name(name_only, players_data))
-
     if performers:
       event_schema['performer'] = performers
 
@@ -340,54 +292,30 @@ def build_static_matches_html():
 
 
 # ============================================================
-# GENERAZIONE SCHEDE GIOCATORI (players.html)
+# PLAYERS (players.html)
 # ============================================================
-SECTION_ICONS = {
-    'gk': 'fa-hands',
-    'df': 'fa-shield-alt',
-    'mf': 'fa-running',
-    'fw': 'fa-futbol',
-}
-BADGE_ICONS = {
-    'gk': 'fa-hands',
-    'df': 'fa-shield-alt',
-    'mf': 'fa-running',
-    'fw': 'fa-bullseye',
-}
-SECTION_LABELS = {
-    'gk': 'GOALKEEPER',
-    'df': 'DEFENDER',
-    'mf': 'MIDFIELDER',
-    'fw': 'FORWARD',
-}
-ROLE_BADGE_CLASSES = {
-    'gk': 'role-badge-gk',
-    'df': 'role-badge-df',
-    'mf': 'role-badge-mf',
-    'fw': 'role-badge-fw',
-}
+SECTION_ICONS = {'gk': 'fa-hands', 'df': 'fa-shield-alt', 'mf': 'fa-running', 'fw': 'fa-futbol'}
+BADGE_ICONS = {'gk': 'fa-hands', 'df': 'fa-shield-alt', 'mf': 'fa-running', 'fw': 'fa-bullseye'}
+SECTION_LABELS = {'gk': 'GOALKEEPER', 'df': 'DEFENDER', 'mf': 'MIDFIELDER', 'fw': 'FORWARD'}
+ROLE_BADGE_CLASSES = {'gk': 'role-badge-gk', 'df': 'role-badge-df', 'mf': 'role-badge-mf', 'fw': 'role-badge-fw'}
 
 
 def calculate_age(birth_date):
-  if not birth_date:
-    return '-'
+  if not birth_date: return '-'
   try:
     birth = datetime.strptime(birth_date, '%Y-%m-%d').date()
     today = date.today()
     age = today.year - birth.year
-    if (today.month, today.day) < (birth.month, birth.day):
-      age -= 1
+    if (today.month, today.day) < (birth.month, birth.day): age -= 1
     return age
   except Exception:
     return '-'
 
 
 def _extract_surname_parts(raw):
-  if not raw:
-    return '', []
+  if not raw: return '', []
   parts = raw.strip().split()
-  if not parts:
-    return '', []
+  if not parts: return '', []
   prefixes = ['di', 'de', 'da', 'del', 'della', 'van', 'von', 'san', 'st.']
   if len(parts) >= 2 and parts[0].lower() in prefixes:
     return f'{parts[0]} {parts[1]}'.upper(), parts[2:]
@@ -397,26 +325,16 @@ def _extract_surname_parts(raw):
 def compute_surname_counts(players):
   counts = {}
   for p in players:
-    raw = (
-        p.get('name_romaji')
-        if p.get('name_romaji') and p.get('name_romaji') != '-'
-        else p.get('name_kanji', '')
-    ) or ''
+    raw = (p.get('name_romaji') if p.get('name_romaji') and p.get('name_romaji') != '-' else p.get('name_kanji', '')) or ''
     surname, _ = _extract_surname_parts(raw)
-    if surname:
-      counts[surname] = counts.get(surname, 0) + 1
+    if surname: counts[surname] = counts.get(surname, 0) + 1
   return counts
 
 
 def get_surname_display(p, surname_counts):
-  raw = (
-      p.get('name_romaji')
-      if p.get('name_romaji') and p.get('name_romaji') != '-'
-      else p.get('name_kanji', '')
-  ) or 'YOKOHAMA'
+  raw = (p.get('name_romaji') if p.get('name_romaji') and p.get('name_romaji') != '-' else p.get('name_kanji', '')) or 'YOKOHAMA'
   surname, remaining = _extract_surname_parts(raw)
-  if not surname:
-    return 'YOKOHAMA'
+  if not surname: return 'YOKOHAMA'
   if surname_counts.get(surname, 0) > 1 and remaining:
     initial = remaining[-1][0].upper()
     return f'{surname} {initial}.'
@@ -444,27 +362,17 @@ def _build_details_rows(p, player_stats):
   goals_conceded = st.get('goals_conceded', 0)
   clean_sheets = st.get('clean_sheets', 0)
 
-  role_row = (
-      '<div class="player-detail-row">'
+  role_row = ('<div class="player-detail-row">'
       '<span data-i18n="label.role_detail">役割:</span> '
-      f'<span class="role-badge-back {role_badge_class}">'
-      f'<i class="fas {role_icon}"></i> <strong>{position}</strong>'
-      '</span></div>'
-  )
-  hometown_row = (
-      '<div class="player-detail-row">'
+      f'<span class="role-badge-back {role_badge_class}"><i class="fas {role_icon}"></i> <strong>{position}</strong></span></div>')
+  hometown_row = ('<div class="player-detail-row">'
       '<span data-i18n="label.hometown">出身地:</span> '
-      f'<strong data-hometown="{hometown}"></strong></div>'
-  )
-  age_row = (
-      '<div class="player-detail-row">'
+      f'<strong data-hometown="{hometown}"></strong></div>')
+  age_row = ('<div class="player-detail-row">'
       '<span data-i18n="label.age">年齢:</span> '
-      f'<strong data-age="{age}">{age} 歳</strong></div>'
-  )
+      f'<strong data-age="{age}">{age} 歳</strong></div>')
 
-  # RIGA PRESENZE — inline-flex compatto, nessun wrap
-  caps_row = (
-      '<div class="player-detail-row">'
+  caps_row = ('<div class="player-detail-row">'
       '<div class="player-detail-row-left">'
       '<i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> '
       '<span data-i18n="label.appearances">出場数 (先発/途中):</span>'
@@ -472,24 +380,18 @@ def _build_details_rows(p, player_stats):
       '<strong class="stats-highlight">'
       f'<span class="stat-caps">{caps}</span>'
       f'<span class="sub-stat-detail">(<span class="stat-starters">{starters}</span>/<span class="stat-subs">{subs}</span>)</span>'
-      '</strong>'
-      '</div>'
-  )
+      '</strong></div>')
 
   if is_gk:
-    stat_rows = (
-        caps_row
+    stat_rows = (caps_row
         + f'<div class="player-detail-row"><span><i class="fas fa-shield-halved"></i> <span data-i18n="label.goals_conceded">失点:</span></span> <strong class="stats-highlight stat-goals-conceded">{goals_conceded}</strong></div>'
         + f'<div class="player-detail-row"><span><i class="fas fa-lock"></i> <span data-i18n="label.clean_sheets">クリーンシート:</span></span> <strong class="stats-highlight stat-clean-sheets">{clean_sheets}</strong></div>'
-        + f'<div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">{mvps}</strong></div>'
-    )
+        + f'<div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">{mvps}</strong></div>')
   else:
-    stat_rows = (
-        caps_row
+    stat_rows = (caps_row
         + f'<div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">{goals}</strong></div>'
         + f'<div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">{assists}</strong></div>'
-        + f'<div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">{mvps}</strong></div>'
-    )
+        + f'<div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">{mvps}</strong></div>')
 
   yellow_row = f'<div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">{yellows}</strong></div>'
   red_row = f'<div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">{reds}</strong></div>'
@@ -500,18 +402,14 @@ def _build_details_rows(p, player_stats):
 def create_player_card_html(p, surname_counts, player_stats):
   role = p.get('role', 'mf')
   is_gk = role == 'gk'
-
   number = p.get('number')
   number_str = str(number) if number is not None else '-'
-
   name_kanji = p.get('name_kanji') or '-'
   name_kana = p.get('name_kana') or name_kanji
   name_romaji = p.get('name_romaji') or name_kanji
   position = p.get('position', '-')
-
   surname = get_surname_display(p, surname_counts)
   jersey_class = 'jersey-gk' if is_gk else ''
-
   details_rows = _build_details_rows(p, player_stats)
   player_id = p.get('id') or number or name_kanji
 
@@ -536,9 +434,7 @@ def create_player_card_html(p, surname_counts, player_stats):
                             <div class="player-name-kanji">{name_kanji}</div>
                             <div class="player-name-romaji">{name_kana}</div>
                         </div>
-                        <div class="player-details-inner">
-                            {details_rows}
-                        </div>
+                        <div class="player-details-inner">{details_rows}</div>
                         <div class="player-flip-indicator">
                             <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
                         </div>
@@ -549,7 +445,6 @@ def create_player_card_html(p, surname_counts, player_stats):
 
 
 def _person_schema_with_stats(p, p_stats):
-  """Costruisce il Person JSON-LD con additionalProperty (statistiche complete)."""
   name_kanji = p.get('name_kanji') or ''
   name_romaji = p.get('name_romaji') or ''
   position = p.get('position') or ''
@@ -561,25 +456,14 @@ def _person_schema_with_stats(p, p_stats):
       '@type': 'Person',
       '@id': f'{YOKOHAMA_FULL_URL}/players.html#{pid}',
       'name': name_kanji or name_romaji or 'Player',
-      'memberOf': {
-          '@type': 'SportsTeam',
-          'name': 'Yokohama Calcio',
-          'url': YOKOHAMA_FULL_URL,
-      },
+      'memberOf': {'@type': 'SportsTeam', 'name': 'Yokohama Calcio', 'url': YOKOHAMA_FULL_URL},
   }
-
-  if name_romaji:
-    person['alternateName'] = name_romaji
-  if p.get('name_kana'):
-    person['givenName'] = p['name_kana']
-  if position:
-    person['jobTitle'] = f'Soccer Player ({position})'
-  if p.get('birth_date'):
-    person['birthDate'] = p['birth_date']
-  if p.get('hometown'):
-    person['birthPlace'] = {'@type': 'Place', 'name': p['hometown']}
-  if p.get('number') is not None:
-    person['identifier'] = str(p['number'])
+  if name_romaji: person['alternateName'] = name_romaji
+  if p.get('name_kana'): person['givenName'] = p['name_kana']
+  if position: person['jobTitle'] = f'Soccer Player ({position})'
+  if p.get('birth_date'): person['birthDate'] = p['birth_date']
+  if p.get('hometown'): person['birthPlace'] = {'@type': 'Place', 'name': p['hometown']}
+  if p.get('number') is not None: person['identifier'] = str(p['number'])
 
   st = p_stats or {}
   caps = safe_int(st.get('caps', 0))
@@ -606,10 +490,8 @@ def _person_schema_with_stats(p, p_stats):
   if role == 'gk':
     additional.append({'@type': 'PropertyValue', 'name': 'goals_conceded', 'value': conceded})
     additional.append({'@type': 'PropertyValue', 'name': 'clean_sheets', 'value': clean_sheets})
-
   person['additionalProperty'] = additional
 
-  # Description in linguaggio naturale (utile per LLM)
   role_label = {'gk': 'Goalkeeper', 'df': 'Defender', 'mf': 'Midfielder', 'fw': 'Forward'}.get(role, 'Player')
   desc_parts = [f'{role_label} of Yokohama Calcio.']
   desc_parts.append(f'{caps} appearances ({starters} as starter, {subs} as substitute).')
@@ -617,8 +499,7 @@ def _person_schema_with_stats(p, p_stats):
     desc_parts.append(f'{conceded} goals conceded, {clean_sheets} clean sheets.')
   else:
     desc_parts.append(f'{goals} goals, {assists} assists.')
-  if mvps > 0:
-    desc_parts.append(f'{mvps} MVP award{"s" if mvps != 1 else ""}.')
+  if mvps > 0: desc_parts.append(f'{mvps} MVP award{"s" if mvps != 1 else ""}.')
   person['description'] = ' '.join(desc_parts)
 
   return person
@@ -630,7 +511,7 @@ def build_players_html():
   player_stats_map = stats_data.get('players', {})
 
   if not players_data:
-    print('⚠️ players.json vuoto o non trovato, salto generazione giocatori.')
+    print('⚠️ players.json vuoto, salto generazione giocatori.')
     return '', []
 
   field_players = [p for p in players_data if p.get('role') != 'staff']
@@ -647,76 +528,53 @@ def build_players_html():
     role = p.get('role')
     if role in sections:
       p_id = p.get('id') or str(p.get('number')) or p.get('name_kanji')
-      p_stats = player_stats_map.get(p_id, {})
-      sections[role].append((p, p_stats))
+      sections[role].append((p, player_stats_map.get(p_id, {})))
 
   html_parts = []
   for role in ['gk', 'df', 'mf', 'fw']:
-    icon = SECTION_ICONS[role]
-    label = SECTION_LABELS[role]
-    cards_html = '\n'.join(
-        create_player_card_html(p, surname_counts, p_stats)
-        for (p, p_stats) in sections[role]
-    )
+    cards_html = '\n'.join(create_player_card_html(p, surname_counts, s) for (p, s) in sections[role])
     html_parts.append(f"""
         <div class="role-group" data-role-section="{role}">
-            <h3 class="role-title"><i class="fas {icon}"></i> <span data-i18n="section.{role}">{label}</span></h3>
-            <div class="players-grid" id="players-{role}">
-                {cards_html}
-            </div>
+            <h3 class="role-title"><i class="fas {SECTION_ICONS[role]}"></i> <span data-i18n="section.{role}">{SECTION_LABELS[role]}</span></h3>
+            <div class="players-grid" id="players-{role}">{cards_html}</div>
         </div>
         """)
 
-  # JSON-LD Person CON statistiche (solo per players.html)
   schemas = []
   for p in field_players:
-    p_id = p.get('id') or ''
-    p_stats = player_stats_map.get(p_id, {})
+    p_stats = player_stats_map.get(p.get('id'), {})
     schemas.append(_person_schema_with_stats(p, p_stats))
 
   return '\n'.join(html_parts), schemas
 
 
 # ============================================================
-# SHOWCASE STATICA PER index.html (3 giocatori rappresentativi)
+# SHOWCASE per index.html
 # ============================================================
 def build_static_showcase_html(n=3):
-  """Genera 3 card giocatori statiche per la home.
-  Criterio: 1 top scorer + 1 top assist + 1 most caps (best-effort).
-  I bot AI vedono questa versione; il JS la sovrascrive per gli utenti."""
   players_data = load_json('players.json') or []
-  stats_data = load_json('stats.json') or {}
-  stats_map = stats_data.get('players', {})
+  stats_map = (load_json('stats.json') or {}).get('players', {})
 
   enriched = []
   for p in players_data:
-    if p.get('role') == 'staff':
-      continue
-    if p.get('number') is None or p.get('number') == '':
-      continue
-    st = stats_map.get(p.get('id'), {}) or {}
-    enriched.append((p, st))
+    if p.get('role') == 'staff': continue
+    if p.get('number') is None or p.get('number') == '': continue
+    enriched.append((p, stats_map.get(p.get('id'), {}) or {}))
 
-  if not enriched:
-    return ''
+  if not enriched: return ''
 
   top_scorer = max(enriched, key=lambda x: safe_int(x[1].get('goals', 0)), default=None)
   top_assist = max(enriched, key=lambda x: safe_int(x[1].get('assists', 0)), default=None)
   top_caps = max(enriched, key=lambda x: safe_int(x[1].get('caps', 0)), default=None)
 
-  picks = []
-  seen = set()
+  picks, seen = [], set()
   for entry in [top_scorer, top_assist, top_caps]:
     if entry and entry[0].get('id') not in seen:
-      picks.append(entry)
-      seen.add(entry[0].get('id'))
-
+      picks.append(entry); seen.add(entry[0].get('id'))
   for entry in enriched:
-    if len(picks) >= n:
-      break
+    if len(picks) >= n: break
     if entry[0].get('id') not in seen:
-      picks.append(entry)
-      seen.add(entry[0].get('id'))
+      picks.append(entry); seen.add(entry[0].get('id'))
 
   cards = []
   for p, st in picks[:n]:
@@ -733,18 +591,14 @@ def build_static_showcase_html(n=3):
     conceded = safe_int(st.get('goals_conceded', 0))
 
     if role == 'gk':
-      stats_html = (
-          f'<span><i class="fas fa-running" style="color:#2563eb;"></i> {caps} Pres.</span>'
-          f'<span><i class="fas fa-shield-alt" style="color:#dc2626;"></i> {conceded} Conc.</span>'
-          + (f'<span><i class="fas fa-star" style="color:#f59e0b;"></i> {mvps} MVP</span>' if mvps > 0 else '')
-      )
+      stats_html = (f'<span><i class="fas fa-running" style="color:#2563eb;"></i> {caps} Pres.</span>'
+                    f'<span><i class="fas fa-shield-alt" style="color:#dc2626;"></i> {conceded} Conc.</span>'
+                    + (f'<span><i class="fas fa-star" style="color:#f59e0b;"></i> {mvps} MVP</span>' if mvps > 0 else ''))
     else:
-      stats_html = (
-          f'<span><i class="fas fa-running" style="color:#2563eb;"></i> {caps} Pres.</span>'
-          f'<span><i class="fas fa-futbol" style="color:#059669;"></i> {goals} Goals</span>'
-          f'<span><i class="fas fa-hands-helping" style="color:#8b5cf6;"></i> {assists} Ast</span>'
-          + (f'<span><i class="fas fa-star" style="color:#f59e0b;"></i> {mvps} MVP</span>' if mvps > 0 else '')
-      )
+      stats_html = (f'<span><i class="fas fa-running" style="color:#2563eb;"></i> {caps} Pres.</span>'
+                    f'<span><i class="fas fa-futbol" style="color:#059669;"></i> {goals} Goals</span>'
+                    f'<span><i class="fas fa-hands-helping" style="color:#8b5cf6;"></i> {assists} Ast</span>'
+                    + (f'<span><i class="fas fa-star" style="color:#f59e0b;"></i> {mvps} MVP</span>' if mvps > 0 else ''))
 
     cards.append(f"""
                 <div class="player-preview-card">
@@ -757,120 +611,410 @@ def build_static_showcase_html(n=3):
                     </div>
                 </div>
     """)
-
   return '\n'.join(cards)
 
 
 # ============================================================
-# SCHEMA STATISTICHE PER stats.html
+# STATS: HTML STATICO DEI RANKING (per bot AI)
 # ============================================================
-def build_stats_schema():
-  """Schema ItemList con riferimento a tutti i giocatori e statistiche aggregate.
-  Iniettato solo in stats.html."""
+def _build_ranking_item_html(rank_idx, player_name, value_html):
+  rank_class = 'rank-1' if rank_idx == 1 else 'rank-2' if rank_idx == 2 else 'rank-3' if rank_idx == 3 else ''
+  return (
+      f'<li class="ranking-item">'
+      f'<div style="display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1;">'
+      f'<span class="rank-number {rank_class}" style="flex-shrink:0;">{rank_idx}</span>'
+      f'<div class="player-info-wrapper"><span class="player-name-text">{player_name}</span></div>'
+      f'</div>'
+      f'<span class="stats-highlight" style="white-space: nowrap; flex-shrink: 0;">{value_html}</span>'
+      f'</li>'
+  )
+
+
+def _player_display_name_ja(p):
+  if not p: return '-'
+  if p.get('name_kanji'): return p['name_kanji']
+  return p.get('name_romaji') or p.get('name_kana') or '-'
+
+
+def build_static_stats_rankings():
+  """Ritorna un dict { marker_key: html_content } con l'HTML statico
+  di ogni classifica (top 20). Il JS lo sovrascrive al render."""
   players_data = load_json('players.json') or []
   stats_data = load_json('stats.json') or {}
   stats_map = stats_data.get('players', {})
-  team_totals = stats_data.get('team_totals', {})
 
-  if not players_data or not stats_map:
-    return None
+  # Arricchisci
+  enriched = []
+  for p in players_data:
+    if p.get('role') == 'staff': continue
+    st = stats_map.get(p.get('id'), {}) or {}
+    enriched.append((p, st))
 
-  # ItemList con riferimento ai Person (via @id)
-  items = []
-  for idx, p in enumerate(players_data, start=1):
-    if p.get('role') == 'staff':
-      continue
-    pid = p.get('id')
-    if not pid:
-      continue
-    items.append({
-        '@type': 'ListItem',
-        'position': idx,
-        'item': {
-            '@type': 'Person',
-            '@id': f'{YOKOHAMA_FULL_URL}/players.html#{pid}',
-            'name': p.get('name_kanji') or p.get('name_romaji') or '',
-        },
-    })
+  TOP_N = 20
 
-  schema = {
-      '@context': 'https://schema.org',
-      '@type': 'ItemList',
-      '@id': f'{YOKOHAMA_FULL_URL}/stats.html#players-stats',
-      'name': 'Yokohama Calcio — Player Statistics',
-      'description': (
-          f'Individual and team statistics for Yokohama Calcio. '
-          f'Total matches: {team_totals.get("total_matches", 0)}, '
-          f'Wins: {team_totals.get("wins", 0)}, '
-          f'Draws: {team_totals.get("draws", 0)}, '
-          f'Losses: {team_totals.get("losses", 0)}, '
-          f'Goals for: {team_totals.get("goals_for", 0)}, '
-          f'Goals against: {team_totals.get("goals_against", 0)}.'
-      ),
-      'numberOfItems': len(items),
-      'itemListElement': items,
-  }
-  return schema
+  def build_for(key_getter, sort_key, filter_zero=True, value_fmt=None):
+    rows = []
+    for p, st in enriched:
+      val = key_getter(st)
+      if filter_zero and val <= 0: continue
+      rows.append((p, st, val))
+    rows.sort(key=sort_key, reverse=True)
+    rows = rows[:TOP_N]
+
+    items = []
+    for idx, (p, st, val) in enumerate(rows, 1):
+      name = _player_display_name_ja(p)
+      value_html = value_fmt(val, st) if value_fmt else f'{val}'
+      items.append(_build_ranking_item_html(idx, name, value_html))
+    return '\n'.join(items)
+
+  result = {}
+
+  # GOALS
+  result['GOALS'] = build_for(
+      key_getter=lambda st: safe_int(st.get('goals', 0)),
+      sort_key=lambda x: x[2],
+      value_fmt=lambda val, st: f'{val} 点',
+  )
+
+  # ASSISTS
+  result['ASSISTS'] = build_for(
+      key_getter=lambda st: safe_int(st.get('assists', 0)),
+      sort_key=lambda x: x[2],
+      value_fmt=lambda val, st: f'{val} 本',
+  )
+
+  # APPEARANCES (nuova): caps DESC, poi starters DESC
+  apps_rows = []
+  for p, st in enriched:
+    caps = safe_int(st.get('caps', 0))
+    if caps <= 0: continue
+    starters = safe_int(st.get('starters', 0))
+    subs = safe_int(st.get('subs', 0))
+    apps_rows.append((p, st, caps, starters, subs))
+  apps_rows.sort(key=lambda x: (-x[2], -x[3], -x[4]))
+  apps_rows = apps_rows[:TOP_N]
+  apps_items = []
+  for idx, (p, st, caps, starters, subs) in enumerate(apps_rows, 1):
+    name = _player_display_name_ja(p)
+    value_html = f'{caps} <span style="font-size: 0.78rem; color: #64748b; font-weight: 600;">({subs})</span>'
+    apps_items.append(_build_ranking_item_html(idx, name, value_html))
+  result['APPEARANCES'] = '\n'.join(apps_items)
+
+  # GK (solo portieri): gol subiti ASC, poi gol subiti tot ASC
+  gk_rows = []
+  for p, st in enriched:
+    if (p.get('role') or '').lower() != 'gk': continue
+    conceded = safe_int(st.get('goals_conceded', 0))
+    caps = safe_int(st.get('caps', 0))
+    if caps <= 0: continue
+    avg = conceded / caps if caps > 0 else 0
+    gk_rows.append((p, st, conceded, caps, avg))
+  gk_rows.sort(key=lambda x: (x[4], x[2]))
+  gk_rows = gk_rows[:TOP_N]
+  gk_items = []
+  for idx, (p, st, conceded, caps, avg) in enumerate(gk_rows, 1):
+    name = _player_display_name_ja(p)
+    value_html = (f'{conceded} 失点 '
+                  f'<span class="gk-apps-text" style="font-size:0.78rem;color:#64748b;font-weight:600;">({caps}試合)</span>'
+                  f'<br><span style="font-size:0.72rem;color:#64748b;font-weight:600;">平均: {avg:.2f}/試合</span>')
+    gk_items.append(_build_ranking_item_html(idx, name, value_html))
+  result['GK'] = '\n'.join(gk_items)
+
+  # MVP
+  result['MVP'] = build_for(
+      key_getter=lambda st: safe_int(st.get('mvps', 0)),
+      sort_key=lambda x: x[2],
+      value_fmt=lambda val, st: f'{val} 回',
+  )
+
+  # YELLOWS
+  result['YELLOWS'] = build_for(
+      key_getter=lambda st: safe_int(st.get('yellows', 0)),
+      sort_key=lambda x: x[2],
+      value_fmt=lambda val, st: f'{val} 枚',
+  )
+
+  # REDS
+  result['REDS'] = build_for(
+      key_getter=lambda st: safe_int(st.get('reds', 0)),
+      sort_key=lambda x: x[2],
+      value_fmt=lambda val, st: f'{val} 枚',
+  )
+
+  return result
 
 
-# ============================================================
-# INIEZIONE HTML
-# ============================================================
-def inject_html_to_file(filename, upcoming_html, past_html):
+def inject_stats_rankings(filename, rankings):
+  """Inietta HTML statico dentro i marker RANKING_*_START/END di stats.html."""
+  if not rankings: return
   full_path = os.path.join(ROOT_DIR, filename)
-  if not os.path.exists(full_path):
-    return
+  if not os.path.exists(full_path): return
 
   try:
     with open(full_path, 'r', encoding='utf-8') as f:
       content = f.read()
 
     updated = False
-    if upcoming_html and '<!-- UPCOMING_START -->' in content:
-      content = re.sub(
-          r'(<!-- UPCOMING_START -->).*?(<!-- UPCOMING_END -->)',
-          lambda m: f'{m.group(1)}\n{upcoming_html}\n{m.group(2)}',
-          content,
-          flags=re.DOTALL,
-      )
-      updated = True
-
-    if past_html and '<!-- PAST_START -->' in content:
-      content = re.sub(
-          r'(<!-- PAST_START -->).*?(<!-- PAST_END -->)',
-          lambda m: f'{m.group(1)}\n{past_html}\n{m.group(2)}',
-          content,
-          flags=re.DOTALL,
-      )
-      updated = True
+    for key, html in rankings.items():
+      start = f'<!-- RANKING_{key}_START -->'
+      end = f'<!-- RANKING_{key}_END -->'
+      if start in content and end in content and html:
+        content = re.sub(
+            re.escape(start) + r'.*?' + re.escape(end),
+            f'{start}\n{html}\n{end}',
+            content,
+            flags=re.DOTALL,
+        )
+        updated = True
 
     if updated:
       with open(full_path, 'w', encoding='utf-8') as f:
         f.write(content)
-      print(f'✅ HTML statico iniettato in {filename}')
+      print(f'✅ Ranking statici iniettati in {filename}')
 
+  except Exception as e:
+    print(f'❌ Errore ranking {filename}: {e}')
+
+
+# ============================================================
+# STATS: JSON-LD COMPLETO (Dataset + ItemList)
+# ============================================================
+def build_stats_schemas():
+  """Ritorna una lista di schemi JSON-LD per stats.html:
+  1. Dataset con team_totals
+  2. ItemList per ogni classifica (goals, assists, appearances, mvps, gk, yellows, reds)
+  """
+  players_data = load_json('players.json') or []
+  stats_data = load_json('stats.json') or {}
+  stats_map = stats_data.get('players', {})
+  team_totals = stats_data.get('team_totals', {})
+
+  if not players_data or not stats_map:
+    return []
+
+  schemas = []
+
+  # 1) Dataset con team totals
+  today_iso = date.today().isoformat()
+  dataset = {
+      '@context': 'https://schema.org',
+      '@type': 'Dataset',
+      '@id': f'{YOKOHAMA_FULL_URL}/stats.html#dataset',
+      'name': 'Yokohama Calcio — Team and Player Statistics',
+      'description': (
+          f'Statistical dataset for Yokohama Calcio covering season to date. '
+          f'Total matches: {team_totals.get("total_matches", 0)}, '
+          f'Wins: {team_totals.get("wins", 0)}, '
+          f'Draws: {team_totals.get("draws", 0)}, '
+          f'Losses: {team_totals.get("losses", 0)}, '
+          f'Goals for: {team_totals.get("goals_for", 0)}, '
+          f'Goals against: {team_totals.get("goals_against", 0)}, '
+          f'Clean sheets: {team_totals.get("clean_sheets", 0)}.'
+      ),
+      'creator': {'@type': 'SportsTeam', 'name': 'Yokohama Calcio', 'url': YOKOHAMA_FULL_URL},
+      'dateModified': today_iso,
+      'license': f'{YOKOHAMA_FULL_URL}/terms',
+      'variableMeasured': [
+          {'@type': 'PropertyValue', 'name': 'appearances', 'description': 'Total appearances'},
+          {'@type': 'PropertyValue', 'name': 'starters', 'description': 'Appearances as starter'},
+          {'@type': 'PropertyValue', 'name': 'substitute_appearances', 'description': 'Appearances from bench'},
+          {'@type': 'PropertyValue', 'name': 'goals', 'description': 'Goals scored'},
+          {'@type': 'PropertyValue', 'name': 'assists', 'description': 'Assists provided'},
+          {'@type': 'PropertyValue', 'name': 'mvp_awards', 'description': 'MVP awards'},
+          {'@type': 'PropertyValue', 'name': 'yellow_cards', 'description': 'Yellow cards'},
+          {'@type': 'PropertyValue', 'name': 'red_cards', 'description': 'Red cards'},
+          {'@type': 'PropertyValue', 'name': 'goals_conceded', 'description': 'Goals conceded (goalkeepers)'},
+          {'@type': 'PropertyValue', 'name': 'clean_sheets', 'description': 'Clean sheets (goalkeepers)'},
+      ],
+  }
+  schemas.append(dataset)
+
+  # 2) ItemList per ogni classifica
+  def _make_itemlist(name, description, rows, item_list_order='https://schema.org/Descending'):
+    items = []
+    for idx, (p, st, extra) in enumerate(rows, 1):
+      person_ref = {
+          '@type': 'Person',
+          '@id': f'{YOKOHAMA_FULL_URL}/players.html#{p.get("id", "")}',
+          'name': p.get('name_kanji') or p.get('name_romaji') or '',
+      }
+      # allega le stat principali come additionalProperty nel ListItem
+      props = extra if extra else {}
+      additional = []
+      for k, v in props.items():
+        if v is None: continue
+        additional.append({'@type': 'PropertyValue', 'name': k, 'value': v})
+      item = {
+          '@type': 'ListItem',
+          'position': idx,
+          'item': person_ref,
+      }
+      if additional:
+        item['item']['additionalProperty'] = additional
+      items.append(item)
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        '@id': f'{YOKOHAMA_FULL_URL}/stats.html#{name.lower().replace(" ", "-")}',
+        'name': name,
+        'description': description,
+        'itemListOrder': item_list_order,
+        'numberOfItems': len(items),
+        'itemListElement': items,
+    }
+
+  # Top scorers
+  scorers = []
+  for p in players_data:
+    if p.get('role') == 'staff': continue
+    st = stats_map.get(p.get('id'), {}) or {}
+    g = safe_int(st.get('goals', 0))
+    if g > 0:
+      scorers.append((p, st, {'goals': g, 'appearances': safe_int(st.get('caps', 0))}))
+  scorers.sort(key=lambda x: -x[2]['goals'])
+  if scorers:
+    schemas.append(_make_itemlist('Top Scorers', 'Yokohama Calcio top scorers ranked by goals scored.', scorers))
+
+  # Top assists
+  assists = []
+  for p in players_data:
+    if p.get('role') == 'staff': continue
+    st = stats_map.get(p.get('id'), {}) or {}
+    a = safe_int(st.get('assists', 0))
+    if a > 0:
+      assists.append((p, st, {'assists': a, 'appearances': safe_int(st.get('caps', 0))}))
+  assists.sort(key=lambda x: -x[2]['assists'])
+  if assists:
+    schemas.append(_make_itemlist('Top Assists', 'Yokohama Calcio top assist providers.', assists))
+
+  # Appearances (ordinamento: caps DESC, starters DESC, subs DESC)
+  apps = []
+  for p in players_data:
+    if p.get('role') == 'staff': continue
+    st = stats_map.get(p.get('id'), {}) or {}
+    caps = safe_int(st.get('caps', 0))
+    if caps <= 0: continue
+    starters = safe_int(st.get('starters', 0))
+    subs = safe_int(st.get('subs', 0))
+    apps.append((p, st, {
+        'appearances': caps,
+        'starters': starters,
+        'substitute_appearances': subs,
+    }, caps, starters, subs))
+  apps.sort(key=lambda x: (-x[3], -x[4], -x[5]))
+  if apps:
+    apps_for_list = [(a[0], a[1], a[2]) for a in apps]
+    schemas.append(_make_itemlist(
+        'Appearances Ranking',
+        'Yokohama Calcio appearances ranking. Sorted by total appearances descending, '
+        'then by starts from the starting lineup descending. '
+        'The value in parentheses in the visual ranking represents appearances from the bench.',
+        apps_for_list,
+    ))
+
+  # MVP
+  mvps = []
+  for p in players_data:
+    if p.get('role') == 'staff': continue
+    st = stats_map.get(p.get('id'), {}) or {}
+    m = safe_int(st.get('mvps', 0))
+    if m > 0:
+      mvps.append((p, st, {'mvp_awards': m, 'appearances': safe_int(st.get('caps', 0))}))
+  mvps.sort(key=lambda x: -x[2]['mvp_awards'])
+  if mvps:
+    schemas.append(_make_itemlist('MVP Awards', 'Yokohama Calcio MVP award winners.', mvps))
+
+  # Goalkeepers (ordinamento: avg conceded ASC)
+  gks = []
+  for p in players_data:
+    if (p.get('role') or '').lower() != 'gk': continue
+    st = stats_map.get(p.get('id'), {}) or {}
+    caps = safe_int(st.get('caps', 0))
+    if caps <= 0: continue
+    conceded = safe_int(st.get('goals_conceded', 0))
+    avg = conceded / caps if caps > 0 else 0
+    gks.append((p, st, {
+        'appearances': caps,
+        'goals_conceded': conceded,
+        'clean_sheets': safe_int(st.get('clean_sheets', 0)),
+    }, avg))
+  gks.sort(key=lambda x: x[3])
+  if gks:
+    gks_for_list = [(g[0], g[1], g[2]) for g in gks]
+    schemas.append(_make_itemlist(
+        'Goalkeeper Ranking',
+        'Yokohama Calcio goalkeepers ranked by average goals conceded per appearance (ascending).',
+        gks_for_list,
+        item_list_order='https://schema.org/Ascending',
+    ))
+
+  # Yellows
+  yellows = []
+  for p in players_data:
+    if p.get('role') == 'staff': continue
+    st = stats_map.get(p.get('id'), {}) or {}
+    y = safe_int(st.get('yellows', 0))
+    if y > 0:
+      yellows.append((p, st, {'yellow_cards': y}))
+  yellows.sort(key=lambda x: -x[2]['yellow_cards'])
+  if yellows:
+    schemas.append(_make_itemlist('Yellow Cards', 'Yokohama Calcio players ranked by yellow cards.', yellows))
+
+  # Reds
+  reds = []
+  for p in players_data:
+    if p.get('role') == 'staff': continue
+    st = stats_map.get(p.get('id'), {})
+    r = safe_int(st.get('reds', 0))
+    if r > 0:
+      reds.append((p, st, {'red_cards': r}))
+  reds.sort(key=lambda x: -x[2]['red_cards'])
+  if reds:
+    schemas.append(_make_itemlist('Red Cards', 'Yokohama Calcio players ranked by red cards.', reds))
+
+  return schemas
+
+
+# ============================================================
+# INIEZIONE
+# ============================================================
+def inject_html_to_file(filename, upcoming_html, past_html):
+  full_path = os.path.join(ROOT_DIR, filename)
+  if not os.path.exists(full_path): return
+  try:
+    with open(full_path, 'r', encoding='utf-8') as f:
+      content = f.read()
+    updated = False
+    if upcoming_html and '<!-- UPCOMING_START -->' in content:
+      content = re.sub(r'(<!-- UPCOMING_START -->).*?(<!-- UPCOMING_END -->)',
+                       lambda m: f'{m.group(1)}\n{upcoming_html}\n{m.group(2)}',
+                       content, flags=re.DOTALL)
+      updated = True
+    if past_html and '<!-- PAST_START -->' in content:
+      content = re.sub(r'(<!-- PAST_START -->).*?(<!-- PAST_END -->)',
+                       lambda m: f'{m.group(1)}\n{past_html}\n{m.group(2)}',
+                       content, flags=re.DOTALL)
+      updated = True
+    if updated:
+      with open(full_path, 'w', encoding='utf-8') as f:
+        f.write(content)
+      print(f'✅ HTML statico iniettato in {filename}')
   except Exception as e:
     print(f'❌ Errore aggiornando {filename}: {e}')
 
 
 def inject_players_html_to_file(filename, players_html):
-  if not players_html:
-    return
+  if not players_html: return
   full_path = os.path.join(ROOT_DIR, filename)
-  if not os.path.exists(full_path):
-    return
-
+  if not os.path.exists(full_path): return
   try:
     with open(full_path, 'r', encoding='utf-8') as f:
       content = f.read()
-
     if '<!-- PLAYERS_START -->' in content and '<!-- PLAYERS_END -->' in content:
-      content = re.sub(
-          r'(<!-- PLAYERS_START -->).*?(<!-- PLAYERS_END -->)',
-          lambda m: f'{m.group(1)}\n{players_html}\n{m.group(2)}',
-          content,
-          flags=re.DOTALL,
-      )
+      content = re.sub(r'(<!-- PLAYERS_START -->).*?(<!-- PLAYERS_END -->)',
+                       lambda m: f'{m.group(1)}\n{players_html}\n{m.group(2)}',
+                       content, flags=re.DOTALL)
       with open(full_path, 'w', encoding='utf-8') as f:
         f.write(content)
       print(f'✅ Card giocatori iniettate in {filename}')
@@ -879,21 +1023,16 @@ def inject_players_html_to_file(filename, players_html):
 
 
 def inject_showcase_html_to_file(filename, showcase_html):
-  if not showcase_html:
-    return
+  if not showcase_html: return
   full_path = os.path.join(ROOT_DIR, filename)
-  if not os.path.exists(full_path):
-    return
+  if not os.path.exists(full_path): return
   try:
     with open(full_path, 'r', encoding='utf-8') as f:
       content = f.read()
     if '<!-- SHOWCASE_START -->' in content and '<!-- SHOWCASE_END -->' in content:
-      content = re.sub(
-          r'(<!-- SHOWCASE_START -->).*?(<!-- SHOWCASE_END -->)',
-          lambda m: f'{m.group(1)}\n{showcase_html}\n{m.group(2)}',
-          content,
-          flags=re.DOTALL,
-      )
+      content = re.sub(r'(<!-- SHOWCASE_START -->).*?(<!-- SHOWCASE_END -->)',
+                       lambda m: f'{m.group(1)}\n{showcase_html}\n{m.group(2)}',
+                       content, flags=re.DOTALL)
       with open(full_path, 'w', encoding='utf-8') as f:
         f.write(content)
       print(f'✅ Showcase statica iniettata in {filename}')
@@ -901,32 +1040,21 @@ def inject_showcase_html_to_file(filename, showcase_html):
     print(f'❌ Errore showcase in {filename}: {e}')
 
 
-# ============================================================
-# INIEZIONE JSON-LD
-# ============================================================
 def _inject_jsonld_blocks(filename, start_marker, end_marker, schemas, label):
   full_path = os.path.join(ROOT_DIR, filename)
-  if not os.path.exists(full_path) or not schemas:
-    return
+  if not os.path.exists(full_path) or not schemas: return
   try:
     with open(full_path, 'r', encoding='utf-8') as f:
       content = f.read()
 
-    blocks = [
-        '<script type="application/ld+json">\n'
-        + json.dumps(s, ensure_ascii=False, indent=2)
-        + '\n</script>'
-        for s in schemas
-    ]
+    blocks = ['<script type="application/ld+json">\n' +
+              json.dumps(s, ensure_ascii=False, indent=2) + '\n</script>'
+              for s in schemas]
     block_html = f'{start_marker}\n' + '\n'.join(blocks) + f'\n{end_marker}'
 
     if start_marker in content and end_marker in content:
-      content = re.sub(
-          re.escape(start_marker) + r'.*?' + re.escape(end_marker),
-          block_html,
-          content,
-          flags=re.DOTALL,
-      )
+      content = re.sub(re.escape(start_marker) + r'.*?' + re.escape(end_marker),
+                       block_html, content, flags=re.DOTALL)
       with open(full_path, 'w', encoding='utf-8') as f:
         f.write(content)
       print(f'✅ {label} iniettato in {filename}')
@@ -935,26 +1063,21 @@ def _inject_jsonld_blocks(filename, start_marker, end_marker, schemas, label):
 
 
 def inject_schema_events(filename, schema_events):
-  _inject_jsonld_blocks(
-      filename, '<!-- SCHEMA_EVENTS_START -->', '<!-- SCHEMA_EVENTS_END -->',
-      schema_events, 'JSON-LD eventi'
-  )
+  _inject_jsonld_blocks(filename,
+                        '<!-- SCHEMA_EVENTS_START -->', '<!-- SCHEMA_EVENTS_END -->',
+                        schema_events, 'JSON-LD eventi')
 
 
 def inject_schema_players(filename, schemas):
-  _inject_jsonld_blocks(
-      filename, '<!-- SCHEMA_PLAYERS_START -->', '<!-- SCHEMA_PLAYERS_END -->',
-      schemas, 'Player JSON-LD'
-  )
+  _inject_jsonld_blocks(filename,
+                        '<!-- SCHEMA_PLAYERS_START -->', '<!-- SCHEMA_PLAYERS_END -->',
+                        schemas, 'Player JSON-LD')
 
 
-def inject_schema_stats(filename, schema):
-  if not schema:
-    return
-  _inject_jsonld_blocks(
-      filename, '<!-- SCHEMA_STATS_START -->', '<!-- SCHEMA_STATS_END -->',
-      [schema], 'Stats JSON-LD'
-  )
+def inject_schema_stats(filename, schemas):
+  _inject_jsonld_blocks(filename,
+                        '<!-- SCHEMA_STATS_START -->', '<!-- SCHEMA_STATS_END -->',
+                        schemas, 'Stats JSON-LD')
 
 
 # ============================================================
@@ -963,42 +1086,27 @@ def inject_schema_stats(filename, schema):
 if __name__ == '__main__':
   print(f'📂 ROOT_DIR rilevata: {ROOT_DIR}')
 
-  # ------------------------------------------------------------
-  # 1. PARTITE
-  #    index.html   → hero + ultima partita + JSON-LD eventi visibili
-  #    matches.html → tutte le partite + JSON-LD eventi completi
-  # ------------------------------------------------------------
+  # 1) MATCHES
   upcoming_h, past_h, schema_events = build_static_matches_html()
-
   inject_html_to_file('index.html', upcoming_h, past_h)
   inject_html_to_file('matches.html', upcoming_h, past_h)
-
   inject_schema_events('index.html', schema_events)
   inject_schema_events('matches.html', schema_events)
 
-  # ------------------------------------------------------------
-  # 2. GIOCATORI (solo players.html)
-  #    - Card HTML statiche
-  #    - JSON-LD Person con TUTTE le statistiche
-  # ------------------------------------------------------------
+  # 2) PLAYERS (solo players.html)
   players_h, schema_players = build_players_html()
   inject_players_html_to_file('players.html', players_h)
   inject_schema_players('players.html', schema_players)
 
-  # ------------------------------------------------------------
-  # 3. SHOWCASE HOME (solo index.html)
-  #    - 3 giocatori statici per bot AI
-  #    - Il JS li sovrascrive con 3 casuali per gli utenti
-  # ------------------------------------------------------------
+  # 3) SHOWCASE (solo index.html)
   showcase_h = build_static_showcase_html(3)
   inject_showcase_html_to_file('index.html', showcase_h)
 
-  # ------------------------------------------------------------
-  # 4. STATISTICHE AGGREGATE (solo stats.html)
-  #    - JSON-LD ItemList con riferimento ai giocatori
-  #    - Summary delle statistiche di squadra nella description
-  # ------------------------------------------------------------
-  stats_schema = build_stats_schema()
-  inject_schema_stats('stats.html', stats_schema)
+  # 4) STATS (solo stats.html)
+  rankings = build_static_stats_rankings()
+  inject_stats_rankings('stats.html', rankings)
+
+  stats_schemas = build_stats_schemas()
+  inject_schema_stats('stats.html', stats_schemas)
 
   print('🎉 Script Python completato con successo!')
