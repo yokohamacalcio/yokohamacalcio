@@ -217,9 +217,19 @@
             white-space: nowrap !important; 
             font-size: 0.72rem;
             line-height: 1.2;
+            width: 100%;
+            overflow: hidden;
         }
         .player-detail-row:last-child { border-bottom: none; }
-        .player-detail-row > span { white-space: nowrap !important; flex-shrink: 0; }
+        .player-detail-row-left {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap !important;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-shrink: 1;
+        }
         .player-detail-row strong { 
             text-align: right; 
             margin-left: auto; 
@@ -388,6 +398,7 @@
             <button class="filter-btn" data-role-filter="fw" data-i18n="role_filter.fw">FW</button>
         </div>
 
+        <!-- PLAYERS_START -->
         <div class="role-group" data-role-section="gk">
             <h3 class="role-title"><i class="fas fa-hands"></i> <span data-i18n="section.gk">GOALKEEPER</span></h3>
             <div class="players-grid" id="players-gk"></div>
@@ -407,6 +418,7 @@
             <h3 class="role-title"><i class="fas fa-futbol"></i> <span data-i18n="section.fw">FORWARD</span></h3>
             <div class="players-grid" id="players-fw"></div>
         </div>
+        <!-- PLAYERS_END -->
 
         <div class="back-home-wrapper" style="text-align: center; margin-top: 40px;">
             <a href="index.html" class="google-form-btn back-btn" style="display: inline-flex; justify-content: center; align-items: center; max-width: 250px; margin: 0 auto; gap: 8px;">
@@ -493,7 +505,7 @@
             "btn.details": "詳細・個人成績", "btn.back": "戻る",
             "section.gk": "GOALKEEPER", "section.df": "DEFENDER", "section.mf": "MIDFIELDER", "section.fw": "FORWARD",
             "label.role_detail": "役割:", "label.hometown": "出身地:", "label.age": "年齢:",
-            "label.appearances": "出場数:",
+            "label.appearances": "出場数 (先発/途中):",
             "label.goals": "得点:", "label.assists": "アシスト:", "label.yellows": "警告:", "label.reds": "退場:",
             "label.goals_conceded": "失点:", "label.clean_sheets": "クリーンシート:",
             "unit.age": "歳"
@@ -509,7 +521,7 @@
             "btn.details": "Dettagli & Stats", "btn.back": "Torna alla fronte",
             "section.gk": "PORTIERI", "section.df": "DIFENSORI", "section.mf": "CENTROCAMPISTI", "section.fw": "ATTACCANTI",
             "label.role_detail": "Ruolo:", "label.hometown": "Origine:", "label.age": "Età:",
-            "label.appearances": "Presenze:",
+            "label.appearances": "Presenze (Tit/Sub):",
             "label.goals": "Gol:", "label.assists": "Assist:", "label.yellows": "Amm:", "label.reds": "Esp:",
             "label.goals_conceded": "Gol subiti:", "label.clean_sheets": "Porta inviolata:",
             "unit.age": "anni"
@@ -525,7 +537,7 @@
             "btn.details": "Stats & Details", "btn.back": "Back to front",
             "section.gk": "GOALKEEPERS", "section.df": "DEFENDERS", "section.mf": "MIDFIELDERS", "section.fw": "FORWARDS",
             "label.role_detail": "Position:", "label.hometown": "Hometown:", "label.age": "Age:",
-            "label.appearances": "Caps:",
+            "label.appearances": "Caps (GS/Sub):",
             "label.goals": "Goals:", "label.assists": "Assists:", "label.yellows": "Yellows:", "label.reds": "Reds:",
             "label.goals_conceded": "Goals conceded:", "label.clean_sheets": "Clean sheets:",
             "unit.age": "years old"
@@ -683,7 +695,7 @@
         return icons[role] || 'fa-user';
     }
 
-    function createPlayerCard(p) {
+    function createPlayerCard(p, pStats = {}) {
         const isGK = (p.role === 'gk') || (p.position && p.position.toUpperCase().includes('GK'));
         
         const numberOnly = (p.number !== null && p.number !== undefined) ? p.number : '-';
@@ -697,6 +709,17 @@
         const age = calculateAge(p.birth_date);
         const rawPosition = p.position || '-';
 
+        const caps = pStats.caps !== undefined ? pStats.caps : 0;
+        const starters = pStats.starters !== undefined ? pStats.starters : 0;
+        const subs = pStats.subs !== undefined ? pStats.subs : 0;
+        const goals = pStats.goals !== undefined ? pStats.goals : 0;
+        const assists = pStats.assists !== undefined ? pStats.assists : 0;
+        const mvps = pStats.mvps !== undefined ? pStats.mvps : 0;
+        const yellows = pStats.yellows !== undefined ? pStats.yellows : 0;
+        const reds = pStats.reds !== undefined ? pStats.reds : 0;
+        const goalsConceded = pStats.goals_conceded !== undefined ? pStats.goals_conceded : 0;
+        const cleanSheets = pStats.clean_sheets !== undefined ? pStats.clean_sheets : 0;
+
         const jerseyRoleClass = isGK ? 'jersey-gk' : '';
 
         let captainFasciaHtml = '';
@@ -705,6 +728,19 @@
         } else if (p.leadership_role === 'vice_captain' || p.id === 'lopez-irving') {
             captainFasciaHtml = `<div class="captain-fascia vc-fascia" title="Vice Captain">VICE CAPT.</div>`;
         }
+
+        const capsRowHtml = `
+            <div class="player-detail-row">
+                <div class="player-detail-row-left">
+                    <i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> 
+                    <span data-i18n="label.appearances">出場数 (先発/途中):</span>
+                </div> 
+                <strong class="stats-highlight">
+                    <span class="stat-caps">${caps}</span> 
+                    <span class="sub-stat-detail">(<span class="stat-starters">${starters}</span>/<span class="stat-subs">${subs}</span>)</span>
+                </strong>
+            </div>
+        `;
 
         let detailsRows = '';
         if (isGK) {
@@ -715,15 +751,12 @@
                 </div>
                 <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="${hometownCode}"></strong></div>
                 <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="${age}">${age} 歳</strong></div>
-                <div class="player-detail-row">
-                    <span><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数:</span></span> 
-                    <strong class="stats-highlight"><span class="stat-caps">0</span> <span class="sub-stat-detail">(<span class="stat-starters">0</span>/<span class="stat-subs">0</span>)</span></strong>
-                </div>
-                <div class="player-detail-row"><span><i class="fas fa-shield-halved"></i> <span data-i18n="label.goals_conceded">失点:</span></span> <strong class="stats-highlight stat-goals-conceded">0</strong></div>
-                <div class="player-detail-row"><span><i class="fas fa-lock"></i> <span data-i18n="label.clean_sheets">クリーンシート:</span></span> <strong class="stats-highlight stat-clean-sheets">0</strong></div>
-                <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div>
-                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div>
-                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div>
+                ${capsRowHtml}
+                <div class="player-detail-row"><span><i class="fas fa-shield-halved"></i> <span data-i18n="label.goals_conceded">失点:</span></span> <strong class="stats-highlight stat-goals-conceded">${goalsConceded}</strong></div>
+                <div class="player-detail-row"><span><i class="fas fa-lock"></i> <span data-i18n="label.clean_sheets">クリーンシート:</span></span> <strong class="stats-highlight stat-clean-sheets">${cleanSheets}</strong></div>
+                <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">${mvps}</strong></div>
+                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">${yellows}</strong></div>
+                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">${reds}</strong></div>
             `;
         } else {
             detailsRows = `
@@ -733,15 +766,12 @@
                 </div>
                 <div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="${hometownCode}"></strong></div>
                 <div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="${age}">${age} 歳</strong></div>
-                <div class="player-detail-row">
-                    <span><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数:</span></span> 
-                    <strong class="stats-highlight"><span class="stat-caps">0</span> <span class="sub-stat-detail">(<span class="stat-starters">0</span>/<span class="stat-subs">0</span>)</span></strong>
-                </div>
-                <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div>
-                <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div>
-                <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div>
-                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div>
-                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div>
+                ${capsRowHtml}
+                <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">${goals}</strong></div>
+                <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">${assists}</strong></div>
+                <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">${mvps}</strong></div>
+                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">${yellows}</strong></div>
+                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">${reds}</strong></div>
             `;
         }
 
@@ -779,6 +809,48 @@
                 </div>
             </div>
         `;
+    }
+
+    async function loadStatsAndApply() {
+        try {
+            const response = await fetch('stats.json');
+            if (!response.ok) return false;
+            const statsData = await response.json();
+            const playerStatsMap = statsData.players || {};
+
+            document.querySelectorAll('.player-card').forEach(card => {
+                const cardKey = card.getAttribute('data-player-id');
+                const pStats = playerStatsMap[cardKey];
+                if (!pStats) return;
+
+                const capsElem = card.querySelector('.stat-caps');
+                const startersElem = card.querySelector('.stat-starters');
+                const subsElem = card.querySelector('.stat-subs');
+                const goalElem = card.querySelector('.stat-goals');
+                const assistElem = card.querySelector('.stat-assists');
+                const mvpElem = card.querySelector('.stat-mvps');
+                const yellowElem = card.querySelector('.stat-yellows');
+                const redElem = card.querySelector('.stat-reds');
+                const gkGoalElem = card.querySelector('.stat-goals-conceded');
+                const cleanSheetElem = card.querySelector('.stat-clean-sheets');
+
+                if (capsElem) capsElem.textContent = pStats.caps !== undefined ? pStats.caps : 0;
+                if (startersElem) startersElem.textContent = pStats.starters !== undefined ? pStats.starters : 0;
+                if (subsElem) subsElem.textContent = pStats.subs !== undefined ? pStats.subs : 0;
+                if (goalElem) goalElem.textContent = pStats.goals !== undefined ? pStats.goals : 0;
+                if (assistElem) assistElem.textContent = pStats.assists !== undefined ? pStats.assists : 0;
+                if (mvpElem) mvpElem.textContent = pStats.mvps !== undefined ? pStats.mvps : 0;
+                if (yellowElem) yellowElem.textContent = pStats.yellows !== undefined ? pStats.yellows : 0;
+                if (redElem) redElem.textContent = pStats.reds !== undefined ? pStats.reds : 0;
+
+                if (gkGoalElem) gkGoalElem.textContent = pStats.goals_conceded !== undefined ? pStats.goals_conceded : 0;
+                if (cleanSheetElem) cleanSheetElem.textContent = pStats.clean_sheets !== undefined ? pStats.clean_sheets : 0;
+            });
+            return true;
+        } catch (e) {
+            console.warn("stats.json non trovato, uso fallback locale:", e);
+            return false;
+        }
     }
 
     async function calculateStatsFromMatchesJSON() {
@@ -1009,7 +1081,7 @@
         }
     }
 
-    async function populatePlayers(players) {
+    async function populatePlayers(players, statsMap = {}) {
         const fieldPlayers = players.filter(p => p.role !== 'staff');
         globalPlayers = fieldPlayers;
         calculateSurnameCounts(fieldPlayers);
@@ -1027,20 +1099,41 @@
 
         Object.keys(sections).forEach(role => {
             const container = document.getElementById(`players-${role}`);
-            if (container) container.innerHTML = sections[role].map(createPlayerCard).join('');
+            if (container) {
+                container.innerHTML = sections[role].map(p => {
+                    const pId = p.id || String(p.number) || p.name_kanji;
+                    return createPlayerCard(p, statsMap[pId] || {});
+                }).join('');
+            }
         });
 
         setLanguage(currentLang);
-        await calculateStatsFromMatchesJSON();
+
+        const hasStatsJSON = await loadStatsAndApply();
+        if (!hasStatsJSON) {
+            await calculateStatsFromMatchesJSON();
+        }
+
         checkUrlHashAndScroll();
     }
 
     async function loadPlayersJSON() {
         try {
+            let statsMap = {};
+            try {
+                const statsRes = await fetch('stats.json');
+                if (statsRes.ok) {
+                    const statsJson = await statsRes.json();
+                    statsMap = statsJson.players || {};
+                }
+            } catch (e) {
+                console.warn("stats.json non caricato lato client, procedo con fallback.");
+            }
+
             const response = await fetch('players.json');
             if (!response.ok) throw new Error('Errore nella fetch');
             const players = await response.json();
-            await populatePlayers(players);
+            await populatePlayers(players, statsMap);
         } catch (error) {
             console.error('Errore nel caricamento dei giocatori:', error);
         }
