@@ -27,9 +27,9 @@ function main() {
 
     playersData.forEach(p => {
         if (p.role === 'staff') return;
-        
+
         const id = p.id || String(p.number) || p.name_kanji;
-        
+
         playerMap.set(id, {
             id: id,
             number: p.number,
@@ -50,11 +50,8 @@ function main() {
             clean_sheets: 0
         });
 
-        // Registra alias per il matching dai tabellini
         [id, p.name_kanji, p.name_kana, p.name_romaji].forEach(name => {
-            if (name) {
-                aliasToId.set(cleanStr(name), id);
-            }
+            if (name) aliasToId.set(cleanStr(name), id);
         });
     });
 
@@ -65,11 +62,8 @@ function main() {
 
         if (aliasToId.has(target)) return aliasToId.get(target);
 
-        // Ricerca parziale di riserva
         for (let [alias, id] of aliasToId.entries()) {
-            if (alias.includes(target) || target.includes(alias)) {
-                return id;
-            }
+            if (alias.includes(target) || target.includes(alias)) return id;
         }
         return null;
     }
@@ -94,13 +88,15 @@ function main() {
         let matchGF = 0;
         let matchGA = 0;
         const scoreText = m.score ? m.score.trim() : '';
-        
+
+        // ⚠️ CONVENZIONE matches.json:
+        // Il punteggio è SEMPRE "NOSTRI - LORO", indipendentemente da casa/trasferta.
+        // Quindi NON si deve invertire in base a isHome.
         if (scoreText && scoreText.includes('-')) {
             const parts = scoreText.split('-').map(n => parseInt(n.trim(), 10));
             if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-                const isHome = m.isHome !== undefined ? m.isHome : true;
-                matchGF = isHome ? parts[0] : parts[1];
-                matchGA = isHome ? parts[1] : parts[0];
+                matchGF = parts[0];   // ← gol nostri
+                matchGA = parts[1];   // ← gol loro
             }
         }
 
@@ -149,9 +145,7 @@ function main() {
                     count = parseInt(multMatch[2], 10) || 1;
                 }
                 const pId = resolvePlayerId(text);
-                if (pId && playerMap.has(pId)) {
-                    playerMap.get(pId).goals += count;
-                }
+                if (pId && playerMap.has(pId)) playerMap.get(pId).goals += count;
             });
         }
 
@@ -166,9 +160,7 @@ function main() {
                     count = parseInt(multMatch[2], 10) || 1;
                 }
                 const pId = resolvePlayerId(text);
-                if (pId && playerMap.has(pId)) {
-                    playerMap.get(pId).assists += count;
-                }
+                if (pId && playerMap.has(pId)) playerMap.get(pId).assists += count;
             });
         }
 
@@ -197,21 +189,22 @@ function main() {
             m.goalkeepers.split(/[,、]/).forEach(entry => {
                 const match = entry.trim().match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
                 let rawGk = entry.trim();
-                let gkGa = matchGA;
+                let gkGa = matchGA;   // fallback: usa i gol subiti totali della partita
                 if (match) {
                     rawGk = match[1].trim();
-                    gkGa = parseInt(match[2], 10);
+                    const parsed = parseInt(match[2], 10);
+                    if (!isNaN(parsed)) gkGa = parsed;
                 }
                 const pId = resolvePlayerId(rawGk);
                 if (pId && playerMap.has(pId)) {
-                    playerMap.get(pId).goals_conceded += isNaN(gkGa) ? matchGA : gkGa;
+                    playerMap.get(pId).goals_conceded += gkGa;
                     if (gkGa === 0) playerMap.get(pId).clean_sheets++;
                 }
             });
         }
     });
 
-    // 3. Creazione Classifiche
+    // 3. Classifiche
     const allPlayersList = Array.from(playerMap.values());
 
     const statsOutput = {
@@ -228,6 +221,7 @@ function main() {
 
     fs.writeFileSync(OUTPUT_FILE, JSON.stringify(statsOutput, null, 2), 'utf8');
     console.log(`✅ Successo! Il file ${OUTPUT_FILE} è stato generato correttamente.`);
+    console.log(`📊 Partite: ${teamTotals.total_matches} | V: ${teamTotals.wins} | N: ${teamTotals.draws} | P: ${teamTotals.losses} | GF: ${teamTotals.goals_for} | GS: ${teamTotals.goals_against}`);
 }
 
 main();
