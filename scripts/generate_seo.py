@@ -32,6 +32,13 @@ def load_json(path):
   return None
 
 
+def safe_int(v):
+  try:
+    return int(v)
+  except (TypeError, ValueError):
+    return 0
+
+
 def get_opp_info(m, opponents):
   opp_id = m.get('opponent_id')
   opp = opponents.get(opp_id, {}) if isinstance(opponents, dict) else {}
@@ -72,12 +79,52 @@ def get_category_label(cat):
 
 
 # ============================================================
+# PLAYER LOOKUP HELPER (per collegare performers agli eventi)
+# ============================================================
+def find_player_by_name(name_str, players_data):
+  """Trova un giocatore in players.json dato un nome (kanji/kana/romaji)."""
+  if not name_str or not players_data:
+    return None
+  target = str(name_str).strip().lower().replace(' ', '').replace('　', '')
+  if not target:
+    return None
+
+  # Match esatto
+  for pl in players_data:
+    for key in ('name_kanji', 'name_kana', 'name_romaji'):
+      v = str(pl.get(key, '')).strip().lower().replace(' ', '').replace('　', '')
+      if v and v == target:
+        return pl
+
+  # Match parziale (kanji cognome, ecc.)
+  for pl in players_data:
+    for key in ('name_kanji', 'name_kana', 'name_romaji'):
+      v = str(pl.get(key, '')).strip().lower().replace(' ', '').replace('　', '')
+      if v and (v in target or target in v):
+        return pl
+  return None
+
+
+def person_reference_from_name(name_str, players_data):
+  """Restituisce un Person con @id se il giocatore è trovato, altrimenti Person base."""
+  pl = find_player_by_name(name_str, players_data)
+  if pl and pl.get('id'):
+    return {
+        '@type': 'Person',
+        '@id': f'{YOKOHAMA_FULL_URL}/players.html#{pl["id"]}',
+        'name': pl.get('name_kanji') or pl.get('name_romaji') or name_str,
+    }
+  return {'@type': 'Person', 'name': name_str}
+
+
+# ============================================================
 # GENERAZIONE HTML + SCHEMA (MATCHES)
 # ============================================================
 def build_static_matches_html():
   matches = load_json('matches.json') or []
   locations = load_json('locations.json') or {}
   opponents = load_json('opponents.json') or {}
+  players_data = load_json('players.json') or []
 
   if not matches:
     print('⚠️ matches.json vuoto o non trovato, salto generazione HTML.')
@@ -116,8 +163,7 @@ def build_static_matches_html():
     )
     surface_html = (
         f'<div class="match-info-item"><i class="fas fa-layer-group"'
-        f' style="color:'
-        f' var(--primary-sky);"></i><span>{loc_surface}</span></div>'
+        f' style="color: var(--primary-sky);"></i><span>{loc_surface}</span></div>'
         if loc_surface
         else ''
     )
@@ -183,34 +229,17 @@ def build_static_matches_html():
     mvp = last_m.get('mvp', '')
 
     scorers_html = (
-        f"""
-            <div class="match-info-item">
-                <i class="fas fa-futbol" style="color: var(--dark-navy);"></i>
-                <span>{scorers}</span>
-            </div>
-            """
+        f'<div class="match-info-item"><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span>{scorers}</span></div>'
         if scorers and scorers not in ['なし', 'Nessuno']
         else ''
     )
-
     mvp_html = (
-        f"""
-            <div class="match-info-item">
-                <i class="fas fa-star" style="color: #f59e0b;"></i>
-                <strong style="color: var(--dark-navy);">{mvp}</strong>
-            </div>
-            """
+        f'<div class="match-info-item"><i class="fas fa-star" style="color: #f59e0b;"></i> <strong style="color: var(--dark-navy);">{mvp}</strong></div>'
         if mvp and mvp not in ['なし', 'Nessuno']
         else ''
     )
-
     info_bar_html = (
-        f"""
-            <div class="match-info-hero-bar">
-                {scorers_html}
-                {mvp_html}
-            </div>
-            """
+        f'<div class="match-info-hero-bar">{scorers_html}{mvp_html}</div>'
         if (scorers_html or mvp_html)
         else ''
     )
@@ -252,7 +281,7 @@ def build_static_matches_html():
         </div>
         """
 
-  # 3. SCHEMA.ORG EVENTI
+  # 3. SCHEMA.ORG EVENTI (con performer collegati ai giocatori)
   schema_events = []
   for m in matches:
     opp_name, _ = get_opp_info(m, opponents)
@@ -281,6 +310,7 @@ def build_static_matches_html():
     event_schema = {
         '@context': 'https://schema.org',
         '@type': 'SportsEvent',
+        '@id': f'{YOKOHAMA_FULL_URL}/matches.html#{m.get("id", "")}',
         'name': event_name,
         'description': ' '.join(desc_parts),
         'startDate': f"{m.get('date', '')}T{m.get('time', '10:00')}:00+09:00",
@@ -288,6 +318,18 @@ def build_static_matches_html():
         'homeTeam': {'@type': 'SportsTeam', 'name': home_team},
         'awayTeam': {'@type': 'SportsTeam', 'name': away_team},
     }
+
+    # Collega marcatori come performer (con @id verso players.html)
+    performers = []
+    scorers_str = str(m.get('scorers', '')).strip()
+    if scorers_str and scorers_str not in ['なし', 'Nessuno', '']:
+      for s in re.split(r'[,、]', scorers_str):
+        name_only = re.sub(r'\s*[xX\*]\s*\d+\s*$', '', s).strip()
+        if name_only:
+          performers.append(person_reference_from_name(name_only, players_data))
+
+    if performers:
+      event_schema['performer'] = performers
 
     if status == 'past' and score:
       event_schema['eventStatus'] = 'https://schema.org/EventCompleted'
@@ -298,9 +340,8 @@ def build_static_matches_html():
 
 
 # ============================================================
-# GENERAZIONE SCHEDE GIOCATORI CON INTEGRAZIONE STATS.JSON
+# GENERAZIONE SCHEDE GIOCATORI (players.html)
 # ============================================================
-
 SECTION_ICONS = {
     'gk': 'fa-hands',
     'df': 'fa-shield-alt',
@@ -391,7 +432,6 @@ def _build_details_rows(p, player_stats):
   role_badge_class = ROLE_BADGE_CLASSES.get(role, 'role-badge-mf')
   role_icon = BADGE_ICONS.get(role, 'fa-user')
 
-  # Recupero statistiche da stats.json (o fallback a 0)
   st = player_stats or {}
   caps = st.get('caps', 0)
   starters = st.get('starters', 0)
@@ -422,37 +462,33 @@ def _build_details_rows(p, player_stats):
       f'<strong data-age="{age}">{age} 歳</strong></div>'
   )
 
-  # RIGA PRESENZE ULTRA-FLUIDA (Nessun a capo + Chiarezza etichetta)
-  caps_row = f"""
-        <div class="player-detail-row" style="display: flex; justify-content: space-between; align-items: center; width: 100%; overflow: hidden;">
-            <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 1; margin-right: 4px;">
-                <i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> 
-                <span data-i18n="label.appearances">出場数 (先発/途中):</span>
-            </span> 
-            <strong class="stats-highlight" style="white-space: nowrap; flex-shrink: 0; text-align: right;">
-                <span class="stat-caps">{caps}</span> 
-                <span class="sub-stat-detail" style="font-size: 0.65rem; color: #64748b; font-weight: 600; margin-left: 2px;">(<span class="stat-starters">{starters}</span>/<span class="stat-subs">{subs}</span>)</span>
-            </strong>
-        </div>
-    """
+  # RIGA PRESENZE — inline-flex compatto, nessun wrap
+  caps_row = (
+      '<div class="player-detail-row">'
+      '<div class="player-detail-row-left">'
+      '<i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> '
+      '<span data-i18n="label.appearances">出場数 (先発/途中):</span>'
+      '</div>'
+      '<strong class="stats-highlight">'
+      f'<span class="stat-caps">{caps}</span>'
+      f'<span class="sub-stat-detail">(<span class="stat-starters">{starters}</span>/<span class="stat-subs">{subs}</span>)</span>'
+      '</strong>'
+      '</div>'
+  )
 
   if is_gk:
     stat_rows = (
         caps_row
-        + f"""
-        <div class="player-detail-row"><span><i class="fas fa-shield-halved"></i> <span data-i18n="label.goals_conceded">失点:</span></span> <strong class="stats-highlight stat-goals-conceded">{goals_conceded}</strong></div>
-        <div class="player-detail-row"><span><i class="fas fa-lock"></i> <span data-i18n="label.clean_sheets">クリーンシート:</span></span> <strong class="stats-highlight stat-clean-sheets">{clean_sheets}</strong></div>
-        <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">{mvps}</strong></div>
-        """
+        + f'<div class="player-detail-row"><span><i class="fas fa-shield-halved"></i> <span data-i18n="label.goals_conceded">失点:</span></span> <strong class="stats-highlight stat-goals-conceded">{goals_conceded}</strong></div>'
+        + f'<div class="player-detail-row"><span><i class="fas fa-lock"></i> <span data-i18n="label.clean_sheets">クリーンシート:</span></span> <strong class="stats-highlight stat-clean-sheets">{clean_sheets}</strong></div>'
+        + f'<div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">{mvps}</strong></div>'
     )
   else:
     stat_rows = (
         caps_row
-        + f"""
-        <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">{goals}</strong></div>
-        <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">{assists}</strong></div>
-        <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">{mvps}</strong></div>
-        """
+        + f'<div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">{goals}</strong></div>'
+        + f'<div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">{assists}</strong></div>'
+        + f'<div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">{mvps}</strong></div>'
     )
 
   yellow_row = f'<div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">{yellows}</strong></div>'
@@ -512,6 +548,82 @@ def create_player_card_html(p, surname_counts, player_stats):
         """
 
 
+def _person_schema_with_stats(p, p_stats):
+  """Costruisce il Person JSON-LD con additionalProperty (statistiche complete)."""
+  name_kanji = p.get('name_kanji') or ''
+  name_romaji = p.get('name_romaji') or ''
+  position = p.get('position') or ''
+  role = (p.get('role') or '').lower()
+  pid = p.get('id') or ''
+
+  person = {
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      '@id': f'{YOKOHAMA_FULL_URL}/players.html#{pid}',
+      'name': name_kanji or name_romaji or 'Player',
+      'memberOf': {
+          '@type': 'SportsTeam',
+          'name': 'Yokohama Calcio',
+          'url': YOKOHAMA_FULL_URL,
+      },
+  }
+
+  if name_romaji:
+    person['alternateName'] = name_romaji
+  if p.get('name_kana'):
+    person['givenName'] = p['name_kana']
+  if position:
+    person['jobTitle'] = f'Soccer Player ({position})'
+  if p.get('birth_date'):
+    person['birthDate'] = p['birth_date']
+  if p.get('hometown'):
+    person['birthPlace'] = {'@type': 'Place', 'name': p['hometown']}
+  if p.get('number') is not None:
+    person['identifier'] = str(p['number'])
+
+  st = p_stats or {}
+  caps = safe_int(st.get('caps', 0))
+  starters = safe_int(st.get('starters', 0))
+  subs = safe_int(st.get('subs', 0))
+  goals = safe_int(st.get('goals', 0))
+  assists = safe_int(st.get('assists', 0))
+  mvps = safe_int(st.get('mvps', 0))
+  yellows = safe_int(st.get('yellows', 0))
+  reds = safe_int(st.get('reds', 0))
+  conceded = safe_int(st.get('goals_conceded', 0))
+  clean_sheets = safe_int(st.get('clean_sheets', 0))
+
+  additional = [
+      {'@type': 'PropertyValue', 'name': 'appearances', 'value': caps},
+      {'@type': 'PropertyValue', 'name': 'starters', 'value': starters},
+      {'@type': 'PropertyValue', 'name': 'substitute_appearances', 'value': subs},
+      {'@type': 'PropertyValue', 'name': 'goals', 'value': goals},
+      {'@type': 'PropertyValue', 'name': 'assists', 'value': assists},
+      {'@type': 'PropertyValue', 'name': 'mvp_awards', 'value': mvps},
+      {'@type': 'PropertyValue', 'name': 'yellow_cards', 'value': yellows},
+      {'@type': 'PropertyValue', 'name': 'red_cards', 'value': reds},
+  ]
+  if role == 'gk':
+    additional.append({'@type': 'PropertyValue', 'name': 'goals_conceded', 'value': conceded})
+    additional.append({'@type': 'PropertyValue', 'name': 'clean_sheets', 'value': clean_sheets})
+
+  person['additionalProperty'] = additional
+
+  # Description in linguaggio naturale (utile per LLM)
+  role_label = {'gk': 'Goalkeeper', 'df': 'Defender', 'mf': 'Midfielder', 'fw': 'Forward'}.get(role, 'Player')
+  desc_parts = [f'{role_label} of Yokohama Calcio.']
+  desc_parts.append(f'{caps} appearances ({starters} as starter, {subs} as substitute).')
+  if role == 'gk':
+    desc_parts.append(f'{conceded} goals conceded, {clean_sheets} clean sheets.')
+  else:
+    desc_parts.append(f'{goals} goals, {assists} assists.')
+  if mvps > 0:
+    desc_parts.append(f'{mvps} MVP award{"s" if mvps != 1 else ""}.')
+  person['description'] = ' '.join(desc_parts)
+
+  return person
+
+
 def build_players_html():
   players_data = load_json('players.json') or []
   stats_data = load_json('stats.json') or {}
@@ -555,39 +667,154 @@ def build_players_html():
         </div>
         """)
 
+  # JSON-LD Person CON statistiche (solo per players.html)
   schemas = []
   for p in field_players:
-    name_kanji = p.get('name_kanji') or ''
-    name_romaji = p.get('name_romaji') or ''
-    position = p.get('position') or ''
-
-    person = {
-        '@context': 'https://schema.org',
-        '@type': 'Person',
-        'name': name_kanji or name_romaji or 'Player',
-        'memberOf': {
-            '@type': 'SportsTeam',
-            'name': 'Yokohama Calcio',
-            'url': YOKOHAMA_FULL_URL,
-        },
-    }
-    if name_romaji:
-      person['alternateName'] = name_romaji
-    if position:
-      person['jobTitle'] = f'Soccer Player ({position})'
-    if p.get('birth_date'):
-      person['birthDate'] = p['birth_date']
-    if p.get('hometown'):
-      person['birthPlace'] = {'@type': 'Place', 'name': p['hometown']}
-    if p.get('number') is not None:
-      person['identifier'] = str(p['number'])
-    schemas.append(person)
+    p_id = p.get('id') or ''
+    p_stats = player_stats_map.get(p_id, {})
+    schemas.append(_person_schema_with_stats(p, p_stats))
 
   return '\n'.join(html_parts), schemas
 
 
 # ============================================================
-# INIEZIONE HTML E JSON-LD
+# SHOWCASE STATICA PER index.html (3 giocatori rappresentativi)
+# ============================================================
+def build_static_showcase_html(n=3):
+  """Genera 3 card giocatori statiche per la home.
+  Criterio: 1 top scorer + 1 top assist + 1 most caps (best-effort).
+  I bot AI vedono questa versione; il JS la sovrascrive per gli utenti."""
+  players_data = load_json('players.json') or []
+  stats_data = load_json('stats.json') or {}
+  stats_map = stats_data.get('players', {})
+
+  enriched = []
+  for p in players_data:
+    if p.get('role') == 'staff':
+      continue
+    if p.get('number') is None or p.get('number') == '':
+      continue
+    st = stats_map.get(p.get('id'), {}) or {}
+    enriched.append((p, st))
+
+  if not enriched:
+    return ''
+
+  top_scorer = max(enriched, key=lambda x: safe_int(x[1].get('goals', 0)), default=None)
+  top_assist = max(enriched, key=lambda x: safe_int(x[1].get('assists', 0)), default=None)
+  top_caps = max(enriched, key=lambda x: safe_int(x[1].get('caps', 0)), default=None)
+
+  picks = []
+  seen = set()
+  for entry in [top_scorer, top_assist, top_caps]:
+    if entry and entry[0].get('id') not in seen:
+      picks.append(entry)
+      seen.add(entry[0].get('id'))
+
+  for entry in enriched:
+    if len(picks) >= n:
+      break
+    if entry[0].get('id') not in seen:
+      picks.append(entry)
+      seen.add(entry[0].get('id'))
+
+  cards = []
+  for p, st in picks[:n]:
+    name_ja = p.get('name_kanji') or p.get('name_romaji') or '-'
+    name_kana = p.get('name_kana') or ''
+    number = p.get('number') or '-'
+    role = (p.get('role') or 'mf').lower()
+    pos_label = (p.get('position') or role.upper()).split('/')[0].upper()
+
+    caps = safe_int(st.get('caps', 0))
+    goals = safe_int(st.get('goals', 0))
+    assists = safe_int(st.get('assists', 0))
+    mvps = safe_int(st.get('mvps', 0))
+    conceded = safe_int(st.get('goals_conceded', 0))
+
+    if role == 'gk':
+      stats_html = (
+          f'<span><i class="fas fa-running" style="color:#2563eb;"></i> {caps} Pres.</span>'
+          f'<span><i class="fas fa-shield-alt" style="color:#dc2626;"></i> {conceded} Conc.</span>'
+          + (f'<span><i class="fas fa-star" style="color:#f59e0b;"></i> {mvps} MVP</span>' if mvps > 0 else '')
+      )
+    else:
+      stats_html = (
+          f'<span><i class="fas fa-running" style="color:#2563eb;"></i> {caps} Pres.</span>'
+          f'<span><i class="fas fa-futbol" style="color:#059669;"></i> {goals} Goals</span>'
+          f'<span><i class="fas fa-hands-helping" style="color:#8b5cf6;"></i> {assists} Ast</span>'
+          + (f'<span><i class="fas fa-star" style="color:#f59e0b;"></i> {mvps} MVP</span>' if mvps > 0 else '')
+      )
+
+    cards.append(f"""
+                <div class="player-preview-card">
+                    <div class="player-num-badge">#{number}</div>
+                    <div class="player-preview-info">
+                        <span class="player-pos-badge pos-{role}">{pos_label}</span>
+                        <div class="player-preview-name">{name_ja}</div>
+                        <div class="player-preview-sub">{name_kana}</div>
+                        <div class="player-preview-stats">{stats_html}</div>
+                    </div>
+                </div>
+    """)
+
+  return '\n'.join(cards)
+
+
+# ============================================================
+# SCHEMA STATISTICHE PER stats.html
+# ============================================================
+def build_stats_schema():
+  """Schema ItemList con riferimento a tutti i giocatori e statistiche aggregate.
+  Iniettato solo in stats.html."""
+  players_data = load_json('players.json') or []
+  stats_data = load_json('stats.json') or {}
+  stats_map = stats_data.get('players', {})
+  team_totals = stats_data.get('team_totals', {})
+
+  if not players_data or not stats_map:
+    return None
+
+  # ItemList con riferimento ai Person (via @id)
+  items = []
+  for idx, p in enumerate(players_data, start=1):
+    if p.get('role') == 'staff':
+      continue
+    pid = p.get('id')
+    if not pid:
+      continue
+    items.append({
+        '@type': 'ListItem',
+        'position': idx,
+        'item': {
+            '@type': 'Person',
+            '@id': f'{YOKOHAMA_FULL_URL}/players.html#{pid}',
+            'name': p.get('name_kanji') or p.get('name_romaji') or '',
+        },
+    })
+
+  schema = {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      '@id': f'{YOKOHAMA_FULL_URL}/stats.html#players-stats',
+      'name': 'Yokohama Calcio — Player Statistics',
+      'description': (
+          f'Individual and team statistics for Yokohama Calcio. '
+          f'Total matches: {team_totals.get("total_matches", 0)}, '
+          f'Wins: {team_totals.get("wins", 0)}, '
+          f'Draws: {team_totals.get("draws", 0)}, '
+          f'Losses: {team_totals.get("losses", 0)}, '
+          f'Goals for: {team_totals.get("goals_for", 0)}, '
+          f'Goals against: {team_totals.get("goals_against", 0)}.'
+      ),
+      'numberOfItems': len(items),
+      'itemListElement': items,
+  }
+  return schema
+
+
+# ============================================================
+# INIEZIONE HTML
 # ============================================================
 def inject_html_to_file(filename, upcoming_html, past_html):
   full_path = os.path.join(ROOT_DIR, filename)
@@ -651,49 +878,36 @@ def inject_players_html_to_file(filename, players_html):
     print(f'❌ Errore players HTML in {filename}: {e}')
 
 
-def inject_schema_into_head(filename, schema_events):
-  full_path = os.path.join(ROOT_DIR, filename)
-  if not os.path.exists(full_path) or not schema_events:
+def inject_showcase_html_to_file(filename, showcase_html):
+  if not showcase_html:
     return
-
+  full_path = os.path.join(ROOT_DIR, filename)
+  if not os.path.exists(full_path):
+    return
   try:
     with open(full_path, 'r', encoding='utf-8') as f:
       content = f.read()
-
-    blocks = [
-        '<script type="application/ld+json">\n'
-        + json.dumps(event, ensure_ascii=False, indent=2)
-        + '\n</script>'
-        for event in schema_events
-    ]
-    block_html = (
-        '<!-- SCHEMA_EVENTS_START -->\n'
-        + '\n'.join(blocks)
-        + '\n<!-- SCHEMA_EVENTS_END -->'
-    )
-
-    if (
-        '<!-- SCHEMA_EVENTS_START -->' in content
-        and '<!-- SCHEMA_EVENTS_END -->' in content
-    ):
+    if '<!-- SHOWCASE_START -->' in content and '<!-- SHOWCASE_END -->' in content:
       content = re.sub(
-          r'<!-- SCHEMA_EVENTS_START -->.*?<!-- SCHEMA_EVENTS_END -->',
-          block_html,
+          r'(<!-- SHOWCASE_START -->).*?(<!-- SHOWCASE_END -->)',
+          lambda m: f'{m.group(1)}\n{showcase_html}\n{m.group(2)}',
           content,
           flags=re.DOTALL,
       )
       with open(full_path, 'w', encoding='utf-8') as f:
         f.write(content)
-      print(f'✅ JSON-LD eventi iniettato in {filename}')
+      print(f'✅ Showcase statica iniettata in {filename}')
   except Exception as e:
-    print(f'❌ Errore schema in {filename}: {e}')
+    print(f'❌ Errore showcase in {filename}: {e}')
 
 
-def inject_players_schema_into_head(filename, schemas):
+# ============================================================
+# INIEZIONE JSON-LD
+# ============================================================
+def _inject_jsonld_blocks(filename, start_marker, end_marker, schemas, label):
   full_path = os.path.join(ROOT_DIR, filename)
   if not os.path.exists(full_path) or not schemas:
     return
-
   try:
     with open(full_path, 'r', encoding='utf-8') as f:
       content = f.read()
@@ -704,27 +918,43 @@ def inject_players_schema_into_head(filename, schemas):
         + '\n</script>'
         for s in schemas
     ]
-    block_html = (
-        '<!-- SCHEMA_PLAYERS_START -->\n'
-        + '\n'.join(blocks)
-        + '\n<!-- SCHEMA_PLAYERS_END -->'
-    )
+    block_html = f'{start_marker}\n' + '\n'.join(blocks) + f'\n{end_marker}'
 
-    if (
-        '<!-- SCHEMA_PLAYERS_START -->' in content
-        and '<!-- SCHEMA_PLAYERS_END -->' in content
-    ):
+    if start_marker in content and end_marker in content:
       content = re.sub(
-          r'<!-- SCHEMA_PLAYERS_START -->.*?<!-- SCHEMA_PLAYERS_END -->',
+          re.escape(start_marker) + r'.*?' + re.escape(end_marker),
           block_html,
           content,
           flags=re.DOTALL,
       )
       with open(full_path, 'w', encoding='utf-8') as f:
         f.write(content)
-      print(f'✅ Player JSON-LD iniettato in {filename}')
+      print(f'✅ {label} iniettato in {filename}')
   except Exception as e:
-    print(f'❌ Errore players schema in {filename}: {e}')
+    print(f'❌ Errore {label} in {filename}: {e}')
+
+
+def inject_schema_events(filename, schema_events):
+  _inject_jsonld_blocks(
+      filename, '<!-- SCHEMA_EVENTS_START -->', '<!-- SCHEMA_EVENTS_END -->',
+      schema_events, 'JSON-LD eventi'
+  )
+
+
+def inject_schema_players(filename, schemas):
+  _inject_jsonld_blocks(
+      filename, '<!-- SCHEMA_PLAYERS_START -->', '<!-- SCHEMA_PLAYERS_END -->',
+      schemas, 'Player JSON-LD'
+  )
+
+
+def inject_schema_stats(filename, schema):
+  if not schema:
+    return
+  _inject_jsonld_blocks(
+      filename, '<!-- SCHEMA_STATS_START -->', '<!-- SCHEMA_STATS_END -->',
+      [schema], 'Stats JSON-LD'
+  )
 
 
 # ============================================================
@@ -733,17 +963,42 @@ def inject_players_schema_into_head(filename, schemas):
 if __name__ == '__main__':
   print(f'📂 ROOT_DIR rilevata: {ROOT_DIR}')
 
-  # 1. Matches & Event Schema
+  # ------------------------------------------------------------
+  # 1. PARTITE
+  #    index.html   → hero + ultima partita + JSON-LD eventi visibili
+  #    matches.html → tutte le partite + JSON-LD eventi completi
+  # ------------------------------------------------------------
   upcoming_h, past_h, schema_events = build_static_matches_html()
-  TARGET_PAGES = ['index.html', 'matches.html', 'stats.html', 'players.html']
 
-  for page in TARGET_PAGES:
-    inject_html_to_file(page, upcoming_h, past_h)
-    inject_schema_into_head(page, schema_events)
+  inject_html_to_file('index.html', upcoming_h, past_h)
+  inject_html_to_file('matches.html', upcoming_h, past_h)
 
-  # 2. Players & Player Schema
+  inject_schema_events('index.html', schema_events)
+  inject_schema_events('matches.html', schema_events)
+
+  # ------------------------------------------------------------
+  # 2. GIOCATORI (solo players.html)
+  #    - Card HTML statiche
+  #    - JSON-LD Person con TUTTE le statistiche
+  # ------------------------------------------------------------
   players_h, schema_players = build_players_html()
   inject_players_html_to_file('players.html', players_h)
-  inject_players_schema_into_head('players.html', schema_players)
+  inject_schema_players('players.html', schema_players)
+
+  # ------------------------------------------------------------
+  # 3. SHOWCASE HOME (solo index.html)
+  #    - 3 giocatori statici per bot AI
+  #    - Il JS li sovrascrive con 3 casuali per gli utenti
+  # ------------------------------------------------------------
+  showcase_h = build_static_showcase_html(3)
+  inject_showcase_html_to_file('index.html', showcase_h)
+
+  # ------------------------------------------------------------
+  # 4. STATISTICHE AGGREGATE (solo stats.html)
+  #    - JSON-LD ItemList con riferimento ai giocatori
+  #    - Summary delle statistiche di squadra nella description
+  # ------------------------------------------------------------
+  stats_schema = build_stats_schema()
+  inject_schema_stats('stats.html', stats_schema)
 
   print('🎉 Script Python completato con successo!')
