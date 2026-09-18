@@ -487,16 +487,29 @@
             background: transparent !important;
             transform: none !important;
         }
+
+        /* BAGLIORE LOGHI HERO ALLINEATO A INDEX */
         .hero-logo-wrap img {
-            filter: drop-shadow(0 0 8px rgba(135, 206, 235, 0.75)) !important;
+            filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.8)) !important;
         }
-        .card-logo-wrap img[src*="ui-avatars.com"], 
         .hero-logo-wrap img[src*="ui-avatars.com"] {
             border-radius: 50% !important;
             object-fit: contain !important;
             width: 100% !important;
             height: 100% !important;
             background: #ffffff !important;
+            filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.8)) !important;
+        }
+        .card-logo-wrap img {
+            filter: none !important;
+        }
+        .card-logo-wrap img[src*="ui-avatars.com"] {
+            border-radius: 50% !important;
+            object-fit: contain !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: #ffffff !important;
+            filter: none !important;
         }
 
         .next-match-hero {
@@ -1002,34 +1015,41 @@
         return { name, maps, surface };
     }
 
+    /* RICERCA RIGIDA GIOCATORE: Evita falsi positivi quando il giocatore non e' in players.json */
     function findPlayerObj(query) {
         if (!query || query === 'なし' || query === 'Nessuno') return null;
         if (!playersData || playersData.length === 0) return null;
         const target = cleanStr(query);
         if (!target) return null;
 
+        // 1. Corrispondenza esatta
         let found = playersData.find(p => {
             const k = cleanStr(p.name_kanji);
             const kn = cleanStr(p.name_kana);
             const r = cleanStr(p.name_romaji);
-            return (k && k === target) || (kn && kn === target) || (r && r === target);
+            const pid = cleanStr(p.id);
+            return (k && k === target) || (kn && kn === target) || (r && r === target) || (pid && pid === target);
         });
         if (found) return found;
 
-        return playersData.find(p => {
-            const k = cleanStr(p.name_kanji);
-            const kn = cleanStr(p.name_kana);
-            const r = cleanStr(p.name_romaji);
-            return (k && (k.includes(target) || target.includes(k))) ||
-                   (kn && (kn.includes(target) || target.includes(kn))) ||
-                   (r && (r.includes(target) || target.includes(target))) ||
-                   (p.id && cleanStr(p.id) === target);
-        }) || null;
+        // 2. Corrispondenza parziale sicura (solo per stringhe con almeno 2 caratteri)
+        if (target.length >= 2) {
+            return playersData.find(p => {
+                const k = cleanStr(p.name_kanji);
+                const kn = cleanStr(p.name_kana);
+                const r = cleanStr(p.name_romaji);
+                return (k && (k.includes(target) || target.includes(k))) ||
+                       (kn && (kn.includes(target) || target.includes(kn))) ||
+                       (r && (r.includes(target) || target.includes(r)));
+            }) || null;
+        }
+
+        return null;
     }
 
     function getPlayerNameInLang(query, lang) {
         const player = findPlayerObj(query);
-        if (!player) return query;
+        if (!player) return query; // Torna la stringa originale se il giocatore non esiste
         if (lang === 'ja') {
             if (player.name_kanji && containsJapaneseChars(player.name_kanji)) return player.name_kanji;
             return player.name_kana || player.name_kanji || player.name_romaji || query;
@@ -1385,7 +1405,6 @@
                 }
             }
 
-            // UNIFICAZIONE DEL FORMATO PUNTEGGIO: sempre con gli spazi intorno al trattino (es. "0 - 0")
             let displayScore = rawScore;
             if (rawScore && rawScore !== 'VS' && rawScore.includes('-')) {
                 const parts = rawScore.split('-');
