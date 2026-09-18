@@ -53,6 +53,7 @@
     </script>
 
     <style>
+        /* --- MOBILE NAV --- */
         .mobile-nav {
             position: fixed; top: 0; left: 0;
             width: 100vw; height: 100vh;
@@ -90,28 +91,19 @@
             text-decoration: none; transition: background 0.2s ease;
         }
         .mobile-link:hover, .mobile-link:active { background: rgba(255, 255, 255, 0.08); }
-
         .mobile-nav .menu-icon {
-            width: 24px !important;
-            min-width: 24px !important;
-            text-align: center !important;
-            color: #87ceeb !important;
-            font-size: 1.05rem !important;
-            display: inline-block !important;
+            width: 24px !important; min-width: 24px !important;
+            text-align: center !important; color: #87ceeb !important;
+            font-size: 1.05rem !important; display: inline-block !important;
             flex-shrink: 0 !important;
         }
-
         .mobile-dropdown-toggle {
             width: 100%; background: transparent; border: none;
             color: #ffffff !important; font-size: 0.95rem; font-weight: 600;
             padding: 10px 12px; display: flex; justify-content: space-between; align-items: center;
             border-radius: 8px; cursor: pointer; box-sizing: border-box;
         }
-        .mobile-dropdown-toggle-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .mobile-dropdown-toggle-left { display: flex; align-items: center; gap: 12px; }
         .mobile-submenu {
             background: rgba(0, 0, 0, 0.25); border-radius: 8px;
             padding: 4px 0 4px 10px; margin: 4px 0 8px 8px; border-left: 2px solid #87ceeb;
@@ -124,7 +116,7 @@
             gap: 8px; text-decoration: none;
         }
 
-        /* --- SCHEDE GIOCATORI --- */
+        /* --- PLAYER CARD --- */
         .player-card {
             perspective: 1000px; -webkit-perspective: 1000px;
             height: 400px; cursor: pointer;
@@ -208,7 +200,7 @@
             justify-content: space-evenly; 
         }
         
-        /* CORRETTO: Blocco anti-wrap e allineamento perfetto */
+        /* --- RIGHE DETTAGLIO: FIX ANTI-WRAP --- */
         .player-detail-row { 
             display: flex !important; 
             justify-content: space-between !important; 
@@ -217,6 +209,8 @@
             padding: 2px 0; 
             border-bottom: 1px dashed #e2e8f0; 
             white-space: nowrap !important; 
+            flex-wrap: nowrap !important;
+            gap: 6px;
             font-size: 0.72rem;
             line-height: 1.2;
             width: 100%;
@@ -225,7 +219,7 @@
         .player-detail-row:last-child { border-bottom: none; }
         
         .player-detail-row-left {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 4px;
             white-space: nowrap !important;
@@ -235,18 +229,33 @@
             min-width: 0;
         }
         
+        .player-detail-row > span,
         .player-detail-row span {
             white-space: nowrap !important;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
+        /* Il contenitore del valore è inline-flex: i figli restano SEMPRE sulla stessa riga */
         .player-detail-row strong { 
-            text-align: right; 
-            margin-left: auto; 
+            display: inline-flex !important;
+            align-items: baseline;
+            gap: 3px;
             white-space: nowrap !important; 
-            font-size: 0.72rem; 
             flex-shrink: 0 !important;
+            margin-left: auto;
+            text-align: right;
+            font-size: 0.72rem; 
+        }
+
+        .player-detail-row strong.stats-highlight .stat-caps {
+            font-weight: 700;
+            white-space: nowrap !important;
+        }
+        .player-detail-row strong.stats-highlight .sub-stat-detail {
+            font-size: 0.65rem;
+            color: #64748b;
+            font-weight: 600;
+            white-space: nowrap !important;
+            letter-spacing: -0.2px;
         }
 
         .role-badge-back { display: inline-flex; align-items: center; gap: 4px; padding: 0 5px; border-radius: 6px; font-weight: 700; color: #ffffff; font-size: 0.68rem; }
@@ -255,14 +264,6 @@
         .role-badge-back.role-badge-mf { background: #12A0D7; }
         .role-badge-back.role-badge-fw { background: #dc2626; }
         .stats-highlight { font-weight: 700; color: var(--dark-navy, #003c82); }
-        
-        .sub-stat-detail { 
-            font-size: 0.65rem !important; 
-            color: #64748b; 
-            font-weight: 600; 
-            margin-left: 2px; 
-            letter-spacing: -0.2px;
-        }
 
         @media (max-width: 600px) {
             .section-title { font-size: 1.45rem !important; line-height: 1.3 !important; justify-content: center !important; text-align: center !important; }
@@ -271,6 +272,12 @@
             .jersey-surname-large { font-size: 1.5rem !important; }
             .jersey-number-large { font-size: 6rem !important; }
             .player-name-kanji { font-size: 0.95rem !important; }
+        }
+
+        @media (max-width: 480px) {
+            .player-detail-row { font-size: 0.68rem !important; }
+            .player-detail-row strong { font-size: 0.68rem !important; }
+            .player-detail-row strong.stats-highlight .sub-stat-detail { font-size: 0.6rem !important; }
         }
     </style>
 </head>
@@ -411,7 +418,6 @@
         </div>
 
         <!-- PLAYERS_START -->
-
         <div class="role-group" data-role-section="gk">
             <h3 class="role-title"><i class="fas fa-hands"></i> <span data-i18n="section.gk">GOALKEEPER</span></h3>
             <div class="players-grid" id="players-gk"></div>
@@ -742,18 +748,8 @@
             captainFasciaHtml = `<div class="captain-fascia vc-fascia" title="Vice Captain">VICE CAPT.</div>`;
         }
 
-        const capsRowHtml = `
-            <div class="player-detail-row">
-                <div class="player-detail-row-left">
-                    <i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> 
-                    <span data-i18n="label.appearances">出場数 (先発/途中):</span>
-                </div> 
-                <strong class="stats-highlight">
-                    <span class="stat-caps">${caps}</span> 
-                    <span class="sub-stat-detail">(<span class="stat-starters">${starters}</span>/<span class="stat-subs">${subs}</span>)</span>
-                </strong>
-            </div>
-        `;
+        /* --- RIGA "出場数": tutto inline, senza whitespace tra gli span --- */
+        const capsRowHtml = `<div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">${caps}</span><span class="sub-stat-detail">(<span class="stat-starters">${starters}</span>/<span class="stat-subs">${subs}</span>)</span></strong></div>`;
 
         let detailsRows = '';
         if (isGK) {
