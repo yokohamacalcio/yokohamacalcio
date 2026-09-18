@@ -302,7 +302,7 @@
             align-items: center;
             gap: 6px;
             flex-wrap: nowrap;
-gk            min-width: 0;
+            min-width: 0;
             flex: 1;
         }
 
@@ -334,7 +334,7 @@ gk            min-width: 0;
             flex-shrink: 0;
         }
 
-        .-stats-main {
+        .gk-stats-main {
             font-size: 0.95rem;
             font-weight: 800;
             color: var(--dark-navy, #003c82);
@@ -407,6 +407,8 @@ gk            min-width: 0;
 
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
+          <a href="index.html" data-i18n="nav.home">ホーム</a>
+
           <div class="nav-item dropdown">
             <a href="about.html" class="dropdown-toggle">
               <span data-i18n="nav.about_group">クラブ</span> 
@@ -630,7 +632,7 @@ gk            min-width: 0;
 
             <div class="stats-grid">
 
-                <!-- 出場数 (PRIMA CARD) -->
+                <!-- 出場数 -->
                 <div class="ranking-card" id="card-appearances">
                     <h3 class="ranking-title">
                         <i class="fas fa-running"></i>
@@ -749,13 +751,12 @@ gk            min-width: 0;
             "unit.appearances": "試合",
             "gk.matches": "試合", "gk.avg": "平均", "gk.per_match": "/試合",
             "label.trial": "練習生",
-            "btn close.back_home": "ホームに戻る", "btn.show_more": "もっと見る", "btn.show_less": "閉じる"
+            "btn.back_home": "ホームに戻る", "btn.show_more": "もっと見る", "btn.show_less": "閉じる"
         },
         it: {
             "nav.home": "Home", "nav.team": "SQUADRA", "nav.team_group": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
             "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.shop": "Shop", "nav.sponsors": "Partner",
-           Mobile "nav.faqMenu": "FAQ", "nav.contact": "Contatti", ");
-       stats.title": "Statistiche Squadra & Singoli",
+            "nav.faq": "FAQ", "nav.contact": "Contatti", "stats.title": "Statistiche Squadra & Singoli",
             "stats.season_label": "Stagione:", "stats.all_seasons": "Tutte le stagioni", "stats.sec_team": "Statistiche di Squadra",
             "stats.sec_personal": "Statistiche Personali", "stats.team_stats": "Rendimento & Gol", "stats.disciplinary": "Bilancio Disciplinare",
             "th.category": "Categoria", "th.played": "G", "th.wins": "V", "th.draws": "N", "th.losses": "P",
@@ -968,7 +969,8 @@ gk            min-width: 0;
         }
 
         document.querySelectorAll('.mobile-link, .mobile-cta-btn').forEach(link => {
-            link.addEventListener('click', });
+            link.addEventListener('click', closeMobileMenu);
+        });
 
         if (mobileCloseBtn) {
             mobileCloseBtn.addEventListener('click', closeMobileMenu);
@@ -1015,8 +1017,8 @@ gk            min-width: 0;
         const currentYearStr = new Date().getFullYear().toString();
         const yearsSet = new Set();
 
-        matches.forEach(m => {
-            if (m.date) {
+        (matches || []).forEach(m => {
+            if (m && m.date) {
                 const y = m.date.substring(0, 4);
                 if (y && !isNaN(y)) yearsSet.add(y);
             }
@@ -1203,8 +1205,9 @@ gk            min-width: 0;
             gkGoalsMap[key].played += 1;
         };
 
-        rawMatchesData.forEach(m => {
-            if (m.status !== 'past') return;
+        // CALCOLO DA matches.json (priorità ai dati grezzi se presenti)
+        (rawMatchesData || []).forEach(m => {
+            if (!m || m.status !== 'past') return;
 
             const matchYear = m.date ? m.date.substring(0, 4) : '';
             if (selectedSeason !== 'all' && matchYear !== selectedSeason) {
@@ -1290,7 +1293,18 @@ gk            min-width: 0;
             }
         });
 
-        // Arricchisci con stats.json (precompilato)
+        // SE matches.json è vuoto, riempi le tabelle di squadra da team_totals
+        if (precomputedStats && precomputedStats.team_totals && rawMatchesData.length === 0) {
+            const tt = precomputedStats.team_totals;
+            stats.friendly.played = parseInt(tt.total_matches, 10) || 0;
+            stats.friendly.wins = parseInt(tt.wins, 10) || 0;
+            stats.friendly.draws = parseInt(tt.draws, 10) || 0;
+            stats.friendly.losses = parseInt(tt.losses, 10) || 0;
+            stats.friendly.gf = parseInt(tt.goals_for, 10) || 0;
+            stats.friendly.ga = parseInt(tt.goals_against, 10) || 0;
+        }
+
+        // COMPLETA con stats.json (aggrega gol/assist/mvp/ecc. mancanti)
         if (precomputedStats && precomputedStats.players) {
             Object.entries(precomputedStats.players).forEach(([playerId, pStats]) => {
                 const pObj = playersData.find(p => p.id === playerId) || { id: playerId, name_kanji: playerId, name_romaji: playerId };
@@ -1305,16 +1319,16 @@ gk            min-width: 0;
             });
         }
 
-        // Aggiorna righe tabella squadra
         const updateRow = (prefix, st) => {
-            document.getElementById(`${prefix}-played`).textContent = st.played;
-            document.getElementById(`${prefix}-wins`).textContent = st.wins;
-            document.getElementById(`${prefix}-draws`).textContent = st.draws;
-            document.getElementById(`${prefix}-losses`).textContent = st.losses;
-            document.getElementById(`${prefix}-gf`).textContent = st.gf;
-            document.getElementById(`${prefix}-ga`).textContent = st.ga;
+            const el = (id) => document.getElementById(id);
+            if (el(`${prefix}-played`)) el(`${prefix}-played`).textContent = st.played;
+            if (el(`${prefix}-wins`)) el(`${prefix}-wins`).textContent = st.wins;
+            if (el(`${prefix}-draws`)) el(`${prefix}-draws`).textContent = st.draws;
+            if (el(`${prefix}-losses`)) el(`${prefix}-losses`).textContent = st.losses;
+            if (el(`${prefix}-gf`)) el(`${prefix}-gf`).textContent = st.gf;
+            if (el(`${prefix}-ga`)) el(`${prefix}-ga`).textContent = st.ga;
             const rate = st.played > 0 ? Math.round((st.wins / st.played) * 100) : 0;
-            document.getElementById(`${prefix}-winrate`).textContent = `${rate}%`;
+            if (el(`${prefix}-winrate`)) el(`${prefix}-winrate`).textContent = `${rate}%`;
         };
 
         updateRow('league', stats.league);
@@ -1334,10 +1348,11 @@ gk            min-width: 0;
         updateRow('tot', tot);
 
         const updateDiscRow = (prefix, st) => {
-            document.getElementById(`${prefix}-yellow`).textContent = st.yellow;
-            document.getElementById(`${prefix}-red`).textContent = st.red;
+            const el = (id) => document.getElementById(id);
+            if (el(`${prefix}-yellow`)) el(`${prefix}-yellow`).textContent = st.yellow;
+            if (el(`${prefix}-red`)) el(`${prefix}-red`).textContent = st.red;
             const avg = st.played > 0 ? ((st.yellow + st.red) / st.played).toFixed(1) : "0.0";
-            document.getElementById(`${prefix}-card-avg`).textContent = avg;
+            if (el(`${prefix}-card-avg`)) el(`${prefix}-card-avg`).textContent = avg;
         };
 
         updateDiscRow('league', stats.league);
@@ -1345,7 +1360,6 @@ gk            min-width: 0;
         updateDiscRow('fr', stats.friendly);
         updateDiscRow('tot', tot);
 
-        // Render generico ranking
         const renderRanking = (elementId, dataMap, unitKey, sortAscending = false) => {
             const list = document.getElementById(elementId);
             if (!list) return;
@@ -1400,7 +1414,6 @@ gk            min-width: 0;
             }
         };
 
-        // Render GK ranking
         const renderGKRanking = () => {
             const list = document.getElementById('gk-ranking');
             if (!list) return;
@@ -1479,12 +1492,7 @@ gk            min-width: 0;
             }
         };
 
-        /* --- RENDER CLASSIFICA PRESENZE ---
-           Ordinamento: presenze totali DESC, poi titolarità (starters) DESC,
-           infine panchina (subs) DESC.
-           Formato visivo: "totali (dalla panchina)".
-           Fonte dati: precomputedStats.players (stats.json), chiave = player id.
-        */
+        // RENDER CLASSIFICA PRESENZE (con fallback da players.json)
         const renderAppearancesRanking = () => {
             const list = document.getElementById('appearances-ranking');
             if (!list) return;
@@ -1492,29 +1500,43 @@ gk            min-width: 0;
             const card = list.closest('.ranking-card');
             const btnContainer = card ? card.querySelector('.btn-more-container') : null;
 
-            if (!precomputedStats || !precomputedStats.players) {
-                list.innerHTML = `<li style="color:#94a3b8; text-align:center; padding:10px;">${translations[currentLanguage]['stats.no_data'] || 'データなし'}</li>`;
-                if (btnContainer) btnContainer.innerHTML = '';
-                return;
+            let rows = [];
+
+            // Sorgente primaria: stats.json (ha starters e subs espliciti)
+            if (precomputedStats && precomputedStats.players) {
+                rows = Object.values(precomputedStats.players)
+                    .filter(p => (parseInt(p.caps, 10) || 0) > 0)
+                    .map(p => {
+                        const playerObj = playersData.find(x => x.id === p.id) || null;
+                        return {
+                            pObj: playerObj,
+                            rawName: p.id,
+                            caps: parseInt(p.caps, 10) || 0,
+                            starters: parseInt(p.starters, 10) || 0,
+                            subs: parseInt(p.subs, 10) || 0
+                        };
+                    });
             }
 
-            const rows = Object.values(precomputedStats.players)
-                .filter(p => (parseInt(p.caps, 10) || 0) > 0)
-                .map(p => {
-                    const playerObj = playersData.find(x => x.id === p.id) || null;
-                    return {
-                        pObj: playerObj,
-                        rawName: p.id,
+            // Fallback: players.json (ha solo caps)
+            if (rows.length === 0 && playersData && playersData.length > 0) {
+                rows = playersData
+                    .filter(p => p.role !== 'staff' && (parseInt(p.caps, 10) || 0) > 0)
+                    .map(p => ({
+                        pObj: p,
+                        rawName: p.name_kanji || p.id,
                         caps: parseInt(p.caps, 10) || 0,
-                        starters: parseInt(p.starters, 10) || 0,
-                        subs: parseInt(p.subs, 10) || 0
-                    };
-                })
-                .sort((a, b) => {
-                    if (b.caps !== a.caps) return b.caps - a.caps;
-                    if (b.starters !== a.starters) return b.starters - a.starters;
-                    return b.subs - a.subs;
-                });
+                        starters: 0,
+                        subs: 0
+                    }));
+            }
+
+            // Ordinamento: caps DESC → starters DESC → subs DESC
+            rows.sort((a, b) => {
+                if (b.caps !== a.caps) return b.caps - a.caps;
+                if (b.starters !== a.starters) return b.starters - a.starters;
+                return b.subs - a.subs;
+            });
 
             const noDataText = translations[currentLanguage]['stats.no_data'] || 'データなし';
 
@@ -1531,6 +1553,7 @@ gk            min-width: 0;
             visibleItems.forEach((item, index) => {
                 const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
                 const nameHtml = formatPlayerNameHtml(item.pObj, item.rawName, currentLanguage);
+                const subsDisplay = item.subs > 0 ? `(${item.subs})` : '';
 
                 list.innerHTML += `
                     <li class="ranking-item">
@@ -1539,7 +1562,7 @@ gk            min-width: 0;
                             ${nameHtml}
                         </div>
                         <span class="stats-highlight" style="white-space: nowrap; flex-shrink: 0;">
-                            ${item.caps} <span style="font-size: 0.78rem; color: #64748b; font-weight: 600;">(${item.subs})</span>
+                            ${item.caps} <span style="font-size: 0.78rem; color: #64748b; font-weight: 600;">${subsDisplay}</span>
                         </span>
                     </li>
                 `;
@@ -1563,7 +1586,6 @@ gk            min-width: 0;
             }
         };
 
-        // Chiamate finali
         renderAppearancesRanking();
         renderRanking('goals-ranking', goalsMap, 'unit.goals');
         renderRanking('assists-ranking', assistsMap, 'unit.assists');
@@ -1588,40 +1610,56 @@ gk            min-width: 0;
     });
 
     /* =========================================================
-       DATA LOADING
+       DATA LOADING (robusto: ogni fetch è indipendente)
        ========================================================= */
     async function loadAllStatsData() {
+        // 1. stats.json (fonte primaria per statistiche precalcolate)
         try {
-            try {
-                const statsResp = await fetch('stats.json');
-                if (statsResp.ok) {
-                    precomputedStats = await statsResp.json();
-                }
-            } catch (e) {
-                console.warn("stats.json non trovato, calcolo basato su matches.json.");
+            const statsResp = await fetch('stats.json', { cache: 'no-store' });
+            if (statsResp.ok) {
+                precomputedStats = await statsResp.json();
+                console.log('✅ stats.json caricato:', Object.keys(precomputedStats.players || {}).length, 'giocatori');
+            } else {
+                console.warn('⚠️ stats.json HTTP', statsResp.status);
             }
+        } catch (e) {
+            console.warn("⚠️ stats.json non caricabile:", e);
+        }
 
-            const response = await fetch('matches.json');
+        // 2. matches.json (usato per il selettore stagione e per i calcoli da partite)
+        try {
+            const response = await fetch('matches.json', { cache: 'no-store' });
             if (response.ok) {
                 rawMatchesData = await response.json();
-            } else {
-                rawMatchesData = [];
+                if (!Array.isArray(rawMatchesData)) rawMatchesData = [];
             }
-
-            try {
-                const pResp = await fetch('players.json');
-                if (pResp.ok) {
-                    playersData = await pResp.json();
-                }
-            } catch (e) {
-                playersData = [];
-            }
-
-            populateSeasonSelect(rawMatchesData);
-            setLanguage(currentLanguage);
         } catch (e) {
-            console.error("Errore nel caricamento dei dati di stats.html:", e);
+            console.warn("⚠️ matches.json non caricabile:", e);
+            rawMatchesData = [];
         }
+
+        // 3. players.json (usato per mappare ID → nome visualizzato)
+        try {
+            const pResp = await fetch('players.json', { cache: 'no-store' });
+            if (pResp.ok) {
+                playersData = await pResp.json();
+                if (!Array.isArray(playersData)) playersData = [];
+            }
+        } catch (e) {
+            console.warn("⚠️ players.json non caricabile:", e);
+            playersData = [];
+        }
+
+        // 4. Popola il selettore stagioni
+        populateSeasonSelect(rawMatchesData);
+
+        // 5. Render esplicito (funziona anche se matches.json è vuoto,
+        //    perché precomputedStats da stats.json basta)
+        calculateAndRenderStats();
+        loadStandingsData();
+
+        // 6. Applica la lingua (aggiorna label e ri-renderizza)
+        setLanguage(currentLanguage);
     }
 
     const seasonSelect = document.getElementById('seasonSelect');
