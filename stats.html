@@ -954,7 +954,7 @@
 
             return (k && (k.includes(target) || target.includes(k))) ||
                    (kn && (kn.includes(target) || target.includes(kn))) ||
-                   (r && (r.includes(target) || target.includes(r)));
+                   (r && (r.includes(target) || target.includes(target)));
         }) || null;
     }
 
@@ -1345,7 +1345,6 @@
                 });
             }
 
-            let handledGK = false;
             if (m.goalkeepers && m.goalkeepers.trim() !== '') {
                 const entries = m.goalkeepers.split(/[,、]/);
                 entries.forEach(entry => {
@@ -1357,20 +1356,10 @@
                         const rawGkName = match[1].trim();
                         const gkGoals = parseInt(match[2], 10);
                         addGKGoalConceded(rawGkName, isNaN(gkGoals) ? matchGA : gkGoals);
-                        handledGK = true;
                     } else {
                         addGKGoalConceded(clean, matchGA);
-                        handledGK = true;
                     }
                 });
-            }
-
-            if (!handledGK && playersData && playersData.length > 0) {
-                const defaultGK = playersData.find(p => p.role === 'gk');
-                if (defaultGK) {
-                    const name = defaultGK.name_kanji || defaultGK.name_romaji || defaultGK.id;
-                    addGKGoalConceded(name, matchGA);
-                }
             }
 
             if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
@@ -1401,7 +1390,6 @@
             }
         });
 
-        // Integrazione dati da stats.json se disponibili
         if (precomputedStats && precomputedStats.players) {
             Object.entries(precomputedStats.players).forEach(([playerId, pStats]) => {
                 const pObj = playersData.find(p => p.id === playerId) || { id: playerId, name_kanji: playerId, name_romaji: playerId };
@@ -1516,7 +1504,16 @@
             const card = list.closest('.ranking-card');
             const btnContainer = card ? card.querySelector('.btn-more-container') : null;
 
-            const gkList = Object.values(gkGoalsMap).map(item => {
+            // FILTRAGGIO RIGOROSO: INCLUDI SOLO I PORTIERI EFFETTIVI
+            const gkList = Object.values(gkGoalsMap).filter(item => {
+                if (item.pObj) {
+                    const r = cleanStr(item.pObj.role);
+                    const pos = cleanStr(item.pObj.position);
+                    return r === 'gk' || pos.includes('gk');
+                }
+                // Se non è mappato in players.json ma è esplicitamente un portiere o fallback sicuro
+                return false;
+            }).map(item => {
                 const avg = item.played > 0 ? (item.count / item.played) : 0;
                 return { ...item, avg: parseFloat(avg.toFixed(2)) };
             });
