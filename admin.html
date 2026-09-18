@@ -176,14 +176,14 @@
                 <button type="button" class="btn-add-row" onclick="addScorerRow()"><i class="fas fa-plus"></i> <span data-i18n="sec2.add_scorer">Aggiungi Marcatore</span></button>
             </div>
 
-            <!-- ASSISTMAN CON QUANTITÀ -->
+            <!-- ASSISTMAN -->
             <div class="form-group">
                 <label data-i18n="sec2.assists"><i class="fas fa-handshake"></i> Assistman (Assist effettuati):</label>
                 <div id="assistsContainer"></div>
                 <button type="button" class="btn-add-row" onclick="addAssistRow()"><i class="fas fa-plus"></i> <span data-i18n="sec2.add_assist">Aggiungi Assistman</span></button>
             </div>
 
-            <!-- PORTIERI & GOL SUBITI -->
+            <!-- PORTIERI & GOL SUBITI (SOLO PORTIERI) -->
             <div class="form-group">
                 <label data-i18n="sec2.goalkeepers"><i class="fas fa-mitten"></i> Portieri & Gol Subiti:</label>
                 <div id="gkContainer"></div>
@@ -448,30 +448,42 @@
 
     if (activeToken) verifyAndLoginToken(activeToken);
 
-    // --- CARICAMENTO JSON ---
+    // --- CARICAMENTO JSON (CON ORDINAMENTO ALFABETICO) ---
     async function initData() {
         try {
-            // Opponents
+            // 1. Opponents (Ordinati Alfabeticamente)
             try {
                 const oRes = await fetch('opponents.json');
                 const opps = await oRes.json();
-                document.getElementById('opponentSelect').innerHTML = Object.keys(opps).map(k => {
+                const sortedOppKeys = Object.keys(opps).sort((a, b) => {
+                    const nameA = opps[a].name?.ja || opps[a].name?.en || a;
+                    const nameB = opps[b].name?.ja || opps[b].name?.en || b;
+                    return nameA.localeCompare(nameB, currentAdminLang);
+                });
+                
+                document.getElementById('opponentSelect').innerHTML = sortedOppKeys.map(k => {
                     const name = opps[k].name?.ja || opps[k].name?.en || k;
                     return `<option value="${k}">${name} (${k})</option>`;
                 }).join('');
             } catch(e) {}
 
-            // Locations
+            // 2. Locations (Ordinate Alfabeticamente)
             try {
                 const lRes = await fetch('locations.json');
                 const locs = await lRes.json();
-                document.getElementById('locationSelect').innerHTML = Object.keys(locs).map(k => {
+                const sortedLocKeys = Object.keys(locs).sort((a, b) => {
+                    const nameA = locs[a].ja || locs[a].en || a;
+                    const nameB = locs[b].ja || locs[b].en || b;
+                    return nameA.localeCompare(nameB, currentAdminLang);
+                });
+
+                document.getElementById('locationSelect').innerHTML = sortedLocKeys.map(k => {
                     const name = locs[k].ja || locs[k].en || k;
                     return `<option value="${k}">${name} (${k})</option>`;
                 }).join('');
             } catch(e) {}
 
-            // Players
+            // 3. Players
             const pRes = await fetch('players.json');
             globalPlayers = await pRes.json();
             renderPlayers();
@@ -482,7 +494,7 @@
         }
     }
 
-    // --- TRADUZIONE NOMI GIOCATORI ---
+    // --- HELPER NOMI & ORDINAMENTO CALCIATORI ---
     function getPlayerDisplayName(player) {
         if (currentAdminLang === 'ja') {
             return player.name_kanji || player.name_romaji;
@@ -496,12 +508,15 @@
         const lang = currentAdminLang;
         const t = adminTranslations[lang] || adminTranslations['ja'];
 
-        // Mantieni eventuali trialists inseriti
         const existingTrialists = Array.from(document.querySelectorAll('.trialist-card'));
         
-        const playersHTML = globalPlayers.map(p => {
+        // Ordina alfabeticamente la rosa in base al nome visualizzato
+        const sortedPlayers = [...globalPlayers].sort((a, b) => {
+            return getPlayerDisplayName(a).localeCompare(getPlayerDisplayName(b), lang);
+        });
+
+        const playersHTML = sortedPlayers.map(p => {
             const pName = getPlayerDisplayName(p);
-            // Salva sempre l'identificatore base in data-player-raw-name
             const rawName = p.name_kanji || p.name_romaji;
             return `
                 <div class="player-card" data-player-id="${p.id}" data-player-raw-name="${rawName}">
@@ -556,39 +571,55 @@
         updateAllPlayerDropdowns();
     }
 
-    // --- AGGIORNAMENTO MENU A TENDINA CON TRADUZIONE ---
-    function getAllAvailablePlayers() {
+    // --- LISTE GIOCATORI E PORTIERI PER MENU A TENDINA ---
+    function getAllAvailablePlayers(onlyGoalkeepers = false) {
         const list = [{ name: "Nessuno / なし", value: "" }];
-        globalPlayers.forEach(p => {
+        
+        let filtered = globalPlayers;
+        if (onlyGoalkeepers) {
+            filtered = globalPlayers.filter(p => p.position === 'GK' || p.position === 'TRIAL');
+        }
+
+        // Ordina alfabeticamente
+        filtered.sort((a, b) => getPlayerDisplayName(a).localeCompare(getPlayerDisplayName(b), currentAdminLang));
+
+        filtered.forEach(p => {
             list.push({
                 name: getPlayerDisplayName(p),
-                value: p.name_kanji || p.name_romaji // Salva sempre in formato standard per JSON
+                value: p.name_kanji || p.name_romaji
             });
         });
         return list;
     }
 
     function updateAllPlayerDropdowns() {
-        const players = getAllAvailablePlayers();
-        const optionsHTML = players.map(p => `<option value="${p.value}">${p.name}</option>`).join('');
+        const allPlayers = getAllAvailablePlayers(false);
+        const gkPlayers = getAllAvailablePlayers(true);
 
-        // Aggiorna MVP Select
+        const allOptionsHTML = allPlayers.map(p => `<option value="${p.value}">${p.name}</option>`).join('');
+        const gkOptionsHTML = gkPlayers.map(p => `<option value="${p.value}">${p.name}</option>`).join('');
+
+        // MVP Select
         const mvpSelect = document.getElementById('mvpSelect');
         const currentMvp = mvpSelect.value;
-        mvpSelect.innerHTML = optionsHTML;
+        mvpSelect.innerHTML = allOptionsHTML;
         mvpSelect.value = currentMvp;
 
-        // Aggiorna tutti i select dinamici mantenendo il valore selezionato
+        // Dynamic Field Selects
         document.querySelectorAll('.player-dropdown-dynamic').forEach(select => {
             const currentVal = select.value;
-            select.innerHTML = optionsHTML;
+            if (select.classList.contains('gk-player-select')) {
+                select.innerHTML = gkOptionsHTML;
+            } else {
+                select.innerHTML = allOptionsHTML;
+            }
             select.value = currentVal;
         });
     }
 
     // --- GENERATORE RIGHE DINAMICHE ---
-    function createDynamicRow(selectClass, hasCountInput = true, countLabel = "Gol:") {
-        const players = getAllAvailablePlayers();
+    function createDynamicRow(selectClass, hasCountInput = true, countLabel = "Gol:", onlyGK = false) {
+        const players = getAllAvailablePlayers(onlyGK);
         const div = document.createElement('div');
         div.className = 'stat-row';
         div.innerHTML = `
@@ -602,23 +633,23 @@
     }
 
     function addScorerRow() {
-        document.getElementById('scorersContainer').appendChild(createDynamicRow('scorer-player-select', true, "Gol:"));
+        document.getElementById('scorersContainer').appendChild(createDynamicRow('scorer-player-select', true, "Gol:", false));
     }
 
     function addAssistRow() {
-        document.getElementById('assistsContainer').appendChild(createDynamicRow('assist-player-select', true, "Assist:"));
+        document.getElementById('assistsContainer').appendChild(createDynamicRow('assist-player-select', true, "Assist:", false));
     }
 
     function addGkRow() {
-        document.getElementById('gkContainer').appendChild(createDynamicRow('gk-player-select', true, "Gol Subiti:"));
+        document.getElementById('gkContainer').appendChild(createDynamicRow('gk-player-select', true, "Gol Subiti:", true));
     }
 
     function addYellowCardRow() {
-        document.getElementById('yellowCardsContainer').appendChild(createDynamicRow('yellow-player-select', false));
+        document.getElementById('yellowCardsContainer').appendChild(createDynamicRow('yellow-player-select', false, "", false));
     }
 
     function addRedCardRow() {
-        document.getElementById('redCardsContainer').appendChild(createDynamicRow('red-player-select', false));
+        document.getElementById('redCardsContainer').appendChild(createDynamicRow('red-player-select', false, "", false));
     }
 
     setAdminLanguage(currentAdminLang);
