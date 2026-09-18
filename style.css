@@ -1510,31 +1510,53 @@ body {
     text-align: left;
 }
 
+/* CORRETTO: Impedisce l'andare a capo e gestisce il flex in modo sicuro */
 .player-detail-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
     border-bottom: 1px dashed #cbd5e1;
     padding-bottom: 4px;
+    width: 100% !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
 }
 
 .player-detail-row:last-child {
     border-bottom: none;
 }
 
+.player-detail-row-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1 !important;
+}
+
 .player-detail-row span {
     display: flex;
     align-items: center;
     gap: 6px;
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1 !important;
 }
 
 .player-detail-row span i {
     width: 16px;
     text-align: center;
+    flex-shrink: 0;
 }
 
 .player-detail-row strong {
     color: var(--dark-navy);
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    margin-left: auto;
 }
 
 /* ==========================================
