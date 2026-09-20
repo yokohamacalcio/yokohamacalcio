@@ -184,7 +184,7 @@
         /* --- PLAYER CARD --- */
         .player-card {
             perspective: 1000px; -webkit-perspective: 1000px;
-            height: 420px; cursor: pointer;
+            height: 440px; cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .player-card-inner {
@@ -323,17 +323,17 @@
 
         /* --- STILI TRACCIAMENTO TATTICO NEL PROFILE --- */
         .player-positions-wrapper {
-            margin-top: 4px;
-            padding: 4px;
+            margin-top: 3px;
+            padding: 3px 4px;
             background: #f8fafc;
             border-radius: 6px;
             border: 1px solid #e2e8f0;
         }
         .player-positions-title {
-            font-size: 0.65rem;
+            font-size: 0.62rem;
             font-weight: 800;
             color: #003c82;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             display: flex;
             align-items: center;
             gap: 4px;
@@ -345,9 +345,9 @@
             gap: 3px;
         }
         .pos-pill {
-            font-size: 0.62rem;
+            font-size: 0.6rem;
             font-weight: 700;
-            padding: 2px 5px;
+            padding: 1px 4px;
             border-radius: 4px;
             background: #ffffff;
             color: #003c82;
@@ -365,7 +365,7 @@
             background: rgba(0, 0, 0, 0.08);
             padding: 1px 3px;
             border-radius: 3px;
-            font-size: 0.58rem;
+            font-size: 0.55rem;
         }
         .pos-pill.primary-pos .pos-pill-count {
             background: rgba(255, 255, 255, 0.25);
@@ -382,7 +382,7 @@
         @media (max-width: 600px) {
             .section-title { font-size: 1.45rem !important; line-height: 1.3 !important; justify-content: center !important; text-align: center !important; }
             .role-title { font-size: 1.3rem !important; }
-            .player-card { height: 415px !important; }
+            .player-card { height: 435px !important; }
             .jersey-surname-large { font-size: 1.5rem !important; }
             .jersey-number-large { font-size: 6rem !important; }
             .player-name-kanji { font-size: 0.95rem !important; }
@@ -993,6 +993,8 @@
                 <div class="player-detail-row"><span><i class="fas fa-shield-halved"></i> <span data-i18n="label.goals_conceded">失点:</span></span> <strong class="stats-highlight stat-goals-conceded">${goalsConceded}</strong></div>
                 <div class="player-detail-row"><span><i class="fas fa-lock"></i> <span data-i18n="label.clean_sheets">クリーンシート:</span></span> <strong class="stats-highlight stat-clean-sheets">${cleanSheets}</strong></div>
                 <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">${mvps}</strong></div>
+                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">${yellows}</strong></div>
+                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">${reds}</strong></div>
                 ${positionsHtml}
             `;
         } else {
@@ -1007,6 +1009,8 @@
                 <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">${goals}</strong></div>
                 <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">${assists}</strong></div>
                 <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">${mvps}</strong></div>
+                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">${yellows}</strong></div>
+                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">${reds}</strong></div>
                 ${positionsHtml}
             `;
         }
