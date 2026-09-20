@@ -268,7 +268,7 @@
 <!-- SCHEMA_EVENTS_END -->
     
     <style>
-        /* --- OVERLAY MENU MOBILE SCURO COMPATTO CON ICONE PERFETTAMENTE ALLINEATE --- */
+        /* --- OVERLAY MENU MOBILE SCURO COMPATTO --- */
         .mobile-nav {
             position: fixed;
             top: 0; left: 0;
@@ -318,7 +318,6 @@
         }
         .mobile-link:hover, .mobile-link:active { background: rgba(255, 255, 255, 0.08); }
         
-        /* ALLINEAMENTO RIGIDO DI TUTTE LE ICONE DEL MENU MOBILE */
         .mobile-nav .menu-icon {
             width: 24px !important;
             min-width: 24px !important;
@@ -362,6 +361,104 @@
             padding: 10px; border-radius: 8px;
             display: flex; align-items: center; justify-content: center;
             gap: 8px; text-decoration: none;
+        }
+
+        /* --- MENU DESKTOP STILI UNIFORMATI CON INDEX --- */
+        .desktop-nav-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        .main-nav {
+            display: flex !important;
+            align-items: center !important;
+            gap: 16px;
+            white-space: nowrap;
+        }
+        .main-nav .nav-item {
+            position: relative !important;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .main-nav > a,
+        .main-nav .dropdown-toggle {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            padding: 8px 10px !important;
+            font-family: inherit !important;
+            font-size: 0.92rem !important;
+            font-weight: 700 !important;
+            color: var(--dark-navy, #003c82) !important;
+            text-decoration: none !important;
+            border: none !important;
+            background: transparent !important;
+            cursor: pointer !important;
+            user-select: none !important;
+            line-height: 1.2 !important;
+            transition: color 0.2s ease, opacity 0.2s ease !important;
+            box-sizing: border-box !important;
+            margin: 0 !important;
+        }
+
+        .main-nav > a:hover,
+        .main-nav .dropdown-toggle:hover {
+            color: var(--primary-sky, #87ceeb) !important;
+        }
+
+        .main-nav .nav-cta-btn {
+            background: var(--dark-navy, #003c82) !important;
+            color: #ffffff !important;
+            padding: 8px 16px !important;
+            border-radius: 20px !important;
+            font-weight: 800 !important;
+        }
+        .main-nav .nav-cta-btn:hover {
+            background: var(--primary-sky, #87ceeb) !important;
+            color: var(--dark-navy, #003c82) !important;
+        }
+
+        .main-nav .dropdown-menu {
+            display: none;
+            position: absolute !important;
+            top: 100% !important;
+            left: 0 !important;
+            z-index: 1000 !important;
+            min-width: 190px;
+            background: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 8px 0;
+            margin-top: 2px;
+            white-space: nowrap;
+        }
+
+        .main-nav .dropdown-menu a {
+            display: block !important;
+            padding: 10px 16px !important;
+            color: var(--dark-navy, #003c82) !important;
+            text-decoration: none !important;
+            font-size: 0.88rem !important;
+            font-weight: 600 !important;
+            transition: background 0.2s ease, color 0.2s ease !important;
+            text-align: left !important;
+        }
+
+        .main-nav .dropdown-menu a:hover {
+            background-color: #f1f5f9 !important;
+            color: var(--primary-sky, #87ceeb) !important;
+        }
+
+        .nav-item.dropdown:hover > .dropdown-menu,
+        .nav-item.dropdown.open > .dropdown-menu {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateY(0) !important;
+        }
+        .nav-item.dropdown:hover > .dropdown-toggle .nav-arrow,
+        .nav-item.dropdown.open > .dropdown-toggle .nav-arrow {
+            transform: rotate(180deg);
         }
 
         /* --- BADGES --- */
@@ -488,7 +585,6 @@
             transform: none !important;
         }
 
-        /* BAGLIORE LOGHI HERO ALLINEATO A INDEX */
         .hero-logo-wrap img {
             filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.8)) !important;
         }
@@ -616,10 +712,10 @@
           <a href="index.html" data-i18n="nav.home">ホーム</a>
 
           <div class="nav-item dropdown">
-            <a href="about.html" class="dropdown-toggle">
+            <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
               <span data-i18n="nav.about_group">クラブ</span> 
               <i class="fas fa-chevron-down nav-arrow"></i>
-            </a>
+            </span>
             <div class="dropdown-menu">
               <a href="about.html" data-i18n="nav.about">チーム紹介</a>
               <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
@@ -628,10 +724,10 @@
           </div>
 
           <div class="nav-item dropdown">
-            <a href="players.html" class="dropdown-toggle">
+            <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
               <span data-i18n="nav.team_group">チーム・選手</span> 
               <i class="fas fa-chevron-down nav-arrow"></i>
-            </a>
+            </span>
             <div class="dropdown-menu">
               <a href="players.html" data-i18n="nav.players">選手紹介</a>
               <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
@@ -651,7 +747,6 @@
     </div>
   </div>
 
-  <!-- MENU MOBILE MODALE SCURO CON ALLINEAMENTO PERFETTO DELLE ICONE -->
   <nav class="mobile-nav hidden">
     <div class="mobile-nav-content">
       <div class="mobile-nav-header">
@@ -736,43 +831,8 @@
                 </h3>
                 <div id="upcomingContainer" style="display: flex; flex-direction: column; gap: 20px;">
                     <!-- UPCOMING_START -->
-
-        <div class="next-match-hero" id="nextMatchBox">
-            <div class="next-match-header">
-                <div class="match-badge-group">
-                    <span class="next-match-badge">次戦</span>
-                    <span class="match-badge badge-official">練習試合</span>
-                </div>
-                <span class="match-box-date" style="color: rgba(255,255,255,0.8);">2026-09-20</span>
-            </div>
-            <div class="next-match-hero-inner">
-                <div class="match-teams-wrapper">
-                    <div class="teams-logos-row">
-                        <div class="hero-logo-wrap"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
-                        <div class="match-vs-center">VS</div>
-                        <div class="hero-logo-wrap"><img src="./immagini/opponents/fc_legend.png" alt="FCレジェンド"></div>
-                    </div>
-                    <div class="teams-names-row">
-                        <div class="team-name-col" style="color: #ffffff;">Yokohama Calcio</div>
-                        <div></div>
-                        <div class="team-name-col" style="color: #ffffff;">FCレジェンド</div>
-                    </div>
-                </div>
-                <div class="match-info-hero-bar"><div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>11:00 K.O.</span></div><div class="match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>クレー（土）</span></div></div>
-            </div>
-            <div>
-                <div class="match-box-venue">
-                    <a href="https://maps.google.com/?q=常盤公園グラウンド" target="_blank" rel="noopener noreferrer">
-                        <i class="fas fa-map-marker-alt"></i> <span>常盤公園多目的グラウンド</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i>
-                    </a>
-                </div>
-                <div class="match-card-footer-hero">
-                    <a href="matches.html#match-7" class="btn-match-detail-hero"><span>詳細</span> <i class="fas fa-chevron-right"></i></a>
-                </div>
-            </div>
-        </div>
-        
-<!-- UPCOMING_END -->
+                    <!-- Contenuto dinamico generato via JS per evitare glitch/flicker -->
+                    <!-- UPCOMING_END -->
                 </div>
             </div>
 
@@ -782,43 +842,8 @@
                 </h3>
                 <div id="pastContainer" style="display: flex; flex-direction: column; gap: 20px;">
                     <!-- PAST_START -->
-
-        <div class="match-box-card match-past-box" id="match-1">
-            <div class="match-past-header">
-                <div class="match-badge-group">
-                    <span class="match-badge badge-official">前節結果</span>
-                    <span class="match-badge badge-official">練習試合</span>
-                </div>
-                <span class="match-box-date">2026-08-30</span>
-            </div>
-            <div class="match-box-card-inner">
-                <div class="match-teams-wrapper">
-                    <div class="teams-logos-row">
-                        <div class="card-logo-wrap"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
-                        <div class="match-vs-center score-past">2-6</div>
-                        <div class="card-logo-wrap"><img src="./immagini/opponents/yscc_middle.png" alt="Y.S.C.C.ミドル"></div>
-                    </div>
-                    <div class="teams-names-row">
-                        <div class="team-name-col">Yokohama Calcio</div>
-                        <div></div>
-                        <div class="team-name-col">Y.S.C.C.ミドル</div>
-                    </div>
-                </div>
-                <div class="match-info-hero-bar"><div class="match-info-item"><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span>小金井 健斗 x2</span></div><div class="match-info-item"><i class="fas fa-star" style="color: #f59e0b;"></i> <strong style="color: var(--dark-navy);">小金井 健斗</strong></div></div>
-            </div>
-            <div>
-                <div class="match-box-venue">
-                    <a href="https://maps.google.com/?q=新横浜公園第1運動広場" target="_blank" rel="noopener noreferrer">
-                        <i class="fas fa-map-marker-alt"></i> <span>新横浜公園第1運動広場</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i>
-                    </a>
-                </div>
-                <div class="match-card-footer">
-                    <a href="matches.html#match-1" class="btn-match-detail"><span>詳細</span> <i class="fas fa-chevron-right"></i></a>
-                </div>
-            </div>
-        </div>
-        
-<!-- PAST_END -->
+                    <!-- Contenuto dinamico generato via JS -->
+                    <!-- PAST_END -->
                 </div>
 
                 <div style="text-align: center; margin-top: 25px;">
@@ -1015,14 +1040,12 @@
         return { name, maps, surface };
     }
 
-    /* RICERCA RIGIDA GIOCATORE: Evita falsi positivi quando il giocatore non e' in players.json */
     function findPlayerObj(query) {
         if (!query || query === 'なし' || query === 'Nessuno') return null;
         if (!playersData || playersData.length === 0) return null;
         const target = cleanStr(query);
         if (!target) return null;
 
-        // 1. Corrispondenza esatta
         let found = playersData.find(p => {
             const k = cleanStr(p.name_kanji);
             const kn = cleanStr(p.name_kana);
@@ -1032,7 +1055,6 @@
         });
         if (found) return found;
 
-        // 2. Corrispondenza parziale sicura (solo per stringhe con almeno 2 caratteri)
         if (target.length >= 2) {
             return playersData.find(p => {
                 const k = cleanStr(p.name_kanji);
@@ -1049,7 +1071,7 @@
 
     function getPlayerNameInLang(query, lang) {
         const player = findPlayerObj(query);
-        if (!player) return query; // Torna la stringa originale se il giocatore non esiste
+        if (!player) return query;
         if (lang === 'ja') {
             if (player.name_kanji && containsJapaneseChars(player.name_kanji)) return player.name_kanji;
             return player.name_kana || player.name_kanji || player.name_romaji || query;
@@ -1598,10 +1620,73 @@
         }
     }
 
+    function initDesktopDropdowns() {
+        const dropdownItems = document.querySelectorAll('.main-nav .nav-item.dropdown');
+
+        dropdownItems.forEach(item => {
+            const toggle = item.querySelector('.dropdown-toggle');
+            if (!toggle) return;
+
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                dropdownItems.forEach(d => {
+                    if (d !== item) {
+                        d.classList.remove('open');
+                        const t = d.querySelector('.dropdown-toggle');
+                        if (t) t.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                const willOpen = !item.classList.contains('open');
+                item.classList.toggle('open', willOpen);
+                toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            });
+
+            item.addEventListener('mouseleave', () => {
+                item.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+
+            toggle.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggle.click();
+                }
+                if (e.key === 'Escape') {
+                    item.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.main-nav .nav-item.dropdown')) {
+                dropdownItems.forEach(d => {
+                    d.classList.remove('open');
+                    const t = d.querySelector('.dropdown-toggle');
+                    if (t) t.setAttribute('aria-expanded', 'false');
+                });
+            }
+        });
+
+        document.querySelectorAll('.main-nav .dropdown-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                dropdownItems.forEach(d => {
+                    d.classList.remove('open');
+                    const t = d.querySelector('.dropdown-toggle');
+                    if (t) t.setAttribute('aria-expanded', 'false');
+                });
+            });
+        });
+    }
+
     window.addEventListener('DOMContentLoaded', async () => {
         const currentYearEl = document.getElementById('currentYear');
         if (currentYearEl) currentYearEl.textContent = new Date().getFullYear();
 
+        initDesktopDropdowns();
         await loadAllData();
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
