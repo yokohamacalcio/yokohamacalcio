@@ -10,6 +10,10 @@ function cleanStr(s) {
     return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
 }
 
+function isJapanese(s) {
+    return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf]/.test(s);
+}
+
 function main() {
     console.log('🔄 Avvio calcolo statistiche...');
 
@@ -18,10 +22,16 @@ function main() {
         process.exit(1);
     }
 
-    const playersData = JSON.parse(fs.readFileSync(PLAYERS_FILE, 'utf8'));
-    const matchesData = JSON.parse(fs.readFileSync(MATCHES_FILE, 'utf8'));
+    let playersData, matchesData;
+    try {
+        playersData = JSON.parse(fs.readFileSync(PLAYERS_FILE, 'utf8'));
+        matchesData = JSON.parse(fs.readFileSync(MATCHES_FILE, 'utf8'));
+    } catch (e) {
+        console.error('❌ Errore durante il parsing dei file JSON:', e.message);
+        process.exit(1);
+    }
 
-    // 1. Mappatura giocatori per ID univoco e alias per la ricerca
+    // 1. Mappatura giocatori
     const playerMap = new Map();
     const aliasToId = new Map();
 
@@ -48,28 +58,37 @@ function main() {
             reds: 0,
             goals_conceded: 0,
             clean_sheets: 0,
-            positions_played: {} // ← Conteggio presenze suddiviso per ruolo (es. {"CM-R": 5, "RM": 2})
+            positions_played: {}
         });
 
         [id, p.name_kanji, p.name_kana, p.name_romaji].forEach(name => {
-            if (name) aliasToId.set(cleanStr(name), id);
+            if (name) {
+                const cleaned = cleanStr(name);
+                if (cleaned) aliasToId.set(cleaned, id);
+            }
         });
     });
 
     function resolvePlayerId(rawName) {
         if (!rawName) return null;
         const target = cleanStr(rawName);
-        if (!target || target === 'なし' || target === 'nessuno') return null;
+        if (!target || target === 'なし' || target === 'nessuno' || target === 'null') return null;
 
+        // 1. Match esatto
         if (aliasToId.has(target)) return aliasToId.get(target);
 
-        for (let [alias, id] of aliasToId.entries()) {
-            if (alias.includes(target) || target.includes(alias)) return id;
+        // 2. Match parziale protetto (almeno 2 caratteri per Kanji/Kana, 3 per Romaji)
+        const minLen = isJapanese(target) ? 2 : 3;
+        if (target.length >= minLen) {
+            for (let [alias, id] of aliasToId.entries()) {
+                if (alias.length >= minLen && (alias.includes(target) || target.includes(alias))) {
+                    return id;
+                }
+            }
         }
         return null;
     }
 
-    // Helper flessibile per registrare la posizione ricoperta
     function recordPositionPlayed(rawPlayerName, posTag) {
         if (!rawPlayerName || !posTag) return;
         const pId = resolvePlayerId(rawPlayerName);
@@ -82,7 +101,6 @@ function main() {
         }
     }
 
-    // Statistiche generali di squadra
     const teamTotals = {
         total_matches: 0,
         wins: 0,
@@ -91,16 +109,21 @@ function main() {
         goals_for: 0,
         goals_against: 0,
         clean_sheets: 0,
-        formations_used: {} // ← Tracciamento utilizzo moduli tattici
+        formations_used: {}
     };
 
-    // 2. Elaborazione delle partite passate
-    matchesData.forEach(m => {
-        if (m.status !== 'past') return;
+    let pastMatchesCount = 0;
 
+    // Regex per identificare con certezza se la chiave è una posizione tattica
+    const knownPosRegex = /^(GK|CB|LB|RB|LWB|RWB|DM|CM|LM|RM|AM|LW|RW|FW|ST)(-[LRC123])?$/i;
+
+    // 2. Elaborazione delle partite
+    matchesData.forEach(m => {
+        if (String(m.status || '').toLowerCase() !== 'past') return;
+
+        pastMatchesCount++;
         teamTotals.total_matches++;
 
-        // Conteggio moduli utilizzati
         if (m.formation) {
             const form = String(m.formation).trim();
             teamTotals.formations_used[form] = (teamTotals.formations_used[form] || 0) + 1;
@@ -113,8 +136,8 @@ function main() {
         if (scoreText && scoreText.includes('-')) {
             const parts = scoreText.split('-').map(n => parseInt(n.trim(), 10));
             if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-                matchGF = parts[0];   // ← gol nostri
-                matchGA = parts[1];   // ← gol loro
+                matchGF = parts[0];
+                matchGA = parts[1];
             }
         }
 
@@ -127,10 +150,9 @@ function main() {
 
         if (matchGA === 0) teamTotals.clean_sheets++;
 
-        // Presenze e Posizioni Ricoperte
         const processedCaps = new Set();
 
-        // A. Presenze Titolari
+        // A. Titolari
         if (Array.isArray(m.starters)) {
             m.starters.forEach(name => {
                 const pId = resolvePlayerId(name);
@@ -142,21 +164,19 @@ function main() {
             });
         }
 
-        // A2. Tracciamento Posizioni Titolari (Supporta entrambi i formati: {"POS": "NOME"} o {"NOME": "POS"})
+        // A2. Posizioni Titolari (Rilevamento sicuro)
         if (m.starters_positions && typeof m.starters_positions === 'object') {
             Object.entries(m.starters_positions).forEach(([key, val]) => {
-                const isKeyAPlayer = resolvePlayerId(key) !== null;
-                if (isKeyAPlayer) {
-                    // Formato: { "Nome Giocatore": "Ruolo" }
-                    recordPositionPlayed(key, val);
+                const isKeyAPosition = knownPosRegex.test(key.trim());
+                if (isKeyAPosition) {
+                    recordPositionPlayed(val, key); // key = Posizione, val = Giocatore
                 } else {
-                    // Formato: { "Ruolo": "Nome Giocatore" }
-                    recordPositionPlayed(val, key);
+                    recordPositionPlayed(key, val); // key = Giocatore, val = Posizione
                 }
             });
         }
 
-        // B. Presenze Subentrati
+        // B. Subentrati
         if (Array.isArray(m.substitutes_in)) {
             m.substitutes_in.forEach(name => {
                 const pId = resolvePlayerId(name);
@@ -168,7 +188,7 @@ function main() {
             });
         }
 
-        // B2. Tracciamento Posizioni Subentrati (da bench_details)
+        // B2. Posizioni Subentrati
         if (Array.isArray(m.bench_details)) {
             m.bench_details.forEach(item => {
                 if (item && item.subbed_in && item.position_played) {
@@ -247,7 +267,7 @@ function main() {
         }
     });
 
-    // 3. Classifiche
+    // 3. Generazione Output
     const allPlayersList = Array.from(playerMap.values());
 
     const statsOutput = {
@@ -263,8 +283,8 @@ function main() {
     };
 
     fs.writeFileSync(OUTPUT_FILE, JSON.stringify(statsOutput, null, 2), 'utf8');
-    console.log(`✅ Successo! Il file ${OUTPUT_FILE} è stato generato correttamente.`);
-    console.log(`📊 Partite: ${teamTotals.total_matches} | V: ${teamTotals.wins} | N: ${teamTotals.draws} | P: ${teamTotals.losses} | GF: ${teamTotals.goals_for} | GS: ${teamTotals.goals_against}`);
+    console.log(`✅ Successo! Il file ${OUTPUT_FILE} è stato aggiornato correttamente.`);
+    console.log(`📊 Partite elaborate: ${pastMatchesCount} / ${matchesData.length}`);
 }
 
 main();
