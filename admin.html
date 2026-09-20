@@ -7,56 +7,143 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        body { font-family: 'Montserrat', sans-serif; background: #f1f5f9; margin: 0; padding: 15px; }
-        .admin-container { max-width: 980px; margin: 10px auto; padding: 25px; background: #fff; border-radius: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-        .admin-header-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 20px; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background: #0f172a; color: #334155; margin: 0; padding: 10px; }
+
+        /* CONTENITORE PRINCIPALE RESPONSIVE */
+        .admin-container { 
+            width: 100%; 
+            max-width: 1080px; 
+            margin: 10px auto; 
+            padding: 20px; 
+            background: #ffffff; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+        }
+
+        .admin-header-bar { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: space-between; 
+            align-items: center; 
+            gap: 12px; 
+            border-bottom: 2px solid #e2e8f0; 
+            padding-bottom: 14px; 
+            margin-bottom: 20px; 
+        }
+
         h2, h3, h4 { color: #003c82; margin: 0; }
-        .section-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 18px; border-radius: 10px; margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #003c82; font-size: 0.9rem; }
-        .form-control { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 0.95rem; }
-        .row { display: flex; gap: 12px; }
-        .row .form-group { flex: 1; }
-        @media (max-width: 650px) { .row { flex-direction: column; gap: 0; } }
+        .section-box { background: #f8fafc; border: 1px solid #cbd5e1; padding: 18px; border-radius: 12px; margin-bottom: 22px; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #003c82; font-size: 0.88rem; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.92rem; background: #fff; color: #0f172a; }
+
+        /* GRIGLIA FORMULARI RESPONSIVE */
+        .row { display: flex; gap: 12px; flex-wrap: wrap; }
+        .row .form-group { flex: 1; min-width: 220px; }
+        @media (max-width: 650px) { 
+            body { padding: 6px; }
+            .admin-container { padding: 14px; border-radius: 10px; }
+            .row .form-group { min-width: 100%; } 
+            .admin-header-bar { flex-direction: column; align-items: flex-start; }
+        }
 
         /* SCHERMATA LOGIN */
-        .login-box { max-width: 450px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 14px; box-shadow: 0 6px 25px rgba(0,0,0,0.1); border: 1px solid #cbd5e1; text-align: center; }
-        .login-box i.lock-icon { font-size: 3rem; color: #003c82; margin-bottom: 15px; }
+        .login-box { max-width: 440px; margin: 50px auto; padding: 30px; background: #ffffff; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.25); text-align: center; }
+        .login-box i.lock-icon { font-size: 3.2rem; color: #003c82; margin-bottom: 15px; }
         
-        /* CAMPO TATTICO E POSIZIONI TITOLARI */
-        .tactical-pitch-container { background: #0f172a; border-radius: 12px; padding: 16px; border: 2px solid #1e293b; margin-top: 10px; }
-        .pitch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
-        .pitch-position-card { background: #1e293b; border: 1px solid rgba(135, 206, 235, 0.25); border-radius: 8px; padding: 10px; color: #ffffff; }
+        /* CAMPO TATTICO STILE VIDEOGIOCO (EA FC / FOOTBALL MANAGER) */
+        .tactical-pitch-container { 
+            background: linear-gradient(180deg, #15803d 0%, #166534 100%); 
+            border-radius: 14px; 
+            padding: 16px; 
+            border: 4px solid #0f172a; 
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 6px 18px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            margin-top: 12px; 
+        }
+
+        /* LINEE CAMPO DA GIOCO */
+        .tactical-pitch-container::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 0; right: 0;
+            height: 2px; background: rgba(255,255,255,0.3);
+            pointer-events: none;
+        }
+
+        .pitch-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .pitch-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+            gap: 12px; 
+            position: relative;
+            z-index: 2;
+        }
+
+        /* CARD GIOCATORE STILE VIDEOGIOCO */
+        .pitch-position-card { 
+            background: rgba(15, 23, 42, 0.88); 
+            border: 2px solid #f59e0b; 
+            border-radius: 10px; 
+            padding: 10px; 
+            color: #ffffff; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            backdrop-filter: blur(4px);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .pitch-position-card:hover { transform: translateY(-3px); border-color: #38bdf8; }
+
         .pitch-pos-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-        .pos-badge { background: #87ceeb; color: #00224a; font-weight: 800; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; }
-        
+        .pos-badge { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #000; font-weight: 900; font-size: 0.78rem; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.5px; }
+
         /* PANCHINA DINAMICA */
-        .bench-container { margin-top: 15px; }
-        .bench-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; margin-top: 10px; }
-        .bench-card { background: #ffffff; border: 1px solid #cbd5e1; padding: 10px; border-radius: 8px; font-size: 0.85rem; }
+        .bench-container { margin-top: 20px; }
+        .bench-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; margin-top: 10px; }
+        .bench-card { background: #ffffff; border: 1px solid #cbd5e1; padding: 10px; border-radius: 10px; font-size: 0.85rem; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
         .bench-card-header { font-weight: bold; color: #003c82; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
         .bench-sub-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; background: #f1f5f9; padding: 6px 8px; border-radius: 6px; }
         .bench-sub-row label { font-size: 0.78rem; font-weight: 700; color: #334155; margin: 0; cursor: pointer; display: flex; align-items: center; gap: 4px; }
-        
+
+        /* LISTA GIOCATORI IN PROVA (TRIALISTS) */
+        .trialist-box { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; padding: 12px; margin-top: 14px; }
+        .trialist-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+        .trialist-item { background: #059669; color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .btn-remove-trialist { background: transparent; border: none; color: #fecdd3; cursor: pointer; font-size: 0.9rem; padding: 0; }
+        .btn-remove-trialist:hover { color: #ffffff; }
+
         /* STATISTICHE DINAMICHE */
-        .stat-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; background: #fff; padding: 8px; border-radius: 6px; border: 1px solid #e2e8f0; }
+        .stat-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; background: #fff; padding: 8px; border-radius: 8px; border: 1px solid #e2e8f0; }
         .stat-row select { flex: 1; }
-        .stat-row input[type="number"] { width: 75px; text-align: center; }
+        .stat-row input[type="number"] { width: 70px; text-align: center; }
+
+        /* PULSANTI */
         .btn-remove-row { background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
         .btn-add-row { background: #0284c7; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: bold; margin-top: 5px; }
-        .btn-add-trialist { background: #059669; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: bold; width: 100%; margin-top: 12px; }
-        
-        .btn-submit { background: #003c82; color: white; padding: 14px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.05rem; }
-        .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+        .btn-clear-pitch { background: #dc2626; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
+        .btn-clear-pitch:hover { background: #b91c1c; }
+        .btn-add-trialist { background: #059669; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 0.88rem; font-weight: bold; width: 100%; margin-top: 10px; }
+        .btn-submit { background: linear-gradient(135deg, #003c82 0%, #00224a 100%); color: white; padding: 14px 24px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.05rem; box-shadow: 0 4px 12px rgba(0,60,130,0.3); }
+        .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; box-shadow: none; }
         .btn-logout { background: #ef4444; color: white; padding: 6px 14px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
         .btn-load { background: #0284c7; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.88rem; }
-        .btn-load:hover { background: #0369a1; }
         .btn-reset { background: #64748b; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
-        
-        .lang-switcher-admin { display: flex; gap: 6px; align-items: center; }
+
+        .lang-switcher-admin { display: flex; gap: 4px; align-items: center; }
         .lang-btn-admin { background: transparent; border: 1px solid #cbd5e1; padding: 4px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: bold; cursor: pointer; color: #475569; }
         .lang-btn-admin.active { background: #003c82; color: white; border-color: #003c82; }
-        
+
         .hidden { display: none !important; }
     </style>
 </head>
@@ -65,7 +152,7 @@
 <!-- SCHERMATA LOGIN -->
 <div id="loginSection" class="login-box">
     <i class="fas fa-lock lock-icon"></i>
-    <h2 style="margin-bottom: 10px;" data-i18n="login.title">Yokohama Calcio Admin</h2>
+    <h2 style="margin-bottom: 8px;" data-i18n="login.title">Yokohama Calcio Admin</h2>
     <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 20px;" data-i18n="login.subtitle">Inserisci il GitHub Token per sbloccare.</p>
 
     <div class="lang-switcher-admin" style="justify-content: center; margin-bottom: 20px;">
@@ -92,7 +179,7 @@
             <span style="font-size: 0.78rem; color: #059669; font-weight: bold;"><i class="fas fa-check-circle"></i> Authenticated</span>
         </div>
         
-        <div style="display: flex; gap: 12px; align-items: center;">
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
             <button type="button" onclick="resetForm()" class="btn-reset" title="Pulisci Modulo"><i class="fas fa-redo"></i> Reset</button>
             <div class="lang-switcher-admin">
                 <button class="lang-btn-admin active" data-lang="ja">JP</button>
@@ -182,21 +269,18 @@
         <div class="section-box">
             <h3 data-i18n="sec2.title">2. Eventi & Prestazioni (Selezione da Rosa)</h3>
             
-            <!-- MARCATORI -->
             <div class="form-group">
                 <label data-i18n="sec2.scorers"><i class="fas fa-futbol"></i> Marcatori (Gol segnati):</label>
                 <div id="scorersContainer"></div>
                 <button type="button" class="btn-add-row" onclick="addScorerRow()"><i class="fas fa-plus"></i> <span data-i18n="sec2.add_scorer">Aggiungi Marcatore</span></button>
             </div>
 
-            <!-- ASSISTMAN -->
             <div class="form-group">
                 <label data-i18n="sec2.assists"><i class="fas fa-handshake"></i> Assistman (Assist effettuati):</label>
                 <div id="assistsContainer"></div>
                 <button type="button" class="btn-add-row" onclick="addAssistRow()"><i class="fas fa-plus"></i> <span data-i18n="sec2.add_assist">Aggiungi Assistman</span></button>
             </div>
 
-            <!-- PORTIERI & GOL SUBITI -->
             <div class="form-group">
                 <label data-i18n="sec2.goalkeepers"><i class="fas fa-mitten"></i> Portieri & Gol Subiti:</label>
                 <div id="gkContainer"></div>
@@ -244,33 +328,42 @@
                 </div>
             </div>
 
-            <!-- TITOLARI SUL CAMPO (11 POSIZIONI) -->
+            <!-- CAMPO TATTICO STILE VIDEOGIOCO -->
             <div class="tactical-pitch-container">
-                <h4 style="color: #87ceeb; margin-bottom: 12px; font-size: 0.95rem;" data-i18n="sec3.starters_title">
-                    <i class="fas fa-users"></i> Titolari in Campo (11 Giocatori)
-                </h4>
-                <div class="pitch-grid" id="pitchGrid">
-                    <!-- Generato dinamicamente -->
+                <div class="pitch-header-bar">
+                    <h4 style="color: #fef08a; font-size: 0.95rem;" data-i18n="sec3.starters_title">
+                        <i class="fas fa-gamepad"></i> Titolari in Campo (11 Giocatori)
+                    </h4>
+                    <button type="button" class="btn-clear-pitch" onclick="clearFormationSelections()">
+                        <i class="fas fa-eraser"></i> <span data-i18n="sec3.clear_formation">Cancella Selezioni Formazione</span>
+                    </button>
                 </div>
+                
+                <div class="pitch-grid" id="pitchGrid"></div>
             </div>
 
-            <!-- PANCHINA (10 CASALLE) -->
+            <!-- PANCHINA -->
             <div class="bench-container">
-                <h4 style="color: #003c82; margin-top: 20px; margin-bottom: 10px; font-size: 0.95rem;" data-i18n="sec3.bench_title">
+                <h4 style="color: #003c82; margin-top: 15px; margin-bottom: 10px; font-size: 0.95rem;" data-i18n="sec3.bench_title">
                     <i class="fas fa-chair"></i> Panchina (10 Posti)
                 </h4>
-                <div class="bench-grid" id="benchGrid">
-                    <!-- Generato dinamicamente -->
-                </div>
+                <div class="bench-grid" id="benchGrid"></div>
             </div>
 
-            <button type="button" class="btn-add-trialist" onclick="addTrialistPlayer()">
-                <i class="fas fa-user-plus"></i> <span data-i18n="sec3.add_trialist">+ Aggiungi Giocatore in Prova (Trialist)</span>
-            </button>
+            <!-- LISTA E GESTIONE GIOCATORI IN PROVA -->
+            <div class="trialist-box">
+                <button type="button" class="btn-add-trialist" onclick="addTrialistPlayer()">
+                    <i class="fas fa-user-plus"></i> <span data-i18n="sec3.add_trialist">+ Aggiungi Giocatore in Prova (Trialist)</span>
+                </button>
+                <div style="margin-top: 10px; font-weight: bold; font-size: 0.82rem; color: #047857;" data-i18n="sec3.trialist_list_title">
+                    <i class="fas fa-list"></i> Giocatori in Prova registrati:
+                </div>
+                <div class="trialist-list" id="trialistListContainer"></div>
+            </div>
         </div>
 
         <button type="submit" class="btn-submit" id="submitBtn" data-i18n="admin.save_btn">
-            <i class="fas fa-cloud-upload-alt"></i> Salva Partita su matches.json
+            <i class="fas fa-save"></i> Salva Partita e Aggiorna Statistiche
         </button>
     </form>
 
@@ -329,9 +422,10 @@
             "sec3.starters_title": "先発メンバー (11名)",
             "sec3.bench_title": "ベンチメンバー (10名)",
             "sec3.subbed_in": "途中出場",
-            "sec3.pos_played": "入ったポジション:",
             "sec3.add_trialist": "+ 体験・お試し選手を追加 (Trialist)",
-            "admin.save_btn": "試合データを保存して更新"
+            "sec3.clear_formation": "選出を全クリア",
+            "sec3.trialist_list_title": "登録中の体験選手:",
+            "admin.save_btn": "試合データを保存してstats.jsonを更新"
         },
         it: {
             "login.title": "Pannello Admin Yokohama Calcio",
@@ -372,9 +466,10 @@
             "sec3.starters_title": "Titolari in Campo (11 Giocatori)",
             "sec3.bench_title": "Panchina (10 Posti)",
             "sec3.subbed_in": "Sceso in campo",
-            "sec3.pos_played": "Ruolo occupato:",
             "sec3.add_trialist": "+ Aggiungi Giocatore in Prova (Trialist)",
-            "admin.save_btn": "Salva Partita su matches.json"
+            "sec3.clear_formation": "Cancella Selezioni Formazione",
+            "sec3.trialist_list_title": "Giocatori in Prova registrati:",
+            "admin.save_btn": "Salva Partita e Aggiorna Statistiche"
         },
         en: {
             "login.title": "Yokohama Calcio Admin Panel",
@@ -415,9 +510,10 @@
             "sec3.starters_title": "Starting XI (11 Players)",
             "sec3.bench_title": "Substitutes Bench (10 Slots)",
             "sec3.subbed_in": "Subbed in",
-            "sec3.pos_played": "Position played:",
             "sec3.add_trialist": "+ Add Trial Player (Trialist)",
-            "admin.save_btn": "Save Match to matches.json"
+            "sec3.clear_formation": "Clear Formation Selections",
+            "sec3.trialist_list_title": "Registered Trialists:",
+            "admin.save_btn": "Save Match & Update Stats"
         }
     };
 
@@ -425,7 +521,7 @@
     let activeToken = localStorage.getItem('yc_gh_token') || '';
     let globalPlayers = [];
     let allMatchesData = [];
-    let trialistCount = 0;
+    let trialistsList = [];
 
     function setAdminLanguage(lang) {
         currentAdminLang = lang;
@@ -495,7 +591,6 @@
 
     async function initData() {
         try {
-            // 1. Opponents
             try {
                 const oRes = await fetch('opponents.json');
                 const opps = await oRes.json();
@@ -511,7 +606,6 @@
                 }).join('');
             } catch(e) {}
 
-            // 2. Locations
             try {
                 const lRes = await fetch('locations.json');
                 const locs = await lRes.json();
@@ -527,20 +621,18 @@
                 }).join('');
             } catch(e) {}
 
-            // 3. Players
             const pRes = await fetch('players.json');
             globalPlayers = await pRes.json();
             
-            // 4. Matches (per ricerca automatica)
             try {
-                const mRes = await fetch('matches.json');
+                const mRes = await fetch('matches.json?t=' + Date.now());
                 allMatchesData = await mRes.json();
-            } catch(e) { console.error("matches.json non trovato."); }
+            } catch(e) {}
 
             renderPitchAndBench();
             updateAllPlayerDropdowns();
+            renderTrialistsList();
 
-            // Evento ricerca automatica su blur da ID
             document.getElementById('matchId').addEventListener('blur', () => {
                 const val = document.getElementById('matchId').value.trim();
                 if (val) loadExistingMatchData(false);
@@ -563,20 +655,18 @@
         const formationKey = document.getElementById('formationSelect').value;
         const positions = FORMATIONS[formationKey] || FORMATIONS["4-4-2"];
         
-        // 1. Titolari
         const pitchGrid = document.getElementById('pitchGrid');
         pitchGrid.innerHTML = positions.map((posTag, idx) => `
             <div class="pitch-position-card">
                 <div class="pitch-pos-header">
                     <span class="pos-badge">${posTag}</span>
-                    <span style="font-size: 0.72rem; color: #94a3b8;">Pos #${idx + 1}</span>
+                    <span style="font-size: 0.7rem; color: #cbd5e1;">#${idx + 1}</span>
                 </div>
                 <select class="form-control player-dropdown-dynamic starter-player-select match-squad-select" data-pos="${posTag}">
                 </select>
             </div>
         `).join('');
 
-        // 2. Panchina (10 Slots)
         const benchGrid = document.getElementById('benchGrid');
         const t = adminTranslations[currentAdminLang] || adminTranslations['ja'];
         
@@ -605,6 +695,16 @@
         updateAllPlayerDropdowns();
     }
 
+    function clearFormationSelections() {
+        document.querySelectorAll('#pitchGrid .starter-player-select').forEach(s => s.value = '');
+        document.querySelectorAll('#benchGrid .bench-player-select').forEach(s => s.value = '');
+        document.querySelectorAll('#benchGrid .bench-subbed-in').forEach(s => {
+            s.checked = false;
+            toggleBenchPosSelect(s);
+        });
+        updatePlayerExclusions();
+    }
+
     function toggleBenchPosSelect(checkboxElem) {
         const posSelect = checkboxElem.parentElement.parentElement.querySelector('.bench-pos-select');
         if (posSelect) {
@@ -614,210 +714,50 @@
 
     document.getElementById('formationSelect').addEventListener('change', renderPitchAndBench);
 
-    // --- CARICAMENTO AUTOMATICO DATI PARTITA ESISTENTE ---
-    async function loadExistingMatchData(showAlerts = true) {
-        const searchId = document.getElementById('matchId').value.trim().toLowerCase();
-        if (!searchId) return;
+    function addTrialistPlayer() {
+        const promptText = currentAdminLang === 'ja' ? "体験・お試し選手の名前 (例: 山田 太郎):" : "Nome del giocatore in prova (es. Mario Rossi):";
+        const namePrompt = prompt(promptText, "");
+        if (!namePrompt || !namePrompt.trim()) return;
 
-        const statusMsg = document.getElementById('statusMsg');
-        
-        // Ricarica sempre l'ultimo matches.json per avere i dati aggiornati
-        try {
-            const mRes = await fetch('matches.json?t=' + Date.now());
-            if (mRes.ok) allMatchesData = await mRes.json();
-        } catch(e) {}
+        const name = namePrompt.trim();
+        const tId = `trialist_${Date.now()}`;
+        const trialist = { id: tId, name_kanji: name, name_romaji: name, position: 'TRIAL' };
 
-        const match = allMatchesData.find(m => String(m.id).toLowerCase() === searchId);
+        trialistsList.push(trialist);
+        globalPlayers.push(trialist);
 
-        if (!match) {
-            if (showAlerts) {
-                statusMsg.style.color = '#d97706';
-                statusMsg.innerHTML = `ℹ️ Nessuna partita trovata con ID "${searchId}". Inserisci i nuovi dati.`;
-            }
+        renderTrialistsList();
+        updateAllPlayerDropdowns();
+    }
+
+    function removeTrialist(id) {
+        trialistsList = trialistsList.filter(t => t.id !== id);
+        globalPlayers = globalPlayers.filter(p => p.id !== id);
+        renderTrialistsList();
+        updateAllPlayerDropdowns();
+    }
+
+    function renderTrialistsList() {
+        const container = document.getElementById('trialistListContainer');
+        if (!container) return;
+
+        if (trialistsList.length === 0) {
+            container.innerHTML = '<span style="font-size: 0.78rem; color: #64748b;">なし / Nessun giocatore in prova aggiunto</span>';
             return;
         }
 
-        statusMsg.style.color = '#0284c7';
-        statusMsg.innerHTML = `✅ Dati trovati per ${match.id}! Compilazione automatica...`;
-
-        // 1. Compilazione Campi Generali
-        if (match.status) document.getElementById('matchStatus').value = match.status;
-        if (match.date) document.getElementById('matchDate').value = match.date;
-        if (match.time) document.getElementById('matchTime').value = match.time;
-        if (match.category) document.getElementById('matchCategory').value = match.category;
-        if (match.type) document.getElementById('matchType').value = match.type;
-        if (match.opponent_id) document.getElementById('opponentSelect').value = match.opponent_id;
-        if (match.location_id) document.getElementById('locationSelect').value = match.location_id;
-        if (match.isHome !== undefined) document.getElementById('isHome').value = String(match.isHome);
-        if (match.score) document.getElementById('matchScore').value = match.score;
-
-        // 2. Modulo Tattico
-        if (match.formation) {
-            const formSel = document.getElementById('formationSelect');
-            formSel.value = FORMATIONS[match.formation] ? match.formation : 'custom';
-            renderPitchAndBench();
-        }
-
-        // 3. Titolari e Posizioni
-        if (match.starters_positions) {
-            Object.entries(match.starters_positions).forEach(([posTag, pName]) => {
-                const targetSel = document.querySelector(`#pitchGrid .starter-player-select[data-pos="${posTag}"]`);
-                if (targetSel) targetSel.value = pName;
-            });
-        } else if (Array.isArray(match.starters)) {
-            const startersSelects = document.querySelectorAll('#pitchGrid .starter-player-select');
-            match.starters.forEach((pName, idx) => {
-                if (startersSelects[idx]) startersSelects[idx].value = pName;
-            });
-        }
-
-        // 4. Panchina e Sostituzioni
-        if (Array.isArray(match.bench_details)) {
-            match.bench_details.forEach((bItem, idx) => {
-                const slotElem = document.getElementById(`benchSlot_${idx + 1}`);
-                if (slotElem) {
-                    const pSelect = slotElem.querySelector('.bench-player-select');
-                    const chkSub = slotElem.querySelector('.bench-subbed-in');
-                    const posSel = slotElem.querySelector('.bench-pos-select');
-
-                    if (pSelect) pSelect.value = bItem.player || '';
-                    if (chkSub) {
-                        chkSub.checked = !!bItem.subbed_in;
-                        toggleBenchPosSelect(chkSub);
-                    }
-                    if (posSel && bItem.position_played) posSel.value = bItem.position_played;
-                }
-            });
-        } else if (Array.isArray(match.substitutes_in) || Array.isArray(match.substitutes_unused)) {
-            const allBench = [...(match.substitutes_in || []), ...(match.substitutes_unused || [])];
-            allBench.forEach((pName, idx) => {
-                const slotElem = document.getElementById(`benchSlot_${idx + 1}`);
-                if (slotElem) {
-                    const pSelect = slotElem.querySelector('.bench-player-select');
-                    const chkSub = slotElem.querySelector('.bench-subbed-in');
-                    if (pSelect) pSelect.value = pName;
-                    if (chkSub && match.substitutes_in && match.substitutes_in.includes(pName)) {
-                        chkSub.checked = true;
-                        toggleBenchPosSelect(chkSub);
-                    }
-                }
-            });
-        }
-
-        // 5. Statistiche Dinamiche (Pulisci container prima di ricostruire)
-        document.getElementById('scorersContainer').innerHTML = '';
-        document.getElementById('assistsContainer').innerHTML = '';
-        document.getElementById('gkContainer').innerHTML = '';
-        document.getElementById('yellowCardsContainer').innerHTML = '';
-        document.getElementById('redCardsContainer').innerHTML = '';
-
-        // Marcatori
-        if (match.scorers && match.scorers !== 'なし' && match.scorers !== 'Nessuno') {
-            match.scorers.split(/[,、]/).forEach(entry => {
-                let text = entry.trim();
-                let count = 1;
-                const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
-                if (multMatch) {
-                    text = multMatch[1].trim();
-                    count = parseInt(multMatch[2], 10) || 1;
-                }
-                addScorerRow();
-                const lastRow = document.querySelector('#scorersContainer .stat-row:last-child');
-                if (lastRow) {
-                    lastRow.querySelector('.scorer-player-select').value = text;
-                    lastRow.querySelector('.row-count-input').value = count;
-                }
-            });
-        }
-
-        // Assist
-        if (match.assists && match.assists !== 'なし' && match.assists !== 'Nessuno') {
-            match.assists.split(/[,、]/).forEach(entry => {
-                let text = entry.trim();
-                let count = 1;
-                const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
-                if (multMatch) {
-                    text = multMatch[1].trim();
-                    count = parseInt(multMatch[2], 10) || 1;
-                }
-                addAssistRow();
-                const lastRow = document.querySelector('#assistsContainer .stat-row:last-child');
-                if (lastRow) {
-                    lastRow.querySelector('.assist-player-select').value = text;
-                    lastRow.querySelector('.row-count-input').value = count;
-                }
-            });
-        }
-
-        // Portieri
-        if (match.goalkeepers) {
-            match.goalkeepers.split(/[,、]/).forEach(entry => {
-                const gkMatch = entry.trim().match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
-                let rawGk = entry.trim();
-                let gkGa = 0;
-                if (gkMatch) {
-                    rawGk = gkMatch[1].trim();
-                    gkGa = parseInt(gkMatch[2], 10) || 0;
-                }
-                addGkRow();
-                const lastRow = document.querySelector('#gkContainer .stat-row:last-child');
-                if (lastRow) {
-                    lastRow.querySelector('.gk-player-select').value = rawGk;
-                    lastRow.querySelector('.row-count-input').value = gkGa;
-                }
-            });
-        }
-
-        // MVP
-        if (match.mvp) document.getElementById('mvpSelect').value = match.mvp;
-
-        // Cartellini
-        if (match.yellow_cards) {
-            match.yellow_cards.split(/[,、]/).forEach(name => {
-                if (name.trim()) {
-                    addYellowCardRow();
-                    const lastRow = document.querySelector('#yellowCardsContainer .stat-row:last-child');
-                    if (lastRow) lastRow.querySelector('.yellow-player-select').value = name.trim();
-                }
-            });
-        }
-        if (match.red_cards) {
-            match.red_cards.split(/[,、]/).forEach(name => {
-                if (name.trim()) {
-                    addRedCardRow();
-                    const lastRow = document.querySelector('#redCardsContainer .stat-row:last-child');
-                    if (lastRow) lastRow.querySelector('.red-player-select').value = name.trim();
-                }
-            });
-        }
-
-        updatePlayerExclusions();
-    }
-
-    function resetForm() {
-        document.getElementById('matchForm').reset();
-        document.getElementById('scorersContainer').innerHTML = '';
-        document.getElementById('assistsContainer').innerHTML = '';
-        document.getElementById('gkContainer').innerHTML = '';
-        document.getElementById('yellowCardsContainer').innerHTML = '';
-        document.getElementById('redCardsContainer').innerHTML = '';
-        document.getElementById('statusMsg').innerHTML = '';
-        renderPitchAndBench();
-    }
-
-    function addTrialistPlayer() {
-        trialistCount++;
-        const tId = `trialist_${trialistCount}`;
-        const namePrompt = prompt("Nome del giocatore in prova (es. 山田 太郎):", "Giocatore In Prova " + trialistCount);
-        if (!namePrompt) return;
-
-        globalPlayers.push({ id: tId, name_kanji: namePrompt, name_romaji: namePrompt, position: 'TRIAL' });
-        updateAllPlayerDropdowns();
+        container.innerHTML = trialistsList.map(t => `
+            <div class="trialist-item">
+                <span><i class="fas fa-user-clock"></i> ${t.name_kanji}</span>
+                <button type="button" class="btn-remove-trialist" onclick="removeTrialist('${t.id}')" title="Rimuovi">
+                    <i class="fas fa-times-circle"></i>
+                </button>
+            </div>
+        `).join('');
     }
 
     function getAllAvailablePlayers(onlyGoalkeepers = false) {
         const list = [{ name: "Nessuno / なし", value: "" }];
-        
         let filtered = globalPlayers;
         if (onlyGoalkeepers) {
             filtered = globalPlayers.filter(p => p.position === 'GK' || p.position === 'TRIAL');
@@ -877,7 +817,6 @@
             const currentValue = select.value;
             Array.from(select.options).forEach(option => {
                 if (!option.value) return;
-                
                 if (selectedValues.has(option.value) && option.value !== currentValue) {
                     option.disabled = true;
                     option.textContent = option.textContent.replace(' (Selezionato)', '') + ' (Selezionato)';
@@ -909,16 +848,385 @@
     function addYellowCardRow() { document.getElementById('yellowCardsContainer').appendChild(createDynamicRow('yellow-player-select', false, "", false)); }
     function addRedCardRow() { document.getElementById('redCardsContainer').appendChild(createDynamicRow('red-player-select', false, "", false)); }
 
-    setAdminLanguage(currentAdminLang);
+    async function loadExistingMatchData(showAlerts = true) {
+        const searchId = document.getElementById('matchId').value.trim().toLowerCase();
+        if (!searchId) return;
 
-    // --- SALVATAGGIO & INVIO A GITHUB ---
+        const statusMsg = document.getElementById('statusMsg');
+        
+        try {
+            const mRes = await fetch('matches.json?t=' + Date.now());
+            if (mRes.ok) allMatchesData = await mRes.json();
+        } catch(e) {}
+
+        const match = allMatchesData.find(m => String(m.id).toLowerCase() === searchId);
+
+        if (!match) {
+            if (showAlerts) {
+                statusMsg.style.color = '#d97706';
+                statusMsg.innerHTML = `ℹ️ Nessuna partita trovata con ID "${searchId}". Inserisci i nuovi dati.`;
+            }
+            return;
+        }
+
+        statusMsg.style.color = '#0284c7';
+        statusMsg.innerHTML = `✅ Dati trovati per ${match.id}! Compilazione automatica...`;
+
+        if (match.status) document.getElementById('matchStatus').value = match.status;
+        if (match.date) document.getElementById('matchDate').value = match.date;
+        if (match.time) document.getElementById('matchTime').value = match.time;
+        if (match.category) document.getElementById('matchCategory').value = match.category;
+        if (match.type) document.getElementById('matchType').value = match.type;
+        if (match.opponent_id) document.getElementById('opponentSelect').value = match.opponent_id;
+        if (match.location_id) document.getElementById('locationSelect').value = match.location_id;
+        if (match.isHome !== undefined) document.getElementById('isHome').value = String(match.isHome);
+        if (match.score) document.getElementById('matchScore').value = match.score;
+
+        if (match.formation) {
+            const formSel = document.getElementById('formationSelect');
+            formSel.value = FORMATIONS[match.formation] ? match.formation : 'custom';
+            renderPitchAndBench();
+        }
+
+        if (match.starters_positions) {
+            Object.entries(match.starters_positions).forEach(([posTag, pName]) => {
+                const targetSel = document.querySelector(`#pitchGrid .starter-player-select[data-pos="${posTag}"]`);
+                if (targetSel) targetSel.value = pName;
+            });
+        } else if (Array.isArray(match.starters)) {
+            const startersSelects = document.querySelectorAll('#pitchGrid .starter-player-select');
+            match.starters.forEach((pName, idx) => {
+                if (startersSelects[idx]) startersSelects[idx].value = pName;
+            });
+        }
+
+        if (Array.isArray(match.bench_details)) {
+            match.bench_details.forEach((bItem, idx) => {
+                const slotElem = document.getElementById(`benchSlot_${idx + 1}`);
+                if (slotElem) {
+                    const pSelect = slotElem.querySelector('.bench-player-select');
+                    const chkSub = slotElem.querySelector('.bench-subbed-in');
+                    const posSel = slotElem.querySelector('.bench-pos-select');
+
+                    if (pSelect) pSelect.value = bItem.player || '';
+                    if (chkSub) {
+                        chkSub.checked = !!bItem.subbed_in;
+                        toggleBenchPosSelect(chkSub);
+                    }
+                    if (posSel && bItem.position_played) posSel.value = bItem.position_played;
+                }
+            });
+        }
+
+        document.getElementById('scorersContainer').innerHTML = '';
+        document.getElementById('assistsContainer').innerHTML = '';
+        document.getElementById('gkContainer').innerHTML = '';
+        document.getElementById('yellowCardsContainer').innerHTML = '';
+        document.getElementById('redCardsContainer').innerHTML = '';
+
+        if (match.scorers && match.scorers !== 'なし' && match.scorers !== 'Nessuno') {
+            match.scorers.split(/[,、]/).forEach(entry => {
+                let text = entry.trim(), count = 1;
+                const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
+                if (multMatch) { text = multMatch[1].trim(); count = parseInt(multMatch[2], 10) || 1; }
+                addScorerRow();
+                const lastRow = document.querySelector('#scorersContainer .stat-row:last-child');
+                if (lastRow) {
+                    lastRow.querySelector('.scorer-player-select').value = text;
+                    lastRow.querySelector('.row-count-input').value = count;
+                }
+            });
+        }
+
+        if (match.assists && match.assists !== 'なし' && match.assists !== 'Nessuno') {
+            match.assists.split(/[,、]/).forEach(entry => {
+                let text = entry.trim(), count = 1;
+                const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
+                if (multMatch) { text = multMatch[1].trim(); count = parseInt(multMatch[2], 10) || 1; }
+                addAssistRow();
+                const lastRow = document.querySelector('#assistsContainer .stat-row:last-child');
+                if (lastRow) {
+                    lastRow.querySelector('.assist-player-select').value = text;
+                    lastRow.querySelector('.row-count-input').value = count;
+                }
+            });
+        }
+
+        if (match.goalkeepers) {
+            match.goalkeepers.split(/[,、]/).forEach(entry => {
+                const gkMatch = entry.trim().match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
+                let rawGk = entry.trim(), gkGa = 0;
+                if (gkMatch) { rawGk = gkMatch[1].trim(); gkGa = parseInt(gkMatch[2], 10) || 0; }
+                addGkRow();
+                const lastRow = document.querySelector('#gkContainer .stat-row:last-child');
+                if (lastRow) {
+                    lastRow.querySelector('.gk-player-select').value = rawGk;
+                    lastRow.querySelector('.row-count-input').value = gkGa;
+                }
+            });
+        }
+
+        if (match.mvp) document.getElementById('mvpSelect').value = match.mvp;
+
+        if (match.yellow_cards) {
+            match.yellow_cards.split(/[,、]/).forEach(name => {
+                if (name.trim()) {
+                    addYellowCardRow();
+                    const lastRow = document.querySelector('#yellowCardsContainer .stat-row:last-child');
+                    if (lastRow) lastRow.querySelector('.yellow-player-select').value = name.trim();
+                }
+            });
+        }
+        if (match.red_cards) {
+            match.red_cards.split(/[,、]/).forEach(name => {
+                if (name.trim()) {
+                    addRedCardRow();
+                    const lastRow = document.querySelector('#redCardsContainer .stat-row:last-child');
+                    if (lastRow) lastRow.querySelector('.red-player-select').value = name.trim();
+                }
+            });
+        }
+
+        updatePlayerExclusions();
+    }
+
+    function resetForm() {
+        document.getElementById('matchForm').reset();
+        document.getElementById('scorersContainer').innerHTML = '';
+        document.getElementById('assistsContainer').innerHTML = '';
+        document.getElementById('gkContainer').innerHTML = '';
+        document.getElementById('yellowCardsContainer').innerHTML = '';
+        document.getElementById('redCardsContainer').innerHTML = '';
+        document.getElementById('statusMsg').innerHTML = '';
+        trialistsList = [];
+        renderTrialistsList();
+        renderPitchAndBench();
+    }
+
+    // --- MOTORE CALCOLO STATISTICHE LOCALE (STESSA LOGICA DI build-stats.js) ---
+    function cleanStr(s) { return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim(); }
+    function isJapanese(s) { return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf]/.test(s); }
+
+    function generateStatsJSON(playersData, matchesData) {
+        const playerMap = new Map();
+        const aliasToId = new Map();
+
+        playersData.forEach(p => {
+            if (p.role === 'staff') return;
+            const id = p.id || String(p.number) || p.name_kanji;
+
+            playerMap.set(id, {
+                id: id, number: p.number, name_kanji: p.name_kanji, name_kana: p.name_kana,
+                name_romaji: p.name_romaji, role: p.role, position: p.position,
+                caps: 0, starters: 0, subs: 0, goals: 0, assists: 0, mvps: 0,
+                yellows: 0, reds: 0, goals_conceded: 0, clean_sheets: 0, positions_played: {}
+            });
+
+            [id, p.name_kanji, p.name_kana, p.name_romaji].forEach(name => {
+                if (name) {
+                    const cleaned = cleanStr(name);
+                    if (cleaned) aliasToId.set(cleaned, id);
+                }
+            });
+        });
+
+        function resolvePlayerId(rawName) {
+            if (!rawName) return null;
+            const target = cleanStr(rawName);
+            if (!target || target === 'なし' || target === 'nessuno' || target === 'null') return null;
+            if (aliasToId.has(target)) return aliasToId.get(target);
+
+            const minLen = isJapanese(target) ? 2 : 3;
+            if (target.length >= minLen) {
+                for (let [alias, id] of aliasToId.entries()) {
+                    if (alias.length >= minLen && (alias.includes(target) || target.includes(alias))) return id;
+                }
+            }
+            return null;
+        }
+
+        function recordPositionPlayed(rawPlayerName, posTag) {
+            if (!rawPlayerName || !posTag) return;
+            const pId = resolvePlayerId(rawPlayerName);
+            if (!pId || !playerMap.has(pId)) return;
+            const player = playerMap.get(pId);
+            const tag = String(posTag).trim().toUpperCase();
+            if (tag && tag !== 'UNDEFINED' && tag !== 'NULL') {
+                player.positions_played[tag] = (player.positions_played[tag] || 0) + 1;
+            }
+        }
+
+        const teamTotals = {
+            total_matches: 0, wins: 0, draws: 0, losses: 0,
+            goals_for: 0, goals_against: 0, clean_sheets: 0, formations_used: {}
+        };
+
+        const knownPosRegex = /^(GK|CB|LB|RB|LWB|RWB|DM|CM|LM|RM|AM|LW|RW|FW|ST)(-[LRC123])?$/i;
+
+        matchesData.forEach(m => {
+            if (String(m.status || '').toLowerCase() !== 'past') return;
+            teamTotals.total_matches++;
+
+            if (m.formation) {
+                const form = String(m.formation).trim();
+                teamTotals.formations_used[form] = (teamTotals.formations_used[form] || 0) + 1;
+            }
+
+            let matchGF = 0, matchGA = 0;
+            const scoreText = m.score ? m.score.trim() : '';
+            if (scoreText && scoreText.includes('-')) {
+                const parts = scoreText.split('-').map(n => parseInt(n.trim(), 10));
+                if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+                    matchGF = parts[0];
+                    matchGA = parts[1];
+                }
+            }
+
+            teamTotals.goals_for += matchGF;
+            teamTotals.goals_against += matchGA;
+            if (matchGF > matchGA) teamTotals.wins++;
+            else if (matchGF === matchGA) teamTotals.draws++;
+            else teamTotals.losses++;
+
+            if (matchGA === 0) teamTotals.clean_sheets++;
+
+            const processedCaps = new Set();
+            if (Array.isArray(m.starters)) {
+                m.starters.forEach(name => {
+                    const pId = resolvePlayerId(name);
+                    if (pId && playerMap.has(pId)) {
+                        playerMap.get(pId).starters++;
+                        playerMap.get(pId).caps++;
+                        processedCaps.add(pId);
+                    }
+                });
+            }
+
+            if (m.starters_positions && typeof m.starters_positions === 'object') {
+                Object.entries(m.starters_positions).forEach(([key, val]) => {
+                    if (knownPosRegex.test(key.trim())) recordPositionPlayed(val, key);
+                    else recordPositionPlayed(key, val);
+                });
+            }
+
+            if (Array.isArray(m.substitutes_in)) {
+                m.substitutes_in.forEach(name => {
+                    const pId = resolvePlayerId(name);
+                    if (pId && playerMap.has(pId) && !processedCaps.has(pId)) {
+                        playerMap.get(pId).subs++;
+                        playerMap.get(pId).caps++;
+                        processedCaps.add(pId);
+                    }
+                });
+            }
+
+            if (Array.isArray(m.bench_details)) {
+                m.bench_details.forEach(item => {
+                    if (item && item.subbed_in && item.position_played) {
+                        recordPositionPlayed(item.player, item.position_played);
+                    }
+                });
+            }
+
+            if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
+                m.scorers.split(/[,、]/).forEach(entry => {
+                    let text = entry.trim(), count = 1;
+                    const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
+                    if (multMatch) { text = multMatch[1].trim(); count = parseInt(multMatch[2], 10) || 1; }
+                    const pId = resolvePlayerId(text);
+                    if (pId && playerMap.has(pId)) playerMap.get(pId).goals += count;
+                });
+            }
+
+            if (m.assists && m.assists !== 'なし' && m.assists !== 'Nessuno') {
+                m.assists.split(/[,、]/).forEach(entry => {
+                    let text = entry.trim(), count = 1;
+                    const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
+                    if (multMatch) { text = multMatch[1].trim(); count = parseInt(multMatch[2], 10) || 1; }
+                    const pId = resolvePlayerId(text);
+                    if (pId && playerMap.has(pId)) playerMap.get(pId).assists += count;
+                });
+            }
+
+            if (m.mvp) m.mvp.split(/[,、]/).forEach(name => { const pId = resolvePlayerId(name); if (pId && playerMap.has(pId)) playerMap.get(pId).mvps++; });
+            if (m.yellow_cards) m.yellow_cards.split(/[,、]/).forEach(name => { const pId = resolvePlayerId(name); if (pId && playerMap.has(pId)) playerMap.get(pId).yellows++; });
+            if (m.red_cards) m.red_cards.split(/[,、]/).forEach(name => { const pId = resolvePlayerId(name); if (pId && playerMap.has(pId)) playerMap.get(pId).reds++; });
+
+            if (m.goalkeepers) {
+                m.goalkeepers.split(/[,、]/).forEach(entry => {
+                    const match = entry.trim().match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
+                    let rawGk = entry.trim(), gkGa = matchGA;
+                    if (match) { rawGk = match[1].trim(); const parsed = parseInt(match[2], 10); if (!isNaN(parsed)) gkGa = parsed; }
+                    const pId = resolvePlayerId(rawGk);
+                    if (pId && playerMap.has(pId)) {
+                        playerMap.get(pId).goals_conceded += gkGa;
+                        if (gkGa === 0) playerMap.get(pId).clean_sheets++;
+                    }
+                });
+            }
+        });
+
+        const allPlayersList = Array.from(playerMap.values());
+        return {
+            updated_at: new Date().toISOString(),
+            team_totals: teamTotals,
+            players: Object.fromEntries(playerMap),
+            rankings: {
+                top_scorers: [...allPlayersList].sort((a, b) => b.goals - a.goals || b.caps - a.caps).slice(0, 5),
+                top_assists: [...allPlayersList].sort((a, b) => b.assists - a.assists || b.caps - a.caps).slice(0, 5),
+                most_caps: [...allPlayersList].sort((a, b) => b.caps - a.caps).slice(0, 5),
+                mvps: [...allPlayersList].sort((a, b) => b.mvps - a.mvps).slice(0, 5)
+            }
+        };
+    }
+
+    // --- FUNZIONI DI SCRITTURA DIRETTA VIA GITHUB REST API ---
+    async function getGitHubFile(repo, filePath, token) {
+        const url = `https://api.github.com/repos/${repo}/contents/${filePath}`;
+        const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
+        if (res.status === 404) return { sha: null, content: [] };
+        if (!res.ok) throw new Error(`HTTP ${res.status} on GET ${filePath}`);
+        const data = await res.json();
+        const strContent = decodeURIComponent(escape(atob(data.content.replace(/\s/g, ''))));
+        return { sha: data.sha, content: JSON.parse(strContent) };
+    }
+
+    async function saveGitHubFile(repo, filePath, jsonContent, sha, token, commitMsg) {
+        const url = `https://api.github.com/repos/${repo}/contents/${filePath}`;
+        const strContent = JSON.stringify(jsonContent, null, 2);
+        const b64Content = btoa(unescape(encodeURIComponent(strContent)));
+
+        const body = {
+            message: commitMsg,
+            content: b64Content,
+            branch: 'main'
+        };
+        if (sha) body.sha = sha;
+
+        const res = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/vnd.github+json'
+            },
+            body: JSON.stringify(body)
+        });
+
+        if (!res.ok) {
+            const err = await res.json();
+            throw new Error(err.message || `HTTP ${res.status} on PUT ${filePath}`);
+        }
+        return await res.json();
+    }
+
+    // --- SALVATAGGIO COMPLETO SU GITHUB ---
     document.getElementById('matchForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const repo = document.getElementById('repoPath').value.trim();
         if (!activeToken || !repo) return;
 
-        // 1. Titolari e Formazione
         const starters = [];
         const startersPositions = {};
 
@@ -931,7 +1239,6 @@
             }
         });
 
-        // 2. Panchina e Sostituzioni
         const benchDetails = [];
         const substitutesIn = [];
         const substitutesUnused = [];
@@ -948,17 +1255,13 @@
                     position_played: isSubbed ? posPlayed : null
                 });
 
-                if (isSubbed) {
-                    substitutesIn.push(pName);
-                } else {
-                    substitutesUnused.push(pName);
-                }
+                if (isSubbed) substitutesIn.push(pName);
+                else substitutesUnused.push(pName);
             }
         });
 
         const playedLineup = [...starters, ...substitutesIn];
 
-        // 3. Format Marcatori
         const scorerMap = {};
         document.querySelectorAll('.stat-row .scorer-player-select').forEach(sel => {
             const pName = sel.value;
@@ -967,7 +1270,6 @@
         });
         const scorersString = Object.keys(scorerMap).map(k => scorerMap[k] > 1 ? `${k} x${scorerMap[k]}` : k).join(', ');
 
-        // 4. Format Assistman
         const assistMap = {};
         document.querySelectorAll('.stat-row .assist-player-select').forEach(sel => {
             const pName = sel.value;
@@ -976,7 +1278,6 @@
         });
         const assistsString = Object.keys(assistMap).map(k => assistMap[k] > 1 ? `${k} x${assistMap[k]}` : k).join(', ');
 
-        // 5. Format Portieri
         const gkList = [];
         document.querySelectorAll('.stat-row .gk-player-select').forEach(sel => {
             const pName = sel.value;
@@ -985,7 +1286,6 @@
         });
         const goalkeepersString = gkList.join(', ');
 
-        // 6. Cartellini
         const yellowsList = [];
         document.querySelectorAll('.stat-row .yellow-player-select').forEach(sel => { if (sel.value) yellowsList.push(sel.value); });
         const redsList = [];
@@ -1022,36 +1322,41 @@
         
         submitBtn.disabled = true;
         statusMsg.style.color = '#003c82';
-        statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Invio in corso a GitHub...';
+        statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Lettura matches.json in corso...';
 
         try {
-            const response = await fetch(`https://api.github.com/repos/${repo}/actions/workflows/update-data.yml/dispatches`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${activeToken}`,
-                    'Accept': 'application/vnd.github+json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    ref: 'main',
-                    inputs: {
-                        action_type: 'add_match',
-                        match_data: JSON.stringify(matchPayload)
-                    }
-                })
-            });
-
-            if (response.ok) {
-                statusMsg.style.color = '#059669';
-                statusMsg.innerHTML = '✅ Partita salvata! Il sito si aggiornerà in ~30 secondi.';
+            // 1. Legge matches.json attuale da GitHub
+            const { sha: matchSha, content: existingMatches } = await getGitHubFile(repo, 'matches.json', activeToken);
+            
+            // 2. Aggiorna o inserisce il match
+            let matchesArray = Array.isArray(existingMatches) ? existingMatches : [];
+            const idx = matchesArray.findIndex(m => String(m.id).toLowerCase() === String(matchPayload.id).toLowerCase());
+            
+            if (idx >= 0) {
+                matchesArray[idx] = matchPayload;
             } else {
-                const errData = await response.json();
-                statusMsg.style.color = '#dc2626';
-                statusMsg.innerHTML = '❌ Errore API: ' + (errData.message || 'Verifica Token o Permessi.');
+                matchesArray.push(matchPayload);
             }
+
+            // 3. Genera stats.json ricalcolato
+            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Ricalcolo statistiche su stats.json in corso...';
+            const statsData = generateStatsJSON(globalPlayers, matchesArray);
+
+            // 4. Salva matches.json su GitHub
+            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvataggio matches.json su GitHub...';
+            await saveGitHubFile(repo, 'matches.json', matchesArray, matchSha, activeToken, `Admin: Update ${matchPayload.id}`);
+
+            // 5. Salva stats.json su GitHub
+            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvataggio stats.json su GitHub...';
+            const { sha: statsSha } = await getGitHubFile(repo, 'stats.json', activeToken);
+            await saveGitHubFile(repo, 'stats.json', statsData, statsSha, activeToken, `Admin: Update stats for ${matchPayload.id}`);
+
+            statusMsg.style.color = '#059669';
+            statusMsg.innerHTML = `✅ Successful! <b>matches.json</b> e <b>stats.json</b> sono stati aggiornati con successo su GitHub!`;
+
         } catch (err) {
             statusMsg.style.color = '#dc2626';
-            statusMsg.innerHTML = '❌ Errore di connessione.';
+            statusMsg.innerHTML = '❌ Errore durante il salvataggio: ' + err.message;
         } finally {
             submitBtn.disabled = false;
         }
