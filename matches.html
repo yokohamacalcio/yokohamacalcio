@@ -268,7 +268,7 @@
 <!-- SCHEMA_EVENTS_END -->
     
     <style>
-        /* --- OVERLAY MENU MOBILE SCURO COMPATTO --- */
+        /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO --- */
         .mobile-nav {
             position: fixed;
             top: 0; left: 0;
@@ -363,7 +363,9 @@
             gap: 8px; text-decoration: none;
         }
 
-        /* --- MENU DESKTOP STILI UNIFORMATI CON INDEX --- */
+        /* =====================================================
+           PERFETTO ALLINEAMENTO MENU DESKTOP & FLUIDITÀ RESPONSIVE
+           ===================================================== */
         .desktop-nav-wrapper {
             display: flex;
             align-items: center;
@@ -380,6 +382,7 @@
             align-items: center;
         }
         
+        /* UNIFORMITÀ DI TUTTI GLI ELEMENTI DEL MENU DESKTOP */
         .main-nav > a,
         .main-nav .dropdown-toggle {
             display: inline-flex !important;
@@ -406,6 +409,7 @@
             color: var(--primary-sky, #87ceeb) !important;
         }
 
+        /* PULSANTE CTA IN EVIDENZA SULLA DESTRA */
         .main-nav .nav-cta-btn {
             background: var(--dark-navy, #003c82) !important;
             color: #ffffff !important;
@@ -418,6 +422,7 @@
             color: var(--dark-navy, #003c82) !important;
         }
 
+        /* DROPDOWN MENU DESKTOP FLUTTUANTE */
         .main-nav .dropdown-menu {
             display: none;
             position: absolute !important;
@@ -449,6 +454,7 @@
             color: var(--primary-sky, #87ceeb) !important;
         }
 
+        /* STATO APERTO AL HOVER (PASSAGGIO MOUSE) E CON CLASSE .OPEN */
         .nav-item.dropdown:hover > .dropdown-menu,
         .nav-item.dropdown.open > .dropdown-menu {
             display: block !important;
@@ -459,6 +465,60 @@
         .nav-item.dropdown:hover > .dropdown-toggle .nav-arrow,
         .nav-item.dropdown.open > .dropdown-toggle .nav-arrow {
             transform: rotate(180deg);
+        }
+
+        /* SCHERMI MEDI DESKTOP (1025px - 1200px) */
+        @media (min-width: 1025px) and (max-width: 1200px) {
+            .main-nav {
+                gap: 8px !important;
+            }
+            .main-nav > a,
+            .main-nav .dropdown-toggle {
+                padding: 6px 6px !important;
+                font-size: 0.85rem !important;
+            }
+            .main-nav .nav-cta-btn {
+                padding: 6px 12px !important;
+                font-size: 0.85rem !important;
+            }
+        }
+
+        /* MENU MOBILE PER SCHERMI VERTICALI (PORTRAIT) <= 900px */
+        @media (max-width: 900px) and (orientation: portrait) {
+            .desktop-nav-wrapper {
+                display: none !important;
+            }
+            .mobile-menu-toggle {
+                display: flex !important;
+            }
+        }
+
+        /* MENU ESTESO COMPATTO PER SMARTPHONE IN ORIZZONTALE (LANDSCAPE) */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .desktop-nav-wrapper {
+                display: flex !important;
+            }
+            .mobile-menu-toggle {
+                display: none !important;
+            }
+            .main-nav {
+                gap: 4px !important;
+            }
+            .main-nav > a,
+            .main-nav .dropdown-toggle {
+                padding: 4px 5px !important;
+                font-size: 0.78rem !important;
+            }
+            .main-nav .nav-cta-btn {
+                padding: 5px 10px !important;
+                font-size: 0.75rem !important;
+            }
+            .logo-title img {
+                height: 30px !important;
+            }
+            .brand-name {
+                font-size: 0.95rem !important;
+            }
         }
 
         /* --- BADGES --- */
@@ -732,7 +792,7 @@
             </div>
           </div>
 
-          <a href="matches.html" style="color: var(--primary-sky);" data-i18n="nav.matches">試合日程・結果</a>
+          <a href="matches.html" style="color: var(--primary-sky); font-weight: 700;" data-i18n="nav.matches">試合日程・結果</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
           <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
           <a href="contact.html" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
@@ -829,7 +889,6 @@
                 </h3>
                 <div id="upcomingContainer" style="display: flex; flex-direction: column; gap: 20px;">
                     <!-- UPCOMING_START -->
-                    <!-- Contenuto dinamico generato via JS per evitare glitch/flicker -->
                     <!-- UPCOMING_END -->
                 </div>
             </div>
@@ -840,7 +899,6 @@
                 </h3>
                 <div id="pastContainer" style="display: flex; flex-direction: column; gap: 20px;">
                     <!-- PAST_START -->
-                    <!-- Contenuto dinamico generato via JS -->
                     <!-- PAST_END -->
                 </div>
 
@@ -1680,61 +1738,7 @@
         });
     }
 
-    window.addEventListener('DOMContentLoaded', async () => {
-        const currentYearEl = document.getElementById('currentYear');
-        if (currentYearEl) currentYearEl.textContent = new Date().getFullYear();
-
-        initDesktopDropdowns();
-        await loadAllData();
-
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
-        });
-
-        document.querySelectorAll('[data-match-filter]').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('[data-match-filter]').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                visiblePastMatchesCount = 3;
-                filterAndPaginateMatches();
-            });
-        });
-
-        const seasonSelect = document.getElementById('matchSeasonSelect');
-        if (seasonSelect) {
-            seasonSelect.addEventListener('change', function() {
-                this.dataset.userModified = "true";
-                visiblePastMatchesCount = 3;
-                filterAndPaginateMatches();
-            });
-        }
-
-        const loadMoreBtn = document.getElementById('loadMoreMatchesBtn');
-        if (loadMoreBtn) {
-            loadMoreBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const activeCategory = document.querySelector('.filter-btn.active[data-match-filter]')?.getAttribute('data-match-filter') || 'all';
-                const activeSeason = document.getElementById('matchSeasonSelect')?.value || 'all';
-                const pastCards = document.querySelectorAll('#pastContainer .match-detail-card');
-                let totalPast = 0;
-                pastCards.forEach(card => {
-                    const category = card.getAttribute('data-match-category');
-                    const date = card.getAttribute('data-match-date') || '';
-                    const matchYear = date.substring(0, 4);
-                    if ((activeCategory === 'all' || category === activeCategory) && (activeSeason === 'all' || matchYear === activeSeason)) {
-                        totalPast++;
-                    }
-                });
-
-                if (visiblePastMatchesCount < totalPast) {
-                    visiblePastMatchesCount += 3;
-                } else {
-                    visiblePastMatchesCount = 3;
-                }
-                filterAndPaginateMatches();
-            });
-        }
-
+    function initMobileMenu() {
         const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
         const mobileNav = document.querySelector('.mobile-nav');
         const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
@@ -1794,6 +1798,63 @@
                 if (!e.target.closest('.mobile-nav-content') && !mobileMenuBtn.contains(e.target)) {
                     closeMobileMenu();
                 }
+            });
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+        const currentYearEl = document.getElementById('currentYear');
+        if (currentYearEl) currentYearEl.textContent = new Date().getFullYear();
+
+        initDesktopDropdowns();
+        initMobileMenu();
+        await loadAllData();
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
+        });
+
+        document.querySelectorAll('[data-match-filter]').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('[data-match-filter]').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                visiblePastMatchesCount = 3;
+                filterAndPaginateMatches();
+            });
+        });
+
+        const seasonSelect = document.getElementById('matchSeasonSelect');
+        if (seasonSelect) {
+            seasonSelect.addEventListener('change', function() {
+                this.dataset.userModified = "true";
+                visiblePastMatchesCount = 3;
+                filterAndPaginateMatches();
+            });
+        }
+
+        const loadMoreBtn = document.getElementById('loadMoreMatchesBtn');
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const activeCategory = document.querySelector('.filter-btn.active[data-match-filter]')?.getAttribute('data-match-filter') || 'all';
+                const activeSeason = document.getElementById('matchSeasonSelect')?.value || 'all';
+                const pastCards = document.querySelectorAll('#pastContainer .match-detail-card');
+                let totalPast = 0;
+                pastCards.forEach(card => {
+                    const category = card.getAttribute('data-match-category');
+                    const date = card.getAttribute('data-match-date') || '';
+                    const matchYear = date.substring(0, 4);
+                    if ((activeCategory === 'all' || category === activeCategory) && (activeSeason === 'all' || matchYear === activeSeason)) {
+                        totalPast++;
+                    }
+                });
+
+                if (visiblePastMatchesCount < totalPast) {
+                    visiblePastMatchesCount += 3;
+                } else {
+                    visiblePastMatchesCount = 3;
+                }
+                filterAndPaginateMatches();
             });
         }
 
