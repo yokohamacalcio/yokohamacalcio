@@ -148,7 +148,9 @@
             gap: 8px; text-decoration: none;
         }
 
-        /* --- MENU DESKTOP STILI UNIFORMATI CON INDEX --- */
+        /* =====================================================
+           PERFETTO ALLINEAMENTO MENU DESKTOP & FLUIDITÀ RESPONSIVE
+           ===================================================== */
         .desktop-nav-wrapper {
             display: flex;
             align-items: center;
@@ -244,6 +246,60 @@
         .nav-item.dropdown:hover > .dropdown-toggle .nav-arrow,
         .nav-item.dropdown.open > .dropdown-toggle .nav-arrow {
             transform: rotate(180deg);
+        }
+
+        /* SCHERMI MEDI DESKTOP (1025px - 1200px) */
+        @media (min-width: 1025px) and (max-width: 1200px) {
+            .main-nav {
+                gap: 8px !important;
+            }
+            .main-nav > a,
+            .main-nav .dropdown-toggle {
+                padding: 6px 6px !important;
+                font-size: 0.85rem !important;
+            }
+            .main-nav .nav-cta-btn {
+                padding: 6px 12px !important;
+                font-size: 0.85rem !important;
+            }
+        }
+
+        /* MENU MOBILE PER SCHERMI VERTICALI (PORTRAIT) <= 900px */
+        @media (max-width: 900px) and (orientation: portrait) {
+            .desktop-nav-wrapper {
+                display: none !important;
+            }
+            .mobile-menu-toggle {
+                display: flex !important;
+            }
+        }
+
+        /* MENU ESTESO COMPATTO PER SMARTPHONE IN ORIZZONTALE (LANDSCAPE) */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .desktop-nav-wrapper {
+                display: flex !important;
+            }
+            .mobile-menu-toggle {
+                display: none !important;
+            }
+            .main-nav {
+                gap: 4px !important;
+            }
+            .main-nav > a,
+            .main-nav .dropdown-toggle {
+                padding: 4px 5px !important;
+                font-size: 0.78rem !important;
+            }
+            .main-nav .nav-cta-btn {
+                padding: 5px 10px !important;
+                font-size: 0.75rem !important;
+            }
+            .logo-title img {
+                height: 30px !important;
+            }
+            .brand-name {
+                font-size: 0.95rem !important;
+            }
         }
 
         /* --- STILI SPECIFICI PAGINA ABOUT --- */
@@ -509,7 +565,7 @@
 <section class="section about-page-section">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-shield-alt"></i> <span data-i18n="about_page.title">クラブ紹介・歴史</span></h2>
-        <p class="matches-intro" data-i18n="about_page.intro" style="text-align: center; color: #64748b; margin-bottom: 30px;">Yokohama Calcioの精神、歴史、そしてチーム体制についてご紹介します。</p>
+        <p class="matches-intro" data-i18n="about_page.intro" style="text-align: center; color: #64748b; margin-bottom: 30px;">Yokohama Calcioの精神、歴史、およびチーム体制についてご紹介します。</p>
 
         <div class="about-content-wrapper">
             
@@ -530,7 +586,7 @@
                 <h3><i class="fas fa-landmark"></i> <span data-i18n="about.sec2_title">クラブの歩み</span></h3>
                 <p data-i18n="about.sec2_p1">2025年、Yokohama Calcioは「横浜の地に、自分たちのフットボールを持つクラブをつくる」という思いからスタートしました。</p>
                 <p data-i18n="about.sec2_p2">クラブとしての歴史は、まだ始まったばかりです。</p>
-                <p data-i18n="about.sec2_p3">だからこそ、私たちは結果だけを追い求めるのではなく、日々のトレーニング、選手同士のコミュニケーション、商してチームとして少しずつ成長していく過程そのものを大切にしています。</p>
+                <p data-i18n="about.sec2_p3">だからこそ、私たちは結果だけを追い求めるのではなく、日々のトレーニング、選手同士のコミュニケーション、そしてチームとして少しずつ成長していく過程そのものを大切にしています。</p>
                 <p data-i18n="about.sec2_p4">一人ひとりが成長し、その積み重ねによってチームが進化していく。</p>
                 <p data-i18n="about.sec2_p5">その歩みの一つひとつが、これからのYokohama Calcioの歴史になっていきます。</p>
             </div>
@@ -591,7 +647,7 @@
                 <p data-i18n="about.sec5_p1">Yokohama Calcioは、まだ発展途上のクラブです。</p>
                 <p data-i18n="about.sec5_p2">だからこそ、これからどのようなチームになっていくのかは、現在所属している選手だけでなく、これからクラブに加わる仲間とともにつくっていくものだと考えています。</p>
                 <p data-i18n="about.sec5_p3">ピッチ上では、より組織的で、より判断力のあるチームへ。</p>
-                <p data-i18n="about.sec5_p4">そしてピッチの外では、年齢や国籍、経験に関係なく、フットボールを通じて人と人がつながるコミュニティへ。</p>
+                <p data-i18n="about.sec5_p4">ピッチの外では、年齢や国籍、経験に関係なく、フットボールを通じて人と人がつながるコミュニティへ。</p>
                 <p data-i18n="about.sec5_p5">「個人の成長、チームの進化」。</p>
                 <p data-i18n="about.sec5_p6">この理念を軸に、一歩ずつ自分たちのフットボールを築いていきます。</p>
                 <p data-i18n="about.sec5_p7" style="font-weight: 700; color: var(--dark-navy, #003c82);">Yokohama Calcioの歴史は、これからも続いていきます。</p>
@@ -710,7 +766,7 @@
             "about.sec5_p1": "Yokohama Calcioは、まだ発展途上のクラブです。",
             "about.sec5_p2": "だからこそ、これからどのようなチームになっていくのかは、現在所属している選手だけでなく、これからクラブに加わる仲間とともにつくっていくものだと考えています。",
             "about.sec5_p3": "ピッチ上では、より組織的で、より判断力のあるチームへ。",
-            "about.sec5_p4": "書籍ピッチの外では、年齢や国籍、経験に関係なく、フットボールを通じて人と人がつながるコミュニティへ。",
+            "about.sec5_p4": "ピッチの外では、年齢や国籍、経験に関係なく、フットボールを通じて人と人がつながるコミュニティへ。",
             "about.sec5_p5": "「個人の成長、チームの進化」。",
             "about.sec5_p6": "この理念を軸に、一歩ずつ自分たちのフットボールを築いていきます。",
             "about.sec5_p7": "Yokohama Calcioの歴史は、これからも続いていきます。",
@@ -994,15 +1050,76 @@
         });
     }
 
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
-    });
+    function initMobileMenu() {
+        const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
+        const mobileNav = document.querySelector('.mobile-nav');
+        const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
+        const mobileSubmenu = document.querySelector('.mobile-submenu');
+        const mobileCloseBtn = document.querySelector('.mobile-nav-close');
+
+        function closeMobileMenu() {
+            if (mobileNav) {
+                mobileNav.classList.add('hidden');
+                if (mobileMenuBtn) {
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (icon) {
+                        icon.classList.add('fa-bars');
+                        icon.classList.remove('fa-times');
+                    }
+                }
+            }
+        }
+
+        if (mobileMenuBtn && mobileNav) {
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isHidden = mobileNav.classList.contains('hidden');
+                if (isHidden) {
+                    mobileNav.classList.remove('hidden');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    }
+                } else {
+                    closeMobileMenu();
+                }
+            });
+
+            if (mobileDropdownToggle && mobileSubmenu) {
+                mobileDropdownToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    mobileSubmenu.classList.toggle('hidden');
+                    const arrow = mobileDropdownToggle.querySelector('.mobile-arrow');
+                    if (arrow) {
+                        arrow.classList.toggle('fa-chevron-down');
+                        arrow.classList.toggle('fa-chevron-up');
+                    }
+                });
+            }
+
+            document.querySelectorAll('.mobile-link, .mobile-cta-btn').forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            if (mobileCloseBtn) {
+                mobileCloseBtn.addEventListener('click', closeMobileMenu);
+            }
+
+            mobileNav.addEventListener('click', (e) => {
+                if (!e.target.closest('.mobile-nav-content') && !mobileMenuBtn.contains(e.target)) {
+                    closeMobileMenu();
+                }
+            });
+        }
+    }
 
     window.addEventListener('DOMContentLoaded', async () => {
         const yearSpan = document.getElementById('currentYear');
         if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
         initDesktopDropdowns();
+        initMobileMenu();
 
         try {
             const resp = await fetch('players.json');
@@ -1012,71 +1129,13 @@
         } catch(e) {
             console.error("Errore durante il caricamento di players.json:", e);
         }
+
         setLanguage(currentLang);
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
+        });
     });
-
-    /* GESTIONE MENU MOBILE MODALE */
-    const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
-    const mobileNav = document.querySelector('.mobile-nav');
-    const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
-    const mobileSubmenu = document.querySelector('.mobile-submenu');
-    const mobileCloseBtn = document.querySelector('.mobile-nav-close');
-
-    function closeMobileMenu() {
-        if (mobileNav) {
-            mobileNav.classList.add('hidden');
-            if (mobileMenuBtn) {
-                const icon = mobileMenuBtn.querySelector('i');
-                if (icon) {
-                    icon.classList.add('fa-bars');
-                    icon.classList.remove('fa-times');
-                }
-            }
-        }
-    }
-
-    if (mobileMenuBtn && mobileNav) {
-        mobileMenuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isHidden = mobileNav.classList.contains('hidden');
-            if (isHidden) {
-                mobileNav.classList.remove('hidden');
-                const icon = mobileMenuBtn.querySelector('i');
-                if (icon) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                }
-            } else {
-                closeMobileMenu();
-            }
-        });
-
-        if (mobileDropdownToggle && mobileSubmenu) {
-            mobileDropdownToggle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                mobileSubmenu.classList.toggle('hidden');
-                const arrow = mobileDropdownToggle.querySelector('.mobile-arrow');
-                if (arrow) {
-                    arrow.classList.toggle('fa-chevron-down');
-                    arrow.classList.toggle('fa-chevron-up');
-                }
-            });
-        }
-
-        document.querySelectorAll('.mobile-link, .mobile-cta-btn').forEach(link => {
-            link.addEventListener('click', closeMobileMenu);
-        });
-
-        if (mobileCloseBtn) {
-            mobileCloseBtn.addEventListener('click', closeMobileMenu);
-        }
-
-        mobileNav.addEventListener('click', (e) => {
-            if (!e.target.closest('.mobile-nav-content') && !mobileMenuBtn.contains(e.target)) {
-                closeMobileMenu();
-            }
-        });
-    }
 
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');
     if (scrollToTopBtn) {
