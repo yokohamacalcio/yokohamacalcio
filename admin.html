@@ -243,7 +243,7 @@
                     <i class="fas fa-users"></i> Titolari in Campo (11 Giocatori)
                 </h4>
                 <div class="pitch-grid" id="pitchGrid">
-                    <!-- Generato dinamicamente in base al modulo selezionato -->
+                    <!-- Generato dinamicamente -->
                 </div>
             </div>
 
@@ -253,7 +253,7 @@
                     <i class="fas fa-chair"></i> Panchina (10 Posti)
                 </h4>
                 <div class="bench-grid" id="benchGrid">
-                    <!-- Generato dinamicamente (10 slots) -->
+                    <!-- Generato dinamicamente -->
                 </div>
             </div>
 
@@ -488,7 +488,7 @@
     // --- CARICAMENTO JSON ---
     async function initData() {
         try {
-            // 1. Opponents (Ordinati Alfabeticamente)
+            // 1. Opponents
             try {
                 const oRes = await fetch('opponents.json');
                 const opps = await oRes.json();
@@ -504,7 +504,7 @@
                 }).join('');
             } catch(e) {}
 
-            // 2. Locations (Ordinate Alfabeticamente)
+            // 2. Locations
             try {
                 const lRes = await fetch('locations.json');
                 const locs = await lRes.json();
@@ -552,7 +552,7 @@
                     <span class="pos-badge">${posTag}</span>
                     <span style="font-size: 0.72rem; color: #94a3b8;">Pos #${idx + 1}</span>
                 </div>
-                <select class="form-control player-dropdown-dynamic starter-player-select" data-pos="${posTag}">
+                <select class="form-control player-dropdown-dynamic starter-player-select match-squad-select" data-pos="${posTag}">
                     <!-- Popolato dinamicamente -->
                 </select>
             </div>
@@ -569,7 +569,7 @@
                     <div class="bench-card-header">
                         <span>#${i} Panchina</span>
                     </div>
-                    <select class="form-control player-dropdown-dynamic bench-player-select">
+                    <select class="form-control player-dropdown-dynamic bench-player-select match-squad-select">
                         <!-- Popolato dinamicamente -->
                     </select>
                     <div class="bench-sub-row">
@@ -608,7 +608,7 @@
         updateAllPlayerDropdowns();
     }
 
-    // --- AGGIORNAMENTO DROPDOWN GIOCATORI ---
+    // --- AGGIORNAMENTO E ESCLUSIONE DINAMICA GIOCATORI ---
     function getAllAvailablePlayers(onlyGoalkeepers = false) {
         const list = [{ name: "Nessuno / なし", value: "" }];
         
@@ -651,6 +651,44 @@
                 select.innerHTML = allOptionsHTML;
             }
             select.value = currentVal;
+            
+            // Collega l'evento di cambio per aggiornare le esclusioni
+            if (select.classList.contains('match-squad-select')) {
+                select.removeEventListener('change', updatePlayerExclusions);
+                select.addEventListener('change', updatePlayerExclusions);
+            }
+        });
+
+        // Esegui il controllo esclusioni
+        updatePlayerExclusions();
+    }
+
+    /* FUNZIONE PER DISABILITARE I GIOCATORI GIÀ SELEZIONATI */
+    function updatePlayerExclusions() {
+        const squadSelects = document.querySelectorAll('.match-squad-select');
+        const selectedValues = new Set();
+
+        // Raccogli tutti i giocatori attualmente selezionati
+        squadSelects.forEach(select => {
+            if (select.value) {
+                selectedValues.add(select.value);
+            }
+        });
+
+        // Aggiorna lo stato "disabled" di ogni opzione in ciascun selettore
+        squadSelects.forEach(select => {
+            const currentValue = select.value;
+            Array.from(select.options).forEach(option => {
+                if (!option.value) return; // Salta "Nessuno"
+                
+                if (selectedValues.has(option.value) && option.value !== currentValue) {
+                    option.disabled = true;
+                    option.textContent = option.textContent.replace(' (Selezionato)', '') + ' (Selezionato)';
+                } else {
+                    option.disabled = false;
+                    option.textContent = option.textContent.replace(' (Selezionato)', '');
+                }
+            });
         });
     }
 
