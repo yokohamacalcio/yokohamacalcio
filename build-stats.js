@@ -47,7 +47,8 @@ function main() {
             yellows: 0,
             reds: 0,
             goals_conceded: 0,
-            clean_sheets: 0
+            clean_sheets: 0,
+            positions_played: {} // ← Conteggio presenze suddiviso per ruolo (es. {"CM-R": 5, "RM": 2})
         });
 
         [id, p.name_kanji, p.name_kana, p.name_romaji].forEach(name => {
@@ -68,6 +69,14 @@ function main() {
         return null;
     }
 
+    // Helper per aggiornare il conteggio della posizione ricoperta
+    function recordPositionPlayed(pId, posTag) {
+        if (!pId || !posTag || !playerMap.has(pId)) return;
+        const player = playerMap.get(pId);
+        const tag = String(posTag).trim().toUpperCase();
+        player.positions_played[tag] = (player.positions_played[tag] || 0) + 1;
+    }
+
     // Statistiche generali di squadra
     const teamTotals = {
         total_matches: 0,
@@ -76,7 +85,8 @@ function main() {
         losses: 0,
         goals_for: 0,
         goals_against: 0,
-        clean_sheets: 0
+        clean_sheets: 0,
+        formations_used: {} // ← Tracciamento utilizzo moduli tattici (es. {"4-4-2": 8, "4-3-3": 2})
     };
 
     // 2. Elaborazione delle partite passate
@@ -85,13 +95,18 @@ function main() {
 
         teamTotals.total_matches++;
 
+        // Conteggio moduli utilizzati
+        if (m.formation) {
+            const form = String(m.formation).trim();
+            teamTotals.formations_used[form] = (teamTotals.formations_used[form] || 0) + 1;
+        }
+
         let matchGF = 0;
         let matchGA = 0;
         const scoreText = m.score ? m.score.trim() : '';
 
         // ⚠️ CONVENZIONE matches.json:
         // Il punteggio è SEMPRE "NOSTRI - LORO", indipendentemente da casa/trasferta.
-        // Quindi NON si deve invertire in base a isHome.
         if (scoreText && scoreText.includes('-')) {
             const parts = scoreText.split('-').map(n => parseInt(n.trim(), 10));
             if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
@@ -109,9 +124,10 @@ function main() {
 
         if (matchGA === 0) teamTotals.clean_sheets++;
 
-        // Presenze
+        // Presenze e Posizioni Ricoperte
         const processedCaps = new Set();
 
+        // A. Presenze Titolari
         if (Array.isArray(m.starters)) {
             m.starters.forEach(name => {
                 const pId = resolvePlayerId(name);
@@ -123,6 +139,15 @@ function main() {
             });
         }
 
+        // A2. Tracciamento Posizioni Titolari (da starters_positions)
+        if (m.starters_positions && typeof m.starters_positions === 'object') {
+            Object.entries(m.starters_positions).forEach(([posTag, name]) => {
+                const pId = resolvePlayerId(name);
+                if (pId) recordPositionPlayed(pId, posTag);
+            });
+        }
+
+        // B. Presenze Subentrati
         if (Array.isArray(m.substitutes_in)) {
             m.substitutes_in.forEach(name => {
                 const pId = resolvePlayerId(name);
@@ -130,6 +155,16 @@ function main() {
                     playerMap.get(pId).subs++;
                     playerMap.get(pId).caps++;
                     processedCaps.add(pId);
+                }
+            });
+        }
+
+        // B2. Tracciamento Posizioni Subentrati (da bench_details)
+        if (Array.isArray(m.bench_details)) {
+            m.bench_details.forEach(item => {
+                if (item.subbed_in && item.position_played) {
+                    const pId = resolvePlayerId(item.player);
+                    if (pId) recordPositionPlayed(pId, item.position_played);
                 }
             });
         }
