@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 
-// Percorsi dei file
 const PLAYERS_FILE = path.join(__dirname, 'players.json');
 const MATCHES_FILE = path.join(__dirname, 'matches.json');
 const OUTPUT_FILE = path.join(__dirname, 'stats.json');
@@ -14,30 +13,23 @@ function isJapanese(s) {
     return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf]/.test(s);
 }
 
-function main() {
-    console.log('🔄 Avvio calcolo statistiche...');
+function generateStatsFromMatches() {
+    console.log('🔄 Lettura di matches.json e calcolo statistiche...');
 
     if (!fs.existsSync(PLAYERS_FILE) || !fs.existsSync(MATCHES_FILE)) {
         console.error('❌ Errore: File players.json o matches.json non trovati.');
         process.exit(1);
     }
 
-    let playersData, matchesData;
-    try {
-        playersData = JSON.parse(fs.readFileSync(PLAYERS_FILE, 'utf8'));
-        matchesData = JSON.parse(fs.readFileSync(MATCHES_FILE, 'utf8'));
-    } catch (e) {
-        console.error('❌ Errore durante il parsing dei file JSON:', e.message);
-        process.exit(1);
-    }
+    const playersData = JSON.parse(fs.readFileSync(PLAYERS_FILE, 'utf8'));
+    const matchesData = JSON.parse(fs.readFileSync(MATCHES_FILE, 'utf8'));
 
-    // 1. Mappatura giocatori
+    // 1. Mappatura giocatori e alias
     const playerMap = new Map();
     const aliasToId = new Map();
 
     playersData.forEach(p => {
         if (p.role === 'staff') return;
-
         const id = p.id || String(p.number) || p.name_kanji;
 
         playerMap.set(id, {
@@ -74,10 +66,8 @@ function main() {
         const target = cleanStr(rawName);
         if (!target || target === 'なし' || target === 'nessuno' || target === 'null') return null;
 
-        // 1. Match esatto
         if (aliasToId.has(target)) return aliasToId.get(target);
 
-        // 2. Match parziale protetto (almeno 2 caratteri per Kanji/Kana, 3 per Romaji)
         const minLen = isJapanese(target) ? 2 : 3;
         if (target.length >= minLen) {
             for (let [alias, id] of aliasToId.entries()) {
@@ -101,6 +91,7 @@ function main() {
         }
     }
 
+    // 2. Statistiche generali di squadra
     const teamTotals = {
         total_matches: 0,
         wins: 0,
@@ -112,16 +103,12 @@ function main() {
         formations_used: {}
     };
 
-    let pastMatchesCount = 0;
-
-    // Regex per identificare con certezza se la chiave è una posizione tattica
     const knownPosRegex = /^(GK|CB|LB|RB|LWB|RWB|DM|CM|LM|RM|AM|LW|RW|FW|ST)(-[LRC123])?$/i;
 
-    // 2. Elaborazione delle partite
+    // 3. Elaborazione partite concluse (status === 'past')
     matchesData.forEach(m => {
         if (String(m.status || '').toLowerCase() !== 'past') return;
 
-        pastMatchesCount++;
         teamTotals.total_matches++;
 
         if (m.formation) {
@@ -152,7 +139,7 @@ function main() {
 
         const processedCaps = new Set();
 
-        // A. Titolari
+        // Titolari
         if (Array.isArray(m.starters)) {
             m.starters.forEach(name => {
                 const pId = resolvePlayerId(name);
@@ -164,19 +151,15 @@ function main() {
             });
         }
 
-        // A2. Posizioni Titolari (Rilevamento sicuro)
+        // Posizioni Titolari
         if (m.starters_positions && typeof m.starters_positions === 'object') {
             Object.entries(m.starters_positions).forEach(([key, val]) => {
-                const isKeyAPosition = knownPosRegex.test(key.trim());
-                if (isKeyAPosition) {
-                    recordPositionPlayed(val, key); // key = Posizione, val = Giocatore
-                } else {
-                    recordPositionPlayed(key, val); // key = Giocatore, val = Posizione
-                }
+                if (knownPosRegex.test(key.trim())) recordPositionPlayed(val, key);
+                else recordPositionPlayed(key, val);
             });
         }
 
-        // B. Subentrati
+        // Subentrati
         if (Array.isArray(m.substitutes_in)) {
             m.substitutes_in.forEach(name => {
                 const pId = resolvePlayerId(name);
@@ -188,7 +171,7 @@ function main() {
             });
         }
 
-        // B2. Posizioni Subentrati
+        // Posizioni Subentrati
         if (Array.isArray(m.bench_details)) {
             m.bench_details.forEach(item => {
                 if (item && item.subbed_in && item.position_played) {
@@ -200,13 +183,9 @@ function main() {
         // Gol
         if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
             m.scorers.split(/[,、]/).forEach(entry => {
-                let text = entry.trim();
-                let count = 1;
+                let text = entry.trim(), count = 1;
                 const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
-                if (multMatch) {
-                    text = multMatch[1].trim();
-                    count = parseInt(multMatch[2], 10) || 1;
-                }
+                if (multMatch) { text = multMatch[1].trim(); count = parseInt(multMatch[2], 10) || 1; }
                 const pId = resolvePlayerId(text);
                 if (pId && playerMap.has(pId)) playerMap.get(pId).goals += count;
             });
@@ -215,44 +194,24 @@ function main() {
         // Assist
         if (m.assists && m.assists !== 'なし' && m.assists !== 'Nessuno') {
             m.assists.split(/[,、]/).forEach(entry => {
-                let text = entry.trim();
-                let count = 1;
+                let text = entry.trim(), count = 1;
                 const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
-                if (multMatch) {
-                    text = multMatch[1].trim();
-                    count = parseInt(multMatch[2], 10) || 1;
-                }
+                if (multMatch) { text = multMatch[1].trim(); count = parseInt(multMatch[2], 10) || 1; }
                 const pId = resolvePlayerId(text);
                 if (pId && playerMap.has(pId)) playerMap.get(pId).assists += count;
             });
         }
 
-        // MVP, Cartellini
-        if (m.mvp) {
-            m.mvp.split(/[,、]/).forEach(name => {
-                const pId = resolvePlayerId(name);
-                if (pId && playerMap.has(pId)) playerMap.get(pId).mvps++;
-            });
-        }
-        if (m.yellow_cards) {
-            m.yellow_cards.split(/[,、]/).forEach(name => {
-                const pId = resolvePlayerId(name);
-                if (pId && playerMap.has(pId)) playerMap.get(pId).yellows++;
-            });
-        }
-        if (m.red_cards) {
-            m.red_cards.split(/[,、]/).forEach(name => {
-                const pId = resolvePlayerId(name);
-                if (pId && playerMap.has(pId)) playerMap.get(pId).reds++;
-            });
-        }
+        // MVP & Cartellini
+        if (m.mvp) m.mvp.split(/[,、]/).forEach(name => { const pId = resolvePlayerId(name); if (pId && playerMap.has(pId)) playerMap.get(pId).mvps++; });
+        if (m.yellow_cards) m.yellow_cards.split(/[,、]/).forEach(name => { const pId = resolvePlayerId(name); if (pId && playerMap.has(pId)) playerMap.get(pId).yellows++; });
+        if (m.red_cards) m.red_cards.split(/[,、]/).forEach(name => { const pId = resolvePlayerId(name); if (pId && playerMap.has(pId)) playerMap.get(pId).reds++; });
 
         // Portieri
         if (m.goalkeepers) {
             m.goalkeepers.split(/[,、]/).forEach(entry => {
                 const match = entry.trim().match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
-                let rawGk = entry.trim();
-                let gkGa = matchGA;
+                let rawGk = entry.trim(), gkGa = matchGA;
                 if (match) {
                     rawGk = match[1].trim();
                     const parsed = parseInt(match[2], 10);
@@ -267,7 +226,7 @@ function main() {
         }
     });
 
-    // 3. Generazione Output
+    // 4. Ranking (Top 5)
     const allPlayersList = Array.from(playerMap.values());
 
     const statsOutput = {
@@ -283,8 +242,8 @@ function main() {
     };
 
     fs.writeFileSync(OUTPUT_FILE, JSON.stringify(statsOutput, null, 2), 'utf8');
-    console.log(`✅ Successo! Il file ${OUTPUT_FILE} è stato aggiornato correttamente.`);
-    console.log(`📊 Partite elaborate: ${pastMatchesCount} / ${matchesData.length}`);
+    console.log(`✅ stats.json aggiornato con successo da matches.json!`);
+    return statsOutput;
 }
 
-main();
+generateStatsFromMatches();
