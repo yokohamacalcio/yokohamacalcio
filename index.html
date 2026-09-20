@@ -1561,6 +1561,13 @@
             "players_preview.title": "選手・メンバー",
             "players_preview.intro": "Yokohama Calcioを支える選手たち。組織的なフットボールで共に戦うメンバーです。",
             "players_preview.btn": "全選手プロフィールを見る",
+            "players_preview.no_players": "選手データがありません。",
+
+            "stats.apps": "出場",
+            "stats.goals": "ゴール",
+            "stats.assists": "アシスト",
+            "stats.conceded": "失点",
+            "stats.mvp": "MVP",
 
             "sponsors.title": "オフィシャルパートナー",
             "sponsors.placeholder": "パートナー募集中",
@@ -1624,6 +1631,13 @@
             "players_preview.title": "La Rosa",
             "players_preview.intro": "I protagonisti dello Yokohama Calcio. Giocatori uniti dall'organizzazione tattica e dalla passione.",
             "players_preview.btn": "Vedi tutti i giocatori",
+            "players_preview.no_players": "Nessun giocatore disponibile.",
+
+            "stats.apps": "Pres.",
+            "stats.goals": "Gol",
+            "stats.assists": "Assist",
+            "stats.conceded": "Gol subiti",
+            "stats.mvp": "MVP",
 
             "sponsors.title": "Partner Ufficiali",
             "sponsors.placeholder": "Cercasi Partner",
@@ -1687,6 +1701,13 @@
             "players_preview.title": "Squad Preview",
             "players_preview.intro": "The players of Yokohama Calcio. Dedicated teammates focused on tactical execution and teamwork.",
             "players_preview.btn": "View Full Roster",
+            "players_preview.no_players": "No players available.",
+
+            "stats.apps": "Apps",
+            "stats.goals": "Goals",
+            "stats.assists": "Assists",
+            "stats.conceded": "Conceded",
+            "stats.mvp": "MVP",
 
             "sponsors.title": "Official Partners",
             "sponsors.placeholder": "Partners Wanted",
@@ -1955,6 +1976,7 @@
             : {};
 
         const lang = currentLang;
+        const t = translations[lang] || translations['ja'];
 
         const eligiblePlayers = players.filter(p => {
             if (!p || p.role === 'staff') return false;
@@ -1963,7 +1985,7 @@
         });
 
         if (eligiblePlayers.length === 0) {
-            grid.innerHTML = '<p style="text-align:center;color:#64748b;grid-column:1/-1;">No players available.</p>';
+            grid.innerHTML = `<p style="text-align:center;color:#64748b;grid-column:1/-1;">${t['players_preview.no_players'] || 'No players available.'}</p>`;
             return;
         }
 
@@ -1974,6 +1996,11 @@
             const name = (lang === 'ja')
                 ? (p.name_kanji || p.name_romaji)
                 : (p.name_romaji || p.name_kanji);
+
+            const subName = (lang === 'ja')
+                ? (p.name_kana || '')
+                : (p.name_kanji || p.name_kana || '');
+
             const roleKey = String(p.role || 'mf').toLowerCase();
             const posClass = `pos-${roleKey}`;
             const posLabel = String(p.position || p.role || 'MF').toUpperCase().split('/')[0];
@@ -1987,19 +2014,25 @@
             const mvp      = parseInt(pStat.mvps            ?? 0, 10) || 0;
             const conceded = parseInt(pStat.goals_conceded  ?? 0, 10) || 0;
 
+            const lblApps = t['stats.apps'] || 'Pres.';
+            const lblGoals = t['stats.goals'] || 'Gol';
+            const lblAssists = t['stats.assists'] || 'Assist';
+            const lblConceded = t['stats.conceded'] || 'Gol subiti';
+            const lblMvp = t['stats.mvp'] || 'MVP';
+
             let statsHtml = '';
             if (isGK) {
                 statsHtml = `
-                    <span><i class="fas fa-running" style="color:#2563eb;"></i> ${apps} Pres.</span>
-                    <span><i class="fas fa-shield-alt" style="color:#dc2626;"></i> ${conceded} Conc.</span>
-                    ${mvp > 0 ? `<span><i class="fas fa-star" style="color:#f59e0b;"></i> ${mvp} MVP</span>` : ''}
+                    <span><i class="fas fa-running" style="color:#2563eb;"></i> ${apps} ${lblApps}</span>
+                    <span><i class="fas fa-shield-alt" style="color:#dc2626;"></i> ${conceded} ${lblConceded}</span>
+                    ${mvp > 0 ? `<span><i class="fas fa-star" style="color:#f59e0b;"></i> ${mvp}${lblMvp}</span>` : ''}
                 `;
             } else {
                 statsHtml = `
-                    <span><i class="fas fa-running" style="color:#2563eb;"></i> ${apps} Pres.</span>
-                    <span><i class="fas fa-futbol" style="color:#059669;"></i> ${goals} Goals</span>
-                    <span><i class="fas fa-hands-helping" style="color:#8b5cf6;"></i> ${assists} Ast</span>
-                    ${mvp > 0 ? `<span><i class="fas fa-star" style="color:#f59e0b;"></i> ${mvp} MVP</span>` : ''}
+                    <span><i class="fas fa-running" style="color:#2563eb;"></i> ${apps} ${lblApps}</span>
+                    <span><i class="fas fa-futbol" style="color:#059669;"></i> ${goals} ${lblGoals}</span>
+                    <span><i class="fas fa-hands-helping" style="color:#8b5cf6;"></i> ${assists} ${lblAssists}</span>
+                    ${mvp > 0 ? `<span><i class="fas fa-star" style="color:#f59e0b;"></i> ${mvp}${lblMvp}</span>` : ''}
                 `;
             }
 
@@ -2009,7 +2042,7 @@
                     <div class="player-preview-info">
                         <span class="player-pos-badge ${posClass}">${posLabel}</span>
                         <div class="player-preview-name">${name}</div>
-                        <div class="player-preview-sub">${p.name_kana || ''}</div>
+                        <div class="player-preview-sub">${subName}</div>
                         <div class="player-preview-stats">${statsHtml}</div>
                     </div>
                 </div>
@@ -2296,25 +2329,33 @@
     }
 
     function initDesktopDropdowns() {
-        const toggles = document.querySelectorAll('.main-nav .dropdown-toggle');
-        toggles.forEach(toggle => {
+        const dropdownItems = document.querySelectorAll('.main-nav .nav-item.dropdown');
+
+        dropdownItems.forEach(item => {
+            const toggle = item.querySelector('.dropdown-toggle');
+            if (!toggle) return;
+
             toggle.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                const parent = toggle.closest('.nav-item.dropdown');
-                if (!parent) return;
 
-                document.querySelectorAll('.main-nav .nav-item.dropdown.open').forEach(d => {
-                    if (d !== parent) {
+                dropdownItems.forEach(d => {
+                    if (d !== item) {
                         d.classList.remove('open');
                         const t = d.querySelector('.dropdown-toggle');
                         if (t) t.setAttribute('aria-expanded', 'false');
                     }
                 });
 
-                const willOpen = !parent.classList.contains('open');
-                parent.classList.toggle('open', willOpen);
+                const willOpen = !item.classList.contains('open');
+                item.classList.toggle('open', willOpen);
                 toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            });
+
+            // Quando il mouse esce dall'elemento del menu, rimuove la classe .open
+            item.addEventListener('mouseleave', () => {
+                item.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
             });
 
             toggle.addEventListener('keydown', (e) => {
@@ -2323,18 +2364,15 @@
                     toggle.click();
                 }
                 if (e.key === 'Escape') {
-                    const parent = toggle.closest('.nav-item.dropdown');
-                    if (parent) {
-                        parent.classList.remove('open');
-                        toggle.setAttribute('aria-expanded', 'false');
-                    }
+                    item.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
                 }
             });
         });
 
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.main-nav .nav-item.dropdown')) {
-                document.querySelectorAll('.main-nav .nav-item.dropdown.open').forEach(d => {
+                dropdownItems.forEach(d => {
                     d.classList.remove('open');
                     const t = d.querySelector('.dropdown-toggle');
                     if (t) t.setAttribute('aria-expanded', 'false');
@@ -2344,7 +2382,7 @@
 
         document.querySelectorAll('.main-nav .dropdown-menu a').forEach(link => {
             link.addEventListener('click', () => {
-                document.querySelectorAll('.main-nav .nav-item.dropdown.open').forEach(d => {
+                dropdownItems.forEach(d => {
                     d.classList.remove('open');
                     const t = d.querySelector('.dropdown-toggle');
                     if (t) t.setAttribute('aria-expanded', 'false');
