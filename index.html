@@ -431,7 +431,7 @@
             color: var(--dark-navy, #003c82) !important;
         }
 
-        /* DROPDOWN MENU DESKTOP FLUTTUANTE (POSIZIONAMENTO ASSOLUTO REALE) */
+        /* DROPDOWN MENU DESKTOP FLUTTUANTE */
         .main-nav .dropdown-menu {
             display: none;
             position: absolute !important;
@@ -443,7 +443,7 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             border-radius: 8px;
             padding: 8px 0;
-            margin-top: 6px;
+            margin-top: 2px;
             white-space: nowrap;
         }
 
@@ -463,13 +463,15 @@
             color: var(--primary-sky, #87ceeb) !important;
         }
 
-        /* Stato "aperto" dropdown */
+        /* STATO APERTO AL HOVER (PASSAGGIO MOUSE) E CON CLASSE .OPEN */
+        .nav-item.dropdown:hover > .dropdown-menu,
         .nav-item.dropdown.open > .dropdown-menu {
             display: block !important;
             opacity: 1 !important;
             visibility: visible !important;
             transform: translateY(0) !important;
         }
+        .nav-item.dropdown:hover > .dropdown-toggle .nav-arrow,
         .nav-item.dropdown.open > .dropdown-toggle .nav-arrow {
             transform: rotate(180deg);
         }
