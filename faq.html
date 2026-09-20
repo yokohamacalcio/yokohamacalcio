@@ -9,7 +9,8 @@
     <meta name="author" content="Yokohama Calcio">
     <meta name="robots" content="index, follow">
 
-    <link rel="icon" href="./immagini/logo.png" type="image/png">
+    <link rel="icon" href="./immagini/logo.png?v=2" type="image/png">
+    <link rel="apple-touch-icon" href="./immagini/logo.png?v=2">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -110,7 +111,6 @@
             background: rgba(255, 255, 255, 0.08);
         }
 
-        /* ALLINEAMENTO RIGIDO DI TUTTE LE ICONE DEL MENU MOBILE */
         .mobile-nav .menu-icon {
             width: 24px !important;
             min-width: 24px !important;
@@ -175,6 +175,104 @@
             justify-content: center;
             gap: 8px;
             text-decoration: none;
+        }
+
+        /* --- MENU DESKTOP STILI UNIFORMATI CON INDEX --- */
+        .desktop-nav-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        .main-nav {
+            display: flex !important;
+            align-items: center !important;
+            gap: 16px;
+            white-space: nowrap;
+        }
+        .main-nav .nav-item {
+            position: relative !important;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .main-nav > a,
+        .main-nav .dropdown-toggle {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            padding: 8px 10px !important;
+            font-family: inherit !important;
+            font-size: 0.92rem !important;
+            font-weight: 700 !important;
+            color: var(--dark-navy, #003c82) !important;
+            text-decoration: none !important;
+            border: none !important;
+            background: transparent !important;
+            cursor: pointer !important;
+            user-select: none !important;
+            line-height: 1.2 !important;
+            transition: color 0.2s ease, opacity 0.2s ease !important;
+            box-sizing: border-box !important;
+            margin: 0 !important;
+        }
+
+        .main-nav > a:hover,
+        .main-nav .dropdown-toggle:hover {
+            color: var(--primary-sky, #87ceeb) !important;
+        }
+
+        .main-nav .nav-cta-btn {
+            background: var(--dark-navy, #003c82) !important;
+            color: #ffffff !important;
+            padding: 8px 16px !important;
+            border-radius: 20px !important;
+            font-weight: 800 !important;
+        }
+        .main-nav .nav-cta-btn:hover {
+            background: var(--primary-sky, #87ceeb) !important;
+            color: var(--dark-navy, #003c82) !important;
+        }
+
+        .main-nav .dropdown-menu {
+            display: none;
+            position: absolute !important;
+            top: 100% !important;
+            left: 0 !important;
+            z-index: 1000 !important;
+            min-width: 190px;
+            background: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 8px 0;
+            margin-top: 2px;
+            white-space: nowrap;
+        }
+
+        .main-nav .dropdown-menu a {
+            display: block !important;
+            padding: 10px 16px !important;
+            color: var(--dark-navy, #003c82) !important;
+            text-decoration: none !important;
+            font-size: 0.88rem !important;
+            font-weight: 600 !important;
+            transition: background 0.2s ease, color 0.2s ease !important;
+            text-align: left !important;
+        }
+
+        .main-nav .dropdown-menu a:hover {
+            background-color: #f1f5f9 !important;
+            color: var(--primary-sky, #87ceeb) !important;
+        }
+
+        .nav-item.dropdown:hover > .dropdown-menu,
+        .nav-item.dropdown.open > .dropdown-menu {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateY(0) !important;
+        }
+        .nav-item.dropdown:hover > .dropdown-toggle .nav-arrow,
+        .nav-item.dropdown.open > .dropdown-toggle .nav-arrow {
+            transform: rotate(180deg);
         }
 
         /* --- STILI ACCORDION FAQ --- */
@@ -300,7 +398,6 @@
             margin-bottom: 20px;
         }
 
-        /* --- OPTIMIZATION RESPONSIVE TYPOGRAPHY PER SCHERMI MOBILE --- */
         @media (max-width: 600px) {
             .section-title {
                 font-size: 1.45rem !important;
@@ -325,7 +422,6 @@
 <body>
 
 <header class="header">
-  <!-- TOP BAR: SOCIAL & SWITCHER LINGUA -->
   <div class="top-bar">
     <div class="container top-bar-container">
       <div class="top-bar-social">
@@ -343,14 +439,11 @@
     </div>
   </div>
 
-  <!-- MAIN NAVIGATION BAR -->
   <div class="main-header-bar">
     <div class="container header-container">
-      
-      <!-- LOGO & BRAND NAME -->
       <div class="logo-title">
         <a href="index.html">
-          <img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo">
+          <img src="./immagini/logo.png?v=2" alt="Yokohama Calcio" class="logo">
         </a>
         <a href="index.html" class="brand-name">
           <span>YOKOHAMA</span>
@@ -358,17 +451,13 @@
         </a>
       </div>
 
-      <!-- DESKTOP NAV -->
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
-          <a href="index.html" data-i18n="nav.home">ホーム</a>
-
-          <!-- DROPDOWN: CLUB -->
           <div class="nav-item dropdown">
-            <a href="about.html" class="dropdown-toggle" style="color: var(--primary-sky);">
+            <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false" style="color: var(--primary-sky);">
               <span data-i18n="nav.about_group">クラブ</span> 
               <i class="fas fa-chevron-down nav-arrow"></i>
-            </a>
+            </span>
             <div class="dropdown-menu">
               <a href="about.html" data-i18n="nav.about">チーム紹介</a>
               <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
@@ -376,36 +465,30 @@
             </div>
           </div>
 
-          <!-- DROPDOWN: SQUADRA -->
           <div class="nav-item dropdown">
-            <a href="players.html" class="dropdown-toggle">
+            <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
               <span data-i18n="nav.team_group">チーム・選手</span> 
               <i class="fas fa-chevron-down nav-arrow"></i>
-            </a>
+            </span>
             <div class="dropdown-menu">
               <a href="players.html" data-i18n="nav.players">選手紹介</a>
               <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
             </div>
           </div>
 
-          <!-- LINK DIRETTI -->
           <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
           <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
-
-          <!-- BOTTONE CTA CONTATTI AGGIORNATO -->
           <a href="contact.html" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
         </nav>
       </div>
 
-      <!-- HAMBURGER MENU (MOBILE) -->
       <button class="mobile-menu-toggle" aria-label="Menu">
         <i class="fas fa-bars"></i>
       </button>
     </div>
   </div>
 
-  <!-- MENU MOBILE MODALE SCURO -->
   <nav class="mobile-nav hidden">
     <div class="mobile-nav-content">
       <div class="mobile-nav-header">
@@ -448,7 +531,6 @@
         <i class="fas fa-question-circle menu-icon"></i> <span data-i18n="nav.faq">よくある質問</span>
       </a>
 
-      <!-- BOTTONE CONTACT MOBILE AGGIORNATO -->
       <div class="mobile-cta-wrapper">
         <a href="contact.html" class="mobile-cta-btn">
           <i class="fas fa-paper-plane"></i> <span data-i18n="nav.contact">お問い合わせ</span>
@@ -629,7 +711,6 @@
 
         </div>
 
-        <!-- BOX ALTRE DOMANDE / CONTATTI AGGIORNATO -->
         <div class="contact-card" style="margin-top: 50px; max-width: 800px;">
             <div class="contact-header">
                 <i class="fas fa-paper-plane contact-icon"></i>
@@ -848,7 +929,6 @@
         currentLang = lang;
         localStorage.setItem('preferred_lang', lang);
 
-        // AGGIORNAMENTO DINAMICO TITOLO SEO E META TAG
         if (pageTitles[lang]) {
             document.title = pageTitles[lang];
             const ogTitle = document.querySelector('meta[property="og:title"]');
@@ -872,6 +952,68 @@
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+    }
+
+    function initDesktopDropdowns() {
+        const dropdownItems = document.querySelectorAll('.main-nav .nav-item.dropdown');
+
+        dropdownItems.forEach(item => {
+            const toggle = item.querySelector('.dropdown-toggle');
+            if (!toggle) return;
+
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                dropdownItems.forEach(d => {
+                    if (d !== item) {
+                        d.classList.remove('open');
+                        const t = d.querySelector('.dropdown-toggle');
+                        if (t) t.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                const willOpen = !item.classList.contains('open');
+                item.classList.toggle('open', willOpen);
+                toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            });
+
+            item.addEventListener('mouseleave', () => {
+                item.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+
+            toggle.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggle.click();
+                }
+                if (e.key === 'Escape') {
+                    item.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.main-nav .nav-item.dropdown')) {
+                dropdownItems.forEach(d => {
+                    d.classList.remove('open');
+                    const t = d.querySelector('.dropdown-toggle');
+                    if (t) t.setAttribute('aria-expanded', 'false');
+                });
+            }
+        });
+
+        document.querySelectorAll('.main-nav .dropdown-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                dropdownItems.forEach(d => {
+                    d.classList.remove('open');
+                    const t = d.querySelector('.dropdown-toggle');
+                    if (t) t.setAttribute('aria-expanded', 'false');
+                });
+            });
         });
     }
 
@@ -974,12 +1116,13 @@
         });
     }
 
-    const yearSpan = document.getElementById('currentYear');
-    if (yearSpan) {
-        yearSpan.textContent = new Date().getFullYear();
-    }
-
     window.addEventListener('DOMContentLoaded', () => {
+        const yearSpan = document.getElementById('currentYear');
+        if (yearSpan) {
+            yearSpan.textContent = new Date().getFullYear();
+        }
+
+        initDesktopDropdowns();
         setLanguage(currentLang);
     });
 </script>
