@@ -372,6 +372,41 @@
             gap: 8px; text-decoration: none;
         }
 
+        /* =====================================================
+           FIX MENU DESKTOP: dropdown-toggle come <span> (no navigazione)
+           ===================================================== */
+        .main-nav .nav-item {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+        .main-nav .dropdown-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            color: inherit;
+            text-decoration: none;
+            font: inherit;
+            /* padding allineato tipicamente al resto del menu */
+            padding: 12px 14px;
+            background: transparent;
+            border: none;
+        }
+        /* Stato "aperto" gestito via JS al click/tastiera */
+        .nav-item.dropdown.open > .dropdown-menu {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateY(0) !important;
+        }
+        /* Ruota la freccia quando il dropdown è aperto */
+        .nav-item.dropdown.open > .dropdown-toggle .nav-arrow {
+            transform: rotate(180deg);
+        }
+
         /* HERO CTA BUTTONS */
         .hero-action-btns {
             display: flex;
@@ -949,13 +984,13 @@
 
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
-          <a href="index.html" data-i18n="nav.home">ホーム</a>
+          <!-- ⛔ ホーム rimosso: il logo a sinistra è già il link alla home -->
 
           <div class="nav-item dropdown">
-            <a href="about.html" class="dropdown-toggle">
+            <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
               <span data-i18n="nav.about_group">クラブ</span> 
               <i class="fas fa-chevron-down nav-arrow"></i>
-            </a>
+            </span>
             <div class="dropdown-menu">
               <a href="about.html" data-i18n="nav.about">チーム紹介</a>
               <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
@@ -964,10 +999,10 @@
           </div>
 
           <div class="nav-item dropdown">
-            <a href="players.html" class="dropdown-toggle">
+            <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
               <span data-i18n="nav.team_group">チーム・選手</span> 
               <i class="fas fa-chevron-down nav-arrow"></i>
-            </a>
+            </span>
             <div class="dropdown-menu">
               <a href="players.html" data-i18n="nav.players">選手紹介</a>
               <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
@@ -2175,6 +2210,72 @@
     }
 
     /* =========================================================
+       DESKTOP DROPDOWN: click per aprire (no navigazione)
+       ========================================================= */
+    function initDesktopDropdowns() {
+        const toggles = document.querySelectorAll('.main-nav .dropdown-toggle');
+        toggles.forEach(toggle => {
+            // Click: apre/chiude il dropdown, mai naviga
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const parent = toggle.closest('.nav-item.dropdown');
+                if (!parent) return;
+
+                // Chiudi gli altri dropdown aperti
+                document.querySelectorAll('.main-nav .nav-item.dropdown.open').forEach(d => {
+                    if (d !== parent) {
+                        d.classList.remove('open');
+                        const t = d.querySelector('.dropdown-toggle');
+                        if (t) t.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                const willOpen = !parent.classList.contains('open');
+                parent.classList.toggle('open', willOpen);
+                toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            });
+
+            // Tastiera: Enter o Space aprono/chiudono
+            toggle.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggle.click();
+                }
+                if (e.key === 'Escape') {
+                    const parent = toggle.closest('.nav-item.dropdown');
+                    if (parent) {
+                        parent.classList.remove('open');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    }
+                }
+            });
+        });
+
+        // Click esterno: chiude tutti i dropdown aperti
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.main-nav .nav-item.dropdown')) {
+                document.querySelectorAll('.main-nav .nav-item.dropdown.open').forEach(d => {
+                    d.classList.remove('open');
+                    const t = d.querySelector('.dropdown-toggle');
+                    if (t) t.setAttribute('aria-expanded', 'false');
+                });
+            }
+        });
+
+        // Click su un link del submenu: chiude subito dopo la navigazione
+        document.querySelectorAll('.main-nav .dropdown-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelectorAll('.main-nav .nav-item.dropdown.open').forEach(d => {
+                    d.classList.remove('open');
+                    const t = d.querySelector('.dropdown-toggle');
+                    if (t) t.setAttribute('aria-expanded', 'false');
+                });
+            });
+        });
+    }
+
+    /* =========================================================
        INIT
        ========================================================= */
     window.addEventListener('DOMContentLoaded', () => {
@@ -2182,6 +2283,7 @@
         initPageData();
         initCompactGallery();
         initMiniFaqAccordion();
+        initDesktopDropdowns();
 
         const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
         const mobileNav = document.querySelector('.mobile-nav');
