@@ -8,31 +8,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         body { font-family: 'Montserrat', sans-serif; background: #f1f5f9; margin: 0; padding: 15px; }
-        .admin-container { max-width: 950px; margin: 10px auto; padding: 25px; background: #fff; border-radius: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .admin-container { max-width: 980px; margin: 10px auto; padding: 25px; background: #fff; border-radius: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
         .admin-header-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 20px; }
-        h2, h3 { color: #003c82; margin: 0; }
+        h2, h3, h4 { color: #003c82; margin: 0; }
         .section-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 18px; border-radius: 10px; margin-bottom: 20px; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #003c82; font-size: 0.9rem; }
         .form-control { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 0.95rem; }
         .row { display: flex; gap: 12px; }
         .row .form-group { flex: 1; }
-        @media (max-width: 600px) { .row { flex-direction: column; gap: 0; } }
+        @media (max-width: 650px) { .row { flex-direction: column; gap: 0; } }
 
         /* SCHERMATA LOGIN */
         .login-box { max-width: 450px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 14px; box-shadow: 0 6px 25px rgba(0,0,0,0.1); border: 1px solid #cbd5e1; text-align: center; }
         .login-box i.lock-icon { font-size: 3rem; color: #003c82; margin-bottom: 15px; }
         
-        /* SCHEDE GIOCATORI */
-        .player-select-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; margin-top: 10px; }
-        .player-card { background: #ffffff; border: 1px solid #cbd5e1; padding: 10px; border-radius: 8px; font-size: 0.85rem; }
-        .player-card.trialist-card { border: 2px dashed #0284c7; background: #f0f9ff; }
-        .player-card-header { display: flex; justify-content: space-between; align-items: center; font-weight: bold; margin-bottom: 8px; color: #003c82; }
+        /* CAMPO TATTICO E POSIZIONI TITOLARI */
+        .tactical-pitch-container { background: #0f172a; border-radius: 12px; padding: 16px; border: 2px solid #1e293b; margin-top: 10px; }
+        .pitch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+        .pitch-position-card { background: #1e293b; border: 1px solid rgba(135, 206, 235, 0.25); border-radius: 8px; padding: 10px; color: #ffffff; }
+        .pitch-pos-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .pos-badge { background: #87ceeb; color: #00224a; font-weight: 800; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; }
         
-        .role-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 4px; background: #f1f5f9; padding: 6px; border-radius: 6px; }
-        .role-selector label { font-size: 0.78rem; cursor: pointer; display: flex; align-items: center; gap: 4px; font-weight: 600; color: #334155; }
+        /* PANCHINA DINAMICA */
+        .bench-container { margin-top: 15px; }
+        .bench-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; margin-top: 10px; }
+        .bench-card { background: #ffffff; border: 1px solid #cbd5e1; padding: 10px; border-radius: 8px; font-size: 0.85rem; }
+        .bench-card-header { font-weight: bold; color: #003c82; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .bench-sub-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; background: #f1f5f9; padding: 6px 8px; border-radius: 6px; }
+        .bench-sub-row label { font-size: 0.78rem; font-weight: 700; color: #334155; margin: 0; cursor: pointer; display: flex; align-items: center; gap: 4px; }
         
-        /* DINAMICA STATISTICHE */
+        /* STATISTICHE DINAMICHE */
         .stat-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; background: #fff; padding: 8px; border-radius: 6px; border: 1px solid #e2e8f0; }
         .stat-row select { flex: 1; }
         .stat-row input[type="number"] { width: 75px; text-align: center; }
@@ -40,9 +46,6 @@
         .btn-add-row { background: #0284c7; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: bold; margin-top: 5px; }
         .btn-add-trialist { background: #059669; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: bold; width: 100%; margin-top: 12px; }
         
-        .btn-delete-trialist { background: transparent; color: #ef4444; border: none; font-size: 1rem; cursor: pointer; padding: 2px 6px; margin-left: 6px; }
-        .btn-delete-trialist:hover { color: #b91c1c; }
-
         .btn-submit { background: #003c82; color: white; padding: 14px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.05rem; }
         .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
         .btn-logout { background: #ef4444; color: white; padding: 6px 14px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
@@ -56,7 +59,7 @@
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- SCHERMATA LOGIN -->
 <div id="loginSection" class="login-box">
     <i class="fas fa-lock lock-icon"></i>
     <h2 style="margin-bottom: 10px;" data-i18n="login.title">Yokohama Calcio Admin</h2>
@@ -99,7 +102,7 @@
     <form id="matchForm">
         <input type="hidden" id="repoPath" value="yokohamacalcio/yokohamacalcio">
 
-        <!-- 1. INFO MATCH -->
+        <!-- 1. INFORMAZIONI PARTITA -->
         <div class="section-box">
             <h3 data-i18n="sec1.title">1. Informazioni Partita</h3>
             <div class="row" style="margin-top: 10px;">
@@ -214,22 +217,44 @@
             </div>
         </div>
 
-        <!-- 3. FORMAZIONE, PANCHINA & GIOCATORI IN PROVA -->
+        <!-- 3. ASSETTO TATTICO, TITOLARI & PANCHINA DINAMICA -->
         <div class="section-box">
             <h3 data-i18n="sec3.title">3. Assetto Tattico & Convocati</h3>
-            <div class="row" style="margin-bottom: 12px; margin-top: 10px;">
+            
+            <div class="row" style="margin-top: 10px;">
                 <div class="form-group">
-                    <label data-i18n="sec3.formation">Modulo (es. 4-4-2):</label>
-                    <input type="text" id="formation" class="form-control" value="4-4-2">
+                    <label data-i18n="sec3.formation_select"><i class="fas fa-chess-board"></i> Modulo Tattico / フォーメーション:</label>
+                    <select id="formationSelect" class="form-control">
+                        <option value="4-4-2">4-4-2 (Classico)</option>
+                        <option value="4-3-3">4-3-3 (Tridente)</option>
+                        <option value="4-2-3-1">4-2-3-1</option>
+                        <option value="3-5-2">3-5-2</option>
+                        <option value="3-4-3">3-4-3</option>
+                        <option value="5-3-2">5-3-2</option>
+                        <option value="4-1-4-1">4-1-4-1</option>
+                        <option value="custom">Personalizzata / Custom</option>
+                    </select>
                 </div>
             </div>
-            
-            <p style="font-size: 0.82rem; color: #64748b; margin-bottom: 10px;" data-i18n="sec3.subtitle">
-                Seleziona lo stato di ogni giocatore della rosa o aggiungi un giocatore in prova:
-            </p>
 
-            <div class="player-select-grid" id="playersGrid">
-                <div style="color: #64748b;">Caricamento rosa...</div>
+            <!-- TITOLARI SUL CAMPO (11 POSIZIONI) -->
+            <div class="tactical-pitch-container">
+                <h4 style="color: #87ceeb; margin-bottom: 12px; font-size: 0.95rem;" data-i18n="sec3.starters_title">
+                    <i class="fas fa-users"></i> Titolari in Campo (11 Giocatori)
+                </h4>
+                <div class="pitch-grid" id="pitchGrid">
+                    <!-- Generato dinamicamente in base al modulo selezionato -->
+                </div>
+            </div>
+
+            <!-- PANCHINA (10 CASALLE) -->
+            <div class="bench-container">
+                <h4 style="color: #003c82; margin-top: 20px; margin-bottom: 10px; font-size: 0.95rem;" data-i18n="sec3.bench_title">
+                    <i class="fas fa-chair"></i> Panchina (10 Posti)
+                </h4>
+                <div class="bench-grid" id="benchGrid">
+                    <!-- Generato dinamicamente (10 slots) -->
+                </div>
             </div>
 
             <button type="button" class="btn-add-trialist" onclick="addTrialistPlayer()">
@@ -246,6 +271,18 @@
 </div>
 
 <script>
+    // --- PRESET FORMAZIONI TATTICHE ---
+    const FORMATIONS = {
+        "4-4-2": ["GK", "LB", "CB-L", "CB-R", "RB", "LM", "CM-L", "CM-R", "RM", "FW-L", "FW-R"],
+        "4-3-3": ["GK", "LB", "CB-L", "CB-R", "RB", "DM", "CM-L", "CM-R", "LW", "ST", "RW"],
+        "4-2-3-1": ["GK", "LB", "CB-L", "CB-R", "RB", "DM-L", "DM-R", "AM-L", "AM-C", "AM-R", "ST"],
+        "3-5-2": ["GK", "CB-L", "CB-C", "CB-R", "LWB", "CM-L", "CM-C", "CM-R", "RWB", "FW-L", "FW-R"],
+        "3-4-3": ["GK", "CB-L", "CB-C", "CB-R", "LM", "CM-L", "CM-R", "RM", "LW", "ST", "RW"],
+        "5-3-2": ["GK", "LWB", "CB-L", "CB-C", "CB-R", "RWB", "CM-L", "CM-C", "CM-R", "FW-L", "FW-R"],
+        "4-1-4-1": ["GK", "LB", "CB-L", "CB-R", "RB", "DM", "LM", "CM-L", "CM-R", "RM", "ST"],
+        "custom": ["GK", "POS-2", "POS-3", "POS-4", "POS-5", "POS-6", "POS-7", "POS-8", "POS-9", "POS-10", "POS-11"]
+    };
+
     // --- TRADUZIONI MULTILINGUE ---
     const adminTranslations = {
         ja: {
@@ -282,13 +319,12 @@
             "sec2.yellow": "警告 (イエローカード):",
             "sec2.red": "退場 (レッドカード):",
             "sec3.title": "3. 陣形・メンバー選出",
-            "sec3.formation": "フォーメーション (例: 4-4-2):",
-            "sec3.subtitle": "各選手の試合ステータスを選択してください:",
+            "sec3.formation_select": "フォーメーション:",
+            "sec3.starters_title": "先発メンバー (11名)",
+            "sec3.bench_title": "ベンチメンバー (10名)",
+            "sec3.subbed_in": "途中出場",
+            "sec3.pos_played": "入ったポジション:",
             "sec3.add_trialist": "+ 体験・お試し選手を追加 (Trialist)",
-            "role.absent": "欠席",
-            "role.starter": "先発",
-            "role.sub_in": "途中出場",
-            "role.sub_unused": "ベンチ (出場なし)",
             "admin.save_btn": "試合データを保存して更新"
         },
         it: {
@@ -325,13 +361,12 @@
             "sec2.yellow": "Cartellini Gialli:",
             "sec2.red": "Cartellini Rossi:",
             "sec3.title": "3. Assetto Tattico & Convocati",
-            "sec3.formation": "Modulo (es. 4-4-2):",
-            "sec3.subtitle": "Seleziona lo stato di ogni giocatore della rosa o aggiungi un giocatore in prova:",
+            "sec3.formation_select": "Modulo Tattico:",
+            "sec3.starters_title": "Titolari in Campo (11 Giocatori)",
+            "sec3.bench_title": "Panchina (10 Posti)",
+            "sec3.subbed_in": "Sceso in campo",
+            "sec3.pos_played": "Ruolo occupato:",
             "sec3.add_trialist": "+ Aggiungi Giocatore in Prova (Trialist)",
-            "role.absent": "Assente",
-            "role.starter": "Titolare",
-            "role.sub_in": "Subentrato",
-            "role.sub_unused": "Panchina (SNG)",
             "admin.save_btn": "Salva Partita su matches.json"
         },
         en: {
@@ -368,13 +403,12 @@
             "sec2.yellow": "Yellow Cards:",
             "sec2.red": "Red Cards:",
             "sec3.title": "3. Formation & Squad Selection",
-            "sec3.formation": "Formation (e.g. 4-4-2):",
-            "sec3.subtitle": "Select status for each squad member or add a trialist:",
+            "sec3.formation_select": "Tactical Formation:",
+            "sec3.starters_title": "Starting XI (11 Players)",
+            "sec3.bench_title": "Substitutes Bench (10 Slots)",
+            "sec3.subbed_in": "Subbed in",
+            "sec3.pos_played": "Position played:",
             "sec3.add_trialist": "+ Add Trial Player (Trialist)",
-            "role.absent": "Absent",
-            "role.starter": "Starter",
-            "role.sub_in": "Subbed In",
-            "role.sub_unused": "Bench (Unused)",
             "admin.save_btn": "Save Match to matches.json"
         }
     };
@@ -398,7 +432,7 @@
         });
 
         if (globalPlayers.length > 0) {
-            renderPlayers();
+            renderPitchAndBench();
             updateAllPlayerDropdowns();
         }
     }
@@ -451,7 +485,7 @@
 
     if (activeToken) verifyAndLoginToken(activeToken);
 
-    // --- CARICAMENTO JSON (CON ORDINAMENTO ALFABETICO) ---
+    // --- CARICAMENTO JSON ---
     async function initData() {
         try {
             // 1. Opponents (Ordinati Alfabeticamente)
@@ -489,7 +523,7 @@
             // 3. Players
             const pRes = await fetch('players.json');
             globalPlayers = await pRes.json();
-            renderPlayers();
+            renderPitchAndBench();
             updateAllPlayerDropdowns();
 
         } catch(e) {
@@ -497,7 +531,6 @@
         }
     }
 
-    // --- HELPER NOMI & ORDINAMENTO CALCIATORI ---
     function getPlayerDisplayName(player) {
         if (currentAdminLang === 'ja') {
             return player.name_kanji || player.name_romaji;
@@ -506,93 +539,76 @@
         }
     }
 
-    function renderPlayers() {
-        const grid = document.getElementById('playersGrid');
-        const lang = currentAdminLang;
-        const t = adminTranslations[lang] || adminTranslations['ja'];
-
-        const existingTrialists = Array.from(document.querySelectorAll('.trialist-card'));
+    // --- RENDERING CAMPO TATTICO & PANCHINA ---
+    function renderPitchAndBench() {
+        const formationKey = document.getElementById('formationSelect').value;
+        const positions = FORMATIONS[formationKey] || FORMATIONS["4-4-2"];
         
-        // Ordina alfabeticamente la rosa in base al nome visualizzato
-        const sortedPlayers = [...globalPlayers].filter(p => p.position !== 'TRIAL').sort((a, b) => {
-            return getPlayerDisplayName(a).localeCompare(getPlayerDisplayName(b), lang);
-        });
+        // 1. Render Titolari
+        const pitchGrid = document.getElementById('pitchGrid');
+        pitchGrid.innerHTML = positions.map((posTag, idx) => `
+            <div class="pitch-position-card">
+                <div class="pitch-pos-header">
+                    <span class="pos-badge">${posTag}</span>
+                    <span style="font-size: 0.72rem; color: #94a3b8;">Pos #${idx + 1}</span>
+                </div>
+                <select class="form-control player-dropdown-dynamic starter-player-select" data-pos="${posTag}">
+                    <!-- Popolato dinamicamente -->
+                </select>
+            </div>
+        `).join('');
 
-        const playersHTML = sortedPlayers.map(p => {
-            const pName = getPlayerDisplayName(p);
-            const rawName = p.name_kanji || p.name_romaji;
-            return `
-                <div class="player-card" data-player-id="${p.id}" data-player-raw-name="${rawName}">
-                    <div class="player-card-header">
-                        <span>#${p.number || '-'} ${pName}</span>
-                        <span style="font-size: 0.75rem; background: #e2e8f0; padding: 2px 6px; border-radius: 4px;">${p.position || 'MF'}</span>
+        // 2. Render Panchina (10 Slots)
+        const benchGrid = document.getElementById('benchGrid');
+        const t = adminTranslations[currentAdminLang] || adminTranslations['ja'];
+        
+        let benchHTML = '';
+        for (let i = 1; i <= 10; i++) {
+            benchHTML += `
+                <div class="bench-card" id="benchSlot_${i}">
+                    <div class="bench-card-header">
+                        <span>#${i} Panchina</span>
                     </div>
-                    <div class="role-selector">
-                        <label><input type="radio" name="status_${p.id}" value="absent" checked> ${t["role.absent"]}</label>
-                        <label><input type="radio" name="status_${p.id}" value="starter"> ${t["role.starter"]}</label>
-                        <label><input type="radio" name="status_${p.id}" value="sub_in"> ${t["role.sub_in"]}</label>
-                        <label><input type="radio" name="status_${p.id}" value="sub_unused"> ${t["role.sub_unused"]}</label>
+                    <select class="form-control player-dropdown-dynamic bench-player-select">
+                        <!-- Popolato dinamicamente -->
+                    </select>
+                    <div class="bench-sub-row">
+                        <label>
+                            <input type="checkbox" class="bench-subbed-in" onchange="toggleBenchPosSelect(this)"> ${t["sec3.subbed_in"]}
+                        </label>
+                        <select class="form-control bench-pos-select" style="font-size: 0.8rem; padding: 4px;" disabled>
+                            ${positions.map(p => `<option value="${p}">${p}</option>`).join('')}
+                        </select>
                     </div>
                 </div>
             `;
-        }).join('');
+        }
+        benchGrid.innerHTML = benchHTML;
 
-        grid.innerHTML = playersHTML;
-        existingTrialists.forEach(el => grid.appendChild(el));
+        updateAllPlayerDropdowns();
     }
 
-    // --- AGGIUNTA & RIMOZIONE TRIALIST ---
+    function toggleBenchPosSelect(checkboxElem) {
+        const posSelect = checkboxElem.parentElement.parentElement.querySelector('.bench-pos-select');
+        if (posSelect) {
+            posSelect.disabled = !checkboxElem.checked;
+        }
+    }
+
+    document.getElementById('formationSelect').addEventListener('change', renderPitchAndBench);
+
+    // --- AGGIUNTA TRIALIST ---
     function addTrialistPlayer() {
         trialistCount++;
         const tId = `trialist_${trialistCount}`;
         const namePrompt = prompt("Nome del giocatore in prova (es. 山田 太郎):", "Giocatore In Prova " + trialistCount);
         if (!namePrompt) return;
 
-        const lang = currentAdminLang;
-        const t = adminTranslations[lang] || adminTranslations['ja'];
-        const grid = document.getElementById('playersGrid');
-
-        const trialistCard = document.createElement('div');
-        trialistCard.className = "player-card trialist-card";
-        trialistCard.id = `card_${tId}`;
-        trialistCard.setAttribute("data-player-id", tId);
-        trialistCard.setAttribute("data-player-raw-name", namePrompt);
-        trialistCard.innerHTML = `
-            <div class="player-card-header">
-                <span>
-                    <i class="fas fa-user-clock"></i> ${namePrompt} (PROVA)
-                    <button type="button" class="btn-delete-trialist" onclick="removeTrialistPlayer('${tId}')" title="Rimuovi Trialist"><i class="fas fa-trash-alt"></i></button>
-                </span>
-                <span style="font-size: 0.75rem; background: #0284c7; color: white; padding: 2px 6px; border-radius: 4px;">TRIAL</span>
-            </div>
-            <div class="role-selector">
-                <label><input type="radio" name="status_${tId}" value="absent"> ${t["role.absent"]}</label>
-                <label><input type="radio" name="status_${tId}" value="starter" checked> ${t["role.starter"]}</label>
-                <label><input type="radio" name="status_${tId}" value="sub_in"> ${t["role.sub_in"]}</label>
-                <label><input type="radio" name="status_${tId}" value="sub_unused"> ${t["role.sub_unused"]}</label>
-            </div>
-        `;
-        grid.appendChild(trialistCard);
-        
         globalPlayers.push({ id: tId, name_kanji: namePrompt, name_romaji: namePrompt, position: 'TRIAL' });
         updateAllPlayerDropdowns();
     }
 
-    function removeTrialistPlayer(trialistId) {
-        if (!confirm("Rimuovere questo giocatore in prova dalla partita?")) return;
-        
-        // 1. Rimuovi la scheda visiva
-        const cardElem = document.getElementById(`card_${trialistId}`);
-        if (cardElem) cardElem.remove();
-
-        // 2. Rimuovi dall'array globale
-        globalPlayers = globalPlayers.filter(p => p.id !== trialistId);
-
-        // 3. Aggiorna tutti i menu a tendina
-        updateAllPlayerDropdowns();
-    }
-
-    // --- LISTE GIOCATORI E PORTIERI PER MENU A TENDINA ---
+    // --- AGGIORNAMENTO DROPDOWN GIOCATORI ---
     function getAllAvailablePlayers(onlyGoalkeepers = false) {
         const list = [{ name: "Nessuno / なし", value: "" }];
         
@@ -601,12 +617,12 @@
             filtered = globalPlayers.filter(p => p.position === 'GK' || p.position === 'TRIAL');
         }
 
-        // Ordina alfabeticamente
         filtered.sort((a, b) => getPlayerDisplayName(a).localeCompare(getPlayerDisplayName(b), currentAdminLang));
 
         filtered.forEach(p => {
+            const isTrial = p.position === 'TRIAL' ? ' (PROVA)' : '';
             list.push({
-                name: getPlayerDisplayName(p),
+                name: getPlayerDisplayName(p) + isTrial,
                 value: p.name_kanji || p.name_romaji
             });
         });
@@ -626,7 +642,7 @@
         mvpSelect.innerHTML = allOptionsHTML;
         mvpSelect.value = currentMvp;
 
-        // Dynamic Field Selects
+        // Dynamic Field Selects (Titolari, Panchina e Eventi)
         document.querySelectorAll('.player-dropdown-dynamic').forEach(select => {
             const currentVal = select.value;
             if (select.classList.contains('gk-player-select')) {
@@ -638,7 +654,7 @@
         });
     }
 
-    // --- GENERATORE RIGHE DINAMICHE ---
+    // --- GENERATORE RIGHE DINAMICHE PER STATISTICHE ---
     function createDynamicRow(selectClass, hasCountInput = true, countLabel = "Gol:", onlyGK = false) {
         const players = getAllAvailablePlayers(onlyGK);
         const div = document.createElement('div');
@@ -675,35 +691,54 @@
 
     setAdminLanguage(currentAdminLang);
 
-    // --- SALVATAGGIO & INVIO GITHUB ACTIONS ---
+    // --- SALVATAGGIO & INVIO A GITHUB ---
     document.getElementById('matchForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const repo = document.getElementById('repoPath').value.trim();
         if (!activeToken || !repo) return;
 
-        // 1. Lineup, Starters & Subs
+        // 1. Titolari e Formazione
         const starters = [];
-        const substitutesIn = [];
-        const substitutesUnused = [];
-        const playedLineup = [];
+        const startersPositions = {};
 
-        document.querySelectorAll('#playersGrid .player-card').forEach(card => {
-            const pRawName = card.getAttribute('data-player-raw-name');
-            const radioChecked = card.querySelector('input[type="radio"]:checked')?.value;
-
-            if (radioChecked === 'starter') {
-                starters.push(pRawName);
-                playedLineup.push(pRawName);
-            } else if (radioChecked === 'sub_in') {
-                substitutesIn.push(pRawName);
-                playedLineup.push(pRawName);
-            } else if (radioChecked === 'sub_unused') {
-                substitutesUnused.push(pRawName);
+        document.querySelectorAll('#pitchGrid .starter-player-select').forEach(sel => {
+            const pName = sel.value;
+            const posTag = sel.getAttribute('data-pos');
+            if (pName) {
+                starters.push(pName);
+                startersPositions[posTag] = pName;
             }
         });
 
-        // 2. Format Marcatori (es. "小金井 x2, 根本")
+        // 2. Panchina e Sostituzioni
+        const benchDetails = [];
+        const substitutesIn = [];
+        const substitutesUnused = [];
+
+        document.querySelectorAll('#benchGrid .bench-card').forEach(card => {
+            const pName = card.querySelector('.bench-player-select').value;
+            const isSubbed = card.querySelector('.bench-subbed-in').checked;
+            const posPlayed = card.querySelector('.bench-pos-select').value;
+
+            if (pName) {
+                benchDetails.push({
+                    player: pName,
+                    subbed_in: isSubbed,
+                    position_played: isSubbed ? posPlayed : null
+                });
+
+                if (isSubbed) {
+                    substitutesIn.push(pName);
+                } else {
+                    substitutesUnused.push(pName);
+                }
+            }
+        });
+
+        const playedLineup = [...starters, ...substitutesIn];
+
+        // 3. Format Marcatori
         const scorerMap = {};
         document.querySelectorAll('.stat-row .scorer-player-select').forEach(sel => {
             const pName = sel.value;
@@ -712,7 +747,7 @@
         });
         const scorersString = Object.keys(scorerMap).map(k => scorerMap[k] > 1 ? `${k} x${scorerMap[k]}` : k).join(', ');
 
-        // 3. Format Assistman (es. "道下 x2, 福田")
+        // 4. Format Assistman
         const assistMap = {};
         document.querySelectorAll('.stat-row .assist-player-select').forEach(sel => {
             const pName = sel.value;
@@ -721,7 +756,7 @@
         });
         const assistsString = Object.keys(assistMap).map(k => assistMap[k] > 1 ? `${k} x${assistMap[k]}` : k).join(', ');
 
-        // 4. Format Portieri & Gol Subiti (es. "御村 葵(2), 保坂 利晃(1)")
+        // 5. Format Portieri
         const gkList = [];
         document.querySelectorAll('.stat-row .gk-player-select').forEach(sel => {
             const pName = sel.value;
@@ -730,7 +765,7 @@
         });
         const goalkeepersString = gkList.join(', ');
 
-        // 5. Cartellini
+        // 6. Cartellini
         const yellowsList = [];
         document.querySelectorAll('.stat-row .yellow-player-select').forEach(sel => { if (sel.value) yellowsList.push(sel.value); });
         const redsList = [];
@@ -753,10 +788,12 @@
             red_cards: redsList.join(', '),
             location_id: document.getElementById('locationSelect').value,
             goalkeepers: goalkeepersString,
-            formation: document.getElementById('formation').value.trim(),
+            formation: document.getElementById('formationSelect').value,
+            starters_positions: startersPositions,
             starters: starters,
             substitutes_in: substitutesIn,
             substitutes_unused: substitutesUnused,
+            bench_details: benchDetails,
             lineup: playedLineup
         };
 
