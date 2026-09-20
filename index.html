@@ -373,38 +373,120 @@
         }
 
         /* =====================================================
-           FIX MENU DESKTOP: dropdown-toggle come <span> (no navigazione)
+           PERFETTO ALLINEAMENTO MENU DESKTOP & FLUIDITÀ RESPONSIVE
            ===================================================== */
+        .desktop-nav-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        .main-nav {
+            display: flex !important;
+            align-items: center !important;
+            gap: 16px;
+            white-space: nowrap;
+        }
         .main-nav .nav-item {
             position: relative;
             display: inline-flex;
             align-items: center;
         }
+        
+        /* UNIFORMITÀ DI TUTTI GLI ELEMENTI DEL MENU DESKTOP */
+        .main-nav > a,
         .main-nav .dropdown-toggle {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            user-select: none;
-            -webkit-user-select: none;
-            color: inherit;
-            text-decoration: none;
-            font: inherit;
-            /* padding allineato tipicamente al resto del menu */
-            padding: 12px 14px;
-            background: transparent;
-            border: none;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            padding: 8px 10px !important;
+            font-family: inherit !important;
+            font-size: 0.92rem !important;
+            font-weight: 700 !important;
+            color: var(--dark-navy, #003c82) !important;
+            text-decoration: none !important;
+            border: none !important;
+            background: transparent !important;
+            cursor: pointer !important;
+            user-select: none !important;
+            line-height: 1.2 !important;
+            transition: color 0.2s ease, opacity 0.2s ease !important;
+            box-sizing: border-box !important;
+            margin: 0 !important;
         }
-        /* Stato "aperto" gestito via JS al click/tastiera */
+
+        .main-nav > a:hover,
+        .main-nav .dropdown-toggle:hover {
+            color: var(--primary-sky, #87ceeb) !important;
+        }
+
+        /* PULSANTE CTA IN EVIDENZA SULLA DESTRA */
+        .main-nav .nav-cta-btn {
+            background: var(--dark-navy, #003c82) !important;
+            color: #ffffff !important;
+            padding: 8px 16px !important;
+            border-radius: 20px !important;
+            font-weight: 800 !important;
+        }
+        .main-nav .nav-cta-btn:hover {
+            background: var(--primary-sky, #87ceeb) !important;
+            color: var(--dark-navy, #003c82) !important;
+        }
+
+        /* Stato "aperto" dropdown */
         .nav-item.dropdown.open > .dropdown-menu {
             display: block !important;
             opacity: 1 !important;
             visibility: visible !important;
             transform: translateY(0) !important;
         }
-        /* Ruota la freccia quando il dropdown è aperto */
         .nav-item.dropdown.open > .dropdown-toggle .nav-arrow {
             transform: rotate(180deg);
+        }
+
+        /* REGOLAZIONE PER SCHERMI MEDI O LANDSCAPE (1025px - 1200px) */
+        @media (min-width: 1025px) and (max-width: 1200px) {
+            .main-nav {
+                gap: 8px !important;
+            }
+            .main-nav > a,
+            .main-nav .dropdown-toggle {
+                padding: 6px 6px !important;
+                font-size: 0.85rem !important;
+            }
+            .main-nav .nav-cta-btn {
+                padding: 6px 12px !important;
+                font-size: 0.85rem !important;
+            }
+        }
+
+        /* PASSAGGIO A MENU HAMBURGER IN SCHERMI RIDOTTI (<= 1024px) */
+        @media (max-width: 1024px) {
+            .desktop-nav-wrapper {
+                display: none !important;
+            }
+            .mobile-menu-toggle {
+                display: flex !important;
+            }
+        }
+
+        /* OTTIMIZZAZIONE LANDSCAPE PER SMARTPHONE IN ORIZZONTALE */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .mobile-nav {
+                padding: 8px !important;
+                align-items: flex-start !important;
+            }
+            .mobile-nav-content {
+                max-height: 90vh !important;
+                padding: 12px 16px !important;
+                margin-top: 0 !important;
+            }
+            .mobile-link, .mobile-dropdown-toggle {
+                padding: 6px 10px !important;
+                font-size: 0.88rem !important;
+            }
+            .mobile-submenu .mobile-link.sub {
+                padding: 4px 8px !important;
+                font-size: 0.82rem !important;
+            }
         }
 
         /* HERO CTA BUTTONS */
@@ -984,8 +1066,6 @@
 
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
-          <!-- ⛔ ホーム rimosso: il logo a sinistra è già il link alla home -->
-
           <div class="nav-item dropdown">
             <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
               <span data-i18n="nav.about_group">クラブ</span> 
@@ -1603,8 +1683,8 @@
     let cachedMatches = [];
     let locationsData = {};
     let opponentsData = {};
-    let playersData = [];       // players.json → ARRAY
-    let statsData = {};         // stats.json   → OBJECT con .players indicizzato per id
+    let playersData = [];
+    let statsData = {};
 
     /* =========================================================
        UTILS
@@ -1680,9 +1760,6 @@
         return { name, romajiName, logo };
     }
 
-    /* =========================================================
-       PLAYER LOOKUP HELPERS (per scorers, mvp, ecc.)
-       ========================================================= */
     function findPlayerObj(query) {
         if (!query || query === 'なし' || query === 'Nessuno') return null;
         if (!playersData || playersData.length === 0) return null;
@@ -1740,9 +1817,6 @@
         }).filter(Boolean).join(', ');
     }
 
-    /* =========================================================
-       LANGUAGE
-       ========================================================= */
     function setLanguage(lang) {
         if (!translations[lang]) return;
         currentLang = lang;
@@ -1777,9 +1851,6 @@
         btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
     });
 
-    /* =========================================================
-       MATCH HELPERS
-       ========================================================= */
     function parseMatchDate(dateStr) {
         if (!dateStr) return 0;
         const clean = dateStr.replace(/\./g, '/').replace(/-/g, '/');
@@ -1811,9 +1882,6 @@
         return { name, url, surface };
     }
 
-    /* =========================================================
-       DATA LOADING
-       ========================================================= */
     async function initPageData() {
         try {
             const [mResp, lResp, oResp, pResp, sResp] = await Promise.allSettled([
@@ -1837,26 +1905,16 @@
         }
     }
 
-    /* =========================================================
-       RENDER PLAYERS SHOWCASE
-       --------------------------------------------------------
-       Correlazione:
-         players.json  → ARRAY:  [ { id, number, role, ... }, ... ]
-         stats.json    → OBJECT: { players: { "<id>": { caps, goals, assists, mvps, goals_conceded, ... } } }
-       Chiave di join: p.id === chiave di statsData.players
-       ========================================================= */
     function renderPlayersShowcase(players) {
         const grid = document.getElementById('playersShowcaseGrid');
         if (!grid || !players || players.length === 0) return;
 
-        // statsData.players è un OGGETTO indicizzato per id
         const statsMap = (statsData && statsData.players && typeof statsData.players === 'object')
             ? statsData.players
             : {};
 
         const lang = currentLang;
 
-        // Filtro: escludi staff e giocatori senza numero di maglia
         const eligiblePlayers = players.filter(p => {
             if (!p || p.role === 'staff') return false;
             if (p.number === null || p.number === undefined || p.number === '') return false;
@@ -1868,7 +1926,6 @@
             return;
         }
 
-        // 3 giocatori casuali
         const shuffled = [...eligiblePlayers].sort(() => 0.5 - Math.random());
         const selected = shuffled.slice(0, 3);
 
@@ -1881,11 +1938,8 @@
             const posLabel = String(p.position || p.role || 'MF').toUpperCase().split('/')[0];
             const isGK = (roleKey === 'gk');
 
-            // ★ CORRELAZIONE PER ID ★
             const pStat = statsMap[p.id] || {};
 
-            // stats.json ha: caps, goals, assists, mvps, goals_conceded
-            // Fallback su players.json (che ha solo caps come base)
             const apps     = parseInt(pStat.caps            ?? p.caps ?? 0, 10) || 0;
             const goals    = parseInt(pStat.goals           ?? 0, 10) || 0;
             const assists  = parseInt(pStat.assists         ?? 0, 10) || 0;
@@ -1922,9 +1976,6 @@
         }).join('');
     }
 
-    /* =========================================================
-       MATCH RENDER
-       ========================================================= */
     function generateLastMatchHtml(m, lang) {
         const oppInfo = getOpponentInfo(m, lang);
         const locInfo = getLocationInfo(m.location_id, m.venue, lang);
@@ -2147,9 +2198,6 @@
         }
     }
 
-    /* =========================================================
-       GALLERY LIGHTBOX
-       ========================================================= */
     function initCompactGallery() {
         const items = document.querySelectorAll('.gallery-compact-item');
         const lightbox = document.getElementById('lightboxModal');
@@ -2195,9 +2243,6 @@
         });
     }
 
-    /* =========================================================
-       MINI FAQ ACCORDION
-       ========================================================= */
     function initMiniFaqAccordion() {
         document.querySelectorAll('.faq-question').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -2209,20 +2254,15 @@
         });
     }
 
-    /* =========================================================
-       DESKTOP DROPDOWN: click per aprire (no navigazione)
-       ========================================================= */
     function initDesktopDropdowns() {
         const toggles = document.querySelectorAll('.main-nav .dropdown-toggle');
         toggles.forEach(toggle => {
-            // Click: apre/chiude il dropdown, mai naviga
             toggle.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 const parent = toggle.closest('.nav-item.dropdown');
                 if (!parent) return;
 
-                // Chiudi gli altri dropdown aperti
                 document.querySelectorAll('.main-nav .nav-item.dropdown.open').forEach(d => {
                     if (d !== parent) {
                         d.classList.remove('open');
@@ -2236,7 +2276,6 @@
                 toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
             });
 
-            // Tastiera: Enter o Space aprono/chiudono
             toggle.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
@@ -2252,7 +2291,6 @@
             });
         });
 
-        // Click esterno: chiude tutti i dropdown aperti
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.main-nav .nav-item.dropdown')) {
                 document.querySelectorAll('.main-nav .nav-item.dropdown.open').forEach(d => {
@@ -2263,7 +2301,6 @@
             }
         });
 
-        // Click su un link del submenu: chiude subito dopo la navigazione
         document.querySelectorAll('.main-nav .dropdown-menu a').forEach(link => {
             link.addEventListener('click', () => {
                 document.querySelectorAll('.main-nav .nav-item.dropdown.open').forEach(d => {
@@ -2275,9 +2312,6 @@
         });
     }
 
-    /* =========================================================
-       INIT
-       ========================================================= */
     window.addEventListener('DOMContentLoaded', () => {
         setLanguage(currentLang);
         initPageData();
@@ -2331,9 +2365,6 @@
         }
     });
 
-    /* =========================================================
-       SPONSOR CAROUSEL
-       ========================================================= */
     const sponsorsTrack = document.getElementById('sponsorsTrack');
     if (sponsorsTrack && sponsorsTrack.children.length > 0) {
         const originalSponsorCards = Array.from(sponsorsTrack.children);
@@ -2349,9 +2380,6 @@
         requestAnimationFrame(scrollSponsorsStep);
     }
 
-    /* =========================================================
-       SCROLL TO TOP
-       ========================================================= */
     const topBtn = document.getElementById('scrollToTopBtn');
     if (topBtn) {
         const checkScroll = () => {
