@@ -58,7 +58,7 @@
     <!-- SCHEMA_STATS_END -->
 
     <style>
-        /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO --- */
+        /* --- MOBILE NAV --- */
         .mobile-nav {
             position: fixed;
             top: 0;
@@ -217,6 +217,104 @@
             justify-content: center;
             gap: 8px;
             text-decoration: none;
+        }
+
+        /* --- MENU DESKTOP STILI UNIFORMATI --- */
+        .desktop-nav-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        .main-nav {
+            display: flex !important;
+            align-items: center !important;
+            gap: 16px;
+            white-space: nowrap;
+        }
+        .main-nav .nav-item {
+            position: relative !important;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .main-nav > a,
+        .main-nav .dropdown-toggle {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            padding: 8px 10px !important;
+            font-family: inherit !important;
+            font-size: 0.92rem !important;
+            font-weight: 700 !important;
+            color: var(--dark-navy, #003c82) !important;
+            text-decoration: none !important;
+            border: none !important;
+            background: transparent !important;
+            cursor: pointer !important;
+            user-select: none !important;
+            line-height: 1.2 !important;
+            transition: color 0.2s ease, opacity 0.2s ease !important;
+            box-sizing: border-box !important;
+            margin: 0 !important;
+        }
+
+        .main-nav > a:hover,
+        .main-nav .dropdown-toggle:hover {
+            color: var(--primary-sky, #87ceeb) !important;
+        }
+
+        .main-nav .nav-cta-btn {
+            background: var(--dark-navy, #003c82) !important;
+            color: #ffffff !important;
+            padding: 8px 16px !important;
+            border-radius: 20px !important;
+            font-weight: 800 !important;
+        }
+        .main-nav .nav-cta-btn:hover {
+            background: var(--primary-sky, #87ceeb) !important;
+            color: var(--dark-navy, #003c82) !important;
+        }
+
+        .main-nav .dropdown-menu {
+            display: none;
+            position: absolute !important;
+            top: 100% !important;
+            left: 0 !important;
+            z-index: 1000 !important;
+            min-width: 190px;
+            background: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 8px 0;
+            margin-top: 2px;
+            white-space: nowrap;
+        }
+
+        .main-nav .dropdown-menu a {
+            display: block !important;
+            padding: 10px 16px !important;
+            color: var(--dark-navy, #003c82) !important;
+            text-decoration: none !important;
+            font-size: 0.88rem !important;
+            font-weight: 600 !important;
+            transition: background 0.2s ease, color 0.2s ease !important;
+            text-align: left !important;
+        }
+
+        .main-nav .dropdown-menu a:hover {
+            background-color: #f1f5f9 !important;
+            color: var(--primary-sky, #87ceeb) !important;
+        }
+
+        .nav-item.dropdown:hover > .dropdown-menu,
+        .nav-item.dropdown.open > .dropdown-menu {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateY(0) !important;
+        }
+        .nav-item.dropdown:hover > .dropdown-toggle .nav-arrow,
+        .nav-item.dropdown.open > .dropdown-toggle .nav-arrow {
+            transform: rotate(180deg);
         }
 
         /* --- RESPONSIVE TYPOGRAPHY --- */
@@ -407,13 +505,11 @@
 
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
-          <a href="index.html" data-i18n="nav.home">ホーム</a>
-
           <div class="nav-item dropdown">
-            <a href="about.html" class="dropdown-toggle">
+            <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
               <span data-i18n="nav.about_group">クラブ</span> 
               <i class="fas fa-chevron-down nav-arrow"></i>
-            </a>
+            </span>
             <div class="dropdown-menu">
               <a href="about.html" data-i18n="nav.about">チーム紹介</a>
               <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
@@ -422,10 +518,10 @@
           </div>
 
           <div class="nav-item dropdown">
-            <a href="players.html" class="dropdown-toggle" style="color: var(--primary-sky);">
+            <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false" style="color: var(--primary-sky);">
               <span data-i18n="nav.team_group">チーム・選手</span> 
               <i class="fas fa-chevron-down nav-arrow"></i>
-            </a>
+            </span>
             <div class="dropdown-menu">
               <a href="players.html" data-i18n="nav.players">選手紹介</a>
               <a href="stats.html" style="color: var(--primary-sky); font-weight: 700;" data-i18n="nav.stats">成績・スタッツ</a>
@@ -734,7 +830,7 @@
 
     const translations = {
         ja: {
-            "nav.home": "ホーム", "nav.team": "チーム", "nav.team_group": "チーム・選手", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
+            "nav.home": "ホーム", "nav.team": "チーム", "nav.team_group": "チーム・選手", "nav.about_group": "クラブ", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
             "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.shop": "ショップ", "nav.sponsors": "パートナー",
             "nav.faq": "よくある質問", "nav.contact": "お問い合わせ", "stats.title": "チーム・個人戦績",
             "stats.season_label": "シーズン:", "stats.all_seasons": "全期間 (All Time)", "stats.sec_team": "チーム戦績",
@@ -754,7 +850,7 @@
             "btn.back_home": "ホームに戻る", "btn.show_more": "もっと見る", "btn.show_less": "閉じる"
         },
         it: {
-            "nav.home": "Home", "nav.team": "SQUADRA", "nav.team_group": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
+            "nav.home": "Home", "nav.team": "SQUADRA", "nav.team_group": "SQUADRA", "nav.about_group": "CLUB", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
             "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.shop": "Shop", "nav.sponsors": "Partner",
             "nav.faq": "FAQ", "nav.contact": "Contatti", "stats.title": "Statistiche Squadra & Singoli",
             "stats.season_label": "Stagione:", "stats.all_seasons": "Tutte le stagioni", "stats.sec_team": "Statistiche di Squadra",
@@ -774,7 +870,7 @@
             "btn.back_home": "Torna alla Home", "btn.show_more": "Mostra tutti", "btn.show_less": "Mostra meno"
         },
         en: {
-            "nav.home": "Home", "nav.team": "TEAM", "nav.team_group": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
+            "nav.home": "Home", "nav.team": "TEAM", "nav.team_group": "TEAM", "nav.about_group": "CLUB", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
             "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.shop": "Shop", "nav.sponsors": "Partners",
             "nav.faq": "FAQ", "nav.contact": "Contact Us", "stats.title": "Team & Player Stats",
             "stats.season_label": "Season:", "stats.all_seasons": "All Time", "stats.sec_team": "Team Statistics",
@@ -880,6 +976,68 @@
                 <span class="player-name-text">${mainName}</span>
             </div>
         `;
+    }
+
+    function initDesktopDropdowns() {
+        const dropdownItems = document.querySelectorAll('.main-nav .nav-item.dropdown');
+
+        dropdownItems.forEach(item => {
+            const toggle = item.querySelector('.dropdown-toggle');
+            if (!toggle) return;
+
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                dropdownItems.forEach(d => {
+                    if (d !== item) {
+                        d.classList.remove('open');
+                        const t = d.querySelector('.dropdown-toggle');
+                        if (t) t.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                const willOpen = !item.classList.contains('open');
+                item.classList.toggle('open', willOpen);
+                toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            });
+
+            item.addEventListener('mouseleave', () => {
+                item.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+
+            toggle.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggle.click();
+                }
+                if (e.key === 'Escape') {
+                    item.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.main-nav .nav-item.dropdown')) {
+                dropdownItems.forEach(d => {
+                    d.classList.remove('open');
+                    const t = d.querySelector('.dropdown-toggle');
+                    if (t) t.setAttribute('aria-expanded', 'false');
+                });
+            }
+        });
+
+        document.querySelectorAll('.main-nav .dropdown-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                dropdownItems.forEach(d => {
+                    d.classList.remove('open');
+                    const t = d.querySelector('.dropdown-toggle');
+                    if (t) t.setAttribute('aria-expanded', 'false');
+                });
+            });
+        });
     }
 
     function setLanguage(lang) {
@@ -1209,8 +1367,7 @@
         // =====================================================
         // CALCOLO DA matches.json
         // ⚠️ CONVENZIONE: score è SEMPRE "NOSTRI - LORO",
-        // indipendentemente da casa/trasferta. NON invertire
-        // in base a isHome.
+        // indipendentemente da casa/trasferta.
         // =====================================================
         (rawMatchesData || []).forEach(m => {
             if (!m || m.status !== 'past') return;
@@ -1382,7 +1539,6 @@
                 if (a.count !== b.count) {
                     return sortAscending ? a.count - b.count : b.count - a.count;
                 }
-                // Secondario stabile: chi ha più presenze va prima
                 const aCaps = a.pObj && a.pObj.caps ? a.pObj.caps : 0;
                 const bCaps = b.pObj && b.pObj.caps ? b.pObj.caps : 0;
                 return bCaps - aCaps;
@@ -1512,7 +1668,6 @@
             }
         };
 
-        // RENDER CLASSIFICA PRESENZE (con fallback da players.json)
         const renderAppearancesRanking = () => {
             const list = document.getElementById('appearances-ranking');
             if (!list) return;
@@ -1522,7 +1677,6 @@
 
             let rows = [];
 
-            // Sorgente primaria: stats.json (ha starters e subs espliciti)
             if (precomputedStats && precomputedStats.players) {
                 rows = Object.values(precomputedStats.players)
                     .filter(p => (parseInt(p.caps, 10) || 0) > 0)
@@ -1538,7 +1692,6 @@
                     });
             }
 
-            // Fallback: players.json (ha solo caps)
             if (rows.length === 0 && playersData && playersData.length > 0) {
                 rows = playersData
                     .filter(p => p.role !== 'staff' && (parseInt(p.caps, 10) || 0) > 0)
@@ -1551,7 +1704,6 @@
                     }));
             }
 
-            // Ordinamento: caps DESC → starters DESC → subs DESC
             rows.sort((a, b) => {
                 if (b.caps !== a.caps) return b.caps - a.caps;
                 if (b.starters !== a.starters) return b.starters - a.starters;
@@ -1630,23 +1782,18 @@
     });
 
     /* =========================================================
-       DATA LOADING (robusto: ogni fetch è indipendente)
+       DATA LOADING
        ========================================================= */
     async function loadAllStatsData() {
-        // 1. stats.json
         try {
             const statsResp = await fetch('stats.json', { cache: 'no-store' });
             if (statsResp.ok) {
                 precomputedStats = await statsResp.json();
-                console.log('✅ stats.json caricato:', Object.keys(precomputedStats.players || {}).length, 'giocatori');
-            } else {
-                console.warn('⚠️ stats.json HTTP', statsResp.status);
             }
         } catch (e) {
-            console.warn("⚠️ stats.json non caricabile:", e);
+            console.warn("stats.json non caricabile:", e);
         }
 
-        // 2. matches.json
         try {
             const response = await fetch('matches.json', { cache: 'no-store' });
             if (response.ok) {
@@ -1654,11 +1801,10 @@
                 if (!Array.isArray(rawMatchesData)) rawMatchesData = [];
             }
         } catch (e) {
-            console.warn("⚠️ matches.json non caricabile:", e);
+            console.warn("matches.json non caricabile:", e);
             rawMatchesData = [];
         }
 
-        // 3. players.json
         try {
             const pResp = await fetch('players.json', { cache: 'no-store' });
             if (pResp.ok) {
@@ -1666,18 +1812,13 @@
                 if (!Array.isArray(playersData)) playersData = [];
             }
         } catch (e) {
-            console.warn("⚠️ players.json non caricabile:", e);
+            console.warn("players.json non caricabile:", e);
             playersData = [];
         }
 
-        // 4. Popola il selettore stagioni
         populateSeasonSelect(rawMatchesData);
-
-        // 5. Render esplicito
         calculateAndRenderStats();
         loadStandingsData();
-
-        // 6. Applica la lingua (aggiorna label e ri-renderizza)
         setLanguage(currentLanguage);
     }
 
@@ -1691,6 +1832,7 @@
     }
 
     window.addEventListener('DOMContentLoaded', async () => {
+        initDesktopDropdowns();
         await loadAllStatsData();
     });
 </script>
