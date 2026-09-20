@@ -116,164 +116,75 @@
             gap: 8px; text-decoration: none;
         }
 
-        /* =====================================================
-           PERFETTO ALLINEAMENTO MENU DESKTOP & FLUIDITÀ RESPONSIVE
-           ===================================================== */
-        .desktop-nav-wrapper {
-            display: flex;
-            align-items: center;
-        }
-        .main-nav {
-            display: flex !important;
-            align-items: center !important;
-            gap: 16px;
-            white-space: nowrap;
-        }
-        .main-nav .nav-item {
-            position: relative !important;
-            display: inline-flex;
-            align-items: center;
-        }
+        /* MENU DESKTOP */
+        .desktop-nav-wrapper { display: flex; align-items: center; }
+        .main-nav { display: flex !important; align-items: center !important; gap: 16px; white-space: nowrap; }
+        .main-nav .nav-item { position: relative !important; display: inline-flex; align-items: center; }
         
-        .main-nav > a,
-        .main-nav .dropdown-toggle {
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 5px !important;
-            padding: 8px 10px !important;
-            font-family: inherit !important;
-            font-size: 0.92rem !important;
-            font-weight: 700 !important;
-            color: var(--dark-navy, #003c82) !important;
-            text-decoration: none !important;
-            border: none !important;
-            background: transparent !important;
-            cursor: pointer !important;
-            user-select: none !important;
-            line-height: 1.2 !important;
-            transition: color 0.2s ease, opacity 0.2s ease !important;
-            box-sizing: border-box !important;
-            margin: 0 !important;
+        .main-nav > a, .main-nav .dropdown-toggle {
+            display: inline-flex !important; align-items: center !important; gap: 5px !important;
+            padding: 8px 10px !important; font-family: inherit !important; font-size: 0.92rem !important;
+            font-weight: 700 !important; color: var(--dark-navy, #003c82) !important; text-decoration: none !important;
+            border: none !important; background: transparent !important; cursor: pointer !important;
+            user-select: none !important; line-height: 1.2 !important; transition: color 0.2s ease, opacity 0.2s ease !important;
+            box-sizing: border-box !important; margin: 0 !important;
         }
 
-        .main-nav > a:hover,
-        .main-nav .dropdown-toggle:hover {
-            color: var(--primary-sky, #87ceeb) !important;
-        }
+        .main-nav > a:hover, .main-nav .dropdown-toggle:hover { color: var(--primary-sky, #87ceeb) !important; }
 
         .main-nav .nav-cta-btn {
-            background: var(--dark-navy, #003c82) !important;
-            color: #ffffff !important;
-            padding: 8px 16px !important;
-            border-radius: 20px !important;
-            font-weight: 800 !important;
+            background: var(--dark-navy, #003c82) !important; color: #ffffff !important;
+            padding: 8px 16px !important; border-radius: 20px !important; font-weight: 800 !important;
         }
-        .main-nav .nav-cta-btn:hover {
-            background: var(--primary-sky, #87ceeb) !important;
-            color: var(--dark-navy, #003c82) !important;
-        }
+        .main-nav .nav-cta-btn:hover { background: var(--primary-sky, #87ceeb) !important; color: var(--dark-navy, #003c82) !important; }
 
         .main-nav .dropdown-menu {
-            display: none;
-            position: absolute !important;
-            top: 100% !important;
-            left: 0 !important;
-            z-index: 1000 !important;
-            min-width: 190px;
-            background: #ffffff;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            border-radius: 8px;
-            padding: 8px 0;
-            margin-top: 2px;
-            white-space: nowrap;
+            display: none; position: absolute !important; top: 100% !important; left: 0 !important;
+            z-index: 1000 !important; min-width: 190px; background: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 8px 0;
+            margin-top: 2px; white-space: nowrap;
         }
 
         .main-nav .dropdown-menu a {
-            display: block !important;
-            padding: 10px 16px !important;
-            color: var(--dark-navy, #003c82) !important;
-            text-decoration: none !important;
-            font-size: 0.88rem !important;
-            font-weight: 600 !important;
-            transition: background 0.2s ease, color 0.2s ease !important;
-            text-align: left !important;
+            display: block !important; padding: 10px 16px !important; color: var(--dark-navy, #003c82) !important;
+            text-decoration: none !important; font-size: 0.88rem !important; font-weight: 600 !important;
+            transition: background 0.2s ease, color 0.2s ease !important; text-align: left !important;
         }
 
-        .main-nav .dropdown-menu a:hover {
-            background-color: #f1f5f9 !important;
-            color: var(--primary-sky, #87ceeb) !important;
-        }
+        .main-nav .dropdown-menu a:hover { background-color: #f1f5f9 !important; color: var(--primary-sky, #87ceeb) !important; }
 
-        .nav-item.dropdown:hover > .dropdown-menu,
-        .nav-item.dropdown.open > .dropdown-menu {
-            display: block !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-            transform: translateY(0) !important;
+        .nav-item.dropdown:hover > .dropdown-menu, .nav-item.dropdown.open > .dropdown-menu {
+            display: block !important; opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important;
         }
-        .nav-item.dropdown:hover > .dropdown-toggle .nav-arrow,
-        .nav-item.dropdown.open > .dropdown-toggle .nav-arrow {
+        .nav-item.dropdown:hover > .dropdown-toggle .nav-arrow, .nav-item.dropdown.open > .dropdown-toggle .nav-arrow {
             transform: rotate(180deg);
         }
 
-        /* SCHERMI MEDI DESKTOP (1025px - 1200px) */
         @media (min-width: 1025px) and (max-width: 1200px) {
-            .main-nav {
-                gap: 8px !important;
-            }
-            .main-nav > a,
-            .main-nav .dropdown-toggle {
-                padding: 6px 6px !important;
-                font-size: 0.85rem !important;
-            }
-            .main-nav .nav-cta-btn {
-                padding: 6px 12px !important;
-                font-size: 0.85rem !important;
-            }
+            .main-nav { gap: 8px !important; }
+            .main-nav > a, .main-nav .dropdown-toggle { padding: 6px 6px !important; font-size: 0.85rem !important; }
+            .main-nav .nav-cta-btn { padding: 6px 12px !important; font-size: 0.85rem !important; }
         }
 
-        /* MENU MOBILE PER SCHERMI VERTICALI (PORTRAIT) <= 900px */
         @media (max-width: 900px) and (orientation: portrait) {
-            .desktop-nav-wrapper {
-                display: none !important;
-            }
-            .mobile-menu-toggle {
-                display: flex !important;
-            }
+            .desktop-nav-wrapper { display: none !important; }
+            .mobile-menu-toggle { display: flex !important; }
         }
 
-        /* MENU ESTESO COMPATTO PER SMARTPHONE IN ORIZZONTALE (LANDSCAPE) */
         @media (orientation: landscape) and (max-height: 500px) {
-            .desktop-nav-wrapper {
-                display: flex !important;
-            }
-            .mobile-menu-toggle {
-                display: none !important;
-            }
-            .main-nav {
-                gap: 4px !important;
-            }
-            .main-nav > a,
-            .main-nav .dropdown-toggle {
-                padding: 4px 5px !important;
-                font-size: 0.78rem !important;
-            }
-            .main-nav .nav-cta-btn {
-                padding: 5px 10px !important;
-                font-size: 0.75rem !important;
-            }
-            .logo-title img {
-                height: 30px !important;
-            }
-            .brand-name {
-                font-size: 0.95rem !important;
-            }
+            .desktop-nav-wrapper { display: flex !important; }
+            .mobile-menu-toggle { display: none !important; }
+            .main-nav { gap: 4px !important; }
+            .main-nav > a, .main-nav .dropdown-toggle { padding: 4px 5px !important; font-size: 0.78rem !important; }
+            .main-nav .nav-cta-btn { padding: 5px 10px !important; font-size: 0.75rem !important; }
+            .logo-title img { height: 30px !important; }
+            .brand-name { font-size: 0.95rem !important; }
         }
 
         /* --- PLAYER CARD --- */
         .player-card {
             perspective: 1000px; -webkit-perspective: 1000px;
-            height: 400px; cursor: pointer;
+            height: 420px; cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .player-card-inner {
@@ -410,6 +321,57 @@
             letter-spacing: -0.2px;
         }
 
+        /* --- STILI TRACCIAMENTO TATTICO NEL PROFILE --- */
+        .player-positions-wrapper {
+            margin-top: 4px;
+            padding: 4px;
+            background: #f8fafc;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        .player-positions-title {
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: #003c82;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            text-transform: uppercase;
+        }
+        .positions-badges-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+        }
+        .pos-pill {
+            font-size: 0.62rem;
+            font-weight: 700;
+            padding: 2px 5px;
+            border-radius: 4px;
+            background: #ffffff;
+            color: #003c82;
+            border: 1px solid #cbd5e1;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .pos-pill.primary-pos {
+            background: #003c82;
+            color: #ffffff;
+            border-color: #003c82;
+        }
+        .pos-pill-count {
+            background: rgba(0, 0, 0, 0.08);
+            padding: 1px 3px;
+            border-radius: 3px;
+            font-size: 0.58rem;
+        }
+        .pos-pill.primary-pos .pos-pill-count {
+            background: rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+        }
+
         .role-badge-back { display: inline-flex; align-items: center; gap: 4px; padding: 0 5px; border-radius: 6px; font-weight: 700; color: #ffffff; font-size: 0.68rem; }
         .role-badge-back.role-badge-gk { background: #FFD500; color: #000000; }
         .role-badge-back.role-badge-df { background: #0284c7; }
@@ -420,7 +382,7 @@
         @media (max-width: 600px) {
             .section-title { font-size: 1.45rem !important; line-height: 1.3 !important; justify-content: center !important; text-align: center !important; }
             .role-title { font-size: 1.3rem !important; }
-            .player-card { height: 395px !important; }
+            .player-card { height: 415px !important; }
             .jersey-surname-large { font-size: 1.5rem !important; }
             .jersey-number-large { font-size: 6rem !important; }
             .player-name-kanji { font-size: 0.95rem !important; }
@@ -568,781 +530,26 @@
         </div>
 
         <!-- PLAYERS_START -->
-
         <div class="role-group" data-role-section="gk">
             <h3 class="role-title"><i class="fas fa-hands"></i> <span data-i18n="section.gk">GOALKEEPER</span></h3>
-            <div class="players-grid" id="players-gk">
-            <div class="player-card" id="mimura-aoi" data-player-id="mimura-aoi" data-player-name="御村 葵" data-player-kana="ミムラ アオイ" data-player-romaji="Mimura Aoi" data-player-pos="GK" data-player-role="gk">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey jersey-gk">
-                            <div class="jersey-surname-large">MIMURA</div>
-                            <div class="jersey-number-large">1</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">御村 葵</div>
-                            <div class="player-name-romaji">ミムラ アオイ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">御村 葵</div>
-                            <div class="player-name-romaji">ミムラ アオイ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-gk"><i class="fas fa-hands"></i> <strong>GK</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kumamoto"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="25">25 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">5</span><span class="sub-stat-detail">(<span class="stat-starters">5</span>/<span class="stat-subs">0</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-shield-halved"></i> <span data-i18n="label.goals_conceded">失点:</span></span> <strong class="stats-highlight stat-goals-conceded">22</strong></div><div class="player-detail-row"><span><i class="fas fa-lock"></i> <span data-i18n="label.clean_sheets">クリーンシート:</span></span> <strong class="stats-highlight stat-clean-sheets">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">1</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="hosaka-toshiaki" data-player-id="hosaka-toshiaki" data-player-name="保坂 利晃" data-player-kana="ホサカ トシアキ" data-player-romaji="Hosaka Toshiaki" data-player-pos="GK" data-player-role="gk">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey jersey-gk">
-                            <div class="jersey-surname-large">HOSAKA</div>
-                            <div class="jersey-number-large">99</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">保坂 利晃</div>
-                            <div class="player-name-romaji">ホサカ トシアキ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">保坂 利晃</div>
-                            <div class="player-name-romaji">ホサカ トシアキ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-gk"><i class="fas fa-hands"></i> <strong>GK</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="hyogo"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="25">25 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">1</span><span class="sub-stat-detail">(<span class="stat-starters">1</span>/<span class="stat-subs">0</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-shield-halved"></i> <span data-i18n="label.goals_conceded">失点:</span></span> <strong class="stats-highlight stat-goals-conceded">6</strong></div><div class="player-detail-row"><span><i class="fas fa-lock"></i> <span data-i18n="label.clean_sheets">クリーンシート:</span></span> <strong class="stats-highlight stat-clean-sheets">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="players-grid" id="players-gk"></div>
         </div>
-        </div>
-        
 
         <div class="role-group" data-role-section="df">
             <h3 class="role-title"><i class="fas fa-shield-alt"></i> <span data-i18n="section.df">DEFENDER</span></h3>
-            <div class="players-grid" id="players-df">
-            <div class="player-card" id="takamine-kohei" data-player-id="takamine-kohei" data-player-name="高嶺 昂平" data-player-kana="タカミネ コウヘイ" data-player-romaji="Takamine Kohei" data-player-pos="CB" data-player-role="df">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">TAKAMINE</div>
-                            <div class="jersey-number-large">3</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">高嶺 昂平</div>
-                            <div class="player-name-romaji">タカミネ コウヘイ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">高嶺 昂平</div>
-                            <div class="player-name-romaji">タカミネ コウヘイ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-df"><i class="fas fa-shield-alt"></i> <strong>CB</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="tokyo"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="22">22 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">4</span><span class="sub-stat-detail">(<span class="stat-starters">0</span>/<span class="stat-subs">4</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="lopez-irving" data-player-id="lopez-irving" data-player-name="López Irving" data-player-kana="ロペス イルビン" data-player-romaji="López Irving" data-player-pos="CB" data-player-role="df">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">LÓPEZ</div>
-                            <div class="jersey-number-large">4</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">López Irving</div>
-                            <div class="player-name-romaji">ロペス イルビン</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">López Irving</div>
-                            <div class="player-name-romaji">ロペス イルビン</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-df"><i class="fas fa-shield-alt"></i> <strong>CB</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="mexico"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="35">35 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">6</span><span class="sub-stat-detail">(<span class="stat-starters">6</span>/<span class="stat-subs">0</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">1</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="hayashibe-shin" data-player-id="hayashibe-shin" data-player-name="林部 慎" data-player-kana="ハヤシベ シン" data-player-romaji="Hayashibe Shin" data-player-pos="CB" data-player-role="df">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">HAYASHIBE</div>
-                            <div class="jersey-number-large">6</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">林部 慎</div>
-                            <div class="player-name-romaji">ハヤシベ シン</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">林部 慎</div>
-                            <div class="player-name-romaji">ハヤシベ シン</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-df"><i class="fas fa-shield-alt"></i> <strong>CB</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="26">26 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">4</span><span class="sub-stat-detail">(<span class="stat-starters">0</span>/<span class="stat-subs">4</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="muramatsu-atsuya" data-player-id="muramatsu-atsuya" data-player-name="村松 敦矢" data-player-kana="ムラマツ アツヤ" data-player-romaji="Muramatsu Atsuya" data-player-pos="SB/SH" data-player-role="df">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">MURAMATSU</div>
-                            <div class="jersey-number-large">21</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">村松 敦矢</div>
-                            <div class="player-name-romaji">ムラマツ アツヤ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">村松 敦矢</div>
-                            <div class="player-name-romaji">ムラマツ アツヤ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-df"><i class="fas fa-shield-alt"></i> <strong>SB/SH</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="28">28 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">0</span><span class="sub-stat-detail">(<span class="stat-starters">0</span>/<span class="stat-subs">0</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="michishita-yusuke" data-player-id="michishita-yusuke" data-player-name="道下 勇介" data-player-kana="ミチシタ ユウスケ" data-player-romaji="Michishita Yusuke" data-player-pos="SB/CM/CAM" data-player-role="df">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">MICHISHITA</div>
-                            <div class="jersey-number-large">43</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">道下 勇介</div>
-                            <div class="player-name-romaji">ミチシタ ユウスケ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">道下 勇介</div>
-                            <div class="player-name-romaji">ミチシタ ユウスケ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-df"><i class="fas fa-shield-alt"></i> <strong>SB/CM/CAM</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="24">24 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">3</span><span class="sub-stat-detail">(<span class="stat-starters">3</span>/<span class="stat-subs">0</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">1</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="katagiri-shiryu" data-player-id="katagiri-shiryu" data-player-name="片桐 子竜" data-player-kana="カタギリ シリュウ" data-player-romaji="Katagiri Shiryu" data-player-pos="SB" data-player-role="df">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">KATAGIRI</div>
-                            <div class="jersey-number-large">66</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">片桐 子竜</div>
-                            <div class="player-name-romaji">カタギリ シリュウ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">片桐 子竜</div>
-                            <div class="player-name-romaji">カタギリ シリュウ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-df"><i class="fas fa-shield-alt"></i> <strong>SB</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="23">23 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">5</span><span class="sub-stat-detail">(<span class="stat-starters">4</span>/<span class="stat-subs">1</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="era-makishi" data-player-id="era-makishi" data-player-name="恵良 真史" data-player-kana="エラ マキシ" data-player-romaji="Era Makishi" data-player-pos="CB" data-player-role="df">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">ERA</div>
-                            <div class="jersey-number-large">69</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">恵良 真史</div>
-                            <div class="player-name-romaji">エラ マキシ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">恵良 真史</div>
-                            <div class="player-name-romaji">エラ マキシ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-df"><i class="fas fa-shield-alt"></i> <strong>CB</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="27">27 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">4</span><span class="sub-stat-detail">(<span class="stat-starters">4</span>/<span class="stat-subs">0</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">1</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="players-grid" id="players-df"></div>
         </div>
-        </div>
-        
 
         <div class="role-group" data-role-section="mf">
             <h3 class="role-title"><i class="fas fa-running"></i> <span data-i18n="section.mf">MIDFIELDER</span></h3>
-            <div class="players-grid" id="players-mf">
-            <div class="player-card" id="di-rubbo-luca" data-player-id="di-rubbo-luca" data-player-name="Di Rubbo Luca" data-player-kana="ディルッボ ルカ" data-player-romaji="Di Rubbo Luca" data-player-pos="CM" data-player-role="mf">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">DI RUBBO</div>
-                            <div class="jersey-number-large">5</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">Di Rubbo Luca</div>
-                            <div class="player-name-romaji">ディルッボ ルカ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">Di Rubbo Luca</div>
-                            <div class="player-name-romaji">ディルッボ ルカ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-mf"><i class="fas fa-running"></i> <strong>CM</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="italy"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="38">38 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">6</span><span class="sub-stat-detail">(<span class="stat-starters">0</span>/<span class="stat-subs">6</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="fukuda-keisuke" data-player-id="fukuda-keisuke" data-player-name="福田 圭佑" data-player-kana="フクダ ケイスケ" data-player-romaji="Fukuda Keisuke" data-player-pos="SH" data-player-role="mf">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">FUKUDA K.</div>
-                            <div class="jersey-number-large">7</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">福田 圭佑</div>
-                            <div class="player-name-romaji">フクダ ケイスケ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">福田 圭佑</div>
-                            <div class="player-name-romaji">フクダ ケイスケ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-mf"><i class="fas fa-running"></i> <strong>SH</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="aichi"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="20">20 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">5</span><span class="sub-stat-detail">(<span class="stat-starters">5</span>/<span class="stat-subs">0</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">1</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">1</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">1</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="nakamura-satoshi" data-player-id="nakamura-satoshi" data-player-name="中村 聡" data-player-kana="ナカムラ サトシ" data-player-romaji="Nakamura Satoshi" data-player-pos="CM/SB" data-player-role="mf">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">NAKAMURA</div>
-                            <div class="jersey-number-large">8</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">中村 聡</div>
-                            <div class="player-name-romaji">ナカムラ サトシ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">中村 聡</div>
-                            <div class="player-name-romaji">ナカムラ サトシ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-mf"><i class="fas fa-running"></i> <strong>CM/SB</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="shizuoka"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="20">20 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">5</span><span class="sub-stat-detail">(<span class="stat-starters">5</span>/<span class="stat-subs">0</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="sano-yuki" data-player-id="sano-yuki" data-player-name="佐野 雄基" data-player-kana="サノ ユウキ" data-player-romaji="Sano Yuki" data-player-pos="CM/SH" data-player-role="mf">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">SANO</div>
-                            <div class="jersey-number-large">11</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">佐野 雄基</div>
-                            <div class="player-name-romaji">サノ ユウキ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">佐野 雄基</div>
-                            <div class="player-name-romaji">サノ ユウキ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-mf"><i class="fas fa-running"></i> <strong>CM/SH</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="19">19 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">3</span><span class="sub-stat-detail">(<span class="stat-starters">3</span>/<span class="stat-subs">0</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="nemoto-satoshi" data-player-id="nemoto-satoshi" data-player-name="根本 智司" data-player-kana="ネモト サトシ" data-player-romaji="Nemoto Satoshi" data-player-pos="CM" data-player-role="mf">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">NEMOTO</div>
-                            <div class="jersey-number-large">13</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">根本 智司</div>
-                            <div class="player-name-romaji">ネモト サトシ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">根本 智司</div>
-                            <div class="player-name-romaji">ネモト サトシ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-mf"><i class="fas fa-running"></i> <strong>CM</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="ibaraki"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="34">34 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">5</span><span class="sub-stat-detail">(<span class="stat-starters">5</span>/<span class="stat-subs">0</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="genma-yuta" data-player-id="genma-yuta" data-player-name="弦間 優大" data-player-kana="ゲンマ ユウタ" data-player-romaji="Genma Yuta" data-player-pos="SH" data-player-role="mf">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">GENMA</div>
-                            <div class="jersey-number-large">15</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">弦間 優大</div>
-                            <div class="player-name-romaji">ゲンマ ユウタ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">弦間 優大</div>
-                            <div class="player-name-romaji">ゲンマ ユウタ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-mf"><i class="fas fa-running"></i> <strong>SH</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="22">22 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">1</span><span class="sub-stat-detail">(<span class="stat-starters">0</span>/<span class="stat-subs">1</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="sugisawa-yuya" data-player-id="sugisawa-yuya" data-player-name="杉澤 祐哉" data-player-kana="スギサワ ユウヤ" data-player-romaji="Sugisawa Yuya" data-player-pos="CM/CB" data-player-role="mf">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">SUGISAWA</div>
-                            <div class="jersey-number-large">18</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">杉澤 祐哉</div>
-                            <div class="player-name-romaji">スギサワ ユウヤ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">杉澤 祐哉</div>
-                            <div class="player-name-romaji">スギサワ ユウヤ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-mf"><i class="fas fa-running"></i> <strong>CM/CB</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="shizuoka"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="30">30 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">1</span><span class="sub-stat-detail">(<span class="stat-starters">0</span>/<span class="stat-subs">1</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="fukuda-daiki" data-player-id="fukuda-daiki" data-player-name="福田 大輝" data-player-kana="フクダ ダイキ" data-player-romaji="Fukuda Daiki" data-player-pos="CM" data-player-role="mf">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">FUKUDA D.</div>
-                            <div class="jersey-number-large">19</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">福田 大輝</div>
-                            <div class="player-name-romaji">フクダ ダイキ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">福田 大輝</div>
-                            <div class="player-name-romaji">フクダ ダイキ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-mf"><i class="fas fa-running"></i> <strong>CM</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kyoto"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="22">22 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">2</span><span class="sub-stat-detail">(<span class="stat-starters">0</span>/<span class="stat-subs">2</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="ikeda-kikyo" data-player-id="ikeda-kikyo" data-player-name="池田 季京" data-player-kana="イケダ キキョウ" data-player-romaji="Ikeda Kikyo" data-player-pos="SH/SB" data-player-role="mf">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">IKEDA</div>
-                            <div class="jersey-number-large">25</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">池田 季京</div>
-                            <div class="player-name-romaji">イケダ キキョウ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">池田 季京</div>
-                            <div class="player-name-romaji">イケダ キキョウ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-mf"><i class="fas fa-running"></i> <strong>SH/SB</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="24">24 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">5</span><span class="sub-stat-detail">(<span class="stat-starters">5</span>/<span class="stat-subs">0</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="nagano-itto" data-player-id="nagano-itto" data-player-name="永野 壱門" data-player-kana="ナガノ イット" data-player-romaji="Nagano Itto" data-player-pos="CM" data-player-role="mf">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">NAGANO</div>
-                            <div class="jersey-number-large">77</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">永野 壱門</div>
-                            <div class="player-name-romaji">ナガノ イット</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">永野 壱門</div>
-                            <div class="player-name-romaji">ナガノ イット</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-mf"><i class="fas fa-running"></i> <strong>CM</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="24">24 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">3</span><span class="sub-stat-detail">(<span class="stat-starters">1</span>/<span class="stat-subs">2</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">2</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="players-grid" id="players-mf"></div>
         </div>
-        </div>
-        
 
         <div class="role-group" data-role-section="fw">
             <h3 class="role-title"><i class="fas fa-futbol"></i> <span data-i18n="section.fw">FORWARD</span></h3>
-            <div class="players-grid" id="players-fw">
-            <div class="player-card" id="koganei-kento" data-player-id="koganei-kento" data-player-name="小金井 健斗" data-player-kana="コガネイ ケント" data-player-romaji="Koganei Kento" data-player-pos="FW" data-player-role="fw">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">KOGANEI</div>
-                            <div class="jersey-number-large">9</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">小金井 健斗</div>
-                            <div class="player-name-romaji">コガネイ ケント</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">小金井 健斗</div>
-                            <div class="player-name-romaji">コガネイ ケント</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-fw"><i class="fas fa-bullseye"></i> <strong>FW</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="33">33 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">4</span><span class="sub-stat-detail">(<span class="stat-starters">4</span>/<span class="stat-subs">0</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">4</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">2</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="sasaki-jun" data-player-id="sasaki-jun" data-player-name="佐々木 俊" data-player-kana="ササキ ジュン" data-player-romaji="Sasaki Jun" data-player-pos="FW/SH" data-player-role="fw">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">SASAKI</div>
-                            <div class="jersey-number-large">14</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">佐々木 俊</div>
-                            <div class="player-name-romaji">ササキ ジュン</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">佐々木 俊</div>
-                            <div class="player-name-romaji">ササキ ジュン</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-fw"><i class="fas fa-bullseye"></i> <strong>FW/SH</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="-">- 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">1</span><span class="sub-stat-detail">(<span class="stat-starters">0</span>/<span class="stat-subs">1</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="kuga-itto" data-player-id="kuga-itto" data-player-name="久我 一桃" data-player-kana="クガ イット" data-player-romaji="Kuga Itto" data-player-pos="FW/SB" data-player-role="fw">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">KUGA</div>
-                            <div class="jersey-number-large">17</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">久我 一桃</div>
-                            <div class="player-name-romaji">クガ イット</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">久我 一桃</div>
-                            <div class="player-name-romaji">クガ イット</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-fw"><i class="fas fa-bullseye"></i> <strong>FW/SB</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="saga"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="20">20 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">5</span><span class="sub-stat-detail">(<span class="stat-starters">5</span>/<span class="stat-subs">0</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="martini-simone" data-player-id="martini-simone" data-player-name="Martini Simone" data-player-kana="マルティーニ シモーネ" data-player-romaji="Martini Simone" data-player-pos="FW/SH/CAM" data-player-role="fw">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">MARTINI</div>
-                            <div class="jersey-number-large">23</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">Martini Simone</div>
-                            <div class="player-name-romaji">マルティーニ シモーネ</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">Martini Simone</div>
-                            <div class="player-name-romaji">マルティーニ シモーネ</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-fw"><i class="fas fa-bullseye"></i> <strong>FW/SH/CAM</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="italy"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="23">23 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">2</span><span class="sub-stat-detail">(<span class="stat-starters">2</span>/<span class="stat-subs">0</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="komiyama-takato" data-player-id="komiyama-takato" data-player-name="小宮山 誉人" data-player-kana="コミヤマ タカト" data-player-romaji="Komiyama Takato" data-player-pos="FW/SH/CM" data-player-role="fw">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">KOMIYAMA</div>
-                            <div class="jersey-number-large">40</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">小宮山 誉人</div>
-                            <div class="player-name-romaji">コミヤマ タカト</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">小宮山 誉人</div>
-                            <div class="player-name-romaji">コミヤマ タカト</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-fw"><i class="fas fa-bullseye"></i> <strong>FW/SH/CM</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="nagano"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="28">28 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">6</span><span class="sub-stat-detail">(<span class="stat-starters">2</span>/<span class="stat-subs">4</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="yanagisawa-kaito" data-player-id="yanagisawa-kaito" data-player-name="柳澤 海翔" data-player-kana="ヤナギサワ カイト" data-player-romaji="Yanagisawa Kaito" data-player-pos="FW" data-player-role="fw">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">YANAGISAWA</div>
-                            <div class="jersey-number-large">-</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">柳澤 海翔</div>
-                            <div class="player-name-romaji">ヤナギサワ カイト</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">柳澤 海翔</div>
-                            <div class="player-name-romaji">ヤナギサワ カイト</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-fw"><i class="fas fa-bullseye"></i> <strong>FW</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="23">23 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">2</span><span class="sub-stat-detail">(<span class="stat-starters">0</span>/<span class="stat-subs">2</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">0</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">0</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-            <div class="player-card" id="kawai-kakeru" data-player-id="kawai-kakeru" data-player-name="川合 翔" data-player-kana="カワイ カケル" data-player-romaji="Kawai Kakeru" data-player-pos="FW/SH/CM" data-player-role="fw">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey ">
-                            <div class="jersey-surname-large">KAWAI</div>
-                            <div class="jersey-number-large">-</div>
-                        </div>
-                        <div class="player-name-block-front">
-                            <div class="player-name-kanji">川合 翔</div>
-                            <div class="player-name-romaji">カワイ カケル</div>
-                        </div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.details">詳細・個人成績</span>
-                        </div>
-                    </div>
-                    <div class="player-card-back">
-                        <div class="player-back-name-block">
-                            <div class="player-name-kanji">川合 翔</div>
-                            <div class="player-name-romaji">カワイ カケル</div>
-                        </div>
-                        <div class="player-details-inner"><div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span> <span class="role-badge-back role-badge-fw"><i class="fas fa-bullseye"></i> <strong>FW/SH/CM</strong></span></div><div class="player-detail-row"><span data-i18n="label.hometown">出身地:</span> <strong data-hometown="kanagawa"></strong></div><div class="player-detail-row"><span data-i18n="label.age">年齢:</span> <strong data-age="23">23 歳</strong></div><div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">3</span><span class="sub-stat-detail">(<span class="stat-starters">1</span>/<span class="stat-subs">2</span>)</span></strong></div><div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">1</strong></div><div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">1</strong></div><div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">0</strong></div><div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">0</strong></div></div>
-                        <div class="player-flip-indicator">
-                            <i class="fas fa-rotate"></i> <span data-i18n="btn.back">戻る</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="players-grid" id="players-fw"></div>
         </div>
-        </div>
-        
-<!-- PLAYERS_END -->
+        <!-- PLAYERS_END -->
 
         <div class="back-home-wrapper" style="text-align: center; margin-top: 40px;">
             <a href="index.html" class="google-form-btn back-btn" style="display: inline-flex; justify-content: center; align-items: center; max-width: 250px; margin: 0 auto; gap: 8px;">
@@ -1432,6 +639,7 @@
             "label.appearances": "出場数 (先発/途中):",
             "label.goals": "得点:", "label.assists": "アシスト:", "label.yellows": "警告:", "label.reds": "退場:",
             "label.goals_conceded": "失点:", "label.clean_sheets": "クリーンシート:",
+            "label.positions_played": "起用ポジション:",
             "unit.age": "歳"
         },
         it: {
@@ -1448,6 +656,7 @@
             "label.appearances": "Presenze (Tit/Sub):",
             "label.goals": "Gol:", "label.assists": "Assist:", "label.yellows": "Amm:", "label.reds": "Esp:",
             "label.goals_conceded": "Gol subiti:", "label.clean_sheets": "Porta inviolata:",
+            "label.positions_played": "Ruoli occupati:",
             "unit.age": "anni"
         },
         en: {
@@ -1464,6 +673,7 @@
             "label.appearances": "Caps (GS/Sub):",
             "label.goals": "Goals:", "label.assists": "Assists:", "label.yellows": "Yellows:", "label.reds": "Reds:",
             "label.goals_conceded": "Goals conceded:", "label.clean_sheets": "Clean sheets:",
+            "label.positions_played": "Positions played:",
             "unit.age": "years old"
         }
     };
@@ -1482,39 +692,6 @@
     let currentLang = localStorage.getItem('preferred_lang') || 'ja';
     let globalPlayers = [];
     let surnameCounts = {};
-
-    function cleanStr(s) {
-        return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
-    }
-
-    function findPlayerObj(query) {
-        if (!query || query === 'なし' || query === 'Nessuno') return null;
-        if (!globalPlayers || globalPlayers.length === 0) return null;
-
-        const target = cleanStr(query);
-        if (!target) return null;
-
-        let found = globalPlayers.find(p => p.id && cleanStr(p.id) === target);
-        if (found) return found;
-
-        found = globalPlayers.find(p => {
-            const k = cleanStr(p.name_kanji);
-            const kn = cleanStr(p.name_kana);
-            const r = cleanStr(p.name_romaji);
-            return k === target || kn === target || r === target;
-        });
-        if (found) return found;
-
-        return globalPlayers.find(p => {
-            const k = cleanStr(p.name_kanji);
-            const kn = cleanStr(p.name_kana);
-            const r = cleanStr(p.name_romaji);
-
-            return (k && (k.includes(target) || target.includes(k))) ||
-                   (kn && (kn.includes(target) || target.includes(kn))) ||
-                   (r && (r.includes(target) || target.includes(r)));
-        }) || null;
-    }
 
     function calculateSurnameCounts(players) {
         surnameCounts = {};
@@ -1741,6 +918,7 @@
         return icons[role] || 'fa-user';
     }
 
+    // --- COSTRUZIONE DINAMICA DELLA CARD E DEI RUOLI RICOPERTI ---
     function createPlayerCard(p, pStats = {}) {
         const isGK = (p.role === 'gk') || (p.position && p.position.toUpperCase().includes('GK'));
         
@@ -1775,6 +953,31 @@
             captainFasciaHtml = `<div class="captain-fascia vc-fascia" title="Vice Captain">VICE CAPT.</div>`;
         }
 
+        // COSTRUZIONE BADGE TATTICI (positions_played)
+        const positionsObj = pStats.positions_played || {};
+        const sortedPositions = Object.entries(positionsObj).sort((a, b) => b[1] - a[1]);
+        
+        let positionsHtml = '';
+        if (sortedPositions.length > 0) {
+            const pillsHtml = sortedPositions.map(([posTag, count], idx) => {
+                const isPrimary = idx === 0;
+                return `
+                    <span class="pos-pill ${isPrimary ? 'primary-pos' : ''}">
+                        ${posTag} <span class="pos-pill-count">${count}</span>
+                    </span>
+                `;
+            }).join('');
+
+            positionsHtml = `
+                <div class="player-positions-wrapper">
+                    <div class="player-positions-title"><i class="fas fa-chess-board"></i> <span data-i18n="label.positions_played">起用ポジション:</span></div>
+                    <div class="positions-badges-container">
+                        ${pillsHtml}
+                    </div>
+                </div>
+            `;
+        }
+
         const capsRowHtml = `<div class="player-detail-row"><div class="player-detail-row-left"><i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong class="stats-highlight"><span class="stat-caps">${caps}</span><span class="sub-stat-detail">(<span class="stat-starters">${starters}</span>/<span class="stat-subs">${subs}</span>)</span></strong></div>`;
 
         let detailsRows = '';
@@ -1790,8 +993,7 @@
                 <div class="player-detail-row"><span><i class="fas fa-shield-halved"></i> <span data-i18n="label.goals_conceded">失点:</span></span> <strong class="stats-highlight stat-goals-conceded">${goalsConceded}</strong></div>
                 <div class="player-detail-row"><span><i class="fas fa-lock"></i> <span data-i18n="label.clean_sheets">クリーンシート:</span></span> <strong class="stats-highlight stat-clean-sheets">${cleanSheets}</strong></div>
                 <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">${mvps}</strong></div>
-                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">${yellows}</strong></div>
-                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">${reds}</strong></div>
+                ${positionsHtml}
             `;
         } else {
             detailsRows = `
@@ -1805,8 +1007,7 @@
                 <div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">${goals}</strong></div>
                 <div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">${assists}</strong></div>
                 <div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">${mvps}</strong></div>
-                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">${yellows}</strong></div>
-                <div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">${reds}</strong></div>
+                ${positionsHtml}
             `;
         }
 
@@ -1890,7 +1091,7 @@
         try {
             let statsMap = {};
             try {
-                const statsRes = await fetch('stats.json');
+                const statsRes = await fetch('stats.json?t=' + Date.now());
                 if (statsRes.ok) {
                     const statsJson = await statsRes.json();
                     statsMap = statsJson.players || {};
