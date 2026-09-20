@@ -442,7 +442,7 @@
             transform: rotate(180deg);
         }
 
-        /* REGOLAZIONE PER SCHERMI MEDI O LANDSCAPE (1025px - 1200px) */
+        /* SCHERMI MEDI DESKTOP (1025px - 1200px) */
         @media (min-width: 1025px) and (max-width: 1200px) {
             .main-nav {
                 gap: 8px !important;
@@ -458,8 +458,8 @@
             }
         }
 
-        /* PASSAGGIO A MENU HAMBURGER IN SCHERMI RIDOTTI (<= 1024px) */
-        @media (max-width: 1024px) {
+        /* MENU MOBILE PER SCHERMI VERTICALI (PORTRAIT) <= 900px */
+        @media (max-width: 900px) and (orientation: portrait) {
             .desktop-nav-wrapper {
                 display: none !important;
             }
@@ -468,24 +468,31 @@
             }
         }
 
-        /* OTTIMIZZAZIONE LANDSCAPE PER SMARTPHONE IN ORIZZONTALE */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .mobile-nav {
-                padding: 8px !important;
-                align-items: flex-start !important;
+        /* MENU ESTESO COMPATTO PER SMARTPHONE IN ORIZZONTALE (LANDSCAPE) */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .desktop-nav-wrapper {
+                display: flex !important;
             }
-            .mobile-nav-content {
-                max-height: 90vh !important;
-                padding: 12px 16px !important;
-                margin-top: 0 !important;
+            .mobile-menu-toggle {
+                display: none !important;
             }
-            .mobile-link, .mobile-dropdown-toggle {
-                padding: 6px 10px !important;
-                font-size: 0.88rem !important;
+            .main-nav {
+                gap: 4px !important;
             }
-            .mobile-submenu .mobile-link.sub {
-                padding: 4px 8px !important;
-                font-size: 0.82rem !important;
+            .main-nav > a,
+            .main-nav .dropdown-toggle {
+                padding: 4px 5px !important;
+                font-size: 0.78rem !important;
+            }
+            .main-nav .nav-cta-btn {
+                padding: 5px 10px !important;
+                font-size: 0.75rem !important;
+            }
+            .logo-title img {
+                height: 30px !important;
+            }
+            .brand-name {
+                font-size: 0.95rem !important;
             }
         }
 
