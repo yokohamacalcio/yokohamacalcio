@@ -69,12 +69,17 @@ function main() {
         return null;
     }
 
-    // Helper per aggiornare il conteggio della posizione ricoperta
-    function recordPositionPlayed(pId, posTag) {
-        if (!pId || !posTag || !playerMap.has(pId)) return;
+    // Helper flessibile per registrare la posizione ricoperta
+    function recordPositionPlayed(rawPlayerName, posTag) {
+        if (!rawPlayerName || !posTag) return;
+        const pId = resolvePlayerId(rawPlayerName);
+        if (!pId || !playerMap.has(pId)) return;
+
         const player = playerMap.get(pId);
         const tag = String(posTag).trim().toUpperCase();
-        player.positions_played[tag] = (player.positions_played[tag] || 0) + 1;
+        if (tag && tag !== 'UNDEFINED' && tag !== 'NULL') {
+            player.positions_played[tag] = (player.positions_played[tag] || 0) + 1;
+        }
     }
 
     // Statistiche generali di squadra
@@ -86,7 +91,7 @@ function main() {
         goals_for: 0,
         goals_against: 0,
         clean_sheets: 0,
-        formations_used: {} // ← Tracciamento utilizzo moduli tattici (es. {"4-4-2": 8, "4-3-3": 2})
+        formations_used: {} // ← Tracciamento utilizzo moduli tattici
     };
 
     // 2. Elaborazione delle partite passate
@@ -105,8 +110,6 @@ function main() {
         let matchGA = 0;
         const scoreText = m.score ? m.score.trim() : '';
 
-        // ⚠️ CONVENZIONE matches.json:
-        // Il punteggio è SEMPRE "NOSTRI - LORO", indipendentemente da casa/trasferta.
         if (scoreText && scoreText.includes('-')) {
             const parts = scoreText.split('-').map(n => parseInt(n.trim(), 10));
             if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
@@ -139,11 +142,17 @@ function main() {
             });
         }
 
-        // A2. Tracciamento Posizioni Titolari (da starters_positions)
+        // A2. Tracciamento Posizioni Titolari (Supporta entrambi i formati: {"POS": "NOME"} o {"NOME": "POS"})
         if (m.starters_positions && typeof m.starters_positions === 'object') {
-            Object.entries(m.starters_positions).forEach(([posTag, name]) => {
-                const pId = resolvePlayerId(name);
-                if (pId) recordPositionPlayed(pId, posTag);
+            Object.entries(m.starters_positions).forEach(([key, val]) => {
+                const isKeyAPlayer = resolvePlayerId(key) !== null;
+                if (isKeyAPlayer) {
+                    // Formato: { "Nome Giocatore": "Ruolo" }
+                    recordPositionPlayed(key, val);
+                } else {
+                    // Formato: { "Ruolo": "Nome Giocatore" }
+                    recordPositionPlayed(val, key);
+                }
             });
         }
 
@@ -162,9 +171,8 @@ function main() {
         // B2. Tracciamento Posizioni Subentrati (da bench_details)
         if (Array.isArray(m.bench_details)) {
             m.bench_details.forEach(item => {
-                if (item.subbed_in && item.position_played) {
-                    const pId = resolvePlayerId(item.player);
-                    if (pId) recordPositionPlayed(pId, item.position_played);
+                if (item && item.subbed_in && item.position_played) {
+                    recordPositionPlayed(item.player, item.position_played);
                 }
             });
         }
@@ -224,7 +232,7 @@ function main() {
             m.goalkeepers.split(/[,、]/).forEach(entry => {
                 const match = entry.trim().match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
                 let rawGk = entry.trim();
-                let gkGa = matchGA;   // fallback: usa i gol subiti totali della partita
+                let gkGa = matchGA;
                 if (match) {
                     rawGk = match[1].trim();
                     const parsed = parseInt(match[2], 10);
