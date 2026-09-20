@@ -49,6 +49,9 @@
         .btn-submit { background: #003c82; color: white; padding: 14px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.05rem; }
         .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
         .btn-logout { background: #ef4444; color: white; padding: 6px 14px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
+        .btn-load { background: #0284c7; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.88rem; }
+        .btn-load:hover { background: #0369a1; }
+        .btn-reset { background: #64748b; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
         
         .lang-switcher-admin { display: flex; gap: 6px; align-items: center; }
         .lang-btn-admin { background: transparent; border: 1px solid #cbd5e1; padding: 4px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: bold; cursor: pointer; color: #475569; }
@@ -89,7 +92,8 @@
             <span style="font-size: 0.78rem; color: #059669; font-weight: bold;"><i class="fas fa-check-circle"></i> Authenticated</span>
         </div>
         
-        <div style="display: flex; gap: 15px; align-items: center;">
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <button type="button" onclick="resetForm()" class="btn-reset" title="Pulisci Modulo"><i class="fas fa-redo"></i> Reset</button>
             <div class="lang-switcher-admin">
                 <button class="lang-btn-admin active" data-lang="ja">JP</button>
                 <button class="lang-btn-admin" data-lang="it">IT</button>
@@ -105,10 +109,13 @@
         <!-- 1. INFORMAZIONI PARTITA -->
         <div class="section-box">
             <h3 data-i18n="sec1.title">1. Informazioni Partita</h3>
-            <div class="row" style="margin-top: 10px;">
-                <div class="form-group">
+            <div class="row" style="margin-top: 10px; align-items: flex-end;">
+                <div class="form-group" style="flex: 2;">
                     <label data-i18n="sec1.match_id">ID Match (es. match-9):</label>
-                    <input type="text" id="matchId" class="form-control" placeholder="match-9" required>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="matchId" class="form-control" placeholder="match-9" required>
+                        <button type="button" class="btn-load" onclick="loadExistingMatchData()"><i class="fas fa-search"></i> <span data-i18n="btn.load">Carica</span></button>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label data-i18n="sec1.status">Stato Partita:</label>
@@ -271,7 +278,6 @@
 </div>
 
 <script>
-    // --- PRESET FORMAZIONI TATTICHE ---
     const FORMATIONS = {
         "4-4-2": ["GK", "LB", "CB-L", "CB-R", "RB", "LM", "CM-L", "CM-R", "RM", "FW-L", "FW-R"],
         "4-3-3": ["GK", "LB", "CB-L", "CB-R", "RB", "DM", "CM-L", "CM-R", "LW", "ST", "RW"],
@@ -283,13 +289,13 @@
         "custom": ["GK", "POS-2", "POS-3", "POS-4", "POS-5", "POS-6", "POS-7", "POS-8", "POS-9", "POS-10", "POS-11"]
     };
 
-    // --- TRADUZIONI MULTILINGUE ---
     const adminTranslations = {
         ja: {
             "login.title": "Yokohama Calcio 管理パネル",
             "login.subtitle": "GitHub Personal Access Tokenを入力してログインしてください。",
             "login.btn": "ログイン",
             "admin.logout": "ログアウト",
+            "btn.load": "読み込み",
             "sec1.title": "1. 試合情報",
             "sec1.match_id": "試合ID (例: match-9):",
             "sec1.status": "試合ステータス:",
@@ -332,6 +338,7 @@
             "login.subtitle": "Inserisci il GitHub Personal Access Token per sbloccare.",
             "login.btn": "Accedi",
             "admin.logout": "Logout",
+            "btn.load": "Carica",
             "sec1.title": "1. Informazioni Partita",
             "sec1.match_id": "ID Match (es. match-9):",
             "sec1.status": "Stato Partita:",
@@ -374,6 +381,7 @@
             "login.subtitle": "Enter your GitHub Personal Access Token to unlock.",
             "login.btn": "Login",
             "admin.logout": "Logout",
+            "btn.load": "Load",
             "sec1.title": "1. Match Details",
             "sec1.match_id": "Match ID (e.g. match-9):",
             "sec1.status": "Match Status:",
@@ -416,6 +424,7 @@
     let currentAdminLang = localStorage.getItem('preferred_lang') || 'ja';
     let activeToken = localStorage.getItem('yc_gh_token') || '';
     let globalPlayers = [];
+    let allMatchesData = [];
     let trialistCount = 0;
 
     function setAdminLanguage(lang) {
@@ -441,7 +450,6 @@
         btn.addEventListener('click', () => setAdminLanguage(btn.getAttribute('data-lang')));
     });
 
-    // --- AUTENTICAZIONE GITHUB ---
     async function verifyAndLoginToken(token) {
         const loginErr = document.getElementById('loginError');
         const loginBtn = document.getElementById('loginBtn');
@@ -485,7 +493,6 @@
 
     if (activeToken) verifyAndLoginToken(activeToken);
 
-    // --- CARICAMENTO JSON ---
     async function initData() {
         try {
             // 1. Opponents
@@ -523,8 +530,21 @@
             // 3. Players
             const pRes = await fetch('players.json');
             globalPlayers = await pRes.json();
+            
+            // 4. Matches (per ricerca automatica)
+            try {
+                const mRes = await fetch('matches.json');
+                allMatchesData = await mRes.json();
+            } catch(e) { console.error("matches.json non trovato."); }
+
             renderPitchAndBench();
             updateAllPlayerDropdowns();
+
+            // Evento ricerca automatica su blur da ID
+            document.getElementById('matchId').addEventListener('blur', () => {
+                const val = document.getElementById('matchId').value.trim();
+                if (val) loadExistingMatchData(false);
+            });
 
         } catch(e) {
             console.error("Errore caricamento dati:", e);
@@ -539,12 +559,11 @@
         }
     }
 
-    // --- RENDERING CAMPO TATTICO & PANCHINA ---
     function renderPitchAndBench() {
         const formationKey = document.getElementById('formationSelect').value;
         const positions = FORMATIONS[formationKey] || FORMATIONS["4-4-2"];
         
-        // 1. Render Titolari
+        // 1. Titolari
         const pitchGrid = document.getElementById('pitchGrid');
         pitchGrid.innerHTML = positions.map((posTag, idx) => `
             <div class="pitch-position-card">
@@ -553,12 +572,11 @@
                     <span style="font-size: 0.72rem; color: #94a3b8;">Pos #${idx + 1}</span>
                 </div>
                 <select class="form-control player-dropdown-dynamic starter-player-select match-squad-select" data-pos="${posTag}">
-                    <!-- Popolato dinamicamente -->
                 </select>
             </div>
         `).join('');
 
-        // 2. Render Panchina (10 Slots)
+        // 2. Panchina (10 Slots)
         const benchGrid = document.getElementById('benchGrid');
         const t = adminTranslations[currentAdminLang] || adminTranslations['ja'];
         
@@ -570,7 +588,6 @@
                         <span>#${i} Panchina</span>
                     </div>
                     <select class="form-control player-dropdown-dynamic bench-player-select match-squad-select">
-                        <!-- Popolato dinamicamente -->
                     </select>
                     <div class="bench-sub-row">
                         <label>
@@ -597,7 +614,197 @@
 
     document.getElementById('formationSelect').addEventListener('change', renderPitchAndBench);
 
-    // --- AGGIUNTA TRIALIST ---
+    // --- CARICAMENTO AUTOMATICO DATI PARTITA ESISTENTE ---
+    async function loadExistingMatchData(showAlerts = true) {
+        const searchId = document.getElementById('matchId').value.trim().toLowerCase();
+        if (!searchId) return;
+
+        const statusMsg = document.getElementById('statusMsg');
+        
+        // Ricarica sempre l'ultimo matches.json per avere i dati aggiornati
+        try {
+            const mRes = await fetch('matches.json?t=' + Date.now());
+            if (mRes.ok) allMatchesData = await mRes.json();
+        } catch(e) {}
+
+        const match = allMatchesData.find(m => String(m.id).toLowerCase() === searchId);
+
+        if (!match) {
+            if (showAlerts) {
+                statusMsg.style.color = '#d97706';
+                statusMsg.innerHTML = `ℹ️ Nessuna partita trovata con ID "${searchId}". Inserisci i nuovi dati.`;
+            }
+            return;
+        }
+
+        statusMsg.style.color = '#0284c7';
+        statusMsg.innerHTML = `✅ Dati trovati per ${match.id}! Compilazione automatica...`;
+
+        // 1. Compilazione Campi Generali
+        if (match.status) document.getElementById('matchStatus').value = match.status;
+        if (match.date) document.getElementById('matchDate').value = match.date;
+        if (match.time) document.getElementById('matchTime').value = match.time;
+        if (match.category) document.getElementById('matchCategory').value = match.category;
+        if (match.type) document.getElementById('matchType').value = match.type;
+        if (match.opponent_id) document.getElementById('opponentSelect').value = match.opponent_id;
+        if (match.location_id) document.getElementById('locationSelect').value = match.location_id;
+        if (match.isHome !== undefined) document.getElementById('isHome').value = String(match.isHome);
+        if (match.score) document.getElementById('matchScore').value = match.score;
+
+        // 2. Modulo Tattico
+        if (match.formation) {
+            const formSel = document.getElementById('formationSelect');
+            formSel.value = FORMATIONS[match.formation] ? match.formation : 'custom';
+            renderPitchAndBench();
+        }
+
+        // 3. Titolari e Posizioni
+        if (match.starters_positions) {
+            Object.entries(match.starters_positions).forEach(([posTag, pName]) => {
+                const targetSel = document.querySelector(`#pitchGrid .starter-player-select[data-pos="${posTag}"]`);
+                if (targetSel) targetSel.value = pName;
+            });
+        } else if (Array.isArray(match.starters)) {
+            const startersSelects = document.querySelectorAll('#pitchGrid .starter-player-select');
+            match.starters.forEach((pName, idx) => {
+                if (startersSelects[idx]) startersSelects[idx].value = pName;
+            });
+        }
+
+        // 4. Panchina e Sostituzioni
+        if (Array.isArray(match.bench_details)) {
+            match.bench_details.forEach((bItem, idx) => {
+                const slotElem = document.getElementById(`benchSlot_${idx + 1}`);
+                if (slotElem) {
+                    const pSelect = slotElem.querySelector('.bench-player-select');
+                    const chkSub = slotElem.querySelector('.bench-subbed-in');
+                    const posSel = slotElem.querySelector('.bench-pos-select');
+
+                    if (pSelect) pSelect.value = bItem.player || '';
+                    if (chkSub) {
+                        chkSub.checked = !!bItem.subbed_in;
+                        toggleBenchPosSelect(chkSub);
+                    }
+                    if (posSel && bItem.position_played) posSel.value = bItem.position_played;
+                }
+            });
+        } else if (Array.isArray(match.substitutes_in) || Array.isArray(match.substitutes_unused)) {
+            const allBench = [...(match.substitutes_in || []), ...(match.substitutes_unused || [])];
+            allBench.forEach((pName, idx) => {
+                const slotElem = document.getElementById(`benchSlot_${idx + 1}`);
+                if (slotElem) {
+                    const pSelect = slotElem.querySelector('.bench-player-select');
+                    const chkSub = slotElem.querySelector('.bench-subbed-in');
+                    if (pSelect) pSelect.value = pName;
+                    if (chkSub && match.substitutes_in && match.substitutes_in.includes(pName)) {
+                        chkSub.checked = true;
+                        toggleBenchPosSelect(chkSub);
+                    }
+                }
+            });
+        }
+
+        // 5. Statistiche Dinamiche (Pulisci container prima di ricostruire)
+        document.getElementById('scorersContainer').innerHTML = '';
+        document.getElementById('assistsContainer').innerHTML = '';
+        document.getElementById('gkContainer').innerHTML = '';
+        document.getElementById('yellowCardsContainer').innerHTML = '';
+        document.getElementById('redCardsContainer').innerHTML = '';
+
+        // Marcatori
+        if (match.scorers && match.scorers !== 'なし' && match.scorers !== 'Nessuno') {
+            match.scorers.split(/[,、]/).forEach(entry => {
+                let text = entry.trim();
+                let count = 1;
+                const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
+                if (multMatch) {
+                    text = multMatch[1].trim();
+                    count = parseInt(multMatch[2], 10) || 1;
+                }
+                addScorerRow();
+                const lastRow = document.querySelector('#scorersContainer .stat-row:last-child');
+                if (lastRow) {
+                    lastRow.querySelector('.scorer-player-select').value = text;
+                    lastRow.querySelector('.row-count-input').value = count;
+                }
+            });
+        }
+
+        // Assist
+        if (match.assists && match.assists !== 'なし' && match.assists !== 'Nessuno') {
+            match.assists.split(/[,、]/).forEach(entry => {
+                let text = entry.trim();
+                let count = 1;
+                const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
+                if (multMatch) {
+                    text = multMatch[1].trim();
+                    count = parseInt(multMatch[2], 10) || 1;
+                }
+                addAssistRow();
+                const lastRow = document.querySelector('#assistsContainer .stat-row:last-child');
+                if (lastRow) {
+                    lastRow.querySelector('.assist-player-select').value = text;
+                    lastRow.querySelector('.row-count-input').value = count;
+                }
+            });
+        }
+
+        // Portieri
+        if (match.goalkeepers) {
+            match.goalkeepers.split(/[,、]/).forEach(entry => {
+                const gkMatch = entry.trim().match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
+                let rawGk = entry.trim();
+                let gkGa = 0;
+                if (gkMatch) {
+                    rawGk = gkMatch[1].trim();
+                    gkGa = parseInt(gkMatch[2], 10) || 0;
+                }
+                addGkRow();
+                const lastRow = document.querySelector('#gkContainer .stat-row:last-child');
+                if (lastRow) {
+                    lastRow.querySelector('.gk-player-select').value = rawGk;
+                    lastRow.querySelector('.row-count-input').value = gkGa;
+                }
+            });
+        }
+
+        // MVP
+        if (match.mvp) document.getElementById('mvpSelect').value = match.mvp;
+
+        // Cartellini
+        if (match.yellow_cards) {
+            match.yellow_cards.split(/[,、]/).forEach(name => {
+                if (name.trim()) {
+                    addYellowCardRow();
+                    const lastRow = document.querySelector('#yellowCardsContainer .stat-row:last-child');
+                    if (lastRow) lastRow.querySelector('.yellow-player-select').value = name.trim();
+                }
+            });
+        }
+        if (match.red_cards) {
+            match.red_cards.split(/[,、]/).forEach(name => {
+                if (name.trim()) {
+                    addRedCardRow();
+                    const lastRow = document.querySelector('#redCardsContainer .stat-row:last-child');
+                    if (lastRow) lastRow.querySelector('.red-player-select').value = name.trim();
+                }
+            });
+        }
+
+        updatePlayerExclusions();
+    }
+
+    function resetForm() {
+        document.getElementById('matchForm').reset();
+        document.getElementById('scorersContainer').innerHTML = '';
+        document.getElementById('assistsContainer').innerHTML = '';
+        document.getElementById('gkContainer').innerHTML = '';
+        document.getElementById('yellowCardsContainer').innerHTML = '';
+        document.getElementById('redCardsContainer').innerHTML = '';
+        document.getElementById('statusMsg').innerHTML = '';
+        renderPitchAndBench();
+    }
+
     function addTrialistPlayer() {
         trialistCount++;
         const tId = `trialist_${trialistCount}`;
@@ -608,7 +815,6 @@
         updateAllPlayerDropdowns();
     }
 
-    // --- AGGIORNAMENTO E ESCLUSIONE DINAMICA GIOCATORI ---
     function getAllAvailablePlayers(onlyGoalkeepers = false) {
         const list = [{ name: "Nessuno / なし", value: "" }];
         
@@ -636,13 +842,11 @@
         const allOptionsHTML = allPlayers.map(p => `<option value="${p.value}">${p.name}</option>`).join('');
         const gkOptionsHTML = gkPlayers.map(p => `<option value="${p.value}">${p.name}</option>`).join('');
 
-        // MVP Select
         const mvpSelect = document.getElementById('mvpSelect');
         const currentMvp = mvpSelect.value;
         mvpSelect.innerHTML = allOptionsHTML;
         mvpSelect.value = currentMvp;
 
-        // Dynamic Field Selects (Titolari, Panchina e Eventi)
         document.querySelectorAll('.player-dropdown-dynamic').forEach(select => {
             const currentVal = select.value;
             if (select.classList.contains('gk-player-select')) {
@@ -652,34 +856,27 @@
             }
             select.value = currentVal;
             
-            // Collega l'evento di cambio per aggiornare le esclusioni
             if (select.classList.contains('match-squad-select')) {
                 select.removeEventListener('change', updatePlayerExclusions);
                 select.addEventListener('change', updatePlayerExclusions);
             }
         });
 
-        // Esegui il controllo esclusioni
         updatePlayerExclusions();
     }
 
-    /* FUNZIONE PER DISABILITARE I GIOCATORI GIÀ SELEZIONATI */
     function updatePlayerExclusions() {
         const squadSelects = document.querySelectorAll('.match-squad-select');
         const selectedValues = new Set();
 
-        // Raccogli tutti i giocatori attualmente selezionati
         squadSelects.forEach(select => {
-            if (select.value) {
-                selectedValues.add(select.value);
-            }
+            if (select.value) selectedValues.add(select.value);
         });
 
-        // Aggiorna lo stato "disabled" di ogni opzione in ciascun selettore
         squadSelects.forEach(select => {
             const currentValue = select.value;
             Array.from(select.options).forEach(option => {
-                if (!option.value) return; // Salta "Nessuno"
+                if (!option.value) return;
                 
                 if (selectedValues.has(option.value) && option.value !== currentValue) {
                     option.disabled = true;
@@ -692,7 +889,6 @@
         });
     }
 
-    // --- GENERATORE RIGHE DINAMICHE PER STATISTICHE ---
     function createDynamicRow(selectClass, hasCountInput = true, countLabel = "Gol:", onlyGK = false) {
         const players = getAllAvailablePlayers(onlyGK);
         const div = document.createElement('div');
@@ -702,30 +898,16 @@
                 ${players.map(p => `<option value="${p.value}">${p.name}</option>`).join('')}
             </select>
             ${hasCountInput ? `<label>${countLabel}</label><input type="number" class="form-control row-count-input" value="1" min="0" max="20">` : ''}
-            <button type="button" class="btn-remove-row" onclick="this.parentElement.remove()"><i class="fas fa-trash"></i></button>
+            <button type="button" class="btn-remove-row" onclick="this.parentElement.remove(); updatePlayerExclusions();"><i class="fas fa-trash"></i></button>
         `;
         return div;
     }
 
-    function addScorerRow() {
-        document.getElementById('scorersContainer').appendChild(createDynamicRow('scorer-player-select', true, "Gol:", false));
-    }
-
-    function addAssistRow() {
-        document.getElementById('assistsContainer').appendChild(createDynamicRow('assist-player-select', true, "Assist:", false));
-    }
-
-    function addGkRow() {
-        document.getElementById('gkContainer').appendChild(createDynamicRow('gk-player-select', true, "Gol Subiti:", true));
-    }
-
-    function addYellowCardRow() {
-        document.getElementById('yellowCardsContainer').appendChild(createDynamicRow('yellow-player-select', false, "", false));
-    }
-
-    function addRedCardRow() {
-        document.getElementById('redCardsContainer').appendChild(createDynamicRow('red-player-select', false, "", false));
-    }
+    function addScorerRow() { document.getElementById('scorersContainer').appendChild(createDynamicRow('scorer-player-select', true, "Gol:", false)); }
+    function addAssistRow() { document.getElementById('assistsContainer').appendChild(createDynamicRow('assist-player-select', true, "Assist:", false)); }
+    function addGkRow() { document.getElementById('gkContainer').appendChild(createDynamicRow('gk-player-select', true, "Gol Subiti:", true)); }
+    function addYellowCardRow() { document.getElementById('yellowCardsContainer').appendChild(createDynamicRow('yellow-player-select', false, "", false)); }
+    function addRedCardRow() { document.getElementById('redCardsContainer').appendChild(createDynamicRow('red-player-select', false, "", false)); }
 
     setAdminLanguage(currentAdminLang);
 
