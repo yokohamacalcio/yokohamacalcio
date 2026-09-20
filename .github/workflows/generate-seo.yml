@@ -29,8 +29,8 @@ jobs:
         with:
           python-version: '3.11'
 
-      # 1. VALIDAZIONE JSON
-      - name: Validate JSON files
+      # 1. VALIDAZIONE JSON SORGENTI
+      - name: Validate JSON source files
         run: |
           node -e '
           const fs = require("fs");
@@ -49,7 +49,7 @@ jobs:
           });
           '
 
-      # 2. GENERAZIONE HTML STATICO E SCHEMA-EVENTS.JSON TRAMITE PYTHON
+      # 2. GENERAZIONE STATS.JSON, HTML STATICO E SCHEMA JSON-LD TRAMITE PYTHON
       - name: Run Python Static HTML Generator
         run: python scripts/generate_seo.py
 
@@ -69,7 +69,7 @@ jobs:
           }
           '
 
-      # 4. COMMIT & PUSH SICURO
+      # 4. COMMIT & PUSH SICURO (Includerà anche stats.json e gli HTML modificati)
       - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
@@ -78,7 +78,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "ℹ️ Nessuna modifica da committare."
           else
-            git commit -m "Auto-generate static HTML & SEO [skip ci]"
+            git commit -m "Auto-generate static HTML, stats & SEO [skip ci]"
             git push
           fi
 
