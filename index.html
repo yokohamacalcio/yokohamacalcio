@@ -386,7 +386,7 @@
             white-space: nowrap;
         }
         .main-nav .nav-item {
-            position: relative;
+            position: relative !important;
             display: inline-flex;
             align-items: center;
         }
@@ -429,6 +429,38 @@
         .main-nav .nav-cta-btn:hover {
             background: var(--primary-sky, #87ceeb) !important;
             color: var(--dark-navy, #003c82) !important;
+        }
+
+        /* DROPDOWN MENU DESKTOP FLUTTUANTE (POSIZIONAMENTO ASSOLUTO REALE) */
+        .main-nav .dropdown-menu {
+            display: none;
+            position: absolute !important;
+            top: 100% !important;
+            left: 0 !important;
+            z-index: 1000 !important;
+            min-width: 190px;
+            background: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 8px 0;
+            margin-top: 6px;
+            white-space: nowrap;
+        }
+
+        .main-nav .dropdown-menu a {
+            display: block !important;
+            padding: 10px 16px !important;
+            color: var(--dark-navy, #003c82) !important;
+            text-decoration: none !important;
+            font-size: 0.88rem !important;
+            font-weight: 600 !important;
+            transition: background 0.2s ease, color 0.2s ease !important;
+            text-align: left !important;
+        }
+
+        .main-nav .dropdown-menu a:hover {
+            background-color: #f1f5f9 !important;
+            color: var(--primary-sky, #87ceeb) !important;
         }
 
         /* Stato "aperto" dropdown */
