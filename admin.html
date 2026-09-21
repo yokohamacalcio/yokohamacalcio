@@ -855,11 +855,12 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                 <div class="row" style="margin-top: 10px; align-items: flex-end;">
                     <div class="form-group" style="flex: 2;">
                         <label data-i18n="lblMatchId">ID Match (es. match-9):</label>
-                        <div style="display: flex; gap: 6px;">
-                            <input type="text" id="matchId" class="form-control" placeholder="match-9" required>
+                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                            <input type="text" id="matchId" class="form-control" placeholder="match-9" required style="flex: 1; min-width: 120px;">
                             <button type="button" class="btn-load" data-action="load-match" title="Carica"><i class="fas fa-search"></i></button>
                             <button type="button" class="btn-load" data-action="duplicate-match" title="Duplica" style="background: var(--amber);"><i class="fas fa-clone"></i></button>
                             <button type="button" class="btn-new-match" data-action="new-match"><i class="fas fa-plus-circle"></i> <span data-i18n="btnNewMatch">Nuova</span></button>
+                            <button type="button" class="btn-delete" data-action="delete-match" title="Elimina Partita" style="padding: 10px 14px; white-space: nowrap;"><i class="fas fa-trash"></i> <span data-i18n="btnDeleteMatch">Elimina</span></button>
                         </div>
                     </div>
                     <div class="form-group">
@@ -1290,7 +1291,7 @@ const I18N_DICT = {
         btnReset: "Reset", btnLogout: "Logout",
         btnSaveMatch: "Salva Partita e Aggiorna Statistiche",
         btnSavePlayer: "Salva su GitHub", btnSaveOpponent: "Salva su GitHub", btnSaveLocation: "Salva su GitHub",
-        btnNewMatch: "Nuova", btnGenerateLine: "Genera Testo", btnCopyLine: "Copia negli Appunti",
+        btnNewMatch: "Nuova", btnDeleteMatch: "Elimina", btnGenerateLine: "Genera Testo", btnCopyLine: "Copia negli Appunti",
         btnClearPitch: "Cancella", btnAddTrialist: "+ Aggiungi Giocatore in Prova",
         btnAddScorer: "Aggiungi Marcatore", btnAddAssist: "Aggiungi Assistman",
         btnAddGk: "Aggiungi Portiere", btnAddYellow: "Aggiungi", btnAddRed: "Aggiungi",
@@ -1340,7 +1341,7 @@ const I18N_DICT = {
         btnReset: "リセット", btnLogout: "ログアウト",
         btnSaveMatch: "試合結果を保存してスタッツ更新",
         btnSavePlayer: "GitHub に保存", btnSaveOpponent: "GitHub に保存", btnSaveLocation: "GitHub に保存",
-        btnNewMatch: "新規", btnGenerateLine: "招集文を生成", btnCopyLine: "コピー",
+        btnNewMatch: "新規", btnDeleteMatch: "削除", btnGenerateLine: "招集文を生成", btnCopyLine: "コピー",
         btnClearPitch: "クリア", btnAddTrialist: "+ 練習生を追加",
         btnAddScorer: "得点者を追加", btnAddAssist: "アシストを追加",
         btnAddGk: "GKを追加", btnAddYellow: "追加", btnAddRed: "追加",
@@ -1388,7 +1389,7 @@ const I18N_DICT = {
         btnReset: "Reset", btnLogout: "Logout",
         btnSaveMatch: "Save Match & Update Stats",
         btnSavePlayer: "Save to GitHub", btnSaveOpponent: "Save to GitHub", btnSaveLocation: "Save to GitHub",
-        btnNewMatch: "New", btnGenerateLine: "Generate Text", btnCopyLine: "Copy",
+        btnNewMatch: "New", btnDeleteMatch: "Delete", btnGenerateLine: "Generate Text", btnCopyLine: "Copy",
         btnClearPitch: "Clear", btnAddTrialist: "+ Add Trialist",
         btnAddScorer: "Add Scorer", btnAddAssist: "Add Assist",
         btnAddGk: "Add GK", btnAddYellow: "Add", btnAddRed: "Add",
@@ -1537,6 +1538,43 @@ function base64ToUtf8(b64) {
     return new TextDecoder().decode(bytes);
 }
 
+// Resolver Flessibile del Giocatore per Dropdown
+function findMatchingPlayerValue(raw) {
+    if (!raw) return '';
+    const cleanRaw = cleanStr(raw);
+    if (!cleanRaw) return '';
+
+    // Cerca match esatto tra ID, Kanji, Kana e Romaji
+    const p = State.players.find(x => 
+        cleanStr(x.id) === cleanRaw ||
+        cleanStr(x.name_kanji) === cleanRaw ||
+        cleanStr(x.name_kana) === cleanRaw ||
+        cleanStr(x.name_romaji) === cleanRaw
+    );
+    if (p) return p.name_kanji || p.name_romaji || p.id;
+
+    const tPlayer = State.trialists.find(x => 
+        cleanStr(x.id) === cleanRaw ||
+        cleanStr(x.name_kanji) === cleanRaw ||
+        cleanStr(x.name_romaji) === cleanRaw
+    );
+    if (tPlayer) return tPlayer.name_kanji || tPlayer.name_romaji;
+
+    // Match parziale (fallback)
+    const minLen = isJapanese(cleanRaw) ? 2 : 3;
+    if (cleanRaw.length >= minLen) {
+        const pSub = State.players.find(x => {
+            const k = cleanStr(x.name_kanji), r = cleanStr(x.name_romaji), id = cleanStr(x.id);
+            return (k && (k.includes(cleanRaw) || cleanRaw.includes(k))) ||
+                   (r && (r.includes(cleanRaw) || cleanRaw.includes(r))) ||
+                   (id && (id.includes(cleanRaw) || cleanRaw.includes(id)));
+        });
+        if (pSub) return pSub.name_kanji || pSub.name_romaji || pSub.id;
+    }
+
+    return raw;
+}
+
 /* =========================================================
    TOAST & MODAL
    ========================================================= */
@@ -1658,7 +1696,7 @@ function updateDarkIcon() {
 }
 
 /* =========================================================
-   GITHUB API (CORRETTO BUG #4)
+   GITHUB API
    ========================================================= */
 async function ghGet(filePath) {
     const url = `https://api.github.com/repos/${REPO}/contents/${filePath}`;
@@ -1669,7 +1707,6 @@ async function ghGet(filePath) {
         }
     });
     
-    // FIX BUG #4: Restituisci {} se il file è opponents o locations, altrimenti []
     const isObject = filePath === 'opponents.json' || filePath === 'locations.json';
     if (res.status === 404) return { sha: null, content: isObject ? {} : [] };
     
@@ -2030,7 +2067,7 @@ function resetLocationForm() {
 }
 
 /* =========================================================
-   RENDER & EDIT: PLAYERS (CORRETTO BUG #6)
+   RENDER & EDIT: PLAYERS
    ========================================================= */
 function renderPlayersTable() {
     let rows = State.players.slice();
@@ -2077,7 +2114,6 @@ function renderPlayersTable() {
 
 async function savePlayerToSquad() {
     const rawNum = $('pNumber').value.trim();
-    // FIX BUG #6: Parsing corretto per evitare NaN
     const parsedNum = rawNum !== '' && !isNaN(parseInt(rawNum, 10)) ? parseInt(rawNum, 10) : null;
     
     const kanji = $('pNameKanji').value.trim();
@@ -2370,7 +2406,7 @@ function addYellowRow() { $('yellowCardsContainer').appendChild(createStatRow('y
 function addRedRow() { $('redCardsContainer').appendChild(createStatRow('red-player-select', { hasCount: false, hasMinute: true })); }
 
 /* =========================================================
-   MATCH MANAGEMENT
+   MATCH MANAGEMENT (CARICA & ELIMINA)
    ========================================================= */
 async function loadMatchData(id, quiet = false) {
     if (!id) return;
@@ -2413,10 +2449,12 @@ async function loadMatchData(id, quiet = false) {
         renderPitchAndBench();
     }
 
+    updateAllPlayerDropdowns();
+
     if (match.starters_positions) {
         Object.entries(match.starters_positions).forEach(([pos, name]) => {
             const sel = document.querySelector(`#pitchGrid .pitch-player-select[data-pos="${pos}"]`);
-            if (sel) sel.value = name;
+            if (sel) sel.value = findMatchingPlayerValue(name);
         });
     }
 
@@ -2427,7 +2465,7 @@ async function loadMatchData(id, quiet = false) {
             const pSel = slot.querySelector('.bench-player-select');
             const chk = slot.querySelector('.bench-subbed-in');
             const posSel = slot.querySelector('.bench-pos-select');
-            if (pSel) pSel.value = b.player || '';
+            if (pSel) pSel.value = findMatchingPlayerValue(b.player);
             if (chk) {
                 chk.checked = !!b.subbed_in;
                 chk.dispatchEvent(new Event('change'));
@@ -2438,86 +2476,157 @@ async function loadMatchData(id, quiet = false) {
 
     ['scorers', 'assists', 'gk', 'yellow', 'red'].forEach(k => $(k + 'Container').innerHTML = '');
 
-    if (match.scorers && match.scorers !== 'なし' && match.scorers !== 'Nessuno') {
-        match.scorers.split(/[,、]/).forEach(entry => {
-            let text = entry.trim(), count = 1, min = '';
-            const mMin = text.match(/\((.*?)\)/);
-            if (mMin) { min = mMin[1].replace("'", '').trim(); text = text.replace(/\(.*?\)/, '').trim(); }
-            const mCnt = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
-            if (mCnt) { text = mCnt[1].trim(); count = parseInt(mCnt[2], 10) || 1; }
+    // PARSING MARCATORI
+    const scorerItems = Array.isArray(match.scorers) ? match.scorers : (match.scorers ? String(match.scorers).split(/[,、]/) : []);
+    scorerItems.forEach(entry => {
+        let text = String(entry).trim(), count = 1, min = '';
+        if (!text || text === 'なし' || text === 'Nessuno') return;
+        const mMin = text.match(/\((.*?)\)/);
+        if (mMin) { min = mMin[1].replace("'", '').trim(); text = text.replace(/\(.*?\)/, '').trim(); }
+        const mCnt = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
+        if (mCnt) { text = mCnt[1].trim(); count = parseInt(mCnt[2], 10) || 1; }
+        
+        const matchedVal = findMatchingPlayerValue(text);
+        if (matchedVal) {
             addScorerRow();
             const last = $('scorersContainer').querySelector('.stat-row:last-child');
             if (last) {
-                last.querySelector('.scorer-player-select').value = text;
+                last.querySelector('.scorer-player-select').value = matchedVal;
                 last.querySelector('.row-count-input').value = count;
                 if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
             }
-        });
-    }
+        }
+    });
 
-    if (match.assists && match.assists !== 'なし' && match.assists !== 'Nessuno') {
-        match.assists.split(/[,、]/).forEach(entry => {
-            let text = entry.trim(), count = 1;
-            const m = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
-            if (m) { text = m[1].trim(); count = parseInt(m[2], 10) || 1; }
+    // PARSING ASSISTMAN
+    const assistItems = Array.isArray(match.assists) ? match.assists : (match.assists ? String(match.assists).split(/[,、]/) : []);
+    assistItems.forEach(entry => {
+        let text = String(entry).trim(), count = 1;
+        if (!text || text === 'なし' || text === 'Nessuno') return;
+        const m = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
+        if (m) { text = m[1].trim(); count = parseInt(m[2], 10) || 1; }
+        
+        const matchedVal = findMatchingPlayerValue(text);
+        if (matchedVal) {
             addAssistRow();
             const last = $('assistsContainer').querySelector('.stat-row:last-child');
             if (last) {
-                last.querySelector('.assist-player-select').value = text;
+                last.querySelector('.assist-player-select').value = matchedVal;
                 last.querySelector('.row-count-input').value = count;
             }
-        });
-    }
+        }
+    });
 
-    if (match.goalkeepers) {
-        match.goalkeepers.split(/[,、]/).forEach(entry => {
-            const m = entry.trim().match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
-            let raw = entry.trim(), ga = 0;
-            if (m) { raw = m[1].trim(); ga = parseInt(m[2], 10) || 0; }
+    // PARSING PORTIERI
+    const gkItems = Array.isArray(match.goalkeepers) ? match.goalkeepers : (match.goalkeepers ? String(match.goalkeepers).split(/[,、]/) : []);
+    gkItems.forEach(entry => {
+        let text = String(entry).trim(), ga = 0;
+        if (!text) return;
+        const m = text.match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
+        if (m) { text = m[1].trim(); ga = parseInt(m[2], 10) || 0; }
+        
+        const matchedVal = findMatchingPlayerValue(text);
+        if (matchedVal) {
             addGkRow();
             const last = $('gkContainer').querySelector('.stat-row:last-child');
             if (last) {
-                last.querySelector('.gk-player-select').value = raw;
+                last.querySelector('.gk-player-select').value = matchedVal;
                 last.querySelector('.row-count-input').value = ga;
             }
-        });
+        }
+    });
+
+    // PARSING MVP
+    if (match.mvp) {
+        const mvpVal = findMatchingPlayerValue(match.mvp);
+        if (mvpVal) $('mvpSelect').value = mvpVal;
     }
 
-    if (match.mvp) $('mvpSelect').value = match.mvp;
+    // PARSING GIALLI
+    const yellowItems = Array.isArray(match.yellow_cards) ? match.yellow_cards : (match.yellow_cards ? String(match.yellow_cards).split(/[,、]/) : []);
+    yellowItems.forEach(entry => {
+        let text = String(entry).trim(), min = '';
+        if (!text) return;
+        const mMin = text.match(/\((.*?)\)/);
+        if (mMin) { min = mMin[1].replace("'", '').trim(); text = text.replace(/\(.*?\)/, '').trim(); }
+        
+        const matchedVal = findMatchingPlayerValue(text);
+        if (matchedVal) {
+            addYellowRow();
+            const last = $('yellowCardsContainer').querySelector('.stat-row:last-child');
+            if (last) {
+                last.querySelector('.yellow-player-select').value = matchedVal;
+                if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
+            }
+        }
+    });
 
-    if (match.yellow_cards) {
-        match.yellow_cards.split(/[,、]/).forEach(entry => {
-            let text = entry.trim(), min = '';
-            const mMin = text.match(/\((.*?)\)/);
-            if (mMin) { min = mMin[1].replace("'", '').trim(); text = text.replace(/\(.*?\)/, '').trim(); }
-            if (text) {
-                addYellowRow();
-                const last = $('yellowCardsContainer').querySelector('.stat-row:last-child');
-                if (last) {
-                    last.querySelector('.yellow-player-select').value = text;
-                    if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
-                }
+    // PARSING ROSSI
+    const redItems = Array.isArray(match.red_cards) ? match.red_cards : (match.red_cards ? String(match.red_cards).split(/[,、]/) : []);
+    redItems.forEach(entry => {
+        let text = String(entry).trim(), min = '';
+        if (!text) return;
+        const mMin = text.match(/\((.*?)\)/);
+        if (mMin) { min = mMin[1].replace("'", '').trim(); text = text.replace(/\(.*?\)/, '').trim(); }
+        
+        const matchedVal = findMatchingPlayerValue(text);
+        if (matchedVal) {
+            addRedRow();
+            const last = $('redCardsContainer').querySelector('.stat-row:last-child');
+            if (last) {
+                last.querySelector('.red-player-select').value = matchedVal;
+                if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
             }
-        });
-    }
-    if (match.red_cards) {
-        match.red_cards.split(/[,、]/).forEach(entry => {
-            let text = entry.trim(), min = '';
-            const mMin = text.match(/\((.*?)\)/);
-            if (mMin) { min = mMin[1].replace("'", '').trim(); text = text.replace(/\(.*?\)/, '').trim(); }
-            if (text) {
-                addRedRow();
-                const last = $('redCardsContainer').querySelector('.stat-row:last-child');
-                if (last) {
-                    last.querySelector('.red-player-select').value = text;
-                    if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
-                }
-            }
-        });
-    }
+        }
+    });
 
     updatePlayerExclusions();
     updateFilledCards();
+}
+
+async function deleteMatch() {
+    const currentId = $('matchId').value.trim();
+    if (!currentId) {
+        showToast('warn', 'Inserisci o carica prima un ID Match.');
+        return;
+    }
+    const matchIndex = State.matches.findIndex(m => String(m.id).toLowerCase() === currentId.toLowerCase());
+    if (matchIndex === -1) {
+        showToast('error', `Nessuna partita trovata con ID "${currentId}".`);
+        return;
+    }
+
+    const ok = await showConfirm(`Sei sicuro di voler eliminare definitivamente la partita "${currentId}"?`, true, 'Elimina Partita');
+    if (!ok) return;
+
+    const btn = $('submitBtn');
+    btn.disabled = true;
+    const statusEl = $('statusMsg');
+    statusEl.style.color = 'var(--sky-dark)';
+    statusEl.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Eliminazione partita in corso...`;
+
+    try {
+        const { sha } = await ghGet('matches.json');
+        State.matches.splice(matchIndex, 1);
+
+        const statsData = generateStatsJSON(State.players, State.matches);
+
+        await ghPut('matches.json', State.matches, sha, `Admin: Delete match ${currentId}`);
+        statusEl.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Aggiornamento stats.json...`;
+        const { sha: statsSha } = await ghGet('stats.json');
+        await ghPut('stats.json', statsData, statsSha, `Admin: Update stats after deleting ${currentId}`);
+
+        resetForm();
+        statusEl.style.color = 'var(--green)';
+        statusEl.innerHTML = `✅ Partita ${currentId} eliminata con successo`;
+        showToast('success', `✅ Partita ${currentId} eliminata e statistiche ricalcolate`);
+    } catch (e) {
+        statusEl.style.color = 'var(--red)';
+        statusEl.innerHTML = `❌ ${e.message}`;
+        showToast('error', '❌ ' + e.message, 8000);
+    } finally {
+        btn.disabled = false;
+    }
 }
 
 function newMatch() {
@@ -2565,7 +2674,7 @@ function resetForm() {
 }
 
 /* =========================================================
-   SAVE MATCH (CORRETTO BUG #3)
+   SAVE MATCH
    ========================================================= */
 async function saveMatch(e) {
     e.preventDefault();
@@ -2597,7 +2706,6 @@ async function saveMatch(e) {
         }
     });
 
-    // FIX BUG #3: Include minuto per i Marcatori
     const scorerDetails = [];
     $$('.stat-row .scorer-player-select').forEach(sel => {
         const p = sel.value;
@@ -2627,7 +2735,6 @@ async function saveMatch(e) {
     });
     const goalkeepers = gkList.join(', ');
 
-    // FIX BUG #3: Include minuto per Gialli e Rossi
     const yellows = [];
     $$('.stat-row .yellow-player-select').forEach(sel => {
         const p = sel.value;
@@ -2704,7 +2811,7 @@ async function saveMatch(e) {
 }
 
 /* =========================================================
-   STATS ENGINE (CORRETTI BUG #2 E BUG #5)
+   STATS ENGINE
    ========================================================= */
 function generateStatsJSON(playersData, matchesData) {
     const playerMap = new Map();
@@ -2766,7 +2873,6 @@ function generateStatsJSON(playersData, matchesData) {
             teamTotals.formations_used[m.formation] = (teamTotals.formations_used[m.formation] || 0) + 1;
         }
 
-        // FIX BUG #2: Gestione corretta dei gol in Casa vs Trasferta
         let gf = 0, ga = 0;
         const s = m.score ? m.score.trim() : '';
         if (s.includes('-')) {
@@ -2865,7 +2971,6 @@ function generateStatsJSON(playersData, matchesData) {
 
     const list = Array.from(playerMap.values());
     
-    // FIX BUG #5: Filtraggio per escludere dai TOP 5 chi ha valore zero
     return {
         updated_at: new Date().toISOString(),
         team_totals: teamTotals,
@@ -2880,7 +2985,7 @@ function generateStatsJSON(playersData, matchesData) {
 }
 
 /* =========================================================
-   LINE TEXT & DRAFT & IMPORT/EXPORT (CORRETTO BUG #1)
+   LINE TEXT & DRAFT & IMPORT/EXPORT
    ========================================================= */
 function generateLineMessage() {
     const date = $('matchDate').value || '未定';
@@ -3141,7 +3246,6 @@ function importJSON() {
     input.click();
 }
 
-// FIX BUG #1: Implementazione vera dell'importazione dati
 $('importFileInput').addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -3206,10 +3310,12 @@ document.addEventListener('click', async (e) => {
         case 'switch-tab': {
             const tabId = actionEl.getAttribute('data-tab');
             if (State.isDirty && !await showConfirm(t('unsavedMsg'), false, '⚠️ ' + t('unsavedTitle'))) return;
-            $$('.tab-content').forEach(tc => tc.classList.add('hidden'));$$('.tab-btn').forEach(tb => {
+            $$('.tab-content').forEach(tc => tc.classList.add('hidden'));
+            $$('.tab-btn').forEach(tb => {
                 tb.classList.remove('active');
                 tb.setAttribute('aria-selected', 'false');
-            });$(tabId).classList.remove('hidden');
+            });
+            $(tabId).classList.remove('hidden');
             actionEl.classList.add('active');
             actionEl.setAttribute('aria-selected', 'true');
             if (tabId === 'locationsTab') renderSurfaceDropdown();
@@ -3218,6 +3324,7 @@ document.addEventListener('click', async (e) => {
         case 'new-match': newMatch(); break;
         case 'load-match': loadMatchData($('matchId').value.trim()); break;
         case 'duplicate-match': duplicateMatch(); break;
+        case 'delete-match': deleteMatch(); break;
         case 'add-scorer': addScorerRow(); break;
         case 'add-assist': addAssistRow(); break;
         case 'add-gk': addGkRow(); break;
