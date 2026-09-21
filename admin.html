@@ -180,14 +180,14 @@ body.dark .tab-btn:hover { color: var(--sky); }
 }
 body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); border-color: var(--sky); }
 
-/* MISTER HELPER BOX */
+/* MISTER HELPER BOX - REDESIGNED UI */
 .mister-helper-box {
-    background: linear-gradient(135deg, #00224a 0%, #001229 100%);
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 16px;
-    border: 1px solid rgba(135, 206, 235, 0.3);
-    box-shadow: 0 6px 20px rgba(0, 34, 74, 0.25);
+    background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(135, 206, 235, 0.25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 .mister-helper-header {
     display: flex;
@@ -195,99 +195,108 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     align-items: center;
     gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 12px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 .mister-helper-header strong {
     color: #ffffff;
-    font-size: 1rem;
+    font-size: 1.05rem;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
-.mister-helper-header strong i { color: #87ceeb; font-size: 1.1rem; }
+.mister-helper-header strong i { color: #87ceeb; font-size: 1.2rem; }
 .mister-helper-subtitle {
     display: block;
     color: #94a3b8;
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     font-weight: 500;
     margin-top: 2px;
-    margin-left: 26px;
 }
 .btn-suggest-lineup {
-    background: #87ceeb;
-    color: #00224a;
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+    color: #ffffff;
     border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
+    padding: 10px 18px;
+    border-radius: 10px;
     font-weight: 800;
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     font-family: inherit;
     transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
 }
 .btn-suggest-lineup:hover {
-    background: #a0d8ef;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(135,206,235,0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.6);
 }
 .mister-helper-body {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 10px;
 }
 .mister-pos-suggestion {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
-    padding: 8px 10px;
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 10px;
     color: #e2e8f0;
-    font-size: 0.75rem;
+    transition: transform 0.2s, border-color 0.2s;
+}
+.mister-pos-suggestion:hover {
+    border-color: rgba(135, 206, 235, 0.4);
+    transform: translateY(-2px);
+}
+.mister-pos-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
 }
 .mister-pos-suggestion .pos-label {
-    display: inline-block;
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
     color: #000;
     font-weight: 900;
-    font-size: 0.6rem;
-    padding: 2px 6px;
+    font-size: 0.65rem;
+    padding: 2px 7px;
     border-radius: 4px;
-    margin-bottom: 5px;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.4px;
 }
 .mister-pos-suggestion .pos-macro {
-    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-    color: #ffffff;
-    font-size: 0.55rem;
-    padding: 1px 4px;
-    border-radius: 3px;
-    margin-left: 4px;
-    vertical-align: middle;
+    background: rgba(255, 255, 255, 0.1);
+    color: #87ceeb;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
 }
 .mister-top-players {
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    margin-top: 4px;
+    gap: 4px;
 }
 .mister-player-line {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 6px;
-    font-size: 0.72rem;
-    padding: 2px 0;
-    border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+    font-size: 0.75rem;
+    padding: 4px 6px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.03);
 }
-.mister-player-line:last-child { border-bottom: none; }
+.mister-player-line.rank-1 { border-left: 3px solid #10b981; }
+.mister-player-line.rank-2 { border-left: 3px solid #f59e0b; }
+.mister-player-line.rank-3 { border-left: 3px solid #64748b; }
 .mister-player-line.empty {
     color: #64748b;
     font-style: italic;
     justify-content: center;
+    background: transparent;
 }
 .mister-player-name {
     color: #f1f5f9;
@@ -295,20 +304,17 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 110px;
+    max-width: 120px;
 }
 .mister-player-count {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(0, 0, 0, 0.3);
     color: #87ceeb;
     font-weight: 800;
-    padding: 1px 6px;
-    border-radius: 10px;
-    font-size: 0.68rem;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-size: 0.65rem;
     flex-shrink: 0;
 }
-.mister-player-line.rank-1 .mister-player-count { background: #10b981; color: #ffffff; }
-.mister-player-line.rank-2 .mister-player-count { background: #f59e0b; color: #ffffff; }
-.mister-player-line.rank-3 .mister-player-count { background: #64748b; color: #ffffff; }
 
 /* CAMPO TATTICO */
 .tactical-pitch-container {
@@ -897,7 +903,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     .form-control { font-size: 0.9rem; padding: 8px 10px; }
     .btn-submit { padding: 12px 16px; font-size: 0.95rem; }
     .pitch-grid { min-height: 420px; }
-    .mister-helper-body { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    .mister-helper-body { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
     #toastContainer { top: 10px; right: 10px; left: 10px; max-width: none; }
 }
 </style>
@@ -1147,7 +1153,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                     </div>
                 </div>
 
-                <!-- MISTER HELPER BOX -->
+                <!-- MISTER HELPER BOX REDESIGNED -->
                 <div class="mister-helper-box" id="misterHelperBox">
                     <div class="mister-helper-header">
                         <div>
@@ -1157,7 +1163,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                             </span>
                         </div>
                         <button type="button" class="btn-suggest-lineup" data-action="suggest-lineup">
-                            <i class="fas fa-magic"></i> <span data-i18n="misterHelper.btnSuggest">Suggerisci Formazione</span>
+                            <i class="fas fa-wand-magic-sparkles"></i> <span data-i18n="misterHelper.btnSuggest">Suggerisci Formazione</span>
                         </button>
                     </div>
                     <div class="mister-helper-body" id="misterHelperBody">
@@ -2016,10 +2022,14 @@ async function initData() {
     }
 }
 
+/* =========================================================
+   LOCALIZED OPPONENTS & LOCATIONS
+   ========================================================= */
 function renderOpponentsSelectAndTable() {
     const keys = Object.keys(State.opponents).sort();
     $('opponentSelect').innerHTML = keys.map(k => {
-        const name = State.opponents[k].name?.ja || State.opponents[k].name?.en || k;
+        const n = State.opponents[k].name || {};
+        const name = n[State.lang] || n.it || n.en || n.ja || k;
         return `<option value="${k}">${name} (${k})</option>`;
     }).join('');
 
@@ -2110,7 +2120,7 @@ function renderLocationsSelectAndTable() {
     const keys = Object.keys(State.locations).sort();
     $('locationSelect').innerHTML = keys.map(k => {
         const loc = State.locations[k];
-        const name = loc.ja || loc.en || k;
+        const name = loc[State.lang] || loc.it || loc.en || loc.ja || k;
         return `<option value="${k}">${name} (${k})</option>`;
     }).join('');
 
@@ -2412,6 +2422,9 @@ function getTopPlayersForPosition(posTag, limit = 3, excludeUsed = null) {
     return ranked;
 }
 
+/* =========================================================
+   REDESIGNED MISTER HELPER
+   ========================================================= */
 function renderMisterHelper() {
     const container = $('misterHelperBody');
     if (!container) return;
@@ -2426,8 +2439,8 @@ function renderMisterHelper() {
 
     if (Object.keys(State.statsData).length === 0) {
         container.innerHTML = `
-            <div style="color:#94a3b8; font-size:0.8rem; grid-column: 1/-1; text-align:center; padding: 10px;">
-                <i class="fas fa-info-circle"></i> Nessun dato statistico disponibile. Salva qualche partita per vedere i suggerimenti.
+            <div style="color:#94a3b8; font-size:0.8rem; grid-column: 1/-1; text-align:center; padding: 15px;">
+                <i class="fas fa-info-circle"></i> Nessun dato statistico disponibile. Salva qualche partita per sbloccare l'analisi dei ruoli.
             </div>
         `;
         return;
@@ -2441,15 +2454,17 @@ function renderMisterHelper() {
             ? top3.map((p, i) => `
                 <div class="mister-player-line rank-${i+1}">
                     <span class="mister-player-name" title="${p.name}">${p.name}</span>
-                    <span class="mister-player-count">${p.exact}/${p.macro + p.exact}</span>
+                    <span class="mister-player-count">${p.exact} / ${p.macro + p.exact}</span>
                 </div>
             `).join('')
             : '<div class="mister-player-line empty">— nessun dato —</div>';
 
         return `
             <div class="mister-pos-suggestion">
-                <span class="pos-label">${posTag}</span>
-                <span class="pos-macro">${macro}</span>
+                <div class="mister-pos-head">
+                    <span class="pos-label">${posTag}</span>
+                    <span class="pos-macro">${macro}</span>
+                </div>
                 <div class="mister-top-players">${playersHtml}</div>
             </div>
         `;
@@ -2686,9 +2701,6 @@ function addGkRow() { $('gkContainer').appendChild(createStatRow('gk-player-sele
 function addYellowRow() { $('yellowCardsContainer').appendChild(createStatRow('yellow-player-select', { hasCount: false, hasMinute: true })); }
 function addRedRow() { $('redCardsContainer').appendChild(createStatRow('red-player-select', { hasCount: false, hasMinute: true })); }
 
-/* =========================================================
-   FIXED: LOAD MATCH DATA
-   ========================================================= */
 async function loadMatchData(id, quiet = false) {
     if (!id) return;
     id = id.toLowerCase();
@@ -2775,7 +2787,6 @@ async function loadMatchData(id, quiet = false) {
     $('yellowCardsContainer').innerHTML = '';
     $('redCardsContainer').innerHTML = '';
 
-    // ---- MARCATORI ----
     const scorerRaw = match.scorers || '';
     const scorerItems = Array.isArray(scorerRaw) ? scorerRaw : String(scorerRaw).split(/[,、]/);
     scorerItems.forEach(entry => {
@@ -2807,7 +2818,6 @@ async function loadMatchData(id, quiet = false) {
         }
     });
 
-    // ---- ASSISTMAN ----
     const assistRaw = match.assists || '';
     const assistItems = Array.isArray(assistRaw) ? assistRaw : String(assistRaw).split(/[,、]/);
     assistItems.forEach(entry => {
@@ -2831,7 +2841,6 @@ async function loadMatchData(id, quiet = false) {
         }
     });
 
-    // ---- PORTIERI ----
     const gkRaw = match.goalkeepers || '';
     const gkItems = Array.isArray(gkRaw) ? gkRaw : String(gkRaw).split(/[,、]/);
     gkItems.forEach(entry => {
@@ -2853,13 +2862,11 @@ async function loadMatchData(id, quiet = false) {
         }
     });
 
-    // ---- MVP ----
     if (match.mvp && match.mvp !== 'なし' && match.mvp !== 'Nessuno') {
         const mvpVal = findMatchingPlayerValue(match.mvp) || match.mvp;
         ensureSelectOption($('mvpSelect'), mvpVal);
     }
 
-    // ---- CARTELLINI GIALLI ----
     const yellowRaw = match.yellow_cards || '';
     const yellowItems = Array.isArray(yellowRaw) ? yellowRaw : String(yellowRaw).split(/[,、]/);
     yellowItems.forEach(entry => {
@@ -2881,7 +2888,6 @@ async function loadMatchData(id, quiet = false) {
         }
     });
 
-    // ---- CARTELLINI ROSSI ----
     const redRaw = match.red_cards || '';
     const redItems = Array.isArray(redRaw) ? redRaw : String(redRaw).split(/[,、]/);
     redItems.forEach(entry => {
@@ -3286,42 +3292,55 @@ function generateStatsJSON(playersData, matchesData) {
     };
 }
 
+/* =========================================================
+   LOCALIZED LINE MESSAGE
+   ========================================================= */
 function generateLineMessage() {
-    const date = $('matchDate').value || '未定';
+    const date = $('matchDate').value || 'TBD';
     const time = $('matchTime').value || '11:00';
+    
     const oppKey = $('opponentSelect').value;
-    const oppName = State.opponents[oppKey]?.name?.ja || oppKey;
+    const oppObj = State.opponents[oppKey]?.name || {};
+    const oppName = oppObj[State.lang] || oppObj.it || oppObj.en || oppObj.ja || oppKey;
+    
     const locKey = $('locationSelect').value;
-    const locObj = State.locations[locKey];
-    const locName = locObj?.ja || locKey;
-    const mapsUrl = locObj?.maps || '';
+    const locObj = State.locations[locKey] || {};
+    const locName = locObj[State.lang] || locObj.it || locObj.en || locObj.ja || locKey;
+    const mapsUrl = locObj.maps || '';
 
     const starters = [];
     $$('#pitchGrid .pitch-player-select').forEach(sel => {
         if (sel.value) starters.push(`・[${sel.getAttribute('data-pos')}] ${sel.value}`);
     });
+    
     const bench = [];
     $$('#benchGrid .bench-player-select').forEach(sel => {
         if (sel.value) bench.push(`・${sel.value}`);
     });
 
-    const text = `⚽ 【Yokohama Calcio Match Announcement】 ⚽
+    const titleLine = State.lang === 'it' ? 'Annuncio Partita' : (State.lang === 'en' ? 'Match Announcement' : '試合案内');
+    const dateLbl = State.lang === 'it' ? 'Data' : (State.lang === 'en' ? 'Date' : '日付');
+    const timeLbl = State.lang === 'it' ? 'Orario' : (State.lang === 'en' ? 'Time' : '時間');
+    const oppLbl = State.lang === 'it' ? 'Avversario' : (State.lang === 'en' ? 'Opponent' : '対戦相手');
+    const locLbl = State.lang === 'it' ? 'Campo' : (State.lang === 'en' ? 'Venue' : '会場');
 
-📅 日付 (Data): ${date}
-⏰ K.O. (Orario): ${time}
-🛡️ 対戦相手 (Avversario): ${oppName}
-📍 会場 (Campo): ${locName}
+    const text = `⚽ 【Yokohama Calcio ${titleLine}】 ⚽
+
+📅 ${dateLbl}: ${date}
+⏰ ${timeLbl}: ${time}
+🛡️ ${oppLbl}: ${oppName}
+📍 ${locLbl}: ${locName}
 ${mapsUrl ? `🗺️ Google Maps: ${mapsUrl}` : ''}
 
 ------------------------------
-【スタメン / Titolari】
-${starters.length > 0 ? starters.join('\n') : '未定'}
+【Titolari / スタメン】
+${starters.length > 0 ? starters.join('\n') : 'TBD / 未定'}
 
-【ベンチ / Panchina】
-${bench.length > 0 ? bench.join('\n') : '未定'}
+【Panchina / ベンチ】
+${bench.length > 0 ? bench.join('\n') : 'TBD / 未定'}
 ------------------------------
 
-各自、試合開始時間の45分前までに現地集合をお願いします！ Forza Yokohama Calcio! 🔥`;
+Forza Yokohama Calcio! 🔥`;
 
     $('lineTextOutput').value = text;
 }
