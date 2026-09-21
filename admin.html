@@ -12,9 +12,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-/* =========================================================
-   RESET & BASE
-   ========================================================= */
 *, *::before, *::after { box-sizing: border-box; }
 
 :root {
@@ -183,6 +180,136 @@ body.dark .tab-btn:hover { color: var(--sky); }
 }
 body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); border-color: var(--sky); }
 
+/* MISTER HELPER BOX */
+.mister-helper-box {
+    background: linear-gradient(135deg, #00224a 0%, #001229 100%);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(135, 206, 235, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 34, 74, 0.25);
+}
+.mister-helper-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+.mister-helper-header strong {
+    color: #ffffff;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.mister-helper-header strong i { color: #87ceeb; font-size: 1.1rem; }
+.mister-helper-subtitle {
+    display: block;
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-top: 2px;
+    margin-left: 26px;
+}
+.btn-suggest-lineup {
+    background: #87ceeb;
+    color: #00224a;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 0.82rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+.btn-suggest-lineup:hover {
+    background: #a0d8ef;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(135,206,235,0.35);
+}
+.mister-helper-body {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+}
+.mister-pos-suggestion {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: #e2e8f0;
+    font-size: 0.75rem;
+}
+.mister-pos-suggestion .pos-label {
+    display: inline-block;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #000;
+    font-weight: 900;
+    font-size: 0.6rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    letter-spacing: 0.3px;
+}
+.mister-pos-suggestion .pos-macro {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff;
+    font-size: 0.55rem;
+    padding: 1px 4px;
+    border-radius: 3px;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+.mister-top-players {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 4px;
+}
+.mister-player-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    padding: 2px 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+}
+.mister-player-line:last-child { border-bottom: none; }
+.mister-player-line.empty {
+    color: #64748b;
+    font-style: italic;
+    justify-content: center;
+}
+.mister-player-name {
+    color: #f1f5f9;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 110px;
+}
+.mister-player-count {
+    background: rgba(255, 255, 255, 0.12);
+    color: #87ceeb;
+    font-weight: 800;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 0.68rem;
+    flex-shrink: 0;
+}
+.mister-player-line.rank-1 .mister-player-count { background: #10b981; color: #ffffff; }
+.mister-player-line.rank-2 .mister-player-count { background: #f59e0b; color: #ffffff; }
+.mister-player-line.rank-3 .mister-player-count { background: #64748b; color: #ffffff; }
+
 /* CAMPO TATTICO */
 .tactical-pitch-container {
     background: radial-gradient(circle, #16a34a 0%, #15803d 60%, #14532d 100%);
@@ -257,6 +384,19 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     border-color: #10b981;
     background: rgba(5, 150, 105, 0.94);
 }
+/* Indicatore affinità sul bordo della card */
+.pitch-position-card.affinity-high { border-color: #10b981; }
+.pitch-position-card.affinity-medium { border-color: #f59e0b; }
+.pitch-position-card.affinity-low { border-color: #ef4444; }
+.pitch-position-card.affinity-new {
+    border-color: #ef4444;
+    border-style: dashed;
+    animation: pulseNewPos 2s infinite;
+}
+@keyframes pulseNewPos {
+    0%, 100% { box-shadow: 0 4px 14px rgba(0,0,0,0.5), 0 0 0 0 rgba(239,68,68,0.5); }
+    50% { box-shadow: 0 4px 14px rgba(0,0,0,0.5), 0 0 0 6px rgba(239,68,68,0); }
+}
 .pitch-pos-header {
     display: flex;
     justify-content: space-between;
@@ -278,6 +418,19 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
     color: #065f46;
 }
+.affinity-badge {
+    font-size: 0.55rem;
+    font-weight: 800;
+    padding: 1px 4px;
+    border-radius: 3px;
+    color: #ffffff;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
+}
+.affinity-badge.high { background: #10b981; }
+.affinity-badge.medium { background: #f59e0b; }
+.affinity-badge.low { background: #ef4444; }
+.affinity-badge.new { background: #991b1b; }
 .pitch-player-select {
     width: 100%;
     font-size: 0.7rem;
@@ -745,6 +898,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     .form-control { font-size: 0.9rem; padding: 8px 10px; }
     .btn-submit { padding: 12px 16px; font-size: 0.95rem; }
     .pitch-grid { min-height: 420px; }
+    .mister-helper-body { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
     #toastContainer { top: 10px; right: 10px; left: 10px; max-width: none; }
 }
 </style>
@@ -991,6 +1145,26 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                             <option value="5-3-2">5-3-2</option>
                             <option value="4-1-4-1">4-1-4-1</option>
                         </select>
+                    </div>
+                </div>
+
+                <!-- MISTER HELPER BOX -->
+                <div class="mister-helper-box" id="misterHelperBox">
+                    <div class="mister-helper-header">
+                        <div>
+                            <strong><i class="fas fa-user-tie"></i> Suggerimento Mister Virtuale</strong>
+                            <span class="mister-helper-subtitle" data-i18n="misterHelper.subtitle">
+                                Basato sullo storico delle posizioni giocate nella stagione
+                            </span>
+                        </div>
+                        <button type="button" class="btn-suggest-lineup" data-action="suggest-lineup">
+                            <i class="fas fa-magic"></i> <span data-i18n="misterHelper.btnSuggest">Suggerisci Formazione</span>
+                        </button>
+                    </div>
+                    <div class="mister-helper-body" id="misterHelperBody">
+                        <div style="color:#94a3b8; font-size:0.8rem; grid-column: 1/-1; text-align:center; padding: 10px;">
+                            <i class="fas fa-info-circle"></i> Apri un match o seleziona una formazione per vedere i suggerimenti.
+                        </div>
                     </div>
                 </div>
 
@@ -1280,14 +1454,10 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
 <script>
 'use strict';
 
-/* =========================================================
-   I18N
-   ========================================================= */
 const I18N_DICT = {
     it: {
         loginSub: "Inserisci il GitHub Token (PAT) per accedere.",
-        loginBtn: "Accedi",
-        authenticated: "Autenticato",
+        loginBtn: "Accedi", authenticated: "Autenticato",
         btnReset: "Reset", btnLogout: "Logout",
         btnSaveMatch: "Salva Partita e Aggiorna Statistiche",
         btnSavePlayer: "Salva su GitHub", btnSaveOpponent: "Salva su GitHub", btnSaveLocation: "Salva su GitHub",
@@ -1310,6 +1480,8 @@ const I18N_DICT = {
         lblFormation: "Modulo Tattico", lblStartersTitle: "Titolari in Campo",
         lblBenchTitle: "Panchina (10 Posti)",
         lblTrialistsList: "Giocatori in Prova (solo per questo match):",
+        "misterHelper.subtitle": "Basato sullo storico delle posizioni giocate nella stagione",
+        "misterHelper.btnSuggest": "Suggerisci Formazione",
         playersHeading: "Aggiungi / Modifica Giocatore",
         lblNum: "Numero Maglia:", lblKanji: "Nome Kanji / Ufficiale:", lblKana: "Nome Kana:",
         lblRomaji: "Nome Romaji:", lblRole: "Ruolo:", lblPosition: "Posizione:",
@@ -1331,8 +1503,7 @@ const I18N_DICT = {
         confirmDelete: "Confermi l'eliminazione di",
         unsavedTitle: "Modifiche non salvate",
         unsavedMsg: "Ci sono modifiche non salvate. Cambiare tab?",
-        saving: "Salvataggio in corso...",
-        saved: "Salvato con successo!",
+        saving: "Salvataggio in corso...", saved: "Salvato con successo!",
         errorPrefix: "Errore:"
     },
     ja: {
@@ -1360,6 +1531,8 @@ const I18N_DICT = {
         lblFormation: "フォーメーション", lblStartersTitle: "先発メンバー",
         lblBenchTitle: "控え (10名)",
         lblTrialistsList: "練習生 (この試合のみ):",
+        "misterHelper.subtitle": "今シーズンの起用ポジション履歴に基づく",
+        "misterHelper.btnSuggest": "フォーメーション提案",
         playersHeading: "選手追加・編集",
         lblNum: "背番号:", lblKanji: "氏名:", lblKana: "フリガナ:",
         lblRomaji: "ローマ字:", lblRole: "役割:", lblPosition: "ポジション:",
@@ -1408,6 +1581,8 @@ const I18N_DICT = {
         lblFormation: "Formation", lblStartersTitle: "Starting XI",
         lblBenchTitle: "Bench (10 Slots)",
         lblTrialistsList: "Trialists (this match only):",
+        "misterHelper.subtitle": "Based on season position history",
+        "misterHelper.btnSuggest": "Suggest Lineup",
         playersHeading: "Add / Edit Player",
         lblNum: "Number:", lblKanji: "Name:", lblKana: "Kana:",
         lblRomaji: "Romaji:", lblRole: "Role:", lblPosition: "Position:",
@@ -1434,9 +1609,6 @@ const I18N_DICT = {
     }
 };
 
-/* =========================================================
-   COSTANTI
-   ========================================================= */
 const REPO = 'yokohamacalcio/yokohamacalcio';
 const TOKEN_KEY = 'yc_gh_token';
 
@@ -1487,15 +1659,21 @@ const FORMATION_COORDS = {
     }
 };
 
+// Mappa macro-posizioni per affinity scoring
+const POS_MACRO_MAP = {
+    GK: 'GK',
+    LB: 'DEF', LWB: 'DEF', 'CB-L': 'DEF', 'CB-C': 'DEF', 'CB-R': 'DEF', RB: 'DEF', RWB: 'DEF',
+    DM: 'MID', 'CM-L': 'MID', 'CM-C': 'MID', 'CM-R': 'MID', LM: 'MID', RM: 'MID',
+    'AM-L': 'ATT_MID', 'AM-C': 'ATT_MID', 'AM-R': 'ATT_MID',
+    LW: 'ATT', 'FW-L': 'ATT', ST: 'ATT', 'FW-R': 'ATT', RW: 'ATT'
+};
+
 const SURFACE_PRESETS = {
     "artificial": { ja: "人工芝", it: "Sintetico", en: "Artificial Turf" },
     "clay":       { ja: "クレー（土）", it: "Terra battuta", en: "Clay / Dirt" },
     "grass":      { ja: "天然芝", it: "Erba naturale", en: "Natural Grass" }
 };
 
-/* =========================================================
-   STATE
-   ========================================================= */
 const State = {
     lang: sessionStorage.getItem('yc_admin_lang') || localStorage.getItem('preferred_lang') || 'it',
     token: sessionStorage.getItem(TOKEN_KEY) || '',
@@ -1504,6 +1682,7 @@ const State = {
     locations: {},
     matches: [],
     trialists: [],
+    statsData: {},          // ⭐ NUOVO: stats.json con positions_played
     isDirty: false,
     playerSort: { field: 'number', dir: 'asc' },
     opponentSort: { field: 'key', dir: 'asc' },
@@ -1513,9 +1692,6 @@ const State = {
     autosaveTimer: null
 };
 
-/* =========================================================
-   UTILS
-   ========================================================= */
 function $(id) { return document.getElementById(id); }
 function $$(sel, ctx = document) { return ctx.querySelectorAll(sel); }
 function cleanStr(s) { return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim(); }
@@ -1538,46 +1714,70 @@ function base64ToUtf8(b64) {
     return new TextDecoder().decode(bytes);
 }
 
-// Resolver Flessibile del Giocatore per Dropdown
+/* =========================================================
+   FIX #2: findMatchingPlayerValue migliorato
+   ========================================================= */
 function findMatchingPlayerValue(raw) {
     if (!raw) return '';
     const cleanRaw = cleanStr(raw);
     if (!cleanRaw) return '';
 
-    // Cerca match esatto tra ID, Kanji, Kana e Romaji
-    const p = State.players.find(x => 
-        cleanStr(x.id) === cleanRaw ||
-        cleanStr(x.name_kanji) === cleanRaw ||
-        cleanStr(x.name_kana) === cleanRaw ||
-        cleanStr(x.name_romaji) === cleanRaw
+    // Rimuove suffissi tipo " x2", "(45')", ecc.
+    let normalizedRaw = String(raw)
+        .replace(/\((.*?)\)/g, '')
+        .replace(/\s*[xX\*]\s*\d+/g, '')
+        .trim();
+    const cleanNorm = cleanStr(normalizedRaw);
+
+    const allPlayers = [...State.players, ...State.trialists];
+
+    // 1. Match esatto
+    let p = allPlayers.find(x =>
+        cleanStr(x.id) === cleanNorm ||
+        cleanStr(x.name_kanji) === cleanNorm ||
+        cleanStr(x.name_kana) === cleanNorm ||
+        cleanStr(x.name_romaji) === cleanNorm
     );
     if (p) return p.name_kanji || p.name_romaji || p.id;
 
-    const tPlayer = State.trialists.find(x => 
-        cleanStr(x.id) === cleanRaw ||
-        cleanStr(x.name_kanji) === cleanRaw ||
-        cleanStr(x.name_romaji) === cleanRaw
-    );
-    if (tPlayer) return tPlayer.name_kanji || tPlayer.name_romaji;
-
-    // Match parziale (fallback)
-    const minLen = isJapanese(cleanRaw) ? 2 : 3;
-    if (cleanRaw.length >= minLen) {
-        const pSub = State.players.find(x => {
-            const k = cleanStr(x.name_kanji), r = cleanStr(x.name_romaji), id = cleanStr(x.id);
-            return (k && (k.includes(cleanRaw) || cleanRaw.includes(k))) ||
-                   (r && (r.includes(cleanRaw) || cleanRaw.includes(r))) ||
-                   (id && (id.includes(cleanRaw) || cleanRaw.includes(id)));
+    // 2. Match parziale (più flessibile, min 2 char se JP, 3 se latino)
+    const minLen = isJapanese(cleanNorm) ? 2 : 3;
+    if (cleanNorm.length >= minLen) {
+        // Prima cerca giocatori reali (no trialist) con nome che contiene
+        p = allPlayers.find(x => {
+            const k = cleanStr(x.name_kanji);
+            const kn = cleanStr(x.name_kana);
+            const r = cleanStr(x.name_romaji);
+            const id = cleanStr(x.id);
+            return (k && (k.includes(cleanNorm) || cleanNorm.includes(k))) ||
+                   (kn && (kn.includes(cleanNorm) || cleanNorm.includes(kn))) ||
+                   (r && (r.includes(cleanNorm) || cleanNorm.includes(r))) ||
+                   (id && (id.includes(cleanNorm) || cleanNorm.includes(id)));
         });
-        if (pSub) return pSub.name_kanji || pSub.name_romaji || pSub.id;
+        if (p) return p.name_kanji || p.name_romaji || p.id;
     }
 
-    return raw;
+    // 3. Fallback: restituisce raw (potrebbe non matchare)
+    return normalizedRaw;
 }
 
-/* =========================================================
-   TOAST & MODAL
-   ========================================================= */
+/**
+ * FIX #2b: Aggiunge l'opzione al select se il valore non esiste tra le opzioni.
+ * Così il marcatore/MVP viene visualizzato anche se non è più in rosa.
+ */
+function ensureSelectOption(sel, value) {
+    if (!sel || !value) return;
+    const exists = Array.from(sel.options).some(opt => opt.value === value);
+    if (!exists) {
+        const opt = document.createElement('option');
+        opt.value = value;
+        opt.textContent = value + ' (non in rosa)';
+        opt.style.color = '#dc2626';
+        sel.appendChild(opt);
+    }
+    sel.value = value;
+}
+
 function showToast(type, message, duration = 4000) {
     const container = $('toastContainer');
     const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warn: 'fa-exclamation-triangle' };
@@ -1613,10 +1813,7 @@ function showModal(opts = {}) {
 
 function closeModal(result) {
     $('modalOverlay').classList.remove('show');
-    if (modalResolve) {
-        modalResolve(result);
-        modalResolve = null;
-    }
+    if (modalResolve) { modalResolve(result); modalResolve = null; }
 }
 
 $('modalConfirm').addEventListener('click', () => {
@@ -1648,15 +1845,10 @@ async function showConfirm(message, danger = false, customTitle = null) {
     return await showModal({
         title: customTitle || ('⚠️ ' + t('confirmDelete')),
         body: `<p>${message}</p>`,
-        confirmText: 'Sì',
-        cancelText: 'No',
-        danger
+        confirmText: 'Sì', cancelText: 'No', danger
     });
 }
 
-/* =========================================================
-   LANGUAGE & DARK MODE
-   ========================================================= */
 function renderAllTables() {
     renderOpponentsSelectAndTable();
     renderLocationsSelectAndTable();
@@ -1695,9 +1887,6 @@ function updateDarkIcon() {
     icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
 }
 
-/* =========================================================
-   GITHUB API
-   ========================================================= */
 async function ghGet(filePath) {
     const url = `https://api.github.com/repos/${REPO}/contents/${filePath}`;
     const res = await fetch(url, {
@@ -1706,10 +1895,8 @@ async function ghGet(filePath) {
             'Accept': 'application/vnd.github+json'
         }
     });
-    
-    const isObject = filePath === 'opponents.json' || filePath === 'locations.json';
+    const isObject = filePath === 'opponents.json' || filePath === 'locations.json' || filePath === 'stats.json';
     if (res.status === 404) return { sha: null, content: isObject ? {} : [] };
-    
     if (!res.ok) throw new Error(await formatGhError(res, `GET ${filePath}`));
     const data = await res.json();
     const str = base64ToUtf8(data.content);
@@ -1734,7 +1921,7 @@ async function fetchJsonFile(filePath) {
     } catch (e) {
         console.error(`Fetch locale per ${filePath} fallita:`, e);
     }
-    const isObject = filePath === 'locations.json' || filePath === 'opponents.json';
+    const isObject = filePath === 'locations.json' || filePath === 'opponents.json' || filePath === 'stats.json';
     return { sha: null, content: isObject ? {} : [] };
 }
 
@@ -1746,7 +1933,6 @@ async function ghPut(filePath, content, sha, commitMsg) {
         branch: 'main'
     };
     if (sha) body.sha = sha;
-
     const res = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -1762,11 +1948,7 @@ async function ghPut(filePath, content, sha, commitMsg) {
 
 async function formatGhError(res, context) {
     let detail = '';
-    try {
-        const err = await res.json();
-        detail = err.message || '';
-    } catch(_) {}
-
+    try { const err = await res.json(); detail = err.message || ''; } catch(_) {}
     if (res.status === 401) return `401 Unauthorized (${context}) — Token scaduto o revocato. Effettua di nuovo il login.`;
     if (res.status === 403) return `403 Forbidden (${context}) — Rate limit GitHub raggiunto o token senza permessi.`;
     if (res.status === 409) return `409 Conflict (${context}) — Qualcun altro ha modificato il file nel frattempo. Ricarica la pagina.`;
@@ -1774,20 +1956,15 @@ async function formatGhError(res, context) {
     return `HTTP ${res.status} (${context}) — ${detail || 'Errore sconosciuto'}`;
 }
 
-/* =========================================================
-   LOGIN & INIT DATA
-   ========================================================= */
 async function verifyAndLogin(token) {
     const errEl = $('loginError');
     const btn = $('loginBtn');
     errEl.textContent = '';
     btn.disabled = true;
-
     try {
         const res = await fetch(`https://api.github.com/repos/${REPO}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
-
         if (!res.ok) {
             if (res.status === 401) errEl.textContent = '❌ Token non valido o scaduto.';
             else if (res.status === 404) errEl.textContent = '❌ Repository non trovato o token senza accesso.';
@@ -1795,7 +1972,6 @@ async function verifyAndLogin(token) {
             sessionStorage.removeItem(TOKEN_KEY);
             return;
         }
-
         State.token = token;
         sessionStorage.setItem(TOKEN_KEY, token);
         $('loginSection').classList.add('hidden');
@@ -1824,17 +2000,21 @@ function logout() {
 async function initData() {
     setLanguage(State.lang);
     try {
-        const [oRes, lRes, pRes, mRes] = await Promise.allSettled([
+        const [oRes, lRes, pRes, mRes, sRes] = await Promise.allSettled([
             fetchJsonFile('opponents.json'),
             fetchJsonFile('locations.json'),
             fetchJsonFile('players.json'),
-            fetchJsonFile('matches.json')
+            fetchJsonFile('matches.json'),
+            fetchJsonFile('stats.json')
         ]);
 
         if (oRes.status === 'fulfilled' && oRes.value) State.opponents = oRes.value.content || {};
         if (lRes.status === 'fulfilled' && lRes.value) State.locations = lRes.value.content || {};
         if (pRes.status === 'fulfilled' && pRes.value) State.players = Array.isArray(pRes.value.content) ? pRes.value.content : [];
         if (mRes.status === 'fulfilled' && mRes.value) State.matches = Array.isArray(mRes.value.content) ? mRes.value.content : [];
+        if (sRes.status === 'fulfilled' && sRes.value && sRes.value.content && typeof sRes.value.content === 'object') {
+            State.statsData = sRes.value.content.players || {};
+        }
 
         renderOpponentsSelectAndTable();
         renderLocationsSelectAndTable();
@@ -1850,13 +2030,9 @@ async function initData() {
     }
 }
 
-/* =========================================================
-   RENDER & EDIT: OPPONENTS
-   ========================================================= */
 function renderOpponentsSelectAndTable() {
     const keys = Object.keys(State.opponents).sort();
-    const sel = $('opponentSelect');
-    sel.innerHTML = keys.map(k => {
+    $('opponentSelect').innerHTML = keys.map(k => {
         const name = State.opponents[k].name?.ja || State.opponents[k].name?.en || k;
         return `<option value="${k}">${name} (${k})</option>`;
     }).join('');
@@ -1866,7 +2042,6 @@ function renderOpponentsSelectAndTable() {
         ja: State.opponents[k].name?.ja || '',
         en: State.opponents[k].name?.en || ''
     }));
-
     if (State.opponentSearch) {
         const q = State.opponentSearch.toLowerCase();
         rows = rows.filter(r =>
@@ -1886,12 +2061,8 @@ function renderOpponentsSelectAndTable() {
             <td>${r.ja || '-'}</td>
             <td>${r.en || '-'}</td>
             <td>
-                <button type="button" class="btn-edit" data-action="edit-opponent" data-key="${r.key}">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button type="button" class="btn-delete" data-action="delete-opponent" data-key="${r.key}">
-                    <i class="fas fa-trash"></i>
-                </button>
+                <button type="button" class="btn-edit" data-action="edit-opponent" data-key="${r.key}"><i class="fas fa-edit"></i></button>
+                <button type="button" class="btn-delete" data-action="delete-opponent" data-key="${r.key}"><i class="fas fa-trash"></i></button>
             </td>
         </tr>
     `).join('');
@@ -1901,22 +2072,15 @@ async function saveOpponentData() {
     const key = $('oppKey').value.trim().toLowerCase();
     const ja = $('oppNameJa').value.trim();
     const en = $('oppNameEn').value.trim();
-    if (!key || !ja) {
-        showToast('warn', 'Inserisci Key e Nome JA.');
-        return;
-    }
-
+    if (!key || !ja) { showToast('warn', 'Inserisci Key e Nome JA.'); return; }
     State.opponents[key] = { name: { ja, en: en || ja } };
     renderOpponentsSelectAndTable();
-
     try {
         const { sha } = await ghGet('opponents.json');
         await ghPut('opponents.json', State.opponents, sha, `Admin: Update opponents.json`);
         showToast('success', '✅ opponents.json salvato');
         resetOpponentForm();
-    } catch (e) {
-        showToast('error', '❌ ' + e.message, 7000);
-    }
+    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
 }
 
 function editOpponent(key) {
@@ -1937,9 +2101,7 @@ async function deleteOpponent(key) {
         const { sha } = await ghGet('opponents.json');
         await ghPut('opponents.json', State.opponents, sha, `Admin: Delete opponent ${key}`);
         showToast('success', '✅ Avversario eliminato');
-    } catch (e) {
-        showToast('error', '❌ ' + e.message, 7000);
-    }
+    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
 }
 
 function resetOpponentForm() {
@@ -1947,9 +2109,6 @@ function resetOpponentForm() {
     $('editOpponentKey').value = '';
 }
 
-/* =========================================================
-   RENDER & EDIT: LOCATIONS
-   ========================================================= */
 function renderSurfaceDropdown() {
     const sel = $('locSurfaceSelect');
     if (!sel) return;
@@ -1977,14 +2136,12 @@ function renderLocationsSelectAndTable() {
             : sObj;
         return { key: k, ja: loc.ja || '', it: loc.it || '', surface: surfLabel, maps: loc.maps || '' };
     });
-
     rows.sort((a, b) => {
         const va = String(a[State.locationSort.field] || '').toLowerCase();
         const vb = String(b[State.locationSort.field] || '').toLowerCase();
         const cmp = va.localeCompare(vb);
         return State.locationSort.dir === 'asc' ? cmp : -cmp;
     });
-
     $('locationsTableBody').innerHTML = rows.map(r => `
         <tr>
             <td><b>${r.key}</b></td>
@@ -2007,26 +2164,15 @@ async function saveLocationData() {
     const en = $('locNameEn').value.trim();
     const surfKey = $('locSurfaceSelect').value;
     const maps = $('locMapsUrl').value.trim();
-
     if (!key || !ja) { showToast('warn', 'Inserisci Key e Nome JA.'); return; }
-
-    State.locations[key] = {
-        ja,
-        it: it || ja,
-        en: en || ja,
-        surface: SURFACE_PRESETS[surfKey],
-        maps
-    };
+    State.locations[key] = { ja, it: it || ja, en: en || ja, surface: SURFACE_PRESETS[surfKey], maps };
     renderLocationsSelectAndTable();
-
     try {
         const { sha } = await ghGet('locations.json');
         await ghPut('locations.json', State.locations, sha, 'Admin: Update locations.json');
         showToast('success', '✅ locations.json salvato');
         resetLocationForm();
-    } catch (e) {
-        showToast('error', '❌ ' + e.message, 7000);
-    }
+    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
 }
 
 function editLocation(key) {
@@ -2038,7 +2184,6 @@ function editLocation(key) {
     $('locNameIt').value = loc.it || '';
     $('locNameEn').value = loc.en || '';
     $('locMapsUrl').value = loc.maps || '';
-
     let surfKey = 'artificial';
     const sJa = (typeof loc.surface === 'object' ? loc.surface.ja : loc.surface) || '';
     if (sJa.includes('クレー') || sJa.includes('土') || sJa.includes('Clay')) surfKey = 'clay';
@@ -2055,9 +2200,7 @@ async function deleteLocation(key) {
         const { sha } = await ghGet('locations.json');
         await ghPut('locations.json', State.locations, sha, `Admin: Delete location ${key}`);
         showToast('success', '✅ Campo eliminato');
-    } catch (e) {
-        showToast('error', '❌ ' + e.message, 7000);
-    }
+    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
 }
 
 function resetLocationForm() {
@@ -2066,9 +2209,6 @@ function resetLocationForm() {
     renderSurfaceDropdown();
 }
 
-/* =========================================================
-   RENDER & EDIT: PLAYERS
-   ========================================================= */
 function renderPlayersTable() {
     let rows = State.players.slice();
     if (State.playerSearch) {
@@ -2080,7 +2220,6 @@ function renderPlayersTable() {
             (p.position || '').toLowerCase().includes(q)
         );
     }
-
     const f = State.playerSort.field;
     const dir = State.playerSort.dir === 'asc' ? 1 : -1;
     rows.sort((a, b) => {
@@ -2092,7 +2231,6 @@ function renderPlayersTable() {
         }
         return String(va || '').toLowerCase().localeCompare(String(vb || '').toLowerCase()) * dir;
     });
-
     $('playersTableBody').innerHTML = rows.map(p => `
         <tr>
             <td><b>${p.number ?? '-'}</b></td>
@@ -2108,14 +2246,12 @@ function renderPlayersTable() {
             </td>
         </tr>
     `).join('');
-
     $('playerCountBadge').textContent = `${rows.length} giocatori`;
 }
 
 async function savePlayerToSquad() {
     const rawNum = $('pNumber').value.trim();
     const parsedNum = rawNum !== '' && !isNaN(parseInt(rawNum, 10)) ? parseInt(rawNum, 10) : null;
-    
     const kanji = $('pNameKanji').value.trim();
     const kana = $('pNameKana').value.trim();
     const romaji = $('pNameRomaji').value.trim();
@@ -2125,44 +2261,27 @@ async function savePlayerToSquad() {
     const hometown = $('pHometown').value.trim().toLowerCase();
     const photo = $('pPhoto').value.trim();
     const caps = parseInt($('editPlayerCaps').value, 10) || 0;
-
     if (!kanji) { showToast('warn', 'Inserisci almeno il nome.'); return; }
-
     const editId = $('editPlayerId').value;
     const id = editId || (romaji ? romaji.toLowerCase().replace(/[^a-z0-9]+/g, '-') : `player-${Date.now()}`);
-
     const obj = {
-        id,
-        number: parsedNum,
-        role,
-        position: pos,
-        name_kanji: kanji,
-        name_kana: kana,
-        name_romaji: romaji,
-        birth_date: birth || null,
-        hometown: hometown || 'kanagawa',
-        caps,
-        photo: photo || null
+        id, number: parsedNum, role, position: pos,
+        name_kanji: kanji, name_kana: kana, name_romaji: romaji,
+        birth_date: birth || null, hometown: hometown || 'kanagawa',
+        caps, photo: photo || null
     };
-
     if (editId) {
         const idx = State.players.findIndex(p => p.id === editId);
         if (idx >= 0) State.players[idx] = obj;
-    } else {
-        State.players.push(obj);
-    }
-
+    } else { State.players.push(obj); }
     renderPlayersTable();
     updateAllPlayerDropdowns();
-
     try {
         const { sha } = await ghGet('players.json');
         await ghPut('players.json', State.players, sha, `Admin: ${editId ? 'Update' : 'Add'} player ${id}`);
         showToast('success', '✅ players.json salvato');
         resetPlayerForm();
-    } catch (e) {
-        showToast('error', '❌ ' + e.message, 7000);
-    }
+    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
 }
 
 function editPlayer(id) {
@@ -2179,7 +2298,6 @@ function editPlayer(id) {
     $('pBirthDate').value = p.birth_date || '';
     $('pHometown').value = p.hometown || '';
     $('pPhoto').value = p.photo || '';
-
     document.querySelector('#playersTab').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -2188,18 +2306,14 @@ async function deletePlayer(id) {
     const name = p ? (p.name_kanji || p.name_romaji || id) : id;
     const ok = await showConfirm(`Eliminare "${name}"?`, true);
     if (!ok) return;
-
     State.players = State.players.filter(x => x.id !== id);
     renderPlayersTable();
     updateAllPlayerDropdowns();
-
     try {
         const { sha } = await ghGet('players.json');
         await ghPut('players.json', State.players, sha, `Admin: Delete player ${id}`);
         showToast('success', '✅ Giocatore eliminato');
-    } catch (e) {
-        showToast('error', '❌ ' + e.message, 7000);
-    }
+    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
 }
 
 function resetPlayerForm() {
@@ -2208,9 +2322,6 @@ function resetPlayerForm() {
     $('editPlayerCaps').value = '0';
 }
 
-/* =========================================================
-   TRIALISTS & PITCH & BENCH
-   ========================================================= */
 async function addTrialist() {
     const name = await showPrompt(t('trialistPrompt'), 'es. 山田 太郎');
     if (!name || !name.trim()) return;
@@ -2231,9 +2342,7 @@ function removeTrialist(id) {
     renderTrialistsList();
     updateAllPlayerDropdowns();
     $$('.player-dropdown-dynamic').forEach(sel => {
-        if (sel.value && !getAllAvailablePlayers().some(p => p.value === sel.value)) {
-            sel.value = '';
-        }
+        if (sel.value && !getAllAvailablePlayers().some(p => p.value === sel.value)) sel.value = '';
     });
     updatePlayerExclusions();
 }
@@ -2269,6 +2378,185 @@ function getAllAvailablePlayers(onlyGK = false) {
     return list;
 }
 
+/* =========================================================
+   FIX #1: MISTER HELPER — Suggerimenti basati su positions_played
+   ========================================================= */
+function getAffinityForPosition(playerName, posTag) {
+    // Trova il player ID
+    const p = [...State.players, ...State.trialists].find(x =>
+        x.name_kanji === playerName || x.name_romaji === playerName || x.id === playerName
+    );
+    if (!p) return { score: 0, exact: 0, macro: 0 };
+    const stats = State.statsData[p.id] || {};
+    const positions = stats.positions_played || {};
+
+    const exact = positions[posTag] || 0;
+    // Conta anche i tag simili (stesso macro)
+    const macro = POS_MACRO_MAP[posTag] || '';
+    let macroCount = 0;
+    Object.entries(positions).forEach(([tag, count]) => {
+        if (tag !== posTag && POS_MACRO_MAP[tag] === macro) macroCount += count;
+    });
+
+    return {
+        score: exact * 10 + macroCount * 3,
+        exact,
+        macro: macroCount
+    };
+}
+
+function getTopPlayersForPosition(posTag, limit = 3, excludeUsed = null) {
+    const allPlayers = [...State.players, ...State.trialists].filter(p => p.role !== 'staff');
+    const ranked = allPlayers.map(p => {
+        const stats = State.statsData[p.id] || {};
+        const positions = stats.positions_played || {};
+        const exact = positions[posTag] || 0;
+        const macro = POS_MACRO_MAP[posTag] || '';
+        let macroCount = 0;
+        Object.entries(positions).forEach(([tag, count]) => {
+            if (tag !== posTag && POS_MACRO_MAP[tag] === macro) macroCount += count;
+        });
+        const score = exact * 10 + macroCount * 3;
+        return {
+            id: p.id,
+            name: p.name_kanji || p.name_romaji,
+            exact,
+            macro: macroCount,
+            score,
+            isUsed: excludeUsed && excludeUsed.has(p.name_kanji || p.name_romaji)
+        };
+    }).filter(p => p.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, limit);
+    return ranked;
+}
+
+function renderMisterHelper() {
+    const container = $('misterHelperBody');
+    if (!container) return;
+
+    const formation = $('formationSelect').value;
+    const coords = FORMATION_COORDS[formation] || FORMATION_COORDS['4-4-2'];
+
+    // Giocatori già in campo (per escluderli dai suggerimenti)
+    const usedPlayers = new Set();
+    $$('#pitchGrid .pitch-player-select').forEach(sel => {
+        if (sel.value) usedPlayers.add(sel.value);
+    });
+
+    if (Object.keys(State.statsData).length === 0) {
+        container.innerHTML = `
+            <div style="color:#94a3b8; font-size:0.8rem; grid-column: 1/-1; text-align:center; padding: 10px;">
+                <i class="fas fa-info-circle"></i> Nessun dato statistico disponibile. Salva qualche partita per vedere i suggerimenti.
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = Object.entries(coords).map(([posTag]) => {
+        const macro = POS_MACRO_MAP[posTag] || '';
+        const top3 = getTopPlayersForPosition(posTag, 3, usedPlayers);
+
+        const playersHtml = top3.length > 0
+            ? top3.map((p, i) => `
+                <div class="mister-player-line rank-${i+1}">
+                    <span class="mister-player-name" title="${p.name}">${p.name}</span>
+                    <span class="mister-player-count">${p.exact}/${p.macro + p.exact}</span>
+                </div>
+            `).join('')
+            : '<div class="mister-player-line empty">— nessun dato —</div>';
+
+        return `
+            <div class="mister-pos-suggestion">
+                <span class="pos-label">${posTag}</span>
+                <span class="pos-macro">${macro}</span>
+                <div class="mister-top-players">${playersHtml}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+/**
+ * Suggerisce formazione: per ogni slot sceglie il giocatore con affinity più alta
+ * che non è già stato assegnato in un altro slot.
+ */
+function suggestLineup() {
+    const formation = $('formationSelect').value;
+    const coords = FORMATION_COORDS[formation] || FORMATION_COORDS['4-4-2'];
+    const positions = Object.keys(coords);
+
+    if (Object.keys(State.statsData).length === 0) {
+        showToast('warn', 'Nessun dato statistico disponibile per suggerire la formazione.');
+        return;
+    }
+
+    const usedPlayers = new Set();
+    const assigned = {};
+
+    // Ordina le posizioni: prima porta (GK), poi difensori, centrocampisti, attaccanti
+    // per dare priorità alle posizioni specialistiche
+    const orderPriority = {
+        'GK': 0,
+        'CB-C': 1, 'CB-L': 1, 'CB-R': 1, 'LB': 2, 'RB': 2, 'LWB': 2, 'RWB': 2,
+        'DM': 3, 'CM-C': 4, 'CM-L': 4, 'CM-R': 4, 'LM': 5, 'RM': 5,
+        'AM-C': 6, 'AM-L': 6, 'AM-R': 6,
+        'ST': 7, 'FW-L': 7, 'FW-R': 7, 'LW': 8, 'RW': 8
+    };
+    const sortedPositions = [...positions].sort((a, b) =>
+        (orderPriority[a] ?? 99) - (orderPriority[b] ?? 99)
+    );
+
+    sortedPositions.forEach(posTag => {
+        const candidates = [...State.players, ...State.trialists]
+            .filter(p => p.role !== 'staff' && !usedPlayers.has(p.name_kanji || p.name_romaji))
+            .map(p => {
+                const stats = State.statsData[p.id] || {};
+                const positions = stats.positions_played || {};
+                const exact = positions[posTag] || 0;
+                const macro = POS_MACRO_MAP[posTag] || '';
+                let macroCount = 0;
+                Object.entries(positions).forEach(([tag, count]) => {
+                    if (tag !== posTag && POS_MACRO_MAP[tag] === macro) macroCount += count;
+                });
+
+                // Bonus: se la posizione è GK, solo portieri di ruolo
+                let roleBonus = 0;
+                if (posTag === 'GK' && (p.role === 'gk' || p.position === 'GK')) roleBonus = 1000;
+                else if (POS_MACRO_MAP[posTag] === 'DEF' && p.role === 'df') roleBonus = 50;
+                else if (POS_MACRO_MAP[posTag] === 'MID' && p.role === 'mf') roleBonus = 50;
+                else if (POS_MACRO_MAP[posTag] === 'ATT' && p.role === 'fw') roleBonus = 50;
+
+                return {
+                    name: p.name_kanji || p.name_romaji,
+                    score: exact * 10 + macroCount * 3 + roleBonus
+                };
+            })
+            .filter(c => c.score > 0)
+            .sort((a, b) => b.score - a.score);
+
+        if (candidates.length > 0) {
+            assigned[posTag] = candidates[0].name;
+            usedPlayers.add(candidates[0].name);
+        }
+    });
+
+    // Applica le assegnazioni al campo
+    Object.entries(assigned).forEach(([posTag, playerName]) => {
+        const sel = document.querySelector(`#pitchGrid .pitch-player-select[data-pos="${posTag}"]`);
+        if (sel) {
+            ensureSelectOption(sel, playerName);
+        }
+    });
+
+    updatePlayerExclusions();
+    updateFilledCards();
+    renderMisterHelper();
+    showToast('success', `✨ Formazione suggerita per ${Object.keys(assigned).length} posizioni`);
+}
+
+/* =========================================================
+   PITCH & BENCH
+   ========================================================= */
 function renderPitchAndBench() {
     const formation = $('formationSelect').value;
     const coords = FORMATION_COORDS[formation] || FORMATION_COORDS['4-4-2'];
@@ -2283,6 +2571,7 @@ function renderPitchAndBench() {
         <div class="pitch-position-card" data-pos-card="${posTag}" style="left: ${c.x}%; top: ${c.y}%;">
             <div class="pitch-pos-header">
                 <span class="pos-badge">${posTag}</span>
+                <span class="affinity-badge hidden" data-affinity-for="${posTag}"></span>
             </div>
             <select class="pitch-player-select match-squad-select" data-pos="${posTag}"></select>
         </div>
@@ -2292,7 +2581,7 @@ function renderPitchAndBench() {
 
     Object.entries(prevValues).forEach(([pos, val]) => {
         const sel = document.querySelector(`#pitchGrid .pitch-player-select[data-pos="${pos}"]`);
-        if (sel) sel.value = val;
+        if (sel && val) ensureSelectOption(sel, val);
     });
 
     const benchGrid = $('benchGrid');
@@ -2319,6 +2608,7 @@ function renderPitchAndBench() {
 
     updateAllPlayerDropdowns();
     updatePlayerExclusions();
+    renderMisterHelper();
 }
 
 function clearPitch() {
@@ -2330,12 +2620,39 @@ function clearPitch() {
     });
     updatePlayerExclusions();
     updateFilledCards();
+    renderMisterHelper();
 }
 
 function updateFilledCards() {
     $$('#pitchGrid .pitch-position-card').forEach(card => {
         const sel = card.querySelector('.pitch-player-select');
-        card.classList.toggle('filled', !!sel.value);
+        const posTag = card.getAttribute('data-pos-card');
+        const affinityBadge = card.querySelector(`[data-affinity-for="${posTag}"]`);
+
+        const isFilled = !!sel.value;
+        card.classList.toggle('filled', isFilled);
+
+        // Rimuovi classi affinità precedenti
+        card.classList.remove('affinity-high', 'affinity-medium', 'affinity-low', 'affinity-new');
+
+        if (!isFilled) {
+            if (affinityBadge) affinityBadge.classList.add('hidden');
+            return;
+        }
+
+        const aff = getAffinityForPosition(sel.value, posTag);
+        let label = '', cls = '';
+
+        if (aff.exact >= 3) { label = `★ ${aff.exact}`; cls = 'high'; card.classList.add('affinity-high'); }
+        else if (aff.exact >= 1 || aff.macro >= 2) { label = `◆ ${aff.exact + aff.macro}`; cls = 'medium'; card.classList.add('affinity-medium'); }
+        else if (aff.macro >= 1) { label = `○ ${aff.macro}`; cls = 'low'; card.classList.add('affinity-low'); }
+        else { label = '⚠ NEW'; cls = 'new'; card.classList.add('affinity-new'); }
+
+        if (affinityBadge) {
+            affinityBadge.className = `affinity-badge ${cls}`;
+            affinityBadge.textContent = label;
+            affinityBadge.classList.remove('hidden');
+        }
     });
 }
 
@@ -2348,13 +2665,13 @@ function updateAllPlayerDropdowns() {
     const mvp = $('mvpSelect');
     const mvpVal = mvp.value;
     mvp.innerHTML = allHTML;
-    mvp.value = mvpVal;
+    if (mvpVal) ensureSelectOption(mvp, mvpVal);
 
     $$('.player-dropdown-dynamic, .pitch-player-select').forEach(sel => {
         const val = sel.value;
         if (sel.classList.contains('gk-player-select')) sel.innerHTML = gkHTML;
         else sel.innerHTML = allHTML;
-        sel.value = val;
+        if (val) ensureSelectOption(sel, val);
     });
 
     updatePlayerExclusions();
@@ -2370,19 +2687,16 @@ function updatePlayerExclusions() {
         const currentVal = sel.value;
         const isGK = sel.classList.contains('gk-player-select');
         const list = getAllAvailablePlayers(isGK);
-
         sel.innerHTML = list.map(p => {
             const isSelectedElsewhere = p.value && selectedValues.has(p.value) && p.value !== currentVal;
             const label = p.name + (isSelectedElsewhere ? ' ✓' : '');
             return `<option value="${p.value}" ${isSelectedElsewhere ? 'disabled' : ''}>${label}</option>`;
         }).join('');
-        sel.value = currentVal;
+        // Ripristina il valore anche se non è più nella lista standard
+        if (currentVal) ensureSelectOption(sel, currentVal);
     });
 }
 
-/* =========================================================
-   STAT ROWS
-   ========================================================= */
 function createStatRow(selectClass, opts = {}) {
     const { hasCount = true, countLabel = 'Gol:', onlyGK = false, hasMinute = false } = opts;
     const players = getAllAvailablePlayers(onlyGK);
@@ -2406,7 +2720,7 @@ function addYellowRow() { $('yellowCardsContainer').appendChild(createStatRow('y
 function addRedRow() { $('redCardsContainer').appendChild(createStatRow('red-player-select', { hasCount: false, hasMinute: true })); }
 
 /* =========================================================
-   MATCH MANAGEMENT (CARICA & ELIMINA)
+   FIX #2 e #3: LOAD MATCH DATA con parsing robusto di marcatori/assist/MVP + minuti
    ========================================================= */
 async function loadMatchData(id, quiet = false) {
     if (!id) return;
@@ -2423,6 +2737,14 @@ async function loadMatchData(id, quiet = false) {
     if (!State.matches || State.matches.length === 0) {
         const mRes = await fetchJsonFile('matches.json');
         if (mRes && Array.isArray(mRes.content)) State.matches = mRes.content;
+    }
+    if (!State.players || State.players.length === 0) {
+        const pRes = await fetchJsonFile('players.json');
+        if (pRes && Array.isArray(pRes.content)) { State.players = pRes.content; renderPlayersTable(); updateAllPlayerDropdowns(); }
+    }
+    if (!State.statsData || Object.keys(State.statsData).length === 0) {
+        const sRes = await fetchJsonFile('stats.json');
+        if (sRes && sRes.content && typeof sRes.content === 'object') State.statsData = sRes.content.players || {};
     }
 
     const match = State.matches.find(m => String(m.id).toLowerCase() === id);
@@ -2454,7 +2776,10 @@ async function loadMatchData(id, quiet = false) {
     if (match.starters_positions) {
         Object.entries(match.starters_positions).forEach(([pos, name]) => {
             const sel = document.querySelector(`#pitchGrid .pitch-player-select[data-pos="${pos}"]`);
-            if (sel) sel.value = findMatchingPlayerValue(name);
+            if (sel) {
+                const matched = findMatchingPlayerValue(name);
+                ensureSelectOption(sel, matched);
+            }
         });
     }
 
@@ -2465,7 +2790,10 @@ async function loadMatchData(id, quiet = false) {
             const pSel = slot.querySelector('.bench-player-select');
             const chk = slot.querySelector('.bench-subbed-in');
             const posSel = slot.querySelector('.bench-pos-select');
-            if (pSel) pSel.value = findMatchingPlayerValue(b.player);
+            if (pSel && b.player) {
+                const matched = findMatchingPlayerValue(b.player);
+                ensureSelectOption(pSel, matched);
+            }
             if (chk) {
                 chk.checked = !!b.subbed_in;
                 chk.dispatchEvent(new Event('change'));
@@ -2476,105 +2804,157 @@ async function loadMatchData(id, quiet = false) {
 
     ['scorers', 'assists', 'gk', 'yellow', 'red'].forEach(k => $(k + 'Container').innerHTML = '');
 
-    // PARSING MARCATORI
-    const scorerItems = Array.isArray(match.scorers) ? match.scorers : (match.scorers ? String(match.scorers).split(/[,、]/) : []);
+    // ---- MARCATORI (con minuti) ----
+    const scorerRaw = match.scorers || '';
+    const scorerItems = Array.isArray(scorerRaw) ? scorerRaw : String(scorerRaw).split(/[,、]/);
     scorerItems.forEach(entry => {
-        let text = String(entry).trim(), count = 1, min = '';
+        let text = String(entry).trim();
         if (!text || text === 'なし' || text === 'Nessuno') return;
-        const mMin = text.match(/\((.*?)\)/);
-        if (mMin) { min = mMin[1].replace("'", '').trim(); text = text.replace(/\(.*?\)/, '').trim(); }
-        const mCnt = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
-        if (mCnt) { text = mCnt[1].trim(); count = parseInt(mCnt[2], 10) || 1; }
-        
+
+        let count = 1, min = '';
+
+        // Estrai minuto: es. " (45')" o " (45)" o " (45+2')"
+        const mMin = text.match(/\s*\((\d+(?:\+\d+)?)['′]?\s*\)\s*$/);
+        if (mMin) {
+            min = mMin[1];
+            text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim();
+        }
+
+        // Estrai moltiplicatore: es. " x2"
+        const mCnt = text.match(/\s*[xX\*]\s*(\d+)\s*$/);
+        if (mCnt) {
+            count = parseInt(mCnt[1], 10) || 1;
+            text = text.replace(/\s*[xX\*]\s*\d+\s*$/, '').trim();
+        }
+
         const matchedVal = findMatchingPlayerValue(text);
         if (matchedVal) {
             addScorerRow();
             const last = $('scorersContainer').querySelector('.stat-row:last-child');
             if (last) {
-                last.querySelector('.scorer-player-select').value = matchedVal;
+                ensureSelectOption(last.querySelector('.scorer-player-select'), matchedVal);
+                last.querySelector('.row-count-input').value = count;
+                if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
+            }
+        } else if (text) {
+            // Fallback: aggiungi riga con opzione custom
+            addScorerRow();
+            const last = $('scorersContainer').querySelector('.stat-row:last-child');
+            if (last) {
+                ensureSelectOption(last.querySelector('.scorer-player-select'), text);
                 last.querySelector('.row-count-input').value = count;
                 if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
             }
         }
     });
 
-    // PARSING ASSISTMAN
-    const assistItems = Array.isArray(match.assists) ? match.assists : (match.assists ? String(match.assists).split(/[,、]/) : []);
+    // ---- ASSISTMAN ----
+    const assistRaw = match.assists || '';
+    const assistItems = Array.isArray(assistRaw) ? assistRaw : String(assistRaw).split(/[,、]/);
     assistItems.forEach(entry => {
-        let text = String(entry).trim(), count = 1;
+        let text = String(entry).trim();
         if (!text || text === 'なし' || text === 'Nessuno') return;
-        const m = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
-        if (m) { text = m[1].trim(); count = parseInt(m[2], 10) || 1; }
-        
+
+        let count = 1;
+        const mCnt = text.match(/\s*[xX\*]\s*(\d+)\s*$/);
+        if (mCnt) {
+            count = parseInt(mCnt[1], 10) || 1;
+            text = text.replace(/\s*[xX\*]\s*\d+\s*$/, '').trim();
+        }
+
         const matchedVal = findMatchingPlayerValue(text);
         if (matchedVal) {
             addAssistRow();
             const last = $('assistsContainer').querySelector('.stat-row:last-child');
             if (last) {
-                last.querySelector('.assist-player-select').value = matchedVal;
+                ensureSelectOption(last.querySelector('.assist-player-select'), matchedVal);
+                last.querySelector('.row-count-input').value = count;
+            }
+        } else if (text) {
+            addAssistRow();
+            const last = $('assistsContainer').querySelector('.stat-row:last-child');
+            if (last) {
+                ensureSelectOption(last.querySelector('.assist-player-select'), text);
                 last.querySelector('.row-count-input').value = count;
             }
         }
     });
 
-    // PARSING PORTIERI
-    const gkItems = Array.isArray(match.goalkeepers) ? match.goalkeepers : (match.goalkeepers ? String(match.goalkeepers).split(/[,、]/) : []);
+    // ---- PORTIERI ----
+    const gkRaw = match.goalkeepers || '';
+    const gkItems = Array.isArray(gkRaw) ? gkRaw : String(gkRaw).split(/[,、]/);
     gkItems.forEach(entry => {
-        let text = String(entry).trim(), ga = 0;
+        let text = String(entry).trim();
         if (!text) return;
-        const m = text.match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
-        if (m) { text = m[1].trim(); ga = parseInt(m[2], 10) || 0; }
-        
+        let ga = 0;
+        const m = text.match(/^(.+?)\s*[(（]\s*(\d+)\s*[)）]\s*$/);
+        if (m) {
+            text = m[1].trim();
+            ga = parseInt(m[2], 10) || 0;
+        }
         const matchedVal = findMatchingPlayerValue(text);
-        if (matchedVal) {
+        const valueToUse = matchedVal || text;
+        if (valueToUse) {
             addGkRow();
             const last = $('gkContainer').querySelector('.stat-row:last-child');
             if (last) {
-                last.querySelector('.gk-player-select').value = matchedVal;
+                ensureSelectOption(last.querySelector('.gk-player-select'), valueToUse);
                 last.querySelector('.row-count-input').value = ga;
             }
         }
     });
 
-    // PARSING MVP
-    if (match.mvp) {
+    // ---- MVP ----
+    if (match.mvp && match.mvp !== 'なし' && match.mvp !== 'Nessuno') {
         const mvpVal = findMatchingPlayerValue(match.mvp);
-        if (mvpVal) $('mvpSelect').value = mvpVal;
+        const valueToUse = mvpVal || match.mvp;
+        const mvpSel = $('mvpSelect');
+        ensureSelectOption(mvpSel, valueToUse);
     }
 
-    // PARSING GIALLI
-    const yellowItems = Array.isArray(match.yellow_cards) ? match.yellow_cards : (match.yellow_cards ? String(match.yellow_cards).split(/[,、]/) : []);
+    // ---- GIALLI (con minuti) ----
+    const yellowRaw = match.yellow_cards || '';
+    const yellowItems = Array.isArray(yellowRaw) ? yellowRaw : String(yellowRaw).split(/[,、]/);
     yellowItems.forEach(entry => {
-        let text = String(entry).trim(), min = '';
-        if (!text) return;
-        const mMin = text.match(/\((.*?)\)/);
-        if (mMin) { min = mMin[1].replace("'", '').trim(); text = text.replace(/\(.*?\)/, '').trim(); }
-        
+        let text = String(entry).trim();
+        if (!text || text === 'なし' || text === 'Nessuno') return;
+        let min = '';
+        const mMin = text.match(/\s*\((\d+(?:\+\d+)?)['′]?\s*\)\s*$/);
+        if (mMin) {
+            min = mMin[1];
+            text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim();
+        }
         const matchedVal = findMatchingPlayerValue(text);
-        if (matchedVal) {
+        const valueToUse = matchedVal || text;
+        if (valueToUse) {
             addYellowRow();
             const last = $('yellowCardsContainer').querySelector('.stat-row:last-child');
             if (last) {
-                last.querySelector('.yellow-player-select').value = matchedVal;
+                ensureSelectOption(last.querySelector('.yellow-player-select'), valueToUse);
                 if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
             }
         }
     });
 
-    // PARSING ROSSI
-    const redItems = Array.isArray(match.red_cards) ? match.red_cards : (match.red_cards ? String(match.red_cards).split(/[,、]/) : []);
+    // ---- ROSSI (con minuti) ----
+    const redRaw = match.red_cards || '';
+    const redItems = Array.isArray(redRaw) ? redRaw : String(redRaw).split(/[,、]/);
     redItems.forEach(entry => {
-        let text = String(entry).trim(), min = '';
-        if (!text) return;
-        const mMin = text.match(/\((.*?)\)/);
-        if (mMin) { min = mMin[1].replace("'", '').trim(); text = text.replace(/\(.*?\)/, '').trim(); }
-        
+        let text = String(entry).trim();
+        if (!text || text === 'なし' || text === 'Nessuno') return;
+        let min = '';
+        const mMin = text.match(/\s*\((\d+(?:\+\d+)?)['′]?\s*\)\s*$/);
+        if (mMin) {
+            min = mMin[1];
+            text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim();
+        }
         const matchedVal = findMatchingPlayerValue(text);
-        if (matchedVal) {
+        const valueToUse = matchedVal || text;
+        if (valueToUse) {
             addRedRow();
             const last = $('redCardsContainer').querySelector('.stat-row:last-child');
             if (last) {
-                last.querySelector('.red-player-select').value = matchedVal;
+                ensureSelectOption(last.querySelector('.red-player-select'), valueToUse);
                 if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
             }
         }
@@ -2582,19 +2962,14 @@ async function loadMatchData(id, quiet = false) {
 
     updatePlayerExclusions();
     updateFilledCards();
+    renderMisterHelper();
 }
 
 async function deleteMatch() {
     const currentId = $('matchId').value.trim();
-    if (!currentId) {
-        showToast('warn', 'Inserisci o carica prima un ID Match.');
-        return;
-    }
+    if (!currentId) { showToast('warn', 'Inserisci o carica prima un ID Match.'); return; }
     const matchIndex = State.matches.findIndex(m => String(m.id).toLowerCase() === currentId.toLowerCase());
-    if (matchIndex === -1) {
-        showToast('error', `Nessuna partita trovata con ID "${currentId}".`);
-        return;
-    }
+    if (matchIndex === -1) { showToast('error', `Nessuna partita trovata con ID "${currentId}".`); return; }
 
     const ok = await showConfirm(`Sei sicuro di voler eliminare definitivamente la partita "${currentId}"?`, true, 'Elimina Partita');
     if (!ok) return;
@@ -2608,18 +2983,18 @@ async function deleteMatch() {
     try {
         const { sha } = await ghGet('matches.json');
         State.matches.splice(matchIndex, 1);
-
         const statsData = generateStatsJSON(State.players, State.matches);
-
         await ghPut('matches.json', State.matches, sha, `Admin: Delete match ${currentId}`);
         statusEl.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Aggiornamento stats.json...`;
         const { sha: statsSha } = await ghGet('stats.json');
         await ghPut('stats.json', statsData, statsSha, `Admin: Update stats after deleting ${currentId}`);
 
+        State.statsData = statsData.players || {};
         resetForm();
         statusEl.style.color = 'var(--green)';
         statusEl.innerHTML = `✅ Partita ${currentId} eliminata con successo`;
         showToast('success', `✅ Partita ${currentId} eliminata e statistiche ricalcolate`);
+        renderMisterHelper();
     } catch (e) {
         statusEl.style.color = 'var(--red)';
         statusEl.innerHTML = `❌ ${e.message}`;
@@ -2673,25 +3048,16 @@ function resetForm() {
     clearDraft();
 }
 
-/* =========================================================
-   SAVE MATCH
-   ========================================================= */
 async function saveMatch(e) {
     e.preventDefault();
-    if (!State.token) {
-        showToast('warn', 'Token GitHub non presente. Effettua prima il login.');
-        return;
-    }
+    if (!State.token) { showToast('warn', 'Token GitHub non presente. Effettua prima il login.'); return; }
 
     const startersPositions = {};
     const starters = [];
     $$('#pitchGrid .pitch-player-select').forEach(sel => {
         const name = sel.value;
         const pos = sel.getAttribute('data-pos');
-        if (name) {
-            startersPositions[pos] = name;
-            starters.push(name);
-        }
+        if (name) { startersPositions[pos] = name; starters.push(name); }
     });
 
     const benchDetails = [];
@@ -2706,14 +3072,15 @@ async function saveMatch(e) {
         }
     });
 
+    // FIX #3: formato marcatori: "Nome x2 (45')"
     const scorerDetails = [];
     $$('.stat-row .scorer-player-select').forEach(sel => {
         const p = sel.value;
         const c = parseInt(sel.parentElement.querySelector('.row-count-input')?.value, 10) || 1;
         const min = sel.parentElement.querySelector('.minute-input')?.value.trim();
         if (p) {
-            const minSuffix = min ? ` (${min}')` : '';
             const cntSuffix = c > 1 ? ` x${c}` : '';
+            const minSuffix = min ? ` (${min}')` : '';
             scorerDetails.push(`${p}${cntSuffix}${minSuffix}`);
         }
     });
@@ -2795,11 +3162,13 @@ async function saveMatch(e) {
         await ghPut('stats.json', statsData, statsSha, `Admin: Update stats for ${payload.id}`);
 
         State.matches = arr;
+        State.statsData = statsData.players || {};
         State.isDirty = false;
         clearDraft();
         statusEl.style.color = 'var(--green)';
         statusEl.innerHTML = `✅ ${t('saved')}`;
         showToast('success', `✅ ${payload.id} + stats.json aggiornati`);
+        renderMisterHelper();
     } catch (e) {
         statusEl.style.color = 'var(--red)';
         statusEl.innerHTML = `❌ ${e.message}`;
@@ -2810,9 +3179,6 @@ async function saveMatch(e) {
     }
 }
 
-/* =========================================================
-   STATS ENGINE
-   ========================================================= */
 function generateStatsJSON(playersData, matchesData) {
     const playerMap = new Map();
     const aliasToId = new Map();
@@ -2835,7 +3201,7 @@ function generateStatsJSON(playersData, matchesData) {
     function resolveId(raw) {
         if (!raw) return null;
         let t = cleanStr(raw);
-        t = t.replace(/\(.*?\)/g, '').replace(/x\d+/g, '').trim();
+        t = t.replace(/\(\d+(?:\+\d+)?['′]?\)/g, '').replace(/x\d+/g, '').trim();
         if (!t || t === 'なし' || t === 'nessuno' || t === 'null') return null;
         if (aliasToId.has(t)) return aliasToId.get(t);
         const minLen = isJapanese(t) ? 2 : 3;
@@ -2878,13 +3244,8 @@ function generateStatsJSON(playersData, matchesData) {
         if (s.includes('-')) {
             const parts = s.split('-').map(x => parseInt(x.trim(), 10));
             if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-                if (m.isHome === false) {
-                    gf = parts[1];
-                    ga = parts[0];
-                } else {
-                    gf = parts[0];
-                    ga = parts[1];
-                }
+                if (m.isHome === false) { gf = parts[1]; ga = parts[0]; }
+                else { gf = parts[0]; ga = parts[1]; }
             }
         }
 
@@ -2933,7 +3294,7 @@ function generateStatsJSON(playersData, matchesData) {
 
         if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
             m.scorers.split(/[,、]/).forEach(e => {
-                let txt = e.trim(), c = 1;
+                let txt = String(e).trim(), c = 1;
                 const mm = txt.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
                 if (mm) { txt = mm[1].trim(); c = parseInt(mm[2], 10) || 1; }
                 const id = resolveId(txt);
@@ -2943,7 +3304,7 @@ function generateStatsJSON(playersData, matchesData) {
 
         if (m.assists && m.assists !== 'なし' && m.assists !== 'Nessuno') {
             m.assists.split(/[,、]/).forEach(e => {
-                let txt = e.trim(), c = 1;
+                let txt = String(e).trim(), c = 1;
                 const mm = txt.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
                 if (mm) { txt = mm[1].trim(); c = parseInt(mm[2], 10) || 1; }
                 const id = resolveId(txt);
@@ -2957,7 +3318,7 @@ function generateStatsJSON(playersData, matchesData) {
 
         if (m.goalkeepers) {
             m.goalkeepers.split(/[,、]/).forEach(e => {
-                const mm = e.trim().match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
+                const mm = e.trim().match(/^(.+?)\s*[(（]\s*(\d+)\s*[)）]\s*$/);
                 let raw = e.trim(), gkGa = ga;
                 if (mm) { raw = mm[1].trim(); const p = parseInt(mm[2], 10); if (!isNaN(p)) gkGa = p; }
                 const id = resolveId(raw);
@@ -2970,7 +3331,6 @@ function generateStatsJSON(playersData, matchesData) {
     });
 
     const list = Array.from(playerMap.values());
-    
     return {
         updated_at: new Date().toISOString(),
         team_totals: teamTotals,
@@ -2984,9 +3344,6 @@ function generateStatsJSON(playersData, matchesData) {
     };
 }
 
-/* =========================================================
-   LINE TEXT & DRAFT & IMPORT/EXPORT
-   ========================================================= */
 function generateLineMessage() {
     const date = $('matchDate').value || '未定';
     const time = $('matchTime').value || '11:00';
@@ -3001,7 +3358,6 @@ function generateLineMessage() {
     $$('#pitchGrid .pitch-player-select').forEach(sel => {
         if (sel.value) starters.push(`・[${sel.getAttribute('data-pos')}] ${sel.value}`);
     });
-
     const bench = [];
     $$('#benchGrid .bench-player-select').forEach(sel => {
         if (sel.value) bench.push(`・${sel.value}`);
@@ -3043,39 +3399,26 @@ async function copyLineText() {
 
 function collectFormData() {
     const data = {
-        matchId: $('matchId').value,
-        status: $('matchStatus').value,
-        date: $('matchDate').value,
-        time: $('matchTime').value,
-        category: $('matchCategory').value,
-        type: $('matchType').value,
-        opponent_id: $('opponentSelect').value,
-        location_id: $('locationSelect').value,
-        isHome: $('isHome').value,
-        score: $('matchScore').value,
+        matchId: $('matchId').value, status: $('matchStatus').value,
+        date: $('matchDate').value, time: $('matchTime').value,
+        category: $('matchCategory').value, type: $('matchType').value,
+        opponent_id: $('opponentSelect').value, location_id: $('locationSelect').value,
+        isHome: $('isHome').value, score: $('matchScore').value,
         formation: $('formationSelect').value,
-        starters_positions: {},
-        bench_details: [],
+        starters_positions: {}, bench_details: [],
         mvp: $('mvpSelect').value,
-        scorers: [],
-        assists: [],
-        gk: [],
-        yellows: [],
-        reds: [],
+        scorers: [], assists: [], gk: [], yellows: [], reds: [],
         trialists: State.trialists
     };
-
     $$('#pitchGrid .pitch-player-select').forEach(sel => {
         if (sel.value) data.starters_positions[sel.getAttribute('data-pos')] = sel.value;
     });
-
     $$('#benchGrid .bench-card').forEach(card => {
         const p = card.querySelector('.bench-player-select').value;
         const sub = card.querySelector('.bench-subbed-in').checked;
         const pos = card.querySelector('.bench-pos-select').value;
         if (p) data.bench_details.push({ player: p, subbed_in: sub, position_played: sub ? pos : null });
     });
-
     $$('.stat-row .scorer-player-select').forEach(sel => {
         if (sel.value) data.scorers.push({ name: sel.value, count: sel.parentElement.querySelector('.row-count-input').value, minute: sel.parentElement.querySelector('.minute-input')?.value });
     });
@@ -3087,15 +3430,12 @@ function collectFormData() {
     });
     $$('.stat-row .yellow-player-select').forEach(sel => { if (sel.value) data.yellows.push({ name: sel.value, minute: sel.parentElement.querySelector('.minute-input')?.value }); });
     $$('.stat-row .red-player-select').forEach(sel => { if (sel.value) data.reds.push({ name: sel.value, minute: sel.parentElement.querySelector('.minute-input')?.value }); });
-
     return data;
 }
 
 function saveDraft() {
     if (!State.isDirty) return;
-    try {
-        sessionStorage.setItem('yc_admin_draft', JSON.stringify(collectFormData()));
-    } catch (_) {}
+    try { sessionStorage.setItem('yc_admin_draft', JSON.stringify(collectFormData())); } catch (_) {}
 }
 
 function clearDraft() {
@@ -3128,18 +3468,15 @@ function restoreDraft() {
             $('formationSelect').value = d.formation;
             renderPitchAndBench();
         }
-
         State.trialists = d.trialists || [];
         renderTrialistsList();
         updateAllPlayerDropdowns();
-
         if (d.starters_positions) {
             Object.entries(d.starters_positions).forEach(([pos, val]) => {
                 const sel = document.querySelector(`#pitchGrid .pitch-player-select[data-pos="${pos}"]`);
-                if (sel) sel.value = val;
+                if (sel) ensureSelectOption(sel, val);
             });
         }
-
         if (Array.isArray(d.bench_details)) {
             d.bench_details.forEach((b, i) => {
                 const slot = document.querySelector(`[data-bench-slot="${i + 1}"]`);
@@ -3147,22 +3484,17 @@ function restoreDraft() {
                 const pSel = slot.querySelector('.bench-player-select');
                 const chk = slot.querySelector('.bench-subbed-in');
                 const posSel = slot.querySelector('.bench-pos-select');
-                if (pSel) pSel.value = b.player || '';
-                if (chk) {
-                    chk.checked = !!b.subbed_in;
-                    chk.dispatchEvent(new Event('change'));
-                }
+                if (pSel && b.player) ensureSelectOption(pSel, b.player);
+                if (chk) { chk.checked = !!b.subbed_in; chk.dispatchEvent(new Event('change')); }
                 if (posSel && b.position_played) posSel.value = b.position_played;
             });
         }
-
         ['scorers', 'assists', 'gk', 'yellow', 'red'].forEach(k => $(k + 'Container').innerHTML = '');
-
         (d.scorers || []).forEach(s => {
             addScorerRow();
             const last = $('scorersContainer').querySelector('.stat-row:last-child');
             if (last) {
-                last.querySelector('.scorer-player-select').value = s.name;
+                ensureSelectOption(last.querySelector('.scorer-player-select'), s.name);
                 last.querySelector('.row-count-input').value = s.count;
                 if (s.minute && last.querySelector('.minute-input')) last.querySelector('.minute-input').value = s.minute;
             }
@@ -3171,7 +3503,7 @@ function restoreDraft() {
             addAssistRow();
             const last = $('assistsContainer').querySelector('.stat-row:last-child');
             if (last) {
-                last.querySelector('.assist-player-select').value = a.name;
+                ensureSelectOption(last.querySelector('.assist-player-select'), a.name);
                 last.querySelector('.row-count-input').value = a.count;
             }
         });
@@ -3179,7 +3511,7 @@ function restoreDraft() {
             addGkRow();
             const last = $('gkContainer').querySelector('.stat-row:last-child');
             if (last) {
-                last.querySelector('.gk-player-select').value = g.name;
+                ensureSelectOption(last.querySelector('.gk-player-select'), g.name);
                 last.querySelector('.row-count-input').value = g.conceded;
             }
         });
@@ -3187,7 +3519,8 @@ function restoreDraft() {
             addYellowRow();
             const last = $('yellowCardsContainer').querySelector('.stat-row:last-child');
             if (last) {
-                last.querySelector('.yellow-player-select').value = typeof n === 'object' ? n.name : n;
+                const nm = typeof n === 'object' ? n.name : n;
+                ensureSelectOption(last.querySelector('.yellow-player-select'), nm);
                 if (typeof n === 'object' && n.minute && last.querySelector('.minute-input')) last.querySelector('.minute-input').value = n.minute;
             }
         });
@@ -3195,37 +3528,31 @@ function restoreDraft() {
             addRedRow();
             const last = $('redCardsContainer').querySelector('.stat-row:last-child');
             if (last) {
-                last.querySelector('.red-player-select').value = typeof n === 'object' ? n.name : n;
+                const nm = typeof n === 'object' ? n.name : n;
+                ensureSelectOption(last.querySelector('.red-player-select'), nm);
                 if (typeof n === 'object' && n.minute && last.querySelector('.minute-input')) last.querySelector('.minute-input').value = n.minute;
             }
         });
-
-        if (d.mvp) $('mvpSelect').value = d.mvp;
-
+        if (d.mvp) ensureSelectOption($('mvpSelect'), d.mvp);
         updatePlayerExclusions();
         updateFilledCards();
+        renderMisterHelper();
         clearDraft();
         showToast('success', '✅ Draft ripristinato');
-    } catch (e) {
-        showToast('error', 'Errore ripristino draft: ' + e.message);
-    }
+    } catch (e) { showToast('error', 'Errore ripristino draft: ' + e.message); }
 }
 
 function startAutosave() {
     if (State.autosaveTimer) clearInterval(State.autosaveTimer);
-    State.autosaveTimer = setInterval(() => {
-        if (State.isDirty) saveDraft();
-    }, 30000);
+    State.autosaveTimer = setInterval(() => { if (State.isDirty) saveDraft(); }, 30000);
 }
 
 async function exportJSON() {
     try {
         const all = {
             exported_at: new Date().toISOString(),
-            matches: State.matches,
-            players: State.players,
-            opponents: State.opponents,
-            locations: State.locations
+            matches: State.matches, players: State.players,
+            opponents: State.opponents, locations: State.locations
         };
         const blob = new Blob([JSON.stringify(all, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
@@ -3235,9 +3562,7 @@ async function exportJSON() {
         a.click();
         URL.revokeObjectURL(url);
         showToast('success', '✅ Backup esportato');
-    } catch (e) {
-        showToast('error', 'Errore export: ' + e.message);
-    }
+    } catch (e) { showToast('error', 'Errore export: ' + e.message); }
 }
 
 function importJSON() {
@@ -3252,10 +3577,8 @@ $('importFileInput').addEventListener('change', async (e) => {
     try {
         const text = await file.text();
         const data = JSON.parse(text);
-
         const ok = await showConfirm('Confermi l\'importazione dei dati? I dati presenti su GitHub verranno aggiornati con il contenuto del file.', true, 'Importa Backup JSON');
         if (!ok) return;
-
         if (data.matches && Array.isArray(data.matches)) {
             State.matches = data.matches;
             const { sha } = await ghGet('matches.json');
@@ -3276,45 +3599,28 @@ $('importFileInput').addEventListener('change', async (e) => {
             const { sha } = await ghGet('locations.json');
             await ghPut('locations.json', State.locations, sha, 'Admin: Import locations backup');
         }
-
         renderAllTables();
         renderPitchAndBench();
         updateAllPlayerDropdowns();
         showToast('success', '✅ Backup importato con successo su GitHub!');
-    } catch (err) {
-        showToast('error', 'File JSON non valido o errore durante l\'import: ' + err.message);
-    }
+    } catch (err) { showToast('error', 'File JSON non valido o errore durante l\'import: ' + err.message); }
 });
 
-/* =========================================================
-   EVENT DELEGATION & LISTENERS
-   ========================================================= */
 document.addEventListener('click', async (e) => {
     const actionEl = e.target.closest('[data-action]');
     if (!actionEl) return;
     const action = actionEl.getAttribute('data-action');
 
     switch (action) {
-        case 'set-lang':
-            setLanguage(actionEl.getAttribute('data-lang'));
-            break;
-        case 'toggle-dark':
-            toggleDark();
-            break;
-        case 'logout':
-            logout();
-            break;
-        case 'reset-form':
-            resetForm();
-            break;
+        case 'set-lang': setLanguage(actionEl.getAttribute('data-lang')); break;
+        case 'toggle-dark': toggleDark(); break;
+        case 'logout': logout(); break;
+        case 'reset-form': resetForm(); break;
         case 'switch-tab': {
             const tabId = actionEl.getAttribute('data-tab');
             if (State.isDirty && !await showConfirm(t('unsavedMsg'), false, '⚠️ ' + t('unsavedTitle'))) return;
             $$('.tab-content').forEach(tc => tc.classList.add('hidden'));
-            $$('.tab-btn').forEach(tb => {
-                tb.classList.remove('active');
-                tb.setAttribute('aria-selected', 'false');
-            });
+            $$('.tab-btn').forEach(tb => { tb.classList.remove('active'); tb.setAttribute('aria-selected', 'false'); });
             $(tabId).classList.remove('hidden');
             actionEl.classList.add('active');
             actionEl.setAttribute('aria-selected', 'true');
@@ -3331,10 +3637,9 @@ document.addEventListener('click', async (e) => {
         case 'add-yellow': addYellowRow(); break;
         case 'add-red': addRedRow(); break;
         case 'clear-pitch': clearPitch(); break;
+        case 'suggest-lineup': suggestLineup(); break;
         case 'add-trialist': addTrialist(); break;
-        case 'remove-trialist':
-            removeTrialist(actionEl.getAttribute('data-id'));
-            break;
+        case 'remove-trialist': removeTrialist(actionEl.getAttribute('data-id')); break;
         case 'remove-row':
             actionEl.closest('.stat-row')?.remove();
             updatePlayerExclusions();
@@ -3364,19 +3669,17 @@ $('matchForm').addEventListener('submit', saveMatch);
 
 document.addEventListener('change', (e) => {
     const el = e.target;
-
     if (el.id === 'formationSelect') {
         renderPitchAndBench();
     }
-
     if (el.classList.contains('bench-subbed-in')) {
         const posSel = el.closest('.bench-sub-row').querySelector('.bench-pos-select');
         if (posSel) posSel.disabled = !el.checked;
     }
-
     if (el.classList.contains('match-squad-select') || el.classList.contains('player-dropdown-dynamic')) {
         updatePlayerExclusions();
         updateFilledCards();
+        renderMisterHelper();
     }
 });
 
@@ -3402,14 +3705,10 @@ document.addEventListener('click', (e) => {
     if (!th) return;
     const field = th.getAttribute('data-sort');
     let sortState, renderFn;
-    if (th.closest('#playersTab')) {
-        sortState = State.playerSort; renderFn = renderPlayersTable;
-    } else if (th.closest('#opponentsTab')) {
-        sortState = State.opponentSort; renderFn = renderOpponentsSelectAndTable;
-    } else if (th.closest('#locationsTab')) {
-        sortState = State.locationSort; renderFn = renderLocationsSelectAndTable;
-    } else return;
-
+    if (th.closest('#playersTab')) { sortState = State.playerSort; renderFn = renderPlayersTable; }
+    else if (th.closest('#opponentsTab')) { sortState = State.opponentSort; renderFn = renderOpponentsSelectAndTable; }
+    else if (th.closest('#locationsTab')) { sortState = State.locationSort; renderFn = renderLocationsSelectAndTable; }
+    else return;
     if (sortState.field === field) {
         sortState.dir = sortState.dir === 'asc' ? 'desc' : 'asc';
     } else {
@@ -3420,17 +3719,13 @@ document.addEventListener('click', (e) => {
 });
 
 window.addEventListener('beforeunload', (e) => {
-    if (State.isDirty) {
-        e.preventDefault();
-        e.returnValue = '';
-    }
+    if (State.isDirty) { e.preventDefault(); e.returnValue = ''; }
 });
 
 document.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 's') {
         e.preventDefault();
-        if (!$('matchesTab').classList.contains('hidden')) {$('matchForm').requestSubmit();
-        }
+        if (!$('matchesTab').classList.contains('hidden')) $('matchForm').requestSubmit();
     }
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
@@ -3454,11 +3749,8 @@ window.addEventListener('DOMContentLoaded', () => {
     setLanguage(State.lang);
     renderSurfaceDropdown();
     startAutosave();
-
     if (State.token) verifyAndLogin(State.token);
-
-    if (!$('matchDate').value) {$('matchDate').value = new Date().toISOString().split('T')[0];
-    }
+    if (!$('matchDate').value) $('matchDate').value = new Date().toISOString().split('T')[0];
 });
 </script>
 </body>
