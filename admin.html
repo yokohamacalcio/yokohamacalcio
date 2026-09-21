@@ -180,7 +180,7 @@ body.dark .tab-btn:hover { color: var(--sky); }
 }
 body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); border-color: var(--sky); }
 
-/* MISTER HELPER BOX - REDESIGNED UI */
+/* MISTER HELPER BOX */
 .mister-helper-box {
     background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
     border-radius: 16px;
@@ -236,7 +236,7 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
 }
 .mister-helper-body {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 10px;
 }
 .mister-pos-suggestion {
@@ -283,11 +283,12 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     font-size: 0.75rem;
     padding: 4px 6px;
     border-radius: 6px;
     background: rgba(255, 255, 255, 0.03);
+    min-width: 0;
 }
 .mister-player-line.rank-1 { border-left: 3px solid #10b981; }
 .mister-player-line.rank-2 { border-left: 3px solid #f59e0b; }
@@ -297,24 +298,32 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     font-style: italic;
     justify-content: center;
     background: transparent;
+    border-left: none;
 }
 .mister-player-name {
+    flex: 1 1 auto;
+    min-width: 0;
     color: #f1f5f9;
     font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 120px;
 }
 .mister-player-count {
-    background: rgba(0, 0, 0, 0.3);
+    flex: 0 0 auto;
+    min-width: 44px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.35);
     color: #87ceeb;
     font-weight: 800;
     padding: 2px 6px;
     border-radius: 8px;
-    font-size: 0.65rem;
-    flex-shrink: 0;
+    font-size: 0.68rem;
+    letter-spacing: 0.3px;
 }
+.mister-player-line.rank-1 .mister-player-count { background: rgba(16, 185, 129, 0.35); color: #a7f3d0; }
+.mister-player-line.rank-2 .mister-player-count { background: rgba(245, 158, 11, 0.35); color: #fde68a; }
+.mister-player-line.rank-3 .mister-player-count { background: rgba(100, 116, 139, 0.35); color: #cbd5e1; }
 
 /* CAMPO TATTICO */
 .tactical-pitch-container {
@@ -327,7 +336,6 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     overflow: hidden;
     margin-top: 14px;
 }
-
 .pitch-header-bar {
     display: flex;
     justify-content: space-between;
@@ -338,7 +346,6 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     position: relative;
     z-index: 2;
 }
-
 .pitch-grid {
     position: relative;
     aspect-ratio: 3 / 4;
@@ -367,7 +374,6 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     transform: translate(-50%, -50%);
     pointer-events: none;
 }
-
 .pitch-position-card {
     position: absolute;
     transform: translate(-50%, -50%);
@@ -447,13 +453,11 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     font-family: inherit;
     cursor: pointer;
 }
-
 @media (max-width: 600px) {
     .pitch-position-card { width: 88px; padding: 5px; }
     .pitch-player-select { font-size: 0.65rem; }
 }
 
-/* PANCHINA */
 .bench-container { margin-top: 22px; }
 .bench-grid {
     display: grid;
@@ -478,7 +482,6 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     align-items: center;
 }
 body.dark .bench-card-header { color: var(--sky); }
-
 .bench-sub-row {
     display: flex;
     align-items: center;
@@ -500,7 +503,6 @@ body.dark .bench-card-header { color: var(--sky); }
     gap: 4px;
 }
 
-/* TRIALIST */
 .trialist-box {
     background: #ecfdf5;
     border: 1px solid #a7f3d0;
@@ -509,7 +511,6 @@ body.dark .bench-card-header { color: var(--sky); }
     margin-top: 16px;
 }
 body.dark .trialist-box { background: #064e3b; border-color: #047857; }
-
 .trialist-list {
     display: flex;
     flex-wrap: wrap;
@@ -536,7 +537,6 @@ body.dark .trialist-box { background: #064e3b; border-color: #047857; }
     padding: 0;
 }
 
-/* TABELLE */
 .data-table-container {
     overflow-x: auto;
     margin-top: 10px;
@@ -562,9 +562,7 @@ body.dark .trialist-box { background: #064e3b; border-color: #047857; }
     cursor: pointer;
     user-select: none;
 }
-.data-table th[data-sort]:hover {
-    background: var(--navy-dark);
-}
+.data-table th[data-sort]:hover { background: var(--navy-dark); }
 .data-table td {
     padding: 8px 10px;
     border-bottom: 1px solid var(--border);
@@ -581,7 +579,6 @@ body.dark .trialist-box { background: #064e3b; border-color: #047857; }
     flex-wrap: wrap;
 }
 
-/* STAT ROWS */
 .stat-row {
     display: flex;
     align-items: center;
@@ -597,64 +594,11 @@ body.dark .trialist-box { background: #064e3b; border-color: #047857; }
 .stat-row input[type="number"] { width: 60px; text-align: center; }
 .stat-row input[type="text"].minute-input { width: 60px; text-align: center; }
 
-/* PULSANTI */
-.btn-remove-row {
-    background: var(--red);
-    color: white;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: inherit;
-}
-.btn-add-row {
-    background: var(--sky-dark);
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.82rem;
-    font-weight: bold;
-    margin-top: 5px;
-    font-family: inherit;
-}
-.btn-clear-pitch {
-    background: var(--red);
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: bold;
-    font-family: inherit;
-}
-.btn-new-match {
-    background: var(--green);
-    color: white;
-    border: none;
-    padding: 10px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 0.88rem;
-    white-space: nowrap;
-    font-family: inherit;
-}
-.btn-add-trialist {
-    background: var(--green);
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.88rem;
-    font-weight: bold;
-    width: 100%;
-    margin-top: 10px;
-    font-family: inherit;
-}
+.btn-remove-row { background: var(--red); color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-family: inherit; }
+.btn-add-row { background: var(--sky-dark); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: bold; margin-top: 5px; font-family: inherit; }
+.btn-clear-pitch { background: var(--red); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; font-family: inherit; }
+.btn-new-match { background: var(--green); color: white; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.88rem; white-space: nowrap; font-family: inherit; }
+.btn-add-trialist { background: var(--green); color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 0.88rem; font-weight: bold; width: 100%; margin-top: 10px; font-family: inherit; }
 .btn-submit {
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
     color: white;
@@ -670,64 +614,12 @@ body.dark .trialist-box { background: #064e3b; border-color: #047857; }
     transition: opacity 0.2s;
 }
 .btn-submit:hover:not(:disabled) { opacity: 0.92; }
-.btn-submit:disabled {
-    background: #94a3b8;
-    cursor: not-allowed;
-    box-shadow: none;
-}
-.btn-logout {
-    background: var(--red);
-    color: white;
-    padding: 6px 14px;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 0.8rem;
-    font-family: inherit;
-}
-.btn-load {
-    background: var(--sky-dark);
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 0.88rem;
-    font-family: inherit;
-}
-.btn-reset {
-    background: #64748b;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: bold;
-    font-family: inherit;
-}
-.btn-edit {
-    background: var(--sky-dark);
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.78rem;
-    font-family: inherit;
-}
-.btn-delete {
-    background: var(--red);
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.78rem;
-    font-family: inherit;
-}
+.btn-submit:disabled { background: #94a3b8; cursor: not-allowed; box-shadow: none; }
+.btn-logout { background: var(--red); color: white; padding: 6px 14px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; font-family: inherit; }
+.btn-load { background: var(--sky-dark); color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.88rem; font-family: inherit; }
+.btn-reset { background: #64748b; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; font-family: inherit; }
+.btn-edit { background: var(--sky-dark); color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.78rem; font-family: inherit; }
+.btn-delete { background: var(--red); color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.78rem; font-family: inherit; }
 .btn-icon {
     background: rgba(255,255,255,0.1);
     border: 1px solid var(--border);
@@ -760,7 +652,6 @@ body.dark .trialist-box { background: #064e3b; border-color: #047857; }
 }
 body.dark .lang-btn-admin.active { background: var(--sky); color: var(--navy-dark); }
 
-/* MODAL */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -775,10 +666,7 @@ body.dark .lang-btn-admin.active { background: var(--sky); color: var(--navy-dar
     pointer-events: none;
     transition: opacity 0.2s;
 }
-.modal-overlay.show {
-    opacity: 1;
-    pointer-events: auto;
-}
+.modal-overlay.show { opacity: 1; pointer-events: auto; }
 .modal-box {
     background: var(--card-bg);
     color: var(--text);
@@ -793,43 +681,15 @@ body.dark .lang-btn-admin.active { background: var(--sky); color: var(--navy-dar
     overflow-y: auto;
 }
 .modal-overlay.show .modal-box { transform: scale(1); }
-.modal-title {
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: var(--navy);
-    margin-bottom: 12px;
-}
+.modal-title { font-size: 1.15rem; font-weight: 800; color: var(--navy); margin-bottom: 12px; }
 body.dark .modal-title { color: var(--sky); }
-.modal-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    margin-top: 20px;
-}
-.modal-actions button {
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-weight: bold;
-    font-family: inherit;
-    cursor: pointer;
-    border: none;
-    font-size: 0.9rem;
-}
-.btn-modal-cancel {
-    background: var(--border);
-    color: var(--text);
-}
-.btn-modal-confirm {
-    background: var(--navy);
-    color: #fff;
-}
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+.modal-actions button { padding: 10px 18px; border-radius: 8px; font-weight: bold; font-family: inherit; cursor: pointer; border: none; font-size: 0.9rem; }
+.btn-modal-cancel { background: var(--border); color: var(--text); }
+.btn-modal-confirm { background: var(--navy); color: #fff; }
 body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); }
-.btn-modal-danger {
-    background: var(--red);
-    color: #fff;
-}
+.btn-modal-danger { background: var(--red); color: #fff; }
 
-/* TOAST */
 #toastContainer {
     position: fixed;
     top: 20px;
@@ -864,7 +724,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
 .toast-warn    { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
 .toast i { margin-top: 2px; flex-shrink: 0; }
 
-/* DRAFT BANNER */
 .draft-banner {
     background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
     border: 1px solid #f59e0b;
@@ -890,7 +749,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     font-size: 0.82rem;
 }
 
-/* MOBILE */
 @media (max-width: 768px) {
     body { padding: 4px; }
     .admin-container { padding: 12px; border-radius: 12px; margin: 4px auto; }
@@ -1153,13 +1011,12 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                     </div>
                 </div>
 
-                <!-- MISTER HELPER BOX REDESIGNED -->
                 <div class="mister-helper-box" id="misterHelperBox">
                     <div class="mister-helper-header">
                         <div>
                             <strong><i class="fas fa-user-tie"></i> Suggerimento Mister Virtuale</strong>
                             <span class="mister-helper-subtitle" data-i18n="misterHelper.subtitle">
-                                Basato sullo storico delle posizioni giocate nella stagione
+                                Basato sulle percentuali di utilizzo nei ruoli stagionali
                             </span>
                         </div>
                         <button type="button" class="btn-suggest-lineup" data-action="suggest-lineup">
@@ -1459,6 +1316,9 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
 <script>
 'use strict';
 
+/* =========================================================
+   I18N
+   ========================================================= */
 const I18N_DICT = {
     it: {
         loginSub: "Inserisci il GitHub Token (PAT) per accedere.",
@@ -1485,7 +1345,7 @@ const I18N_DICT = {
         lblFormation: "Modulo Tattico", lblStartersTitle: "Titolari in Campo",
         lblBenchTitle: "Panchina (10 Posti)",
         lblTrialistsList: "Giocatori in Prova (solo per questo match):",
-        "misterHelper.subtitle": "Basato sullo storico delle posizioni giocate nella stagione",
+        "misterHelper.subtitle": "Basato sulle percentuali di utilizzo nei ruoli stagionali",
         "misterHelper.btnSuggest": "Suggerisci Formazione",
         playersHeading: "Aggiungi / Modifica Giocatore",
         lblNum: "Numero Maglia:", lblKanji: "Nome Kanji / Ufficiale:", lblKana: "Nome Kana:",
@@ -1536,7 +1396,7 @@ const I18N_DICT = {
         lblFormation: "フォーメーション", lblStartersTitle: "先発メンバー",
         lblBenchTitle: "控え (10名)",
         lblTrialistsList: "練習生 (この試合のみ):",
-        "misterHelper.subtitle": "今シーズンの起用ポジション履歴に基づく",
+        "misterHelper.subtitle": "シーズン起用ポジション比率に基づく",
         "misterHelper.btnSuggest": "フォーメーション提案",
         playersHeading: "選手追加・編集",
         lblNum: "背番号:", lblKanji: "氏名:", lblKana: "フリガナ:",
@@ -1586,7 +1446,7 @@ const I18N_DICT = {
         lblFormation: "Formation", lblStartersTitle: "Starting XI",
         lblBenchTitle: "Bench (10 Slots)",
         lblTrialistsList: "Trialists (this match only):",
-        "misterHelper.subtitle": "Based on season position history",
+        "misterHelper.subtitle": "Based on season usage percentages per role",
         "misterHelper.btnSuggest": "Suggest Lineup",
         playersHeading: "Add / Edit Player",
         lblNum: "Number:", lblKanji: "Name:", lblKana: "Kana:",
@@ -1614,6 +1474,9 @@ const I18N_DICT = {
     }
 };
 
+/* =========================================================
+   COSTANTI
+   ========================================================= */
 const REPO = 'yokohamacalcio/yokohamacalcio';
 const TOKEN_KEY = 'yc_gh_token';
 
@@ -1678,6 +1541,17 @@ const SURFACE_PRESETS = {
     "grass":      { ja: "天然芝", it: "Erba naturale", en: "Natural Grass" }
 };
 
+const STAT_CONTAINER_IDS = [
+    'scorersContainer',
+    'assistsContainer',
+    'gkContainer',
+    'yellowCardsContainer',
+    'redCardsContainer'
+];
+
+/* =========================================================
+   STATE
+   ========================================================= */
 const State = {
     lang: sessionStorage.getItem('yc_admin_lang') || localStorage.getItem('preferred_lang') || 'it',
     token: sessionStorage.getItem(TOKEN_KEY) || '',
@@ -1696,14 +1570,14 @@ const State = {
     autosaveTimer: null
 };
 
+/* =========================================================
+   UTILS
+   ========================================================= */
 function $(id) { return document.getElementById(id); }
 function $$(sel, ctx = document) { return ctx.querySelectorAll(sel); }
 function cleanStr(s) { return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim(); }
 function isJapanese(s) { return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf]/.test(s); }
-
-function t(key) {
-    return (I18N_DICT[State.lang] && I18N_DICT[State.lang][key]) || key;
-}
+function t(key) { return (I18N_DICT[State.lang] && I18N_DICT[State.lang][key]) || key; }
 
 function utf8ToBase64(str) {
     const bytes = new TextEncoder().encode(str);
@@ -1718,12 +1592,47 @@ function base64ToUtf8(b64) {
     return new TextDecoder().decode(bytes);
 }
 
+/**
+ * Restituisce il nome del giocatore nella lingua corrente.
+ * - JA: preferisce name_kanji se in caratteri giapponesi, fallback name_kana
+ * - IT/EN: preferisce name_romaji, fallback name_kanji
+ */
+function localizePlayerName(raw) {
+    if (!raw) return '';
+    let p = null;
+    if (typeof raw === 'object' && raw !== null) {
+        p = raw;
+    } else {
+        const cleanRaw = cleanStr(raw);
+        p = [...State.players, ...State.trialists].find(x =>
+            cleanStr(x.id) === cleanRaw ||
+            cleanStr(x.name_kanji) === cleanRaw ||
+            cleanStr(x.name_kana) === cleanRaw ||
+            cleanStr(x.name_romaji) === cleanRaw
+        );
+    }
+    if (!p) return String(raw);
+
+    if (State.lang === 'ja') {
+        if (p.name_kanji && isJapanese(p.name_kanji)) return p.name_kanji;
+        return p.name_kana || p.name_kanji || p.name_romaji || String(raw);
+    }
+    return p.name_romaji || p.name_kanji || p.name_kana || String(raw);
+}
+
+function clearStatContainers() {
+    STAT_CONTAINER_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = '';
+    });
+}
+
 function findMatchingPlayerValue(raw) {
     if (!raw) return '';
     const cleanRaw = cleanStr(raw);
     if (!cleanRaw) return '';
 
-    let normalizedRaw = String(raw)
+    const normalizedRaw = String(raw)
         .replace(/\((.*?)\)/g, '')
         .replace(/\s*[xX\*]\s*\d+/g, '')
         .trim();
@@ -1770,6 +1679,9 @@ function ensureSelectOption(sel, value) {
     sel.value = value;
 }
 
+/* =========================================================
+   TOAST & MODAL
+   ========================================================= */
 function showToast(type, message, duration = 4000) {
     const container = $('toastContainer');
     const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warn: 'fa-exclamation-triangle' };
@@ -1841,6 +1753,9 @@ async function showConfirm(message, danger = false, customTitle = null) {
     });
 }
 
+/* =========================================================
+   LANGUAGE & DARK MODE
+   ========================================================= */
 function renderAllTables() {
     renderOpponentsSelectAndTable();
     renderLocationsSelectAndTable();
@@ -1851,6 +1766,7 @@ function setLanguage(lang) {
     if (!I18N_DICT[lang]) return;
     State.lang = lang;
     sessionStorage.setItem('yc_admin_lang', lang);
+
     $$('.lang-btn-admin').forEach(btn => {
         btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
     });
@@ -1858,8 +1774,15 @@ function setLanguage(lang) {
         const key = el.getAttribute('data-i18n');
         if (I18N_DICT[lang][key]) el.textContent = I18N_DICT[lang][key];
     });
+
     renderSurfaceDropdown();
     renderAllTables();
+
+    // Rinnova i nomi nei dropdown e i suggerimenti con la lingua corrente
+    if (State.players.length > 0) {
+        updateAllPlayerDropdowns();
+        renderMisterHelper();
+    }
 }
 
 function initDarkMode() {
@@ -1879,6 +1802,9 @@ function updateDarkIcon() {
     icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
 }
 
+/* =========================================================
+   GITHUB API
+   ========================================================= */
 async function ghGet(filePath) {
     const url = `https://api.github.com/repos/${REPO}/contents/${filePath}`;
     const res = await fetch(url, {
@@ -1948,6 +1874,9 @@ async function formatGhError(res, context) {
     return `HTTP ${res.status} (${context}) — ${detail || 'Errore sconosciuto'}`;
 }
 
+/* =========================================================
+   LOGIN & INIT
+   ========================================================= */
 async function verifyAndLogin(token) {
     const errEl = $('loginError');
     const btn = $('loginBtn');
@@ -2023,7 +1952,7 @@ async function initData() {
 }
 
 /* =========================================================
-   LOCALIZED OPPONENTS & LOCATIONS
+   RENDER & EDIT: OPPONENTS
    ========================================================= */
 function renderOpponentsSelectAndTable() {
     const keys = Object.keys(State.opponents).sort();
@@ -2105,6 +2034,9 @@ function resetOpponentForm() {
     $('editOpponentKey').value = '';
 }
 
+/* =========================================================
+   RENDER & EDIT: LOCATIONS
+   ========================================================= */
 function renderSurfaceDropdown() {
     const sel = $('locSurfaceSelect');
     if (!sel) return;
@@ -2205,6 +2137,9 @@ function resetLocationForm() {
     renderSurfaceDropdown();
 }
 
+/* =========================================================
+   RENDER & EDIT: PLAYERS
+   ========================================================= */
 function renderPlayersTable() {
     let rows = State.players.slice();
     if (State.playerSearch) {
@@ -2227,10 +2162,11 @@ function renderPlayersTable() {
         }
         return String(va || '').toLowerCase().localeCompare(String(vb || '').toLowerCase()) * dir;
     });
+
     $('playersTableBody').innerHTML = rows.map(p => `
         <tr>
             <td><b>${p.number ?? '-'}</b></td>
-            <td>${p.name_kanji || '-'}</td>
+            <td>${localizePlayerName(p) || '-'}</td>
             <td>${p.name_romaji || '-'}</td>
             <td><span class="pos-badge">${(p.role || '').toUpperCase()}</span></td>
             <td>${p.position || '-'}</td>
@@ -2318,6 +2254,9 @@ function resetPlayerForm() {
     $('editPlayerCaps').value = '0';
 }
 
+/* =========================================================
+   TRIALISTS
+   ========================================================= */
 async function addTrialist() {
     const name = await showPrompt(t('trialistPrompt'), 'es. 山田 太郎');
     if (!name || !name.trim()) return;
@@ -2352,7 +2291,7 @@ function renderTrialistsList() {
     }
     c.innerHTML = State.trialists.map(t => `
         <div class="trialist-item">
-            <span><i class="fas fa-user-clock"></i> ${t.name_kanji}</span>
+            <span><i class="fas fa-user-clock"></i> ${localizePlayerName(t)}</span>
             <button type="button" class="btn-remove-trialist" data-action="remove-trialist" data-id="${t.id}">
                 <i class="fas fa-times-circle"></i>
             </button>
@@ -2360,70 +2299,107 @@ function renderTrialistsList() {
     `).join('');
 }
 
+/* =========================================================
+   PLAYER LISTS & AFFINITY CALCULATIONS
+   ========================================================= */
 function getAllAvailablePlayers(onlyGK = false) {
     const list = [{ name: '— nessuno —', value: '' }];
     const all = [...State.players, ...State.trialists];
     let filtered = onlyGK
         ? all.filter(p => p.position === 'GK' || p.role === 'gk' || p.position === 'TRIAL')
         : all;
-    filtered.sort((a, b) => String(a.name_kanji || '').localeCompare(String(b.name_kanji || '')));
+
+    filtered.sort((a, b) => localizePlayerName(a).localeCompare(localizePlayerName(b)));
+
     filtered.forEach(p => {
         const isTrial = p.position === 'TRIAL' ? ' (PROVA)' : '';
-        list.push({ name: (p.name_kanji || p.name_romaji) + isTrial, value: p.name_kanji || p.name_romaji });
+        const displayName = localizePlayerName(p) + isTrial;
+        const value = p.name_kanji || p.name_romaji;
+        list.push({ name: displayName, value });
     });
     return list;
 }
 
-function getAffinityForPosition(playerName, posTag) {
-    const p = [...State.players, ...State.trialists].find(x =>
-        x.name_kanji === playerName || x.name_romaji === playerName || x.id === playerName
-    );
-    if (!p) return { score: 0, exact: 0, macro: 0 };
-    const stats = State.statsData[p.id] || {};
+function computeAffinityData(playerId, posTag) {
+    const stats = State.statsData[playerId] || {};
     const positions = stats.positions_played || {};
 
+    const totalApps = Object.values(positions).reduce((a, b) => a + b, 0);
     const exact = positions[posTag] || 0;
     const macro = POS_MACRO_MAP[posTag] || '';
-    let macroCount = 0;
+    let macroTotal = 0;
     Object.entries(positions).forEach(([tag, count]) => {
-        if (tag !== posTag && POS_MACRO_MAP[tag] === macro) macroCount += count;
+        if (POS_MACRO_MAP[tag] === macro) macroTotal += count;
     });
 
     return {
-        score: exact * 10 + macroCount * 3,
+        totalApps,
         exact,
-        macro: macroCount
+        macroTotal,
+        pctExact: totalApps > 0 ? (exact / totalApps) * 100 : 0,
+        pctMacro: totalApps > 0 ? (macroTotal / totalApps) * 100 : 0
     };
 }
 
-function getTopPlayersForPosition(posTag, limit = 3, excludeUsed = null) {
-    const allPlayers = [...State.players, ...State.trialists].filter(p => p.role !== 'staff');
-    const ranked = allPlayers.map(p => {
-        const stats = State.statsData[p.id] || {};
-        const positions = stats.positions_played || {};
-        const exact = positions[posTag] || 0;
-        const macro = POS_MACRO_MAP[posTag] || '';
-        let macroCount = 0;
-        Object.entries(positions).forEach(([tag, count]) => {
-            if (tag !== posTag && POS_MACRO_MAP[tag] === macro) macroCount += count;
-        });
-        const score = exact * 10 + macroCount * 3;
-        return {
-            id: p.id,
-            name: p.name_kanji || p.name_romaji,
-            exact,
-            macro: macroCount,
-            score,
-            isUsed: excludeUsed && excludeUsed.has(p.name_kanji || p.name_romaji)
-        };
-    }).filter(p => p.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, limit);
-    return ranked;
+function computePlayerAffinityForPosition(player, posTag) {
+    const aff = computeAffinityData(player.id, posTag);
+    const posMacro = POS_MACRO_MAP[posTag] || '';
+
+    let playerMacro = 'UNKNOWN';
+    if (player.role === 'gk' || (player.position || '').toUpperCase().includes('GK')) playerMacro = 'GK';
+    else if (player.role === 'df') playerMacro = 'DEF';
+    else if (player.role === 'mf') playerMacro = 'MID';
+    else if (player.role === 'fw') playerMacro = 'ATT';
+
+    // Portieri: caso speciale
+    if (posTag === 'GK') {
+        if (playerMacro === 'GK') {
+            return { ...aff, score: 100 + aff.pctExact, isRoleMatch: true, displayPct: aff.pctExact, roleNote: 'GK' };
+        }
+        return { ...aff, score: -100, isRoleMatch: false, displayPct: aff.pctExact, roleNote: 'NOT_GK' };
+    }
+    if (playerMacro === 'GK') {
+        return { ...aff, score: -50, isRoleMatch: false, displayPct: aff.pctExact, roleNote: 'GK_OFF_ROLE' };
+    }
+
+    let roleBonus = 0;
+    if (playerMacro === 'DEF' && posMacro === 'DEF') roleBonus = 30;
+    else if (playerMacro === 'MID' && (posMacro === 'MID' || posMacro === 'ATT_MID')) roleBonus = 30;
+    else if (playerMacro === 'ATT' && (posMacro === 'ATT' || posMacro === 'ATT_MID')) roleBonus = 30;
+
+    const absBonus = Math.min(aff.exact * 2, 20);
+    const score = aff.pctExact + aff.pctMacro * 0.5 + roleBonus + absBonus;
+
+    return {
+        ...aff,
+        score,
+        isRoleMatch: roleBonus > 0,
+        displayPct: aff.pctExact,
+        roleNote: playerMacro
+    };
+}
+
+function getAffinityForPosition(playerName, posTag) {
+    const p = [...State.players, ...State.trialists].find(x =>
+        x.name_kanji === playerName ||
+        x.name_romaji === playerName ||
+        x.id === playerName ||
+        cleanStr(x.name_kanji) === cleanStr(playerName) ||
+        cleanStr(x.name_romaji) === cleanStr(playerName)
+    );
+    if (!p) return { score: 0, exact: 0, macro: 0, pct: 0 };
+
+    const aff = computePlayerAffinityForPosition(p, posTag);
+    return {
+        score: aff.score,
+        exact: aff.exact,
+        macro: Math.max(0, aff.macroTotal - aff.exact),
+        pct: aff.pctExact
+    };
 }
 
 /* =========================================================
-   REDESIGNED MISTER HELPER
+   MISTER HELPER
    ========================================================= */
 function renderMisterHelper() {
     const container = $('misterHelperBody');
@@ -2448,15 +2424,33 @@ function renderMisterHelper() {
 
     container.innerHTML = Object.entries(coords).map(([posTag]) => {
         const macro = POS_MACRO_MAP[posTag] || '';
-        const top3 = getTopPlayersForPosition(posTag, 3, usedPlayers);
 
-        const playersHtml = top3.length > 0
-            ? top3.map((p, i) => `
-                <div class="mister-player-line rank-${i+1}">
-                    <span class="mister-player-name" title="${p.name}">${p.name}</span>
-                    <span class="mister-player-count">${p.exact} / ${p.macro + p.exact}</span>
-                </div>
-            `).join('')
+        const allPlayers = [...State.players, ...State.trialists].filter(p => p.role !== 'staff');
+        const ranked = allPlayers
+            .map(p => {
+                const aff = computePlayerAffinityForPosition(p, posTag);
+                return {
+                    ...aff,
+                    id: p.id,
+                    name: localizePlayerName(p),
+                    isUsed: usedPlayers.has(p.name_kanji || p.name_romaji)
+                };
+            })
+            .filter(p => p.totalApps > 0 && p.score > 0)
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 3);
+
+        const playersHtml = ranked.length > 0
+            ? ranked.map((p, i) => {
+                const pct = Math.round(p.displayPct);
+                const usedMark = p.isUsed ? ' <i class="fas fa-check" style="color:#10b981;font-size:0.7rem;margin-left:2px;"></i>' : '';
+                return `
+                    <div class="mister-player-line rank-${i+1}">
+                        <span class="mister-player-name" title="${p.name}">${p.name}${usedMark}</span>
+                        <span class="mister-player-count" title="${p.exact}/${p.totalApps} partite">${pct}%</span>
+                    </div>
+                `;
+            }).join('')
             : '<div class="mister-player-line empty">— nessun dato —</div>';
 
         return `
@@ -2498,29 +2492,13 @@ function suggestLineup() {
     sortedPositions.forEach(posTag => {
         const candidates = [...State.players, ...State.trialists]
             .filter(p => p.role !== 'staff' && !usedPlayers.has(p.name_kanji || p.name_romaji))
-            .map(p => {
-                const stats = State.statsData[p.id] || {};
-                const positions = stats.positions_played || {};
-                const exact = positions[posTag] || 0;
-                const macro = POS_MACRO_MAP[posTag] || '';
-                let macroCount = 0;
-                Object.entries(positions).forEach(([tag, count]) => {
-                    if (tag !== posTag && POS_MACRO_MAP[tag] === macro) macroCount += count;
-                });
-
-                let roleBonus = 0;
-                if (posTag === 'GK' && (p.role === 'gk' || p.position === 'GK')) roleBonus = 1000;
-                else if (POS_MACRO_MAP[posTag] === 'DEF' && p.role === 'df') roleBonus = 50;
-                else if (POS_MACRO_MAP[posTag] === 'MID' && p.role === 'mf') roleBonus = 50;
-                else if (POS_MACRO_MAP[posTag] === 'ATT' && p.role === 'fw') roleBonus = 50;
-
-                return {
-                    name: p.name_kanji || p.name_romaji,
-                    score: exact * 10 + macroCount * 3 + roleBonus
-                };
-            })
-            .filter(c => c.score > 0)
-            .sort((a, b) => b.score - a.score);
+            .map(p => ({
+                p,
+                name: p.name_kanji || p.name_romaji,
+                affinity: computePlayerAffinityForPosition(p, posTag)
+            }))
+            .filter(c => c.affinity.score > 0)
+            .sort((a, b) => b.affinity.score - a.affinity.score);
 
         if (candidates.length > 0) {
             assigned[posTag] = candidates[0].name;
@@ -2530,9 +2508,7 @@ function suggestLineup() {
 
     Object.entries(assigned).forEach(([posTag, playerName]) => {
         const sel = document.querySelector(`#pitchGrid .pitch-player-select[data-pos="${posTag}"]`);
-        if (sel) {
-            ensureSelectOption(sel, playerName);
-        }
+        if (sel) ensureSelectOption(sel, playerName);
     });
 
     updatePlayerExclusions();
@@ -2541,6 +2517,9 @@ function suggestLineup() {
     showToast('success', `✨ Formazione suggerita per ${Object.keys(assigned).length} posizioni`);
 }
 
+/* =========================================================
+   PITCH & BENCH
+   ========================================================= */
 function renderPitchAndBench() {
     const formation = $('formationSelect').value;
     const coords = FORMATION_COORDS[formation] || FORMATION_COORDS['4-4-2'];
@@ -2573,14 +2552,10 @@ function renderPitchAndBench() {
     for (let i = 1; i <= 10; i++) {
         html += `
             <div class="bench-card" data-bench-slot="${i}">
-                <div class="bench-card-header">
-                    <span>#${i} Panchina</span>
-                </div>
+                <div class="bench-card-header"><span>#${i} Panchina</span></div>
                 <select class="form-control player-dropdown-dynamic bench-player-select match-squad-select"></select>
                 <div class="bench-sub-row">
-                    <label>
-                        <input type="checkbox" class="bench-subbed-in"> Sceso in campo
-                    </label>
+                    <label><input type="checkbox" class="bench-subbed-in"> Sceso in campo</label>
                     <select class="form-control bench-pos-select" style="font-size: 0.8rem; padding: 4px;" disabled>
                         ${Object.keys(coords).map(p => `<option value="${p}">${p}</option>`).join('')}
                     </select>
@@ -2615,7 +2590,6 @@ function updateFilledCards() {
 
         const isFilled = !!sel.value;
         card.classList.toggle('filled', isFilled);
-
         card.classList.remove('affinity-high', 'affinity-medium', 'affinity-low', 'affinity-new');
 
         if (!isFilled) {
@@ -2679,6 +2653,9 @@ function updatePlayerExclusions() {
     });
 }
 
+/* =========================================================
+   STAT ROWS
+   ========================================================= */
 function createStatRow(selectClass, opts = {}) {
     const { hasCount = true, countLabel = 'Gol:', onlyGK = false, hasMinute = false } = opts;
     const players = getAllAvailablePlayers(onlyGK);
@@ -2701,6 +2678,9 @@ function addGkRow() { $('gkContainer').appendChild(createStatRow('gk-player-sele
 function addYellowRow() { $('yellowCardsContainer').appendChild(createStatRow('yellow-player-select', { hasCount: false, hasMinute: true })); }
 function addRedRow() { $('redCardsContainer').appendChild(createStatRow('red-player-select', { hasCount: false, hasMinute: true })); }
 
+/* =========================================================
+   MATCH LOAD / SAVE / DELETE
+   ========================================================= */
 async function loadMatchData(id, quiet = false) {
     if (!id) return;
     id = id.toLowerCase();
@@ -2719,11 +2699,17 @@ async function loadMatchData(id, quiet = false) {
     }
     if (!State.players || State.players.length === 0) {
         const pRes = await fetchJsonFile('players.json');
-        if (pRes && Array.isArray(pRes.content)) { State.players = pRes.content; renderPlayersTable(); updateAllPlayerDropdowns(); }
+        if (pRes && Array.isArray(pRes.content)) {
+            State.players = pRes.content;
+            renderPlayersTable();
+            updateAllPlayerDropdowns();
+        }
     }
     if (!State.statsData || Object.keys(State.statsData).length === 0) {
         const sRes = await fetchJsonFile('stats.json');
-        if (sRes && sRes.content && typeof sRes.content === 'object') State.statsData = sRes.content.players || {};
+        if (sRes && sRes.content && typeof sRes.content === 'object') {
+            State.statsData = sRes.content.players || {};
+        }
     }
 
     const match = State.matches.find(m => String(m.id).toLowerCase() === id);
@@ -2781,66 +2767,48 @@ async function loadMatchData(id, quiet = false) {
         });
     }
 
-    $('scorersContainer').innerHTML = '';
-    $('assistsContainer').innerHTML = '';
-    $('gkContainer').innerHTML = '';
-    $('yellowCardsContainer').innerHTML = '';
-    $('redCardsContainer').innerHTML = '';
+    clearStatContainers();
 
+    // --- MARCATORI ---
     const scorerRaw = match.scorers || '';
     const scorerItems = Array.isArray(scorerRaw) ? scorerRaw : String(scorerRaw).split(/[,、]/);
     scorerItems.forEach(entry => {
         let text = String(entry).trim();
         if (!text || text === 'なし' || text === 'Nessuno') return;
-
         let count = 1, min = '';
-
         const mMin = text.match(/\s*\((\d+(?:\+\d+)?)['′]?\s*\)\s*$/);
-        if (mMin) {
-            min = mMin[1];
-            text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim();
-        }
-
+        if (mMin) { min = mMin[1]; text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim(); }
         const mCnt = text.match(/\s*[xX\*]\s*(\d+)\s*$/);
-        if (mCnt) {
-            count = parseInt(mCnt[1], 10) || 1;
-            text = text.replace(/\s*[xX\*]\s*\d+\s*$/, '').trim();
-        }
-
+        if (mCnt) { count = parseInt(mCnt[1], 10) || 1; text = text.replace(/\s*[xX\*]\s*\d+\s*$/, '').trim(); }
         const matchedVal = findMatchingPlayerValue(text) || text;
         addScorerRow();
         const last = $('scorersContainer').querySelector('.stat-row:last-child');
         if (last) {
-            const sel = last.querySelector('.scorer-player-select');
-            ensureSelectOption(sel, matchedVal);
+            ensureSelectOption(last.querySelector('.scorer-player-select'), matchedVal);
             last.querySelector('.row-count-input').value = count;
             if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
         }
     });
 
+    // --- ASSIST ---
     const assistRaw = match.assists || '';
     const assistItems = Array.isArray(assistRaw) ? assistRaw : String(assistRaw).split(/[,、]/);
     assistItems.forEach(entry => {
         let text = String(entry).trim();
         if (!text || text === 'なし' || text === 'Nessuno') return;
-
         let count = 1;
         const mCnt = text.match(/\s*[xX\*]\s*(\d+)\s*$/);
-        if (mCnt) {
-            count = parseInt(mCnt[1], 10) || 1;
-            text = text.replace(/\s*[xX\*]\s*\d+\s*$/, '').trim();
-        }
-
+        if (mCnt) { count = parseInt(mCnt[1], 10) || 1; text = text.replace(/\s*[xX\*]\s*\d+\s*$/, '').trim(); }
         const matchedVal = findMatchingPlayerValue(text) || text;
         addAssistRow();
         const last = $('assistsContainer').querySelector('.stat-row:last-child');
         if (last) {
-            const sel = last.querySelector('.assist-player-select');
-            ensureSelectOption(sel, matchedVal);
+            ensureSelectOption(last.querySelector('.assist-player-select'), matchedVal);
             last.querySelector('.row-count-input').value = count;
         }
     });
 
+    // --- PORTIERI ---
     const gkRaw = match.goalkeepers || '';
     const gkItems = Array.isArray(gkRaw) ? gkRaw : String(gkRaw).split(/[,、]/);
     gkItems.forEach(entry => {
@@ -2848,25 +2816,23 @@ async function loadMatchData(id, quiet = false) {
         if (!text) return;
         let ga = 0;
         const m = text.match(/^(.+?)\s*[(（]\s*(\d+)\s*[)）]\s*$/);
-        if (m) {
-            text = m[1].trim();
-            ga = parseInt(m[2], 10) || 0;
-        }
+        if (m) { text = m[1].trim(); ga = parseInt(m[2], 10) || 0; }
         const matchedVal = findMatchingPlayerValue(text) || text;
         addGkRow();
         const last = $('gkContainer').querySelector('.stat-row:last-child');
         if (last) {
-            const sel = last.querySelector('.gk-player-select');
-            ensureSelectOption(sel, matchedVal);
+            ensureSelectOption(last.querySelector('.gk-player-select'), matchedVal);
             last.querySelector('.row-count-input').value = ga;
         }
     });
 
+    // --- MVP ---
     if (match.mvp && match.mvp !== 'なし' && match.mvp !== 'Nessuno') {
         const mvpVal = findMatchingPlayerValue(match.mvp) || match.mvp;
         ensureSelectOption($('mvpSelect'), mvpVal);
     }
 
+    // --- GIALLI ---
     const yellowRaw = match.yellow_cards || '';
     const yellowItems = Array.isArray(yellowRaw) ? yellowRaw : String(yellowRaw).split(/[,、]/);
     yellowItems.forEach(entry => {
@@ -2874,20 +2840,17 @@ async function loadMatchData(id, quiet = false) {
         if (!text || text === 'なし' || text === 'Nessuno') return;
         let min = '';
         const mMin = text.match(/\s*\((\d+(?:\+\d+)?)['′]?\s*\)\s*$/);
-        if (mMin) {
-            min = mMin[1];
-            text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim();
-        }
+        if (mMin) { min = mMin[1]; text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim(); }
         const matchedVal = findMatchingPlayerValue(text) || text;
         addYellowRow();
         const last = $('yellowCardsContainer').querySelector('.stat-row:last-child');
         if (last) {
-            const sel = last.querySelector('.yellow-player-select');
-            ensureSelectOption(sel, matchedVal);
+            ensureSelectOption(last.querySelector('.yellow-player-select'), matchedVal);
             if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
         }
     });
 
+    // --- ROSSI ---
     const redRaw = match.red_cards || '';
     const redItems = Array.isArray(redRaw) ? redRaw : String(redRaw).split(/[,、]/);
     redItems.forEach(entry => {
@@ -2895,16 +2858,12 @@ async function loadMatchData(id, quiet = false) {
         if (!text || text === 'なし' || text === 'Nessuno') return;
         let min = '';
         const mMin = text.match(/\s*\((\d+(?:\+\d+)?)['′]?\s*\)\s*$/);
-        if (mMin) {
-            min = mMin[1];
-            text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim();
-        }
+        if (mMin) { min = mMin[1]; text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim(); }
         const matchedVal = findMatchingPlayerValue(text) || text;
         addRedRow();
         const last = $('redCardsContainer').querySelector('.stat-row:last-child');
         if (last) {
-            const sel = last.querySelector('.red-player-select');
-            ensureSelectOption(sel, matchedVal);
+            ensureSelectOption(last.querySelector('.red-player-select'), matchedVal);
             if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
         }
     });
@@ -2988,7 +2947,7 @@ async function duplicateMatch() {
 
 function resetForm() {
     $('matchForm').reset();
-    ['scorers', 'assists', 'gk', 'yellow', 'red'].forEach(k => $(k + 'Container').innerHTML = '');
+    clearStatContainers();
     $('statusMsg').innerHTML = '';
     State.trialists = [];
     renderTrialistsList();
@@ -3074,8 +3033,7 @@ async function saveMatch(e) {
         opponent_id: $('opponentSelect').value,
         isHome: $('isHome').value === 'true',
         score: $('matchScore').value.trim() || 'VS',
-        scorers,
-        assists,
+        scorers, assists,
         mvp: $('mvpSelect').value,
         yellow_cards: yellows.join(', '),
         red_cards: reds.join(', '),
@@ -3127,6 +3085,9 @@ async function saveMatch(e) {
     }
 }
 
+/* =========================================================
+   STATS ENGINE
+   ========================================================= */
 function generateStatsJSON(playersData, matchesData) {
     const playerMap = new Map();
     const aliasToId = new Map();
@@ -3176,13 +3137,11 @@ function generateStatsJSON(playersData, matchesData) {
         total_matches: 0, wins: 0, draws: 0, losses: 0,
         goals_for: 0, goals_against: 0, clean_sheets: 0, formations_used: {}
     };
-
     const posRegex = /^(GK|CB|LB|RB|LWB|RWB|DM|CM|LM|RM|AM|LW|RW|FW|ST)(-[LRC123])?$/i;
 
     matchesData.forEach(m => {
         if (String(m.status || '').toLowerCase() !== 'past') return;
         teamTotals.total_matches++;
-
         if (m.formation) {
             teamTotals.formations_used[m.formation] = (teamTotals.formations_used[m.formation] || 0) + 1;
         }
@@ -3293,16 +3252,16 @@ function generateStatsJSON(playersData, matchesData) {
 }
 
 /* =========================================================
-   LOCALIZED LINE MESSAGE
+   LINE MESSAGE
    ========================================================= */
 function generateLineMessage() {
     const date = $('matchDate').value || 'TBD';
     const time = $('matchTime').value || '11:00';
-    
+
     const oppKey = $('opponentSelect').value;
     const oppObj = State.opponents[oppKey]?.name || {};
     const oppName = oppObj[State.lang] || oppObj.it || oppObj.en || oppObj.ja || oppKey;
-    
+
     const locKey = $('locationSelect').value;
     const locObj = State.locations[locKey] || {};
     const locName = locObj[State.lang] || locObj.it || locObj.en || locObj.ja || locKey;
@@ -3310,12 +3269,12 @@ function generateLineMessage() {
 
     const starters = [];
     $$('#pitchGrid .pitch-player-select').forEach(sel => {
-        if (sel.value) starters.push(`・[${sel.getAttribute('data-pos')}] ${sel.value}`);
+        if (sel.value) starters.push(`・[${sel.getAttribute('data-pos')}] ${localizePlayerName(sel.value)}`);
     });
-    
+
     const bench = [];
     $$('#benchGrid .bench-player-select').forEach(sel => {
-        if (sel.value) bench.push(`・${sel.value}`);
+        if (sel.value) bench.push(`・${localizePlayerName(sel.value)}`);
     });
 
     const titleLine = State.lang === 'it' ? 'Annuncio Partita' : (State.lang === 'en' ? 'Match Announcement' : '試合案内');
@@ -3358,6 +3317,9 @@ async function copyLineText() {
     }
 }
 
+/* =========================================================
+   DRAFT
+   ========================================================= */
 function collectFormData() {
     const data = {
         matchId: $('matchId').value, status: $('matchStatus').value,
@@ -3432,6 +3394,7 @@ function restoreDraft() {
         State.trialists = d.trialists || [];
         renderTrialistsList();
         updateAllPlayerDropdowns();
+
         if (d.starters_positions) {
             Object.entries(d.starters_positions).forEach(([pos, val]) => {
                 const sel = document.querySelector(`#pitchGrid .pitch-player-select[data-pos="${pos}"]`);
@@ -3450,7 +3413,9 @@ function restoreDraft() {
                 if (posSel && b.position_played) posSel.value = b.position_played;
             });
         }
-        ['scorers', 'assists', 'gk', 'yellow', 'red'].forEach(k => $(k + 'Container').innerHTML = '');
+
+        clearStatContainers();
+
         (d.scorers || []).forEach(s => {
             addScorerRow();
             const last = $('scorersContainer').querySelector('.stat-row:last-child');
@@ -3508,6 +3473,9 @@ function startAutosave() {
     State.autosaveTimer = setInterval(() => { if (State.isDirty) saveDraft(); }, 30000);
 }
 
+/* =========================================================
+   IMPORT / EXPORT
+   ========================================================= */
 async function exportJSON() {
     try {
         const all = {
@@ -3567,6 +3535,9 @@ $('importFileInput').addEventListener('change', async (e) => {
     } catch (err) { showToast('error', 'File JSON non valido o errore durante l\'import: ' + err.message); }
 });
 
+/* =========================================================
+   EVENT DELEGATION
+   ========================================================= */
 document.addEventListener('click', async (e) => {
     const actionEl = e.target.closest('[data-action]');
     if (!actionEl) return;
@@ -3711,7 +3682,7 @@ window.addEventListener('DOMContentLoaded', () => {
     renderSurfaceDropdown();
     startAutosave();
     if (State.token) verifyAndLogin(State.token);
-    if (!$('matchDate').value)$('matchDate').value = new Date().toISOString().split('T')[0];
+    if (!$('matchDate').value) $('matchDate').value = new Date().toISOString().split('T')[0];
 });
 </script>
 </body>
