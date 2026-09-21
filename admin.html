@@ -34,97 +34,65 @@
 }
 
 body.dark {
-    --text: #e2e8f0;
-    --text-muted: #94a3b8;
-    --border: #334155;
-    --bg: #1e293b;
-    --white: #0f172a;
-    --body-bg: #020617;
-    --card-bg: #1e293b;
-    --input-bg: #0f172a;
-    --input-border: #334155;
+    --text: #e2e8f0; --text-muted: #94a3b8; --border: #334155;
+    --bg: #1e293b; --white: #0f172a; --body-bg: #020617;
+    --card-bg: #1e293b; --input-bg: #0f172a; --input-border: #334155;
 }
 
 body {
     font-family: 'Montserrat', sans-serif;
     background: var(--body-bg);
     color: var(--text);
-    margin: 0;
-    padding: 12px;
+    margin: 0; padding: 12px;
     transition: background 0.3s, color 0.3s;
 }
 
 .hidden { display: none !important; }
 
 .skip-link {
-    position: absolute;
-    left: -9999px;
-    top: 0;
-    z-index: 10000;
-    background: var(--navy);
-    color: #fff;
-    padding: 10px 16px;
-    text-decoration: none;
-    font-weight: 700;
+    position: absolute; left: -9999px; top: 0;
+    z-index: 10000; background: var(--navy); color: #fff;
+    padding: 10px 16px; text-decoration: none; font-weight: 700;
 }
 .skip-link:focus { left: 10px; top: 10px; }
 
 .admin-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 10px auto;
-    padding: 24px;
-    background: var(--card-bg);
-    border-radius: 18px;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    width: 100%; max-width: 1200px; margin: 10px auto;
+    padding: 24px; background: var(--card-bg);
+    border-radius: 18px; box-shadow: 0 12px 40px rgba(0,0,0,0.35);
 }
 
 .admin-header-bar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 14px;
+    display: flex; flex-wrap: wrap; justify-content: space-between;
+    align-items: center; gap: 14px;
     border-bottom: 2px solid var(--border);
-    padding-bottom: 16px;
-    margin-bottom: 18px;
+    padding-bottom: 16px; margin-bottom: 18px;
 }
 
 h2, h3, h4 { color: var(--navy); margin: 0; font-weight: 800; }
 body.dark h2, body.dark h3, body.dark h4 { color: var(--sky); }
 
 .section-box {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    padding: 20px;
-    border-radius: 14px;
-    margin-bottom: 22px;
+    background: var(--bg); border: 1px solid var(--border);
+    padding: 20px; border-radius: 14px; margin-bottom: 22px;
 }
 
 .form-group { margin-bottom: 14px; }
 .form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 6px;
-    color: var(--navy);
-    font-size: 0.88rem;
+    display: block; font-weight: bold; margin-bottom: 6px;
+    color: var(--navy); font-size: 0.88rem;
 }
 body.dark .form-group label { color: var(--sky); }
 
 .form-control {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--input-border);
-    border-radius: 8px;
-    font-size: 0.92rem;
-    background: var(--input-bg);
-    color: var(--text);
+    width: 100%; padding: 10px 12px;
+    border: 1px solid var(--input-border); border-radius: 8px;
+    font-size: 0.92rem; background: var(--input-bg);
+    color: var(--text); font-family: inherit;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    font-family: inherit;
 }
 .form-control:focus {
-    outline: none;
-    border-color: var(--sky-dark);
+    outline: none; border-color: var(--sky-dark);
     box-shadow: 0 0 0 3px rgba(2,132,199,0.15);
 }
 
@@ -132,107 +100,70 @@ body.dark .form-group label { color: var(--sky); }
 .row .form-group { flex: 1; min-width: 200px; }
 
 .login-box {
-    max-width: 440px;
-    margin: 60px auto;
-    padding: 32px;
-    background: var(--card-bg);
-    border-radius: 18px;
-    box-shadow: 0 10px 35px rgba(0,0,0,0.3);
-    text-align: center;
+    max-width: 440px; margin: 60px auto; padding: 32px;
+    background: var(--card-bg); border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.3); text-align: center;
 }
 .login-box i.lock-icon { font-size: 3.5rem; color: var(--navy); margin-bottom: 15px; }
 body.dark .login-box i.lock-icon { color: var(--sky); }
 
 .admin-tabs {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    padding-bottom: 8px;
-    margin-bottom: 22px;
+    display: flex; gap: 8px; overflow-x: auto;
+    padding-bottom: 8px; margin-bottom: 22px;
     border-bottom: 2px solid var(--border);
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch; scrollbar-width: thin;
 }
 .tab-btn {
-    background: #f1f5f9;
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    padding: 12px 18px;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 0.88rem;
-    cursor: pointer;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s ease;
-    font-family: inherit;
+    background: #f1f5f9; border: 1px solid var(--border);
+    color: var(--text-muted); padding: 12px 18px;
+    border-radius: 10px; font-weight: bold; font-size: 0.88rem;
+    cursor: pointer; white-space: nowrap;
+    display: flex; align-items: center; gap: 8px;
+    transition: all 0.2s ease; font-family: inherit;
 }
 body.dark .tab-btn { background: #0f172a; color: #94a3b8; }
 .tab-btn:hover { background: var(--bg); color: var(--navy); }
 body.dark .tab-btn:hover { color: var(--sky); }
 .tab-btn.active {
-    background: var(--navy);
-    color: #ffffff;
+    background: var(--navy); color: #ffffff;
     border-color: var(--navy);
     box-shadow: 0 4px 12px rgba(0,60,130,0.25);
 }
 body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); border-color: var(--sky); }
 
-/* MISTER HELPER BOX */
+/* MISTER HELPER */
 .mister-helper-box {
     background: linear-gradient(135deg, #00224a 0%, #001229 100%);
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 16px;
+    border-radius: 14px; padding: 16px; margin-bottom: 16px;
     border: 1px solid rgba(135, 206, 235, 0.3);
     box-shadow: 0 6px 20px rgba(0, 34, 74, 0.25);
 }
 .mister-helper-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 12px;
+    display: flex; justify-content: space-between;
+    align-items: center; gap: 12px;
+    flex-wrap: wrap; margin-bottom: 12px;
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 .mister-helper-header strong {
-    color: #ffffff;
-    font-size: 1rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+    color: #ffffff; font-size: 1rem;
+    display: inline-flex; align-items: center; gap: 8px;
 }
 .mister-helper-header strong i { color: #87ceeb; font-size: 1.1rem; }
 .mister-helper-subtitle {
-    display: block;
-    color: #94a3b8;
-    font-size: 0.75rem;
-    font-weight: 500;
-    margin-top: 2px;
-    margin-left: 26px;
+    display: block; color: #94a3b8;
+    font-size: 0.75rem; font-weight: 500;
+    margin-top: 2px; margin-left: 26px;
 }
 .btn-suggest-lineup {
-    background: #87ceeb;
-    color: #00224a;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-weight: 800;
-    font-size: 0.82rem;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: inherit;
-    transition: all 0.2s ease;
+    background: #87ceeb; color: #00224a;
+    border: none; padding: 8px 14px; border-radius: 8px;
+    font-weight: 800; font-size: 0.82rem; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: inherit; transition: all 0.2s ease;
 }
 .btn-suggest-lineup:hover {
-    background: #a0d8ef;
-    transform: translateY(-1px);
+    background: #a0d8ef; transform: translateY(-1px);
     box-shadow: 0 4px 10px rgba(135,206,235,0.35);
 }
 .mister-helper-body {
@@ -243,68 +174,47 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
 .mister-pos-suggestion {
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
-    padding: 8px 10px;
-    color: #e2e8f0;
-    font-size: 0.75rem;
+    border-radius: 8px; padding: 8px 10px;
+    color: #e2e8f0; font-size: 0.75rem;
 }
 .mister-pos-suggestion .pos-label {
     display: inline-block;
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    color: #000;
-    font-weight: 900;
-    font-size: 0.6rem;
-    padding: 2px 6px;
-    border-radius: 4px;
-    margin-bottom: 5px;
-    letter-spacing: 0.3px;
+    color: #000; font-weight: 900; font-size: 0.6rem;
+    padding: 2px 6px; border-radius: 4px;
+    margin-bottom: 5px; letter-spacing: 0.3px;
 }
 .mister-pos-suggestion .pos-macro {
     background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-    color: #ffffff;
-    font-size: 0.55rem;
-    padding: 1px 4px;
-    border-radius: 3px;
-    margin-left: 4px;
-    vertical-align: middle;
+    color: #ffffff; font-size: 0.55rem;
+    padding: 1px 4px; border-radius: 3px;
+    margin-left: 4px; vertical-align: middle;
 }
 .mister-top-players {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    margin-top: 4px;
+    display: flex; flex-direction: column;
+    gap: 2px; margin-top: 4px;
 }
 .mister-player-line {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.72rem;
-    padding: 2px 0;
+    display: flex; justify-content: space-between;
+    align-items: center; gap: 6px;
+    font-size: 0.72rem; padding: 2px 0;
     border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
 }
 .mister-player-line:last-child { border-bottom: none; }
 .mister-player-line.empty {
-    color: #64748b;
-    font-style: italic;
+    color: #64748b; font-style: italic;
     justify-content: center;
 }
 .mister-player-name {
-    color: #f1f5f9;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 110px;
+    color: #f1f5f9; font-weight: 600;
+    white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; max-width: 110px;
 }
 .mister-player-count {
     background: rgba(255, 255, 255, 0.12);
-    color: #87ceeb;
-    font-weight: 800;
-    padding: 1px 6px;
-    border-radius: 10px;
-    font-size: 0.68rem;
-    flex-shrink: 0;
+    color: #87ceeb; font-weight: 800;
+    padding: 1px 6px; border-radius: 10px;
+    font-size: 0.68rem; flex-shrink: 0;
 }
 .mister-player-line.rank-1 .mister-player-count { background: #10b981; color: #ffffff; }
 .mister-player-line.rank-2 .mister-player-count { background: #f59e0b; color: #ffffff; }
@@ -313,64 +223,41 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
 /* CAMPO TATTICO */
 .tactical-pitch-container {
     background: radial-gradient(circle, #16a34a 0%, #15803d 60%, #14532d 100%);
-    border-radius: 16px;
-    padding: 14px;
+    border-radius: 16px; padding: 14px;
     border: 4px solid #0f172a;
     box-shadow: inset 0 0 30px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.25);
-    position: relative;
-    overflow: hidden;
-    margin-top: 14px;
+    position: relative; overflow: hidden; margin-top: 14px;
 }
-
 .pitch-header-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 16px;
-    position: relative;
-    z-index: 2;
+    display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 10px;
+    margin-bottom: 16px; position: relative; z-index: 2;
 }
-
 .pitch-grid {
-    position: relative;
-    aspect-ratio: 3 / 4;
+    position: relative; aspect-ratio: 3 / 4;
     background:
         repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 40px, transparent 40px, transparent 80px),
         radial-gradient(ellipse at center, rgba(255,255,255,0.06) 0%, transparent 70%);
-    border-radius: 8px;
-    z-index: 2;
-    min-height: 500px;
+    border-radius: 8px; z-index: 2; min-height: 500px;
 }
 .pitch-grid::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 50%;
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 50%;
     border-bottom: 2px solid rgba(255,255,255,0.35);
     pointer-events: none;
 }
 .pitch-grid::after {
-    content: '';
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 90px; height: 90px;
+    content: ''; position: absolute;
+    top: 50%; left: 50%; width: 90px; height: 90px;
     border: 2px solid rgba(255,255,255,0.35);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
+    border-radius: 50%; transform: translate(-50%, -50%);
     pointer-events: none;
 }
-
 .pitch-position-card {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    width: 108px;
-    background: rgba(15, 23, 42, 0.94);
-    border: 2px solid #f59e0b;
-    border-radius: 8px;
-    padding: 6px;
-    color: #ffffff;
+    position: absolute; transform: translate(-50%, -50%);
+    width: 108px; background: rgba(15, 23, 42, 0.94);
+    border: 2px solid #f59e0b; border-radius: 8px;
+    padding: 6px; color: #ffffff;
     box-shadow: 0 4px 14px rgba(0,0,0,0.5);
     transition: transform 0.15s, border-color 0.2s, box-shadow 0.2s;
     z-index: 3;
@@ -384,13 +271,11 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     border-color: #10b981;
     background: rgba(5, 150, 105, 0.94);
 }
-/* Indicatore affinità sul bordo della card */
 .pitch-position-card.affinity-high { border-color: #10b981; }
 .pitch-position-card.affinity-medium { border-color: #f59e0b; }
 .pitch-position-card.affinity-low { border-color: #ef4444; }
 .pitch-position-card.affinity-new {
-    border-color: #ef4444;
-    border-style: dashed;
+    border-color: #ef4444; border-style: dashed;
     animation: pulseNewPos 2s infinite;
 }
 @keyframes pulseNewPos {
@@ -398,33 +283,24 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     50% { box-shadow: 0 4px 14px rgba(0,0,0,0.5), 0 0 0 6px rgba(239,68,68,0); }
 }
 .pitch-pos-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 4px;
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 4px;
     font-size: 0.65rem;
 }
 .pos-badge {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    color: #000;
-    font-weight: 900;
-    font-size: 0.6rem;
-    padding: 1px 5px;
-    border-radius: 3px;
-    letter-spacing: 0.3px;
-    white-space: nowrap;
+    color: #000; font-weight: 900; font-size: 0.6rem;
+    padding: 1px 5px; border-radius: 3px;
+    letter-spacing: 0.3px; white-space: nowrap;
 }
 .pitch-position-card.filled .pos-badge {
     background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
     color: #065f46;
 }
 .affinity-badge {
-    font-size: 0.55rem;
-    font-weight: 800;
-    padding: 1px 4px;
-    border-radius: 3px;
-    color: #ffffff;
-    white-space: nowrap;
+    font-size: 0.55rem; font-weight: 800;
+    padding: 1px 4px; border-radius: 3px;
+    color: #ffffff; white-space: nowrap;
     letter-spacing: 0.2px;
 }
 .affinity-badge.high { background: #10b981; }
@@ -432,425 +308,168 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
 .affinity-badge.low { background: #ef4444; }
 .affinity-badge.new { background: #991b1b; }
 .pitch-player-select {
-    width: 100%;
-    font-size: 0.7rem;
-    padding: 3px 4px;
-    border-radius: 4px;
-    border: none;
-    background: rgba(255,255,255,0.95);
-    color: #0f172a;
-    font-family: inherit;
-    cursor: pointer;
+    width: 100%; font-size: 0.7rem;
+    padding: 3px 4px; border-radius: 4px;
+    border: none; background: rgba(255,255,255,0.95);
+    color: #0f172a; font-family: inherit; cursor: pointer;
 }
-
 @media (max-width: 600px) {
     .pitch-position-card { width: 88px; padding: 5px; }
     .pitch-player-select { font-size: 0.65rem; }
 }
 
-/* PANCHINA */
 .bench-container { margin-top: 22px; }
 .bench-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 10px;
-    margin-top: 10px;
+    gap: 10px; margin-top: 10px;
 }
 .bench-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 0.85rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    background: var(--card-bg); border: 1px solid var(--border);
+    padding: 10px; border-radius: 10px;
+    font-size: 0.85rem; box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
 .bench-card-header {
-    font-weight: bold;
-    color: var(--navy);
+    font-weight: bold; color: var(--navy);
     margin-bottom: 6px;
-    display: flex;
-    justify-content: space-between;
+    display: flex; justify-content: space-between;
     align-items: center;
 }
 body.dark .bench-card-header { color: var(--sky); }
-
 .bench-sub-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 6px;
-    background: var(--bg);
-    padding: 5px 6px;
-    border-radius: 6px;
-    flex-wrap: wrap;
+    display: flex; align-items: center; gap: 6px;
+    margin-top: 6px; background: var(--bg);
+    padding: 5px 6px; border-radius: 6px; flex-wrap: wrap;
 }
 .bench-sub-row label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: var(--text-muted);
-    margin: 0;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    font-size: 0.72rem; font-weight: 700;
+    color: var(--text-muted); margin: 0;
+    cursor: pointer; display: flex; align-items: center; gap: 4px;
 }
 
-/* TRIALIST */
 .trialist-box {
-    background: #ecfdf5;
-    border: 1px solid #a7f3d0;
-    border-radius: 12px;
-    padding: 14px;
-    margin-top: 16px;
+    background: #ecfdf5; border: 1px solid #a7f3d0;
+    border-radius: 12px; padding: 14px; margin-top: 16px;
 }
 body.dark .trialist-box { background: #064e3b; border-color: #047857; }
-
-.trialist-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 8px;
-}
+.trialist-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
 .trialist-item {
-    background: var(--green);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.82rem;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    background: var(--green); color: white;
+    padding: 6px 12px; border-radius: 20px;
+    font-size: 0.82rem; font-weight: bold;
+    display: flex; align-items: center; gap: 8px;
 }
 .btn-remove-trialist {
-    background: transparent;
-    border: none;
-    color: #fecdd3;
-    cursor: pointer;
-    font-size: 0.95rem;
-    padding: 0;
+    background: transparent; border: none;
+    color: #fecdd3; cursor: pointer;
+    font-size: 0.95rem; padding: 0;
 }
 
-/* TABELLE */
 .data-table-container {
-    overflow-x: auto;
-    margin-top: 10px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
+    overflow-x: auto; margin-top: 10px;
+    border-radius: 10px; border: 1px solid var(--border);
     -webkit-overflow-scrolling: touch;
 }
-.data-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85rem;
-}
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
 .data-table th {
-    background: var(--navy);
-    color: white;
-    text-align: left;
-    padding: 10px;
-    white-space: nowrap;
-    position: sticky;
-    top: 0;
+    background: var(--navy); color: white;
+    text-align: left; padding: 10px;
+    white-space: nowrap; position: sticky; top: 0;
 }
-.data-table th[data-sort] {
-    cursor: pointer;
-    user-select: none;
-}
-.data-table th[data-sort]:hover {
-    background: var(--navy-dark);
-}
+.data-table th[data-sort] { cursor: pointer; user-select: none; }
+.data-table th[data-sort]:hover { background: var(--navy-dark); }
 .data-table td {
-    padding: 8px 10px;
-    border-bottom: 1px solid var(--border);
+    padding: 8px 10px; border-bottom: 1px solid var(--border);
     white-space: nowrap;
 }
 .data-table tbody tr:hover { background: rgba(2,132,199,0.06); }
 
 .table-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
+    display: flex; justify-content: space-between;
+    align-items: center; gap: 10px;
+    margin-bottom: 10px; flex-wrap: wrap;
 }
 
-/* STAT ROWS */
 .stat-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-    background: var(--card-bg);
-    padding: 8px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    flex-wrap: wrap;
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 8px; background: var(--card-bg);
+    padding: 8px; border-radius: 8px;
+    border: 1px solid var(--border); flex-wrap: wrap;
 }
 .stat-row select { flex: 1; min-width: 140px; }
 .stat-row input[type="number"] { width: 60px; text-align: center; }
 .stat-row input[type="text"].minute-input { width: 60px; text-align: center; }
 
-/* PULSANTI */
-.btn-remove-row {
-    background: var(--red);
-    color: white;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: inherit;
-}
-.btn-add-row {
-    background: var(--sky-dark);
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.82rem;
-    font-weight: bold;
-    margin-top: 5px;
-    font-family: inherit;
-}
-.btn-clear-pitch {
-    background: var(--red);
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: bold;
-    font-family: inherit;
-}
-.btn-new-match {
-    background: var(--green);
-    color: white;
-    border: none;
-    padding: 10px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 0.88rem;
-    white-space: nowrap;
-    font-family: inherit;
-}
-.btn-add-trialist {
-    background: var(--green);
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.88rem;
-    font-weight: bold;
-    width: 100%;
-    margin-top: 10px;
-    font-family: inherit;
-}
+.btn-remove-row { background: var(--red); color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-family: inherit; }
+.btn-add-row { background: var(--sky-dark); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: bold; margin-top: 5px; font-family: inherit; }
+.btn-clear-pitch { background: var(--red); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; font-family: inherit; }
+.btn-new-match { background: var(--green); color: white; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.88rem; white-space: nowrap; font-family: inherit; }
+.btn-add-trialist { background: var(--green); color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 0.88rem; font-weight: bold; width: 100%; margin-top: 10px; font-family: inherit; }
 .btn-submit {
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
-    color: white;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    width: 100%;
-    font-size: 1rem;
+    color: white; padding: 14px 20px; border: none;
+    border-radius: 10px; font-weight: bold; cursor: pointer;
+    width: 100%; font-size: 1rem;
     box-shadow: 0 4px 12px rgba(0,60,130,0.3);
-    font-family: inherit;
-    transition: opacity 0.2s;
+    font-family: inherit; transition: opacity 0.2s;
 }
 .btn-submit:hover:not(:disabled) { opacity: 0.92; }
-.btn-submit:disabled {
-    background: #94a3b8;
-    cursor: not-allowed;
-    box-shadow: none;
-}
-.btn-logout {
-    background: var(--red);
-    color: white;
-    padding: 6px 14px;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 0.8rem;
-    font-family: inherit;
-}
-.btn-load {
-    background: var(--sky-dark);
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 0.88rem;
-    font-family: inherit;
-}
-.btn-reset {
-    background: #64748b;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: bold;
-    font-family: inherit;
-}
-.btn-edit {
-    background: var(--sky-dark);
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.78rem;
-    font-family: inherit;
-}
-.btn-delete {
-    background: var(--red);
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.78rem;
-    font-family: inherit;
-}
-.btn-icon {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-family: inherit;
-    transition: all 0.2s;
-}
+.btn-submit:disabled { background: #94a3b8; cursor: not-allowed; box-shadow: none; }
+.btn-logout { background: var(--red); color: white; padding: 6px 14px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; font-family: inherit; }
+.btn-load { background: var(--sky-dark); color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.88rem; font-family: inherit; }
+.btn-reset { background: #64748b; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; font-family: inherit; }
+.btn-edit { background: var(--sky-dark); color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.78rem; font-family: inherit; }
+.btn-delete { background: var(--red); color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.78rem; font-family: inherit; }
+.btn-icon { background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-family: inherit; transition: all 0.2s; }
 .btn-icon:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
 
 .lang-switcher-admin { display: flex; gap: 4px; align-items: center; }
-.lang-btn-admin {
-    background: transparent;
-    border: 1px solid var(--border);
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    cursor: pointer;
-    color: var(--text-muted);
-    font-family: inherit;
-}
-.lang-btn-admin.active {
-    background: var(--navy);
-    color: white;
-    border-color: var(--navy);
-}
+.lang-btn-admin { background: transparent; border: 1px solid var(--border); padding: 6px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; color: var(--text-muted); font-family: inherit; }
+.lang-btn-admin.active { background: var(--navy); color: white; border-color: var(--navy); }
 body.dark .lang-btn-admin.active { background: var(--sky); color: var(--navy-dark); }
 
-/* MODAL */
 .modal-overlay {
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background: rgba(0,10,25,0.75);
     backdrop-filter: blur(6px);
-    z-index: 9998;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    opacity: 0;
-    pointer-events: none;
+    z-index: 9998; display: flex;
+    justify-content: center; align-items: center;
+    padding: 20px; opacity: 0; pointer-events: none;
     transition: opacity 0.2s;
 }
-.modal-overlay.show {
-    opacity: 1;
-    pointer-events: auto;
-}
+.modal-overlay.show { opacity: 1; pointer-events: auto; }
 .modal-box {
-    background: var(--card-bg);
-    color: var(--text);
-    border-radius: 16px;
-    padding: 24px;
-    max-width: 480px;
-    width: 100%;
+    background: var(--card-bg); color: var(--text);
+    border-radius: 16px; padding: 24px;
+    max-width: 480px; width: 100%;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    transform: scale(0.95);
-    transition: transform 0.2s;
-    max-height: 90vh;
-    overflow-y: auto;
+    transform: scale(0.95); transition: transform 0.2s;
+    max-height: 90vh; overflow-y: auto;
 }
 .modal-overlay.show .modal-box { transform: scale(1); }
-.modal-title {
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: var(--navy);
-    margin-bottom: 12px;
-}
+.modal-title { font-size: 1.15rem; font-weight: 800; color: var(--navy); margin-bottom: 12px; }
 body.dark .modal-title { color: var(--sky); }
-.modal-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    margin-top: 20px;
-}
-.modal-actions button {
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-weight: bold;
-    font-family: inherit;
-    cursor: pointer;
-    border: none;
-    font-size: 0.9rem;
-}
-.btn-modal-cancel {
-    background: var(--border);
-    color: var(--text);
-}
-.btn-modal-confirm {
-    background: var(--navy);
-    color: #fff;
-}
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+.modal-actions button { padding: 10px 18px; border-radius: 8px; font-weight: bold; font-family: inherit; cursor: pointer; border: none; font-size: 0.9rem; }
+.btn-modal-cancel { background: var(--border); color: var(--text); }
+.btn-modal-confirm { background: var(--navy); color: #fff; }
 body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); }
-.btn-modal-danger {
-    background: var(--red);
-    color: #fff;
-}
+.btn-modal-danger { background: var(--red); color: #fff; }
 
-/* TOAST */
 #toastContainer {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 380px;
-    pointer-events: none;
+    position: fixed; top: 20px; right: 20px;
+    z-index: 9999; display: flex; flex-direction: column;
+    gap: 10px; max-width: 380px; pointer-events: none;
 }
 .toast {
-    padding: 14px 18px;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #fff;
+    padding: 14px 18px; border-radius: 10px;
+    font-weight: 600; font-size: 0.9rem; color: #fff;
     box-shadow: 0 8px 24px rgba(0,0,0,0.35);
     transform: translateX(120%);
     transition: transform 0.3s ease, opacity 0.3s ease;
-    opacity: 0;
-    pointer-events: auto;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    line-height: 1.4;
+    opacity: 0; pointer-events: auto;
+    display: flex; align-items: flex-start;
+    gap: 10px; line-height: 1.4;
 }
 .toast.show { transform: translateX(0); opacity: 1; }
 .toast-success { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
@@ -859,33 +478,21 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
 .toast-warn    { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
 .toast i { margin-top: 2px; flex-shrink: 0; }
 
-/* DRAFT BANNER */
 .draft-banner {
     background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    border: 1px solid #f59e0b;
-    color: #78350f;
-    padding: 12px 16px;
-    border-radius: 10px;
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    font-weight: 600;
-    font-size: 0.88rem;
+    border: 1px solid #f59e0b; color: #78350f;
+    padding: 12px 16px; border-radius: 10px;
+    margin-bottom: 16px; display: flex;
+    justify-content: space-between; align-items: center;
+    gap: 10px; flex-wrap: wrap;
+    font-weight: 600; font-size: 0.88rem;
 }
 .draft-banner button {
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    font-family: inherit;
-    font-size: 0.82rem;
+    padding: 6px 12px; border-radius: 6px;
+    border: none; cursor: pointer;
+    font-weight: bold; font-family: inherit; font-size: 0.82rem;
 }
 
-/* MOBILE */
 @media (max-width: 768px) {
     body { padding: 4px; }
     .admin-container { padding: 12px; border-radius: 12px; margin: 4px auto; }
@@ -907,7 +514,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
 
 <a href="#mainContent" class="skip-link">Salta al contenuto</a>
 
-<!-- LOGIN -->
 <div id="loginSection" class="login-box" role="main">
     <i class="fas fa-lock lock-icon" aria-hidden="true"></i>
     <h2 style="margin-bottom: 8px;">Yokohama Calcio Admin</h2>
@@ -934,7 +540,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     </div>
 </div>
 
-<!-- DASHBOARD -->
 <div id="adminDashboard" class="admin-container hidden" role="main" aria-labelledby="mainContent">
 
     <div class="admin-header-bar">
@@ -999,7 +604,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </button>
     </div>
 
-    <!-- TAB 1: MATCHES -->
     <div id="matchesTab" class="tab-content" role="tabpanel">
         <form id="matchForm" autocomplete="off">
             <input type="hidden" id="repoPath" value="yokohamacalcio/yokohamacalcio">
@@ -1148,7 +752,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                     </div>
                 </div>
 
-                <!-- MISTER HELPER BOX -->
                 <div class="mister-helper-box" id="misterHelperBox">
                     <div class="mister-helper-header">
                         <div>
@@ -1204,7 +807,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </form>
     </div>
 
-    <!-- TAB 2: PLAYERS -->
     <div id="playersTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
             <h3><i class="fas fa-user-plus"></i> <span data-i18n="playersHeading">Aggiungi / Modifica Giocatore</span></h3>
@@ -1297,7 +899,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- TAB 3: OPPONENTS -->
     <div id="opponentsTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
             <h3><i class="fas fa-shield-cat"></i> <span data-i18n="opponentsHeading">Aggiungi / Modifica Avversario</span></h3>
@@ -1345,13 +946,11 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- TAB 4: LOCATIONS -->
     <div id="locationsTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
             <h3><i class="fas fa-map-marked-alt"></i> <span data-i18n="locationsHeading">Aggiungi / Modifica Campo</span></h3>
             <form id="locationEditForm" style="margin-top: 15px;" autocomplete="off">
                 <input type="hidden" id="editLocationKey">
-
                 <div class="row">
                     <div class="form-group">
                         <label data-i18n="lblLocKey">Key ID Campo (es. yamoto):</label>
@@ -1362,7 +961,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                         <select id="locSurfaceSelect" class="form-control"></select>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="form-group">
                         <label data-i18n="lblLocJa">Nome Giapponese (ja):</label>
@@ -1377,12 +975,10 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                         <input type="text" id="locNameEn" class="form-control" placeholder="Yamoto Park Pitch">
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label data-i18n="lblLocMaps">Link Google Maps:</label>
                     <input type="url" id="locMapsUrl" class="form-control" placeholder="https://maps.google.com/?q=...">
                 </div>
-
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
                     <button type="button" class="btn-submit" style="background: var(--green);" data-action="save-location">
                         <i class="fas fa-cloud-upload-alt"></i> <span data-i18n="btnSaveLocation">Salva su GitHub</span>
@@ -1412,20 +1008,16 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- TAB 5: LINE -->
     <div id="lineTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
             <h3><i class="fab fa-line" style="color: #06c755;"></i> <span data-i18n="lineHeading">Generatore Convocazioni LINE</span></h3>
             <p style="font-size: 0.88rem; color: var(--text-muted);" data-i18n="lineSub">
                 Genera il messaggio pronto da incollare nel gruppo LINE della squadra.
             </p>
-
             <button type="button" class="btn-submit" style="background: #06c755; margin-bottom: 15px;" data-action="generate-line">
                 <i class="fas fa-magic"></i> <span data-i18n="btnGenerateLine">Genera Testo</span>
             </button>
-
             <textarea id="lineTextOutput" class="form-control" rows="14" readonly style="font-family: monospace; font-size: 0.9rem;"></textarea>
-
             <button type="button" class="btn-submit" style="margin-top: 10px; background: var(--sky-dark);" data-action="copy-line">
                 <i class="fas fa-copy"></i> <span data-i18n="btnCopyLine">Copia negli Appunti</span>
             </button>
@@ -1435,7 +1027,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     <div id="statusMsg" style="margin-top: 18px; font-weight: bold; text-align: center;"></div>
 </div>
 
-<!-- MODAL & TOAST -->
 <div id="modalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-box">
         <div class="modal-title" id="modalTitle"></div>
@@ -1659,7 +1250,6 @@ const FORMATION_COORDS = {
     }
 };
 
-// Mappa macro-posizioni per affinity scoring
 const POS_MACRO_MAP = {
     GK: 'GK',
     LB: 'DEF', LWB: 'DEF', 'CB-L': 'DEF', 'CB-C': 'DEF', 'CB-R': 'DEF', RB: 'DEF', RWB: 'DEF',
@@ -1674,21 +1264,25 @@ const SURFACE_PRESETS = {
     "grass":      { ja: "天然芝", it: "Erba naturale", en: "Natural Grass" }
 };
 
+// ⭐ COSTANTE: ID dei container delle stat rows
+const STAT_CONTAINER_IDS = [
+    'scorersContainer',
+    'assistsContainer',
+    'gkContainer',
+    'yellowCardsContainer',
+    'redCardsContainer'
+];
+
 const State = {
     lang: sessionStorage.getItem('yc_admin_lang') || localStorage.getItem('preferred_lang') || 'it',
     token: sessionStorage.getItem(TOKEN_KEY) || '',
-    players: [],
-    opponents: {},
-    locations: {},
-    matches: [],
-    trialists: [],
-    statsData: {},          // ⭐ NUOVO: stats.json con positions_played
+    players: [], opponents: {}, locations: {}, matches: [], trialists: [],
+    statsData: {},
     isDirty: false,
     playerSort: { field: 'number', dir: 'asc' },
     opponentSort: { field: 'key', dir: 'asc' },
     locationSort: { field: 'key', dir: 'asc' },
-    playerSearch: '',
-    opponentSearch: '',
+    playerSearch: '', opponentSearch: '',
     autosaveTimer: null
 };
 
@@ -1696,10 +1290,7 @@ function $(id) { return document.getElementById(id); }
 function $$(sel, ctx = document) { return ctx.querySelectorAll(sel); }
 function cleanStr(s) { return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim(); }
 function isJapanese(s) { return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf]/.test(s); }
-
-function t(key) {
-    return (I18N_DICT[State.lang] && I18N_DICT[State.lang][key]) || key;
-}
+function t(key) { return (I18N_DICT[State.lang] && I18N_DICT[State.lang][key]) || key; }
 
 function utf8ToBase64(str) {
     const bytes = new TextEncoder().encode(str);
@@ -1714,15 +1305,19 @@ function base64ToUtf8(b64) {
     return new TextDecoder().decode(bytes);
 }
 
-/* =========================================================
-   FIX #2: findMatchingPlayerValue migliorato
-   ========================================================= */
+/* ⭐ FIX BUG: clearStatContainers con ID espliciti — immune a typo */
+function clearStatContainers() {
+    STAT_CONTAINER_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = '';
+    });
+}
+
 function findMatchingPlayerValue(raw) {
     if (!raw) return '';
     const cleanRaw = cleanStr(raw);
     if (!cleanRaw) return '';
 
-    // Rimuove suffissi tipo " x2", "(45')", ecc.
     let normalizedRaw = String(raw)
         .replace(/\((.*?)\)/g, '')
         .replace(/\s*[xX\*]\s*\d+/g, '')
@@ -1731,7 +1326,6 @@ function findMatchingPlayerValue(raw) {
 
     const allPlayers = [...State.players, ...State.trialists];
 
-    // 1. Match esatto
     let p = allPlayers.find(x =>
         cleanStr(x.id) === cleanNorm ||
         cleanStr(x.name_kanji) === cleanNorm ||
@@ -1740,10 +1334,8 @@ function findMatchingPlayerValue(raw) {
     );
     if (p) return p.name_kanji || p.name_romaji || p.id;
 
-    // 2. Match parziale (più flessibile, min 2 char se JP, 3 se latino)
     const minLen = isJapanese(cleanNorm) ? 2 : 3;
     if (cleanNorm.length >= minLen) {
-        // Prima cerca giocatori reali (no trialist) con nome che contiene
         p = allPlayers.find(x => {
             const k = cleanStr(x.name_kanji);
             const kn = cleanStr(x.name_kana);
@@ -1757,14 +1349,9 @@ function findMatchingPlayerValue(raw) {
         if (p) return p.name_kanji || p.name_romaji || p.id;
     }
 
-    // 3. Fallback: restituisce raw (potrebbe non matchare)
     return normalizedRaw;
 }
 
-/**
- * FIX #2b: Aggiunge l'opzione al select se il valore non esiste tra le opzioni.
- * Così il marcatore/MVP viene visualizzato anche se non è più in rosa.
- */
 function ensureSelectOption(sel, value) {
     if (!sel || !value) return;
     const exists = Array.from(sel.options).some(opt => opt.value === value);
@@ -2022,7 +1609,6 @@ async function initData() {
         renderPitchAndBench();
         updateAllPlayerDropdowns();
         renderTrialistsList();
-
         checkDraft();
     } catch (e) {
         showToast('error', '❌ Errore caricamento dati: ' + e.message);
@@ -2038,9 +1624,7 @@ function renderOpponentsSelectAndTable() {
     }).join('');
 
     let rows = keys.map(k => ({
-        key: k,
-        ja: State.opponents[k].name?.ja || '',
-        en: State.opponents[k].name?.en || ''
+        key: k, ja: State.opponents[k].name?.ja || '', en: State.opponents[k].name?.en || ''
     }));
     if (State.opponentSearch) {
         const q = State.opponentSearch.toLowerCase();
@@ -2378,36 +1962,25 @@ function getAllAvailablePlayers(onlyGK = false) {
     return list;
 }
 
-/* =========================================================
-   FIX #1: MISTER HELPER — Suggerimenti basati su positions_played
-   ========================================================= */
 function getAffinityForPosition(playerName, posTag) {
-    // Trova il player ID
     const p = [...State.players, ...State.trialists].find(x =>
         x.name_kanji === playerName || x.name_romaji === playerName || x.id === playerName
     );
     if (!p) return { score: 0, exact: 0, macro: 0 };
     const stats = State.statsData[p.id] || {};
     const positions = stats.positions_played || {};
-
     const exact = positions[posTag] || 0;
-    // Conta anche i tag simili (stesso macro)
     const macro = POS_MACRO_MAP[posTag] || '';
     let macroCount = 0;
     Object.entries(positions).forEach(([tag, count]) => {
         if (tag !== posTag && POS_MACRO_MAP[tag] === macro) macroCount += count;
     });
-
-    return {
-        score: exact * 10 + macroCount * 3,
-        exact,
-        macro: macroCount
-    };
+    return { score: exact * 10 + macroCount * 3, exact, macro: macroCount };
 }
 
 function getTopPlayersForPosition(posTag, limit = 3, excludeUsed = null) {
     const allPlayers = [...State.players, ...State.trialists].filter(p => p.role !== 'staff');
-    const ranked = allPlayers.map(p => {
+    return allPlayers.map(p => {
         const stats = State.statsData[p.id] || {};
         const positions = stats.positions_played || {};
         const exact = positions[posTag] || 0;
@@ -2420,15 +1993,12 @@ function getTopPlayersForPosition(posTag, limit = 3, excludeUsed = null) {
         return {
             id: p.id,
             name: p.name_kanji || p.name_romaji,
-            exact,
-            macro: macroCount,
-            score,
+            exact, macro: macroCount, score,
             isUsed: excludeUsed && excludeUsed.has(p.name_kanji || p.name_romaji)
         };
     }).filter(p => p.score > 0)
       .sort((a, b) => b.score - a.score)
       .slice(0, limit);
-    return ranked;
 }
 
 function renderMisterHelper() {
@@ -2438,7 +2008,6 @@ function renderMisterHelper() {
     const formation = $('formationSelect').value;
     const coords = FORMATION_COORDS[formation] || FORMATION_COORDS['4-4-2'];
 
-    // Giocatori già in campo (per escluderli dai suggerimenti)
     const usedPlayers = new Set();
     $$('#pitchGrid .pitch-player-select').forEach(sel => {
         if (sel.value) usedPlayers.add(sel.value);
@@ -2447,7 +2016,7 @@ function renderMisterHelper() {
     if (Object.keys(State.statsData).length === 0) {
         container.innerHTML = `
             <div style="color:#94a3b8; font-size:0.8rem; grid-column: 1/-1; text-align:center; padding: 10px;">
-                <i class="fas fa-info-circle"></i> Nessun dato statistico disponibile. Salva qualche partita per vedere i suggerimenti.
+                <i class="fas fa-info-circle"></i> Nessun dato statistico disponibile.
             </div>
         `;
         return;
@@ -2456,7 +2025,6 @@ function renderMisterHelper() {
     container.innerHTML = Object.entries(coords).map(([posTag]) => {
         const macro = POS_MACRO_MAP[posTag] || '';
         const top3 = getTopPlayersForPosition(posTag, 3, usedPlayers);
-
         const playersHtml = top3.length > 0
             ? top3.map((p, i) => `
                 <div class="mister-player-line rank-${i+1}">
@@ -2465,7 +2033,6 @@ function renderMisterHelper() {
                 </div>
             `).join('')
             : '<div class="mister-player-line empty">— nessun dato —</div>';
-
         return `
             <div class="mister-pos-suggestion">
                 <span class="pos-label">${posTag}</span>
@@ -2476,10 +2043,6 @@ function renderMisterHelper() {
     }).join('');
 }
 
-/**
- * Suggerisce formazione: per ogni slot sceglie il giocatore con affinity più alta
- * che non è già stato assegnato in un altro slot.
- */
 function suggestLineup() {
     const formation = $('formationSelect').value;
     const coords = FORMATION_COORDS[formation] || FORMATION_COORDS['4-4-2'];
@@ -2493,12 +2056,10 @@ function suggestLineup() {
     const usedPlayers = new Set();
     const assigned = {};
 
-    // Ordina le posizioni: prima porta (GK), poi difensori, centrocampisti, attaccanti
-    // per dare priorità alle posizioni specialistiche
     const orderPriority = {
         'GK': 0,
         'CB-C': 1, 'CB-L': 1, 'CB-R': 1, 'LB': 2, 'RB': 2, 'LWB': 2, 'RWB': 2,
-        'DM': 3, 'CM-C': 4, 'CM-L': 4, 'CM-R': 4, 'LM': 5, 'RM': 5,
+        'DM': 3, 'CM-C': 4, 'CM-L': 4, 'CM-R': .content4, 'LM': 5, 'RM': 5,
         'AM-C': 6, 'AM-L': 6, 'AM-R': 6,
         'ST': 7, 'FW-L': 7, 'FW-R': 7, 'LW': 8, 'RW': 8
     };
@@ -2516,16 +2077,14 @@ function suggestLineup() {
                 const macro = POS_MACRO_MAP[posTag] || '';
                 let macroCount = 0;
                 Object.entries(positions).forEach(([tag, count]) => {
-                    if (tag !== posTag && POS_MACRO_MAP[tag] === macro) macroCount += count;
-                });
-
-                // Bonus: se la posizione è GK, solo portieri di ruolo
-                let roleBonus = 0;
-                if (posTag === 'GK' && (p.role === 'gk' || p.position === 'GK')) roleBonus = 1000;
+                    if (tag !== posTag && POS_MACRO_MAP[tag];
+ === macro) macroCount += count;
+                           });
+                let roleBonus = 0 render;
+                if (posTag === 'GK' &&Players (p.role === 'gk' || p.position === 'GK')) roleBonus = 1000;
                 else if (POS_MACRO_MAP[posTag] === 'DEF' && p.role === 'df') roleBonus = 50;
                 else if (POS_MACRO_MAP[posTag] === 'MID' && p.role === 'mf') roleBonus = 50;
                 else if (POS_MACRO_MAP[posTag] === 'ATT' && p.role === 'fw') roleBonus = 50;
-
                 return {
                     name: p.name_kanji || p.name_romaji,
                     score: exact * 10 + macroCount * 3 + roleBonus
@@ -2540,12 +2099,9 @@ function suggestLineup() {
         }
     });
 
-    // Applica le assegnazioni al campo
     Object.entries(assigned).forEach(([posTag, playerName]) => {
         const sel = document.querySelector(`#pitchGrid .pitch-player-select[data-pos="${posTag}"]`);
-        if (sel) {
-            ensureSelectOption(sel, playerName);
-        }
+        if (sel) ensureSelectOption(sel, playerName);
     });
 
     updatePlayerExclusions();
@@ -2554,9 +2110,6 @@ function suggestLineup() {
     showToast('success', `✨ Formazione suggerita per ${Object.keys(assigned).length} posizioni`);
 }
 
-/* =========================================================
-   PITCH & BENCH
-   ========================================================= */
 function renderPitchAndBench() {
     const formation = $('formationSelect').value;
     const coords = FORMATION_COORDS[formation] || FORMATION_COORDS['4-4-2'];
@@ -2589,14 +2142,10 @@ function renderPitchAndBench() {
     for (let i = 1; i <= 10; i++) {
         html += `
             <div class="bench-card" data-bench-slot="${i}">
-                <div class="bench-card-header">
-                    <span>#${i} Panchina</span>
-                </div>
+                <div class="bench-card-header"><span>#${i} Panchina</span></div>
                 <select class="form-control player-dropdown-dynamic bench-player-select match-squad-select"></select>
                 <div class="bench-sub-row">
-                    <label>
-                        <input type="checkbox" class="bench-subbed-in"> Sceso in campo
-                    </label>
+                    <label><input type="checkbox" class="bench-subbed-in"> Sceso in campo</label>
                     <select class="form-control bench-pos-select" style="font-size: 0.8rem; padding: 4px;" disabled>
                         ${Object.keys(coords).map(p => `<option value="${p}">${p}</option>`).join('')}
                     </select>
@@ -2628,26 +2177,19 @@ function updateFilledCards() {
         const sel = card.querySelector('.pitch-player-select');
         const posTag = card.getAttribute('data-pos-card');
         const affinityBadge = card.querySelector(`[data-affinity-for="${posTag}"]`);
-
         const isFilled = !!sel.value;
         card.classList.toggle('filled', isFilled);
-
-        // Rimuovi classi affinità precedenti
         card.classList.remove('affinity-high', 'affinity-medium', 'affinity-low', 'affinity-new');
-
         if (!isFilled) {
             if (affinityBadge) affinityBadge.classList.add('hidden');
             return;
         }
-
         const aff = getAffinityForPosition(sel.value, posTag);
         let label = '', cls = '';
-
         if (aff.exact >= 3) { label = `★ ${aff.exact}`; cls = 'high'; card.classList.add('affinity-high'); }
         else if (aff.exact >= 1 || aff.macro >= 2) { label = `◆ ${aff.exact + aff.macro}`; cls = 'medium'; card.classList.add('affinity-medium'); }
         else if (aff.macro >= 1) { label = `○ ${aff.macro}`; cls = 'low'; card.classList.add('affinity-low'); }
         else { label = '⚠ NEW'; cls = 'new'; card.classList.add('affinity-new'); }
-
         if (affinityBadge) {
             affinityBadge.className = `affinity-badge ${cls}`;
             affinityBadge.textContent = label;
@@ -2692,7 +2234,6 @@ function updatePlayerExclusions() {
             const label = p.name + (isSelectedElsewhere ? ' ✓' : '');
             return `<option value="${p.value}" ${isSelectedElsewhere ? 'disabled' : ''}>${label}</option>`;
         }).join('');
-        // Ripristina il valore anche se non è più nella lista standard
         if (currentVal) ensureSelectOption(sel, currentVal);
     });
 }
@@ -2719,9 +2260,166 @@ function addGkRow() { $('gkContainer').appendChild(createStatRow('gk-player-sele
 function addYellowRow() { $('yellowCardsContainer').appendChild(createStatRow('yellow-player-select', { hasCount: false, hasMinute: true })); }
 function addRedRow() { $('redCardsContainer').appendChild(createStatRow('red-player-select', { hasCount: false, hasMinute: true })); }
 
-/* =========================================================
-   FIX #2 e #3: LOAD MATCH DATA con parsing robusto di marcatori/assist/MVP + minuti
-   ========================================================= */
+/**
+ * ⭐ FIX BUG PRINCIPALE
+ * Parsing di marcatori, assist, MVP, portieri, gialli, rossi.
+ * Ogni sezione è isolata in un try/catch per non bloccare le altre se fallisce.
+ */
+function populateMatchEventRows(match) {
+    // ---- MARCATORI (con minuti) ----
+    try {
+        const raw = match.scorers || '';
+        const items = Array.isArray(raw) ? raw : String(raw).split(/[,、]/);
+        items.forEach(entry => {
+            let text = String(entry).trim();
+            if (!text || text === 'なし' || text === 'Nessuno') return;
+
+            let count = 1, min = '';
+
+            // Estrai minuto in coda: "(45')", "(45)", "(45+2')"
+            const mMin = text.match(/\s*\((\d+(?:\+\d+)?)['′]?\s*\)\s*$/);
+            if (mMin) {
+                min = mMin[1];
+                text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim();
+            }
+
+            // Estrai moltiplicatore in coda: "x2" o "*2"
+            const mCnt = text.match(/\s*[xX\*]\s*(\d+)\s*$/);
+            if (mCnt) {
+                count = parseInt(mCnt[1], 10) || 1;
+                text = text.replace(/\s*[xX\*]\s*\d+\s*$/, '').trim();
+            }
+
+            const matchedVal = findMatchingPlayerValue(text);
+            const valueToUse = matchedVal || text;
+            if (valueToUse) {
+                addScorerRow();
+                const last = $('scorersContainer').querySelector('.stat-row:last-child');
+                if (last) {
+                    ensureSelectOption(last.querySelector('.scorer-player-select'), valueToUse);
+                    last.querySelector('.row-count-input').value = count;
+                    if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
+                }
+            }
+        });
+    } catch (e) { console.error('Errore parsing marcatori:', e); }
+
+    // ---- ASSISTMAN ----
+    try {
+        const raw = match.assists || '';
+        const items = Array.isArray(raw) ? raw : String(raw).split(/[,、]/);
+        items.forEach(entry => {
+            let text = String(entry).trim();
+            if (!text || text === 'なし' || text === 'Nessuno') return;
+
+            let count = 1;
+            const mCnt = text.match(/\s*[xX\*]\s*(\d+)\s*$/);
+            if (mCnt) {
+                count = parseInt(mCnt[1], 10) || 1;
+                text = text.replace(/\s*[xX\*]\s*\d+\s*$/, '').trim();
+            }
+
+            const matchedVal = findMatchingPlayerValue(text);
+            const valueToUse = matchedVal || text;
+            if (valueToUse) {
+                addAssistRow();
+                const last = $('assistsContainer').querySelector('.stat-row:last-child');
+                if (last) {
+                    ensureSelectOption(last.querySelector('.assist-player-select'), valueToUse);
+                    last.querySelector('.row-count-input').value = count;
+                }
+            }
+        });
+    } catch (e) { console.error('Errore parsing assists:', e); }
+
+    // ---- PORTIERI ----
+    try {
+        const raw = match.goalkeepers || '';
+        const items = Array.isArray(raw) ? raw : String(raw).split(/[,、]/);
+        items.forEach(entry => {
+            let text = String(entry).trim();
+            if (!text) return;
+            let ga = 0;
+            const m = text.match(/^(.+?)\s*[(（]\s*(\d+)\s*[)）]\s*$/);
+            if (m) {
+                text = m[1].trim();
+                ga = parseInt(m[2], 10) || 0;
+            }
+            const matchedVal = findMatchingPlayerValue(text);
+            const valueToUse = matchedVal || text;
+            if (valueToUse) {
+                addGkRow();
+                const last = $('gkContainer').querySelector('.stat-row:last-child');
+                if (last) {
+                    ensureSelectOption(last.querySelector('.gk-player-select'), valueToUse);
+                    last.querySelector('.row-count-input').value = ga;
+                }
+            }
+        });
+    } catch (e) { console.error('Errore parsing portieri:', e); }
+
+    // ---- MVP ----
+    try {
+        if (match.mvp && match.mvp !== 'なし' && match.mvp !== 'Nessuno') {
+            const mvpVal = findMatchingPlayerValue(match.mvp);
+            const valueToUse = mvpVal || match.mvp;
+            ensureSelectOption($('mvpSelect'), valueToUse);
+        }
+    } catch (e) { console.error('Errore parsing MVP:', e); }
+
+    // ---- GIALLI ----
+    try {
+        const raw = match.yellow_cards || '';
+        const items = Array.isArray(raw) ? raw : String(raw).split(/[,、]/);
+        items.forEach(entry => {
+            let text = String(entry).trim();
+            if (!text || text === 'なし' || text === 'Nessuno') return;
+            let min = '';
+            const mMin = text.match(/\s*\((\d+(?:\+\d+)?)['′]?\s*\)\s*$/);
+            if (mMin) {
+                min = mMin[1];
+                text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim();
+            }
+            const matchedVal = findMatchingPlayerValue(text);
+            const valueToUse = matchedVal || text;
+            if (valueToUse) {
+                addYellowRow();
+                const last = $('yellowCardsContainer').querySelector('.stat-row:last-child');
+                if (last) {
+                    ensureSelectOption(last.querySelector('.yellow-player-select'), valueToUse);
+                    if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
+                }
+            }
+        });
+    } catch (e) { console.error('Errore parsing gialli:', e); }
+
+    // ---- ROSSI ----
+    try {
+        const raw = match.red_cards || '';
+        const items = Array.isArray(raw) ? raw : String(raw).split(/[,、]/);
+        items.forEach(entry => {
+            let text = String(entry).trim();
+            if (!text || text === 'なし' || text === 'Nessuno') return;
+            let min = '';
+            const mMin = text.match(/\s*\((\d+(?:\+\d+)?)['′]?\s*\)\s*$/);
+            if (mMin) {
+                min = mMin[1];
+                text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim();
+            }
+            const matchedVal = findMatchingPlayerValue(text);
+            const valueToUse = matchedVal || text;
+            if (valueToUse) {
+                addRedRow();
+                const last = $('redCardsContainer').querySelector('.stat-row:last-child');
+                if (last) {
+                    ensureSelectOption(last.querySelector('.red-player-select'), valueToUse);
+                    if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
+                }
+            }
+        });
+    } catch (e) { console.error('Errore parsing rossi:', e); }
+}
+
 async function loadMatchData(id, quiet = false) {
     if (!id) return;
     id = id.toLowerCase();
@@ -2740,11 +2438,16 @@ async function loadMatchData(id, quiet = false) {
     }
     if (!State.players || State.players.length === 0) {
         const pRes = await fetchJsonFile('players.json');
-        if (pRes && Array.isArray(pRes.content)) { State.players = pRes.content; renderPlayersTable(); updateAllPlayerDropdowns(); }
+        if (pRes && Array.isArray(pRes.content)) {
+            State.players = pResTable();
+            updateAllPlayerDropdowns();
+        }
     }
     if (!State.statsData || Object.keys(State.statsData).length === 0) {
         const sRes = await fetchJsonFile('stats.json');
-        if (sRes && sRes.content && typeof sRes.content === 'object') State.statsData = sRes.content.players || {};
+        if (sRes && sRes.content && typeof sRes.content === 'object') {
+            State.statsData = sRes.content.players || {};
+        }
     }
 
     const match = State.matches.find(m => String(m.id).toLowerCase() === id);
@@ -2755,6 +2458,7 @@ async function loadMatchData(id, quiet = false) {
 
     if (!quiet) showToast('info', `✅ Dati trovati per ${match.id}`);
 
+    // Anagrafica
     $('matchStatus').value = match.status || 'past';
     $('matchDate').value = match.date || '';
     $('matchTime').value = match.time || '11:00';
@@ -2765,6 +2469,7 @@ async function loadMatchData(id, quiet = false) {
     $('isHome').value = String(match.isHome !== undefined ? match.isHome : true);
     $('matchScore').value = match.score || 'VS';
 
+    // Formazione
     if (match.formation) {
         const formSel = $('formationSelect');
         formSel.value = FORMATION_COORDS[match.formation] ? match.formation : '4-4-2';
@@ -2773,16 +2478,18 @@ async function loadMatchData(id, quiet = false) {
 
     updateAllPlayerDropdowns();
 
+    // Starters
     if (match.starters_positions) {
         Object.entries(match.starters_positions).forEach(([pos, name]) => {
             const sel = document.querySelector(`#pitchGrid .pitch-player-select[data-pos="${pos}"]`);
             if (sel) {
                 const matched = findMatchingPlayerValue(name);
-                ensureSelectOption(sel, matched);
+                ensureSelectOption(sel, matched || name);
             }
         });
     }
 
+    // Bench
     if (Array.isArray(match.bench_details)) {
         match.bench_details.forEach((b, i) => {
             const slot = document.querySelector(`[data-bench-slot="${i + 1}"]`);
@@ -2792,7 +2499,7 @@ async function loadMatchData(id, quiet = false) {
             const posSel = slot.querySelector('.bench-pos-select');
             if (pSel && b.player) {
                 const matched = findMatchingPlayerValue(b.player);
-                ensureSelectOption(pSel, matched);
+                ensureSelectOption(pSel, matched || b.player);
             }
             if (chk) {
                 chk.checked = !!b.subbed_in;
@@ -2802,163 +2509,11 @@ async function loadMatchData(id, quiet = false) {
         });
     }
 
-    ['scorers', 'assists', 'gk', 'yellow', 'red'].forEach(k => $(k + 'Container').innerHTML = '');
+    // ⭐ FIX: usa clearStatContainers() invece della riga buggata
+    clearStatContainers();
 
-    // ---- MARCATORI (con minuti) ----
-    const scorerRaw = match.scorers || '';
-    const scorerItems = Array.isArray(scorerRaw) ? scorerRaw : String(scorerRaw).split(/[,、]/);
-    scorerItems.forEach(entry => {
-        let text = String(entry).trim();
-        if (!text || text === 'なし' || text === 'Nessuno') return;
-
-        let count = 1, min = '';
-
-        // Estrai minuto: es. " (45')" o " (45)" o " (45+2')"
-        const mMin = text.match(/\s*\((\d+(?:\+\d+)?)['′]?\s*\)\s*$/);
-        if (mMin) {
-            min = mMin[1];
-            text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim();
-        }
-
-        // Estrai moltiplicatore: es. " x2"
-        const mCnt = text.match(/\s*[xX\*]\s*(\d+)\s*$/);
-        if (mCnt) {
-            count = parseInt(mCnt[1], 10) || 1;
-            text = text.replace(/\s*[xX\*]\s*\d+\s*$/, '').trim();
-        }
-
-        const matchedVal = findMatchingPlayerValue(text);
-        if (matchedVal) {
-            addScorerRow();
-            const last = $('scorersContainer').querySelector('.stat-row:last-child');
-            if (last) {
-                ensureSelectOption(last.querySelector('.scorer-player-select'), matchedVal);
-                last.querySelector('.row-count-input').value = count;
-                if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
-            }
-        } else if (text) {
-            // Fallback: aggiungi riga con opzione custom
-            addScorerRow();
-            const last = $('scorersContainer').querySelector('.stat-row:last-child');
-            if (last) {
-                ensureSelectOption(last.querySelector('.scorer-player-select'), text);
-                last.querySelector('.row-count-input').value = count;
-                if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
-            }
-        }
-    });
-
-    // ---- ASSISTMAN ----
-    const assistRaw = match.assists || '';
-    const assistItems = Array.isArray(assistRaw) ? assistRaw : String(assistRaw).split(/[,、]/);
-    assistItems.forEach(entry => {
-        let text = String(entry).trim();
-        if (!text || text === 'なし' || text === 'Nessuno') return;
-
-        let count = 1;
-        const mCnt = text.match(/\s*[xX\*]\s*(\d+)\s*$/);
-        if (mCnt) {
-            count = parseInt(mCnt[1], 10) || 1;
-            text = text.replace(/\s*[xX\*]\s*\d+\s*$/, '').trim();
-        }
-
-        const matchedVal = findMatchingPlayerValue(text);
-        if (matchedVal) {
-            addAssistRow();
-            const last = $('assistsContainer').querySelector('.stat-row:last-child');
-            if (last) {
-                ensureSelectOption(last.querySelector('.assist-player-select'), matchedVal);
-                last.querySelector('.row-count-input').value = count;
-            }
-        } else if (text) {
-            addAssistRow();
-            const last = $('assistsContainer').querySelector('.stat-row:last-child');
-            if (last) {
-                ensureSelectOption(last.querySelector('.assist-player-select'), text);
-                last.querySelector('.row-count-input').value = count;
-            }
-        }
-    });
-
-    // ---- PORTIERI ----
-    const gkRaw = match.goalkeepers || '';
-    const gkItems = Array.isArray(gkRaw) ? gkRaw : String(gkRaw).split(/[,、]/);
-    gkItems.forEach(entry => {
-        let text = String(entry).trim();
-        if (!text) return;
-        let ga = 0;
-        const m = text.match(/^(.+?)\s*[(（]\s*(\d+)\s*[)）]\s*$/);
-        if (m) {
-            text = m[1].trim();
-            ga = parseInt(m[2], 10) || 0;
-        }
-        const matchedVal = findMatchingPlayerValue(text);
-        const valueToUse = matchedVal || text;
-        if (valueToUse) {
-            addGkRow();
-            const last = $('gkContainer').querySelector('.stat-row:last-child');
-            if (last) {
-                ensureSelectOption(last.querySelector('.gk-player-select'), valueToUse);
-                last.querySelector('.row-count-input').value = ga;
-            }
-        }
-    });
-
-    // ---- MVP ----
-    if (match.mvp && match.mvp !== 'なし' && match.mvp !== 'Nessuno') {
-        const mvpVal = findMatchingPlayerValue(match.mvp);
-        const valueToUse = mvpVal || match.mvp;
-        const mvpSel = $('mvpSelect');
-        ensureSelectOption(mvpSel, valueToUse);
-    }
-
-    // ---- GIALLI (con minuti) ----
-    const yellowRaw = match.yellow_cards || '';
-    const yellowItems = Array.isArray(yellowRaw) ? yellowRaw : String(yellowRaw).split(/[,、]/);
-    yellowItems.forEach(entry => {
-        let text = String(entry).trim();
-        if (!text || text === 'なし' || text === 'Nessuno') return;
-        let min = '';
-        const mMin = text.match(/\s*\((\d+(?:\+\d+)?)['′]?\s*\)\s*$/);
-        if (mMin) {
-            min = mMin[1];
-            text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim();
-        }
-        const matchedVal = findMatchingPlayerValue(text);
-        const valueToUse = matchedVal || text;
-        if (valueToUse) {
-            addYellowRow();
-            const last = $('yellowCardsContainer').querySelector('.stat-row:last-child');
-            if (last) {
-                ensureSelectOption(last.querySelector('.yellow-player-select'), valueToUse);
-                if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
-            }
-        }
-    });
-
-    // ---- ROSSI (con minuti) ----
-    const redRaw = match.red_cards || '';
-    const redItems = Array.isArray(redRaw) ? redRaw : String(redRaw).split(/[,、]/);
-    redItems.forEach(entry => {
-        let text = String(entry).trim();
-        if (!text || text === 'なし' || text === 'Nessuno') return;
-        let min = '';
-        const mMin = text.match(/\s*\((\d+(?:\+\d+)?)['′]?\s*\)\s*$/);
-        if (mMin) {
-            min = mMin[1];
-            text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim();
-        }
-        const matchedVal = findMatchingPlayerValue(text);
-        const valueToUse = matchedVal || text;
-        if (valueToUse) {
-            addRedRow();
-            const last = $('redCardsContainer').querySelector('.stat-row:last-child');
-            if (last) {
-                ensureSelectOption(last.querySelector('.red-player-select'), valueToUse);
-                if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
-            }
-        }
-    });
+    // Popola tutte le righe eventi (marcatori, assist, ecc.)
+    populateMatchEventRows(match);
 
     updatePlayerExclusions();
     updateFilledCards();
@@ -2988,7 +2543,6 @@ async function deleteMatch() {
         statusEl.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Aggiornamento stats.json...`;
         const { sha: statsSha } = await ghGet('stats.json');
         await ghPut('stats.json', statsData, statsSha, `Admin: Update stats after deleting ${currentId}`);
-
         State.statsData = statsData.players || {};
         resetForm();
         statusEl.style.color = 'var(--green)';
@@ -3039,7 +2593,8 @@ async function duplicateMatch() {
 
 function resetForm() {
     $('matchForm').reset();
-    ['scorers', 'assists', 'gk', 'yellow', 'red'].forEach(k => $(k + 'Container').innerHTML = '');
+    // ⭐ FIX: uso clearStatContainers
+    clearStatContainers();
     $('statusMsg').innerHTML = '';
     State.trialists = [];
     renderTrialistsList();
@@ -3072,7 +2627,6 @@ async function saveMatch(e) {
         }
     });
 
-    // FIX #3: formato marcatori: "Nome x2 (45')"
     const scorerDetails = [];
     $$('.stat-row .scorer-player-select').forEach(sel => {
         const p = sel.value;
@@ -3126,8 +2680,7 @@ async function saveMatch(e) {
         opponent_id: $('opponentSelect').value,
         isHome: $('isHome').value === 'true',
         score: $('matchScore').value.trim() || 'VS',
-        scorers,
-        assists,
+        scorers, assists,
         mvp: $('mvpSelect').value,
         yellow_cards: yellows.join(', '),
         red_cards: reds.join(', '),
@@ -3228,13 +2781,11 @@ function generateStatsJSON(playersData, matchesData) {
         total_matches: 0, wins: 0, draws: 0, losses: 0,
         goals_for: 0, goals_against: 0, clean_sheets: 0, formations_used: {}
     };
-
     const posRegex = /^(GK|CB|LB|RB|LWB|RWB|DM|CM|LM|RM|AM|LW|RW|FW|ST)(-[LRC123])?$/i;
 
     matchesData.forEach(m => {
         if (String(m.status || '').toLowerCase() !== 'past') return;
         teamTotals.total_matches++;
-
         if (m.formation) {
             teamTotals.formations_used[m.formation] = (teamTotals.formations_used[m.formation] || 0) + 1;
         }
@@ -3471,6 +3022,7 @@ function restoreDraft() {
         State.trialists = d.trialists || [];
         renderTrialistsList();
         updateAllPlayerDropdowns();
+
         if (d.starters_positions) {
             Object.entries(d.starters_positions).forEach(([pos, val]) => {
                 const sel = document.querySelector(`#pitchGrid .pitch-player-select[data-pos="${pos}"]`);
@@ -3489,7 +3041,10 @@ function restoreDraft() {
                 if (posSel && b.position_played) posSel.value = b.position_played;
             });
         }
-        ['scorers', 'assists', 'gk', 'yellow', 'red'].forEach(k => $(k + 'Container').innerHTML = '');
+
+        // ⭐ FIX: clearStatContainers
+        clearStatContainers();
+
         (d.scorers || []).forEach(s => {
             addScorerRow();
             const last = $('scorersContainer').querySelector('.stat-row:last-child');
@@ -3669,9 +3224,7 @@ $('matchForm').addEventListener('submit', saveMatch);
 
 document.addEventListener('change', (e) => {
     const el = e.target;
-    if (el.id === 'formationSelect') {
-        renderPitchAndBench();
-    }
+    if (el.id === 'formationSelect') { renderPitchAndBench(); }
     if (el.classList.contains('bench-subbed-in')) {
         const posSel = el.closest('.bench-sub-row').querySelector('.bench-pos-select');
         if (posSel) posSel.disabled = !el.checked;
@@ -3686,14 +3239,8 @@ document.addEventListener('change', (e) => {
 document.addEventListener('input', (e) => {
     if (!e.target.closest('#adminDashboard')) return;
     State.isDirty = true;
-    if (e.target.id === 'playerSearch') {
-        State.playerSearch = e.target.value;
-        renderPlayersTable();
-    }
-    if (e.target.id === 'opponentSearch') {
-        State.opponentSearch = e.target.value;
-        renderOpponentsSelectAndTable();
-    }
+    if (e.target.id === 'playerSearch') { State.playerSearch = e.target.value; renderPlayersTable(); }
+    if (e.target.id === 'opponentSearch') { State.opponentSearch = e.target.value; renderOpponentsSelectAndTable(); }
     if (e.target.classList.contains('match-squad-select')) {
         updatePlayerExclusions();
         updateFilledCards();
