@@ -123,6 +123,10 @@
         .btn-edit { background: #0284c7; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.78rem; }
         .btn-delete { background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.78rem; }
 
+        .lang-switcher-admin { display: flex; gap: 4px; align-items: center; }
+        .lang-btn-admin { background: transparent; border: 1px solid #cbd5e1; padding: 4px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: bold; cursor: pointer; color: #475569; }
+        .lang-btn-admin.active { background: #003c82; color: white; border-color: #003c82; }
+
         .hidden { display: none !important; }
     </style>
 </head>
@@ -133,6 +137,12 @@
     <i class="fas fa-lock lock-icon"></i>
     <h2 style="margin-bottom: 8px;">Yokohama Calcio Admin</h2>
     <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 20px;">Inserisci il GitHub Token (PAT) per accedere.</p>
+
+    <div class="lang-switcher-admin" style="justify-content: center; margin-bottom: 20px;">
+        <button type="button" class="lang-btn-admin" data-lang="ja" onclick="setAdminLanguage('ja')">JP</button>
+        <button type="button" class="lang-btn-admin active" data-lang="it" onclick="setAdminLanguage('it')">IT</button>
+        <button type="button" class="lang-btn-admin" data-lang="en" onclick="setAdminLanguage('en')">EN</button>
+    </div>
 
     <form id="loginForm">
         <div class="form-group" style="text-align: left;">
@@ -153,6 +163,11 @@
         </div>
         
         <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <div class="lang-switcher-admin">
+                <button type="button" class="lang-btn-admin" data-lang="ja" onclick="setAdminLanguage('ja')">JP</button>
+                <button type="button" class="lang-btn-admin active" data-lang="it" onclick="setAdminLanguage('it')">IT</button>
+                <button type="button" class="lang-btn-admin" data-lang="en" onclick="setAdminLanguage('en')">EN</button>
+            </div>
             <button type="button" onclick="resetForm()" class="btn-reset"><i class="fas fa-redo"></i> Reset</button>
             <button id="logoutBtn" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
         </div>
@@ -485,11 +500,19 @@
             <h3><i class="fas fa-map-marked-alt"></i> Aggiungi / Modifica Campo (`locations.json`)</h3>
             <form id="locationEditForm" style="margin-top: 15px;">
                 <input type="hidden" id="editLocationKey">
+                
                 <div class="row">
                     <div class="form-group">
                         <label>Key ID Campo (es. yamoto):</label>
                         <input type="text" id="locKey" class="form-control" placeholder="yamoto" required>
                     </div>
+                    <div class="form-group">
+                        <label>Superficie Terreno (Surface):</label>
+                        <select id="locSurfaceSelect" class="form-control"></select>
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="form-group">
                         <label>Nome Giapponese (ja):</label>
                         <input type="text" id="locNameJa" class="form-control" placeholder="谷本公園球技場" required>
@@ -501,21 +524,6 @@
                     <div class="form-group">
                         <label>Nome Inglese (en):</label>
                         <input type="text" id="locNameEn" class="form-control" placeholder="Yamoto Park Pitch">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group">
-                        <label>Superficie JA (surface.ja):</label>
-                        <input type="text" id="locSurfaceJa" class="form-control" placeholder="人工芝 / クレー（土） / 天然芝">
-                    </div>
-                    <div class="form-group">
-                        <label>Superficie IT (surface.it):</label>
-                        <input type="text" id="locSurfaceIt" class="form-control" placeholder="Sintetico / Terra battuta / Erba naturale">
-                    </div>
-                    <div class="form-group">
-                        <label>Superficie EN (surface.en):</label>
-                        <input type="text" id="locSurfaceEn" class="form-control" placeholder="Artificial Turf / Clay / Natural Grass">
                     </div>
                 </div>
 
@@ -542,7 +550,7 @@
                             <th>Key ID</th>
                             <th>Nome JA</th>
                             <th>Nome IT</th>
-                            <th>Superficie JA</th>
+                            <th>Superficie</th>
                             <th>Google Maps</th>
                             <th>Azioni</th>
                         </tr>
@@ -589,12 +597,41 @@
         "custom": ["GK", "POS-2", "POS-3", "POS-4", "POS-5", "POS-6", "POS-7", "POS-8", "POS-9", "POS-10", "POS-11"]
     };
 
+    // PRESET DELLE SUPERFICI DEI CAMPI NELLE 3 LINGUE
+    const SURFACE_PRESETS = {
+        "artificial": { ja: "人工芝", it: "Sintetico", en: "Artificial Turf" },
+        "clay": { ja: "クレー（土）", it: "Terra battuta", en: "Clay / Dirt" },
+        "grass": { ja: "天然芝", it: "Erba naturale", en: "Natural Grass" }
+    };
+
+    let currentAdminLang = localStorage.getItem('preferred_lang') || 'it';
     let activeToken = localStorage.getItem('yc_gh_token') || '';
     let globalPlayers = [];
     let globalOpponents = {};
     let globalLocations = {};
     let allMatchesData = [];
     let trialistsList = [];
+
+    function setAdminLanguage(lang) {
+        currentAdminLang = lang;
+        localStorage.setItem('preferred_lang', lang);
+        document.querySelectorAll('.lang-btn-admin').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+        renderSurfaceDropdown();
+        renderLocationsSelectAndTable();
+    }
+
+    function renderSurfaceDropdown() {
+        const sel = document.getElementById('locSurfaceSelect');
+        if (!sel) return;
+        const curVal = sel.value || 'artificial';
+        sel.innerHTML = Object.keys(SURFACE_PRESETS).map(k => {
+            const label = SURFACE_PRESETS[k][currentAdminLang] || SURFACE_PRESETS[k].it || SURFACE_PRESETS[k].ja;
+            return `<option value="${k}">${label}</option>`;
+        }).join('');
+        sel.value = curVal;
+    }
 
     function switchTab(evt, tabId) {
         document.querySelectorAll('.tab-content').forEach(tc => tc.classList.add('hidden'));
@@ -649,6 +686,7 @@
     if (activeToken) verifyAndLoginToken(activeToken);
 
     async function initData() {
+        renderSurfaceDropdown();
         try {
             // 1. Opponents
             try {
@@ -737,13 +775,14 @@
         const tbody = document.getElementById('locationsTableBody');
         tbody.innerHTML = sortedLocKeys.map(k => {
             const loc = globalLocations[k];
-            const surfJa = typeof loc.surface === 'object' ? loc.surface?.ja : loc.surface;
+            const sObj = loc.surface || {};
+            const surfDisplay = typeof sObj === 'object' ? (sObj[currentAdminLang] || sObj.it || sObj.ja || '-') : sObj;
             return `
                 <tr>
                     <td><b>${k}</b></td>
                     <td>${loc.ja || '-'}</td>
                     <td>${loc.it || '-'}</td>
-                    <td>${surfJa || '-'}</td>
+                    <td><b>${surfDisplay}</b></td>
                     <td>${loc.maps ? `<a href="${loc.maps}" target="_blank" style="color:#0284c7;">Link Maps</a>` : '-'}</td>
                     <td>
                         <button type="button" class="btn-edit" onclick="editLocation('${k}')">Modifica</button>
@@ -882,29 +921,23 @@
         document.getElementById('editOpponentKey').value = '';
     }
 
-    /* --- EDITOR CAMPI --- */
+    /* --- EDITOR CAMPI (SEMPLIFICATO) --- */
     function saveLocationData() {
         const key = document.getElementById('locKey').value.trim().toLowerCase();
         const ja = document.getElementById('locNameJa').value.trim();
         const it = document.getElementById('locNameIt').value.trim();
         const en = document.getElementById('locNameEn').value.trim();
-        
-        const surfJa = document.getElementById('locSurfaceJa').value.trim();
-        const surfIt = document.getElementById('locSurfaceIt').value.trim();
-        const surfEn = document.getElementById('locSurfaceEn').value.trim();
+        const surfKey = document.getElementById('locSurfaceSelect').value;
         const maps = document.getElementById('locMapsUrl').value.trim();
 
         if (!key || !ja) { alert("Inserisci Key e Nome Giapponese."); return; }
 
+        // Salva automaticamente nei 3 linguaggi basandosi sulla superficie scelta
         globalLocations[key] = {
             ja: ja,
             it: it || ja,
             en: en || ja,
-            surface: {
-                ja: surfJa || "人工芝",
-                it: surfIt || "Sintetico",
-                en: surfEn || "Artificial Turf"
-            },
+            surface: SURFACE_PRESETS[surfKey] || SURFACE_PRESETS.artificial,
             maps: maps
         };
 
@@ -921,11 +954,15 @@
         document.getElementById('locNameIt').value = loc.it || '';
         document.getElementById('locNameEn').value = loc.en || '';
         
-        const surf = loc.surface || {};
-        document.getElementById('locSurfaceJa').value = typeof surf === 'object' ? (surf.ja || '') : surf;
-        document.getElementById('locSurfaceIt').value = typeof surf === 'object' ? (surf.it || '') : surf;
-        document.getElementById('locSurfaceEn').value = typeof surf === 'object' ? (surf.en || '') : surf;
-        
+        // Rilevamento automatico della chiave superficie
+        let surfKey = 'artificial';
+        const sObj = loc.surface || {};
+        const sJa = (typeof sObj === 'object' ? sObj.ja : sObj) || '';
+        if (sJa.includes('クレー') || sJa.includes('土') || sJa.includes('Clay')) surfKey = 'clay';
+        else if (sJa.includes('天然芝') || sJa.includes('Grass')) surfKey = 'grass';
+        else surfKey = 'artificial';
+
+        document.getElementById('locSurfaceSelect').value = surfKey;
         document.getElementById('locMapsUrl').value = loc.maps || '';
     }
 
@@ -939,6 +976,7 @@
     function resetLocationForm() {
         document.getElementById('locationEditForm').reset();
         document.getElementById('editLocationKey').value = '';
+        renderSurfaceDropdown();
     }
 
     /* --- GENERATORE TESTO LINE --- */
