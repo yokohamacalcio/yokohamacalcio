@@ -528,18 +528,18 @@
         .heatmap-goal-top { top: 0; border-top: none; }
         .heatmap-goal-bottom { bottom: 0; border-bottom: none; }
 
-        /* --- DOTS --- */
+        /* --- DOTS (DIMENSIO FISSA PER TUTTI) --- */
         .heatmap-dot {
             position: absolute;
             transform: translate(-50%, -50%);
-            width: var(--dot-size, 26px);
-            height: var(--dot-size, 26px);
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.55rem;
+            font-size: 0.58rem;
             font-weight: 800;
             color: rgba(255,255,255,0.55);
             background: rgba(15, 23, 42, 0.35);
@@ -547,7 +547,7 @@
             pointer-events: none;
             user-select: none;
             letter-spacing: 0.2px;
-            transition: transform 0.2s ease;
+            transition: background 0.2s ease, border-color 0.2s ease;
             z-index: 3;
         }
         .heatmap-dot span {
@@ -568,7 +568,7 @@
             to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
-        /* Intensità colori */
+        /* Intensità colori basati sulle percentuali */
         .heatmap-dot[data-intensity="1"] { background: #fde68a; color: #78350f; border-color: #fbbf24; }
         .heatmap-dot[data-intensity="2"] { background: #fbbf24; color: #78350f; border-color: #f59e0b; }
         .heatmap-dot[data-intensity="3"] { background: #f97316; color: #ffffff; border-color: #ea580c; }
@@ -849,21 +849,21 @@
         </div>
 
         <div class="heatmap-legend" id="heatmapLegend">
-            <span class="heatmap-legend-title" data-i18n="heatmap.legend_title">出場数:</span>
+            <span class="heatmap-legend-title" data-i18n="heatmap.legend_title">使用率:</span>
             <span class="heatmap-legend-item">
-                <i class="heatmap-legend-dot" style="background:rgba(15,23,42,0.35);border:1.5px dashed rgba(255,255,255,0.6);"></i> 0
+                <i class="heatmap-legend-dot" style="background:rgba(15,23,42,0.35);border:1.5px dashed rgba(255,255,255,0.6);"></i> 0%
             </span>
             <span class="heatmap-legend-item">
-                <i class="heatmap-legend-dot" style="background:#fde68a;border:2px solid #fbbf24;"></i> 1
+                <i class="heatmap-legend-dot" style="background:#fde68a;border:2px solid #fbbf24;"></i> 1–20%
             </span>
             <span class="heatmap-legend-item">
-                <i class="heatmap-legend-dot" style="background:#fbbf24;border:2px solid #f59e0b;"></i> 2–3
+                <i class="heatmap-legend-dot" style="background:#fbbf24;border:2px solid #f59e0b;"></i> 21–40%
             </span>
             <span class="heatmap-legend-item">
-                <i class="heatmap-legend-dot" style="background:#f97316;border:2px solid #ea580c;"></i> 4–5
+                <i class="heatmap-legend-dot" style="background:#f97316;border:2px solid #ea580c;"></i> 41–60%
             </span>
             <span class="heatmap-legend-item">
-                <i class="heatmap-legend-dot" style="background:#dc2626;border:2px solid #b91c1c;"></i> 6+
+                <i class="heatmap-legend-dot" style="background:#dc2626;border:2px solid #b91c1c;"></i> >60%
             </span>
         </div>
     </div>
@@ -948,7 +948,7 @@
             "label.goals_conceded": "失点:", "label.clean_sheets": "クリーンシート:",
             "btn.heatmap": "起用ポジションを見る",
             "heatmap.subtitle": "起用ポジション",
-            "heatmap.legend_title": "出場数:",
+            "heatmap.legend_title": "使用率:",
             "heatmap.no_data": "この選手の起用ポジションはまだ記録されていません。",
             "unit.age": "歳"
         },
@@ -968,7 +968,7 @@
             "label.goals_conceded": "Gol subiti:", "label.clean_sheets": "Porta inviolata:",
             "btn.heatmap": "Vedi posizioni in campo",
             "heatmap.subtitle": "Posizioni in campo",
-            "heatmap.legend_title": "Presenze:",
+            "heatmap.legend_title": "Frequenza:",
             "heatmap.no_data": "Nessun dato sulle posizioni in campo per questo giocatore.",
             "unit.age": "anni"
         },
@@ -988,7 +988,7 @@
             "label.goals_conceded": "Goals conceded:", "label.clean_sheets": "Clean sheets:",
             "btn.heatmap": "View positions on pitch",
             "heatmap.subtitle": "Positions played",
-            "heatmap.legend_title": "Appearances:",
+            "heatmap.legend_title": "Usage %:",
             "heatmap.no_data": "No position data recorded for this player yet.",
             "unit.age": "years old"
         }
@@ -1026,7 +1026,6 @@
         'RW':   { x: 82, y: 24, label: 'RW'  }
     };
 
-    /* Alias: tag legacy o specifici di modulo → tag canonico del campo heatmap */
     const HEATMAP_ALIASES = {
         'CB':    'CB-C',
         'CM':    'CM-C',
@@ -1053,20 +1052,13 @@
         return null;
     }
 
-    function getIntensityLevel(count) {
-        if (count >= 6) return 4;
-        if (count >= 4) return 3;
-        if (count >= 2) return 2;
-        if (count >= 1) return 1;
+    // Calcolo del colore basato sulla percentuale d'uso
+    function getIntensityLevelByPercentage(pct) {
+        if (pct > 60) return 4;   // Rosso (> 60%)
+        if (pct > 40) return 3;   // Arancione (41% - 60%)
+        if (pct > 20) return 2;   // Giallo (21% - 40%)
+        if (pct > 0) return 1;    // Giallo chiaro (1% - 20%)
         return 0;
-    }
-
-    function getDotSizePx(count) {
-        if (count >= 6) return 42;
-        if (count >= 4) return 36;
-        if (count >= 2) return 30;
-        if (count >= 1) return 26;
-        return 24;
     }
 
     /* =========================================================
@@ -1500,10 +1492,11 @@
 
                 const count = normalized[tag] || 0;
                 if (count > 0) {
+                    // Calcolo della percentuale dell'uso del ruolo rispetto ai ruoli totali registrati
+                    const pct = (count / totalApps) * 100;
                     dot.classList.add('filled');
-                    dot.setAttribute('data-intensity', getIntensityLevel(count));
-                    dot.style.setProperty('--dot-size', getDotSizePx(count) + 'px');
-                    dot.title = `${tag} × ${count}`;
+                    dot.setAttribute('data-intensity', getIntensityLevelByPercentage(pct));
+                    dot.title = `${tag} × ${count} (${Math.round(pct)}%)`;
                     dot.style.animationDelay = (animIndex * 60) + 'ms';
                     animIndex++;
                 }
