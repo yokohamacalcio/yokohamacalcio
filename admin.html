@@ -59,7 +59,6 @@ body {
 
 .hidden { display: none !important; }
 
-/* Skip link (accessibilità) */
 .skip-link {
     position: absolute;
     left: -9999px;
@@ -73,9 +72,6 @@ body {
 }
 .skip-link:focus { left: 10px; top: 10px; }
 
-/* =========================================================
-   LAYOUT
-   ========================================================= */
 .admin-container {
     width: 100%;
     max-width: 1200px;
@@ -108,9 +104,6 @@ body.dark h2, body.dark h3, body.dark h4 { color: var(--sky); }
     margin-bottom: 22px;
 }
 
-/* =========================================================
-   FORM
-   ========================================================= */
 .form-group { margin-bottom: 14px; }
 .form-group label {
     display: block;
@@ -141,9 +134,6 @@ body.dark .form-group label { color: var(--sky); }
 .row { display: flex; gap: 12px; flex-wrap: wrap; }
 .row .form-group { flex: 1; min-width: 200px; }
 
-/* =========================================================
-   LOGIN
-   ========================================================= */
 .login-box {
     max-width: 440px;
     margin: 60px auto;
@@ -156,9 +146,6 @@ body.dark .form-group label { color: var(--sky); }
 .login-box i.lock-icon { font-size: 3.5rem; color: var(--navy); margin-bottom: 15px; }
 body.dark .login-box i.lock-icon { color: var(--sky); }
 
-/* =========================================================
-   TABS
-   ========================================================= */
 .admin-tabs {
     display: flex;
     gap: 8px;
@@ -196,9 +183,7 @@ body.dark .tab-btn:hover { color: var(--sky); }
 }
 body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); border-color: var(--sky); }
 
-/* =========================================================
-   CAMPO TATTICO
-   ========================================================= */
+/* CAMPO TATTICO */
 .tactical-pitch-container {
     background: radial-gradient(circle, #16a34a 0%, #15803d 60%, #14532d 100%);
     border-radius: 16px;
@@ -221,7 +206,6 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     z-index: 2;
 }
 
-/* Il campo reale con coordinate */
 .pitch-grid {
     position: relative;
     aspect-ratio: 3 / 4;
@@ -232,7 +216,6 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     z-index: 2;
     min-height: 500px;
 }
-/* Linee campo */
 .pitch-grid::before {
     content: '';
     position: absolute;
@@ -252,7 +235,6 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     pointer-events: none;
 }
 
-/* Card giocatore posizionata */
 .pitch-position-card {
     position: absolute;
     transform: translate(-50%, -50%);
@@ -313,9 +295,7 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     .pitch-player-select { font-size: 0.65rem; }
 }
 
-/* =========================================================
-   PANCHINA
-   ========================================================= */
+/* PANCHINA */
 .bench-container { margin-top: 22px; }
 .bench-grid {
     display: grid;
@@ -362,9 +342,7 @@ body.dark .bench-card-header { color: var(--sky); }
     gap: 4px;
 }
 
-/* =========================================================
-   TRIALIST BOX
-   ========================================================= */
+/* TRIALIST */
 .trialist-box {
     background: #ecfdf5;
     border: 1px solid #a7f3d0;
@@ -400,9 +378,7 @@ body.dark .trialist-box { background: #064e3b; border-color: #047857; }
     padding: 0;
 }
 
-/* =========================================================
-   TABELLE
-   ========================================================= */
+/* TABELLE */
 .data-table-container {
     overflow-x: auto;
     margin-top: 10px;
@@ -447,9 +423,7 @@ body.dark .trialist-box { background: #064e3b; border-color: #047857; }
     flex-wrap: wrap;
 }
 
-/* =========================================================
-   STAT ROWS
-   ========================================================= */
+/* STAT ROWS */
 .stat-row {
     display: flex;
     align-items: center;
@@ -465,9 +439,7 @@ body.dark .trialist-box { background: #064e3b; border-color: #047857; }
 .stat-row input[type="number"] { width: 60px; text-align: center; }
 .stat-row input[type="text"].minute-input { width: 60px; text-align: center; }
 
-/* =========================================================
-   PULSANTI
-   ========================================================= */
+/* PULSANTI */
 .btn-remove-row {
     background: var(--red);
     color: white;
@@ -611,9 +583,6 @@ body.dark .trialist-box { background: #064e3b; border-color: #047857; }
 }
 .btn-icon:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
 
-/* =========================================================
-   LANG SWITCHER
-   ========================================================= */
 .lang-switcher-admin { display: flex; gap: 4px; align-items: center; }
 .lang-btn-admin {
     background: transparent;
@@ -633,9 +602,7 @@ body.dark .trialist-box { background: #064e3b; border-color: #047857; }
 }
 body.dark .lang-btn-admin.active { background: var(--sky); color: var(--navy-dark); }
 
-/* =========================================================
-   MODAL SYSTEM
-   ========================================================= */
+/* MODAL */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -704,9 +671,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     color: #fff;
 }
 
-/* =========================================================
-   TOAST
-   ========================================================= */
+/* TOAST */
 #toastContainer {
     position: fixed;
     top: 20px;
@@ -741,9 +706,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
 .toast-warn    { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
 .toast i { margin-top: 2px; flex-shrink: 0; }
 
-/* =========================================================
-   DRAFT RESTORE BANNER
-   ========================================================= */
+/* DRAFT BANNER */
 .draft-banner {
     background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
     border: 1px solid #f59e0b;
@@ -769,9 +732,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     font-size: 0.82rem;
 }
 
-/* =========================================================
-   MOBILE
-   ========================================================= */
+/* MOBILE */
 @media (max-width: 768px) {
     body { padding: 4px; }
     .admin-container { padding: 12px; border-radius: 12px; margin: 4px auto; }
@@ -792,9 +753,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
 
 <a href="#mainContent" class="skip-link">Salta al contenuto</a>
 
-<!-- =========================================================
-     LOGIN
-     ========================================================= -->
+<!-- LOGIN -->
 <div id="loginSection" class="login-box" role="main">
     <i class="fas fa-lock lock-icon" aria-hidden="true"></i>
     <h2 style="margin-bottom: 8px;">Yokohama Calcio Admin</h2>
@@ -821,15 +780,12 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     </div>
 </div>
 
-<!-- =========================================================
-     DASHBOARD
-     ========================================================= -->
-<div id="adminDashboard" class="admin-container hidden">
+<!-- DASHBOARD -->
+<div id="adminDashboard" class="admin-container hidden" role="main" aria-labelledby="mainContent">
 
-    <!-- HEADER -->
     <div class="admin-header-bar">
         <div>
-            <h2><i class="fas fa-shield-alt"></i> Yokohama Calcio Admin</h2>
+            <h2 id="mainContent"><i class="fas fa-shield-alt"></i> Yokohama Calcio Admin</h2>
             <span style="font-size: 0.78rem; color: var(--green); font-weight: bold;">
                 <i class="fas fa-check-circle"></i> <span data-i18n="authenticated">Authenticated</span>
             </span>
@@ -859,7 +815,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- DRAFT BANNER (nascosto di default) -->
     <div id="draftBanner" class="draft-banner hidden">
         <span><i class="fas fa-save"></i> <span data-i18n="draftFound">Trovato un draft non salvato.</span></span>
         <div style="display: flex; gap: 8px;">
@@ -872,7 +827,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- TABS -->
     <div class="admin-tabs" role="tablist">
         <button class="tab-btn active" data-action="switch-tab" data-tab="matchesTab" role="tab" aria-selected="true">
             <i class="fas fa-futbol"></i> <span data-i18n="tab1">1. Partite & Formazione</span>
@@ -891,9 +845,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </button>
     </div>
 
-    <!-- =========================================================
-         TAB 1: MATCH
-         ========================================================= -->
+    <!-- TAB 1: MATCHES -->
     <div id="matchesTab" class="tab-content" role="tabpanel">
         <form id="matchForm" autocomplete="off">
             <input type="hidden" id="repoPath" value="yokohamacalcio/yokohamacalcio">
@@ -1077,9 +1029,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </form>
     </div>
 
-    <!-- =========================================================
-         TAB 2: PLAYERS
-         ========================================================= -->
+    <!-- TAB 2: PLAYERS -->
     <div id="playersTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
             <h3><i class="fas fa-user-plus"></i> <span data-i18n="playersHeading">Aggiungi / Modifica Giocatore</span></h3>
@@ -1172,9 +1122,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- =========================================================
-         TAB 3: OPPONENTS
-         ========================================================= -->
+    <!-- TAB 3: OPPONENTS -->
     <div id="opponentsTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
             <h3><i class="fas fa-shield-cat"></i> <span data-i18n="opponentsHeading">Aggiungi / Modifica Avversario</span></h3>
@@ -1222,9 +1170,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- =========================================================
-         TAB 4: LOCATIONS
-         ========================================================= -->
+    <!-- TAB 4: LOCATIONS -->
     <div id="locationsTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
             <h3><i class="fas fa-map-marked-alt"></i> <span data-i18n="locationsHeading">Aggiungi / Modifica Campo</span></h3>
@@ -1291,9 +1237,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- =========================================================
-         TAB 5: LINE
-         ========================================================= -->
+    <!-- TAB 5: LINE -->
     <div id="lineTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
             <h3><i class="fab fa-line" style="color: #06c755;"></i> <span data-i18n="lineHeading">Generatore Convocazioni LINE</span></h3>
@@ -1316,9 +1260,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     <div id="statusMsg" style="margin-top: 18px; font-weight: bold; text-align: center;"></div>
 </div>
 
-<!-- =========================================================
-     MODAL & TOAST CONTAINERS
-     ========================================================= -->
+<!-- MODAL & TOAST -->
 <div id="modalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-box">
         <div class="modal-title" id="modalTitle"></div>
@@ -1332,7 +1274,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
 
 <div id="toastContainer" role="status" aria-live="polite"></div>
 
-<!-- File input nascosto per import -->
 <input type="file" id="importFileInput" class="hidden" accept=".json,application/json">
 
 <script>
@@ -1387,6 +1328,8 @@ const I18N_DICT = {
         draftRestore: "Ripristina", draftDiscard: "Scarta",
         trialistPrompt: "Nome del giocatore in prova:",
         confirmDelete: "Confermi l'eliminazione di",
+        unsavedTitle: "Modifiche non salvate",
+        unsavedMsg: "Ci sono modifiche non salvate. Cambiare tab?",
         saving: "Salvataggio in corso...",
         saved: "Salvato con successo!",
         errorPrefix: "Errore:"
@@ -1435,6 +1378,8 @@ const I18N_DICT = {
         draftRestore: "復元", draftDiscard: "破棄",
         trialistPrompt: "練習生の名前:",
         confirmDelete: "削除しますか:",
+        unsavedTitle: "未保存の変更",
+        unsavedMsg: "未保存の変更があります。タブを切り替えますか？",
         saving: "保存中...", saved: "保存完了", errorPrefix: "エラー:"
     },
     en: {
@@ -1481,6 +1426,8 @@ const I18N_DICT = {
         draftRestore: "Restore", draftDiscard: "Discard",
         trialistPrompt: "Trialist name:",
         confirmDelete: "Delete",
+        unsavedTitle: "Unsaved changes",
+        unsavedMsg: "You have unsaved changes. Switch tab?",
         saving: "Saving...", saved: "Saved successfully",
         errorPrefix: "Error:"
     }
@@ -1555,7 +1502,7 @@ const State = {
     opponents: {},
     locations: {},
     matches: [],
-    trialists: [],          // ⭐ separati da players.json
+    trialists: [],
     isDirty: false,
     playerSort: { field: 'number', dir: 'asc' },
     opponentSort: { field: 'key', dir: 'asc' },
@@ -1577,7 +1524,6 @@ function t(key) {
     return (I18N_DICT[State.lang] && I18N_DICT[State.lang][key]) || key;
 }
 
-/* Encoders UTF-8 per GitHub API */
 function utf8ToBase64(str) {
     const bytes = new TextEncoder().encode(str);
     let bin = '';
@@ -1591,16 +1537,8 @@ function base64ToUtf8(b64) {
     return new TextDecoder().decode(bytes);
 }
 
-function debounce(fn, ms) {
-    let timer;
-    return function (...args) {
-        clearTimeout(timer);
-        timer = setTimeout(() => fn.apply(this, args), ms);
-    };
-}
-
 /* =========================================================
-   TOAST & MODAL SYSTEM
+   TOAST & MODAL
    ========================================================= */
 function showToast(type, message, duration = 4000) {
     const container = $('toastContainer');
@@ -1616,7 +1554,6 @@ function showToast(type, message, duration = 4000) {
     }, duration);
 }
 
-/* Modal API: showModal({title, body, confirmText, cancelText, danger, onConfirm}) */
 let modalResolve = null;
 function showModal(opts = {}) {
     return new Promise(resolve => {
@@ -1669,9 +1606,9 @@ async function showPrompt(title, placeholder = '', defaultValue = '') {
     return await showModal({ title, body, confirmText: 'OK' });
 }
 
-async function showConfirm(message, danger = false) {
+async function showConfirm(message, danger = false, customTitle = null) {
     return await showModal({
-        title: '⚠️ ' + t('confirmDelete'),
+        title: customTitle || ('⚠️ ' + t('confirmDelete')),
         body: `<p>${message}</p>`,
         confirmText: 'Sì',
         cancelText: 'No',
@@ -1680,8 +1617,14 @@ async function showConfirm(message, danger = false) {
 }
 
 /* =========================================================
-   LANGUAGE
+   LANGUAGE & DARK MODE
    ========================================================= */
+function renderAllTables() {
+    renderOpponentsSelectAndTable();
+    renderLocationsSelectAndTable();
+    renderPlayersTable();
+}
+
 function setLanguage(lang) {
     if (!I18N_DICT[lang]) return;
     State.lang = lang;
@@ -1697,9 +1640,6 @@ function setLanguage(lang) {
     renderAllTables();
 }
 
-/* =========================================================
-   DARK MODE
-   ========================================================= */
 function initDarkMode() {
     const isDark = sessionStorage.getItem('yc_admin_dark') === '1';
     if (isDark) document.body.classList.add('dark');
@@ -1718,7 +1658,7 @@ function updateDarkIcon() {
 }
 
 /* =========================================================
-   GITHUB API
+   GITHUB API (CORRETTO BUG #4)
    ========================================================= */
 async function ghGet(filePath) {
     const url = `https://api.github.com/repos/${REPO}/contents/${filePath}`;
@@ -1728,11 +1668,37 @@ async function ghGet(filePath) {
             'Accept': 'application/vnd.github+json'
         }
     });
-    if (res.status === 404) return { sha: null, content: [] };
+    
+    // FIX BUG #4: Restituisci {} se il file è opponents o locations, altrimenti []
+    const isObject = filePath === 'opponents.json' || filePath === 'locations.json';
+    if (res.status === 404) return { sha: null, content: isObject ? {} : [] };
+    
     if (!res.ok) throw new Error(await formatGhError(res, `GET ${filePath}`));
     const data = await res.json();
     const str = base64ToUtf8(data.content);
     return { sha: data.sha, content: JSON.parse(str) };
+}
+
+async function fetchJsonFile(filePath) {
+    if (State.token) {
+        try {
+            const ghRes = await ghGet(filePath);
+            if (ghRes && ghRes.content) return ghRes;
+        } catch (e) {
+            console.warn(`Lettura GitHub per ${filePath} fallita, fallback su fetch locale:`, e);
+        }
+    }
+    try {
+        const res = await fetch(`${filePath}?t=${Date.now()}`);
+        if (res.ok) {
+            const data = await res.json();
+            return { sha: null, content: data };
+        }
+    } catch (e) {
+        console.error(`Fetch locale per ${filePath} fallita:`, e);
+    }
+    const isObject = filePath === 'locations.json' || filePath === 'opponents.json';
+    return { sha: null, content: isObject ? {} : [] };
 }
 
 async function ghPut(filePath, content, sha, commitMsg) {
@@ -1772,7 +1738,7 @@ async function formatGhError(res, context) {
 }
 
 /* =========================================================
-   LOGIN
+   LOGIN & INIT DATA
    ========================================================= */
 async function verifyAndLogin(token) {
     const errEl = $('loginError');
@@ -1791,13 +1757,6 @@ async function verifyAndLogin(token) {
             else errEl.textContent = `❌ Errore HTTP ${res.status}.`;
             sessionStorage.removeItem(TOKEN_KEY);
             return;
-        }
-
-        // Controllo scope
-        const scopes = res.headers.get('x-oauth-scopes') || '';
-        if (scopes && !scopes.includes('repo') && !scopes.includes('public_repo')) {
-            errEl.textContent = '⚠️ Il token non ha scope "repo" o "public_repo".';
-            // non blocchiamo comunque
         }
 
         State.token = token;
@@ -1821,27 +1780,24 @@ $('loginForm').addEventListener('submit', (e) => {
 function logout() {
     sessionStorage.removeItem(TOKEN_KEY);
     State.token = '';
-    sessionStorage.removeItem('yc_admin_draft'); // pulizia draft per sicurezza
+    sessionStorage.removeItem('yc_admin_draft');
     location.reload();
 }
 
-/* =========================================================
-   INIT DATA
-   ========================================================= */
 async function initData() {
     setLanguage(State.lang);
     try {
         const [oRes, lRes, pRes, mRes] = await Promise.allSettled([
-            ghGet('opponents.json'),
-            ghGet('locations.json'),
-            ghGet('players.json'),
-            ghGet('matches.json')
+            fetchJsonFile('opponents.json'),
+            fetchJsonFile('locations.json'),
+            fetchJsonFile('players.json'),
+            fetchJsonFile('matches.json')
         ]);
 
-        if (oRes.status === 'fulfilled') State.opponents = oRes.value.content || {};
-        if (lRes.status === 'fulfilled') State.locations = lRes.value.content || {};
-        if (pRes.status === 'fulfilled') State.players = Array.isArray(pRes.value.content) ? pRes.value.content : [];
-        if (mRes.status === 'fulfilled') State.matches = Array.isArray(mRes.value.content) ? mRes.value.content : [];
+        if (oRes.status === 'fulfilled' && oRes.value) State.opponents = oRes.value.content || {};
+        if (lRes.status === 'fulfilled' && lRes.value) State.locations = lRes.value.content || {};
+        if (pRes.status === 'fulfilled' && pRes.value) State.players = Array.isArray(pRes.value.content) ? pRes.value.content : [];
+        if (mRes.status === 'fulfilled' && mRes.value) State.matches = Array.isArray(mRes.value.content) ? mRes.value.content : [];
 
         renderOpponentsSelectAndTable();
         renderLocationsSelectAndTable();
@@ -1850,7 +1806,6 @@ async function initData() {
         updateAllPlayerDropdowns();
         renderTrialistsList();
 
-        // Draft banner
         checkDraft();
     } catch (e) {
         showToast('error', '❌ Errore caricamento dati: ' + e.message);
@@ -1859,7 +1814,7 @@ async function initData() {
 }
 
 /* =========================================================
-   RENDER: OPPONENTS
+   RENDER & EDIT: OPPONENTS
    ========================================================= */
 function renderOpponentsSelectAndTable() {
     const keys = Object.keys(State.opponents).sort();
@@ -1956,7 +1911,7 @@ function resetOpponentForm() {
 }
 
 /* =========================================================
-   RENDER: LOCATIONS
+   RENDER & EDIT: LOCATIONS
    ========================================================= */
 function renderSurfaceDropdown() {
     const sel = $('locSurfaceSelect');
@@ -2075,7 +2030,7 @@ function resetLocationForm() {
 }
 
 /* =========================================================
-   RENDER: PLAYERS
+   RENDER & EDIT: PLAYERS (CORRETTO BUG #6)
    ========================================================= */
 function renderPlayersTable() {
     let rows = State.players.slice();
@@ -2094,8 +2049,8 @@ function renderPlayersTable() {
     rows.sort((a, b) => {
         let va = a[f], vb = b[f];
         if (f === 'number') {
-            va = va === null || va === undefined ? 9999 : Number(va);
-            vb = vb === null || vb === undefined ? 9999 : Number(vb);
+            va = va === null || va === undefined || isNaN(va) ? 9999 : Number(va);
+            vb = vb === null || vb === undefined || isNaN(vb) ? 9999 : Number(vb);
             return (va - vb) * dir;
         }
         return String(va || '').toLowerCase().localeCompare(String(vb || '').toLowerCase()) * dir;
@@ -2121,7 +2076,10 @@ function renderPlayersTable() {
 }
 
 async function savePlayerToSquad() {
-    const num = $('pNumber').value.trim();
+    const rawNum = $('pNumber').value.trim();
+    // FIX BUG #6: Parsing corretto per evitare NaN
+    const parsedNum = rawNum !== '' && !isNaN(parseInt(rawNum, 10)) ? parseInt(rawNum, 10) : null;
+    
     const kanji = $('pNameKanji').value.trim();
     const kana = $('pNameKana').value.trim();
     const romaji = $('pNameRomaji').value.trim();
@@ -2139,7 +2097,7 @@ async function savePlayerToSquad() {
 
     const obj = {
         id,
-        number: num !== '' ? parseInt(num, 10) : null,
+        number: parsedNum,
         role,
         position: pos,
         name_kanji: kanji,
@@ -2186,7 +2144,6 @@ function editPlayer(id) {
     $('pHometown').value = p.hometown || '';
     $('pPhoto').value = p.photo || '';
 
-    // Scroll in cima al form
     document.querySelector('#playersTab').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -2216,7 +2173,7 @@ function resetPlayerForm() {
 }
 
 /* =========================================================
-   TRIALISTS (separati da players.json)
+   TRIALISTS & PITCH & BENCH
    ========================================================= */
 async function addTrialist() {
     const name = await showPrompt(t('trialistPrompt'), 'es. 山田 太郎');
@@ -2237,7 +2194,6 @@ function removeTrialist(id) {
     State.trialists = State.trialists.filter(t => t.id !== id);
     renderTrialistsList();
     updateAllPlayerDropdowns();
-    // Rimuovi da qualsiasi select
     $$('.player-dropdown-dynamic').forEach(sel => {
         if (sel.value && !getAllAvailablePlayers().some(p => p.value === sel.value)) {
             sel.value = '';
@@ -2277,15 +2233,11 @@ function getAllAvailablePlayers(onlyGK = false) {
     return list;
 }
 
-/* =========================================================
-   PITCH (campo tattico con coordinate)
-   ========================================================= */
 function renderPitchAndBench() {
     const formation = $('formationSelect').value;
     const coords = FORMATION_COORDS[formation] || FORMATION_COORDS['4-4-2'];
     const pitchGrid = $('pitchGrid');
 
-    // Preserva i valori già selezionati
     const prevValues = {};
     $$('#pitchGrid .pitch-player-select').forEach(sel => {
         prevValues[sel.getAttribute('data-pos')] = sel.value;
@@ -2302,13 +2254,11 @@ function renderPitchAndBench() {
 
     updateAllPlayerDropdowns();
 
-    // Ripristina valori precedenti
     Object.entries(prevValues).forEach(([pos, val]) => {
         const sel = document.querySelector(`#pitchGrid .pitch-player-select[data-pos="${pos}"]`);
         if (sel) sel.value = val;
     });
 
-    // Bench
     const benchGrid = $('benchGrid');
     let html = '';
     for (let i = 1; i <= 10; i++) {
@@ -2353,20 +2303,17 @@ function updateFilledCards() {
     });
 }
 
-/* Aggiorna tutti i dropdown con la lista giocatori corrente */
 function updateAllPlayerDropdowns() {
     const all = getAllAvailablePlayers(false);
     const gk = getAllAvailablePlayers(true);
     const allHTML = all.map(p => `<option value="${p.value}">${p.name}</option>`).join('');
     const gkHTML = gk.map(p => `<option value="${p.value}">${p.name}</option>`).join('');
 
-    // MVP
     const mvp = $('mvpSelect');
     const mvpVal = mvp.value;
     mvp.innerHTML = allHTML;
     mvp.value = mvpVal;
 
-    // Tutti i dropdown dinamici
     $$('.player-dropdown-dynamic, .pitch-player-select').forEach(sel => {
         const val = sel.value;
         if (sel.classList.contains('gk-player-select')) sel.innerHTML = gkHTML;
@@ -2378,7 +2325,6 @@ function updateAllPlayerDropdowns() {
     updateFilledCards();
 }
 
-/* Esclude i giocatori già selezionati (rebuild pulito delle opzioni) */
 function updatePlayerExclusions() {
     const squadSelects = $$('.match-squad-select');
     const selectedValues = new Set();
@@ -2399,7 +2345,7 @@ function updatePlayerExclusions() {
 }
 
 /* =========================================================
-   STAT ROWS (scorers, assists, gk, cards)
+   STAT ROWS
    ========================================================= */
 function createStatRow(selectClass, opts = {}) {
     const { hasCount = true, countLabel = 'Gol:', onlyGK = false, hasMinute = false } = opts;
@@ -2424,11 +2370,24 @@ function addYellowRow() { $('yellowCardsContainer').appendChild(createStatRow('y
 function addRedRow() { $('redCardsContainer').appendChild(createStatRow('red-player-select', { hasCount: false, hasMinute: true })); }
 
 /* =========================================================
-   LOAD / NEW / DUPLICATE MATCH
+   MATCH MANAGEMENT
    ========================================================= */
 async function loadMatchData(id, quiet = false) {
     if (!id) return;
     id = id.toLowerCase();
+
+    if (!State.opponents || Object.keys(State.opponents).length === 0) {
+        const oRes = await fetchJsonFile('opponents.json');
+        if (oRes && oRes.content) { State.opponents = oRes.content; renderOpponentsSelectAndTable(); }
+    }
+    if (!State.locations || Object.keys(State.locations).length === 0) {
+        const lRes = await fetchJsonFile('locations.json');
+        if (lRes && lRes.content) { State.locations = lRes.content; renderLocationsSelectAndTable(); }
+    }
+    if (!State.matches || State.matches.length === 0) {
+        const mRes = await fetchJsonFile('matches.json');
+        if (mRes && Array.isArray(mRes.content)) State.matches = mRes.content;
+    }
 
     const match = State.matches.find(m => String(m.id).toLowerCase() === id);
     if (!match) {
@@ -2454,7 +2413,6 @@ async function loadMatchData(id, quiet = false) {
         renderPitchAndBench();
     }
 
-    // Starters
     if (match.starters_positions) {
         Object.entries(match.starters_positions).forEach(([pos, name]) => {
             const sel = document.querySelector(`#pitchGrid .pitch-player-select[data-pos="${pos}"]`);
@@ -2462,7 +2420,6 @@ async function loadMatchData(id, quiet = false) {
         });
     }
 
-    // Bench
     if (Array.isArray(match.bench_details)) {
         match.bench_details.forEach((b, i) => {
             const slot = document.querySelector(`[data-bench-slot="${i + 1}"]`);
@@ -2479,19 +2436,21 @@ async function loadMatchData(id, quiet = false) {
         });
     }
 
-    // Reset stat rows
     ['scorers', 'assists', 'gk', 'yellow', 'red'].forEach(k => $(k + 'Container').innerHTML = '');
 
     if (match.scorers && match.scorers !== 'なし' && match.scorers !== 'Nessuno') {
         match.scorers.split(/[,、]/).forEach(entry => {
-            let text = entry.trim(), count = 1;
-            const m = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
-            if (m) { text = m[1].trim(); count = parseInt(m[2], 10) || 1; }
+            let text = entry.trim(), count = 1, min = '';
+            const mMin = text.match(/\((.*?)\)/);
+            if (mMin) { min = mMin[1].replace("'", '').trim(); text = text.replace(/\(.*?\)/, '').trim(); }
+            const mCnt = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
+            if (mCnt) { text = mCnt[1].trim(); count = parseInt(mCnt[2], 10) || 1; }
             addScorerRow();
             const last = $('scorersContainer').querySelector('.stat-row:last-child');
             if (last) {
                 last.querySelector('.scorer-player-select').value = text;
                 last.querySelector('.row-count-input').value = count;
+                if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
             }
         });
     }
@@ -2527,20 +2486,32 @@ async function loadMatchData(id, quiet = false) {
     if (match.mvp) $('mvpSelect').value = match.mvp;
 
     if (match.yellow_cards) {
-        match.yellow_cards.split(/[,、]/).forEach(n => {
-            if (n.trim()) {
+        match.yellow_cards.split(/[,、]/).forEach(entry => {
+            let text = entry.trim(), min = '';
+            const mMin = text.match(/\((.*?)\)/);
+            if (mMin) { min = mMin[1].replace("'", '').trim(); text = text.replace(/\(.*?\)/, '').trim(); }
+            if (text) {
                 addYellowRow();
                 const last = $('yellowCardsContainer').querySelector('.stat-row:last-child');
-                if (last) last.querySelector('.yellow-player-select').value = n.trim();
+                if (last) {
+                    last.querySelector('.yellow-player-select').value = text;
+                    if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
+                }
             }
         });
     }
     if (match.red_cards) {
-        match.red_cards.split(/[,、]/).forEach(n => {
-            if (n.trim()) {
+        match.red_cards.split(/[,、]/).forEach(entry => {
+            let text = entry.trim(), min = '';
+            const mMin = text.match(/\((.*?)\)/);
+            if (mMin) { min = mMin[1].replace("'", '').trim(); text = text.replace(/\(.*?\)/, '').trim(); }
+            if (text) {
                 addRedRow();
                 const last = $('redCardsContainer').querySelector('.stat-row:last-child');
-                if (last) last.querySelector('.red-player-select').value = n.trim();
+                if (last) {
+                    last.querySelector('.red-player-select').value = text;
+                    if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
+                }
             }
         });
     }
@@ -2594,11 +2565,14 @@ function resetForm() {
 }
 
 /* =========================================================
-   SAVE MATCH
+   SAVE MATCH (CORRETTO BUG #3)
    ========================================================= */
 async function saveMatch(e) {
     e.preventDefault();
-    if (!State.token) return;
+    if (!State.token) {
+        showToast('warn', 'Token GitHub non presente. Effettua prima il login.');
+        return;
+    }
 
     const startersPositions = {};
     const starters = [];
@@ -2623,18 +2597,24 @@ async function saveMatch(e) {
         }
     });
 
-    const scorerMap = {};
+    // FIX BUG #3: Include minuto per i Marcatori
+    const scorerDetails = [];
     $$('.stat-row .scorer-player-select').forEach(sel => {
         const p = sel.value;
-        const c = parseInt(sel.parentElement.querySelector('.row-count-input').value) || 1;
-        if (p) scorerMap[p] = (scorerMap[p] || 0) + c;
+        const c = parseInt(sel.parentElement.querySelector('.row-count-input')?.value, 10) || 1;
+        const min = sel.parentElement.querySelector('.minute-input')?.value.trim();
+        if (p) {
+            const minSuffix = min ? ` (${min}')` : '';
+            const cntSuffix = c > 1 ? ` x${c}` : '';
+            scorerDetails.push(`${p}${cntSuffix}${minSuffix}`);
+        }
     });
-    const scorers = Object.keys(scorerMap).map(k => scorerMap[k] > 1 ? `${k} x${scorerMap[k]}` : k).join(', ');
+    const scorers = scorerDetails.join(', ');
 
     const assistMap = {};
     $$('.stat-row .assist-player-select').forEach(sel => {
         const p = sel.value;
-        const c = parseInt(sel.parentElement.querySelector('.row-count-input').value) || 1;
+        const c = parseInt(sel.parentElement.querySelector('.row-count-input')?.value, 10) || 1;
         if (p) assistMap[p] = (assistMap[p] || 0) + c;
     });
     const assists = Object.keys(assistMap).map(k => assistMap[k] > 1 ? `${k} x${assistMap[k]}` : k).join(', ');
@@ -2642,15 +2622,25 @@ async function saveMatch(e) {
     const gkList = [];
     $$('.stat-row .gk-player-select').forEach(sel => {
         const p = sel.value;
-        const ga = parseInt(sel.parentElement.querySelector('.row-count-input').value) || 0;
+        const ga = parseInt(sel.parentElement.querySelector('.row-count-input')?.value, 10) || 0;
         if (p) gkList.push(`${p}(${ga})`);
     });
     const goalkeepers = gkList.join(', ');
 
+    // FIX BUG #3: Include minuto per Gialli e Rossi
     const yellows = [];
-    $$('.stat-row .yellow-player-select').forEach(sel => { if (sel.value) yellows.push(sel.value); });
+    $$('.stat-row .yellow-player-select').forEach(sel => {
+        const p = sel.value;
+        const min = sel.parentElement.querySelector('.minute-input')?.value.trim();
+        if (p) yellows.push(min ? `${p} (${min}')` : p);
+    });
+
     const reds = [];
-    $$('.stat-row .red-player-select').forEach(sel => { if (sel.value) reds.push(sel.value); });
+    $$('.stat-row .red-player-select').forEach(sel => {
+        const p = sel.value;
+        const min = sel.parentElement.querySelector('.minute-input')?.value.trim();
+        if (p) reds.push(min ? `${p} (${min}')` : p);
+    });
 
     const payload = {
         id: $('matchId').value.trim(),
@@ -2714,7 +2704,7 @@ async function saveMatch(e) {
 }
 
 /* =========================================================
-   STATS ENGINE (unico, allineato al Node)
+   STATS ENGINE (CORRETTI BUG #2 E BUG #5)
    ========================================================= */
 function generateStatsJSON(playersData, matchesData) {
     const playerMap = new Map();
@@ -2737,7 +2727,8 @@ function generateStatsJSON(playersData, matchesData) {
 
     function resolveId(raw) {
         if (!raw) return null;
-        const t = cleanStr(raw);
+        let t = cleanStr(raw);
+        t = t.replace(/\(.*?\)/g, '').replace(/x\d+/g, '').trim();
         if (!t || t === 'なし' || t === 'nessuno' || t === 'null') return null;
         if (aliasToId.has(t)) return aliasToId.get(t);
         const minLen = isJapanese(t) ? 2 : 3;
@@ -2775,12 +2766,19 @@ function generateStatsJSON(playersData, matchesData) {
             teamTotals.formations_used[m.formation] = (teamTotals.formations_used[m.formation] || 0) + 1;
         }
 
+        // FIX BUG #2: Gestione corretta dei gol in Casa vs Trasferta
         let gf = 0, ga = 0;
         const s = m.score ? m.score.trim() : '';
         if (s.includes('-')) {
             const parts = s.split('-').map(x => parseInt(x.trim(), 10));
             if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-                gf = parts[0]; ga = parts[1];   // ⚠️ SEMPRE [nostri]-[loro], no inversione isHome
+                if (m.isHome === false) {
+                    gf = parts[1];
+                    ga = parts[0];
+                } else {
+                    gf = parts[0];
+                    ga = parts[1];
+                }
             }
         }
 
@@ -2866,21 +2864,23 @@ function generateStatsJSON(playersData, matchesData) {
     });
 
     const list = Array.from(playerMap.values());
+    
+    // FIX BUG #5: Filtraggio per escludere dai TOP 5 chi ha valore zero
     return {
         updated_at: new Date().toISOString(),
         team_totals: teamTotals,
         players: Object.fromEntries(playerMap),
         rankings: {
-            top_scorers: [...list].sort((a, b) => b.goals - a.goals || b.caps - a.caps).slice(0, 5),
-            top_assists: [...list].sort((a, b) => b.assists - a.assists || b.caps - a.caps).slice(0, 5),
-            most_caps: [...list].sort((a, b) => b.caps - a.caps).slice(0, 5),
-            mvps: [...list].sort((a, b) => b.mvps - a.mvps).slice(0, 5)
+            top_scorers: [...list].filter(p => p.goals > 0).sort((a, b) => b.goals - a.goals || b.caps - a.caps).slice(0, 5),
+            top_assists: [...list].filter(p => p.assists > 0).sort((a, b) => b.assists - a.assists || b.caps - a.caps).slice(0, 5),
+            most_caps: [...list].filter(p => p.caps > 0).sort((a, b) => b.caps - a.caps).slice(0, 5),
+            mvps: [...list].filter(p => p.mvps > 0).sort((a, b) => b.mvps - a.mvps).slice(0, 5)
         }
     };
 }
 
 /* =========================================================
-   LINE TEXT
+   LINE TEXT & DRAFT & IMPORT/EXPORT (CORRETTO BUG #1)
    ========================================================= */
 function generateLineMessage() {
     const date = $('matchDate').value || '未定';
@@ -2936,9 +2936,6 @@ async function copyLineText() {
     }
 }
 
-/* =========================================================
-   DRAFT (autosave)
-   ========================================================= */
 function collectFormData() {
     const data = {
         matchId: $('matchId').value,
@@ -2975,7 +2972,7 @@ function collectFormData() {
     });
 
     $$('.stat-row .scorer-player-select').forEach(sel => {
-        if (sel.value) data.scorers.push({ name: sel.value, count: sel.parentElement.querySelector('.row-count-input').value });
+        if (sel.value) data.scorers.push({ name: sel.value, count: sel.parentElement.querySelector('.row-count-input').value, minute: sel.parentElement.querySelector('.minute-input')?.value });
     });
     $$('.stat-row .assist-player-select').forEach(sel => {
         if (sel.value) data.assists.push({ name: sel.value, count: sel.parentElement.querySelector('.row-count-input').value });
@@ -2983,8 +2980,8 @@ function collectFormData() {
     $$('.stat-row .gk-player-select').forEach(sel => {
         if (sel.value) data.gk.push({ name: sel.value, conceded: sel.parentElement.querySelector('.row-count-input').value });
     });
-    $$('.stat-row .yellow-player-select').forEach(sel => { if (sel.value) data.yellows.push(sel.value); });
-    $$('.stat-row .red-player-select').forEach(sel => { if (sel.value) data.reds.push(sel.value); });
+    $$('.stat-row .yellow-player-select').forEach(sel => { if (sel.value) data.yellows.push({ name: sel.value, minute: sel.parentElement.querySelector('.minute-input')?.value }); });
+    $$('.stat-row .red-player-select').forEach(sel => { if (sel.value) data.reds.push({ name: sel.value, minute: sel.parentElement.querySelector('.minute-input')?.value }); });
 
     return data;
 }
@@ -3062,6 +3059,7 @@ function restoreDraft() {
             if (last) {
                 last.querySelector('.scorer-player-select').value = s.name;
                 last.querySelector('.row-count-input').value = s.count;
+                if (s.minute && last.querySelector('.minute-input')) last.querySelector('.minute-input').value = s.minute;
             }
         });
         (d.assists || []).forEach(a => {
@@ -3083,12 +3081,18 @@ function restoreDraft() {
         (d.yellows || []).forEach(n => {
             addYellowRow();
             const last = $('yellowCardsContainer').querySelector('.stat-row:last-child');
-            if (last) last.querySelector('.yellow-player-select').value = n;
+            if (last) {
+                last.querySelector('.yellow-player-select').value = typeof n === 'object' ? n.name : n;
+                if (typeof n === 'object' && n.minute && last.querySelector('.minute-input')) last.querySelector('.minute-input').value = n.minute;
+            }
         });
         (d.reds || []).forEach(n => {
             addRedRow();
             const last = $('redCardsContainer').querySelector('.stat-row:last-child');
-            if (last) last.querySelector('.red-player-select').value = n;
+            if (last) {
+                last.querySelector('.red-player-select').value = typeof n === 'object' ? n.name : n;
+                if (typeof n === 'object' && n.minute && last.querySelector('.minute-input')) last.querySelector('.minute-input').value = n.minute;
+            }
         });
 
         if (d.mvp) $('mvpSelect').value = d.mvp;
@@ -3109,9 +3113,6 @@ function startAutosave() {
     }, 30000);
 }
 
-/* =========================================================
-   IMPORT / EXPORT
-   ========================================================= */
 async function exportJSON() {
     try {
         const all = {
@@ -3140,26 +3141,49 @@ function importJSON() {
     input.click();
 }
 
+// FIX BUG #1: Implementazione vera dell'importazione dati
 $('importFileInput').addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     try {
         const text = await file.text();
         const data = JSON.parse(text);
-        const summary = [];
-        if (data.matches) summary.push(`matches: ${data.matches.length}`);
-        if (data.players) summary.push(`players: ${data.players.length}`);
-        if (data.opponents) summary.push(`opponents: ${Object.keys(data.opponents).length}`);
-        if (data.locations) summary.push(`locations: ${Object.keys(data.locations).length}`);
-        showToast('info', 'Contenuto: ' + summary.join(', '), 6000);
-        // Solo preview: non salviamo automaticamente per sicurezza
+
+        const ok = await showConfirm('Confermi l\'importazione dei dati? I dati presenti su GitHub verranno aggiornati con il contenuto del file.', true, 'Importa Backup JSON');
+        if (!ok) return;
+
+        if (data.matches && Array.isArray(data.matches)) {
+            State.matches = data.matches;
+            const { sha } = await ghGet('matches.json');
+            await ghPut('matches.json', State.matches, sha, 'Admin: Import matches backup');
+        }
+        if (data.players && Array.isArray(data.players)) {
+            State.players = data.players;
+            const { sha } = await ghGet('players.json');
+            await ghPut('players.json', State.players, sha, 'Admin: Import players backup');
+        }
+        if (data.opponents && typeof data.opponents === 'object') {
+            State.opponents = data.opponents;
+            const { sha } = await ghGet('opponents.json');
+            await ghPut('opponents.json', State.opponents, sha, 'Admin: Import opponents backup');
+        }
+        if (data.locations && typeof data.locations === 'object') {
+            State.locations = data.locations;
+            const { sha } = await ghGet('locations.json');
+            await ghPut('locations.json', State.locations, sha, 'Admin: Import locations backup');
+        }
+
+        renderAllTables();
+        renderPitchAndBench();
+        updateAllPlayerDropdowns();
+        showToast('success', '✅ Backup importato con successo su GitHub!');
     } catch (err) {
-        showToast('error', 'File JSON non valido: ' + err.message);
+        showToast('error', 'File JSON non valido o errore durante l\'import: ' + err.message);
     }
 });
 
 /* =========================================================
-   EVENT DELEGATION (un solo listener per tutto)
+   EVENT DELEGATION & LISTENERS
    ========================================================= */
 document.addEventListener('click', async (e) => {
     const actionEl = e.target.closest('[data-action]');
@@ -3181,13 +3205,11 @@ document.addEventListener('click', async (e) => {
             break;
         case 'switch-tab': {
             const tabId = actionEl.getAttribute('data-tab');
-            if (State.isDirty && !await showConfirm('Ci sono modifiche non salvate. Cambiare tab?', false)) return;
-            $$('.tab-content').forEach(tc => tc.classList.add('hidden'));
-            $$('.tab-btn').forEach(tb => {
+            if (State.isDirty && !await showConfirm(t('unsavedMsg'), false, '⚠️ ' + t('unsavedTitle'))) return;
+            $$('.tab-content').forEach(tc => tc.classList.add('hidden'));$$('.tab-btn').forEach(tb => {
                 tb.classList.remove('active');
                 tb.setAttribute('aria-selected', 'false');
-            });
-            $(tabId).classList.remove('hidden');
+            });$(tabId).classList.remove('hidden');
             actionEl.classList.add('active');
             actionEl.setAttribute('aria-selected', 'true');
             if (tabId === 'locationsTab') renderSurfaceDropdown();
@@ -3231,32 +3253,26 @@ document.addEventListener('click', async (e) => {
     }
 });
 
-/* Form submit */
 $('matchForm').addEventListener('submit', saveMatch);
 
-/* Live change events */
 document.addEventListener('change', (e) => {
     const el = e.target;
 
-    // Formation change
     if (el.id === 'formationSelect') {
         renderPitchAndBench();
     }
 
-    // Bench subbed-in checkbox
     if (el.classList.contains('bench-subbed-in')) {
         const posSel = el.closest('.bench-sub-row').querySelector('.bench-pos-select');
         if (posSel) posSel.disabled = !el.checked;
     }
 
-    // Squad selection changed
     if (el.classList.contains('match-squad-select') || el.classList.contains('player-dropdown-dynamic')) {
         updatePlayerExclusions();
         updateFilledCards();
     }
 });
 
-/* Dirty flag */
 document.addEventListener('input', (e) => {
     if (!e.target.closest('#adminDashboard')) return;
     State.isDirty = true;
@@ -3268,27 +3284,22 @@ document.addEventListener('input', (e) => {
         State.opponentSearch = e.target.value;
         renderOpponentsSelectAndTable();
     }
-    // Debounced update per i select
     if (e.target.classList.contains('match-squad-select')) {
         updatePlayerExclusions();
         updateFilledCards();
     }
 });
 
-/* Sort headers */
 document.addEventListener('click', (e) => {
     const th = e.target.closest('th[data-sort]');
     if (!th) return;
     const field = th.getAttribute('data-sort');
-    const table = th.closest('table');
-    let sortState;
-    let renderFn;
-    if (table.id === '' && th.closest('#playersTab')) {
+    let sortState, renderFn;
+    if (th.closest('#playersTab')) {
         sortState = State.playerSort; renderFn = renderPlayersTable;
     } else if (th.closest('#opponentsTab')) {
         sortState = State.opponentSort; renderFn = renderOpponentsSelectAndTable;
     } else if (th.closest('#locationsTab')) {
-        sortState = State.locationSort; renderLocationsSelectAndTable;
         sortState = State.locationSort; renderFn = renderLocationsSelectAndTable;
     } else return;
 
@@ -3301,7 +3312,6 @@ document.addEventListener('click', (e) => {
     renderFn();
 });
 
-/* Unsaved warning */
 window.addEventListener('beforeunload', (e) => {
     if (State.isDirty) {
         e.preventDefault();
@@ -3309,16 +3319,12 @@ window.addEventListener('beforeunload', (e) => {
     }
 });
 
-/* Keyboard shortcuts */
 document.addEventListener('keydown', (e) => {
-    // Ctrl+S → save match
     if ((e.ctrlKey || e.metaKey) && e.key === 's') {
         e.preventDefault();
-        if (!$('matchesTab').classList.contains('hidden')) {
-            $('matchForm').requestSubmit();
+        if (!$('matchesTab').classList.contains('hidden')) {$('matchForm').requestSubmit();
         }
     }
-    // Ctrl+K → focus search
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
         const search = $('playerSearch');
@@ -3328,8 +3334,6 @@ document.addEventListener('keydown', (e) => {
             if (oppSearch && !$('opponentsTab').classList.contains('hidden')) oppSearch.focus();
         }
     }
-    // Esc → close modal (già gestito sopra)
-    // 1..5 → switch tab (solo se non in input)
     if (!e.target.closest('input, textarea, select') && /^[1-5]$/.test(e.key) && !e.ctrlKey && !e.metaKey) {
         const tabs = ['matchesTab', 'playersTab', 'opponentsTab', 'locationsTab', 'lineTab'];
         const idx = parseInt(e.key, 10) - 1;
@@ -3338,9 +3342,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-/* =========================================================
-   BOOT
-   ========================================================= */
 window.addEventListener('DOMContentLoaded', () => {
     initDarkMode();
     setLanguage(State.lang);
@@ -3349,9 +3350,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (State.token) verifyAndLogin(State.token);
 
-    // Inizializza formati date/ora di default
-    if (!$('matchDate').value) {
-        $('matchDate').value = new Date().toISOString().split('T')[0];
+    if (!$('matchDate').value) {$('matchDate').value = new Date().toISOString().split('T')[0];
     }
 });
 </script>
