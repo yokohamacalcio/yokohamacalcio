@@ -384,7 +384,6 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     border-color: #10b981;
     background: rgba(5, 150, 105, 0.94);
 }
-/* Indicatore affinità sul bordo della card */
 .pitch-position-card.affinity-high { border-color: #10b981; }
 .pitch-position-card.affinity-medium { border-color: #f59e0b; }
 .pitch-position-card.affinity-low { border-color: #ef4444; }
@@ -1659,7 +1658,6 @@ const FORMATION_COORDS = {
     }
 };
 
-// Mappa macro-posizioni per affinity scoring
 const POS_MACRO_MAP = {
     GK: 'GK',
     LB: 'DEF', LWB: 'DEF', 'CB-L': 'DEF', 'CB-C': 'DEF', 'CB-R': 'DEF', RB: 'DEF', RWB: 'DEF',
@@ -1682,7 +1680,7 @@ const State = {
     locations: {},
     matches: [],
     trialists: [],
-    statsData: {},          // ⭐ NUOVO: stats.json con positions_played
+    statsData: {},
     isDirty: false,
     playerSort: { field: 'number', dir: 'asc' },
     opponentSort: { field: 'key', dir: 'asc' },
@@ -1714,15 +1712,11 @@ function base64ToUtf8(b64) {
     return new TextDecoder().decode(bytes);
 }
 
-/* =========================================================
-   FIX #2: findMatchingPlayerValue migliorato
-   ========================================================= */
 function findMatchingPlayerValue(raw) {
     if (!raw) return '';
     const cleanRaw = cleanStr(raw);
     if (!cleanRaw) return '';
 
-    // Rimuove suffissi tipo " x2", "(45')", ecc.
     let normalizedRaw = String(raw)
         .replace(/\((.*?)\)/g, '')
         .replace(/\s*[xX\*]\s*\d+/g, '')
@@ -1731,7 +1725,6 @@ function findMatchingPlayerValue(raw) {
 
     const allPlayers = [...State.players, ...State.trialists];
 
-    // 1. Match esatto
     let p = allPlayers.find(x =>
         cleanStr(x.id) === cleanNorm ||
         cleanStr(x.name_kanji) === cleanNorm ||
@@ -1740,10 +1733,8 @@ function findMatchingPlayerValue(raw) {
     );
     if (p) return p.name_kanji || p.name_romaji || p.id;
 
-    // 2. Match parziale (più flessibile, min 2 char se JP, 3 se latino)
     const minLen = isJapanese(cleanNorm) ? 2 : 3;
     if (cleanNorm.length >= minLen) {
-        // Prima cerca giocatori reali (no trialist) con nome che contiene
         p = allPlayers.find(x => {
             const k = cleanStr(x.name_kanji);
             const kn = cleanStr(x.name_kana);
@@ -1757,14 +1748,9 @@ function findMatchingPlayerValue(raw) {
         if (p) return p.name_kanji || p.name_romaji || p.id;
     }
 
-    // 3. Fallback: restituisce raw (potrebbe non matchare)
     return normalizedRaw;
 }
 
-/**
- * FIX #2b: Aggiunge l'opzione al select se il valore non esiste tra le opzioni.
- * Così il marcatore/MVP viene visualizzato anche se non è più in rosa.
- */
 function ensureSelectOption(sel, value) {
     if (!sel || !value) return;
     const exists = Array.from(sel.options).some(opt => opt.value === value);
@@ -2378,11 +2364,7 @@ function getAllAvailablePlayers(onlyGK = false) {
     return list;
 }
 
-/* =========================================================
-   FIX #1: MISTER HELPER — Suggerimenti basati su positions_played
-   ========================================================= */
 function getAffinityForPosition(playerName, posTag) {
-    // Trova il player ID
     const p = [...State.players, ...State.trialists].find(x =>
         x.name_kanji === playerName || x.name_romaji === playerName || x.id === playerName
     );
@@ -2391,7 +2373,6 @@ function getAffinityForPosition(playerName, posTag) {
     const positions = stats.positions_played || {};
 
     const exact = positions[posTag] || 0;
-    // Conta anche i tag simili (stesso macro)
     const macro = POS_MACRO_MAP[posTag] || '';
     let macroCount = 0;
     Object.entries(positions).forEach(([tag, count]) => {
@@ -2438,7 +2419,6 @@ function renderMisterHelper() {
     const formation = $('formationSelect').value;
     const coords = FORMATION_COORDS[formation] || FORMATION_COORDS['4-4-2'];
 
-    // Giocatori già in campo (per escluderli dai suggerimenti)
     const usedPlayers = new Set();
     $$('#pitchGrid .pitch-player-select').forEach(sel => {
         if (sel.value) usedPlayers.add(sel.value);
@@ -2476,10 +2456,6 @@ function renderMisterHelper() {
     }).join('');
 }
 
-/**
- * Suggerisce formazione: per ogni slot sceglie il giocatore con affinity più alta
- * che non è già stato assegnato in un altro slot.
- */
 function suggestLineup() {
     const formation = $('formationSelect').value;
     const coords = FORMATION_COORDS[formation] || FORMATION_COORDS['4-4-2'];
@@ -2493,8 +2469,6 @@ function suggestLineup() {
     const usedPlayers = new Set();
     const assigned = {};
 
-    // Ordina le posizioni: prima porta (GK), poi difensori, centrocampisti, attaccanti
-    // per dare priorità alle posizioni specialistiche
     const orderPriority = {
         'GK': 0,
         'CB-C': 1, 'CB-L': 1, 'CB-R': 1, 'LB': 2, 'RB': 2, 'LWB': 2, 'RWB': 2,
@@ -2519,7 +2493,6 @@ function suggestLineup() {
                     if (tag !== posTag && POS_MACRO_MAP[tag] === macro) macroCount += count;
                 });
 
-                // Bonus: se la posizione è GK, solo portieri di ruolo
                 let roleBonus = 0;
                 if (posTag === 'GK' && (p.role === 'gk' || p.position === 'GK')) roleBonus = 1000;
                 else if (POS_MACRO_MAP[posTag] === 'DEF' && p.role === 'df') roleBonus = 50;
@@ -2540,7 +2513,6 @@ function suggestLineup() {
         }
     });
 
-    // Applica le assegnazioni al campo
     Object.entries(assigned).forEach(([posTag, playerName]) => {
         const sel = document.querySelector(`#pitchGrid .pitch-player-select[data-pos="${posTag}"]`);
         if (sel) {
@@ -2554,9 +2526,6 @@ function suggestLineup() {
     showToast('success', `✨ Formazione suggerita per ${Object.keys(assigned).length} posizioni`);
 }
 
-/* =========================================================
-   PITCH & BENCH
-   ========================================================= */
 function renderPitchAndBench() {
     const formation = $('formationSelect').value;
     const coords = FORMATION_COORDS[formation] || FORMATION_COORDS['4-4-2'];
@@ -2632,7 +2601,6 @@ function updateFilledCards() {
         const isFilled = !!sel.value;
         card.classList.toggle('filled', isFilled);
 
-        // Rimuovi classi affinità precedenti
         card.classList.remove('affinity-high', 'affinity-medium', 'affinity-low', 'affinity-new');
 
         if (!isFilled) {
@@ -2692,7 +2660,6 @@ function updatePlayerExclusions() {
             const label = p.name + (isSelectedElsewhere ? ' ✓' : '');
             return `<option value="${p.value}" ${isSelectedElsewhere ? 'disabled' : ''}>${label}</option>`;
         }).join('');
-        // Ripristina il valore anche se non è più nella lista standard
         if (currentVal) ensureSelectOption(sel, currentVal);
     });
 }
@@ -2720,7 +2687,7 @@ function addYellowRow() { $('yellowCardsContainer').appendChild(createStatRow('y
 function addRedRow() { $('redCardsContainer').appendChild(createStatRow('red-player-select', { hasCount: false, hasMinute: true })); }
 
 /* =========================================================
-   FIX #2 e #3: LOAD MATCH DATA con parsing robusto di marcatori/assist/MVP + minuti
+   FIXED: LOAD MATCH DATA
    ========================================================= */
 async function loadMatchData(id, quiet = false) {
     if (!id) return;
@@ -2802,9 +2769,13 @@ async function loadMatchData(id, quiet = false) {
         });
     }
 
-    ['scorers', 'assists', 'gk', 'yellow', 'red'].forEach(k => $(k + 'Container').innerHTML = '');
+    $('scorersContainer').innerHTML = '';
+    $('assistsContainer').innerHTML = '';
+    $('gkContainer').innerHTML = '';
+    $('yellowCardsContainer').innerHTML = '';
+    $('redCardsContainer').innerHTML = '';
 
-    // ---- MARCATORI (con minuti) ----
+    // ---- MARCATORI ----
     const scorerRaw = match.scorers || '';
     const scorerItems = Array.isArray(scorerRaw) ? scorerRaw : String(scorerRaw).split(/[,、]/);
     scorerItems.forEach(entry => {
@@ -2813,38 +2784,26 @@ async function loadMatchData(id, quiet = false) {
 
         let count = 1, min = '';
 
-        // Estrai minuto: es. " (45')" o " (45)" o " (45+2')"
         const mMin = text.match(/\s*\((\d+(?:\+\d+)?)['′]?\s*\)\s*$/);
         if (mMin) {
             min = mMin[1];
             text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim();
         }
 
-        // Estrai moltiplicatore: es. " x2"
         const mCnt = text.match(/\s*[xX\*]\s*(\d+)\s*$/);
         if (mCnt) {
             count = parseInt(mCnt[1], 10) || 1;
             text = text.replace(/\s*[xX\*]\s*\d+\s*$/, '').trim();
         }
 
-        const matchedVal = findMatchingPlayerValue(text);
-        if (matchedVal) {
-            addScorerRow();
-            const last = $('scorersContainer').querySelector('.stat-row:last-child');
-            if (last) {
-                ensureSelectOption(last.querySelector('.scorer-player-select'), matchedVal);
-                last.querySelector('.row-count-input').value = count;
-                if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
-            }
-        } else if (text) {
-            // Fallback: aggiungi riga con opzione custom
-            addScorerRow();
-            const last = $('scorersContainer').querySelector('.stat-row:last-child');
-            if (last) {
-                ensureSelectOption(last.querySelector('.scorer-player-select'), text);
-                last.querySelector('.row-count-input').value = count;
-                if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
-            }
+        const matchedVal = findMatchingPlayerValue(text) || text;
+        addScorerRow();
+        const last = $('scorersContainer').querySelector('.stat-row:last-child');
+        if (last) {
+            const sel = last.querySelector('.scorer-player-select');
+            ensureSelectOption(sel, matchedVal);
+            last.querySelector('.row-count-input').value = count;
+            if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
         }
     });
 
@@ -2862,21 +2821,13 @@ async function loadMatchData(id, quiet = false) {
             text = text.replace(/\s*[xX\*]\s*\d+\s*$/, '').trim();
         }
 
-        const matchedVal = findMatchingPlayerValue(text);
-        if (matchedVal) {
-            addAssistRow();
-            const last = $('assistsContainer').querySelector('.stat-row:last-child');
-            if (last) {
-                ensureSelectOption(last.querySelector('.assist-player-select'), matchedVal);
-                last.querySelector('.row-count-input').value = count;
-            }
-        } else if (text) {
-            addAssistRow();
-            const last = $('assistsContainer').querySelector('.stat-row:last-child');
-            if (last) {
-                ensureSelectOption(last.querySelector('.assist-player-select'), text);
-                last.querySelector('.row-count-input').value = count;
-            }
+        const matchedVal = findMatchingPlayerValue(text) || text;
+        addAssistRow();
+        const last = $('assistsContainer').querySelector('.stat-row:last-child');
+        if (last) {
+            const sel = last.querySelector('.assist-player-select');
+            ensureSelectOption(sel, matchedVal);
+            last.querySelector('.row-count-input').value = count;
         }
     });
 
@@ -2892,27 +2843,23 @@ async function loadMatchData(id, quiet = false) {
             text = m[1].trim();
             ga = parseInt(m[2], 10) || 0;
         }
-        const matchedVal = findMatchingPlayerValue(text);
-        const valueToUse = matchedVal || text;
-        if (valueToUse) {
-            addGkRow();
-            const last = $('gkContainer').querySelector('.stat-row:last-child');
-            if (last) {
-                ensureSelectOption(last.querySelector('.gk-player-select'), valueToUse);
-                last.querySelector('.row-count-input').value = ga;
-            }
+        const matchedVal = findMatchingPlayerValue(text) || text;
+        addGkRow();
+        const last = $('gkContainer').querySelector('.stat-row:last-child');
+        if (last) {
+            const sel = last.querySelector('.gk-player-select');
+            ensureSelectOption(sel, matchedVal);
+            last.querySelector('.row-count-input').value = ga;
         }
     });
 
     // ---- MVP ----
     if (match.mvp && match.mvp !== 'なし' && match.mvp !== 'Nessuno') {
-        const mvpVal = findMatchingPlayerValue(match.mvp);
-        const valueToUse = mvpVal || match.mvp;
-        const mvpSel = $('mvpSelect');
-        ensureSelectOption(mvpSel, valueToUse);
+        const mvpVal = findMatchingPlayerValue(match.mvp) || match.mvp;
+        ensureSelectOption($('mvpSelect'), mvpVal);
     }
 
-    // ---- GIALLI (con minuti) ----
+    // ---- CARTELLINI GIALLI ----
     const yellowRaw = match.yellow_cards || '';
     const yellowItems = Array.isArray(yellowRaw) ? yellowRaw : String(yellowRaw).split(/[,、]/);
     yellowItems.forEach(entry => {
@@ -2924,19 +2871,17 @@ async function loadMatchData(id, quiet = false) {
             min = mMin[1];
             text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim();
         }
-        const matchedVal = findMatchingPlayerValue(text);
-        const valueToUse = matchedVal || text;
-        if (valueToUse) {
-            addYellowRow();
-            const last = $('yellowCardsContainer').querySelector('.stat-row:last-child');
-            if (last) {
-                ensureSelectOption(last.querySelector('.yellow-player-select'), valueToUse);
-                if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
-            }
+        const matchedVal = findMatchingPlayerValue(text) || text;
+        addYellowRow();
+        const last = $('yellowCardsContainer').querySelector('.stat-row:last-child');
+        if (last) {
+            const sel = last.querySelector('.yellow-player-select');
+            ensureSelectOption(sel, matchedVal);
+            if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
         }
     });
 
-    // ---- ROSSI (con minuti) ----
+    // ---- CARTELLINI ROSSI ----
     const redRaw = match.red_cards || '';
     const redItems = Array.isArray(redRaw) ? redRaw : String(redRaw).split(/[,、]/);
     redItems.forEach(entry => {
@@ -2948,15 +2893,13 @@ async function loadMatchData(id, quiet = false) {
             min = mMin[1];
             text = text.replace(/\s*\(\d+(?:\+\d+)?['′]?\s*\)\s*$/, '').trim();
         }
-        const matchedVal = findMatchingPlayerValue(text);
-        const valueToUse = matchedVal || text;
-        if (valueToUse) {
-            addRedRow();
-            const last = $('redCardsContainer').querySelector('.stat-row:last-child');
-            if (last) {
-                ensureSelectOption(last.querySelector('.red-player-select'), valueToUse);
-                if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
-            }
+        const matchedVal = findMatchingPlayerValue(text) || text;
+        addRedRow();
+        const last = $('redCardsContainer').querySelector('.stat-row:last-child');
+        if (last) {
+            const sel = last.querySelector('.red-player-select');
+            ensureSelectOption(sel, matchedVal);
+            if (last.querySelector('.minute-input')) last.querySelector('.minute-input').value = min;
         }
     });
 
@@ -3072,7 +3015,6 @@ async function saveMatch(e) {
         }
     });
 
-    // FIX #3: formato marcatori: "Nome x2 (45')"
     const scorerDetails = [];
     $$('.stat-row .scorer-player-select').forEach(sel => {
         const p = sel.value;
@@ -3750,7 +3692,7 @@ window.addEventListener('DOMContentLoaded', () => {
     renderSurfaceDropdown();
     startAutosave();
     if (State.token) verifyAndLogin(State.token);
-    if (!$('matchDate').value) $('matchDate').value = new Date().toISOString().split('T')[0];
+    if (!$('matchDate').value)$('matchDate').value = new Date().toISOString().split('T')[0];
 });
 </script>
 </body>
