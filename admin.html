@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yokohama Calcio | Admin Panel Dynamic</title>
+    <title>Yokohama Calcio | Admin Panel Complete</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -38,7 +38,7 @@
         .form-control { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.92rem; background: #fff; color: #0f172a; transition: border-color 0.2s ease; }
         .form-control:focus { outline: none; border-color: #0284c7; box-shadow: 0 0 0 3px rgba(2,132,199,0.15); }
 
-        /* NAVIGAZIONE SCHEDE (TABS) FIXATA E STILIZZATA */
+        /* SCHEDE TABS */
         .admin-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 22px; border-bottom: 2px solid #e2e8f0; }
         .tab-btn { background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; padding: 12px 18px; border-radius: 10px; font-weight: bold; font-size: 0.88rem; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 8px; transition: all 0.2s ease; }
         .tab-btn:hover { background: #e2e8f0; color: #003c82; }
@@ -54,11 +54,11 @@
             .tab-btn { padding: 10px 14px; font-size: 0.82rem; }
         }
 
-        /* SCHERMATA LOGIN */
+        /* LOGIN */
         .login-box { max-width: 440px; margin: 60px auto; padding: 32px; background: #ffffff; border-radius: 18px; box-shadow: 0 10px 35px rgba(0,0,0,0.3); text-align: center; }
         .login-box i.lock-icon { font-size: 3.5rem; color: #003c82; margin-bottom: 15px; }
         
-        /* CAMPO TATTICO STILE FOOTBALL MANAGER / EA FC */
+        /* CAMPO TATTICO */
         .tactical-pitch-container { 
             background: radial-gradient(circle, #16a34a 0%, #15803d 60%, #14532d 100%); 
             border-radius: 16px; 
@@ -69,29 +69,15 @@
             overflow: hidden;
             margin-top: 14px; 
         }
-
-        /* LINEE DEL CAMPO */
         .tactical-pitch-container::before {
-            content: '';
-            position: absolute;
-            top: 50%; left: 0; right: 0;
-            height: 2px; background: rgba(255,255,255,0.35);
-            pointer-events: none;
+            content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: rgba(255,255,255,0.35); pointer-events: none;
         }
 
         .pitch-header-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; position: relative; z-index: 2; }
         .pitch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; position: relative; z-index: 2; }
 
-        /* CARD GIOCATORE SUL CAMPO */
         .pitch-position-card { 
-            background: rgba(15, 23, 42, 0.92); 
-            border: 2px solid #f59e0b; 
-            border-radius: 10px; 
-            padding: 10px; 
-            color: #ffffff; 
-            box-shadow: 0 4px 14px rgba(0,0,0,0.45);
-            backdrop-filter: blur(6px);
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            background: rgba(15, 23, 42, 0.92); border: 2px solid #f59e0b; border-radius: 10px; padding: 10px; color: #ffffff; box-shadow: 0 4px 14px rgba(0,0,0,0.45); backdrop-filter: blur(6px); transition: transform 0.2s ease, border-color 0.2s ease;
         }
         .pitch-position-card:hover { transform: translateY(-3px); border-color: #38bdf8; }
         .pitch-pos-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
@@ -109,7 +95,6 @@
         .trialist-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
         .trialist-item { background: #059669; color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: bold; display: flex; align-items: center; gap: 8px; }
         .btn-remove-trialist { background: transparent; border: none; color: #fecdd3; cursor: pointer; font-size: 0.95rem; padding: 0; }
-        .btn-remove-trialist:hover { color: #ffffff; }
 
         /* TABELLE DATI */
         .data-table-container { overflow-x: auto; margin-top: 10px; border-radius: 10px; border: 1px solid #cbd5e1; }
@@ -123,7 +108,7 @@
         .stat-row select { flex: 1; }
         .stat-row input[type="number"] { width: 70px; text-align: center; }
 
-        /* PULSANTI UI */
+        /* PULSANTI */
         .btn-remove-row { background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
         .btn-add-row { background: #0284c7; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: bold; margin-top: 5px; }
         .btn-clear-pitch { background: #dc2626; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
@@ -138,10 +123,6 @@
         .btn-edit { background: #0284c7; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.78rem; }
         .btn-delete { background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.78rem; }
 
-        .lang-switcher-admin { display: flex; gap: 4px; align-items: center; }
-        .lang-btn-admin { background: transparent; border: 1px solid #cbd5e1; padding: 4px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: bold; cursor: pointer; color: #475569; }
-        .lang-btn-admin.active { background: #003c82; color: white; border-color: #003c82; }
-
         .hidden { display: none !important; }
     </style>
 </head>
@@ -152,12 +133,6 @@
     <i class="fas fa-lock lock-icon"></i>
     <h2 style="margin-bottom: 8px;">Yokohama Calcio Admin</h2>
     <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 20px;">Inserisci il GitHub Token (PAT) per accedere.</p>
-
-    <div class="lang-switcher-admin" style="justify-content: center; margin-bottom: 20px;">
-        <button class="lang-btn-admin active" data-lang="ja">JP</button>
-        <button class="lang-btn-admin" data-lang="it">IT</button>
-        <button class="lang-btn-admin" data-lang="en">EN</button>
-    </div>
 
     <form id="loginForm">
         <div class="form-group" style="text-align: left;">
@@ -178,12 +153,7 @@
         </div>
         
         <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-            <button type="button" onclick="resetForm()" class="btn-reset" title="Pulisci Modulo"><i class="fas fa-redo"></i> Reset</button>
-            <div class="lang-switcher-admin">
-                <button class="lang-btn-admin active" data-lang="ja">JP</button>
-                <button class="lang-btn-admin" data-lang="it">IT</button>
-                <button class="lang-btn-admin" data-lang="en">EN</button>
-            </div>
+            <button type="button" onclick="resetForm()" class="btn-reset"><i class="fas fa-redo"></i> Reset</button>
             <button id="logoutBtn" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
         </div>
     </div>
@@ -377,65 +347,51 @@
     <!-- TAB 2: GESTIONE ROSA (PLAYERS.JSON) -->
     <div id="playersTab" class="tab-content hidden">
         <div class="section-box">
-            <h3><i class="fas fa-user-plus"></i> Aggiungi / Modifica Giocatore o Staff</h3>
+            <h3><i class="fas fa-user-plus"></i> Aggiungi / Modifica Giocatore (`players.json`)</h3>
             <form id="playerEditForm" style="margin-top: 15px;">
                 <input type="hidden" id="editPlayerId">
+                <input type="hidden" id="editPlayerCaps" value="0">
                 <div class="row">
                     <div class="form-group">
                         <label>Numero Maglia:</label>
-                        <input type="number" id="pNumber" class="form-control" placeholder="8">
+                        <input type="number" id="pNumber" class="form-control" placeholder="5">
                     </div>
                     <div class="form-group">
-                        <label>Nome Kanji / Ufficiale:</label>
+                        <label>Nome Kanji / Ufficiale (name_kanji):</label>
                         <input type="text" id="pNameKanji" class="form-control" placeholder="Di Rubbo Luca" required>
                     </div>
                     <div class="form-group">
-                        <label>Nome Kana (フリガナ):</label>
+                        <label>Nome Kana (name_kana):</label>
                         <input type="text" id="pNameKana" class="form-control" placeholder="ディルッボ ルカ">
                     </div>
                     <div class="form-group">
-                        <label>Nome Romaji / Alphabet:</label>
-                        <input type="text" id="pNameRomaji" class="form-control" placeholder="Luca Di Rubbo">
+                        <label>Nome Romaji (name_romaji):</label>
+                        <input type="text" id="pNameRomaji" class="form-control" placeholder="Di Rubbo Luca">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <label>Ruolo Principale (Categoria):</label>
+                        <label>Ruolo (role):</label>
                         <select id="pRole" class="form-control">
-                            <option value="gk">GK (Portiere)</option>
-                            <option value="df">DF (Difensore)</option>
-                            <option value="mf">MF (Centrocampista)</option>
-                            <option value="fw">FW (Attaccante)</option>
-                            <option value="staff">Staff (Dirigente / Tecnico)</option>
+                            <option value="gk">gk (Portiere)</option>
+                            <option value="df">df (Difensore)</option>
+                            <option value="mf">mf (Centrocampista)</option>
+                            <option value="fw">fw (Attaccante)</option>
+                            <option value="staff">staff (Staff / Tecnico)</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Posizione Tattica (es. CM, CB, LB/CB):</label>
-                        <input type="text" id="pPosition" class="form-control" placeholder="CM">
+                        <label>Posizione Tattica (position):</label>
+                        <input type="text" id="pPosition" class="form-control" placeholder="CM/SB">
                     </div>
                     <div class="form-group">
-                        <label>Data di Nascita:</label>
+                        <label>Data di Nascita (birth_date):</label>
                         <input type="date" id="pBirthDate" class="form-control">
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="form-group">
-                        <label>Altezza (cm):</label>
-                        <input type="number" id="pHeight" class="form-control" placeholder="171">
-                    </div>
-                    <div class="form-group">
-                        <label>Peso (kg):</label>
-                        <input type="number" id="pWeight" class="form-control" placeholder="69">
-                    </div>
-                    <div class="form-group">
-                        <label>Piede Preferito:</label>
-                        <select id="pFoot" class="form-control">
-                            <option value="Right">Destro (Right)</option>
-                            <option value="Left">Sinistro (Left)</option>
-                            <option value="Both">Ambidestro (Both)</option>
-                        </select>
+                        <label>Provenienza / Città (hometown):</label>
+                        <input type="text" id="pHometown" class="form-control" placeholder="italy / kanagawa / shizuoka">
                     </div>
                 </div>
 
@@ -459,6 +415,8 @@
                             <th>Romaji</th>
                             <th>Ruolo</th>
                             <th>Posizione</th>
+                            <th>Hometown</th>
+                            <th>Presenze (Caps)</th>
                             <th>Azioni</th>
                         </tr>
                     </thead>
@@ -479,7 +437,7 @@
                 <input type="hidden" id="editOpponentKey">
                 <div class="row">
                     <div class="form-group">
-                        <label>ID / Key univoca (es. team-fc):</label>
+                        <label>ID / Key univoca (es. fc-yokohama):</label>
                         <input type="text" id="oppKey" class="form-control" placeholder="fc-yokohama" required>
                     </div>
                     <div class="form-group">
@@ -529,40 +487,43 @@
                 <input type="hidden" id="editLocationKey">
                 <div class="row">
                     <div class="form-group">
-                        <label>ID / Key Campo (es. nagaya-hs):</label>
-                        <input type="text" id="locKey" class="form-control" placeholder="nagaya-hs" required>
+                        <label>Key ID Campo (es. yamoto):</label>
+                        <input type="text" id="locKey" class="form-control" placeholder="yamoto" required>
                     </div>
                     <div class="form-group">
-                        <label>Nome Giapponese (JA):</label>
-                        <input type="text" id="locNameJa" class="form-control" placeholder="永谷高等学校" required>
+                        <label>Nome Giapponese (ja):</label>
+                        <input type="text" id="locNameJa" class="form-control" placeholder="谷本公園球技場" required>
                     </div>
                     <div class="form-group">
-                        <label>Nome Inglese (EN):</label>
-                        <input type="text" id="locNameEn" class="form-control" placeholder="Nagaya High School">
+                        <label>Nome Italiano (it):</label>
+                        <input type="text" id="locNameIt" class="form-control" placeholder="Parco Yamoto (Aoba-ku)">
+                    </div>
+                    <div class="form-group">
+                        <label>Nome Inglese (en):</label>
+                        <input type="text" id="locNameEn" class="form-control" placeholder="Yamoto Park Pitch">
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="form-group">
-                        <label>Link Google Maps URL:</label>
-                        <input type="url" id="locMapsUrl" class="form-control" placeholder="https://maps.google.com/...">
+                        <label>Superficie JA (surface.ja):</label>
+                        <input type="text" id="locSurfaceJa" class="form-control" placeholder="人工芝 / クレー（土） / 天然芝">
                     </div>
                     <div class="form-group">
-                        <label>Superficie Terreno:</label>
-                        <select id="locSurface" class="form-control">
-                            <option value="人工芝">人工芝 (Erba Sintetica)</option>
-                            <option value="天然芝">天然芝 (Erba Naturale)</option>
-                            <option value="クレー / 土">クレー / 土 (Terra / Clay)</option>
-                        </select>
+                        <label>Superficie IT (surface.it):</label>
+                        <input type="text" id="locSurfaceIt" class="form-control" placeholder="Sintetico / Terra battuta / Erba naturale">
                     </div>
                     <div class="form-group">
-                        <label>Sistema Prenotazione Struttura:</label>
-                        <select id="locBookingSystem" class="form-control">
-                            <option value="e-Kanagawa">e-Kanagawa (県立施設)</option>
-                            <option value="はまっこカード">はまっこカード (横浜市公園)</option>
-                            <option value="その他 / Private">その他 / Privato</option>
-                        </select>
+                        <label>Superficie EN (surface.en):</label>
+                        <input type="text" id="locSurfaceEn" class="form-control" placeholder="Artificial Turf / Clay / Natural Grass">
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label>Link Google Maps URL (maps):</label>
+                    <input type="url" id="locMapsUrl" class="form-control" placeholder="https://maps.google.com/?q=谷本公園グラウンド">
+                </div>
+
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
                     <button type="button" class="btn-submit" style="background: #059669;" onclick="saveLocationData()">
                         <i class="fas fa-check"></i> Salva Impianto
@@ -580,8 +541,9 @@
                         <tr>
                             <th>Key ID</th>
                             <th>Nome JA</th>
-                            <th>Superficie</th>
-                            <th>Sistema</th>
+                            <th>Nome IT</th>
+                            <th>Superficie JA</th>
+                            <th>Google Maps</th>
                             <th>Azioni</th>
                         </tr>
                     </thead>
@@ -634,7 +596,6 @@
     let allMatchesData = [];
     let trialistsList = [];
 
-    // --- CAMBIO SCHEDE TAB FIXATO ---
     function switchTab(evt, tabId) {
         document.querySelectorAll('.tab-content').forEach(tc => tc.classList.add('hidden'));
         document.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));
@@ -723,7 +684,6 @@
         }
     }
 
-    /* --- CREAZIONE AUTOMATICA NUOVA PARTITA --- */
     function createNewMatch() {
         resetForm();
         let maxNum = 0;
@@ -738,9 +698,7 @@
         }
         const newId = `match-${maxNum + 1}`;
         document.getElementById('matchId').value = newId;
-        
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('matchDate').value = today;
+        document.getElementById('matchDate').value = new Date().toISOString().split('T')[0];
         
         const statusMsg = document.getElementById('statusMsg');
         statusMsg.style.color = '#059669';
@@ -771,34 +729,42 @@
     function renderLocationsSelectAndTable() {
         const sortedLocKeys = Object.keys(globalLocations).sort();
         document.getElementById('locationSelect').innerHTML = sortedLocKeys.map(k => {
-            const name = globalLocations[k].ja || globalLocations[k].en || k;
+            const loc = globalLocations[k];
+            const name = loc.ja || loc.en || k;
             return `<option value="${k}">${name} (${k})</option>`;
         }).join('');
 
         const tbody = document.getElementById('locationsTableBody');
-        tbody.innerHTML = sortedLocKeys.map(k => `
-            <tr>
-                <td><b>${k}</b></td>
-                <td>${globalLocations[k].ja || '-'}</td>
-                <td>${globalLocations[k].surface || '-'}</td>
-                <td>${globalLocations[k].booking_system || '-'}</td>
-                <td>
-                    <button type="button" class="btn-edit" onclick="editLocation('${k}')">Modifica</button>
-                    <button type="button" class="btn-delete" onclick="deleteLocation('${k}')">Elimina</button>
-                </td>
-            </tr>
-        `).join('');
+        tbody.innerHTML = sortedLocKeys.map(k => {
+            const loc = globalLocations[k];
+            const surfJa = typeof loc.surface === 'object' ? loc.surface?.ja : loc.surface;
+            return `
+                <tr>
+                    <td><b>${k}</b></td>
+                    <td>${loc.ja || '-'}</td>
+                    <td>${loc.it || '-'}</td>
+                    <td>${surfJa || '-'}</td>
+                    <td>${loc.maps ? `<a href="${loc.maps}" target="_blank" style="color:#0284c7;">Link Maps</a>` : '-'}</td>
+                    <td>
+                        <button type="button" class="btn-edit" onclick="editLocation('${k}')">Modifica</button>
+                        <button type="button" class="btn-delete" onclick="deleteLocation('${k}')">Elimina</button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
     }
 
     function renderPlayersTable() {
         const tbody = document.getElementById('playersTableBody');
         tbody.innerHTML = globalPlayers.map((p, idx) => `
             <tr>
-                <td><b>${p.number || '-'}</b></td>
+                <td><b>${p.number !== null && p.number !== undefined ? p.number : '-'}</b></td>
                 <td>${p.name_kanji || '-'}</td>
                 <td>${p.name_romaji || '-'}</td>
                 <td><span class="pos-badge">${(p.role || '').toUpperCase()}</span></td>
                 <td>${p.position || '-'}</td>
+                <td>${p.hometown || '-'}</td>
+                <td><b>${p.caps !== undefined ? p.caps : 0}</b></td>
                 <td>
                     <button type="button" class="btn-edit" onclick="editPlayer(${idx})">Modifica</button>
                     <button type="button" class="btn-delete" onclick="deletePlayer(${idx})">Elimina</button>
@@ -809,32 +775,33 @@
 
     /* --- EDITOR GIOCATORI ROSA --- */
     function savePlayerToSquad() {
-        const num = parseInt(document.getElementById('pNumber').value) || null;
+        const rawNum = document.getElementById('pNumber').value.trim();
+        const num = rawNum !== "" ? parseInt(rawNum, 10) : null;
         const kanji = document.getElementById('pNameKanji').value.trim();
         const kana = document.getElementById('pNameKana').value.trim();
         const romaji = document.getElementById('pNameRomaji').value.trim();
         const role = document.getElementById('pRole').value;
         const pos = document.getElementById('pPosition').value.trim().toUpperCase();
         const birth = document.getElementById('pBirthDate').value;
-        const h = parseInt(document.getElementById('pHeight').value) || null;
-        const w = parseInt(document.getElementById('pWeight').value) || null;
-        const foot = document.getElementById('pFoot').value;
+        const hometown = document.getElementById('pHometown').value.trim().toLowerCase();
+        const caps = parseInt(document.getElementById('editPlayerCaps').value, 10) || 0;
 
         if (!kanji) { alert("Inserisci almeno il nome Kanji o ufficiale."); return; }
 
         const editId = document.getElementById('editPlayerId').value;
+        const generatedId = editId || (romaji ? romaji.toLowerCase().replace(/[^a-z0-9]+/g, '-') : `player-${Date.now()}`);
+
         const playerObj = {
-            id: editId || (romaji ? romaji.toLowerCase().replace(/\s+/g, '-') : `player-${Date.now()}`),
+            id: generatedId,
             number: num,
+            role: role,
+            position: pos,
             name_kanji: kanji,
             name_kana: kana,
             name_romaji: romaji,
-            role: role,
-            position: pos,
-            birth_date: birth,
-            height: h,
-            weight: w,
-            foot: foot
+            birth_date: birth || null,
+            hometown: hometown || "kanagawa",
+            caps: caps
         };
 
         if (editId) {
@@ -853,16 +820,15 @@
         const p = globalPlayers[idx];
         if (!p) return;
         document.getElementById('editPlayerId').value = p.id;
-        document.getElementById('pNumber').value = p.number || '';
+        document.getElementById('editPlayerCaps').value = p.caps !== undefined ? p.caps : 0;
+        document.getElementById('pNumber').value = p.number !== null && p.number !== undefined ? p.number : '';
         document.getElementById('pNameKanji').value = p.name_kanji || '';
         document.getElementById('pNameKana').value = p.name_kana || '';
         document.getElementById('pNameRomaji').value = p.name_romaji || '';
         document.getElementById('pRole').value = p.role || 'mf';
         document.getElementById('pPosition').value = p.position || '';
         document.getElementById('pBirthDate').value = p.birth_date || '';
-        document.getElementById('pHeight').value = p.height || '';
-        document.getElementById('pWeight').value = p.weight || '';
-        document.getElementById('pFoot').value = p.foot || 'Right';
+        document.getElementById('pHometown').value = p.hometown || '';
     }
 
     function deletePlayer(idx) {
@@ -876,6 +842,7 @@
     function resetPlayerForm() {
         document.getElementById('playerEditForm').reset();
         document.getElementById('editPlayerId').value = '';
+        document.getElementById('editPlayerCaps').value = '0';
     }
 
     /* --- EDITOR AVVERSARI --- */
@@ -919,19 +886,26 @@
     function saveLocationData() {
         const key = document.getElementById('locKey').value.trim().toLowerCase();
         const ja = document.getElementById('locNameJa').value.trim();
+        const it = document.getElementById('locNameIt').value.trim();
         const en = document.getElementById('locNameEn').value.trim();
+        
+        const surfJa = document.getElementById('locSurfaceJa').value.trim();
+        const surfIt = document.getElementById('locSurfaceIt').value.trim();
+        const surfEn = document.getElementById('locSurfaceEn').value.trim();
         const maps = document.getElementById('locMapsUrl').value.trim();
-        const surf = document.getElementById('locSurface').value;
-        const book = document.getElementById('locBookingSystem').value;
 
-        if (!key || !ja) { alert("Inserisci Key e Nome Impianto."); return; }
+        if (!key || !ja) { alert("Inserisci Key e Nome Giapponese."); return; }
 
         globalLocations[key] = {
             ja: ja,
+            it: it || ja,
             en: en || ja,
-            maps_url: maps,
-            surface: surf,
-            booking_system: book
+            surface: {
+                ja: surfJa || "人工芝",
+                it: surfIt || "Sintetico",
+                en: surfEn || "Artificial Turf"
+            },
+            maps: maps
         };
 
         renderLocationsSelectAndTable();
@@ -944,10 +918,15 @@
         document.getElementById('editLocationKey').value = key;
         document.getElementById('locKey').value = key;
         document.getElementById('locNameJa').value = loc.ja || '';
+        document.getElementById('locNameIt').value = loc.it || '';
         document.getElementById('locNameEn').value = loc.en || '';
-        document.getElementById('locMapsUrl').value = loc.maps_url || '';
-        document.getElementById('locSurface').value = loc.surface || '人工芝';
-        document.getElementById('locBookingSystem').value = loc.booking_system || 'e-Kanagawa';
+        
+        const surf = loc.surface || {};
+        document.getElementById('locSurfaceJa').value = typeof surf === 'object' ? (surf.ja || '') : surf;
+        document.getElementById('locSurfaceIt').value = typeof surf === 'object' ? (surf.it || '') : surf;
+        document.getElementById('locSurfaceEn').value = typeof surf === 'object' ? (surf.en || '') : surf;
+        
+        document.getElementById('locMapsUrl').value = loc.maps || '';
     }
 
     function deleteLocation(key) {
@@ -969,8 +948,9 @@
         const oppKey = document.getElementById('opponentSelect').value;
         const oppName = globalOpponents[oppKey]?.name?.ja || oppKey;
         const locKey = document.getElementById('locationSelect').value;
-        const locName = globalLocations[locKey]?.ja || locKey;
-        const mapsUrl = globalLocations[locKey]?.maps_url || '';
+        const locObj = globalLocations[locKey];
+        const locName = locObj?.ja || locKey;
+        const mapsUrl = locObj?.maps || '';
 
         const starters = [];
         document.querySelectorAll('#pitchGrid .starter-player-select').forEach(sel => {
@@ -988,7 +968,7 @@
 ⏰ K.O. (Orario): ${time}
 🛡️ 対戦相手 (Avversario): ${oppName}
 📍 会場 (Campo): ${locName}
-${mapsUrl ? `🗺️ Maps: ${mapsUrl}` : ''}
+${mapsUrl ? `🗺️ Google Maps: ${mapsUrl}` : ''}
 
 ------------------------------
 【スタメン / Titolari】
@@ -1075,7 +1055,7 @@ ${bench.length > 0 ? bench.join('\n') : '未定'}
 
         const name = namePrompt.trim();
         const tId = `trialist_${Date.now()}`;
-        const trialist = { id: tId, name_kanji: name, name_romaji: name, position: 'TRIAL' };
+        const trialist = { id: tId, name_kanji: name, name_romaji: name, position: 'TRIAL', role: 'mf' };
 
         trialistsList.push(trialist);
         globalPlayers.push(trialist);
@@ -1109,7 +1089,7 @@ ${bench.length > 0 ? bench.join('\n') : '未定'}
     function getAllAvailablePlayers(onlyGoalkeepers = false) {
         const list = [{ name: "Nessuno / なし", value: "" }];
         let filtered = globalPlayers;
-        if (onlyGoalkeepers) filtered = globalPlayers.filter(p => p.position === 'GK' || p.position === 'TRIAL');
+        if (onlyGoalkeepers) filtered = globalPlayers.filter(p => p.position === 'GK' || p.role === 'gk' || p.position === 'TRIAL');
 
         filtered.sort((a, b) => (a.name_kanji || '').localeCompare(b.name_kanji || ''));
         filtered.forEach(p => {
