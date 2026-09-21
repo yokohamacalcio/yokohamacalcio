@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yokohama Calcio | Admin Panel Complete</title>
+    <title>Yokohama Calcio | Admin Panel Dynamic</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; }
-        body { font-family: 'Montserrat', sans-serif; background: #0f172a; color: #334155; margin: 0; padding: 10px; }
+        body { font-family: 'Montserrat', sans-serif; background: #0b1329; color: #1e293b; margin: 0; padding: 12px; }
 
         .admin-container { 
             width: 100%; 
-            max-width: 1100px; 
+            max-width: 1120px; 
             margin: 10px auto; 
-            padding: 20px; 
+            padding: 24px; 
             background: #ffffff; 
-            border-radius: 16px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+            border-radius: 18px; 
+            box-shadow: 0 12px 40px rgba(0,0,0,0.35); 
         }
 
         .admin-header-bar { 
@@ -25,88 +25,97 @@
             flex-wrap: wrap; 
             justify-content: space-between; 
             align-items: center; 
-            gap: 12px; 
+            gap: 14px; 
             border-bottom: 2px solid #e2e8f0; 
-            padding-bottom: 14px; 
-            margin-bottom: 16px; 
+            padding-bottom: 16px; 
+            margin-bottom: 18px; 
         }
 
-        h2, h3, h4 { color: #003c82; margin: 0; }
-        .section-box { background: #f8fafc; border: 1px solid #cbd5e1; padding: 18px; border-radius: 12px; margin-bottom: 20px; }
+        h2, h3, h4 { color: #003c82; margin: 0; font-weight: 800; }
+        .section-box { background: #f8fafc; border: 1px solid #cbd5e1; padding: 20px; border-radius: 14px; margin-bottom: 22px; }
         .form-group { margin-bottom: 14px; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #003c82; font-size: 0.88rem; }
-        .form-control { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.92rem; background: #fff; color: #0f172a; }
+        .form-control { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.92rem; background: #fff; color: #0f172a; transition: border-color 0.2s ease; }
+        .form-control:focus { outline: none; border-color: #0284c7; box-shadow: 0 0 0 3px rgba(2,132,199,0.15); }
 
-        /* SCHEDE / TABS DI NAVIGAZIONE */
-        .admin-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; border-bottom: 1px solid #cbd5e1; }
-        .tab-btn { background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; padding: 10px 16px; border-radius: 8px; font-weight: bold; font-size: 0.88rem; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
-        .tab-btn.active { background: #003c82; color: #ffffff; border-color: #003c82; }
+        /* NAVIGAZIONE SCHEDE (TABS) FIXATA E STILIZZATA */
+        .admin-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 22px; border-bottom: 2px solid #e2e8f0; }
+        .tab-btn { background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; padding: 12px 18px; border-radius: 10px; font-weight: bold; font-size: 0.88rem; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 8px; transition: all 0.2s ease; }
+        .tab-btn:hover { background: #e2e8f0; color: #003c82; }
+        .tab-btn.active { background: #003c82; color: #ffffff; border-color: #003c82; box-shadow: 0 4px 12px rgba(0,60,130,0.25); }
 
         .row { display: flex; gap: 12px; flex-wrap: wrap; }
         .row .form-group { flex: 1; min-width: 200px; }
-        @media (max-width: 650px) { 
-            body { padding: 4px; }
-            .admin-container { padding: 12px; border-radius: 10px; }
+        @media (max-width: 768px) { 
+            body { padding: 6px; }
+            .admin-container { padding: 14px; border-radius: 12px; }
             .row .form-group { min-width: 100%; } 
             .admin-header-bar { flex-direction: column; align-items: flex-start; }
+            .tab-btn { padding: 10px 14px; font-size: 0.82rem; }
         }
 
-        /* LOGIN */
-        .login-box { max-width: 440px; margin: 50px auto; padding: 30px; background: #ffffff; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.25); text-align: center; }
-        .login-box i.lock-icon { font-size: 3.2rem; color: #003c82; margin-bottom: 15px; }
+        /* SCHERMATA LOGIN */
+        .login-box { max-width: 440px; margin: 60px auto; padding: 32px; background: #ffffff; border-radius: 18px; box-shadow: 0 10px 35px rgba(0,0,0,0.3); text-align: center; }
+        .login-box i.lock-icon { font-size: 3.5rem; color: #003c82; margin-bottom: 15px; }
         
-        /* CAMPO TATTICO STILE VIDEOGIOCO */
+        /* CAMPO TATTICO STILE FOOTBALL MANAGER / EA FC */
         .tactical-pitch-container { 
-            background: linear-gradient(180deg, #15803d 0%, #166534 100%); 
-            border-radius: 14px; 
-            padding: 16px; 
+            background: radial-gradient(circle, #16a34a 0%, #15803d 60%, #14532d 100%); 
+            border-radius: 16px; 
+            padding: 18px; 
             border: 4px solid #0f172a; 
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 6px 18px rgba(0,0,0,0.2);
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.25);
             position: relative;
             overflow: hidden;
-            margin-top: 12px; 
+            margin-top: 14px; 
         }
+
+        /* LINEE DEL CAMPO */
         .tactical-pitch-container::before {
             content: '';
             position: absolute;
             top: 50%; left: 0; right: 0;
-            height: 2px; background: rgba(255,255,255,0.3);
+            height: 2px; background: rgba(255,255,255,0.35);
             pointer-events: none;
         }
 
-        .pitch-header-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; position: relative; z-index: 2; }
+        .pitch-header-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; position: relative; z-index: 2; }
         .pitch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; position: relative; z-index: 2; }
 
+        /* CARD GIOCATORE SUL CAMPO */
         .pitch-position-card { 
-            background: rgba(15, 23, 42, 0.88); 
+            background: rgba(15, 23, 42, 0.92); 
             border: 2px solid #f59e0b; 
             border-radius: 10px; 
             padding: 10px; 
             color: #ffffff; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.45);
+            backdrop-filter: blur(6px);
+            transition: transform 0.2s ease, border-color 0.2s ease;
         }
+        .pitch-position-card:hover { transform: translateY(-3px); border-color: #38bdf8; }
         .pitch-pos-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-        .pos-badge { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #000; font-weight: 900; font-size: 0.78rem; padding: 2px 8px; border-radius: 4px; }
+        .pos-badge { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #000; font-weight: 900; font-size: 0.78rem; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.5px; }
 
         /* PANCHINA & TRIALISTS */
-        .bench-container { margin-top: 20px; }
+        .bench-container { margin-top: 22px; }
         .bench-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; margin-top: 10px; }
-        .bench-card { background: #ffffff; border: 1px solid #cbd5e1; padding: 10px; border-radius: 10px; font-size: 0.85rem; }
+        .bench-card { background: #ffffff; border: 1px solid #cbd5e1; padding: 10px; border-radius: 10px; font-size: 0.85rem; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
         .bench-card-header { font-weight: bold; color: #003c82; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
         .bench-sub-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; background: #f1f5f9; padding: 6px 8px; border-radius: 6px; }
         .bench-sub-row label { font-size: 0.78rem; font-weight: 700; color: #334155; margin: 0; cursor: pointer; display: flex; align-items: center; gap: 4px; }
 
-        .trialist-box { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; padding: 12px; margin-top: 14px; }
+        .trialist-box { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 14px; margin-top: 16px; }
         .trialist-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-        .trialist-item { background: #059669; color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; display: flex; align-items: center; gap: 8px; }
-        .btn-remove-trialist { background: transparent; border: none; color: #fecdd3; cursor: pointer; font-size: 0.9rem; padding: 0; }
+        .trialist-item { background: #059669; color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .btn-remove-trialist { background: transparent; border: none; color: #fecdd3; cursor: pointer; font-size: 0.95rem; padding: 0; }
+        .btn-remove-trialist:hover { color: #ffffff; }
 
-        /* TABELLE ED EDITOR ROSA / OPPONENTS / LOCATIONS */
-        .data-table-container { overflow-x: auto; margin-top: 10px; }
+        /* TABELLE DATI */
+        .data-table-container { overflow-x: auto; margin-top: 10px; border-radius: 10px; border: 1px solid #cbd5e1; }
         .data-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-        .data-table th { background: #003c82; color: white; text-align: left; padding: 10px; }
-        .data-table td { padding: 10px; border-bottom: 1px solid #e2e8f0; }
+        .data-table th { background: #003c82; color: white; text-align: left; padding: 12px; }
+        .data-table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; }
         .data-table tr:hover { background: #f1f5f9; }
 
         /* STATISTICHE DINAMICHE */
@@ -114,18 +123,20 @@
         .stat-row select { flex: 1; }
         .stat-row input[type="number"] { width: 70px; text-align: center; }
 
-        /* PULSANTI */
+        /* PULSANTI UI */
         .btn-remove-row { background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
         .btn-add-row { background: #0284c7; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: bold; margin-top: 5px; }
         .btn-clear-pitch { background: #dc2626; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
+        .btn-new-match { background: #059669; color: white; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.88rem; white-space: nowrap; }
+        .btn-new-match:hover { background: #047857; }
         .btn-add-trialist { background: #059669; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 0.88rem; font-weight: bold; width: 100%; margin-top: 10px; }
         .btn-submit { background: linear-gradient(135deg, #003c82 0%, #00224a 100%); color: white; padding: 14px 24px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.05rem; box-shadow: 0 4px 12px rgba(0,60,130,0.3); }
-        .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+        .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; box-shadow: none; }
         .btn-logout { background: #ef4444; color: white; padding: 6px 14px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
         .btn-load { background: #0284c7; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.88rem; }
         .btn-reset { background: #64748b; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
-        .btn-edit { background: #0284c7; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.78rem; }
-        .btn-delete { background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.78rem; }
+        .btn-edit { background: #0284c7; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.78rem; }
+        .btn-delete { background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.78rem; }
 
         .lang-switcher-admin { display: flex; gap: 4px; align-items: center; }
         .lang-btn-admin { background: transparent; border: 1px solid #cbd5e1; padding: 4px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: bold; cursor: pointer; color: #475569; }
@@ -139,8 +150,8 @@
 <!-- SCHERMATA LOGIN -->
 <div id="loginSection" class="login-box">
     <i class="fas fa-lock lock-icon"></i>
-    <h2 style="margin-bottom: 8px;" data-i18n="login.title">Yokohama Calcio Admin</h2>
-    <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 20px;" data-i18n="login.subtitle">Inserisci il GitHub Token per sbloccare.</p>
+    <h2 style="margin-bottom: 8px;">Yokohama Calcio Admin</h2>
+    <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 20px;">Inserisci il GitHub Token (PAT) per accedere.</p>
 
     <div class="lang-switcher-admin" style="justify-content: center; margin-bottom: 20px;">
         <button class="lang-btn-admin active" data-lang="ja">JP</button>
@@ -153,7 +164,7 @@
             <label for="inputToken"><i class="fas fa-key"></i> GitHub Token (PAT):</label>
             <input type="password" id="inputToken" class="form-control" placeholder="ghp_... o github_pat_..." required>
         </div>
-        <button type="submit" class="btn-submit" id="loginBtn" data-i18n="login.btn">Accedi</button>
+        <button type="submit" class="btn-submit" id="loginBtn">Accedi</button>
     </form>
     <div id="loginError" style="color: #dc2626; font-size: 0.85rem; margin-top: 15px; font-weight: bold;"></div>
 </div>
@@ -173,17 +184,17 @@
                 <button class="lang-btn-admin" data-lang="it">IT</button>
                 <button class="lang-btn-admin" data-lang="en">EN</button>
             </div>
-            <button id="logoutBtn" class="btn-logout" data-i18n="admin.logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            <button id="logoutBtn" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
         </div>
     </div>
 
     <!-- TAB DI NAVIGAZIONE INTERNA -->
     <div class="admin-tabs">
-        <button class="tab-btn active" onclick="switchTab('matchesTab')"><i class="fas fa-futbol"></i> 1. Partite & Formazione</button>
-        <button class="tab-btn" onclick="switchTab('playersTab')"><i class="fas fa-users"></i> 2. Rosa Giocatori</button>
-        <button class="tab-btn" onclick="switchTab('opponentsTab')"><i class="fas fa-shield-halved"></i> 3. Avversari</button>
-        <button class="tab-btn" onclick="switchTab('locationsTab')"><i class="fas fa-map-marker-alt"></i> 4. Campi & Impianti</button>
-        <button class="tab-btn" onclick="switchTab('lineTab')"><i class="fab fa-line"></i> 5. Testo Convocati LINE</button>
+        <button class="tab-btn active" onclick="switchTab(event, 'matchesTab')"><i class="fas fa-futbol"></i> 1. Partite & Formazione</button>
+        <button class="tab-btn" onclick="switchTab(event, 'playersTab')"><i class="fas fa-users"></i> 2. Rosa Giocatori</button>
+        <button class="tab-btn" onclick="switchTab(event, 'opponentsTab')"><i class="fas fa-shield-halved"></i> 3. Avversari</button>
+        <button class="tab-btn" onclick="switchTab(event, 'locationsTab')"><i class="fas fa-map-marker-alt"></i> 4. Campi & Impianti</button>
+        <button class="tab-btn" onclick="switchTab(event, 'lineTab')"><i class="fab fa-line"></i> 5. Testo Convocati LINE</button>
     </div>
 
     <!-- TAB 1: PARTITE & FORMAZIONE -->
@@ -193,71 +204,72 @@
 
             <!-- 1. INFORMAZIONI PARTITA -->
             <div class="section-box">
-                <h3 data-i18n="sec1.title">1. Informazioni Partita</h3>
+                <h3>1. Informazioni Partita</h3>
                 <div class="row" style="margin-top: 10px; align-items: flex-end;">
                     <div class="form-group" style="flex: 2;">
-                        <label data-i18n="sec1.match_id">ID Match (es. match-9):</label>
+                        <label>ID Match (es. match-9):</label>
                         <div style="display: flex; gap: 8px;">
                             <input type="text" id="matchId" class="form-control" placeholder="match-9" required>
-                            <button type="button" class="btn-load" onclick="loadExistingMatchData()"><i class="fas fa-search"></i> <span data-i18n="btn.load">Carica</span></button>
+                            <button type="button" class="btn-load" onclick="loadExistingMatchData()"><i class="fas fa-search"></i> Carica</button>
+                            <button type="button" class="btn-new-match" onclick="createNewMatch()"><i class="fas fa-plus-circle"></i> Nuova Partita</button>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label data-i18n="sec1.status">Stato Partita:</label>
+                        <label>Stato Partita:</label>
                         <select id="matchStatus" class="form-control">
-                            <option value="past" data-i18n="sec1.status_past">Finita (past)</option>
-                            <option value="upcoming" data-i18n="sec1.status_upcoming">In programma (upcoming)</option>
+                            <option value="past">Finita (past)</option>
+                            <option value="upcoming">In programma (upcoming)</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <label data-i18n="sec1.date">Data:</label>
+                        <label>Data:</label>
                         <input type="date" id="matchDate" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label data-i18n="sec1.time">Orario Calcio d'Inizio (K.O.):</label>
+                        <label>Orario Calcio d'Inizio (K.O.):</label>
                         <input type="time" id="matchTime" class="form-control" value="11:00">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <label data-i18n="sec1.category">Categoria:</label>
+                        <label>Categoria:</label>
                         <select id="matchCategory" class="form-control">
-                            <option value="friendly" data-i18n="sec1.cat_friendly">Amichevole (friendly)</option>
-                            <option value="official" data-i18n="sec1.cat_official">Campionato (official)</option>
-                            <option value="cup" data-i18n="sec1.cat_cup">Coppa (cup)</option>
+                            <option value="friendly">Amichevole (friendly)</option>
+                            <option value="official">Campionato (official)</option>
+                            <option value="cup">Coppa (cup)</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label data-i18n="sec1.type">Tipo (Etichetta visualizzata):</label>
+                        <label>Tipo (Etichetta visualizzata):</label>
                         <input type="text" id="matchType" class="form-control" value="練習試合">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <label data-i18n="sec1.opponent">Avversario (da opponents.json):</label>
+                        <label>Avversario (da opponents.json):</label>
                         <select id="opponentSelect" class="form-control" required></select>
                     </div>
                     <div class="form-group">
-                        <label data-i18n="sec1.location">Campo (da locations.json):</label>
+                        <label>Campo (da locations.json):</label>
                         <select id="locationSelect" class="form-control" required></select>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <label data-i18n="sec1.venue_type">Casa / Trasferta:</label>
+                        <label>Casa / Trasferta:</label>
                         <select id="isHome" class="form-control">
-                            <option value="true" data-i18n="sec1.home">Casa (Yokohama Calcio vs Avversario)</option>
-                            <option value="false" data-i18n="sec1.away">Trasferta (Avversario vs Yokohama Calcio)</option>
+                            <option value="true">Casa (Yokohama Calcio vs Avversario)</option>
+                            <option value="false">Trasferta (Avversario vs Yokohama Calcio)</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label data-i18n="sec1.score">Risultato (es. 2 - 1 oppure VS):</label>
+                        <label>Risultato (es. 2 - 1 oppure VS):</label>
                         <input type="text" id="matchScore" class="form-control" placeholder="2 - 1" value="VS">
                     </div>
                 </div>
@@ -265,41 +277,41 @@
 
             <!-- 2. EVENTI & PRESTAZIONI -->
             <div class="section-box">
-                <h3 data-i18n="sec2.title">2. Eventi & Prestazioni (Selezione da Rosa)</h3>
+                <h3>2. Eventi & Prestazioni (Selezione da Rosa)</h3>
                 
                 <div class="form-group">
-                    <label data-i18n="sec2.scorers"><i class="fas fa-futbol"></i> Marcatori (Gol segnati):</label>
+                    <label><i class="fas fa-futbol"></i> Marcatori (Gol segnati):</label>
                     <div id="scorersContainer"></div>
-                    <button type="button" class="btn-add-row" onclick="addScorerRow()"><i class="fas fa-plus"></i> <span data-i18n="sec2.add_scorer">Aggiungi Marcatore</span></button>
+                    <button type="button" class="btn-add-row" onclick="addScorerRow()"><i class="fas fa-plus"></i> Aggiungi Marcatore</button>
                 </div>
 
                 <div class="form-group">
-                    <label data-i18n="sec2.assists"><i class="fas fa-handshake"></i> Assistman (Assist effettuati):</label>
+                    <label><i class="fas fa-handshake"></i> Assistman (Assist effettuati):</label>
                     <div id="assistsContainer"></div>
-                    <button type="button" class="btn-add-row" onclick="addAssistRow()"><i class="fas fa-plus"></i> <span data-i18n="sec2.add_assist">Aggiungi Assistman</span></button>
+                    <button type="button" class="btn-add-row" onclick="addAssistRow()"><i class="fas fa-plus"></i> Aggiungi Assistman</button>
                 </div>
 
                 <div class="form-group">
-                    <label data-i18n="sec2.goalkeepers"><i class="fas fa-mitten"></i> Portieri & Gol Subiti:</label>
+                    <label><i class="fas fa-mitten"></i> Portieri & Gol Subiti:</label>
                     <div id="gkContainer"></div>
-                    <button type="button" class="btn-add-row" onclick="addGkRow()"><i class="fas fa-plus"></i> <span data-i18n="sec2.add_gk">Aggiungi Portiere</span></button>
+                    <button type="button" class="btn-add-row" onclick="addGkRow()"><i class="fas fa-plus"></i> Aggiungi Portiere</button>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <label data-i18n="sec2.mvp"><i class="fas fa-star"></i> MVP del Match:</label>
+                        <label><i class="fas fa-star"></i> MVP del Match:</label>
                         <select id="mvpSelect" class="form-control"></select>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <label data-i18n="sec2.yellow">Cartellini Gialli:</label>
+                        <label>Cartellini Gialli:</label>
                         <div id="yellowCardsContainer"></div>
                         <button type="button" class="btn-add-row" onclick="addYellowCardRow()"><i class="fas fa-plus"></i> Aggiungi Ammonito</button>
                     </div>
                     <div class="form-group">
-                        <label data-i18n="sec2.red">Cartellini Rossi:</label>
+                        <label>Cartellini Rossi:</label>
                         <div id="redCardsContainer"></div>
                         <button type="button" class="btn-add-row" onclick="addRedCardRow()"><i class="fas fa-plus"></i> Aggiungi Espulso</button>
                     </div>
@@ -308,11 +320,11 @@
 
             <!-- 3. ASSETTO TATTICO & FORMAZIONE -->
             <div class="section-box">
-                <h3 data-i18n="sec3.title">3. Assetto Tattico & Convocati</h3>
+                <h3>3. Assetto Tattico & Convocati</h3>
                 
                 <div class="row" style="margin-top: 10px;">
                     <div class="form-group">
-                        <label data-i18n="sec3.formation_select"><i class="fas fa-chess-board"></i> Modulo Tattico / フォーメーション:</label>
+                        <label><i class="fas fa-chess-board"></i> Modulo Tattico / フォーメーション:</label>
                         <select id="formationSelect" class="form-control">
                             <option value="4-4-2">4-4-2 (Classico)</option>
                             <option value="4-3-3">4-3-3 (Tridente)</option>
@@ -328,18 +340,18 @@
 
                 <div class="tactical-pitch-container">
                     <div class="pitch-header-bar">
-                        <h4 style="color: #fef08a; font-size: 0.95rem;" data-i18n="sec3.starters_title">
+                        <h4 style="color: #fef08a; font-size: 0.95rem;">
                             <i class="fas fa-gamepad"></i> Titolari in Campo (11 Giocatori)
                         </h4>
                         <button type="button" class="btn-clear-pitch" onclick="clearFormationSelections()">
-                            <i class="fas fa-eraser"></i> <span data-i18n="sec3.clear_formation">Cancella Selezioni Formazione</span>
+                            <i class="fas fa-eraser"></i> Cancella Selezioni Formazione
                         </button>
                     </div>
                     <div class="pitch-grid" id="pitchGrid"></div>
                 </div>
 
                 <div class="bench-container">
-                    <h4 style="color: #003c82; margin-top: 15px; margin-bottom: 10px; font-size: 0.95rem;" data-i18n="sec3.bench_title">
+                    <h4 style="color: #003c82; margin-top: 15px; margin-bottom: 10px; font-size: 0.95rem;">
                         <i class="fas fa-chair"></i> Panchina (10 Posti)
                     </h4>
                     <div class="bench-grid" id="benchGrid"></div>
@@ -347,16 +359,16 @@
 
                 <div class="trialist-box">
                     <button type="button" class="btn-add-trialist" onclick="addTrialistPlayer()">
-                        <i class="fas fa-user-plus"></i> <span data-i18n="sec3.add_trialist">+ Aggiungi Giocatore in Prova (Trialist)</span>
+                        <i class="fas fa-user-plus"></i> + Aggiungi Giocatore in Prova (Trialist)
                     </button>
-                    <div style="margin-top: 10px; font-weight: bold; font-size: 0.82rem; color: #047857;" data-i18n="sec3.trialist_list_title">
+                    <div style="margin-top: 10px; font-weight: bold; font-size: 0.82rem; color: #047857;">
                         <i class="fas fa-list"></i> Giocatori in Prova registrati:
                     </div>
                     <div class="trialist-list" id="trialistListContainer"></div>
                 </div>
             </div>
 
-            <button type="submit" class="btn-submit" id="submitBtn" data-i18n="admin.save_btn">
+            <button type="submit" class="btn-submit" id="submitBtn">
                 <i class="fas fa-save"></i> Salva Partita e Aggiorna Statistiche
             </button>
         </form>
@@ -615,7 +627,6 @@
         "custom": ["GK", "POS-2", "POS-3", "POS-4", "POS-5", "POS-6", "POS-7", "POS-8", "POS-9", "POS-10", "POS-11"]
     };
 
-    let currentAdminLang = localStorage.getItem('preferred_lang') || 'ja';
     let activeToken = localStorage.getItem('yc_gh_token') || '';
     let globalPlayers = [];
     let globalOpponents = {};
@@ -623,11 +634,14 @@
     let allMatchesData = [];
     let trialistsList = [];
 
-    function switchTab(tabId) {
+    // --- CAMBIO SCHEDE TAB FIXATO ---
+    function switchTab(evt, tabId) {
         document.querySelectorAll('.tab-content').forEach(tc => tc.classList.add('hidden'));
         document.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));
         document.getElementById(tabId).classList.remove('hidden');
-        event.currentTarget.classList.add('active');
+        if (evt && evt.currentTarget) {
+            evt.currentTarget.classList.add('active');
+        }
     }
 
     async function verifyAndLoginToken(token) {
@@ -707,6 +721,30 @@
         } catch(e) {
             console.error("Errore caricamento dati:", e);
         }
+    }
+
+    /* --- CREAZIONE AUTOMATICA NUOVA PARTITA --- */
+    function createNewMatch() {
+        resetForm();
+        let maxNum = 0;
+        if (Array.isArray(allMatchesData) && allMatchesData.length > 0) {
+            allMatchesData.forEach(m => {
+                const match = String(m.id || '').match(/match-(\d+)/i);
+                if (match) {
+                    const num = parseInt(match[1], 10);
+                    if (!isNaN(num) && num > maxNum) maxNum = num;
+                }
+            });
+        }
+        const newId = `match-${maxNum + 1}`;
+        document.getElementById('matchId').value = newId;
+        
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('matchDate').value = today;
+        
+        const statusMsg = document.getElementById('statusMsg');
+        statusMsg.style.color = '#059669';
+        statusMsg.innerHTML = `✨ Nuova partita preparata con ID automatico: <b>${newId}</b>`;
     }
 
     function renderOpponentsSelectAndTable() {
@@ -1143,6 +1181,156 @@ ${bench.length > 0 ? bench.join('\n') : '未定'}
     function addYellowCardRow() { document.getElementById('yellowCardsContainer').appendChild(createDynamicRow('yellow-player-select', false, "", false)); }
     function addRedCardRow() { document.getElementById('redCardsContainer').appendChild(createDynamicRow('red-player-select', false, "", false)); }
 
+    async function loadExistingMatchData(showAlerts = true) {
+        const searchId = document.getElementById('matchId').value.trim().toLowerCase();
+        if (!searchId) return;
+
+        const statusMsg = document.getElementById('statusMsg');
+        
+        try {
+            const mRes = await fetch('matches.json?t=' + Date.now());
+            if (mRes.ok) allMatchesData = await mRes.json();
+        } catch(e) {}
+
+        const match = allMatchesData.find(m => String(m.id).toLowerCase() === searchId);
+
+        if (!match) {
+            if (showAlerts) {
+                statusMsg.style.color = '#d97706';
+                statusMsg.innerHTML = `ℹ️ Nessuna partita trovata con ID "${searchId}". Inserisci i nuovi dati.`;
+            }
+            return;
+        }
+
+        statusMsg.style.color = '#0284c7';
+        statusMsg.innerHTML = `✅ Dati trovati per ${match.id}! Compilazione automatica...`;
+
+        if (match.status) document.getElementById('matchStatus').value = match.status;
+        if (match.date) document.getElementById('matchDate').value = match.date;
+        if (match.time) document.getElementById('matchTime').value = match.time;
+        if (match.category) document.getElementById('matchCategory').value = match.category;
+        if (match.type) document.getElementById('matchType').value = match.type;
+        if (match.opponent_id) document.getElementById('opponentSelect').value = match.opponent_id;
+        if (match.location_id) document.getElementById('locationSelect').value = match.location_id;
+        if (match.isHome !== undefined) document.getElementById('isHome').value = String(match.isHome);
+        if (match.score) document.getElementById('matchScore').value = match.score;
+
+        if (match.formation) {
+            const formSel = document.getElementById('formationSelect');
+            formSel.value = FORMATIONS[match.formation] ? match.formation : 'custom';
+            renderPitchAndBench();
+        }
+
+        if (match.starters_positions) {
+            Object.entries(match.starters_positions).forEach(([posTag, pName]) => {
+                const targetSel = document.querySelector(`#pitchGrid .starter-player-select[data-pos="${posTag}"]`);
+                if (targetSel) targetSel.value = pName;
+            });
+        }
+
+        if (Array.isArray(match.bench_details)) {
+            match.bench_details.forEach((bItem, idx) => {
+                const slotElem = document.getElementById(`benchSlot_${idx + 1}`);
+                if (slotElem) {
+                    const pSelect = slotElem.querySelector('.bench-player-select');
+                    const chkSub = slotElem.querySelector('.bench-subbed-in');
+                    const posSel = slotElem.querySelector('.bench-pos-select');
+
+                    if (pSelect) pSelect.value = bItem.player || '';
+                    if (chkSub) {
+                        chkSub.checked = !!bItem.subbed_in;
+                        toggleBenchPosSelect(chkSub);
+                    }
+                    if (posSel && bItem.position_played) posSel.value = bItem.position_played;
+                }
+            });
+        }
+
+        document.getElementById('scorersContainer').innerHTML = '';
+        document.getElementById('assistsContainer').innerHTML = '';
+        document.getElementById('gkContainer').innerHTML = '';
+        document.getElementById('yellowCardsContainer').innerHTML = '';
+        document.getElementById('redCardsContainer').innerHTML = '';
+
+        if (match.scorers && match.scorers !== 'なし' && match.scorers !== 'Nessuno') {
+            match.scorers.split(/[,、]/).forEach(entry => {
+                let text = entry.trim(), count = 1;
+                const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
+                if (multMatch) { text = multMatch[1].trim(); count = parseInt(multMatch[2], 10) || 1; }
+                addScorerRow();
+                const lastRow = document.querySelector('#scorersContainer .stat-row:last-child');
+                if (lastRow) {
+                    lastRow.querySelector('.scorer-player-select').value = text;
+                    lastRow.querySelector('.row-count-input').value = count;
+                }
+            });
+        }
+
+        if (match.assists && match.assists !== 'なし' && match.assists !== 'Nessuno') {
+            match.assists.split(/[,、]/).forEach(entry => {
+                let text = entry.trim(), count = 1;
+                const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
+                if (multMatch) { text = multMatch[1].trim(); count = parseInt(multMatch[2], 10) || 1; }
+                addAssistRow();
+                const lastRow = document.querySelector('#assistsContainer .stat-row:last-child');
+                if (lastRow) {
+                    lastRow.querySelector('.assist-player-select').value = text;
+                    lastRow.querySelector('.row-count-input').value = count;
+                }
+            });
+        }
+
+        if (match.goalkeepers) {
+            match.goalkeepers.split(/[,、]/).forEach(entry => {
+                const gkMatch = entry.trim().match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
+                let rawGk = entry.trim(), gkGa = 0;
+                if (gkMatch) { rawGk = gkMatch[1].trim(); gkGa = parseInt(gkMatch[2], 10) || 0; }
+                addGkRow();
+                const lastRow = document.querySelector('#gkContainer .stat-row:last-child');
+                if (lastRow) {
+                    lastRow.querySelector('.gk-player-select').value = rawGk;
+                    lastRow.querySelector('.row-count-input').value = gkGa;
+                }
+            });
+        }
+
+        if (match.mvp) document.getElementById('mvpSelect').value = match.mvp;
+
+        if (match.yellow_cards) {
+            match.yellow_cards.split(/[,、]/).forEach(name => {
+                if (name.trim()) {
+                    addYellowCardRow();
+                    const lastRow = document.querySelector('#yellowCardsContainer .stat-row:last-child');
+                    if (lastRow) lastRow.querySelector('.yellow-player-select').value = name.trim();
+                }
+            });
+        }
+        if (match.red_cards) {
+            match.red_cards.split(/[,、]/).forEach(name => {
+                if (name.trim()) {
+                    addRedCardRow();
+                    const lastRow = document.querySelector('#redCardsContainer .stat-row:last-child');
+                    if (lastRow) lastRow.querySelector('.red-player-select').value = name.trim();
+                }
+            });
+        }
+
+        updatePlayerExclusions();
+    }
+
+    function resetForm() {
+        document.getElementById('matchForm').reset();
+        document.getElementById('scorersContainer').innerHTML = '';
+        document.getElementById('assistsContainer').innerHTML = '';
+        document.getElementById('gkContainer').innerHTML = '';
+        document.getElementById('yellowCardsContainer').innerHTML = '';
+        document.getElementById('redCardsContainer').innerHTML = '';
+        document.getElementById('statusMsg').innerHTML = '';
+        trialistsList = [];
+        renderTrialistsList();
+        renderPitchAndBench();
+    }
+
     /* --- MOTORE CALCOLO STATISTICHE LOCALE --- */
     function cleanStr(s) { return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim(); }
     function isJapanese(s) { return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf]/.test(s); }
@@ -1516,6 +1704,8 @@ ${bench.length > 0 ? bench.join('\n') : '未定'}
 
             statusMsg.style.color = '#059669';
             statusMsg.innerHTML = `✅ Successful! <b>matches.json</b> e <b>stats.json</b> sono stati aggiornati con successo!`;
+
+            allMatchesData = matchesArray;
 
         } catch (err) {
             statusMsg.style.color = '#dc2626';
