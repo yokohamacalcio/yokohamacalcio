@@ -1,226 +1,938 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yokohama Calcio | Admin Panel Complete</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        * { box-sizing: border-box; }
-        body { font-family: 'Montserrat', sans-serif; background: #0b1329; color: #1e293b; margin: 0; padding: 12px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.github.com;">
 
-        .admin-container { 
-            width: 100%; 
-            max-width: 1120px; 
-            margin: 10px auto; 
-            padding: 24px; 
-            background: #ffffff; 
-            border-radius: 18px; 
-            box-shadow: 0 12px 40px rgba(0,0,0,0.35); 
-        }
+<title>Yokohama Calcio | Admin Panel</title>
 
-        .admin-header-bar { 
-            display: flex; 
-            flex-wrap: wrap; 
-            justify-content: space-between; 
-            align-items: center; 
-            gap: 14px; 
-            border-bottom: 2px solid #e2e8f0; 
-            padding-bottom: 16px; 
-            margin-bottom: 18px; 
-        }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-        h2, h3, h4 { color: #003c82; margin: 0; font-weight: 800; }
-        .section-box { background: #f8fafc; border: 1px solid #cbd5e1; padding: 20px; border-radius: 14px; margin-bottom: 22px; }
-        .form-group { margin-bottom: 14px; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #003c82; font-size: 0.88rem; }
-        .form-control { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.92rem; background: #fff; color: #0f172a; transition: border-color 0.2s ease; }
-        .form-control:focus { outline: none; border-color: #0284c7; box-shadow: 0 0 0 3px rgba(2,132,199,0.15); }
+<style>
+/* =========================================================
+   RESET & BASE
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; }
 
-        /* SCHEDE TABS */
-        .admin-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 22px; border-bottom: 2px solid #e2e8f0; }
-        .tab-btn { background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; padding: 12px 18px; border-radius: 10px; font-weight: bold; font-size: 0.88rem; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 8px; transition: all 0.2s ease; }
-        .tab-btn:hover { background: #e2e8f0; color: #003c82; }
-        .tab-btn.active { background: #003c82; color: #ffffff; border-color: #003c82; box-shadow: 0 4px 12px rgba(0,60,130,0.25); }
+:root {
+    --navy: #003c82;
+    --navy-dark: #00224a;
+    --sky: #87ceeb;
+    --sky-dark: #0284c7;
+    --green: #059669;
+    --red: #dc2626;
+    --amber: #d97706;
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --border: #cbd5e1;
+    --bg: #f8fafc;
+    --white: #ffffff;
+    --body-bg: #0b1329;
+    --card-bg: #ffffff;
+    --input-bg: #ffffff;
+    --input-border: #cbd5e1;
+}
 
-        .row { display: flex; gap: 12px; flex-wrap: wrap; }
-        .row .form-group { flex: 1; min-width: 200px; }
-        @media (max-width: 768px) { 
-            body { padding: 6px; }
-            .admin-container { padding: 14px; border-radius: 12px; }
-            .row .form-group { min-width: 100%; } 
-            .admin-header-bar { flex-direction: column; align-items: flex-start; }
-            .tab-btn { padding: 10px 14px; font-size: 0.82rem; }
-        }
+body.dark {
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border: #334155;
+    --bg: #1e293b;
+    --white: #0f172a;
+    --body-bg: #020617;
+    --card-bg: #1e293b;
+    --input-bg: #0f172a;
+    --input-border: #334155;
+}
 
-        /* LOGIN */
-        .login-box { max-width: 440px; margin: 60px auto; padding: 32px; background: #ffffff; border-radius: 18px; box-shadow: 0 10px 35px rgba(0,0,0,0.3); text-align: center; }
-        .login-box i.lock-icon { font-size: 3.5rem; color: #003c82; margin-bottom: 15px; }
-        
-        /* CAMPO TATTICO */
-        .tactical-pitch-container { 
-            background: radial-gradient(circle, #16a34a 0%, #15803d 60%, #14532d 100%); 
-            border-radius: 16px; 
-            padding: 18px; 
-            border: 4px solid #0f172a; 
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.25);
-            position: relative;
-            overflow: hidden;
-            margin-top: 14px; 
-        }
-        .tactical-pitch-container::before {
-            content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: rgba(255,255,255,0.35); pointer-events: none;
-        }
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--body-bg);
+    color: var(--text);
+    margin: 0;
+    padding: 12px;
+    transition: background 0.3s, color 0.3s;
+}
 
-        .pitch-header-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; position: relative; z-index: 2; }
-        .pitch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; position: relative; z-index: 2; }
+.hidden { display: none !important; }
 
-        .pitch-position-card { 
-            background: rgba(15, 23, 42, 0.92); border: 2px solid #f59e0b; border-radius: 10px; padding: 10px; color: #ffffff; box-shadow: 0 4px 14px rgba(0,0,0,0.45); backdrop-filter: blur(6px); transition: transform 0.2s ease, border-color 0.2s ease;
-        }
-        .pitch-position-card:hover { transform: translateY(-3px); border-color: #38bdf8; }
-        .pitch-pos-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-        .pos-badge { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #000; font-weight: 900; font-size: 0.78rem; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.5px; }
+/* Skip link (accessibilità) */
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 10000;
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 16px;
+    text-decoration: none;
+    font-weight: 700;
+}
+.skip-link:focus { left: 10px; top: 10px; }
 
-        /* PANCHINA & TRIALISTS */
-        .bench-container { margin-top: 22px; }
-        .bench-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; margin-top: 10px; }
-        .bench-card { background: #ffffff; border: 1px solid #cbd5e1; padding: 10px; border-radius: 10px; font-size: 0.85rem; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
-        .bench-card-header { font-weight: bold; color: #003c82; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
-        .bench-sub-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; background: #f1f5f9; padding: 6px 8px; border-radius: 6px; }
-        .bench-sub-row label { font-size: 0.78rem; font-weight: 700; color: #334155; margin: 0; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+.admin-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 10px auto;
+    padding: 24px;
+    background: var(--card-bg);
+    border-radius: 18px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+}
 
-        .trialist-box { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 14px; margin-top: 16px; }
-        .trialist-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-        .trialist-item { background: #059669; color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: bold; display: flex; align-items: center; gap: 8px; }
-        .btn-remove-trialist { background: transparent; border: none; color: #fecdd3; cursor: pointer; font-size: 0.95rem; padding: 0; }
+.admin-header-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 16px;
+    margin-bottom: 18px;
+}
 
-        /* TABELLE DATI */
-        .data-table-container { overflow-x: auto; margin-top: 10px; border-radius: 10px; border: 1px solid #cbd5e1; }
-        .data-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-        .data-table th { background: #003c82; color: white; text-align: left; padding: 12px; }
-        .data-table td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; }
-        .data-table tr:hover { background: #f1f5f9; }
+h2, h3, h4 { color: var(--navy); margin: 0; font-weight: 800; }
+body.dark h2, body.dark h3, body.dark h4 { color: var(--sky); }
 
-        /* STATISTICHE DINAMICHE */
-        .stat-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; background: #fff; padding: 8px; border-radius: 8px; border: 1px solid #e2e8f0; }
-        .stat-row select { flex: 1; }
-        .stat-row input[type="number"] { width: 70px; text-align: center; }
+.section-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 14px;
+    margin-bottom: 22px;
+}
 
-        /* PULSANTI */
-        .btn-remove-row { background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
-        .btn-add-row { background: #0284c7; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: bold; margin-top: 5px; }
-        .btn-clear-pitch { background: #dc2626; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
-        .btn-new-match { background: #059669; color: white; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.88rem; white-space: nowrap; }
-        .btn-new-match:hover { background: #047857; }
-        .btn-add-trialist { background: #059669; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 0.88rem; font-weight: bold; width: 100%; margin-top: 10px; }
-        .btn-submit { background: linear-gradient(135deg, #003c82 0%, #00224a 100%); color: white; padding: 14px 24px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.05rem; box-shadow: 0 4px 12px rgba(0,60,130,0.3); }
-        .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; box-shadow: none; }
-        .btn-logout { background: #ef4444; color: white; padding: 6px 14px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
-        .btn-load { background: #0284c7; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.88rem; }
-        .btn-reset { background: #64748b; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
-        .btn-edit { background: #0284c7; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.78rem; }
-        .btn-delete { background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.78rem; }
+/* =========================================================
+   FORM
+   ========================================================= */
+.form-group { margin-bottom: 14px; }
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: var(--navy);
+    font-size: 0.88rem;
+}
+body.dark .form-group label { color: var(--sky); }
 
-        .lang-switcher-admin { display: flex; gap: 4px; align-items: center; }
-        .lang-btn-admin { background: transparent; border: 1px solid #cbd5e1; padding: 4px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: bold; cursor: pointer; color: #475569; }
-        .lang-btn-admin.active { background: #003c82; color: white; border-color: #003c82; }
+.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    font-size: 0.92rem;
+    background: var(--input-bg);
+    color: var(--text);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: inherit;
+}
+.form-control:focus {
+    outline: none;
+    border-color: var(--sky-dark);
+    box-shadow: 0 0 0 3px rgba(2,132,199,0.15);
+}
 
-        .hidden { display: none !important; }
-    </style>
+.row { display: flex; gap: 12px; flex-wrap: wrap; }
+.row .form-group { flex: 1; min-width: 200px; }
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+.login-box {
+    max-width: 440px;
+    margin: 60px auto;
+    padding: 32px;
+    background: var(--card-bg);
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.3);
+    text-align: center;
+}
+.login-box i.lock-icon { font-size: 3.5rem; color: var(--navy); margin-bottom: 15px; }
+body.dark .login-box i.lock-icon { color: var(--sky); }
+
+/* =========================================================
+   TABS
+   ========================================================= */
+.admin-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 22px;
+    border-bottom: 2px solid var(--border);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+.tab-btn {
+    background: #f1f5f9;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 0.88rem;
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+body.dark .tab-btn { background: #0f172a; color: #94a3b8; }
+.tab-btn:hover { background: var(--bg); color: var(--navy); }
+body.dark .tab-btn:hover { color: var(--sky); }
+.tab-btn.active {
+    background: var(--navy);
+    color: #ffffff;
+    border-color: var(--navy);
+    box-shadow: 0 4px 12px rgba(0,60,130,0.25);
+}
+body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); border-color: var(--sky); }
+
+/* =========================================================
+   CAMPO TATTICO
+   ========================================================= */
+.tactical-pitch-container {
+    background: radial-gradient(circle, #16a34a 0%, #15803d 60%, #14532d 100%);
+    border-radius: 16px;
+    padding: 14px;
+    border: 4px solid #0f172a;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.25);
+    position: relative;
+    overflow: hidden;
+    margin-top: 14px;
+}
+
+.pitch-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Il campo reale con coordinate */
+.pitch-grid {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 40px, transparent 40px, transparent 80px),
+        radial-gradient(ellipse at center, rgba(255,255,255,0.06) 0%, transparent 70%);
+    border-radius: 8px;
+    z-index: 2;
+    min-height: 500px;
+}
+/* Linee campo */
+.pitch-grid::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 50%;
+    border-bottom: 2px solid rgba(255,255,255,0.35);
+    pointer-events: none;
+}
+.pitch-grid::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 90px; height: 90px;
+    border: 2px solid rgba(255,255,255,0.35);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+/* Card giocatore posizionata */
+.pitch-position-card {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 108px;
+    background: rgba(15, 23, 42, 0.94);
+    border: 2px solid #f59e0b;
+    border-radius: 8px;
+    padding: 6px;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+    transition: transform 0.15s, border-color 0.2s, box-shadow 0.2s;
+    z-index: 3;
+}
+.pitch-position-card:hover {
+    border-color: var(--sky);
+    box-shadow: 0 6px 20px rgba(135,206,235,0.5);
+    z-index: 4;
+}
+.pitch-position-card.filled {
+    border-color: #10b981;
+    background: rgba(5, 150, 105, 0.94);
+}
+.pitch-pos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    font-size: 0.65rem;
+}
+.pos-badge {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #000;
+    font-weight: 900;
+    font-size: 0.6rem;
+    padding: 1px 5px;
+    border-radius: 3px;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+.pitch-position-card.filled .pos-badge {
+    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+    color: #065f46;
+}
+.pitch-player-select {
+    width: 100%;
+    font-size: 0.7rem;
+    padding: 3px 4px;
+    border-radius: 4px;
+    border: none;
+    background: rgba(255,255,255,0.95);
+    color: #0f172a;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .pitch-position-card { width: 88px; padding: 5px; }
+    .pitch-player-select { font-size: 0.65rem; }
+}
+
+/* =========================================================
+   PANCHINA
+   ========================================================= */
+.bench-container { margin-top: 22px; }
+.bench-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+.bench-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+.bench-card-header {
+    font-weight: bold;
+    color: var(--navy);
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+body.dark .bench-card-header { color: var(--sky); }
+
+.bench-sub-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    background: var(--bg);
+    padding: 5px 6px;
+    border-radius: 6px;
+    flex-wrap: wrap;
+}
+.bench-sub-row label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* =========================================================
+   TRIALIST BOX
+   ========================================================= */
+.trialist-box {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    border-radius: 12px;
+    padding: 14px;
+    margin-top: 16px;
+}
+body.dark .trialist-box { background: #064e3b; border-color: #047857; }
+
+.trialist-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+.trialist-item {
+    background: var(--green);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-remove-trialist {
+    background: transparent;
+    border: none;
+    color: #fecdd3;
+    cursor: pointer;
+    font-size: 0.95rem;
+    padding: 0;
+}
+
+/* =========================================================
+   TABELLE
+   ========================================================= */
+.data-table-container {
+    overflow-x: auto;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    -webkit-overflow-scrolling: touch;
+}
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+.data-table th {
+    background: var(--navy);
+    color: white;
+    text-align: left;
+    padding: 10px;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+}
+.data-table th[data-sort] {
+    cursor: pointer;
+    user-select: none;
+}
+.data-table th[data-sort]:hover {
+    background: var(--navy-dark);
+}
+.data-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+.data-table tbody tr:hover { background: rgba(2,132,199,0.06); }
+
+.table-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+/* =========================================================
+   STAT ROWS
+   ========================================================= */
+.stat-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    background: var(--card-bg);
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+.stat-row select { flex: 1; min-width: 140px; }
+.stat-row input[type="number"] { width: 60px; text-align: center; }
+.stat-row input[type="text"].minute-input { width: 60px; text-align: center; }
+
+/* =========================================================
+   PULSANTI
+   ========================================================= */
+.btn-remove-row {
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+}
+.btn-add-row {
+    background: var(--sky-dark);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: bold;
+    margin-top: 5px;
+    font-family: inherit;
+}
+.btn-clear-pitch {
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: bold;
+    font-family: inherit;
+}
+.btn-new-match {
+    background: var(--green);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.88rem;
+    white-space: nowrap;
+    font-family: inherit;
+}
+.btn-add-trialist {
+    background: var(--green);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 10px;
+    font-family: inherit;
+}
+.btn-submit {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(0,60,130,0.3);
+    font-family: inherit;
+    transition: opacity 0.2s;
+}
+.btn-submit:hover:not(:disabled) { opacity: 0.92; }
+.btn-submit:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+.btn-logout {
+    background: var(--red);
+    color: white;
+    padding: 6px 14px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-family: inherit;
+}
+.btn-load {
+    background: var(--sky-dark);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.88rem;
+    font-family: inherit;
+}
+.btn-reset {
+    background: #64748b;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: bold;
+    font-family: inherit;
+}
+.btn-edit {
+    background: var(--sky-dark);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-family: inherit;
+}
+.btn-delete {
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-family: inherit;
+}
+.btn-icon {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+.btn-icon:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+/* =========================================================
+   LANG SWITCHER
+   ========================================================= */
+.lang-switcher-admin { display: flex; gap: 4px; align-items: center; }
+.lang-btn-admin {
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-family: inherit;
+}
+.lang-btn-admin.active {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy);
+}
+body.dark .lang-btn-admin.active { background: var(--sky); color: var(--navy-dark); }
+
+/* =========================================================
+   MODAL SYSTEM
+   ========================================================= */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,10,25,0.75);
+    backdrop-filter: blur(6px);
+    z-index: 9998;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+.modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+.modal-box {
+    background: var(--card-bg);
+    color: var(--text);
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    transform: scale(0.95);
+    transition: transform 0.2s;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.modal-overlay.show .modal-box { transform: scale(1); }
+.modal-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 12px;
+}
+body.dark .modal-title { color: var(--sky); }
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+.modal-actions button {
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    font-size: 0.9rem;
+}
+.btn-modal-cancel {
+    background: var(--border);
+    color: var(--text);
+}
+.btn-modal-confirm {
+    background: var(--navy);
+    color: #fff;
+}
+body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); }
+.btn-modal-danger {
+    background: var(--red);
+    color: #fff;
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+#toastContainer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 380px;
+    pointer-events: none;
+}
+.toast {
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    transform: translateX(120%);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.4;
+}
+.toast.show { transform: translateX(0); opacity: 1; }
+.toast-success { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
+.toast-error   { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); }
+.toast-info    { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); }
+.toast-warn    { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
+.toast i { margin-top: 2px; flex-shrink: 0; }
+
+/* =========================================================
+   DRAFT RESTORE BANNER
+   ========================================================= */
+.draft-banner {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 1px solid #f59e0b;
+    color: #78350f;
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-weight: 600;
+    font-size: 0.88rem;
+}
+.draft-banner button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: inherit;
+    font-size: 0.82rem;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+@media (max-width: 768px) {
+    body { padding: 4px; }
+    .admin-container { padding: 12px; border-radius: 12px; margin: 4px auto; }
+    .row { flex-direction: column; gap: 8px; }
+    .row .form-group { min-width: 100%; margin-bottom: 8px; }
+    .admin-header-bar { flex-direction: column; align-items: stretch; gap: 12px; }
+    .tab-btn { padding: 10px 14px; font-size: 0.82rem; }
+    .bench-grid { grid-template-columns: 1fr; }
+    .section-box { padding: 14px; margin-bottom: 16px; border-radius: 12px; }
+    .form-control { font-size: 0.9rem; padding: 8px 10px; }
+    .btn-submit { padding: 12px 16px; font-size: 0.95rem; }
+    .pitch-grid { min-height: 420px; }
+    #toastContainer { top: 10px; right: 10px; left: 10px; max-width: none; }
+}
+</style>
 </head>
 <body>
 
-<!-- SCHERMATA LOGIN -->
-<div id="loginSection" class="login-box">
-    <i class="fas fa-lock lock-icon"></i>
+<a href="#mainContent" class="skip-link">Salta al contenuto</a>
+
+<!-- =========================================================
+     LOGIN
+     ========================================================= -->
+<div id="loginSection" class="login-box" role="main">
+    <i class="fas fa-lock lock-icon" aria-hidden="true"></i>
     <h2 style="margin-bottom: 8px;">Yokohama Calcio Admin</h2>
-    <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 20px;">Inserisci il GitHub Token (PAT) per accedere.</p>
+    <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;" data-i18n="loginSub">
+        Inserisci il GitHub Token (PAT) per accedere.
+    </p>
 
     <div class="lang-switcher-admin" style="justify-content: center; margin-bottom: 20px;">
-        <button type="button" class="lang-btn-admin" data-lang="ja" onclick="setAdminLanguage('ja')">JP</button>
-        <button type="button" class="lang-btn-admin active" data-lang="it" onclick="setAdminLanguage('it')">IT</button>
-        <button type="button" class="lang-btn-admin" data-lang="en" onclick="setAdminLanguage('en')">EN</button>
+        <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="ja">JP</button>
+        <button type="button" class="lang-btn-admin active" data-action="set-lang" data-lang="it">IT</button>
+        <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="en">EN</button>
     </div>
 
     <form id="loginForm">
         <div class="form-group" style="text-align: left;">
             <label for="inputToken"><i class="fas fa-key"></i> GitHub Token (PAT):</label>
-            <input type="password" id="inputToken" class="form-control" placeholder="ghp_... o github_pat_..." required>
+            <input type="password" id="inputToken" class="form-control" placeholder="ghp_... o github_pat_..." required autocomplete="off">
         </div>
-        <button type="submit" class="btn-submit" id="loginBtn">Accedi</button>
+        <button type="submit" class="btn-submit" id="loginBtn" data-i18n="loginBtn">Accedi</button>
     </form>
-    <div id="loginError" style="color: #dc2626; font-size: 0.85rem; margin-top: 15px; font-weight: bold;"></div>
+    <div id="loginError" style="color: var(--red); font-size: 0.85rem; margin-top: 15px; font-weight: bold;"></div>
+    <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 20px;">
+        🔒 Il token resta in <b>sessionStorage</b> e viene cancellato alla chiusura del browser.
+    </div>
 </div>
 
-<!-- DASHBOARD ADMIN -->
+<!-- =========================================================
+     DASHBOARD
+     ========================================================= -->
 <div id="adminDashboard" class="admin-container hidden">
+
+    <!-- HEADER -->
     <div class="admin-header-bar">
         <div>
             <h2><i class="fas fa-shield-alt"></i> Yokohama Calcio Admin</h2>
-            <span style="font-size: 0.78rem; color: #059669; font-weight: bold;"><i class="fas fa-check-circle"></i> Authenticated</span>
+            <span style="font-size: 0.78rem; color: var(--green); font-weight: bold;">
+                <i class="fas fa-check-circle"></i> <span data-i18n="authenticated">Authenticated</span>
+            </span>
         </div>
-        
-        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
             <div class="lang-switcher-admin">
-                <button type="button" class="lang-btn-admin" data-lang="ja" onclick="setAdminLanguage('ja')">JP</button>
-                <button type="button" class="lang-btn-admin active" data-lang="it" onclick="setAdminLanguage('it')">IT</button>
-                <button type="button" class="lang-btn-admin" data-lang="en" onclick="setAdminLanguage('en')">EN</button>
+                <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="ja">JP</button>
+                <button type="button" class="lang-btn-admin active" data-action="set-lang" data-lang="it">IT</button>
+                <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="en">EN</button>
             </div>
-            <button type="button" onclick="resetForm()" class="btn-reset"><i class="fas fa-redo"></i> Reset</button>
-            <button id="logoutBtn" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            <button type="button" class="btn-icon" data-action="toggle-dark" title="Dark mode">
+                <i class="fas fa-moon" id="darkIcon"></i>
+            </button>
+            <button type="button" class="btn-icon" data-action="export-json" title="Export JSON">
+                <i class="fas fa-download"></i>
+            </button>
+            <button type="button" class="btn-icon" data-action="import-json" title="Import JSON">
+                <i class="fas fa-upload"></i>
+            </button>
+            <button type="button" class="btn-reset" data-action="reset-form">
+                <i class="fas fa-redo"></i> <span data-i18n="btnReset">Reset</span>
+            </button>
+            <button type="button" class="btn-logout" data-action="logout">
+                <i class="fas fa-sign-out-alt"></i> <span data-i18n="btnLogout">Logout</span>
+            </button>
         </div>
     </div>
 
-    <!-- TAB DI NAVIGAZIONE INTERNA -->
-    <div class="admin-tabs">
-        <button class="tab-btn active" onclick="switchTab(event, 'matchesTab')"><i class="fas fa-futbol"></i> 1. Partite & Formazione</button>
-        <button class="tab-btn" onclick="switchTab(event, 'playersTab')"><i class="fas fa-users"></i> 2. Rosa Giocatori</button>
-        <button class="tab-btn" onclick="switchTab(event, 'opponentsTab')"><i class="fas fa-shield-halved"></i> 3. Avversari</button>
-        <button class="tab-btn" onclick="switchTab(event, 'locationsTab')"><i class="fas fa-map-marker-alt"></i> 4. Campi & Impianti</button>
-        <button class="tab-btn" onclick="switchTab(event, 'lineTab')"><i class="fab fa-line"></i> 5. Testo Convocati LINE</button>
+    <!-- DRAFT BANNER (nascosto di default) -->
+    <div id="draftBanner" class="draft-banner hidden">
+        <span><i class="fas fa-save"></i> <span data-i18n="draftFound">Trovato un draft non salvato.</span></span>
+        <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn-reset" data-action="restore-draft" style="background: var(--green);">
+                <i class="fas fa-check"></i> <span data-i18n="draftRestore">Ripristina</span>
+            </button>
+            <button type="button" class="btn-reset" data-action="discard-draft">
+                <i class="fas fa-times"></i> <span data-i18n="draftDiscard">Scarta</span>
+            </button>
+        </div>
     </div>
 
-    <!-- TAB 1: PARTITE & FORMAZIONE -->
-    <div id="matchesTab" class="tab-content">
-        <form id="matchForm">
+    <!-- TABS -->
+    <div class="admin-tabs" role="tablist">
+        <button class="tab-btn active" data-action="switch-tab" data-tab="matchesTab" role="tab" aria-selected="true">
+            <i class="fas fa-futbol"></i> <span data-i18n="tab1">1. Partite & Formazione</span>
+        </button>
+        <button class="tab-btn" data-action="switch-tab" data-tab="playersTab" role="tab" aria-selected="false">
+            <i class="fas fa-users"></i> <span data-i18n="tab2">2. Rosa Giocatori</span>
+        </button>
+        <button class="tab-btn" data-action="switch-tab" data-tab="opponentsTab" role="tab" aria-selected="false">
+            <i class="fas fa-shield-halved"></i> <span data-i18n="tab3">3. Avversari</span>
+        </button>
+        <button class="tab-btn" data-action="switch-tab" data-tab="locationsTab" role="tab" aria-selected="false">
+            <i class="fas fa-map-marker-alt"></i> <span data-i18n="tab4">4. Campi & Impianti</span>
+        </button>
+        <button class="tab-btn" data-action="switch-tab" data-tab="lineTab" role="tab" aria-selected="false">
+            <i class="fab fa-line"></i> <span data-i18n="tab5">5. Testo Convocati LINE</span>
+        </button>
+    </div>
+
+    <!-- =========================================================
+         TAB 1: MATCH
+         ========================================================= -->
+    <div id="matchesTab" class="tab-content" role="tabpanel">
+        <form id="matchForm" autocomplete="off">
             <input type="hidden" id="repoPath" value="yokohamacalcio/yokohamacalcio">
 
             <div class="section-box">
-                <h3>1. Informazioni Partita</h3>
+                <h3 data-i18n="matchInfoHeading">1. Informazioni Partita</h3>
                 <div class="row" style="margin-top: 10px; align-items: flex-end;">
                     <div class="form-group" style="flex: 2;">
-                        <label>ID Match (es. match-9):</label>
-                        <div style="display: flex; gap: 8px;">
+                        <label data-i18n="lblMatchId">ID Match (es. match-9):</label>
+                        <div style="display: flex; gap: 6px;">
                             <input type="text" id="matchId" class="form-control" placeholder="match-9" required>
-                            <button type="button" class="btn-load" onclick="loadExistingMatchData()"><i class="fas fa-search"></i> Carica</button>
-                            <button type="button" class="btn-new-match" onclick="createNewMatch()"><i class="fas fa-plus-circle"></i> Nuova Partita</button>
+                            <button type="button" class="btn-load" data-action="load-match" title="Carica"><i class="fas fa-search"></i></button>
+                            <button type="button" class="btn-load" data-action="duplicate-match" title="Duplica" style="background: var(--amber);"><i class="fas fa-clone"></i></button>
+                            <button type="button" class="btn-new-match" data-action="new-match"><i class="fas fa-plus-circle"></i> <span data-i18n="btnNewMatch">Nuova</span></button>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Stato Partita:</label>
+                        <label data-i18n="lblStatus">Stato Partita:</label>
                         <select id="matchStatus" class="form-control">
-                            <option value="past">Finita (past)</option>
-                            <option value="upcoming">In programma (upcoming)</option>
+                            <option value="past" data-i18n="optPast">Finita (past)</option>
+                            <option value="upcoming" data-i18n="optUpcoming">In programma (upcoming)</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <label>Data:</label>
+                        <label data-i18n="lblDate">Data:</label>
                         <input type="date" id="matchDate" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label>Orario Calcio d'Inizio (K.O.):</label>
+                        <label data-i18n="lblTime">Orario Kickoff (K.O.):</label>
                         <input type="time" id="matchTime" class="form-control" value="11:00">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <label>Categoria:</label>
+                        <label data-i18n="lblCategory">Categoria:</label>
                         <select id="matchCategory" class="form-control">
                             <option value="friendly">Amichevole (friendly)</option>
                             <option value="official">Campionato (official)</option>
@@ -228,85 +940,95 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Tipo (Etichetta visualizzata):</label>
+                        <label data-i18n="lblType">Tipo (Etichetta):</label>
                         <input type="text" id="matchType" class="form-control" value="練習試合">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <label>Avversario (da opponents.json):</label>
+                        <label data-i18n="lblOpponent">Avversario:</label>
                         <select id="opponentSelect" class="form-control" required></select>
                     </div>
                     <div class="form-group">
-                        <label>Campo (da locations.json):</label>
+                        <label data-i18n="lblLocation">Campo:</label>
                         <select id="locationSelect" class="form-control" required></select>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <label>Casa / Trasferta:</label>
+                        <label data-i18n="lblHomeAway">Casa / Trasferta:</label>
                         <select id="isHome" class="form-control">
-                            <option value="true">Casa (Yokohama Calcio vs Avversario)</option>
-                            <option value="false">Trasferta (Avversario vs Yokohama Calcio)</option>
+                            <option value="true" data-i18n="optHome">Casa (Yokohama Calcio vs Avversario)</option>
+                            <option value="false" data-i18n="optAway">Trasferta (Avversario vs Yokohama Calcio)</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Risultato (es. 2 - 1 oppure VS):</label>
+                        <label data-i18n="lblScore">Risultato (es. 2 - 1):</label>
                         <input type="text" id="matchScore" class="form-control" placeholder="2 - 1" value="VS">
                     </div>
                 </div>
             </div>
 
             <div class="section-box">
-                <h3>2. Eventi & Prestazioni (Selezione da Rosa)</h3>
-                
+                <h3 data-i18n="matchEventsHeading">2. Eventi & Prestazioni</h3>
+
                 <div class="form-group">
-                    <label><i class="fas fa-futbol"></i> Marcatori (Gol segnati):</label>
+                    <label><i class="fas fa-futbol"></i> <span data-i18n="lblScorers">Marcatori (Gol segnati)</span>:</label>
                     <div id="scorersContainer"></div>
-                    <button type="button" class="btn-add-row" onclick="addScorerRow()"><i class="fas fa-plus"></i> Aggiungi Marcatore</button>
+                    <button type="button" class="btn-add-row" data-action="add-scorer">
+                        <i class="fas fa-plus"></i> <span data-i18n="btnAddScorer">Aggiungi Marcatore</span>
+                    </button>
                 </div>
 
                 <div class="form-group">
-                    <label><i class="fas fa-handshake"></i> Assistman (Assist effettuati):</label>
+                    <label><i class="fas fa-handshake"></i> <span data-i18n="lblAssists">Assistman</span>:</label>
                     <div id="assistsContainer"></div>
-                    <button type="button" class="btn-add-row" onclick="addAssistRow()"><i class="fas fa-plus"></i> Aggiungi Assistman</button>
+                    <button type="button" class="btn-add-row" data-action="add-assist">
+                        <i class="fas fa-plus"></i> <span data-i18n="btnAddAssist">Aggiungi Assistman</span>
+                    </button>
                 </div>
 
                 <div class="form-group">
-                    <label><i class="fas fa-mitten"></i> Portieri & Gol Subiti:</label>
+                    <label><i class="fas fa-mitten"></i> <span data-i18n="lblGoalkeepers">Portieri & Gol Subiti</span>:</label>
                     <div id="gkContainer"></div>
-                    <button type="button" class="btn-add-row" onclick="addGkRow()"><i class="fas fa-plus"></i> Aggiungi Portiere</button>
+                    <button type="button" class="btn-add-row" data-action="add-gk">
+                        <i class="fas fa-plus"></i> <span data-i18n="btnAddGk">Aggiungi Portiere</span>
+                    </button>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <label><i class="fas fa-star"></i> MVP del Match:</label>
+                        <label><i class="fas fa-star"></i> <span data-i18n="lblMvp">MVP del Match</span>:</label>
                         <select id="mvpSelect" class="form-control"></select>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <label>Cartellini Gialli:</label>
+                        <label data-i18n="lblYellows">Cartellini Gialli:</label>
                         <div id="yellowCardsContainer"></div>
-                        <button type="button" class="btn-add-row" onclick="addYellowCardRow()"><i class="fas fa-plus"></i> Aggiungi Ammonito</button>
+                        <button type="button" class="btn-add-row" data-action="add-yellow">
+                            <i class="fas fa-plus"></i> <span data-i18n="btnAddYellow">Aggiungi</span>
+                        </button>
                     </div>
                     <div class="form-group">
-                        <label>Cartellini Rossi:</label>
+                        <label data-i18n="lblReds">Cartellini Rossi:</label>
                         <div id="redCardsContainer"></div>
-                        <button type="button" class="btn-add-row" onclick="addRedCardRow()"><i class="fas fa-plus"></i> Aggiungi Espulso</button>
+                        <button type="button" class="btn-add-row" data-action="add-red">
+                            <i class="fas fa-plus"></i> <span data-i18n="btnAddRed">Aggiungi</span>
+                        </button>
                     </div>
                 </div>
             </div>
 
             <div class="section-box">
-                <h3>3. Assetto Tattico & Convocati</h3>
-                
+                <h3 data-i18n="tacticsHeading">3. Assetto Tattico & Convocati</h3>
+
                 <div class="row" style="margin-top: 10px;">
                     <div class="form-group">
-                        <label><i class="fas fa-chess-board"></i> Modulo Tattico / フォーメーション:</label>
+                        <label><i class="fas fa-chess-board"></i> <span data-i18n="lblFormation">Modulo Tattico</span>:</label>
                         <select id="formationSelect" class="form-control">
                             <option value="4-4-2">4-4-2 (Classico)</option>
                             <option value="4-3-3">4-3-3 (Tridente)</option>
@@ -315,7 +1037,6 @@
                             <option value="3-4-3">3-4-3</option>
                             <option value="5-3-2">5-3-2</option>
                             <option value="4-1-4-1">4-1-4-1</option>
-                            <option value="custom">Personalizzata / Custom</option>
                         </select>
                     </div>
                 </div>
@@ -323,68 +1044,70 @@
                 <div class="tactical-pitch-container">
                     <div class="pitch-header-bar">
                         <h4 style="color: #fef08a; font-size: 0.95rem;">
-                            <i class="fas fa-gamepad"></i> Titolari in Campo (11 Giocatori)
+                            <i class="fas fa-gamepad"></i> <span data-i18n="lblStartersTitle">Titolari in Campo</span>
                         </h4>
-                        <button type="button" class="btn-clear-pitch" onclick="clearFormationSelections()">
-                            <i class="fas fa-eraser"></i> Cancella Selezioni Formazione
+                        <button type="button" class="btn-clear-pitch" data-action="clear-pitch">
+                            <i class="fas fa-eraser"></i> <span data-i18n="btnClearPitch">Cancella</span>
                         </button>
                     </div>
                     <div class="pitch-grid" id="pitchGrid"></div>
                 </div>
 
                 <div class="bench-container">
-                    <h4 style="color: #003c82; margin-top: 15px; margin-bottom: 10px; font-size: 0.95rem;">
-                        <i class="fas fa-chair"></i> Panchina (10 Posti)
+                    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 10px; font-size: 0.95rem;">
+                        <i class="fas fa-chair"></i> <span data-i18n="lblBenchTitle">Panchina (10 Posti)</span>
                     </h4>
                     <div class="bench-grid" id="benchGrid"></div>
                 </div>
 
                 <div class="trialist-box">
-                    <button type="button" class="btn-add-trialist" onclick="addTrialistPlayer()">
-                        <i class="fas fa-user-plus"></i> + Aggiungi Giocatore in Prova (Trialist)
+                    <button type="button" class="btn-add-trialist" data-action="add-trialist">
+                        <i class="fas fa-user-plus"></i> <span data-i18n="btnAddTrialist">+ Aggiungi Giocatore in Prova</span>
                     </button>
                     <div style="margin-top: 10px; font-weight: bold; font-size: 0.82rem; color: #047857;">
-                        <i class="fas fa-list"></i> Giocatori in Prova registrati:
+                        <i class="fas fa-list"></i> <span data-i18n="lblTrialistsList">Giocatori in Prova (solo per questo match):</span>
                     </div>
                     <div class="trialist-list" id="trialistListContainer"></div>
                 </div>
             </div>
 
             <button type="submit" class="btn-submit" id="submitBtn">
-                <i class="fas fa-save"></i> Salva Partita e Aggiorna Statistiche
+                <i class="fas fa-save"></i> <span data-i18n="btnSaveMatch">Salva Partita e Aggiorna Statistiche</span>
             </button>
         </form>
     </div>
 
-    <!-- TAB 2: GESTIONE ROSA (PLAYERS.JSON) -->
-    <div id="playersTab" class="tab-content hidden">
+    <!-- =========================================================
+         TAB 2: PLAYERS
+         ========================================================= -->
+    <div id="playersTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
-            <h3><i class="fas fa-user-plus"></i> Aggiungi / Modifica Giocatore (`players.json`)</h3>
-            <form id="playerEditForm" style="margin-top: 15px;">
+            <h3><i class="fas fa-user-plus"></i> <span data-i18n="playersHeading">Aggiungi / Modifica Giocatore</span></h3>
+            <form id="playerEditForm" style="margin-top: 15px;" autocomplete="off">
                 <input type="hidden" id="editPlayerId">
                 <input type="hidden" id="editPlayerCaps" value="0">
                 <div class="row">
                     <div class="form-group">
-                        <label>Numero Maglia:</label>
+                        <label data-i18n="lblNum">Numero Maglia:</label>
                         <input type="number" id="pNumber" class="form-control" placeholder="5">
                     </div>
                     <div class="form-group">
-                        <label>Nome Kanji / Ufficiale (name_kanji):</label>
+                        <label data-i18n="lblKanji">Nome Kanji / Ufficiale:</label>
                         <input type="text" id="pNameKanji" class="form-control" placeholder="Di Rubbo Luca" required>
                     </div>
                     <div class="form-group">
-                        <label>Nome Kana (name_kana):</label>
+                        <label data-i18n="lblKana">Nome Kana:</label>
                         <input type="text" id="pNameKana" class="form-control" placeholder="ディルッボ ルカ">
                     </div>
                     <div class="form-group">
-                        <label>Nome Romaji (name_romaji):</label>
+                        <label data-i18n="lblRomaji">Nome Romaji:</label>
                         <input type="text" id="pNameRomaji" class="form-control" placeholder="Di Rubbo Luca">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <label>Ruolo (role):</label>
+                        <label data-i18n="lblRole">Ruolo:</label>
                         <select id="pRole" class="form-control">
                             <option value="gk">gk (Portiere)</option>
                             <option value="df">df (Difensore)</option>
@@ -394,42 +1117,53 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Posizione Tattica (position):</label>
+                        <label data-i18n="lblPosition">Posizione Tattica:</label>
                         <input type="text" id="pPosition" class="form-control" placeholder="CM/SB">
                     </div>
                     <div class="form-group">
-                        <label>Data di Nascita (birth_date):</label>
+                        <label data-i18n="lblBirth">Data di Nascita:</label>
                         <input type="date" id="pBirthDate" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>Provenienza / Città (hometown):</label>
-                        <input type="text" id="pHometown" class="form-control" placeholder="italy / kanagawa / shizuoka">
+                        <label data-i18n="lblHometown">Provenienza:</label>
+                        <input type="text" id="pHometown" class="form-control" placeholder="italy / kanagawa">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label data-i18n="lblPhoto">Foto (URL):</label>
+                        <input type="url" id="pPhoto" class="form-control" placeholder="https://...">
                     </div>
                 </div>
 
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <button type="button" class="btn-submit" style="background: #059669;" onclick="savePlayerToSquad()">
-                        <i class="fas fa-cloud-upload-alt"></i> Salva Giocatore su GitHub
+                    <button type="button" class="btn-submit" style="background: var(--green);" data-action="save-player">
+                        <i class="fas fa-cloud-upload-alt"></i> <span data-i18n="btnSavePlayer">Salva su GitHub</span>
                     </button>
-                    <button type="button" class="btn-reset" onclick="resetPlayerForm()">Annulla</button>
+                    <button type="button" class="btn-reset" data-action="reset-player-form">Annulla</button>
                 </div>
             </form>
         </div>
 
         <div class="section-box">
-            <h3><i class="fas fa-list-ul"></i> Elenco Attuale Rosa (`players.json`)</h3>
+            <h3><i class="fas fa-list-ul"></i> <span data-i18n="lblSquadList">Elenco Attuale Rosa</span></h3>
+            <div class="table-toolbar">
+                <input type="text" id="playerSearch" class="form-control" placeholder="🔍 Cerca giocatore..." style="max-width: 300px;">
+                <span id="playerCountBadge" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;"></span>
+            </div>
             <div class="data-table-container">
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Kanji / Nome</th>
-                            <th>Romaji</th>
-                            <th>Ruolo</th>
-                            <th>Posizione</th>
-                            <th>Hometown</th>
-                            <th>Presenze (Caps)</th>
-                            <th>Azioni</th>
+                            <th data-sort="number"># <i class="fas fa-sort"></i></th>
+                            <th data-sort="name_kanji"><span data-i18n="thName">Nome</span> <i class="fas fa-sort"></i></th>
+                            <th data-sort="name_romaji">Romaji <i class="fas fa-sort"></i></th>
+                            <th data-sort="role"><span data-i18n="thRole">Ruolo</span> <i class="fas fa-sort"></i></th>
+                            <th data-sort="position"><span data-i18n="thPos">Posizione</span> <i class="fas fa-sort"></i></th>
+                            <th data-sort="hometown">Hometown <i class="fas fa-sort"></i></th>
+                            <th data-sort="caps"><span data-i18n="thCaps">Caps</span> <i class="fas fa-sort"></i></th>
+                            <th><span data-i18n="thActions">Azioni</span></th>
                         </tr>
                     </thead>
                     <tbody id="playersTableBody"></tbody>
@@ -438,45 +1172,48 @@
         </div>
     </div>
 
-    <!-- TAB 3: AVVERSARI (OPPONENTS.JSON) -->
-    <div id="opponentsTab" class="tab-content hidden">
+    <!-- =========================================================
+         TAB 3: OPPONENTS
+         ========================================================= -->
+    <div id="opponentsTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
-            <h3><i class="fas fa-shield-cat"></i> Aggiungi / Modifica Avversario (`opponents.json`)</h3>
-            <form id="opponentEditForm" style="margin-top: 15px;">
+            <h3><i class="fas fa-shield-cat"></i> <span data-i18n="opponentsHeading">Aggiungi / Modifica Avversario</span></h3>
+            <form id="opponentEditForm" style="margin-top: 15px;" autocomplete="off">
                 <input type="hidden" id="editOpponentKey">
                 <div class="row">
                     <div class="form-group">
-                        <label>ID / Key univoca (es. fc-yokohama):</label>
+                        <label data-i18n="lblOppKey">Key ID (es. fc-yokohama):</label>
                         <input type="text" id="oppKey" class="form-control" placeholder="fc-yokohama" required>
                     </div>
                     <div class="form-group">
-                        <label>Nome Giapponese (JA):</label>
+                        <label data-i18n="lblOppJa">Nome Giapponese (JA):</label>
                         <input type="text" id="oppNameJa" class="form-control" placeholder="横浜FC" required>
                     </div>
                     <div class="form-group">
-                        <label>Nome Inglese (EN):</label>
+                        <label data-i18n="lblOppEn">Nome Inglese (EN):</label>
                         <input type="text" id="oppNameEn" class="form-control" placeholder="Yokohama FC">
                     </div>
                 </div>
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <button type="button" class="btn-submit" style="background: #059669;" onclick="saveOpponentData()">
-                        <i class="fas fa-cloud-upload-alt"></i> Salva Avversario su GitHub
+                    <button type="button" class="btn-submit" style="background: var(--green);" data-action="save-opponent">
+                        <i class="fas fa-cloud-upload-alt"></i> <span data-i18n="btnSaveOpponent">Salva su GitHub</span>
                     </button>
-                    <button type="button" class="btn-reset" onclick="resetOpponentForm()">Annulla</button>
+                    <button type="button" class="btn-reset" data-action="reset-opponent-form">Annulla</button>
                 </div>
             </form>
         </div>
 
         <div class="section-box">
-            <h3><i class="fas fa-shield-halved"></i> Lista Avversari Registrati</h3>
+            <h3><i class="fas fa-shield-halved"></i> <span data-i18n="lblOpponentsList">Lista Avversari</span></h3>
+            <input type="text" id="opponentSearch" class="form-control" placeholder="🔍 Cerca..." style="max-width: 300px; margin-bottom: 10px;">
             <div class="data-table-container">
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Key ID</th>
-                            <th>Nome JA</th>
-                            <th>Nome EN</th>
-                            <th>Azioni</th>
+                            <th data-sort="key">Key ID <i class="fas fa-sort"></i></th>
+                            <th data-sort="ja">Nome JA <i class="fas fa-sort"></i></th>
+                            <th data-sort="en">Nome EN <i class="fas fa-sort"></i></th>
+                            <th><span data-i18n="thActions">Azioni</span></th>
                         </tr>
                     </thead>
                     <tbody id="opponentsTableBody"></tbody>
@@ -485,69 +1222,67 @@
         </div>
     </div>
 
-    <!-- TAB 4: CAMPI & IMPIANTI (LOCATIONS.JSON) -->
-    <div id="locationsTab" class="tab-content hidden">
+    <!-- =========================================================
+         TAB 4: LOCATIONS
+         ========================================================= -->
+    <div id="locationsTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
-            <h3><i class="fas fa-map-marked-alt"></i> Aggiungi / Modifica Campo (`locations.json`)</h3>
-            <form id="locationEditForm" style="margin-top: 15px;">
+            <h3><i class="fas fa-map-marked-alt"></i> <span data-i18n="locationsHeading">Aggiungi / Modifica Campo</span></h3>
+            <form id="locationEditForm" style="margin-top: 15px;" autocomplete="off">
                 <input type="hidden" id="editLocationKey">
-                
+
                 <div class="row">
                     <div class="form-group">
-                        <label>Key ID Campo (es. yamoto):</label>
+                        <label data-i18n="lblLocKey">Key ID Campo (es. yamoto):</label>
                         <input type="text" id="locKey" class="form-control" placeholder="yamoto" required>
                     </div>
                     <div class="form-group">
-                        <label>Superficie Terreno (Surface):</label>
-                        <select id="locSurfaceSelect" class="form-control">
-                            <option value="artificial">Sintetico / 人工芝 / Artificial Turf</option>
-                            <option value="clay">Terra battuta / クレー（土） / Clay</option>
-                            <option value="grass">Erba naturale / 天然芝 / Natural Grass</option>
-                        </select>
+                        <label data-i18n="lblLocSurface">Superficie Terreno:</label>
+                        <select id="locSurfaceSelect" class="form-control"></select>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <label>Nome Giapponese (ja):</label>
+                        <label data-i18n="lblLocJa">Nome Giapponese (ja):</label>
                         <input type="text" id="locNameJa" class="form-control" placeholder="谷本公園球技場" required>
                     </div>
                     <div class="form-group">
-                        <label>Nome Italiano (it):</label>
+                        <label data-i18n="lblLocIt">Nome Italiano (it):</label>
                         <input type="text" id="locNameIt" class="form-control" placeholder="Parco Yamoto (Aoba-ku)">
                     </div>
                     <div class="form-group">
-                        <label>Nome Inglese (en):</label>
+                        <label data-i18n="lblLocEn">Nome Inglese (en):</label>
                         <input type="text" id="locNameEn" class="form-control" placeholder="Yamoto Park Pitch">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Link Google Maps URL (maps):</label>
-                    <input type="url" id="locMapsUrl" class="form-control" placeholder="https://maps.google.com/?q=谷本公園グラウンド">
+                    <label data-i18n="lblLocMaps">Link Google Maps:</label>
+                    <input type="url" id="locMapsUrl" class="form-control" placeholder="https://maps.google.com/?q=...">
                 </div>
 
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <button type="button" class="btn-submit" style="background: #059669;" onclick="saveLocationData()">
-                        <i class="fas fa-cloud-upload-alt"></i> Salva Impianto su GitHub
+                    <button type="button" class="btn-submit" style="background: var(--green);" data-action="save-location">
+                        <i class="fas fa-cloud-upload-alt"></i> <span data-i18n="btnSaveLocation">Salva su GitHub</span>
                     </button>
-                    <button type="button" class="btn-reset" onclick="resetLocationForm()">Annulla</button>
+                    <button type="button" class="btn-reset" data-action="reset-location-form">Annulla</button>
                 </div>
             </form>
         </div>
 
         <div class="section-box">
-            <h3><i class="fas fa-city"></i> Lista Impianti Registrati</h3>
+            <h3><i class="fas fa-city"></i> <span data-i18n="lblLocationsList">Lista Impianti</span></h3>
             <div class="data-table-container">
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Key ID</th>
-                            <th>Nome JA</th>
-                            <th>Nome IT</th>
-                            <th>Superficie</th>
+                            <th data-sort="key">Key ID <i class="fas fa-sort"></i></th>
+                            <th data-sort="ja">Nome JA <i class="fas fa-sort"></i></th>
+                            <th data-sort="it">Nome IT <i class="fas fa-sort"></i></th>
+                            <th data-sort="surface"><span data-i18n="thSurface">Superficie</span> <i class="fas fa-sort"></i></th>
                             <th>Google Maps</th>
-                            <th>Azioni</th>
+                            <th><span data-i18n="thActions">Azioni</span></th>
                         </tr>
                     </thead>
                     <tbody id="locationsTableBody"></tbody>
@@ -556,20 +1291,24 @@
         </div>
     </div>
 
-    <!-- TAB 5: GENERATORE TESTO LINE -->
-    <div id="lineTab" class="tab-content hidden">
+    <!-- =========================================================
+         TAB 5: LINE
+         ========================================================= -->
+    <div id="lineTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
-            <h3><i class="fab fa-line" style="color: #06c755;"></i> Generatore Messaggio LINE per Convocazioni</h3>
-            <p style="font-size: 0.88rem; color: #64748b;">Genera automaticamente il testo completo con orario, campo e formazione titolare da incollare nel gruppo LINE della squadra.</p>
-            
-            <button type="button" class="btn-submit" style="background: #06c755; margin-bottom: 15px;" onclick="generateLineMessage()">
-                <i class="fas fa-magic"></i> Genera Testo Convocati
+            <h3><i class="fab fa-line" style="color: #06c755;"></i> <span data-i18n="lineHeading">Generatore Convocazioni LINE</span></h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted);" data-i18n="lineSub">
+                Genera il messaggio pronto da incollare nel gruppo LINE della squadra.
+            </p>
+
+            <button type="button" class="btn-submit" style="background: #06c755; margin-bottom: 15px;" data-action="generate-line">
+                <i class="fas fa-magic"></i> <span data-i18n="btnGenerateLine">Genera Testo</span>
             </button>
 
-            <textarea id="lineTextOutput" class="form-control" rows="12" readonly style="font-family: monospace; font-size: 0.9rem; background: #f8fafc;"></textarea>
-            
-            <button type="button" class="btn-submit" style="margin-top: 10px; background: #0284c7;" onclick="copyLineText()">
-                <i class="fas fa-copy"></i> Copia Testo negli Appunti
+            <textarea id="lineTextOutput" class="form-control" rows="14" readonly style="font-family: monospace; font-size: 0.9rem;"></textarea>
+
+            <button type="button" class="btn-submit" style="margin-top: 10px; background: var(--sky-dark);" data-action="copy-line">
+                <i class="fas fa-copy"></i> <span data-i18n="btnCopyLine">Copia negli Appunti</span>
             </button>
         </div>
     </div>
@@ -577,1208 +1316,1492 @@
     <div id="statusMsg" style="margin-top: 18px; font-weight: bold; text-align: center;"></div>
 </div>
 
+<!-- =========================================================
+     MODAL & TOAST CONTAINERS
+     ========================================================= -->
+<div id="modalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+        <div class="modal-title" id="modalTitle"></div>
+        <div class="modal-body" id="modalBody"></div>
+        <div class="modal-actions">
+            <button type="button" class="btn-modal-cancel" id="modalCancel">Annulla</button>
+            <button type="button" class="btn-modal-confirm" id="modalConfirm">OK</button>
+        </div>
+    </div>
+</div>
+
+<div id="toastContainer" role="status" aria-live="polite"></div>
+
+<!-- File input nascosto per import -->
+<input type="file" id="importFileInput" class="hidden" accept=".json,application/json">
+
 <script>
-    const FORMATIONS = {
-        "4-4-2": ["GK", "LB", "CB-L", "CB-R", "RB", "LM", "CM-L", "CM-R", "RM", "FW-L", "FW-R"],
-        "4-3-3": ["GK", "LB", "CB-L", "CB-R", "RB", "DM", "CM-L", "CM-R", "LW", "ST", "RW"],
-        "4-2-3-1": ["GK", "LB", "CB-L", "CB-R", "RB", "DM-L", "DM-R", "AM-L", "AM-C", "AM-R", "ST"],
-        "3-5-2": ["GK", "CB-L", "CB-C", "CB-R", "LWB", "CM-L", "CM-C", "CM-R", "RWB", "FW-L", "FW-R"],
-        "3-4-3": ["GK", "CB-L", "CB-C", "CB-R", "LM", "CM-L", "CM-R", "RM", "LW", "ST", "RW"],
-        "5-3-2": ["GK", "LWB", "CB-L", "CB-C", "CB-R", "RWB", "CM-L", "CM-C", "CM-R", "FW-L", "FW-R"],
-        "4-1-4-1": ["GK", "LB", "CB-L", "CB-R", "RB", "DM", "LM", "CM-L", "CM-R", "RM", "ST"],
-        "custom": ["GK", "POS-2", "POS-3", "POS-4", "POS-5", "POS-6", "POS-7", "POS-8", "POS-9", "POS-10", "POS-11"]
+'use strict';
+
+/* =========================================================
+   I18N
+   ========================================================= */
+const I18N_DICT = {
+    it: {
+        loginSub: "Inserisci il GitHub Token (PAT) per accedere.",
+        loginBtn: "Accedi",
+        authenticated: "Autenticato",
+        btnReset: "Reset", btnLogout: "Logout",
+        btnSaveMatch: "Salva Partita e Aggiorna Statistiche",
+        btnSavePlayer: "Salva su GitHub", btnSaveOpponent: "Salva su GitHub", btnSaveLocation: "Salva su GitHub",
+        btnNewMatch: "Nuova", btnGenerateLine: "Genera Testo", btnCopyLine: "Copia negli Appunti",
+        btnClearPitch: "Cancella", btnAddTrialist: "+ Aggiungi Giocatore in Prova",
+        btnAddScorer: "Aggiungi Marcatore", btnAddAssist: "Aggiungi Assistman",
+        btnAddGk: "Aggiungi Portiere", btnAddYellow: "Aggiungi", btnAddRed: "Aggiungi",
+        tab1: "1. Partite & Formazione", tab2: "2. Rosa Giocatori", tab3: "3. Avversari",
+        tab4: "4. Campi & Impianti", tab5: "5. Testo Convocati LINE",
+        matchInfoHeading: "1. Informazioni Partita",
+        lblMatchId: "ID Match:", btnLoad: "Carica", btnDuplicate: "Duplica",
+        lblStatus: "Stato:", optPast: "Finita", optUpcoming: "In programma",
+        lblDate: "Data:", lblTime: "Orario K.O.:", lblCategory: "Categoria:",
+        lblType: "Tipo:", lblOpponent: "Avversario:", lblLocation: "Campo:",
+        lblHomeAway: "Casa / Trasferta:", optHome: "Casa", optAway: "Trasferta",
+        lblScore: "Risultato:", matchEventsHeading: "2. Eventi & Prestazioni",
+        lblScorers: "Marcatori", lblAssists: "Assistman", lblGoalkeepers: "Portieri & Gol Subiti",
+        lblMvp: "MVP del Match", lblYellows: "Cartellini Gialli", lblReds: "Cartellini Rossi",
+        tacticsHeading: "3. Assetto Tattico & Convocati",
+        lblFormation: "Modulo Tattico", lblStartersTitle: "Titolari in Campo",
+        lblBenchTitle: "Panchina (10 Posti)",
+        lblTrialistsList: "Giocatori in Prova (solo per questo match):",
+        playersHeading: "Aggiungi / Modifica Giocatore",
+        lblNum: "Numero Maglia:", lblKanji: "Nome Kanji / Ufficiale:", lblKana: "Nome Kana:",
+        lblRomaji: "Nome Romaji:", lblRole: "Ruolo:", lblPosition: "Posizione:",
+        lblBirth: "Data di Nascita:", lblHometown: "Provenienza:", lblPhoto: "Foto (URL):",
+        lblSquadList: "Elenco Attuale Rosa",
+        thName: "Nome", thRole: "Ruolo", thPos: "Posizione", thCaps: "Caps", thActions: "Azioni", thSurface: "Superficie",
+        opponentsHeading: "Aggiungi / Modifica Avversario",
+        lblOppKey: "Key ID:", lblOppJa: "Nome JA:", lblOppEn: "Nome EN:",
+        lblOpponentsList: "Lista Avversari",
+        locationsHeading: "Aggiungi / Modifica Campo",
+        lblLocKey: "Key ID:", lblLocSurface: "Superficie:",
+        lblLocJa: "Nome JA:", lblLocIt: "Nome IT:", lblLocEn: "Nome EN:", lblLocMaps: "Google Maps:",
+        lblLocationsList: "Lista Impianti",
+        lineHeading: "Generatore Convocazioni LINE",
+        lineSub: "Genera il messaggio pronto per il gruppo LINE della squadra.",
+        draftFound: "Trovato un draft non salvato.",
+        draftRestore: "Ripristina", draftDiscard: "Scarta",
+        trialistPrompt: "Nome del giocatore in prova:",
+        confirmDelete: "Confermi l'eliminazione di",
+        saving: "Salvataggio in corso...",
+        saved: "Salvato con successo!",
+        errorPrefix: "Errore:"
+    },
+    ja: {
+        loginSub: "アクセスするには GitHub Token (PAT) を入力してください。",
+        loginBtn: "ログイン", authenticated: "認証済み",
+        btnReset: "リセット", btnLogout: "ログアウト",
+        btnSaveMatch: "試合結果を保存してスタッツ更新",
+        btnSavePlayer: "GitHub に保存", btnSaveOpponent: "GitHub に保存", btnSaveLocation: "GitHub に保存",
+        btnNewMatch: "新規", btnGenerateLine: "招集文を生成", btnCopyLine: "コピー",
+        btnClearPitch: "クリア", btnAddTrialist: "+ 練習生を追加",
+        btnAddScorer: "得点者を追加", btnAddAssist: "アシストを追加",
+        btnAddGk: "GKを追加", btnAddYellow: "追加", btnAddRed: "追加",
+        tab1: "1. 試合 & フォーメーション", tab2: "2. 選手一覧", tab3: "3. 対戦相手",
+        tab4: "4. 会場", tab5: "5. LINE招集文",
+        matchInfoHeading: "1. 試合情報",
+        lblMatchId: "試合ID:", btnLoad: "読込", btnDuplicate: "複製",
+        lblStatus: "ステータス:", optPast: "終了", optUpcoming: "予定",
+        lblDate: "日付:", lblTime: "K.O.:", lblCategory: "カテゴリ:",
+        lblType: "種別:", lblOpponent: "対戦相手:", lblLocation: "会場:",
+        lblHomeAway: "ホーム/アウェイ:", optHome: "ホーム", optAway: "アウェイ",
+        lblScore: "スコア:", matchEventsHeading: "2. イベント",
+        lblScorers: "得点者", lblAssists: "アシスト", lblGoalkeepers: "GK & 失点",
+        lblMvp: "MVP", lblYellows: "警告", lblReds: "退場",
+        tacticsHeading: "3. フォーメーション",
+        lblFormation: "フォーメーション", lblStartersTitle: "先発メンバー",
+        lblBenchTitle: "控え (10名)",
+        lblTrialistsList: "練習生 (この試合のみ):",
+        playersHeading: "選手追加・編集",
+        lblNum: "背番号:", lblKanji: "氏名:", lblKana: "フリガナ:",
+        lblRomaji: "ローマ字:", lblRole: "役割:", lblPosition: "ポジション:",
+        lblBirth: "生年月日:", lblHometown: "出身地:", lblPhoto: "写真URL:",
+        lblSquadList: "現在の選手一覧",
+        thName: "氏名", thRole: "役割", thPos: "ポジション", thCaps: "出場", thActions: "操作", thSurface: "状態",
+        opponentsHeading: "対戦相手追加・編集",
+        lblOppKey: "Key ID:", lblOppJa: "日本語名:", lblOppEn: "英語名:",
+        lblOpponentsList: "対戦相手一覧",
+        locationsHeading: "会場追加・編集",
+        lblLocKey: "Key ID:", lblLocSurface: "状態:",
+        lblLocJa: "日本語名:", lblLocIt: "伊語名:", lblLocEn: "英語名:", lblLocMaps: "Google Maps:",
+        lblLocationsList: "会場一覧",
+        lineHeading: "LINE招集文ジェネレーター",
+        lineSub: "LINEグループにそのまま貼り付けられる案内文を生成します。",
+        draftFound: "未保存の下書きがあります。",
+        draftRestore: "復元", draftDiscard: "破棄",
+        trialistPrompt: "練習生の名前:",
+        confirmDelete: "削除しますか:",
+        saving: "保存中...", saved: "保存完了", errorPrefix: "エラー:"
+    },
+    en: {
+        loginSub: "Enter your GitHub Personal Access Token (PAT) to log in.",
+        loginBtn: "Login", authenticated: "Authenticated",
+        btnReset: "Reset", btnLogout: "Logout",
+        btnSaveMatch: "Save Match & Update Stats",
+        btnSavePlayer: "Save to GitHub", btnSaveOpponent: "Save to GitHub", btnSaveLocation: "Save to GitHub",
+        btnNewMatch: "New", btnGenerateLine: "Generate Text", btnCopyLine: "Copy",
+        btnClearPitch: "Clear", btnAddTrialist: "+ Add Trialist",
+        btnAddScorer: "Add Scorer", btnAddAssist: "Add Assist",
+        btnAddGk: "Add GK", btnAddYellow: "Add", btnAddRed: "Add",
+        tab1: "1. Matches & Lineup", tab2: "2. Squad", tab3: "3. Opponents",
+        tab4: "4. Venues", tab5: "5. LINE Text",
+        matchInfoHeading: "1. Match Information",
+        lblMatchId: "Match ID:", btnLoad: "Load", btnDuplicate: "Duplicate",
+        lblStatus: "Status:", optPast: "Finished", optUpcoming: "Scheduled",
+        lblDate: "Date:", lblTime: "K.O.:", lblCategory: "Category:",
+        lblType: "Type:", lblOpponent: "Opponent:", lblLocation: "Venue:",
+        lblHomeAway: "Home/Away:", optHome: "Home", optAway: "Away",
+        lblScore: "Score:", matchEventsHeading: "2. Events",
+        lblScorers: "Scorers", lblAssists: "Assists", lblGoalkeepers: "GK & Conceded",
+        lblMvp: "MVP", lblYellows: "Yellows", lblReds: "Reds",
+        tacticsHeading: "3. Tactics & Lineup",
+        lblFormation: "Formation", lblStartersTitle: "Starting XI",
+        lblBenchTitle: "Bench (10 Slots)",
+        lblTrialistsList: "Trialists (this match only):",
+        playersHeading: "Add / Edit Player",
+        lblNum: "Number:", lblKanji: "Name:", lblKana: "Kana:",
+        lblRomaji: "Romaji:", lblRole: "Role:", lblPosition: "Position:",
+        lblBirth: "Birth Date:", lblHometown: "Hometown:", lblPhoto: "Photo URL:",
+        lblSquadList: "Current Squad",
+        thName: "Name", thRole: "Role", thPos: "Position", thCaps: "Caps", thActions: "Actions", thSurface: "Surface",
+        opponentsHeading: "Add / Edit Opponent",
+        lblOppKey: "Key ID:", lblOppJa: "JA Name:", lblOppEn: "EN Name:",
+        lblOpponentsList: "Opponents",
+        locationsHeading: "Add / Edit Venue",
+        lblLocKey: "Key ID:", lblLocSurface: "Surface:",
+        lblLocJa: "JA Name:", lblLocIt: "IT Name:", lblLocEn: "EN Name:", lblLocMaps: "Google Maps:",
+        lblLocationsList: "Venues",
+        lineHeading: "LINE Announcement Generator",
+        lineSub: "Generate match notice ready for LINE group.",
+        draftFound: "Unsaved draft found.",
+        draftRestore: "Restore", draftDiscard: "Discard",
+        trialistPrompt: "Trialist name:",
+        confirmDelete: "Delete",
+        saving: "Saving...", saved: "Saved successfully",
+        errorPrefix: "Error:"
+    }
+};
+
+/* =========================================================
+   COSTANTI
+   ========================================================= */
+const REPO = 'yokohamacalcio/yokohamacalcio';
+const TOKEN_KEY = 'yc_gh_token';
+
+const FORMATION_COORDS = {
+    "4-4-2": {
+        GK:   { x: 50, y: 92 },
+        LB:   { x: 15, y: 75 }, "CB-L": { x: 38, y: 78 }, "CB-R": { x: 62, y: 78 }, RB: { x: 85, y: 75 },
+        LM:   { x: 12, y: 52 }, "CM-L": { x: 38, y: 55 }, "CM-R": { x: 62, y: 55 }, RM: { x: 88, y: 52 },
+        "FW-L": { x: 35, y: 22 }, "FW-R": { x: 65, y: 22 }
+    },
+    "4-3-3": {
+        GK: { x: 50, y: 92 },
+        LB: { x: 15, y: 75 }, "CB-L": { x: 38, y: 78 }, "CB-R": { x: 62, y: 78 }, RB: { x: 85, y: 75 },
+        DM: { x: 50, y: 60 }, "CM-L": { x: 28, y: 52 }, "CM-R": { x: 72, y: 52 },
+        LW: { x: 20, y: 25 }, ST: { x: 50, y: 18 }, RW: { x: 80, y: 25 }
+    },
+    "4-2-3-1": {
+        GK: { x: 50, y: 92 },
+        LB: { x: 15, y: 75 }, "CB-L": { x: 38, y: 78 }, "CB-R": { x: 62, y: 78 }, RB: { x: 85, y: 75 },
+        "DM-L": { x: 35, y: 62 }, "DM-R": { x: 65, y: 62 },
+        "AM-L": { x: 20, y: 42 }, "AM-C": { x: 50, y: 42 }, "AM-R": { x: 80, y: 42 },
+        ST: { x: 50, y: 18 }
+    },
+    "3-5-2": {
+        GK: { x: 50, y: 92 },
+        "CB-L": { x: 25, y: 78 }, "CB-C": { x: 50, y: 80 }, "CB-R": { x: 75, y: 78 },
+        LWB: { x: 10, y: 55 }, "CM-L": { x: 32, y: 55 }, "CM-C": { x: 50, y: 58 }, "CM-R": { x: 68, y: 55 }, RWB: { x: 90, y: 55 },
+        "FW-L": { x: 35, y: 22 }, "FW-R": { x: 65, y: 22 }
+    },
+    "3-4-3": {
+        GK: { x: 50, y: 92 },
+        "CB-L": { x: 25, y: 78 }, "CB-C": { x: 50, y: 80 }, "CB-R": { x: 75, y: 78 },
+        LM: { x: 12, y: 55 }, "CM-L": { x: 38, y: 55 }, "CM-R": { x: 62, y: 55 }, RM: { x: 88, y: 55 },
+        LW: { x: 20, y: 25 }, ST: { x: 50, y: 18 }, RW: { x: 80, y: 25 }
+    },
+    "5-3-2": {
+        GK: { x: 50, y: 92 },
+        LWB: { x: 8, y: 72 }, "CB-L": { x: 28, y: 78 }, "CB-C": { x: 50, y: 80 }, "CB-R": { x: 72, y: 78 }, RWB: { x: 92, y: 72 },
+        "CM-L": { x: 28, y: 52 }, "CM-C": { x: 50, y: 55 }, "CM-R": { x: 72, y: 52 },
+        "FW-L": { x: 35, y: 22 }, "FW-R": { x: 65, y: 22 }
+    },
+    "4-1-4-1": {
+        GK: { x: 50, y: 92 },
+        LB: { x: 15, y: 75 }, "CB-L": { x: 38, y: 78 }, "CB-R": { x: 62, y: 78 }, RB: { x: 85, y: 75 },
+        DM: { x: 50, y: 62 },
+        LM: { x: 12, y: 45 }, "CM-L": { x: 38, y: 48 }, "CM-R": { x: 62, y: 48 }, RM: { x: 88, y: 45 },
+        ST: { x: 50, y: 18 }
+    }
+};
+
+const SURFACE_PRESETS = {
+    "artificial": { ja: "人工芝", it: "Sintetico", en: "Artificial Turf" },
+    "clay":       { ja: "クレー（土）", it: "Terra battuta", en: "Clay / Dirt" },
+    "grass":      { ja: "天然芝", it: "Erba naturale", en: "Natural Grass" }
+};
+
+/* =========================================================
+   STATE
+   ========================================================= */
+const State = {
+    lang: sessionStorage.getItem('yc_admin_lang') || localStorage.getItem('preferred_lang') || 'it',
+    token: sessionStorage.getItem(TOKEN_KEY) || '',
+    players: [],
+    opponents: {},
+    locations: {},
+    matches: [],
+    trialists: [],          // ⭐ separati da players.json
+    isDirty: false,
+    playerSort: { field: 'number', dir: 'asc' },
+    opponentSort: { field: 'key', dir: 'asc' },
+    locationSort: { field: 'key', dir: 'asc' },
+    playerSearch: '',
+    opponentSearch: '',
+    autosaveTimer: null
+};
+
+/* =========================================================
+   UTILS
+   ========================================================= */
+function $(id) { return document.getElementById(id); }
+function $$(sel, ctx = document) { return ctx.querySelectorAll(sel); }
+function cleanStr(s) { return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim(); }
+function isJapanese(s) { return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf]/.test(s); }
+
+function t(key) {
+    return (I18N_DICT[State.lang] && I18N_DICT[State.lang][key]) || key;
+}
+
+/* Encoders UTF-8 per GitHub API */
+function utf8ToBase64(str) {
+    const bytes = new TextEncoder().encode(str);
+    let bin = '';
+    for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+}
+function base64ToUtf8(b64) {
+    const bin = atob(String(b64 || '').replace(/\s/g, ''));
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+}
+
+function debounce(fn, ms) {
+    let timer;
+    return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), ms);
     };
+}
 
-    const SURFACE_PRESETS = {
-        "artificial": { ja: "人工芝", it: "Sintetico", en: "Artificial Turf" },
-        "clay": { ja: "クレー（土）", it: "Terra battuta", en: "Clay / Dirt" },
-        "grass": { ja: "天然芝", it: "Erba naturale", en: "Natural Grass" }
+/* =========================================================
+   TOAST & MODAL SYSTEM
+   ========================================================= */
+function showToast(type, message, duration = 4000) {
+    const container = $('toastContainer');
+    const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warn: 'fa-exclamation-triangle' };
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `<i class="fas ${icons[type] || 'fa-info-circle'}"></i><div>${message}</div>`;
+    container.appendChild(toast);
+    requestAnimationFrame(() => toast.classList.add('show'));
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, duration);
+}
+
+/* Modal API: showModal({title, body, confirmText, cancelText, danger, onConfirm}) */
+let modalResolve = null;
+function showModal(opts = {}) {
+    return new Promise(resolve => {
+        modalResolve = resolve;
+        $('modalTitle').textContent = opts.title || '';
+        $('modalBody').innerHTML = opts.body || '';
+        const confirmBtn = $('modalConfirm');
+        confirmBtn.textContent = opts.confirmText || 'OK';
+        confirmBtn.className = opts.danger ? 'btn-modal-danger' : 'btn-modal-confirm';
+        $('modalCancel').textContent = opts.cancelText || 'Annulla';
+        $('modalOverlay').classList.add('show');
+        setTimeout(() => {
+            const input = $('modalBody').querySelector('input, textarea, select');
+            if (input) input.focus();
+            else confirmBtn.focus();
+        }, 100);
+    });
+}
+
+function closeModal(result) {
+    $('modalOverlay').classList.remove('show');
+    if (modalResolve) {
+        modalResolve(result);
+        modalResolve = null;
+    }
+}
+
+$('modalConfirm').addEventListener('click', () => {
+    const input = $('modalBody').querySelector('input, textarea, select');
+    if (input) closeModal(input.value);
+    else closeModal(true);
+});
+$('modalCancel').addEventListener('click', () => closeModal(null));
+$('modalOverlay').addEventListener('click', (e) => {
+    if (e.target === $('modalOverlay')) closeModal(null);
+});
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && $('modalOverlay').classList.contains('show')) closeModal(null);
+    if (e.key === 'Enter' && $('modalOverlay').classList.contains('show')) {
+        const input = $('modalBody').querySelector('input');
+        if (input && document.activeElement === input) {
+            e.preventDefault();
+            $('modalConfirm').click();
+        }
+    }
+});
+
+async function showPrompt(title, placeholder = '', defaultValue = '') {
+    const body = `<input type="text" id="modalPromptInput" class="form-control" placeholder="${placeholder}" value="${defaultValue}">`;
+    return await showModal({ title, body, confirmText: 'OK' });
+}
+
+async function showConfirm(message, danger = false) {
+    return await showModal({
+        title: '⚠️ ' + t('confirmDelete'),
+        body: `<p>${message}</p>`,
+        confirmText: 'Sì',
+        cancelText: 'No',
+        danger
+    });
+}
+
+/* =========================================================
+   LANGUAGE
+   ========================================================= */
+function setLanguage(lang) {
+    if (!I18N_DICT[lang]) return;
+    State.lang = lang;
+    sessionStorage.setItem('yc_admin_lang', lang);
+    $$('.lang-btn-admin').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+    $$('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (I18N_DICT[lang][key]) el.textContent = I18N_DICT[lang][key];
+    });
+    renderSurfaceDropdown();
+    renderAllTables();
+}
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+function initDarkMode() {
+    const isDark = sessionStorage.getItem('yc_admin_dark') === '1';
+    if (isDark) document.body.classList.add('dark');
+    updateDarkIcon();
+}
+function toggleDark() {
+    document.body.classList.toggle('dark');
+    sessionStorage.setItem('yc_admin_dark', document.body.classList.contains('dark') ? '1' : '0');
+    updateDarkIcon();
+}
+function updateDarkIcon() {
+    const icon = $('darkIcon');
+    if (!icon) return;
+    const isDark = document.body.classList.contains('dark');
+    icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+}
+
+/* =========================================================
+   GITHUB API
+   ========================================================= */
+async function ghGet(filePath) {
+    const url = `https://api.github.com/repos/${REPO}/contents/${filePath}`;
+    const res = await fetch(url, {
+        headers: {
+            'Authorization': `Bearer ${State.token}`,
+            'Accept': 'application/vnd.github+json'
+        }
+    });
+    if (res.status === 404) return { sha: null, content: [] };
+    if (!res.ok) throw new Error(await formatGhError(res, `GET ${filePath}`));
+    const data = await res.json();
+    const str = base64ToUtf8(data.content);
+    return { sha: data.sha, content: JSON.parse(str) };
+}
+
+async function ghPut(filePath, content, sha, commitMsg) {
+    const url = `https://api.github.com/repos/${REPO}/contents/${filePath}`;
+    const body = {
+        message: commitMsg,
+        content: utf8ToBase64(JSON.stringify(content, null, 2)),
+        branch: 'main'
     };
+    if (sha) body.sha = sha;
 
-    let currentAdminLang = localStorage.getItem('preferred_lang') || 'it';
-    let activeToken = localStorage.getItem('yc_gh_token') || '';
-    let globalPlayers = [];
-    let globalOpponents = {};
-    let globalLocations = {};
-    let allMatchesData = [];
-    let trialistsList = [];
-
-    // ENCODING / DECODING UTF-8 SICURO PER GITHUB REST API
-    function utf8ToBase64(str) {
-        const bytes = new TextEncoder().encode(str);
-        const binString = Array.from(bytes, (b) => String.fromCharCode(b)).join('');
-        return btoa(binString);
-    }
-
-    function base64ToUtf8(b64) {
-        const binString = atob(String(b64 || '').replace(/\s/g, ''));
-        const bytes = Uint8Array.from(binString, (c) => c.charCodeAt(0));
-        return new TextDecoder().decode(bytes);
-    }
-
-    function setAdminLanguage(lang) {
-        currentAdminLang = lang;
-        localStorage.setItem('preferred_lang', lang);
-        document.querySelectorAll('.lang-btn-admin').forEach(btn => {
-            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-        });
-        renderSurfaceDropdown();
-        renderLocationsSelectAndTable();
-    }
-
-    function renderSurfaceDropdown() {
-        const sel = document.getElementById('locSurfaceSelect');
-        if (!sel) return;
-        const curVal = sel.value || 'artificial';
-        sel.innerHTML = Object.keys(SURFACE_PRESETS).map(k => {
-            const label = SURFACE_PRESETS[k][currentAdminLang] || SURFACE_PRESETS[k].it || SURFACE_PRESETS[k].ja;
-            return `<option value="${k}">${label}</option>`;
-        }).join('');
-        sel.value = curVal;
-    }
-
-    function switchTab(evt, tabId) {
-        document.querySelectorAll('.tab-content').forEach(tc => tc.classList.add('hidden'));
-        document.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));
-        document.getElementById(tabId).classList.remove('hidden');
-        if (evt && evt.currentTarget) {
-            evt.currentTarget.classList.add('active');
-        }
-        if (tabId === 'locationsTab') {
-            renderSurfaceDropdown();
-        }
-    }
-
-    async function verifyAndLoginToken(token) {
-        const loginErr = document.getElementById('loginError');
-        const loginBtn = document.getElementById('loginBtn');
-        loginErr.textContent = '';
-        loginBtn.disabled = true;
-
-        try {
-            const repo = "yokohamacalcio/yokohamacalcio";
-            const res = await fetch(`https://api.github.com/repos/${repo}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-
-            if (res.ok) {
-                activeToken = token;
-                localStorage.setItem('yc_gh_token', token);
-                document.getElementById('loginSection').classList.add('hidden');
-                document.getElementById('adminDashboard').classList.remove('hidden');
-                initData();
-            } else {
-                loginErr.textContent = '❌ Token non valido o permessi insufficienti!';
-                localStorage.removeItem('yc_gh_token');
-            }
-        } catch(e) {
-            loginErr.textContent = '❌ Errore di rete durante la verifica.';
-        } finally {
-            loginBtn.disabled = false;
-        }
-    }
-
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const inputVal = document.getElementById('inputToken').value.trim();
-        if (inputVal) verifyAndLoginToken(inputVal);
+    const res = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${State.token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github+json'
+        },
+        body: JSON.stringify(body)
     });
-
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-        localStorage.removeItem('yc_gh_token');
-        activeToken = '';
-        location.reload();
-    });
-
-    if (activeToken) verifyAndLoginToken(activeToken);
-
-    async function initData() {
-        renderSurfaceDropdown();
-        try {
-            // 1. Opponents
-            try {
-                const oRes = await fetch('opponents.json?t=' + Date.now());
-                globalOpponents = await oRes.json();
-                renderOpponentsSelectAndTable();
-            } catch(e) {}
-
-            // 2. Locations
-            try {
-                const lRes = await fetch('locations.json?t=' + Date.now());
-                globalLocations = await lRes.json();
-                renderLocationsSelectAndTable();
-            } catch(e) {}
-
-            // 3. Players
-            try {
-                const pRes = await fetch('players.json?t=' + Date.now());
-                globalPlayers = await pRes.json();
-                renderPlayersTable();
-            } catch(e) {}
-
-            // 4. Matches
-            try {
-                const mRes = await fetch('matches.json?t=' + Date.now());
-                allMatchesData = await mRes.json();
-            } catch(e) {}
-
-            renderPitchAndBench();
-            updateAllPlayerDropdowns();
-            renderTrialistsList();
-
-        } catch(e) {
-            console.error("Errore caricamento dati:", e);
-        }
-    }
-
-    function createNewMatch() {
-        resetForm();
-        let maxNum = 0;
-        if (Array.isArray(allMatchesData) && allMatchesData.length > 0) {
-            allMatchesData.forEach(m => {
-                const match = String(m.id || '').match(/match-(\d+)/i);
-                if (match) {
-                    const num = parseInt(match[1], 10);
-                    if (!isNaN(num) && num > maxNum) maxNum = num;
-                }
-            });
-        }
-        const newId = `match-${maxNum + 1}`;
-        document.getElementById('matchId').value = newId;
-        document.getElementById('matchDate').value = new Date().toISOString().split('T')[0];
-        
-        const statusMsg = document.getElementById('statusMsg');
-        statusMsg.style.color = '#059669';
-        statusMsg.innerHTML = `✨ Nuova partita preparata con ID automatico: <b>${newId}</b>`;
-    }
-
-    function renderOpponentsSelectAndTable() {
-        const sortedOppKeys = Object.keys(globalOpponents).sort();
-        document.getElementById('opponentSelect').innerHTML = sortedOppKeys.map(k => {
-            const name = globalOpponents[k].name?.ja || globalOpponents[k].name?.en || k;
-            return `<option value="${k}">${name} (${k})</option>`;
-        }).join('');
-
-        const tbody = document.getElementById('opponentsTableBody');
-        tbody.innerHTML = sortedOppKeys.map(k => `
-            <tr>
-                <td><b>${k}</b></td>
-                <td>${globalOpponents[k].name?.ja || '-'}</td>
-                <td>${globalOpponents[k].name?.en || '-'}</td>
-                <td>
-                    <button type="button" class="btn-edit" onclick="editOpponent('${k}')">Modifica</button>
-                    <button type="button" class="btn-delete" onclick="deleteOpponent('${k}')">Elimina</button>
-                </td>
-            </tr>
-        `).join('');
-    }
-
-    function renderLocationsSelectAndTable() {
-        const sortedLocKeys = Object.keys(globalLocations).sort();
-        document.getElementById('locationSelect').innerHTML = sortedLocKeys.map(k => {
-            const loc = globalLocations[k];
-            const name = loc.ja || loc.en || k;
-            return `<option value="${k}">${name} (${k})</option>`;
-        }).join('');
-
-        const tbody = document.getElementById('locationsTableBody');
-        tbody.innerHTML = sortedLocKeys.map(k => {
-            const loc = globalLocations[k];
-            const sObj = loc.surface || {};
-            const surfDisplay = typeof sObj === 'object' ? (sObj[currentAdminLang] || sObj.it || sObj.ja || '-') : sObj;
-            return `
-                <tr>
-                    <td><b>${k}</b></td>
-                    <td>${loc.ja || '-'}</td>
-                    <td>${loc.it || '-'}</td>
-                    <td><b>${surfDisplay}</b></td>
-                    <td>${loc.maps ? `<a href="${loc.maps}" target="_blank" style="color:#0284c7;">Link Maps</a>` : '-'}</td>
-                    <td>
-                        <button type="button" class="btn-edit" onclick="editLocation('${k}')">Modifica</button>
-                        <button type="button" class="btn-delete" onclick="deleteLocation('${k}')">Elimina</button>
-                    </td>
-                </tr>
-            `;
-        }).join('');
-    }
-
-    function renderPlayersTable() {
-        const tbody = document.getElementById('playersTableBody');
-        tbody.innerHTML = globalPlayers.map((p, idx) => `
-            <tr>
-                <td><b>${p.number !== null && p.number !== undefined ? p.number : '-'}</b></td>
-                <td>${p.name_kanji || '-'}</td>
-                <td>${p.name_romaji || '-'}</td>
-                <td><span class="pos-badge">${(p.role || '').toUpperCase()}</span></td>
-                <td>${p.position || '-'}</td>
-                <td>${p.hometown || '-'}</td>
-                <td><b>${p.caps !== undefined ? p.caps : 0}</b></td>
-                <td>
-                    <button type="button" class="btn-edit" onclick="editPlayer(${idx})">Modifica</button>
-                    <button type="button" class="btn-delete" onclick="deletePlayer(${idx})">Elimina</button>
-                </td>
-            </tr>
-        `).join('');
-    }
-
-    /* --- EDITOR GIOCATORI ROSA --- */
-    async function savePlayerToSquad() {
-        const rawNum = document.getElementById('pNumber').value.trim();
-        const num = rawNum !== "" ? parseInt(rawNum, 10) : null;
-        const kanji = document.getElementById('pNameKanji').value.trim();
-        const kana = document.getElementById('pNameKana').value.trim();
-        const romaji = document.getElementById('pNameRomaji').value.trim();
-        const role = document.getElementById('pRole').value;
-        const pos = document.getElementById('pPosition').value.trim().toUpperCase();
-        const birth = document.getElementById('pBirthDate').value;
-        const hometown = document.getElementById('pHometown').value.trim().toLowerCase();
-        const caps = parseInt(document.getElementById('editPlayerCaps').value, 10) || 0;
-
-        if (!kanji) { alert("Inserisci almeno il nome Kanji o ufficiale."); return; }
-
-        const editId = document.getElementById('editPlayerId').value;
-        const generatedId = editId || (romaji ? romaji.toLowerCase().replace(/[^a-z0-9]+/g, '-') : `player-${Date.now()}`);
-
-        const playerObj = {
-            id: generatedId,
-            number: num,
-            role: role,
-            position: pos,
-            name_kanji: kanji,
-            name_kana: kana,
-            name_romaji: romaji,
-            birth_date: birth || null,
-            hometown: hometown || "kanagawa",
-            caps: caps
-        };
-
-        if (editId) {
-            const idx = globalPlayers.findIndex(p => p.id === editId);
-            if (idx >= 0) globalPlayers[idx] = playerObj;
-        } else {
-            globalPlayers.push(playerObj);
-        }
-
-        renderPlayersTable();
-        updateAllPlayerDropdowns();
-
-        // SALVATAGGIO DIRETTO SU GITHUB
-        const repo = document.getElementById('repoPath').value.trim();
-        const statusMsg = document.getElementById('statusMsg');
-        try {
-            statusMsg.style.color = '#003c82';
-            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvataggio `players.json` su GitHub...';
-            const { sha } = await getGitHubFile(repo, 'players.json', activeToken);
-            await saveGitHubFile(repo, 'players.json', globalPlayers, sha, activeToken, 'Admin: Update players.json');
-            statusMsg.style.color = '#059669';
-            statusMsg.innerHTML = '✅ `players.json` salvato con successo su GitHub!';
-            resetPlayerForm();
-        } catch(e) {
-            statusMsg.style.color = '#dc2626';
-            statusMsg.innerHTML = '❌ Errore salvataggio GitHub: ' + e.message;
-        }
-    }
-
-    function editPlayer(idx) {
-        const p = globalPlayers[idx];
-        if (!p) return;
-        document.getElementById('editPlayerId').value = p.id;
-        document.getElementById('editPlayerCaps').value = p.caps !== undefined ? p.caps : 0;
-        document.getElementById('pNumber').value = p.number !== null && p.number !== undefined ? p.number : '';
-        document.getElementById('pNameKanji').value = p.name_kanji || '';
-        document.getElementById('pNameKana').value = p.name_kana || '';
-        document.getElementById('pNameRomaji').value = p.name_romaji || '';
-        document.getElementById('pRole').value = p.role || 'mf';
-        document.getElementById('pPosition').value = p.position || '';
-        document.getElementById('pBirthDate').value = p.birth_date || '';
-        document.getElementById('pHometown').value = p.hometown || '';
-    }
-
-    async function deletePlayer(idx) {
-        if (confirm("Sei sicuro di voler eliminare questo giocatore dalla rosa?")) {
-            globalPlayers.splice(idx, 1);
-            renderPlayersTable();
-            updateAllPlayerDropdowns();
-
-            const repo = document.getElementById('repoPath').value.trim();
-            const statusMsg = document.getElementById('statusMsg');
-            try {
-                statusMsg.style.color = '#003c82';
-                statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Aggiornamento `players.json` su GitHub...';
-                const { sha } = await getGitHubFile(repo, 'players.json', activeToken);
-                await saveGitHubFile(repo, 'players.json', globalPlayers, sha, activeToken, 'Admin: Delete player from players.json');
-                statusMsg.style.color = '#059669';
-                statusMsg.innerHTML = '✅ Giocatore eliminato da GitHub!';
-            } catch(e) {
-                statusMsg.style.color = '#dc2626';
-                statusMsg.innerHTML = '❌ Errore: ' + e.message;
-            }
-        }
-    }
-
-    function resetPlayerForm() {
-        document.getElementById('playerEditForm').reset();
-        document.getElementById('editPlayerId').value = '';
-        document.getElementById('editPlayerCaps').value = '0';
-    }
-
-    /* --- EDITOR AVVERSARI --- */
-    async function saveOpponentData() {
-        const key = document.getElementById('oppKey').value.trim().toLowerCase();
-        const ja = document.getElementById('oppNameJa').value.trim();
-        const en = document.getElementById('oppNameEn').value.trim();
-
-        if (!key || !ja) { alert("Inserisci Key e Nome Giapponese."); return; }
-
-        globalOpponents[key] = {
-            name: { ja: ja, en: en || ja }
-        };
-
-        renderOpponentsSelectAndTable();
-
-        const repo = document.getElementById('repoPath').value.trim();
-        const statusMsg = document.getElementById('statusMsg');
-        try {
-            statusMsg.style.color = '#003c82';
-            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvataggio `opponents.json` su GitHub...';
-            const { sha } = await getGitHubFile(repo, 'opponents.json', activeToken);
-            await saveGitHubFile(repo, 'opponents.json', globalOpponents, sha, activeToken, 'Admin: Update opponents.json');
-            statusMsg.style.color = '#059669';
-            statusMsg.innerHTML = '✅ `opponents.json` salvato con successo su GitHub!';
-            resetOpponentForm();
-        } catch(e) {
-            statusMsg.style.color = '#dc2626';
-            statusMsg.innerHTML = '❌ Errore salvataggio GitHub: ' + e.message;
-        }
-    }
-
-    function editOpponent(key) {
-        const opp = globalOpponents[key];
-        if (!opp) return;
-        document.getElementById('editOpponentKey').value = key;
-        document.getElementById('oppKey').value = key;
-        document.getElementById('oppNameJa').value = opp.name?.ja || '';
-        document.getElementById('oppNameEn').value = opp.name?.en || '';
-    }
-
-    async function deleteOpponent(key) {
-        if (confirm(`Eliminare l'avversario "${key}"?`)) {
-            delete globalOpponents[key];
-            renderOpponentsSelectAndTable();
-
-            const repo = document.getElementById('repoPath').value.trim();
-            const statusMsg = document.getElementById('statusMsg');
-            try {
-                statusMsg.style.color = '#003c82';
-                statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Aggiornamento `opponents.json` su GitHub...';
-                const { sha } = await getGitHubFile(repo, 'opponents.json', activeToken);
-                await saveGitHubFile(repo, 'opponents.json', globalOpponents, sha, activeToken, 'Admin: Delete opponent');
-                statusMsg.style.color = '#059669';
-                statusMsg.innerHTML = '✅ Avversario eliminato da GitHub!';
-            } catch(e) {
-                statusMsg.style.color = '#dc2626';
-                statusMsg.innerHTML = '❌ Errore: ' + e.message;
-            }
-        }
-    }
-
-    function resetOpponentForm() {
-        document.getElementById('opponentEditForm').reset();
-        document.getElementById('editOpponentKey').value = '';
-    }
-
-    /* --- EDITOR CAMPI --- */
-    async function saveLocationData() {
-        const key = document.getElementById('locKey').value.trim().toLowerCase();
-        const ja = document.getElementById('locNameJa').value.trim();
-        const it = document.getElementById('locNameIt').value.trim();
-        const en = document.getElementById('locNameEn').value.trim();
-        const surfKey = document.getElementById('locSurfaceSelect').value;
-        const maps = document.getElementById('locMapsUrl').value.trim();
-
-        if (!key || !ja) { alert("Inserisci Key e Nome Giapponese."); return; }
-
-        globalLocations[key] = {
-            ja: ja,
-            it: it || ja,
-            en: en || ja,
-            surface: SURFACE_PRESETS[surfKey] || SURFACE_PRESETS.artificial,
-            maps: maps
-        };
-
-        renderLocationsSelectAndTable();
-
-        const repo = document.getElementById('repoPath').value.trim();
-        const statusMsg = document.getElementById('statusMsg');
-        try {
-            statusMsg.style.color = '#003c82';
-            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvataggio `locations.json` su GitHub...';
-            const { sha } = await getGitHubFile(repo, 'locations.json', activeToken);
-            await saveGitHubFile(repo, 'locations.json', globalLocations, sha, activeToken, 'Admin: Update locations.json');
-            statusMsg.style.color = '#059669';
-            statusMsg.innerHTML = '✅ `locations.json` salvato con successo su GitHub!';
-            resetLocationForm();
-        } catch(e) {
-            statusMsg.style.color = '#dc2626';
-            statusMsg.innerHTML = '❌ Errore salvataggio GitHub: ' + e.message;
-        }
-    }
-
-    function editLocation(key) {
-        const loc = globalLocations[key];
-        if (!loc) return;
-        document.getElementById('editLocationKey').value = key;
-        document.getElementById('locKey').value = key;
-        document.getElementById('locNameJa').value = loc.ja || '';
-        document.getElementById('locNameIt').value = loc.it || '';
-        document.getElementById('locNameEn').value = loc.en || '';
-        
-        let surfKey = 'artificial';
-        const sObj = loc.surface || {};
-        const sJa = (typeof sObj === 'object' ? sObj.ja : sObj) || '';
-        if (sJa.includes('クレー') || sJa.includes('土') || sJa.includes('Clay')) surfKey = 'clay';
-        else if (sJa.includes('天然芝') || sJa.includes('Grass')) surfKey = 'grass';
-        else surfKey = 'artificial';
-
-        document.getElementById('locSurfaceSelect').value = surfKey;
-        document.getElementById('locMapsUrl').value = loc.maps || '';
-    }
-
-    async function deleteLocation(key) {
-        if (confirm(`Eliminare il campo "${key}"?`)) {
-            delete globalLocations[key];
-            renderLocationsSelectAndTable();
-
-            const repo = document.getElementById('repoPath').value.trim();
-            const statusMsg = document.getElementById('statusMsg');
-            try {
-                statusMsg.style.color = '#003c82';
-                statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Aggiornamento `locations.json` su GitHub...';
-                const { sha } = await getGitHubFile(repo, 'locations.json', activeToken);
-                await saveGitHubFile(repo, 'locations.json', globalLocations, sha, activeToken, 'Admin: Delete location');
-                statusMsg.style.color = '#059669';
-                statusMsg.innerHTML = '✅ Campo eliminato da GitHub!';
-            } catch(e) {
-                statusMsg.style.color = '#dc2626';
-                statusMsg.innerHTML = '❌ Errore: ' + e.message;
-            }
-        }
-    }
-
-    function resetLocationForm() {
-        document.getElementById('locationEditForm').reset();
-        document.getElementById('editLocationKey').value = '';
-        renderSurfaceDropdown();
-    }
-
-    /* --- GENERATORE TESTO LINE --- */
-    function generateLineMessage() {
-        const date = document.getElementById('matchDate').value || '未定';
-        const time = document.getElementById('matchTime').value || '11:00';
-        const oppKey = document.getElementById('opponentSelect').value;
-        const oppName = globalOpponents[oppKey]?.name?.ja || oppKey;
-        const locKey = document.getElementById('locationSelect').value;
-        const locObj = globalLocations[locKey];
-        const locName = locObj?.ja || locKey;
-        const mapsUrl = locObj?.maps || '';
-
-        const starters = [];
-        document.querySelectorAll('#pitchGrid .starter-player-select').forEach(sel => {
-            if (sel.value) starters.push(`・[${sel.getAttribute('data-pos')}] ${sel.value}`);
-        });
-
-        const bench = [];
-        document.querySelectorAll('#benchGrid .bench-player-select').forEach(sel => {
-            if (sel.value) bench.push(`・${sel.value}`);
-        });
-
-        const text = `⚽ 【Yokohama Calcio Match Announcement】 ⚽
-
-📅 日付 (Data): ${date}
-⏰ K.O. (Orario): ${time}
-🛡️ 対戦相手 (Avversario): ${oppName}
-📍 会場 (Campo): ${locName}
-${mapsUrl ? `🗺️ Google Maps: ${mapsUrl}` : ''}
-
-------------------------------
-【スタメン / Titolari】
-${starters.length > 0 ? starters.join('\n') : '未定'}
-
-【ベンチ / Panchina】
-${bench.length > 0 ? bench.join('\n') : '未定'}
-------------------------------
-
-各自、試合開始時間の45分前までに現地集合をお願いします！ Forza Yokohama Calcio! 🔥`;
-
-        document.getElementById('lineTextOutput').value = text;
-    }
-
-    function copyLineText() {
-        const textarea = document.getElementById('lineTextOutput');
-        textarea.select();
-        document.execCommand('copy');
-        alert("✅ Testo copiato negli appunti!");
-    }
-
-    /* --- CAMPO TATTICO E SELEZIONE MATCH --- */
-    function renderPitchAndBench() {
-        const formationKey = document.getElementById('formationSelect').value;
-        const positions = FORMATIONS[formationKey] || FORMATIONS["4-4-2"];
-        
-        const pitchGrid = document.getElementById('pitchGrid');
-        pitchGrid.innerHTML = positions.map((posTag, idx) => `
-            <div class="pitch-position-card">
-                <div class="pitch-pos-header">
-                    <span class="pos-badge">${posTag}</span>
-                    <span style="font-size: 0.7rem; color: #cbd5e1;">#${idx + 1}</span>
-                </div>
-                <select class="form-control player-dropdown-dynamic starter-player-select match-squad-select" data-pos="${posTag}">
-                </select>
-            </div>
-        `).join('');
-
-        const benchGrid = document.getElementById('benchGrid');
-        let benchHTML = '';
-        for (let i = 1; i <= 10; i++) {
-            benchHTML += `
-                <div class="bench-card" id="benchSlot_${i}">
-                    <div class="bench-card-header">
-                        <span>#${i} Panchina</span>
-                    </div>
-                    <select class="form-control player-dropdown-dynamic bench-player-select match-squad-select">
-                    </select>
-                    <div class="bench-sub-row">
-                        <label>
-                            <input type="checkbox" class="bench-subbed-in" onchange="toggleBenchPosSelect(this)"> Sceso in campo
-                        </label>
-                        <select class="form-control bench-pos-select" style="font-size: 0.8rem; padding: 4px;" disabled>
-                            ${positions.map(p => `<option value="${p}">${p}</option>`).join('')}
-                        </select>
-                    </div>
-                </div>
-            `;
-        }
-        benchGrid.innerHTML = benchHTML;
-        updateAllPlayerDropdowns();
-    }
-
-    function clearFormationSelections() {
-        document.querySelectorAll('#pitchGrid .starter-player-select').forEach(s => s.value = '');
-        document.querySelectorAll('#benchGrid .bench-player-select').forEach(s => s.value = '');
-        document.querySelectorAll('#benchGrid .bench-subbed-in').forEach(s => {
-            s.checked = false;
-            toggleBenchPosSelect(s);
-        });
-        updatePlayerExclusions();
-    }
-
-    function toggleBenchPosSelect(checkboxElem) {
-        const posSelect = checkboxElem.parentElement.parentElement.querySelector('.bench-pos-select');
-        if (posSelect) posSelect.disabled = !checkboxElem.checked;
-    }
-
-    document.getElementById('formationSelect').addEventListener('change', renderPitchAndBench);
-
-    function addTrialistPlayer() {
-        const namePrompt = prompt("Nome del giocatore in prova (es. 山田 太郎):", "");
-        if (!namePrompt || !namePrompt.trim()) return;
-
-        const name = namePrompt.trim();
-        const tId = `trialist_${Date.now()}`;
-        const trialist = { id: tId, name_kanji: name, name_romaji: name, position: 'TRIAL', role: 'mf' };
-
-        trialistsList.push(trialist);
-        globalPlayers.push(trialist);
-
-        renderTrialistsList();
-        updateAllPlayerDropdowns();
-    }
-
-    function removeTrialist(id) {
-        trialistsList = trialistsList.filter(t => t.id !== id);
-        globalPlayers = globalPlayers.filter(p => p.id !== id);
-        renderTrialistsList();
-        updateAllPlayerDropdowns();
-    }
-
-    function renderTrialistsList() {
-        const container = document.getElementById('trialistListContainer');
-        if (!container) return;
-        if (trialistsList.length === 0) {
-            container.innerHTML = '<span style="font-size: 0.78rem; color: #64748b;">Nessun giocatore in prova aggiunto</span>';
-            return;
-        }
-        container.innerHTML = trialistsList.map(t => `
-            <div class="trialist-item">
-                <span><i class="fas fa-user-clock"></i> ${t.name_kanji}</span>
-                <button type="button" class="btn-remove-trialist" onclick="removeTrialist('${t.id}')"><i class="fas fa-times-circle"></i></button>
-            </div>
-        `).join('');
-    }
-
-    function getAllAvailablePlayers(onlyGoalkeepers = false) {
-        const list = [{ name: "Nessuno / なし", value: "" }];
-        let filtered = globalPlayers;
-        if (onlyGoalkeepers) filtered = globalPlayers.filter(p => p.position === 'GK' || p.role === 'gk' || p.position === 'TRIAL');
-
-        filtered.sort((a, b) => (a.name_kanji || '').localeCompare(b.name_kanji || ''));
-        filtered.forEach(p => {
-            const isTrial = p.position === 'TRIAL' ? ' (PROVA)' : '';
-            list.push({ name: (p.name_kanji || p.name_romaji) + isTrial, value: p.name_kanji || p.name_romaji });
-        });
-        return list;
-    }
-
-    function updateAllPlayerDropdowns() {
-        const allPlayers = getAllAvailablePlayers(false);
-        const gkPlayers = getAllAvailablePlayers(true);
-
-        const allOptionsHTML = allPlayers.map(p => `<option value="${p.value}">${p.name}</option>`).join('');
-        const gkOptionsHTML = gkPlayers.map(p => `<option value="${p.value}">${p.name}</option>`).join('');
-
-        const mvpSelect = document.getElementById('mvpSelect');
-        const currentMvp = mvpSelect.value;
-        mvpSelect.innerHTML = allOptionsHTML;
-        mvpSelect.value = currentMvp;
-
-        document.querySelectorAll('.player-dropdown-dynamic').forEach(select => {
-            const currentVal = select.value;
-            if (select.classList.contains('gk-player-select')) select.innerHTML = gkOptionsHTML;
-            else select.innerHTML = allOptionsHTML;
-            select.value = currentVal;
-        });
-
-        updatePlayerExclusions();
-    }
-
-    function updatePlayerExclusions() {
-        const squadSelects = document.querySelectorAll('.match-squad-select');
-        const selectedValues = new Set();
-        squadSelects.forEach(select => { if (select.value) selectedValues.add(select.value); });
-
-        squadSelects.forEach(select => {
-            const currentValue = select.value;
-            Array.from(select.options).forEach(option => {
-                if (!option.value) return;
-                if (selectedValues.has(option.value) && option.value !== currentValue) {
-                    option.disabled = true;
-                    option.textContent = option.textContent.replace(' (Selezionato)', '') + ' (Selezionato)';
-                } else {
-                    option.disabled = false;
-                    option.textContent = option.textContent.replace(' (Selezionato)', '');
-                }
-            });
-        });
-    }
-
-    function createDynamicRow(selectClass, hasCountInput = true, countLabel = "Gol:", onlyGK = false) {
-        const players = getAllAvailablePlayers(onlyGK);
-        const div = document.createElement('div');
-        div.className = 'stat-row';
-        div.innerHTML = `
-            <select class="form-control player-dropdown-dynamic ${selectClass}">
-                ${players.map(p => `<option value="${p.value}">${p.name}</option>`).join('')}
-            </select>
-            ${hasCountInput ? `<label>${countLabel}</label><input type="number" class="form-control row-count-input" value="1" min="0" max="20">` : ''}
-            <button type="button" class="btn-remove-row" onclick="this.parentElement.remove(); updatePlayerExclusions();"><i class="fas fa-trash"></i></button>
-        `;
-        return div;
-    }
-
-    function addScorerRow() { document.getElementById('scorersContainer').appendChild(createDynamicRow('scorer-player-select', true, "Gol:", false)); }
-    function addAssistRow() { document.getElementById('assistsContainer').appendChild(createDynamicRow('assist-player-select', true, "Assist:", false)); }
-    function addGkRow() { document.getElementById('gkContainer').appendChild(createDynamicRow('gk-player-select', true, "Gol Subiti:", true)); }
-    function addYellowCardRow() { document.getElementById('yellowCardsContainer').appendChild(createDynamicRow('yellow-player-select', false, "", false)); }
-    function addRedCardRow() { document.getElementById('redCardsContainer').appendChild(createDynamicRow('red-player-select', false, "", false)); }
-
-    async function loadExistingMatchData(showAlerts = true) {
-        const searchId = document.getElementById('matchId').value.trim().toLowerCase();
-        if (!searchId) return;
-
-        const statusMsg = document.getElementById('statusMsg');
-        
-        try {
-            const mRes = await fetch('matches.json?t=' + Date.now());
-            if (mRes.ok) allMatchesData = await mRes.json();
-        } catch(e) {}
-
-        const match = allMatchesData.find(m => String(m.id).toLowerCase() === searchId);
-
-        if (!match) {
-            if (showAlerts) {
-                statusMsg.style.color = '#d97706';
-                statusMsg.innerHTML = `ℹ️ Nessuna partita trovata con ID "${searchId}". Inserisci i nuovi dati.`;
-            }
-            return;
-        }
-
-        statusMsg.style.color = '#0284c7';
-        statusMsg.innerHTML = `✅ Dati trovati per ${match.id}! Compilazione automatica...`;
-
-        if (match.status) document.getElementById('matchStatus').value = match.status;
-        if (match.date) document.getElementById('matchDate').value = match.date;
-        if (match.time) document.getElementById('matchTime').value = match.time;
-        if (match.category) document.getElementById('matchCategory').value = match.category;
-        if (match.type) document.getElementById('matchType').value = match.type;
-        if (match.opponent_id) document.getElementById('opponentSelect').value = match.opponent_id;
-        if (match.location_id) document.getElementById('locationSelect').value = match.location_id;
-        if (match.isHome !== undefined) document.getElementById('isHome').value = String(match.isHome);
-        if (match.score) document.getElementById('matchScore').value = match.score;
-
-        if (match.formation) {
-            const formSel = document.getElementById('formationSelect');
-            formSel.value = FORMATIONS[match.formation] ? match.formation : 'custom';
-            renderPitchAndBench();
-        }
-
-        if (match.starters_positions) {
-            Object.entries(match.starters_positions).forEach(([posTag, pName]) => {
-                const targetSel = document.querySelector(`#pitchGrid .starter-player-select[data-pos="${posTag}"]`);
-                if (targetSel) targetSel.value = pName;
-            });
-        }
-
-        if (Array.isArray(match.bench_details)) {
-            match.bench_details.forEach((bItem, idx) => {
-                const slotElem = document.getElementById(`benchSlot_${idx + 1}`);
-                if (slotElem) {
-                    const pSelect = slotElem.querySelector('.bench-player-select');
-                    const chkSub = slotElem.querySelector('.bench-subbed-in');
-                    const posSel = slotElem.querySelector('.bench-pos-select');
-
-                    if (pSelect) pSelect.value = bItem.player || '';
-                    if (chkSub) {
-                        chkSub.checked = !!bItem.subbed_in;
-                        toggleBenchPosSelect(chkSub);
-                    }
-                    if (posSel && bItem.position_played) posSel.value = bItem.position_played;
-                }
-            });
-        }
-
-        document.getElementById('scorersContainer').innerHTML = '';
-        document.getElementById('assistsContainer').innerHTML = '';
-        document.getElementById('gkContainer').innerHTML = '';
-        document.getElementById('yellowCardsContainer').innerHTML = '';
-        document.getElementById('redCardsContainer').innerHTML = '';
-
-        if (match.scorers && match.scorers !== 'なし' && match.scorers !== 'Nessuno') {
-            match.scorers.split(/[,、]/).forEach(entry => {
-                let text = entry.trim(), count = 1;
-                const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
-                if (multMatch) { text = multMatch[1].trim(); count = parseInt(multMatch[2], 10) || 1; }
-                addScorerRow();
-                const lastRow = document.querySelector('#scorersContainer .stat-row:last-child');
-                if (lastRow) {
-                    lastRow.querySelector('.scorer-player-select').value = text;
-                    lastRow.querySelector('.row-count-input').value = count;
-                }
-            });
-        }
-
-        if (match.assists && match.assists !== 'なし' && match.assists !== 'Nessuno') {
-            match.assists.split(/[,、]/).forEach(entry => {
-                let text = entry.trim(), count = 1;
-                const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
-                if (multMatch) { text = multMatch[1].trim(); count = parseInt(multMatch[2], 10) || 1; }
-                addAssistRow();
-                const lastRow = document.querySelector('#assistsContainer .stat-row:last-child');
-                if (lastRow) {
-                    lastRow.querySelector('.assist-player-select').value = text;
-                    lastRow.querySelector('.row-count-input').value = count;
-                }
-            });
-        }
-
-        if (match.goalkeepers) {
-            match.goalkeepers.split(/[,、]/).forEach(entry => {
-                const gkMatch = entry.trim().match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
-                let rawGk = entry.trim(), gkGa = 0;
-                if (gkMatch) { rawGk = gkMatch[1].trim(); gkGa = parseInt(gkMatch[2], 10) || 0; }
-                addGkRow();
-                const lastRow = document.querySelector('#gkContainer .stat-row:last-child');
-                if (lastRow) {
-                    lastRow.querySelector('.gk-player-select').value = rawGk;
-                    lastRow.querySelector('.row-count-input').value = gkGa;
-                }
-            });
-        }
-
-        if (match.mvp) document.getElementById('mvpSelect').value = match.mvp;
-
-        if (match.yellow_cards) {
-            match.yellow_cards.split(/[,、]/).forEach(name => {
-                if (name.trim()) {
-                    addYellowCardRow();
-                    const lastRow = document.querySelector('#yellowCardsContainer .stat-row:last-child');
-                    if (lastRow) lastRow.querySelector('.yellow-player-select').value = name.trim();
-                }
-            });
-        }
-        if (match.red_cards) {
-            match.red_cards.split(/[,、]/).forEach(name => {
-                if (name.trim()) {
-                    addRedCardRow();
-                    const lastRow = document.querySelector('#redCardsContainer .stat-row:last-child');
-                    if (lastRow) lastRow.querySelector('.red-player-select').value = name.trim();
-                }
-            });
-        }
-
-        updatePlayerExclusions();
-    }
-
-    function resetForm() {
-        document.getElementById('matchForm').reset();
-        document.getElementById('scorersContainer').innerHTML = '';
-        document.getElementById('assistsContainer').innerHTML = '';
-        document.getElementById('gkContainer').innerHTML = '';
-        document.getElementById('yellowCardsContainer').innerHTML = '';
-        document.getElementById('redCardsContainer').innerHTML = '';
-        document.getElementById('statusMsg').innerHTML = '';
-        trialistsList = [];
-        renderTrialistsList();
-        renderPitchAndBench();
-    }
-
-    /* --- MOTORE CALCOLO STATISTICHE LOCALE --- */
-    function cleanStr(s) { return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim(); }
-    function isJapanese(s) { return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf]/.test(s); }
-
-    function generateStatsJSON(playersData, matchesData) {
-        const playerMap = new Map();
-        const aliasToId = new Map();
-
-        playersData.forEach(p => {
-            if (p.role === 'staff') return;
-            const id = p.id || String(p.number) || p.name_kanji;
-
-            playerMap.set(id, {
-                id: id, number: p.number, name_kanji: p.name_kanji, name_kana: p.name_kana,
-                name_romaji: p.name_romaji, role: p.role, position: p.position,
-                caps: 0, starters: 0, subs: 0, goals: 0, assists: 0, mvps: 0,
-                yellows: 0, reds: 0, goals_conceded: 0, clean_sheets: 0, positions_played: {}
-            });
-
-            [id, p.name_kanji, p.name_kana, p.name_romaji].forEach(name => {
-                if (name) {
-                    const cleaned = cleanStr(name);
-                    if (cleaned) aliasToId.set(cleaned, id);
-                }
-            });
-        });
-
-        function resolvePlayerId(rawName) {
-            if (!rawName) return null;
-            const target = cleanStr(rawName);
-            if (!target || target === 'なし' || target === 'nessuno' || target === 'null') return null;
-            if (aliasToId.has(target)) return aliasToId.get(target);
-
-            const minLen = isJapanese(target) ? 2 : 3;
-            if (target.length >= minLen) {
-                for (let [alias, id] of aliasToId.entries()) {
-                    if (alias.length >= minLen && (alias.includes(target) || target.includes(alias))) return id;
-                }
-            }
-            return null;
-        }
-
-        function recordPositionPlayed(rawPlayerName, posTag) {
-            if (!rawPlayerName || !posTag) return;
-            const pId = resolvePlayerId(rawPlayerName);
-            if (!pId || !playerMap.has(pId)) return;
-            const player = playerMap.get(pId);
-            const tag = String(posTag).trim().toUpperCase();
-            if (tag && tag !== 'UNDEFINED' && tag !== 'NULL') {
-                player.positions_played[tag] = (player.positions_played[tag] || 0) + 1;
-            }
-        }
-
-        const teamTotals = {
-            total_matches: 0, wins: 0, draws: 0, losses: 0,
-            goals_for: 0, goals_against: 0, clean_sheets: 0, formations_used: {}
-        };
-
-        const knownPosRegex = /^(GK|CB|LB|RB|LWB|RWB|DM|CM|LM|RM|AM|LW|RW|FW|ST)(-[LRC123])?$/i;
-
-        matchesData.forEach(m => {
-            if (String(m.status || '').toLowerCase() !== 'past') return;
-            teamTotals.total_matches++;
-
-            if (m.formation) {
-                const form = String(m.formation).trim();
-                teamTotals.formations_used[form] = (teamTotals.formations_used[form] || 0) + 1;
-            }
-
-            let matchGF = 0, matchGA = 0;
-            const scoreText = m.score ? m.score.trim() : '';
-            if (scoreText && scoreText.includes('-')) {
-                const parts = scoreText.split('-').map(n => parseInt(n.trim(), 10));
-                if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-                    matchGF = parts[0];
-                    matchGA = parts[1];
-                }
-            }
-
-            teamTotals.goals_for += matchGF;
-            teamTotals.goals_against += matchGA;
-            if (matchGF > matchGA) teamTotals.wins++;
-            else if (matchGF === matchGA) teamTotals.draws++;
-            else teamTotals.losses++;
-
-            if (matchGA === 0) teamTotals.clean_sheets++;
-
-            const processedCaps = new Set();
-            if (Array.isArray(m.starters)) {
-                m.starters.forEach(name => {
-                    const pId = resolvePlayerId(name);
-                    if (pId && playerMap.has(pId)) {
-                        playerMap.get(pId).starters++;
-                        playerMap.get(pId).caps++;
-                        processedCaps.add(pId);
-                    }
-                });
-            }
-
-            if (m.starters_positions && typeof m.starters_positions === 'object') {
-                Object.entries(m.starters_positions).forEach(([key, val]) => {
-                    if (knownPosRegex.test(key.trim())) recordPositionPlayed(val, key);
-                    else recordPositionPlayed(key, val);
-                });
-            }
-
-            if (Array.isArray(m.substitutes_in)) {
-                m.substitutes_in.forEach(name => {
-                    const pId = resolvePlayerId(name);
-                    if (pId && playerMap.has(pId) && !processedCaps.has(pId)) {
-                        playerMap.get(pId).subs++;
-                        playerMap.get(pId).caps++;
-                        processedCaps.add(pId);
-                    }
-                });
-            }
-
-            if (Array.isArray(m.bench_details)) {
-                m.bench_details.forEach(item => {
-                    if (item && item.subbed_in && item.position_played) {
-                        recordPositionPlayed(item.player, item.position_played);
-                    }
-                });
-            }
-
-            if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
-                m.scorers.split(/[,、]/).forEach(entry => {
-                    let text = entry.trim(), count = 1;
-                    const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
-                    if (multMatch) { text = multMatch[1].trim(); count = parseInt(multMatch[2], 10) || 1; }
-                    const pId = resolvePlayerId(text);
-                    if (pId && playerMap.has(pId)) playerMap.get(pId).goals += count;
-                });
-            }
-
-            if (m.assists && m.assists !== 'なし' && m.assists !== 'Nessuno') {
-                m.assists.split(/[,、]/).forEach(entry => {
-                    let text = entry.trim(), count = 1;
-                    const multMatch = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
-                    if (multMatch) { text = multMatch[1].trim(); count = parseInt(multMatch[2], 10) || 1; }
-                    const pId = resolvePlayerId(text);
-                    if (pId && playerMap.has(pId)) playerMap.get(pId).assists += count;
-                });
-            }
-
-            if (m.mvp) m.mvp.split(/[,、]/).forEach(name => { const pId = resolvePlayerId(name); if (pId && playerMap.has(pId)) playerMap.get(pId).mvps++; });
-            if (m.yellow_cards) m.yellow_cards.split(/[,、]/).forEach(name => { const pId = resolvePlayerId(name); if (pId && playerMap.has(pId)) playerMap.get(pId).yellows++; });
-            if (m.red_cards) m.red_cards.split(/[,、]/).forEach(name => { const pId = resolvePlayerId(name); if (pId && playerMap.has(pId)) playerMap.get(pId).reds++; });
-
-            if (m.goalkeepers) {
-                m.goalkeepers.split(/[,、]/).forEach(entry => {
-                    const match = entry.trim().match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
-                    let rawGk = entry.trim(), gkGa = matchGA;
-                    if (match) { rawGk = match[1].trim(); const parsed = parseInt(match[2], 10); if (!isNaN(parsed)) gkGa = parsed; }
-                    const pId = resolvePlayerId(rawGk);
-                    if (pId && playerMap.has(pId)) {
-                        playerMap.get(pId).goals_conceded += gkGa;
-                        if (gkGa === 0) playerMap.get(pId).clean_sheets++;
-                    }
-                });
-            }
-        });
-
-        const allPlayersList = Array.from(playerMap.values());
-        return {
-            updated_at: new Date().toISOString(),
-            team_totals: teamTotals,
-            players: Object.fromEntries(playerMap),
-            rankings: {
-                top_scorers: [...allPlayersList].sort((a, b) => b.goals - a.goals || b.caps - a.caps).slice(0, 5),
-                top_assists: [...allPlayersList].sort((a, b) => b.assists - a.assists || b.caps - a.caps).slice(0, 5),
-                most_caps: [...allPlayersList].sort((a, b) => b.caps - a.caps).slice(0, 5),
-                mvps: [...allPlayersList].sort((a, b) => b.mvps - a.mvps).slice(0, 5)
-            }
-        };
-    }
-
-    /* --- API GITHUB REST GENERICA --- */
-    async function getGitHubFile(repo, filePath, token) {
-        const url = `https://api.github.com/repos/${repo}/contents/${filePath}`;
-        const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-        if (res.status === 404) return { sha: null, content: [] };
-        if (!res.ok) throw new Error(`HTTP ${res.status} on GET ${filePath}`);
-        const data = await res.json();
-        const strContent = base64ToUtf8(data.content);
-        return { sha: data.sha, content: JSON.parse(strContent) };
-    }
-
-    async function saveGitHubFile(repo, filePath, jsonContent, sha, token, commitMsg) {
-        const url = `https://api.github.com/repos/${repo}/contents/${filePath}`;
-        const strContent = JSON.stringify(jsonContent, null, 2);
-        const b64Content = utf8ToBase64(strContent);
-
-        const body = { message: commitMsg, content: b64Content, branch: 'main' };
-        if (sha) body.sha = sha;
-
-        const res = await fetch(url, {
-            method: 'PUT',
-            headers: { 
-                'Authorization': `Bearer ${token}`, 
-                'Content-Type': 'application/json', 
-                'Accept': 'application/vnd.github+json' 
-            },
-            body: JSON.stringify(body)
+    if (!res.ok) throw new Error(await formatGhError(res, `PUT ${filePath}`));
+    return await res.json();
+}
+
+async function formatGhError(res, context) {
+    let detail = '';
+    try {
+        const err = await res.json();
+        detail = err.message || '';
+    } catch(_) {}
+
+    if (res.status === 401) return `401 Unauthorized (${context}) — Token scaduto o revocato. Effettua di nuovo il login.`;
+    if (res.status === 403) return `403 Forbidden (${context}) — Rate limit GitHub raggiunto o token senza permessi.`;
+    if (res.status === 409) return `409 Conflict (${context}) — Qualcun altro ha modificato il file nel frattempo. Ricarica la pagina.`;
+    if (res.status === 422) return `422 Unprocessable (${context}) — Contenuto non valido. ${detail}`;
+    return `HTTP ${res.status} (${context}) — ${detail || 'Errore sconosciuto'}`;
+}
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+async function verifyAndLogin(token) {
+    const errEl = $('loginError');
+    const btn = $('loginBtn');
+    errEl.textContent = '';
+    btn.disabled = true;
+
+    try {
+        const res = await fetch(`https://api.github.com/repos/${REPO}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
         });
 
         if (!res.ok) {
-            const err = await res.json();
-            throw new Error(err.message || `HTTP ${res.status} on PUT ${filePath}`);
+            if (res.status === 401) errEl.textContent = '❌ Token non valido o scaduto.';
+            else if (res.status === 404) errEl.textContent = '❌ Repository non trovato o token senza accesso.';
+            else errEl.textContent = `❌ Errore HTTP ${res.status}.`;
+            sessionStorage.removeItem(TOKEN_KEY);
+            return;
         }
-        return await res.json();
+
+        // Controllo scope
+        const scopes = res.headers.get('x-oauth-scopes') || '';
+        if (scopes && !scopes.includes('repo') && !scopes.includes('public_repo')) {
+            errEl.textContent = '⚠️ Il token non ha scope "repo" o "public_repo".';
+            // non blocchiamo comunque
+        }
+
+        State.token = token;
+        sessionStorage.setItem(TOKEN_KEY, token);
+        $('loginSection').classList.add('hidden');
+        $('adminDashboard').classList.remove('hidden');
+        await initData();
+    } catch (e) {
+        errEl.textContent = '❌ Errore di rete: ' + e.message;
+    } finally {
+        btn.disabled = false;
+    }
+}
+
+$('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const v = $('inputToken').value.trim();
+    if (v) verifyAndLogin(v);
+});
+
+function logout() {
+    sessionStorage.removeItem(TOKEN_KEY);
+    State.token = '';
+    sessionStorage.removeItem('yc_admin_draft'); // pulizia draft per sicurezza
+    location.reload();
+}
+
+/* =========================================================
+   INIT DATA
+   ========================================================= */
+async function initData() {
+    setLanguage(State.lang);
+    try {
+        const [oRes, lRes, pRes, mRes] = await Promise.allSettled([
+            ghGet('opponents.json'),
+            ghGet('locations.json'),
+            ghGet('players.json'),
+            ghGet('matches.json')
+        ]);
+
+        if (oRes.status === 'fulfilled') State.opponents = oRes.value.content || {};
+        if (lRes.status === 'fulfilled') State.locations = lRes.value.content || {};
+        if (pRes.status === 'fulfilled') State.players = Array.isArray(pRes.value.content) ? pRes.value.content : [];
+        if (mRes.status === 'fulfilled') State.matches = Array.isArray(mRes.value.content) ? mRes.value.content : [];
+
+        renderOpponentsSelectAndTable();
+        renderLocationsSelectAndTable();
+        renderPlayersTable();
+        renderPitchAndBench();
+        updateAllPlayerDropdowns();
+        renderTrialistsList();
+
+        // Draft banner
+        checkDraft();
+    } catch (e) {
+        showToast('error', '❌ Errore caricamento dati: ' + e.message);
+        console.error(e);
+    }
+}
+
+/* =========================================================
+   RENDER: OPPONENTS
+   ========================================================= */
+function renderOpponentsSelectAndTable() {
+    const keys = Object.keys(State.opponents).sort();
+    const sel = $('opponentSelect');
+    sel.innerHTML = keys.map(k => {
+        const name = State.opponents[k].name?.ja || State.opponents[k].name?.en || k;
+        return `<option value="${k}">${name} (${k})</option>`;
+    }).join('');
+
+    let rows = keys.map(k => ({
+        key: k,
+        ja: State.opponents[k].name?.ja || '',
+        en: State.opponents[k].name?.en || ''
+    }));
+
+    if (State.opponentSearch) {
+        const q = State.opponentSearch.toLowerCase();
+        rows = rows.filter(r =>
+            r.key.toLowerCase().includes(q) || r.ja.toLowerCase().includes(q) || r.en.toLowerCase().includes(q)
+        );
+    }
+    rows.sort((a, b) => {
+        const va = String(a[State.opponentSort.field] || '').toLowerCase();
+        const vb = String(b[State.opponentSort.field] || '').toLowerCase();
+        const cmp = va.localeCompare(vb);
+        return State.opponentSort.dir === 'asc' ? cmp : -cmp;
+    });
+
+    $('opponentsTableBody').innerHTML = rows.map(r => `
+        <tr>
+            <td><b>${r.key}</b></td>
+            <td>${r.ja || '-'}</td>
+            <td>${r.en || '-'}</td>
+            <td>
+                <button type="button" class="btn-edit" data-action="edit-opponent" data-key="${r.key}">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button type="button" class="btn-delete" data-action="delete-opponent" data-key="${r.key}">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+async function saveOpponentData() {
+    const key = $('oppKey').value.trim().toLowerCase();
+    const ja = $('oppNameJa').value.trim();
+    const en = $('oppNameEn').value.trim();
+    if (!key || !ja) {
+        showToast('warn', 'Inserisci Key e Nome JA.');
+        return;
     }
 
-    /* --- SALVATAGGIO PARTITA & STATISTICHE --- */
-    document.getElementById('matchForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const repo = document.getElementById('repoPath').value.trim();
-        if (!activeToken || !repo) return;
+    State.opponents[key] = { name: { ja, en: en || ja } };
+    renderOpponentsSelectAndTable();
 
-        const starters = [];
-        const startersPositions = {};
-        document.querySelectorAll('#pitchGrid .starter-player-select').forEach(sel => {
-            const pName = sel.value;
-            const posTag = sel.getAttribute('data-pos');
-            if (pName) {
-                starters.push(pName);
-                startersPositions[posTag] = pName;
-            }
-        });
+    try {
+        const { sha } = await ghGet('opponents.json');
+        await ghPut('opponents.json', State.opponents, sha, `Admin: Update opponents.json`);
+        showToast('success', '✅ opponents.json salvato');
+        resetOpponentForm();
+    } catch (e) {
+        showToast('error', '❌ ' + e.message, 7000);
+    }
+}
 
-        const benchDetails = [];
-        const substitutesIn = [];
-        const substitutesUnused = [];
-        document.querySelectorAll('#benchGrid .bench-card').forEach(card => {
-            const pName = card.querySelector('.bench-player-select').value;
-            const isSubbed = card.querySelector('.bench-subbed-in').checked;
-            const posPlayed = card.querySelector('.bench-pos-select').value;
+function editOpponent(key) {
+    const o = State.opponents[key];
+    if (!o) return;
+    $('editOpponentKey').value = key;
+    $('oppKey').value = key;
+    $('oppNameJa').value = o.name?.ja || '';
+    $('oppNameEn').value = o.name?.en || '';
+}
 
-            if (pName) {
-                benchDetails.push({ player: pName, subbed_in: isSubbed, position_played: isSubbed ? posPlayed : null });
-                if (isSubbed) substitutesIn.push(pName);
-                else substitutesUnused.push(pName);
-            }
-        });
+async function deleteOpponent(key) {
+    const ok = await showConfirm(`Eliminare l'avversario "${key}"?`, true);
+    if (!ok) return;
+    delete State.opponents[key];
+    renderOpponentsSelectAndTable();
+    try {
+        const { sha } = await ghGet('opponents.json');
+        await ghPut('opponents.json', State.opponents, sha, `Admin: Delete opponent ${key}`);
+        showToast('success', '✅ Avversario eliminato');
+    } catch (e) {
+        showToast('error', '❌ ' + e.message, 7000);
+    }
+}
 
-        const scorerMap = {};
-        document.querySelectorAll('.stat-row .scorer-player-select').forEach(sel => {
-            const pName = sel.value;
-            const count = parseInt(sel.parentElement.querySelector('.row-count-input').value) || 1;
-            if (pName) scorerMap[pName] = (scorerMap[pName] || 0) + count;
-        });
-        const scorersString = Object.keys(scorerMap).map(k => scorerMap[k] > 1 ? `${k} x${scorerMap[k]}` : k).join(', ');
+function resetOpponentForm() {
+    $('opponentEditForm').reset();
+    $('editOpponentKey').value = '';
+}
 
-        const assistMap = {};
-        document.querySelectorAll('.stat-row .assist-player-select').forEach(sel => {
-            const pName = sel.value;
-            const count = parseInt(sel.parentElement.querySelector('.row-count-input').value) || 1;
-            if (pName) assistMap[pName] = (assistMap[pName] || 0) + count;
-        });
-        const assistsString = Object.keys(assistMap).map(k => assistMap[k] > 1 ? `${k} x${assistMap[k]}` : k).join(', ');
+/* =========================================================
+   RENDER: LOCATIONS
+   ========================================================= */
+function renderSurfaceDropdown() {
+    const sel = $('locSurfaceSelect');
+    if (!sel) return;
+    const cur = sel.value || 'artificial';
+    sel.innerHTML = Object.keys(SURFACE_PRESETS).map(k => {
+        const label = SURFACE_PRESETS[k][State.lang] || SURFACE_PRESETS[k].it;
+        return `<option value="${k}">${label}</option>`;
+    }).join('');
+    sel.value = cur;
+}
 
-        const gkList = [];
-        document.querySelectorAll('.stat-row .gk-player-select').forEach(sel => {
-            const pName = sel.value;
-            const conceded = parseInt(sel.parentElement.querySelector('.row-count-input').value) || 0;
-            if (pName) gkList.push(`${pName}(${conceded})`);
-        });
-        const goalkeepersString = gkList.join(', ');
+function renderLocationsSelectAndTable() {
+    const keys = Object.keys(State.locations).sort();
+    $('locationSelect').innerHTML = keys.map(k => {
+        const loc = State.locations[k];
+        const name = loc.ja || loc.en || k;
+        return `<option value="${k}">${name} (${k})</option>`;
+    }).join('');
 
-        const yellowsList = [];
-        document.querySelectorAll('.stat-row .yellow-player-select').forEach(sel => { if (sel.value) yellowsList.push(sel.value); });
-        const redsList = [];
-        document.querySelectorAll('.stat-row .red-player-select').forEach(sel => { if (sel.value) redsList.push(sel.value); });
+    let rows = keys.map(k => {
+        const loc = State.locations[k];
+        const sObj = loc.surface || {};
+        const surfLabel = (typeof sObj === 'object')
+            ? (sObj[State.lang] || sObj.it || sObj.ja || '-')
+            : sObj;
+        return { key: k, ja: loc.ja || '', it: loc.it || '', surface: surfLabel, maps: loc.maps || '' };
+    });
 
-        const matchPayload = {
-            id: document.getElementById('matchId').value.trim(),
-            category: document.getElementById('matchCategory').value,
-            date: document.getElementById('matchDate').value,
-            time: document.getElementById('matchTime').value || '11:00',
-            status: document.getElementById('matchStatus').value,
-            type: document.getElementById('matchType').value.trim() || '練習試合',
-            opponent_id: document.getElementById('opponentSelect').value,
-            isHome: document.getElementById('isHome').value === 'true',
-            score: document.getElementById('matchScore').value.trim() || 'VS',
-            scorers: scorersString,
-            assists: assistsString,
-            mvp: document.getElementById('mvpSelect').value,
-            yellow_cards: yellowsList.join(', '),
-            red_cards: redsList.join(', '),
-            location_id: document.getElementById('locationSelect').value,
-            goalkeepers: goalkeepersString,
-            formation: document.getElementById('formationSelect').value,
-            starters_positions: startersPositions,
-            starters: starters,
-            substitutes_in: substitutesIn,
-            substitutes_unused: substitutesUnused,
-            bench_details: benchDetails,
-            lineup: [...starters, ...substitutesIn]
-        };
+    rows.sort((a, b) => {
+        const va = String(a[State.locationSort.field] || '').toLowerCase();
+        const vb = String(b[State.locationSort.field] || '').toLowerCase();
+        const cmp = va.localeCompare(vb);
+        return State.locationSort.dir === 'asc' ? cmp : -cmp;
+    });
 
-        const submitBtn = document.getElementById('submitBtn');
-        const statusMsg = document.getElementById('statusMsg');
-        
-        submitBtn.disabled = true;
-        statusMsg.style.color = '#003c82';
-        statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Lettura matches.json...';
+    $('locationsTableBody').innerHTML = rows.map(r => `
+        <tr>
+            <td><b>${r.key}</b></td>
+            <td>${r.ja}</td>
+            <td>${r.it || '-'}</td>
+            <td><b>${r.surface}</b></td>
+            <td>${r.maps ? `<a href="${r.maps}" target="_blank" style="color: var(--sky-dark);">Link</a>` : '-'}</td>
+            <td>
+                <button type="button" class="btn-edit" data-action="edit-location" data-key="${r.key}"><i class="fas fa-edit"></i></button>
+                <button type="button" class="btn-delete" data-action="delete-location" data-key="${r.key}"><i class="fas fa-trash"></i></button>
+            </td>
+        </tr>
+    `).join('');
+}
 
-        try {
-            const { sha: matchSha, content: existingMatches } = await getGitHubFile(repo, 'matches.json', activeToken);
-            let matchesArray = Array.isArray(existingMatches) ? existingMatches : [];
-            const idx = matchesArray.findIndex(m => String(m.id).toLowerCase() === String(matchPayload.id).toLowerCase());
-            
-            if (idx >= 0) matchesArray[idx] = matchPayload;
-            else matchesArray.push(matchPayload);
+async function saveLocationData() {
+    const key = $('locKey').value.trim().toLowerCase();
+    const ja = $('locNameJa').value.trim();
+    const it = $('locNameIt').value.trim();
+    const en = $('locNameEn').value.trim();
+    const surfKey = $('locSurfaceSelect').value;
+    const maps = $('locMapsUrl').value.trim();
 
-            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Calcolo statistiche per stats.json...';
-            const statsData = generateStatsJSON(globalPlayers, matchesArray);
+    if (!key || !ja) { showToast('warn', 'Inserisci Key e Nome JA.'); return; }
 
-            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvataggio matches.json...';
-            await saveGitHubFile(repo, 'matches.json', matchesArray, matchSha, activeToken, `Admin: Update ${matchPayload.id}`);
+    State.locations[key] = {
+        ja,
+        it: it || ja,
+        en: en || ja,
+        surface: SURFACE_PRESETS[surfKey],
+        maps
+    };
+    renderLocationsSelectAndTable();
 
-            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvataggio stats.json...';
-            const { sha: statsSha } = await getGitHubFile(repo, 'stats.json', activeToken);
-            await saveGitHubFile(repo, 'stats.json', statsData, statsSha, activeToken, `Admin: Update stats for ${matchPayload.id}`);
+    try {
+        const { sha } = await ghGet('locations.json');
+        await ghPut('locations.json', State.locations, sha, 'Admin: Update locations.json');
+        showToast('success', '✅ locations.json salvato');
+        resetLocationForm();
+    } catch (e) {
+        showToast('error', '❌ ' + e.message, 7000);
+    }
+}
 
-            statusMsg.style.color = '#059669';
-            statusMsg.innerHTML = `✅ Successful! <b>matches.json</b> e <b>stats.json</b> sono stati aggiornati con successo!`;
+function editLocation(key) {
+    const loc = State.locations[key];
+    if (!loc) return;
+    $('editLocationKey').value = key;
+    $('locKey').value = key;
+    $('locNameJa').value = loc.ja || '';
+    $('locNameIt').value = loc.it || '';
+    $('locNameEn').value = loc.en || '';
+    $('locMapsUrl').value = loc.maps || '';
 
-            allMatchesData = matchesArray;
+    let surfKey = 'artificial';
+    const sJa = (typeof loc.surface === 'object' ? loc.surface.ja : loc.surface) || '';
+    if (sJa.includes('クレー') || sJa.includes('土') || sJa.includes('Clay')) surfKey = 'clay';
+    else if (sJa.includes('天然芝') || sJa.includes('Grass')) surfKey = 'grass';
+    $('locSurfaceSelect').value = surfKey;
+}
 
-        } catch (err) {
-            statusMsg.style.color = '#dc2626';
-            statusMsg.innerHTML = '❌ Errore durante il salvataggio: ' + err.message;
-        } finally {
-            submitBtn.disabled = false;
+async function deleteLocation(key) {
+    const ok = await showConfirm(`Eliminare il campo "${key}"?`, true);
+    if (!ok) return;
+    delete State.locations[key];
+    renderLocationsSelectAndTable();
+    try {
+        const { sha } = await ghGet('locations.json');
+        await ghPut('locations.json', State.locations, sha, `Admin: Delete location ${key}`);
+        showToast('success', '✅ Campo eliminato');
+    } catch (e) {
+        showToast('error', '❌ ' + e.message, 7000);
+    }
+}
+
+function resetLocationForm() {
+    $('locationEditForm').reset();
+    $('editLocationKey').value = '';
+    renderSurfaceDropdown();
+}
+
+/* =========================================================
+   RENDER: PLAYERS
+   ========================================================= */
+function renderPlayersTable() {
+    let rows = State.players.slice();
+    if (State.playerSearch) {
+        const q = State.playerSearch.toLowerCase();
+        rows = rows.filter(p =>
+            (p.name_kanji || '').toLowerCase().includes(q) ||
+            (p.name_romaji || '').toLowerCase().includes(q) ||
+            String(p.number || '').includes(q) ||
+            (p.position || '').toLowerCase().includes(q)
+        );
+    }
+
+    const f = State.playerSort.field;
+    const dir = State.playerSort.dir === 'asc' ? 1 : -1;
+    rows.sort((a, b) => {
+        let va = a[f], vb = b[f];
+        if (f === 'number') {
+            va = va === null || va === undefined ? 9999 : Number(va);
+            vb = vb === null || vb === undefined ? 9999 : Number(vb);
+            return (va - vb) * dir;
+        }
+        return String(va || '').toLowerCase().localeCompare(String(vb || '').toLowerCase()) * dir;
+    });
+
+    $('playersTableBody').innerHTML = rows.map(p => `
+        <tr>
+            <td><b>${p.number ?? '-'}</b></td>
+            <td>${p.name_kanji || '-'}</td>
+            <td>${p.name_romaji || '-'}</td>
+            <td><span class="pos-badge">${(p.role || '').toUpperCase()}</span></td>
+            <td>${p.position || '-'}</td>
+            <td>${p.hometown || '-'}</td>
+            <td><b>${p.caps ?? 0}</b></td>
+            <td>
+                <button type="button" class="btn-edit" data-action="edit-player" data-id="${p.id}"><i class="fas fa-edit"></i></button>
+                <button type="button" class="btn-delete" data-action="delete-player" data-id="${p.id}"><i class="fas fa-trash"></i></button>
+            </td>
+        </tr>
+    `).join('');
+
+    $('playerCountBadge').textContent = `${rows.length} giocatori`;
+}
+
+async function savePlayerToSquad() {
+    const num = $('pNumber').value.trim();
+    const kanji = $('pNameKanji').value.trim();
+    const kana = $('pNameKana').value.trim();
+    const romaji = $('pNameRomaji').value.trim();
+    const role = $('pRole').value;
+    const pos = $('pPosition').value.trim().toUpperCase();
+    const birth = $('pBirthDate').value;
+    const hometown = $('pHometown').value.trim().toLowerCase();
+    const photo = $('pPhoto').value.trim();
+    const caps = parseInt($('editPlayerCaps').value, 10) || 0;
+
+    if (!kanji) { showToast('warn', 'Inserisci almeno il nome.'); return; }
+
+    const editId = $('editPlayerId').value;
+    const id = editId || (romaji ? romaji.toLowerCase().replace(/[^a-z0-9]+/g, '-') : `player-${Date.now()}`);
+
+    const obj = {
+        id,
+        number: num !== '' ? parseInt(num, 10) : null,
+        role,
+        position: pos,
+        name_kanji: kanji,
+        name_kana: kana,
+        name_romaji: romaji,
+        birth_date: birth || null,
+        hometown: hometown || 'kanagawa',
+        caps,
+        photo: photo || null
+    };
+
+    if (editId) {
+        const idx = State.players.findIndex(p => p.id === editId);
+        if (idx >= 0) State.players[idx] = obj;
+    } else {
+        State.players.push(obj);
+    }
+
+    renderPlayersTable();
+    updateAllPlayerDropdowns();
+
+    try {
+        const { sha } = await ghGet('players.json');
+        await ghPut('players.json', State.players, sha, `Admin: ${editId ? 'Update' : 'Add'} player ${id}`);
+        showToast('success', '✅ players.json salvato');
+        resetPlayerForm();
+    } catch (e) {
+        showToast('error', '❌ ' + e.message, 7000);
+    }
+}
+
+function editPlayer(id) {
+    const p = State.players.find(x => x.id === id);
+    if (!p) return;
+    $('editPlayerId').value = p.id;
+    $('editPlayerCaps').value = p.caps ?? 0;
+    $('pNumber').value = p.number ?? '';
+    $('pNameKanji').value = p.name_kanji || '';
+    $('pNameKana').value = p.name_kana || '';
+    $('pNameRomaji').value = p.name_romaji || '';
+    $('pRole').value = p.role || 'mf';
+    $('pPosition').value = p.position || '';
+    $('pBirthDate').value = p.birth_date || '';
+    $('pHometown').value = p.hometown || '';
+    $('pPhoto').value = p.photo || '';
+
+    // Scroll in cima al form
+    document.querySelector('#playersTab').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+async function deletePlayer(id) {
+    const p = State.players.find(x => x.id === id);
+    const name = p ? (p.name_kanji || p.name_romaji || id) : id;
+    const ok = await showConfirm(`Eliminare "${name}"?`, true);
+    if (!ok) return;
+
+    State.players = State.players.filter(x => x.id !== id);
+    renderPlayersTable();
+    updateAllPlayerDropdowns();
+
+    try {
+        const { sha } = await ghGet('players.json');
+        await ghPut('players.json', State.players, sha, `Admin: Delete player ${id}`);
+        showToast('success', '✅ Giocatore eliminato');
+    } catch (e) {
+        showToast('error', '❌ ' + e.message, 7000);
+    }
+}
+
+function resetPlayerForm() {
+    $('playerEditForm').reset();
+    $('editPlayerId').value = '';
+    $('editPlayerCaps').value = '0';
+}
+
+/* =========================================================
+   TRIALISTS (separati da players.json)
+   ========================================================= */
+async function addTrialist() {
+    const name = await showPrompt(t('trialistPrompt'), 'es. 山田 太郎');
+    if (!name || !name.trim()) return;
+    const trialist = {
+        id: `trialist_${Date.now()}`,
+        name_kanji: name.trim(),
+        name_romaji: name.trim(),
+        position: 'TRIAL',
+        role: 'mf'
+    };
+    State.trialists.push(trialist);
+    renderTrialistsList();
+    updateAllPlayerDropdowns();
+}
+
+function removeTrialist(id) {
+    State.trialists = State.trialists.filter(t => t.id !== id);
+    renderTrialistsList();
+    updateAllPlayerDropdowns();
+    // Rimuovi da qualsiasi select
+    $$('.player-dropdown-dynamic').forEach(sel => {
+        if (sel.value && !getAllAvailablePlayers().some(p => p.value === sel.value)) {
+            sel.value = '';
         }
     });
-</script>
-</body>
-</html>
+    updatePlayerExclusions();
+}
+
+function renderTrialistsList() {
+    const c = $('trialistListContainer');
+    if (!c) return;
+    if (State.trialists.length === 0) {
+        c.innerHTML = '<span style="font-size: 0.78rem; color: var(--text-muted);">Nessun giocatore in prova</span>';
+        return;
+    }
+    c.innerHTML = State.trialists.map(t => `
+        <div class="trialist-item">
+            <span><i class="fas fa-user-clock"></i> ${t.name_kanji}</span>
+            <button type="button" class="btn-remove-trialist" data-action="remove-trialist" data-id="${t.id}">
+                <i class="fas fa-times-circle"></i>
+            </button>
+        </div>
+    `).join('');
+}
+
+function getAllAvailablePlayers(onlyGK = false) {
+    const list = [{ name: '— nessuno —', value: '' }];
+    const all = [...State.players, ...State.trialists];
+    let filtered = onlyGK
+        ? all.filter(p => p.position === 'GK' || p.role === 'gk' || p.position === 'TRIAL')
+        : all;
+    filtered.sort((a, b) => String(a.name_kanji || '').localeCompare(String(b.name_kanji || '')));
+    filtered.forEach(p => {
+        const isTrial = p.position === 'TRIAL' ? ' (PROVA)' : '';
+        list.push({ name: (p.name_kanji || p.name_romaji) + isTrial, value: p.name_kanji || p.name_romaji });
+    });
+    return list;
+}
+
+/* =========================================================
+   PITCH (campo tattico con coordinate)
+   ========================================================= */
+function renderPitchAndBench() {
+    const formation = $('formationSelect').value;
+    const coords = FORMATION_COORDS[formation] || FORMATION_COORDS['4-4-2'];
+    const pitchGrid = $('pitchGrid');
+
+    // Preserva i valori già selezionati
+    const prevValues = {};
+    $$('#pitchGrid .pitch-player-select').forEach(sel => {
+        prevValues[sel.getAttribute('data-pos')] = sel.value;
+    });
+
+    pitchGrid.innerHTML = Object.entries(coords).map(([posTag, c]) => `
+        <div class="pitch-position-card" data-pos-card="${posTag}" style="left: ${c.x}%; top: ${c.y}%;">
+            <div class="pitch-pos-header">
+                <span class="pos-badge">${posTag}</span>
+            </div>
+            <select class="pitch-player-select match-squad-select" data-pos="${posTag}"></select>
+        </div>
+    `).join('');
+
+    updateAllPlayerDropdowns();
+
+    // Ripristina valori precedenti
+    Object.entries(prevValues).forEach(([pos, val]) => {
+        const sel = document.querySelector(`#pitchGrid .pitch-player-select[data-pos="${pos}"]`);
+        if (sel) sel.value = val;
+    });
+
+    // Bench
+    const benchGrid = $('benchGrid');
+    let html = '';
+    for (let i = 1; i <= 10; i++) {
+        html += `
+            <div class="bench-card" data-bench-slot="${i}">
+                <div class="bench-card-header">
+                    <span>#${i} Panchina</span>
+                </div>
+                <select class="form-control player-dropdown-dynamic bench-player-select match-squad-select"></select>
+                <div class="bench-sub-row">
+                    <label>
+                        <input type="checkbox" class="bench-subbed-in"> Sceso in campo
+                    </label>
+                    <select class="form-control bench-pos-select" style="font-size: 0.8rem; padding: 4px;" disabled>
+                        ${Object.keys(coords).map(p => `<option value="${p}">${p}</option>`).join('')}
+                    </select>
+                </div>
+            </div>
+        `;
+    }
+    benchGrid.innerHTML = html;
+
+    updateAllPlayerDropdowns();
+    updatePlayerExclusions();
+}
+
+function clearPitch() {
+    $$('#pitchGrid .pitch-player-select').forEach(s => s.value = '');
+    $$('#benchGrid .bench-player-select').forEach(s => s.value = '');
+    $$('#benchGrid .bench-subbed-in').forEach(s => {
+        s.checked = false;
+        s.dispatchEvent(new Event('change'));
+    });
+    updatePlayerExclusions();
+    updateFilledCards();
+}
+
+function updateFilledCards() {
+    $$('#pitchGrid .pitch-position-card').forEach(card => {
+        const sel = card.querySelector('.pitch-player-select');
+        card.classList.toggle('filled', !!sel.value);
+    });
+}
+
+/* Aggiorna tutti i dropdown con la lista giocatori corrente */
+function updateAllPlayerDropdowns() {
+    const all = getAllAvailablePlayers(false);
+    const gk = getAllAvailablePlayers(true);
+    const allHTML = all.map(p => `<option value="${p.value}">${p.name}</option>`).join('');
+    const gkHTML = gk.map(p => `<option value="${p.value}">${p.name}</option>`).join('');
+
+    // MVP
+    const mvp = $('mvpSelect');
+    const mvpVal = mvp.value;
+    mvp.innerHTML = allHTML;
+    mvp.value = mvpVal;
+
+    // Tutti i dropdown dinamici
+    $$('.player-dropdown-dynamic, .pitch-player-select').forEach(sel => {
+        const val = sel.value;
+        if (sel.classList.contains('gk-player-select')) sel.innerHTML = gkHTML;
+        else sel.innerHTML = allHTML;
+        sel.value = val;
+    });
+
+    updatePlayerExclusions();
+    updateFilledCards();
+}
+
+/* Esclude i giocatori già selezionati (rebuild pulito delle opzioni) */
+function updatePlayerExclusions() {
+    const squadSelects = $$('.match-squad-select');
+    const selectedValues = new Set();
+    squadSelects.forEach(sel => { if (sel.value) selectedValues.add(sel.value); });
+
+    squadSelects.forEach(sel => {
+        const currentVal = sel.value;
+        const isGK = sel.classList.contains('gk-player-select');
+        const list = getAllAvailablePlayers(isGK);
+
+        sel.innerHTML = list.map(p => {
+            const isSelectedElsewhere = p.value && selectedValues.has(p.value) && p.value !== currentVal;
+            const label = p.name + (isSelectedElsewhere ? ' ✓' : '');
+            return `<option value="${p.value}" ${isSelectedElsewhere ? 'disabled' : ''}>${label}</option>`;
+        }).join('');
+        sel.value = currentVal;
+    });
+}
+
+/* =========================================================
+   STAT ROWS (scorers, assists, gk, cards)
+   ========================================================= */
+function createStatRow(selectClass, opts = {}) {
+    const { hasCount = true, countLabel = 'Gol:', onlyGK = false, hasMinute = false } = opts;
+    const players = getAllAvailablePlayers(onlyGK);
+    const div = document.createElement('div');
+    div.className = 'stat-row';
+    div.innerHTML = `
+        <select class="form-control player-dropdown-dynamic ${selectClass}">
+            ${players.map(p => `<option value="${p.value}">${p.name}</option>`).join('')}
+        </select>
+        ${hasMinute ? `<input type="text" class="form-control minute-input" placeholder="min" title="Minuto">` : ''}
+        ${hasCount ? `<label>${countLabel}</label><input type="number" class="form-control row-count-input" value="1" min="0" max="20">` : ''}
+        <button type="button" class="btn-remove-row" data-action="remove-row"><i class="fas fa-trash"></i></button>
+    `;
+    return div;
+}
+
+function addScorerRow() { $('scorersContainer').appendChild(createStatRow('scorer-player-select', { countLabel: 'Gol:', hasMinute: true })); }
+function addAssistRow() { $('assistsContainer').appendChild(createStatRow('assist-player-select', { countLabel: 'Assist:' })); }
+function addGkRow() { $('gkContainer').appendChild(createStatRow('gk-player-select', { countLabel: 'Gol Subiti:', onlyGK: true })); }
+function addYellowRow() { $('yellowCardsContainer').appendChild(createStatRow('yellow-player-select', { hasCount: false, hasMinute: true })); }
+function addRedRow() { $('redCardsContainer').appendChild(createStatRow('red-player-select', { hasCount: false, hasMinute: true })); }
+
+/* =========================================================
+   LOAD / NEW / DUPLICATE MATCH
+   ========================================================= */
+async function loadMatchData(id, quiet = false) {
+    if (!id) return;
+    id = id.toLowerCase();
+
+    const match = State.matches.find(m => String(m.id).toLowerCase() === id);
+    if (!match) {
+        if (!quiet) showToast('info', `ℹ️ Nessun match trovato con ID "${id}".`);
+        return;
+    }
+
+    if (!quiet) showToast('info', `✅ Dati trovati per ${match.id}`);
+
+    $('matchStatus').value = match.status || 'past';
+    $('matchDate').value = match.date || '';
+    $('matchTime').value = match.time || '11:00';
+    $('matchCategory').value = match.category || 'friendly';
+    $('matchType').value = match.type || '練習試合';
+    if (match.opponent_id) $('opponentSelect').value = match.opponent_id;
+    if (match.location_id) $('locationSelect').value = match.location_id;
+    $('isHome').value = String(match.isHome !== undefined ? match.isHome : true);
+    $('matchScore').value = match.score || 'VS';
+
+    if (match.formation) {
+        const formSel = $('formationSelect');
+        formSel.value = FORMATION_COORDS[match.formation] ? match.formation : '4-4-2';
+        renderPitchAndBench();
+    }
+
+    // Starters
+    if (match.starters_positions) {
+        Object.entries(match.starters_positions).forEach(([pos, name]) => {
+            const sel = document.querySelector(`#pitchGrid .pitch-player-select[data-pos="${pos}"]`);
+            if (sel) sel.value = name;
+        });
+    }
+
+    // Bench
+    if (Array.isArray(match.bench_details)) {
+        match.bench_details.forEach((b, i) => {
+            const slot = document.querySelector(`[data-bench-slot="${i + 1}"]`);
+            if (!slot) return;
+            const pSel = slot.querySelector('.bench-player-select');
+            const chk = slot.querySelector('.bench-subbed-in');
+            const posSel = slot.querySelector('.bench-pos-select');
+            if (pSel) pSel.value = b.player || '';
+            if (chk) {
+                chk.checked = !!b.subbed_in;
+                chk.dispatchEvent(new Event('change'));
+            }
+            if (posSel && b.position_played) posSel.value = b.position_played;
+        });
+    }
+
+    // Reset stat rows
+    ['scorers', 'assists', 'gk', 'yellow', 'red'].forEach(k => $(k + 'Container').innerHTML = '');
+
+    if (match.scorers && match.scorers !== 'なし' && match.scorers !== 'Nessuno') {
+        match.scorers.split(/[,、]/).forEach(entry => {
+            let text = entry.trim(), count = 1;
+            const m = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
+            if (m) { text = m[1].trim(); count = parseInt(m[2], 10) || 1; }
+            addScorerRow();
+            const last = $('scorersContainer').querySelector('.stat-row:last-child');
+            if (last) {
+                last.querySelector('.scorer-player-select').value = text;
+                last.querySelector('.row-count-input').value = count;
+            }
+        });
+    }
+
+    if (match.assists && match.assists !== 'なし' && match.assists !== 'Nessuno') {
+        match.assists.split(/[,、]/).forEach(entry => {
+            let text = entry.trim(), count = 1;
+            const m = text.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
+            if (m) { text = m[1].trim(); count = parseInt(m[2], 10) || 1; }
+            addAssistRow();
+            const last = $('assistsContainer').querySelector('.stat-row:last-child');
+            if (last) {
+                last.querySelector('.assist-player-select').value = text;
+                last.querySelector('.row-count-input').value = count;
+            }
+        });
+    }
+
+    if (match.goalkeepers) {
+        match.goalkeepers.split(/[,、]/).forEach(entry => {
+            const m = entry.trim().match(/^([^(（]+)[(（]\s*(\d+)\s*[)）]$/);
+            let raw = entry.trim(), ga = 0;
+            if (m) { raw = m[1].trim(); ga = parseInt(m[2], 10) || 0; }
+            addGkRow();
+            const last = $('gkContainer').querySelector('.stat-row:last-child');
+            if (last) {
+                last.querySelector('.gk-player-select').value = raw;
+                last.querySelector('.row-count-input').value = ga;
+            }
+        });
+    }
+
+    if (match.mvp) $('mvpSelect').value = match.mvp;
+
+    if (match.yellow_cards) {
+        match.yellow_cards.split(/[,、]/).forEach(n => {
+            if (n.trim()) {
+                addYellowRow();
+                const last = $('yellowCardsContainer').querySelector('.stat-row:last-child');
+                if (last) last.querySelector('.yellow-player-select').value = n.trim();
+            }
+        });
+    }
+    if (match.red_cards) {
+        match.red_cards.split(/[,、]/).forEach(n => {
+            if (n.trim()) {
+                addRedRow();
+                const last = $('redCardsContainer').querySelector('.stat-row:last-child');
+                if (last) last.querySelector('.red-player-select').value = n.trim();
+            }
+        });
+    }
+
+    updatePlayerExclusions();
+    updateFilledCards();
+}
+
+function newMatch() {
+    resetForm();
+    let max = 0;
+    State.matches.forEach(m => {
+        const match = String(m.id || '').match(/match-(\d+)/i);
+        if (match) max = Math.max(max, parseInt(match[1], 10) || 0);
+    });
+    const newId = `match-${max + 1}`;
+    $('matchId').value = newId;
+    $('matchDate').value = new Date().toISOString().split('T')[0];
+    showToast('success', `✨ Nuova partita: ${newId}`);
+}
+
+async function duplicateMatch() {
+    const currentId = $('matchId').value.trim();
+    if (!currentId) { showToast('warn', 'Carica prima un match.'); return; }
+    const match = State.matches.find(m => String(m.id).toLowerCase() === currentId.toLowerCase());
+    if (!match) { showToast('error', 'Match non trovato.'); return; }
+
+    let max = 0;
+    State.matches.forEach(m => {
+        const mm = String(m.id || '').match(/match-(\d+)/i);
+        if (mm) max = Math.max(max, parseInt(mm[1], 10) || 0);
+    });
+
+    await loadMatchData(currentId, true);
+    $('matchId').value = `match-${max + 1}`;
+    $('matchDate').value = '';
+    $('matchScore').value = 'VS';
+    $('matchStatus').value = 'upcoming';
+    showToast('info', `📋 Match duplicato come match-${max + 1}: aggiorna data e avversario.`);
+}
+
+function resetForm() {
+    $('matchForm').reset();
+    ['scorers', 'assists', 'gk', 'yellow', 'red'].forEach(k => $(k + 'Container').innerHTML = '');
+    $('statusMsg').innerHTML = '';
+    State.trialists = [];
+    renderTrialistsList();
+    renderPitchAndBench();
+    State.isDirty = false;
+    clearDraft();
+}
+
+/* =========================================================
+   SAVE MATCH
+   ========================================================= */
+async function saveMatch(e) {
+    e.preventDefault();
+    if (!State.token) return;
+
+    const startersPositions = {};
+    const starters = [];
+    $$('#pitchGrid .pitch-player-select').forEach(sel => {
+        const name = sel.value;
+        const pos = sel.getAttribute('data-pos');
+        if (name) {
+            startersPositions[pos] = name;
+            starters.push(name);
+        }
+    });
+
+    const benchDetails = [];
+    const subsIn = [], subsUnused = [];
+    $$('#benchGrid .bench-card').forEach(card => {
+        const p = card.querySelector('.bench-player-select').value;
+        const isSub = card.querySelector('.bench-subbed-in').checked;
+        const posPlayed = card.querySelector('.bench-pos-select').value;
+        if (p) {
+            benchDetails.push({ player: p, subbed_in: isSub, position_played: isSub ? posPlayed : null });
+            if (isSub) subsIn.push(p); else subsUnused.push(p);
+        }
+    });
+
+    const scorerMap = {};
+    $$('.stat-row .scorer-player-select').forEach(sel => {
+        const p = sel.value;
+        const c = parseInt(sel.parentElement.querySelector('.row-count-input').value) || 1;
+        if (p) scorerMap[p] = (scorerMap[p] || 0) + c;
+    });
+    const scorers = Object.keys(scorerMap).map(k => scorerMap[k] > 1 ? `${k} x${scorerMap[k]}` : k).join(', ');
+
+    const assistMap = {};
+    $$('.stat-row .assist-player-select').forEach(sel => {
+        const p = sel.value;
+        const c = parseInt(sel.parentElement.querySelector('.row-count-input').value) || 1;
+        if (p) assistMap[p] = (assistMap[p] || 0) + c;
+    });
+    const assists = Object.keys(assistMap).map(k => assistMap[k] > 1 ? `${k} x${assistMap[k]}` : k).join(', ');
+
+    const gkList = [];
+    $$('.stat-row .gk-player-select').forEach(sel => {
+        const p = sel.value;
+        const ga = parseInt(sel.parentElement.querySelector('.row-count-input').value) || 0;
+        if (p) gkList.push(`${p}(${ga})`);
+    });
+    const goalkeepers = gkList.join(', ');
+
+    const yellows = [];
+    $$('.stat-row .yellow-player-select').forEach(sel => { if (sel.value) yellows.push(sel.value); });
+    const reds = [];
+    $$('.stat-row .red-player-select').forEach(sel => { if (sel.value) reds.push(sel.value); });
+
+    const payload = {
+        id: $('matchId').value.trim(),
+        category: $('matchCategory').value,
+        date: $('matchDate').value,
+        time: $('matchTime').value || '11:00',
+        status: $('matchStatus').value,
+        type: $('matchType').value.trim() || '練習試合',
+        opponent_id: $('opponentSelect').value,
+        isHome: $('isHome').value === 'true',
+        score: $('matchScore').value.trim() || 'VS',
+        scorers,
+        assists,
+        mvp: $('mvpSelect').value,
+        yellow_cards: yellows.join(', '),
+        red_cards: reds.join(', '),
+        location_id: $('locationSelect').value,
+        goalkeepers,
+        formation: $('formationSelect').value,
+        starters_positions: startersPositions,
+        starters,
+        substitutes_in: subsIn,
+        substitutes_unused: subsUnused,
+        bench_details: benchDetails,
+        lineup: [...starters, ...subsIn]
+    };
+
+    const btn = $('submitBtn');
+    btn.disabled = true;
+    const statusEl = $('statusMsg');
+    statusEl.style.color = 'var(--sky-dark)';
+    statusEl.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('saving')}`;
+
+    try {
+        const { sha, content } = await ghGet('matches.json');
+        let arr = Array.isArray(content) ? content : [];
+        const idx = arr.findIndex(m => String(m.id).toLowerCase() === payload.id.toLowerCase());
+        if (idx >= 0) arr[idx] = payload; else arr.push(payload);
+
+        const statsData = generateStatsJSON(State.players, arr);
+
+        await ghPut('matches.json', arr, sha, `Admin: Update ${payload.id}`);
+        statusEl.innerHTML = `<i class="fas fa-spinner fa-spin"></i> stats.json...`;
+        const { sha: statsSha } = await ghGet('stats.json');
+        await ghPut('stats.json', statsData, statsSha, `Admin: Update stats for ${payload.id}`);
+
+        State.matches = arr;
+        State.isDirty = false;
+        clearDraft();
+        statusEl.style.color = 'var(--green)';
+        statusEl.innerHTML = `✅ ${t('saved')}`;
+        showToast('success', `✅ ${payload.id} + stats.json aggiornati`);
+    } catch (e) {
+        statusEl.style.color = 'var(--red)';
+        statusEl.innerHTML = `❌ ${e.message}`;
+        showToast('error', '❌ ' + e.message, 8000);
+        if (e.message.includes('401')) setTimeout(logout, 3000);
+    } finally {
+        btn.disabled = false;
+    }
+}
+
+/* =========================================================
+   STATS ENGINE (unico, allineato al Node)
+   ========================================================= */
+function generateStatsJSON(playersData, matchesData) {
+    const playerMap = new Map();
+    const aliasToId = new Map();
+
+    playersData.forEach(p => {
+        if (p.role === 'staff') return;
+        const id = p.id || String(p.number) || p.name_kanji;
+        playerMap.set(id, {
+            id, number: p.number, name_kanji: p.name_kanji, name_kana: p.name_kana,
+            name_romaji: p.name_romaji, role: p.role, position: p.position,
+            caps: 0, starters: 0, subs: 0, goals: 0, assists: 0, mvps: 0,
+            yellows: 0, reds: 0, goals_conceded: 0, clean_sheets: 0, positions_played: {}
+        });
+        [id, p.name_kanji, p.name_kana, p.name_romaji].forEach(n => {
+            const c = cleanStr(n);
+            if (c) aliasToId.set(c, id);
+        });
+    });
+
+    function resolveId(raw) {
+        if (!raw) return null;
+        const t = cleanStr(raw);
+        if (!t || t === 'なし' || t === 'nessuno' || t === 'null') return null;
+        if (aliasToId.has(t)) return aliasToId.get(t);
+        const minLen = isJapanese(t) ? 2 : 3;
+        if (t.length >= minLen) {
+            for (const [alias, id] of aliasToId.entries()) {
+                if (alias.length >= minLen && (alias.includes(t) || t.includes(alias))) return id;
+            }
+        }
+        return null;
+    }
+
+    function recordPos(rawName, posTag) {
+        if (!rawName || !posTag) return;
+        const id = resolveId(rawName);
+        if (!id || !playerMap.has(id)) return;
+        const tag = String(posTag).trim().toUpperCase();
+        if (tag && tag !== 'UNDEFINED' && tag !== 'NULL') {
+            const p = playerMap.get(id);
+            p.positions_played[tag] = (p.positions_played[tag] || 0) + 1;
+        }
+    }
+
+    const teamTotals = {
+        total_matches: 0, wins: 0, draws: 0, losses: 0,
+        goals_for: 0, goals_against: 0, clean_sheets: 0, formations_used: {}
+    };
+
+    const posRegex = /^(GK|CB|LB|RB|LWB|RWB|DM|CM|LM|RM|AM|LW|RW|FW|ST)(-[LRC123])?$/i;
+
+    matchesData.forEach(m => {
+        if (String(m.status || '').toLowerCase() !== 'past') return;
+        teamTotals.total_matches++;
+
+        if (m.formation) {
+            teamTotals.formations_used[m.formation] = (teamTotals.formations_used[m.formation] || 0) + 1;
+        }
+
+        let gf = 0, ga = 0;
+        const s = m.score ? m.score.trim() : '';
+        if (s.includes('-')) {
+            const parts = s.split('-').map(x => parseInt(x.trim(), 10));
+            if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+                gf = parts[0]; ga = parts[1];   // ⚠️ SEMPRE [nostri]-[loro], no inversione isHome
+            }
+        }
+
+        teamTotals.goals_for += gf;
+        teamTotals.goals_against += ga;
+        if (gf > ga) teamTotals.wins++;
+        else if (gf === ga) teamTotals.draws++;
+        else teamTotals.losses++;
+        if (ga === 0) teamTotals.clean_sheets++;
+
+        const processedCaps = new Set();
+        if (Array.isArray(m.starters)) {
+            m.starters.forEach(n => {
+                const id = resolveId(n);
+                if (id && playerMap.has(id)) {
+                    playerMap.get(id).starters++;
+                    playerMap.get(id).caps++;
+                    processedCaps.add(id);
+                }
+            });
+        }
+
+        if (m.starters_positions && typeof m.starters_positions === 'object') {
+            Object.entries(m
