@@ -187,7 +187,6 @@
         <form id="matchForm">
             <input type="hidden" id="repoPath" value="yokohamacalcio/yokohamacalcio">
 
-            <!-- 1. INFORMAZIONI PARTITA -->
             <div class="section-box">
                 <h3>1. Informazioni Partita</h3>
                 <div class="row" style="margin-top: 10px; align-items: flex-end;">
@@ -260,7 +259,6 @@
                 </div>
             </div>
 
-            <!-- 2. EVENTI & PRESTAZIONI -->
             <div class="section-box">
                 <h3>2. Eventi & Prestazioni (Selezione da Rosa)</h3>
                 
@@ -303,7 +301,6 @@
                 </div>
             </div>
 
-            <!-- 3. ASSETTO TATTICO & FORMAZIONE -->
             <div class="section-box">
                 <h3>3. Assetto Tattico & Convocati</h3>
                 
@@ -412,7 +409,7 @@
 
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
                     <button type="button" class="btn-submit" style="background: #059669;" onclick="savePlayerToSquad()">
-                        <i class="fas fa-check"></i> Salva Giocatore in Rosa
+                        <i class="fas fa-cloud-upload-alt"></i> Salva Giocatore su GitHub
                     </button>
                     <button type="button" class="btn-reset" onclick="resetPlayerForm()">Annulla</button>
                 </div>
@@ -438,9 +435,6 @@
                     <tbody id="playersTableBody"></tbody>
                 </table>
             </div>
-            <button type="button" class="btn-submit" style="margin-top: 15px;" onclick="savePlayersJsonToGitHub()">
-                <i class="fas fa-cloud-upload-alt"></i> Salva `players.json` su GitHub
-            </button>
         </div>
     </div>
 
@@ -466,7 +460,7 @@
                 </div>
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
                     <button type="button" class="btn-submit" style="background: #059669;" onclick="saveOpponentData()">
-                        <i class="fas fa-check"></i> Salva Avversario
+                        <i class="fas fa-cloud-upload-alt"></i> Salva Avversario su GitHub
                     </button>
                     <button type="button" class="btn-reset" onclick="resetOpponentForm()">Annulla</button>
                 </div>
@@ -488,9 +482,6 @@
                     <tbody id="opponentsTableBody"></tbody>
                 </table>
             </div>
-            <button type="button" class="btn-submit" style="margin-top: 15px;" onclick="saveOpponentsJsonToGitHub()">
-                <i class="fas fa-cloud-upload-alt"></i> Salva `opponents.json` su GitHub
-            </button>
         </div>
     </div>
 
@@ -508,7 +499,11 @@
                     </div>
                     <div class="form-group">
                         <label>Superficie Terreno (Surface):</label>
-                        <select id="locSurfaceSelect" class="form-control"></select>
+                        <select id="locSurfaceSelect" class="form-control">
+                            <option value="artificial">Sintetico / 人工芝 / Artificial Turf</option>
+                            <option value="clay">Terra battuta / クレー（土） / Clay</option>
+                            <option value="grass">Erba naturale / 天然芝 / Natural Grass</option>
+                        </select>
                     </div>
                 </div>
 
@@ -534,7 +529,7 @@
 
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
                     <button type="button" class="btn-submit" style="background: #059669;" onclick="saveLocationData()">
-                        <i class="fas fa-check"></i> Salva Impianto
+                        <i class="fas fa-cloud-upload-alt"></i> Salva Impianto su GitHub
                     </button>
                     <button type="button" class="btn-reset" onclick="resetLocationForm()">Annulla</button>
                 </div>
@@ -558,9 +553,6 @@
                     <tbody id="locationsTableBody"></tbody>
                 </table>
             </div>
-            <button type="button" class="btn-submit" style="margin-top: 15px;" onclick="saveLocationsJsonToGitHub()">
-                <i class="fas fa-cloud-upload-alt"></i> Salva `locations.json` su GitHub
-            </button>
         </div>
     </div>
 
@@ -597,7 +589,6 @@
         "custom": ["GK", "POS-2", "POS-3", "POS-4", "POS-5", "POS-6", "POS-7", "POS-8", "POS-9", "POS-10", "POS-11"]
     };
 
-    // PRESET DELLE SUPERFICI DEI CAMPI NELLE 3 LINGUE
     const SURFACE_PRESETS = {
         "artificial": { ja: "人工芝", it: "Sintetico", en: "Artificial Turf" },
         "clay": { ja: "クレー（土）", it: "Terra battuta", en: "Clay / Dirt" },
@@ -611,6 +602,19 @@
     let globalLocations = {};
     let allMatchesData = [];
     let trialistsList = [];
+
+    // ENCODING / DECODING UTF-8 SICURO PER GITHUB REST API
+    function utf8ToBase64(str) {
+        const bytes = new TextEncoder().encode(str);
+        const binString = Array.from(bytes, (b) => String.fromCharCode(b)).join('');
+        return btoa(binString);
+    }
+
+    function base64ToUtf8(b64) {
+        const binString = atob(String(b64 || '').replace(/\s/g, ''));
+        const bytes = Uint8Array.from(binString, (c) => c.charCodeAt(0));
+        return new TextDecoder().decode(bytes);
+    }
 
     function setAdminLanguage(lang) {
         currentAdminLang = lang;
@@ -639,6 +643,9 @@
         document.getElementById(tabId).classList.remove('hidden');
         if (evt && evt.currentTarget) {
             evt.currentTarget.classList.add('active');
+        }
+        if (tabId === 'locationsTab') {
+            renderSurfaceDropdown();
         }
     }
 
@@ -703,9 +710,11 @@
             } catch(e) {}
 
             // 3. Players
-            const pRes = await fetch('players.json?t=' + Date.now());
-            globalPlayers = await pRes.json();
-            renderPlayersTable();
+            try {
+                const pRes = await fetch('players.json?t=' + Date.now());
+                globalPlayers = await pRes.json();
+                renderPlayersTable();
+            } catch(e) {}
 
             // 4. Matches
             try {
@@ -813,7 +822,7 @@
     }
 
     /* --- EDITOR GIOCATORI ROSA --- */
-    function savePlayerToSquad() {
+    async function savePlayerToSquad() {
         const rawNum = document.getElementById('pNumber').value.trim();
         const num = rawNum !== "" ? parseInt(rawNum, 10) : null;
         const kanji = document.getElementById('pNameKanji').value.trim();
@@ -852,7 +861,22 @@
 
         renderPlayersTable();
         updateAllPlayerDropdowns();
-        resetPlayerForm();
+
+        // SALVATAGGIO DIRETTO SU GITHUB
+        const repo = document.getElementById('repoPath').value.trim();
+        const statusMsg = document.getElementById('statusMsg');
+        try {
+            statusMsg.style.color = '#003c82';
+            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvataggio `players.json` su GitHub...';
+            const { sha } = await getGitHubFile(repo, 'players.json', activeToken);
+            await saveGitHubFile(repo, 'players.json', globalPlayers, sha, activeToken, 'Admin: Update players.json');
+            statusMsg.style.color = '#059669';
+            statusMsg.innerHTML = '✅ `players.json` salvato con successo su GitHub!';
+            resetPlayerForm();
+        } catch(e) {
+            statusMsg.style.color = '#dc2626';
+            statusMsg.innerHTML = '❌ Errore salvataggio GitHub: ' + e.message;
+        }
     }
 
     function editPlayer(idx) {
@@ -870,11 +894,25 @@
         document.getElementById('pHometown').value = p.hometown || '';
     }
 
-    function deletePlayer(idx) {
+    async function deletePlayer(idx) {
         if (confirm("Sei sicuro di voler eliminare questo giocatore dalla rosa?")) {
             globalPlayers.splice(idx, 1);
             renderPlayersTable();
             updateAllPlayerDropdowns();
+
+            const repo = document.getElementById('repoPath').value.trim();
+            const statusMsg = document.getElementById('statusMsg');
+            try {
+                statusMsg.style.color = '#003c82';
+                statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Aggiornamento `players.json` su GitHub...';
+                const { sha } = await getGitHubFile(repo, 'players.json', activeToken);
+                await saveGitHubFile(repo, 'players.json', globalPlayers, sha, activeToken, 'Admin: Delete player from players.json');
+                statusMsg.style.color = '#059669';
+                statusMsg.innerHTML = '✅ Giocatore eliminato da GitHub!';
+            } catch(e) {
+                statusMsg.style.color = '#dc2626';
+                statusMsg.innerHTML = '❌ Errore: ' + e.message;
+            }
         }
     }
 
@@ -885,7 +923,7 @@
     }
 
     /* --- EDITOR AVVERSARI --- */
-    function saveOpponentData() {
+    async function saveOpponentData() {
         const key = document.getElementById('oppKey').value.trim().toLowerCase();
         const ja = document.getElementById('oppNameJa').value.trim();
         const en = document.getElementById('oppNameEn').value.trim();
@@ -897,7 +935,21 @@
         };
 
         renderOpponentsSelectAndTable();
-        resetOpponentForm();
+
+        const repo = document.getElementById('repoPath').value.trim();
+        const statusMsg = document.getElementById('statusMsg');
+        try {
+            statusMsg.style.color = '#003c82';
+            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvataggio `opponents.json` su GitHub...';
+            const { sha } = await getGitHubFile(repo, 'opponents.json', activeToken);
+            await saveGitHubFile(repo, 'opponents.json', globalOpponents, sha, activeToken, 'Admin: Update opponents.json');
+            statusMsg.style.color = '#059669';
+            statusMsg.innerHTML = '✅ `opponents.json` salvato con successo su GitHub!';
+            resetOpponentForm();
+        } catch(e) {
+            statusMsg.style.color = '#dc2626';
+            statusMsg.innerHTML = '❌ Errore salvataggio GitHub: ' + e.message;
+        }
     }
 
     function editOpponent(key) {
@@ -909,10 +961,24 @@
         document.getElementById('oppNameEn').value = opp.name?.en || '';
     }
 
-    function deleteOpponent(key) {
+    async function deleteOpponent(key) {
         if (confirm(`Eliminare l'avversario "${key}"?`)) {
             delete globalOpponents[key];
             renderOpponentsSelectAndTable();
+
+            const repo = document.getElementById('repoPath').value.trim();
+            const statusMsg = document.getElementById('statusMsg');
+            try {
+                statusMsg.style.color = '#003c82';
+                statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Aggiornamento `opponents.json` su GitHub...';
+                const { sha } = await getGitHubFile(repo, 'opponents.json', activeToken);
+                await saveGitHubFile(repo, 'opponents.json', globalOpponents, sha, activeToken, 'Admin: Delete opponent');
+                statusMsg.style.color = '#059669';
+                statusMsg.innerHTML = '✅ Avversario eliminato da GitHub!';
+            } catch(e) {
+                statusMsg.style.color = '#dc2626';
+                statusMsg.innerHTML = '❌ Errore: ' + e.message;
+            }
         }
     }
 
@@ -921,8 +987,8 @@
         document.getElementById('editOpponentKey').value = '';
     }
 
-    /* --- EDITOR CAMPI (SEMPLIFICATO) --- */
-    function saveLocationData() {
+    /* --- EDITOR CAMPI --- */
+    async function saveLocationData() {
         const key = document.getElementById('locKey').value.trim().toLowerCase();
         const ja = document.getElementById('locNameJa').value.trim();
         const it = document.getElementById('locNameIt').value.trim();
@@ -932,7 +998,6 @@
 
         if (!key || !ja) { alert("Inserisci Key e Nome Giapponese."); return; }
 
-        // Salva automaticamente nei 3 linguaggi basandosi sulla superficie scelta
         globalLocations[key] = {
             ja: ja,
             it: it || ja,
@@ -942,7 +1007,21 @@
         };
 
         renderLocationsSelectAndTable();
-        resetLocationForm();
+
+        const repo = document.getElementById('repoPath').value.trim();
+        const statusMsg = document.getElementById('statusMsg');
+        try {
+            statusMsg.style.color = '#003c82';
+            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvataggio `locations.json` su GitHub...';
+            const { sha } = await getGitHubFile(repo, 'locations.json', activeToken);
+            await saveGitHubFile(repo, 'locations.json', globalLocations, sha, activeToken, 'Admin: Update locations.json');
+            statusMsg.style.color = '#059669';
+            statusMsg.innerHTML = '✅ `locations.json` salvato con successo su GitHub!';
+            resetLocationForm();
+        } catch(e) {
+            statusMsg.style.color = '#dc2626';
+            statusMsg.innerHTML = '❌ Errore salvataggio GitHub: ' + e.message;
+        }
     }
 
     function editLocation(key) {
@@ -954,7 +1033,6 @@
         document.getElementById('locNameIt').value = loc.it || '';
         document.getElementById('locNameEn').value = loc.en || '';
         
-        // Rilevamento automatico della chiave superficie
         let surfKey = 'artificial';
         const sObj = loc.surface || {};
         const sJa = (typeof sObj === 'object' ? sObj.ja : sObj) || '';
@@ -966,10 +1044,24 @@
         document.getElementById('locMapsUrl').value = loc.maps || '';
     }
 
-    function deleteLocation(key) {
+    async function deleteLocation(key) {
         if (confirm(`Eliminare il campo "${key}"?`)) {
             delete globalLocations[key];
             renderLocationsSelectAndTable();
+
+            const repo = document.getElementById('repoPath').value.trim();
+            const statusMsg = document.getElementById('statusMsg');
+            try {
+                statusMsg.style.color = '#003c82';
+                statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Aggiornamento `locations.json` su GitHub...';
+                const { sha } = await getGitHubFile(repo, 'locations.json', activeToken);
+                await saveGitHubFile(repo, 'locations.json', globalLocations, sha, activeToken, 'Admin: Delete location');
+                statusMsg.style.color = '#059669';
+                statusMsg.innerHTML = '✅ Campo eliminato da GitHub!';
+            } catch(e) {
+                statusMsg.style.color = '#dc2626';
+                statusMsg.innerHTML = '❌ Errore: ' + e.message;
+            }
         }
     }
 
@@ -1533,21 +1625,25 @@ ${bench.length > 0 ? bench.join('\n') : '未定'}
         if (res.status === 404) return { sha: null, content: [] };
         if (!res.ok) throw new Error(`HTTP ${res.status} on GET ${filePath}`);
         const data = await res.json();
-        const strContent = decodeURIComponent(escape(atob(data.content.replace(/\s/g, ''))));
+        const strContent = base64ToUtf8(data.content);
         return { sha: data.sha, content: JSON.parse(strContent) };
     }
 
     async function saveGitHubFile(repo, filePath, jsonContent, sha, token, commitMsg) {
         const url = `https://api.github.com/repos/${repo}/contents/${filePath}`;
         const strContent = JSON.stringify(jsonContent, null, 2);
-        const b64Content = btoa(unescape(encodeURIComponent(strContent)));
+        const b64Content = utf8ToBase64(strContent);
 
         const body = { message: commitMsg, content: b64Content, branch: 'main' };
         if (sha) body.sha = sha;
 
         const res = await fetch(url, {
             method: 'PUT',
-            headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github+json' },
+            headers: { 
+                'Authorization': `Bearer ${token}`, 
+                'Content-Type': 'application/json', 
+                'Accept': 'application/vnd.github+json' 
+            },
             body: JSON.stringify(body)
         });
 
@@ -1556,55 +1652,6 @@ ${bench.length > 0 ? bench.join('\n') : '未定'}
             throw new Error(err.message || `HTTP ${res.status} on PUT ${filePath}`);
         }
         return await res.json();
-    }
-
-    /* --- SALVATAGGIO SINGOLI JSON SU GITHUB --- */
-    async function savePlayersJsonToGitHub() {
-        const repo = document.getElementById('repoPath').value.trim();
-        const statusMsg = document.getElementById('statusMsg');
-        try {
-            statusMsg.style.color = '#003c82';
-            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvataggio `players.json` su GitHub...';
-            const { sha } = await getGitHubFile(repo, 'players.json', activeToken);
-            await saveGitHubFile(repo, 'players.json', globalPlayers, sha, activeToken, 'Admin: Update players.json');
-            statusMsg.style.color = '#059669';
-            statusMsg.innerHTML = '✅ `players.json` salvato con successo su GitHub!';
-        } catch(e) {
-            statusMsg.style.color = '#dc2626';
-            statusMsg.innerHTML = '❌ Errore: ' + e.message;
-        }
-    }
-
-    async function saveOpponentsJsonToGitHub() {
-        const repo = document.getElementById('repoPath').value.trim();
-        const statusMsg = document.getElementById('statusMsg');
-        try {
-            statusMsg.style.color = '#003c82';
-            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvataggio `opponents.json` su GitHub...';
-            const { sha } = await getGitHubFile(repo, 'opponents.json', activeToken);
-            await saveGitHubFile(repo, 'opponents.json', globalOpponents, sha, activeToken, 'Admin: Update opponents.json');
-            statusMsg.style.color = '#059669';
-            statusMsg.innerHTML = '✅ `opponents.json` salvato con successo su GitHub!';
-        } catch(e) {
-            statusMsg.style.color = '#dc2626';
-            statusMsg.innerHTML = '❌ Errore: ' + e.message;
-        }
-    }
-
-    async function saveLocationsJsonToGitHub() {
-        const repo = document.getElementById('repoPath').value.trim();
-        const statusMsg = document.getElementById('statusMsg');
-        try {
-            statusMsg.style.color = '#003c82';
-            statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvataggio `locations.json` su GitHub...';
-            const { sha } = await getGitHubFile(repo, 'locations.json', activeToken);
-            await saveGitHubFile(repo, 'locations.json', globalLocations, sha, activeToken, 'Admin: Update locations.json');
-            statusMsg.style.color = '#059669';
-            statusMsg.innerHTML = '✅ `locations.json` salvato con successo su GitHub!';
-        } catch(e) {
-            statusMsg.style.color = '#dc2626';
-            statusMsg.innerHTML = '❌ Errore: ' + e.message;
-        }
     }
 
     /* --- SALVATAGGIO PARTITA & STATISTICHE --- */
