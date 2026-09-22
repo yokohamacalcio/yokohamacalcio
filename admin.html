@@ -3101,18 +3101,27 @@ function generateStatsJSON(playersData, matchesData) {
     const playerMap = new Map();
     const aliasToId = new Map();
 
+    // 1. Popolamento basato rigorosamente sull'ID univoco dei giocatori
     playersData.forEach(p => {
         if (p.role === 'staff') return;
-        const id = p.id || String(p.number) || p.name_kanji;
-        playerMap.set(id, {
-            id, number: p.number, name_kanji: p.name_kanji, name_kana: p.name_kana,
-            name_romaji: p.name_romaji, role: p.role, position: p.position,
+        const uniqueId = p.id || `player-${p.number || Math.random()}`;
+        
+        playerMap.set(uniqueId, {
+            id: uniqueId,
+            number: p.number,
+            name_kanji: p.name_kanji,
+            name_kana: p.name_kana,
+            name_romaji: p.name_romaji,
+            role: p.role,
+            position: p.position,
             caps: 0, starters: 0, subs: 0, goals: 0, assists: 0, mvps: 0,
             yellows: 0, reds: 0, goals_conceded: 0, clean_sheets: 0, positions_played: {}
         });
-        [id, p.name_kanji, p.name_kana, p.name_romaji].forEach(n => {
+
+        // Mappa tutti i possibili alias all'ID univoco
+        [uniqueId, p.name_kanji, p.name_kana, p.name_romaji, p.number !== null ? String(p.number) : null].forEach(n => {
             const c = cleanStr(n);
-            if (c) aliasToId.set(c, id);
+            if (c) aliasToId.set(c, uniqueId);
         });
     });
 
@@ -3121,7 +3130,9 @@ function generateStatsJSON(playersData, matchesData) {
         let t = cleanStr(raw);
         t = t.replace(/\(\d+(?:\+\d+)?['′]?\)/g, '').replace(/x\d+/g, '').trim();
         if (!t || t === 'なし' || t === 'nessuno' || t === 'null') return null;
+        
         if (aliasToId.has(t)) return aliasToId.get(t);
+        
         const minLen = isJapanese(t) ? 2 : 3;
         if (t.length >= minLen) {
             for (const [alias, id] of aliasToId.entries()) {
@@ -3157,9 +3168,6 @@ function generateStatsJSON(playersData, matchesData) {
             teamTotals.formations_used[m.formation] = (teamTotals.formations_used[m.formation] || 0) + 1;
         }
 
-        // ⚠️ CONVENZIONE GLOBALE: score è SEMPRE "nostri-loro".
-        // isHome è rilevante SOLO per il rendering (loghi, punteggi nelle pagine pubbliche).
-        // NON deve MAI influire sul calcolo delle statistiche.
         let gf = 0, ga = 0;
         const s = m.score ? m.score.trim() : '';
         if (s.includes('-')) {
@@ -3181,7 +3189,7 @@ function generateStatsJSON(playersData, matchesData) {
         if (Array.isArray(m.starters)) {
             m.starters.forEach(n => {
                 const id = resolveId(n);
-                if (id && playerMap.has(id)) {
+                if (id && playerMap.has(id) && !processedCaps.has(id)) {
                     playerMap.get(id).starters++;
                     playerMap.get(id).caps++;
                     processedCaps.add(id);
@@ -3696,7 +3704,7 @@ window.addEventListener('DOMContentLoaded', () => {
     renderSurfaceDropdown();
     startAutosave();
     if (State.token) verifyAndLogin(State.token);
-    if (!$('matchDate').value) $('matchDate').value = new Date().toISOString().split('T')[0];
+    if (!$('matchDate').value)$('matchDate').value = new Date().toISOString().split('T')[0];
 });
 </script>
 </body>
