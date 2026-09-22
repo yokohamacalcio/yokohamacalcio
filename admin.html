@@ -180,7 +180,7 @@ body.dark .tab-btn:hover { color: var(--sky); }
 }
 body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); border-color: var(--sky); }
 
-/* MISTER HELPER BOX */
+/* MISTER HELPER */
 .mister-helper-box {
     background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
     border-radius: 16px;
@@ -558,10 +558,7 @@ body.dark .trialist-box { background: #064e3b; border-color: #047857; }
     position: sticky;
     top: 0;
 }
-.data-table th[data-sort] {
-    cursor: pointer;
-    user-select: none;
-}
+.data-table th[data-sort] { cursor: pointer; user-select: none; }
 .data-table th[data-sort]:hover { background: var(--navy-dark); }
 .data-table td {
     padding: 8px 10px;
@@ -770,7 +767,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
 
 <a href="#mainContent" class="skip-link">Salta al contenuto</a>
 
-<!-- LOGIN -->
 <div id="loginSection" class="login-box" role="main">
     <i class="fas fa-lock lock-icon" aria-hidden="true"></i>
     <h2 style="margin-bottom: 8px;">Yokohama Calcio Admin</h2>
@@ -797,7 +793,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     </div>
 </div>
 
-<!-- DASHBOARD -->
 <div id="adminDashboard" class="admin-container hidden" role="main" aria-labelledby="mainContent">
 
     <div class="admin-header-bar">
@@ -862,7 +857,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </button>
     </div>
 
-    <!-- TAB 1: MATCHES -->
     <div id="matchesTab" class="tab-content" role="tabpanel">
         <form id="matchForm" autocomplete="off">
             <input type="hidden" id="repoPath" value="yokohamacalcio/yokohamacalcio">
@@ -935,7 +929,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                         </select>
                     </div>
                     <div class="form-group">
-                        <label data-i18n="lblScore">Risultato (es. 2 - 1):</label>
+                        <label data-i18n="lblScore">Risultato (es. 2 - 1, sempre nostri-loro):</label>
                         <input type="text" id="matchScore" class="form-control" placeholder="2 - 1" value="VS">
                     </div>
                 </div>
@@ -1066,7 +1060,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </form>
     </div>
 
-    <!-- TAB 2: PLAYERS -->
     <div id="playersTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
             <h3><i class="fas fa-user-plus"></i> <span data-i18n="playersHeading">Aggiungi / Modifica Giocatore</span></h3>
@@ -1159,7 +1152,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- TAB 3: OPPONENTS -->
     <div id="opponentsTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
             <h3><i class="fas fa-shield-cat"></i> <span data-i18n="opponentsHeading">Aggiungi / Modifica Avversario</span></h3>
@@ -1207,7 +1199,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- TAB 4: LOCATIONS -->
     <div id="locationsTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
             <h3><i class="fas fa-map-marked-alt"></i> <span data-i18n="locationsHeading">Aggiungi / Modifica Campo</span></h3>
@@ -1274,7 +1265,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- TAB 5: LINE -->
     <div id="lineTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
             <h3><i class="fab fa-line" style="color: #06c755;"></i> <span data-i18n="lineHeading">Generatore Convocazioni LINE</span></h3>
@@ -1297,7 +1287,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     <div id="statusMsg" style="margin-top: 18px; font-weight: bold; text-align: center;"></div>
 </div>
 
-<!-- MODAL & TOAST -->
 <div id="modalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-box">
         <div class="modal-title" id="modalTitle"></div>
@@ -1317,7 +1306,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
 'use strict';
 
 /* =========================================================
-   I18N
+   I18N DICTIONARY
    ========================================================= */
 const I18N_DICT = {
     it: {
@@ -1338,7 +1327,7 @@ const I18N_DICT = {
         lblDate: "Data:", lblTime: "Orario K.O.:", lblCategory: "Categoria:",
         lblType: "Tipo:", lblOpponent: "Avversario:", lblLocation: "Campo:",
         lblHomeAway: "Casa / Trasferta:", optHome: "Casa", optAway: "Trasferta",
-        lblScore: "Risultato:", matchEventsHeading: "2. Eventi & Prestazioni",
+        lblScore: "Risultato (es. 2 - 1, sempre nostri-loro):", matchEventsHeading: "2. Eventi & Prestazioni",
         lblScorers: "Marcatori", lblAssists: "Assistman", lblGoalkeepers: "Portieri & Gol Subiti",
         lblMvp: "MVP del Match", lblYellows: "Cartellini Gialli", lblReds: "Cartellini Rossi",
         tacticsHeading: "3. Assetto Tattico & Convocati",
@@ -1389,7 +1378,7 @@ const I18N_DICT = {
         lblDate: "日付:", lblTime: "K.O.:", lblCategory: "カテゴリ:",
         lblType: "種別:", lblOpponent: "対戦相手:", lblLocation: "会場:",
         lblHomeAway: "ホーム/アウェイ:", optHome: "ホーム", optAway: "アウェイ",
-        lblScore: "スコア:", matchEventsHeading: "2. イベント",
+        lblScore: "スコア（常に自-相手）:", matchEventsHeading: "2. イベント",
         lblScorers: "得点者", lblAssists: "アシスト", lblGoalkeepers: "GK & 失点",
         lblMvp: "MVP", lblYellows: "警告", lblReds: "退場",
         tacticsHeading: "3. フォーメーション",
@@ -1439,7 +1428,7 @@ const I18N_DICT = {
         lblDate: "Date:", lblTime: "K.O.:", lblCategory: "Category:",
         lblType: "Type:", lblOpponent: "Opponent:", lblLocation: "Venue:",
         lblHomeAway: "Home/Away:", optHome: "Home", optAway: "Away",
-        lblScore: "Score:", matchEventsHeading: "2. Events",
+        lblScore: "Score (e.g. 2 - 1, always us-them):", matchEventsHeading: "2. Events",
         lblScorers: "Scorers", lblAssists: "Assists", lblGoalkeepers: "GK & Conceded",
         lblMvp: "MVP", lblYellows: "Yellows", lblReds: "Reds",
         tacticsHeading: "3. Tactics & Lineup",
@@ -1592,11 +1581,6 @@ function base64ToUtf8(b64) {
     return new TextDecoder().decode(bytes);
 }
 
-/**
- * Restituisce il nome del giocatore nella lingua corrente.
- * - JA: preferisce name_kanji se in caratteri giapponesi, fallback name_kana
- * - IT/EN: preferisce name_romaji, fallback name_kanji
- */
 function localizePlayerName(raw) {
     if (!raw) return '';
     let p = null;
@@ -1612,7 +1596,6 @@ function localizePlayerName(raw) {
         );
     }
     if (!p) return String(raw);
-
     if (State.lang === 'ja') {
         if (p.name_kanji && isJapanese(p.name_kanji)) return p.name_kanji;
         return p.name_kana || p.name_kanji || p.name_romaji || String(raw);
@@ -1631,13 +1614,8 @@ function findMatchingPlayerValue(raw) {
     if (!raw) return '';
     const cleanRaw = cleanStr(raw);
     if (!cleanRaw) return '';
-
-    const normalizedRaw = String(raw)
-        .replace(/\((.*?)\)/g, '')
-        .replace(/\s*[xX\*]\s*\d+/g, '')
-        .trim();
+    const normalizedRaw = String(raw).replace(/\((.*?)\)/g, '').replace(/\s*[xX\*]\s*\d+/g, '').trim();
     const cleanNorm = cleanStr(normalizedRaw);
-
     const allPlayers = [...State.players, ...State.trialists];
 
     let p = allPlayers.find(x =>
@@ -1662,7 +1640,6 @@ function findMatchingPlayerValue(raw) {
         });
         if (p) return p.name_kanji || p.name_romaji || p.id;
     }
-
     return normalizedRaw;
 }
 
@@ -1778,7 +1755,6 @@ function setLanguage(lang) {
     renderSurfaceDropdown();
     renderAllTables();
 
-    // Rinnova i nomi nei dropdown e i suggerimenti con la lingua corrente
     if (State.players.length > 0) {
         updateAllPlayerDropdowns();
         renderMisterHelper();
@@ -1937,6 +1913,28 @@ async function initData() {
             State.statsData = sRes.value.content.players || {};
         }
 
+        // ── AUTO-SYNC CAPS da stats.json a players.json ──
+        if (State.statsData && Object.keys(State.statsData).length > 0) {
+            let changed = false;
+            State.players = State.players.map(p => {
+                const st = State.statsData[p.id];
+                if (st && st.caps !== undefined && st.caps !== p.caps) {
+                    changed = true;
+                    return { ...p, caps: st.caps };
+                }
+                return p;
+            });
+            if (changed) {
+                try {
+                    const { sha } = await ghGet('players.json');
+                    await ghPut('players.json', State.players, sha, 'Admin: Auto-sync caps from stats.json');
+                    showToast('info', '🔄 Caps sincronizzati in players.json');
+                } catch (e) {
+                    console.warn('Sync caps fallito:', e);
+                }
+            }
+        }
+
         renderOpponentsSelectAndTable();
         renderLocationsSelectAndTable();
         renderPlayersTable();
@@ -1952,7 +1950,7 @@ async function initData() {
 }
 
 /* =========================================================
-   RENDER & EDIT: OPPONENTS
+   OPPONENTS
    ========================================================= */
 function renderOpponentsSelectAndTable() {
     const keys = Object.keys(State.opponents).sort();
@@ -2035,7 +2033,7 @@ function resetOpponentForm() {
 }
 
 /* =========================================================
-   RENDER & EDIT: LOCATIONS
+   LOCATIONS
    ========================================================= */
 function renderSurfaceDropdown() {
     const sel = $('locSurfaceSelect');
@@ -2138,7 +2136,7 @@ function resetLocationForm() {
 }
 
 /* =========================================================
-   RENDER & EDIT: PLAYERS
+   PLAYERS
    ========================================================= */
 function renderPlayersTable() {
     let rows = State.players.slice();
@@ -2300,7 +2298,7 @@ function renderTrialistsList() {
 }
 
 /* =========================================================
-   PLAYER LISTS & AFFINITY CALCULATIONS
+   AFFINITY CALCULATIONS
    ========================================================= */
 function getAllAvailablePlayers(onlyGK = false) {
     const list = [{ name: '— nessuno —', value: '' }];
@@ -2308,9 +2306,7 @@ function getAllAvailablePlayers(onlyGK = false) {
     let filtered = onlyGK
         ? all.filter(p => p.position === 'GK' || p.role === 'gk' || p.position === 'TRIAL')
         : all;
-
     filtered.sort((a, b) => localizePlayerName(a).localeCompare(localizePlayerName(b)));
-
     filtered.forEach(p => {
         const isTrial = p.position === 'TRIAL' ? ' (PROVA)' : '';
         const displayName = localizePlayerName(p) + isTrial;
@@ -2323,7 +2319,6 @@ function getAllAvailablePlayers(onlyGK = false) {
 function computeAffinityData(playerId, posTag) {
     const stats = State.statsData[playerId] || {};
     const positions = stats.positions_played || {};
-
     const totalApps = Object.values(positions).reduce((a, b) => a + b, 0);
     const exact = positions[posTag] || 0;
     const macro = POS_MACRO_MAP[posTag] || '';
@@ -2331,11 +2326,8 @@ function computeAffinityData(playerId, posTag) {
     Object.entries(positions).forEach(([tag, count]) => {
         if (POS_MACRO_MAP[tag] === macro) macroTotal += count;
     });
-
     return {
-        totalApps,
-        exact,
-        macroTotal,
+        totalApps, exact, macroTotal,
         pctExact: totalApps > 0 ? (exact / totalApps) * 100 : 0,
         pctMacro: totalApps > 0 ? (macroTotal / totalApps) * 100 : 0
     };
@@ -2351,7 +2343,6 @@ function computePlayerAffinityForPosition(player, posTag) {
     else if (player.role === 'mf') playerMacro = 'MID';
     else if (player.role === 'fw') playerMacro = 'ATT';
 
-    // Portieri: caso speciale
     if (posTag === 'GK') {
         if (playerMacro === 'GK') {
             return { ...aff, score: 100 + aff.pctExact, isRoleMatch: true, displayPct: aff.pctExact, roleNote: 'GK' };
@@ -2371,11 +2362,8 @@ function computePlayerAffinityForPosition(player, posTag) {
     const score = aff.pctExact + aff.pctMacro * 0.5 + roleBonus + absBonus;
 
     return {
-        ...aff,
-        score,
-        isRoleMatch: roleBonus > 0,
-        displayPct: aff.pctExact,
-        roleNote: playerMacro
+        ...aff, score, isRoleMatch: roleBonus > 0,
+        displayPct: aff.pctExact, roleNote: playerMacro
     };
 }
 
@@ -2388,7 +2376,6 @@ function getAffinityForPosition(playerName, posTag) {
         cleanStr(x.name_romaji) === cleanStr(playerName)
     );
     if (!p) return { score: 0, exact: 0, macro: 0, pct: 0 };
-
     const aff = computePlayerAffinityForPosition(p, posTag);
     return {
         score: aff.score,
@@ -2424,14 +2411,12 @@ function renderMisterHelper() {
 
     container.innerHTML = Object.entries(coords).map(([posTag]) => {
         const macro = POS_MACRO_MAP[posTag] || '';
-
         const allPlayers = [...State.players, ...State.trialists].filter(p => p.role !== 'staff');
         const ranked = allPlayers
             .map(p => {
                 const aff = computePlayerAffinityForPosition(p, posTag);
                 return {
-                    ...aff,
-                    id: p.id,
+                    ...aff, id: p.id,
                     name: localizePlayerName(p),
                     isUsed: usedPlayers.has(p.name_kanji || p.name_romaji)
                 };
@@ -2769,7 +2754,7 @@ async function loadMatchData(id, quiet = false) {
 
     clearStatContainers();
 
-    // --- MARCATORI ---
+    // MARCATORI
     const scorerRaw = match.scorers || '';
     const scorerItems = Array.isArray(scorerRaw) ? scorerRaw : String(scorerRaw).split(/[,、]/);
     scorerItems.forEach(entry => {
@@ -2790,7 +2775,7 @@ async function loadMatchData(id, quiet = false) {
         }
     });
 
-    // --- ASSIST ---
+    // ASSIST
     const assistRaw = match.assists || '';
     const assistItems = Array.isArray(assistRaw) ? assistRaw : String(assistRaw).split(/[,、]/);
     assistItems.forEach(entry => {
@@ -2808,7 +2793,7 @@ async function loadMatchData(id, quiet = false) {
         }
     });
 
-    // --- PORTIERI ---
+    // PORTIERI
     const gkRaw = match.goalkeepers || '';
     const gkItems = Array.isArray(gkRaw) ? gkRaw : String(gkRaw).split(/[,、]/);
     gkItems.forEach(entry => {
@@ -2826,13 +2811,13 @@ async function loadMatchData(id, quiet = false) {
         }
     });
 
-    // --- MVP ---
+    // MVP
     if (match.mvp && match.mvp !== 'なし' && match.mvp !== 'Nessuno') {
         const mvpVal = findMatchingPlayerValue(match.mvp) || match.mvp;
         ensureSelectOption($('mvpSelect'), mvpVal);
     }
 
-    // --- GIALLI ---
+    // GIALLI
     const yellowRaw = match.yellow_cards || '';
     const yellowItems = Array.isArray(yellowRaw) ? yellowRaw : String(yellowRaw).split(/[,、]/);
     yellowItems.forEach(entry => {
@@ -2850,7 +2835,7 @@ async function loadMatchData(id, quiet = false) {
         }
     });
 
-    // --- ROSSI ---
+    // ROSSI
     const redRaw = match.red_cards || '';
     const redItems = Array.isArray(redRaw) ? redRaw : String(redRaw).split(/[,、]/);
     redItems.forEach(entry => {
@@ -2897,11 +2882,23 @@ async function deleteMatch() {
         const { sha: statsSha } = await ghGet('stats.json');
         await ghPut('stats.json', statsData, statsSha, `Admin: Update stats after deleting ${currentId}`);
 
-        State.statsData = statsData.players || {};
+        // ── SYNC CAPS → players.json ──
+        statusEl.innerHTML = `<i class="fas fa-spinner fa-spin"></i> players.json (sync caps)...`;
+        const statsPlayerMap = statsData.players || {};
+        const syncedPlayers = State.players.map(p => {
+            const st = statsPlayerMap[p.id];
+            return st ? { ...p, caps: st.caps || 0 } : { ...p, caps: 0 };
+        });
+        const { sha: playersSha } = await ghGet('players.json');
+        await ghPut('players.json', syncedPlayers, playersSha, `Admin: Sync caps after deleting ${currentId}`);
+
+        State.statsData = statsPlayerMap;
+        State.players = syncedPlayers;
         resetForm();
+        renderPlayersTable();
         statusEl.style.color = 'var(--green)';
         statusEl.innerHTML = `✅ Partita ${currentId} eliminata con successo`;
-        showToast('success', `✅ Partita ${currentId} eliminata e statistiche ricalcolate`);
+        showToast('success', `✅ Partita ${currentId} eliminata, caps sincronizzati`);
         renderMisterHelper();
     } catch (e) {
         statusEl.style.color = 'var(--red)';
@@ -3067,13 +3064,25 @@ async function saveMatch(e) {
         const { sha: statsSha } = await ghGet('stats.json');
         await ghPut('stats.json', statsData, statsSha, `Admin: Update stats for ${payload.id}`);
 
+        // ── SYNC CAPS → players.json ──
+        statusEl.innerHTML = `<i class="fas fa-spinner fa-spin"></i> players.json (sync caps)...`;
+        const statsPlayerMap = statsData.players || {};
+        const syncedPlayers = State.players.map(p => {
+            const st = statsPlayerMap[p.id];
+            return st ? { ...p, caps: st.caps || 0 } : p;
+        });
+        const { sha: playersSha } = await ghGet('players.json');
+        await ghPut('players.json', syncedPlayers, playersSha, `Admin: Sync caps from stats after ${payload.id}`);
+
         State.matches = arr;
-        State.statsData = statsData.players || {};
+        State.statsData = statsPlayerMap;
+        State.players = syncedPlayers;
         State.isDirty = false;
         clearDraft();
+        renderPlayersTable();
         statusEl.style.color = 'var(--green)';
         statusEl.innerHTML = `✅ ${t('saved')}`;
-        showToast('success', `✅ ${payload.id} + stats.json aggiornati`);
+        showToast('success', `✅ ${payload.id} + stats.json + players.json aggiornati`);
         renderMisterHelper();
     } catch (e) {
         statusEl.style.color = 'var(--red)';
@@ -3086,7 +3095,7 @@ async function saveMatch(e) {
 }
 
 /* =========================================================
-   STATS ENGINE
+   STATS ENGINE — la convenzione è sempre [nostri]-[loro]
    ========================================================= */
 function generateStatsJSON(playersData, matchesData) {
     const playerMap = new Map();
@@ -3137,22 +3146,27 @@ function generateStatsJSON(playersData, matchesData) {
         total_matches: 0, wins: 0, draws: 0, losses: 0,
         goals_for: 0, goals_against: 0, clean_sheets: 0, formations_used: {}
     };
+
     const posRegex = /^(GK|CB|LB|RB|LWB|RWB|DM|CM|LM|RM|AM|LW|RW|FW|ST)(-[LRC123])?$/i;
 
     matchesData.forEach(m => {
         if (String(m.status || '').toLowerCase() !== 'past') return;
         teamTotals.total_matches++;
+
         if (m.formation) {
             teamTotals.formations_used[m.formation] = (teamTotals.formations_used[m.formation] || 0) + 1;
         }
 
+        // ⚠️ CONVENZIONE GLOBALE: score è SEMPRE "nostri-loro".
+        // isHome è rilevante SOLO per il rendering (loghi, punteggi nelle pagine pubbliche).
+        // NON deve MAI influire sul calcolo delle statistiche.
         let gf = 0, ga = 0;
         const s = m.score ? m.score.trim() : '';
         if (s.includes('-')) {
             const parts = s.split('-').map(x => parseInt(x.trim(), 10));
             if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-                if (m.isHome === false) { gf = parts[1]; ga = parts[0]; }
-                else { gf = parts[0]; ga = parts[1]; }
+                gf = parts[0];
+                ga = parts[1];
             }
         }
 
