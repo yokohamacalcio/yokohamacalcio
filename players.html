@@ -360,7 +360,7 @@
         .heatmap-trigger i { color: #87ceeb; }
 
         /* =========================================================
-           HEATMAP MODAL — Football Manager style
+           HEATMAP MODAL — Football Manager style (14 posizioni)
            ========================================================= */
         .heatmap-modal {
             position: fixed;
@@ -528,22 +528,22 @@
         .heatmap-goal-top { top: 0; border-top: none; }
         .heatmap-goal-bottom { bottom: 0; border-bottom: none; }
 
-        /* --- DOTS (DIMENSIO FISSA PER TUTTI) --- */
+        /* --- DOTS (DIMENSIONI E STILE FOOTBALL MANAGER - 14 POSIZIONI) --- */
         .heatmap-dot {
             position: absolute;
             transform: translate(-50%, -50%);
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.58rem;
+            font-size: 0.52rem;
             font-weight: 800;
-            color: rgba(255,255,255,0.55);
-            background: rgba(15, 23, 42, 0.35);
-            border: 1.5px dashed rgba(255,255,255,0.35);
+            color: rgba(255,255,255,0.5);
+            background: rgba(15, 23, 42, 0.3);
+            border: 1.5px dashed rgba(255,255,255,0.3);
             pointer-events: none;
             user-select: none;
             letter-spacing: 0.2px;
@@ -1516,7 +1516,7 @@
 </footer>
 
 <!-- =========================================================
-     HEATMAP MODAL — Football Manager style
+     HEATMAP MODAL — Football Manager style (14 posizioni)
      ========================================================= -->
 <div class="heatmap-modal" id="heatmapModal" aria-hidden="true">
     <div class="heatmap-modal-backdrop" data-heatmap-close></div>
@@ -1548,7 +1548,7 @@
         <div class="heatmap-legend" id="heatmapLegend">
             <span class="heatmap-legend-title" data-i18n="heatmap.legend_title">使用率:</span>
             <span class="heatmap-legend-item">
-                <i class="heatmap-legend-dot" style="background:rgba(15,23,42,0.35);border:1.5px dashed rgba(255,255,255,0.6);"></i> 0%
+                <i class="heatmap-legend-dot" style="background:rgba(15,23,42,0.3);border:1.5px dashed rgba(255,255,255,0.5);"></i> 0%
             </span>
             <span class="heatmap-legend-item">
                 <i class="heatmap-legend-dot" style="background:#fde68a;border:2px solid #fbbf24;"></i> 1–20%
@@ -1652,7 +1652,7 @@
         it: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "SQUADRA",
             "nav.team": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
-            "nav.matches": "Partite & Risultati", "nav.club": "CLUB", "nav.gallery": "Galleria", "nav.sponsors": "Partner",
+            "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.sponsors": "Partner",
             "nav.faq": "FAQ", "nav.shop": "Shop", "nav.contact": "Contatti",
             "players_page.title": "Rosa", "players_page.intro": "Tocca la scheda per visualizzare i dettagli e le statistiche personali.",
             "role_filter.all": "Tutti", "role_filter.gk": "Portieri", "role_filter.df": "Difensori", "role_filter.mf": "Centrocampisti",
@@ -1692,48 +1692,58 @@
     };
 
     /* =========================================================
-       HEATMAP CONFIGURATION
+       HEATMAP CONFIGURATION (Esattamente 14 posizioni FM)
        ========================================================= */
     const HEATMAP_POSITIONS = {
-        'GK':   { x: 50, y: 92, label: 'GK'  },
-
-        'LWB':  { x: 7,  y: 74, label: 'LWB' },
-        'LB':   { x: 14, y: 80, label: 'LB'  },
-        'CB-L': { x: 32, y: 82, label: 'CB'  },
-        'CB-C': { x: 50, y: 84, label: 'CB'  },
-        'CB-R': { x: 68, y: 82, label: 'CB'  },
-        'RB':   { x: 86, y: 80, label: 'RB'  },
-        'RWB':  { x: 93, y: 74, label: 'RWB' },
-
-        'DM':   { x: 50, y: 66, label: 'DM'  },
-        'LM':   { x: 10, y: 55, label: 'LM'  },
-        'CM-L': { x: 30, y: 58, label: 'CM'  },
-        'CM-C': { x: 50, y: 58, label: 'CM'  },
-        'CM-R': { x: 70, y: 58, label: 'CM'  },
-        'RM':   { x: 90, y: 55, label: 'RM'  },
-
-        'AM-L': { x: 22, y: 40, label: 'AM'  },
-        'AM-C': { x: 50, y: 40, label: 'AM'  },
-        'AM-R': { x: 78, y: 40, label: 'AM'  },
-
-        'LW':   { x: 18, y: 24, label: 'LW'  },
-        'FW-L': { x: 32, y: 20, label: 'FW'  },
-        'ST':   { x: 50, y: 16, label: 'ST'  },
-        'FW-R': { x: 68, y: 20, label: 'FW'  },
-        'RW':   { x: 82, y: 24, label: 'RW'  }
+        'GK':  { x: 50, y: 92, label: 'GK' },
+        'LB':  { x: 16, y: 78, label: 'LB' },
+        'CB':  { x: 50, y: 82, label: 'CB' },
+        'RB':  { x: 84, y: 78, label: 'RB' },
+        'LWB': { x: 16, y: 64, label: 'LWB' },
+        'DM':  { x: 50, y: 64, label: 'DM' },
+        'RWB': { x: 84, y: 64, label: 'RWB' },
+        'LM':  { x: 16, y: 46, label: 'LM' },
+        'CM':  { x: 50, y: 46, label: 'CM' },
+        'RM':  { x: 84, y: 46, label: 'RM' },
+        'LW':  { x: 16, y: 28, label: 'LW' },
+        'AM':  { x: 50, y: 28, label: 'AM' },
+        'RW':  { x: 84, y: 28, label: 'RW' },
+        'ST':  { x: 50, y: 16, label: 'ST' }
     };
 
     const HEATMAP_ALIASES = {
-        'CB':    'CB-C',
-        'CM':    'CM-C',
-        'AM':    'AM-C',
-        'CAM':   'AM-C',
+        'GK':    'GK',
+        'LB':    'LB',
+        'LWB':   'LWB',
+        'CB':    'CB',
+        'CB-L':  'CB',
+        'CB-C':  'CB',
+        'CB-R':  'CB',
+        'RB':    'RB',
+        'RWB':   'RWB',
+        'SB':    'RB',
+        'DM':    'DM',
         'DM-L':  'DM',
         'DM-R':  'DM',
+        'LM':    'LM',
+        'SH':    'RM',
+        'CM':    'CM',
+        'CM-L':  'CM',
+        'CM-C':  'CM',
+        'CM-R':  'CM',
+        'RM':    'RM',
+        'LW':    'LW',
+        'AM-L':  'LW',  /* AM-L convoglia in LW */
+        'RW':    'RW',
+        'AM-R':  'RW',  /* AM-R convoglia in RW */
+        'AM':    'AM',
+        'AM-C':  'AM',
+        'CAM':   'AM',
+        'ST':    'ST',
         'FW':    'ST',
         'CF':    'ST',
-        'SB':    'RB',
-        'SH':    'RM'
+        'FW-L':  'ST',  /* FW-L convoglia in ST */
+        'FW-R':  'ST'   /* FW-R convoglia in ST */
     };
 
     function normalizeHeatmapTag(raw) {
@@ -1741,20 +1751,21 @@
         if (!u) return null;
         if (HEATMAP_POSITIONS[u]) return u;
         if (HEATMAP_ALIASES[u]) return HEATMAP_ALIASES[u];
-        if (u.startsWith('CB')) return 'CB-C';
-        if (u.startsWith('CM')) return 'CM-C';
-        if (u.startsWith('AM')) return 'AM-C';
+        if (u.startsWith('CB')) return 'CB';
+        if (u.startsWith('CM')) return 'CM';
+        if (u.startsWith('AM') || u.startsWith('CAM')) return 'AM';
         if (u.startsWith('DM')) return 'DM';
-        if (u.startsWith('FW')) return 'ST';
+        if (u.startsWith('FW') || u.startsWith('CF')) return 'ST';
+        if (u.startsWith('SB')) return 'RB';
+        if (u.startsWith('SH')) return 'RM';
         return null;
     }
 
-    // Calcolo del colore basato sulla percentuale d'uso
     function getIntensityLevelByPercentage(pct) {
-        if (pct > 60) return 4;   // Rosso (> 60%)
-        if (pct > 40) return 3;   // Arancione (41% - 60%)
-        if (pct > 20) return 2;   // Giallo (21% - 40%)
-        if (pct > 0) return 1;    // Giallo chiaro (1% - 20%)
+        if (pct > 60) return 4;   /* Rosso (> 60%) */
+        if (pct > 40) return 3;   /* Arancione (41% - 60%) */
+        if (pct > 20) return 2;   /* Giallo (21% - 40%) */
+        if (pct > 0) return 1;    /* Giallo chiaro (1% - 20%) */
         return 0;
     }
 
@@ -2189,7 +2200,6 @@
 
                 const count = normalized[tag] || 0;
                 if (count > 0) {
-                    // Calcolo della percentuale dell'uso del ruolo rispetto ai ruoli totali registrati
                     const pct = (count / totalApps) * 100;
                     dot.classList.add('filled');
                     dot.setAttribute('data-intensity', getIntensityLevelByPercentage(pct));
