@@ -11,7 +11,6 @@ function isJapanese(s) {
 
 function buildStats() {
     try {
-        // Percorsi dei file JSON nella root del progetto
         const playersPath = path.join(__dirname, 'players.json');
         const matchesPath = path.join(__dirname, 'matches.json');
         const statsPath = path.join(__dirname, 'stats.json');
@@ -24,15 +23,25 @@ function buildStats() {
         const playersData = JSON.parse(fs.readFileSync(playersPath, 'utf8'));
         const matchesData = JSON.parse(fs.readFileSync(matchesPath, 'utf8'));
 
-        const playerMap = new Map();
+        const playersMap = {}; // Dizionario nativo per prevenire qualsiasi doppione per chiave
         const aliasToId = new Map();
 
-        // 1. Inizializzazione della mappa giocatori basata sugli ID univoci
+        // 1. Inizializzazione pulita e deterministica della rosa
         playersData.forEach(p => {
             if (p.role === 'staff') return;
-            const uniqueId = p.id || `player-${p.number || Math.random()}`;
+            
+            // Generazione ID stabile senza mai usare Math.random()
+            let rawId = p.id;
+            if (!rawId) {
+                const baseName = p.name_romaji || p.name_kanji || `num-${p.number || 'unknown'}`;
+                rawId = baseName.toLowerCase().replace(/[^a-z0-9\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf]+/g, '-');
+            }
+            const uniqueId = String(rawId).trim();
 
-            playerMap.set(uniqueId, {
+            // Se la chiave esiste già, evitiamo di sovrascrivere o duplicare
+            if (playersMap[uniqueId]) return;
+
+            playersMap[uniqueId] = {
                 id: uniqueId,
                 number: p.number,
                 name_kanji: p.name_kanji,
@@ -51,12 +60,17 @@ function buildStats() {
                 goals_conceded: 0,
                 clean_sheets: 0,
                 positions_played: {}
-            });
+            };
 
-            // Mappatura degli alias per il riconoscimento sicuro dai match
-            [uniqueId, p.name_kanji, p.name_kana, p.name_romaji, p.number !== null ? String(p.number) : null].forEach(n => {
-                const c = cleanStr(n);
-                if (c) aliasToId.set(c, uniqueId);
+            // Mappatura sicura degli alias
+            const aliases = [uniqueId, p.id, p.name_kanji, p.name_kana, p.name_romaji, p.number !== null ? String(p.number) : null];
+            aliases.forEach(alias => {
+                if (alias !== null && alias !== undefined) {
+                    const c = cleanStr(alias);
+                    if (c && c.length > 0) {
+                        aliasToId.set(c, uniqueId);
+                    }
+                }
             });
         });
 
@@ -68,10 +82,12 @@ function buildStats() {
 
             if (aliasToId.has(t)) return aliasToId.get(t);
 
-            const minLen = isJapanese(t) ? 2 : 3;
-            if (t.length >= minLen) {
+            // Ricerca parziale di sicurezza per stringhe sufficientemente lunghe
+            if (t.length >= 2) {
                 for (const [alias, id] of aliasToId.entries()) {
-                    if (alias.length >= minLen && (alias.includes(t) || t.includes(alias))) return id;
+                    if (alias === t || alias.includes(t) || t.includes(alias)) {
+                        return id;
+                    }
                 }
             }
             return null;
@@ -82,11 +98,10 @@ function buildStats() {
         function recordPos(rawName, posTag) {
             if (!rawName || !posTag) return;
             const id = resolveId(rawName);
-            if (!id || !playerMap.has(id)) return;
+            if (!id || !playersMap[id]) return;
             const tag = String(posTag).trim().toUpperCase();
             if (tag && tag !== 'UNDEFINED' && tag !== 'NULL') {
-                const p = playerMap.get(id);
-                p.positions_played[tag] = (p.positions_played[tag] || 0) + 1;
+                playersMap[id].positions_played[tag] = (playersMap[id].positions_played[tag] || 0) + 1;
             }
         }
 
@@ -101,7 +116,7 @@ function buildStats() {
             formations_used: {}
         };
 
-        // 2. Elaborazione delle partite passate
+        // 2. Elaborazione delle partite
         matchesData.forEach(m => {
             if (String(m.status || '').toLowerCase() !== 'past') return;
             teamTotals.total_matches++;
@@ -133,9 +148,9 @@ function buildStats() {
             if (Array.isArray(m.starters)) {
                 m.starters.forEach(n => {
                     const id = resolveId(n);
-                    if (id && playerMap.has(id) && !processedCaps.has(id)) {
-                        playerMap.get(id).starters++;
-                        playerMap.get(id).caps++;
+                    if (id && playersMap[id] && !processedCaps.has(id)) {
+                        playersMap[id].starters++;
+                        playersMap[id].caps++;
                         processedCaps.add(id);
                     }
                 });
@@ -152,9 +167,9 @@ function buildStats() {
             if (Array.isArray(m.substitutes_in)) {
                 m.substitutes_in.forEach(n => {
                     const id = resolveId(n);
-                    if (id && playerMap.has(id) && !processedCaps.has(id)) {
-                        playerMap.get(id).subs++;
-                        playerMap.get(id).caps++;
+                    if (id && playersMap[id] && !processedCaps.has(id)) {
+                        playersMap[id].subs++;
+                        playersMap[id].caps++;
                         processedCaps.add(id);
                     }
                 });
@@ -173,7 +188,7 @@ function buildStats() {
                     const mm = txt.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
                     if (mm) { txt = mm[1].trim(); c = parseInt(mm[2], 10) || 1; }
                     const id = resolveId(txt);
-                    if (id && playerMap.has(id)) playerMap.get(id).goals += c;
+                    if (id && playersMap[id]) playersMap[id].goals += c;
                 });
             }
 
@@ -184,26 +199,26 @@ function buildStats() {
                     const mm = txt.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
                     if (mm) { txt = mm[1].trim(); c = parseInt(mm[2], 10) || 1; }
                     const id = resolveId(txt);
-                    if (id && playerMap.has(id)) playerMap.get(id).assists += c;
+                    if (id && playersMap[id]) playersMap[id].assists += c;
                 });
             }
 
             if (m.mvp) {
                 m.mvp.split(/[,、]/).forEach(n => {
                     const id = resolveId(n);
-                    if (id && playerMap.has(id)) playerMap.get(id).mvps++;
+                    if (id && playersMap[id]) playersMap[id].mvps++;
                 });
             }
             if (m.yellow_cards) {
                 m.yellow_cards.split(/[,、]/).forEach(n => {
                     const id = resolveId(n);
-                    if (id && playerMap.has(id)) playerMap.get(id).yellows++;
+                    if (id && playersMap[id]) playersMap[id].yellows++;
                 });
             }
             if (m.red_cards) {
                 m.red_cards.split(/[,、]/).forEach(n => {
                     const id = resolveId(n);
-                    if (id && playerMap.has(id)) playerMap.get(id).reds++;
+                    if (id && playersMap[id]) playersMap[id].reds++;
                 });
             }
 
@@ -213,19 +228,19 @@ function buildStats() {
                     let raw = e.trim(), gkGa = ga;
                     if (mm) { raw = mm[1].trim(); const p = parseInt(mm[2], 10); if (!isNaN(p)) gkGa = p; }
                     const id = resolveId(raw);
-                    if (id && playerMap.has(id)) {
-                        playerMap.get(id).goals_conceded += gkGa;
-                        if (gkGa === 0) playerMap.get(id).clean_sheets++;
+                    if (id && playersMap[id]) {
+                        playersMap[id].goals_conceded += gkGa;
+                        if (gkGa === 0) playersMap[id].clean_sheets++;
                     }
                 });
             }
         });
 
-        const list = Array.from(playerMap.values());
+        const list = Object.values(playersMap);
         const statsOutput = {
             updated_at: new Date().toISOString(),
             team_totals: teamTotals,
-            players: Object.fromEntries(playerMap),
+            players: playersMap,
             rankings: {
                 top_scorers: [...list].filter(p => p.goals > 0).sort((a, b) => b.goals - a.goals || b.caps - a.caps).slice(0, 5),
                 top_assists: [...list].filter(p => p.assists > 0).sort((a, b) => b.assists - a.assists || b.caps - a.caps).slice(0, 5),
@@ -235,7 +250,7 @@ function buildStats() {
         };
 
         fs.writeFileSync(statsPath, JSON.stringify(statsOutput, null, 2), 'utf8');
-        console.log('✅ stats.json generato con successo da build-stats.js');
+        console.log('✅ stats.json generato perfettamente senza duplicati.');
     } catch (err) {
         console.error('❌ Errore durante la generazione delle statistiche:', err);
         process.exit(1);
