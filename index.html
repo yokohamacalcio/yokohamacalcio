@@ -224,7 +224,7 @@
         .hero-btn-outline { background: rgba(255, 255, 255, 0.15); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.4); backdrop-filter: blur(4px); }
         .hero-btn-outline:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-2px); }
 
-        /* BANNER BANNER RECLUTAMENTO */
+        /* BANNER RECLUTAMENTO */
         .recruitment-banner {
             background: linear-gradient(135deg, #00224a 0%, #001229 100%);
             border-radius: 16px; padding: 35px 25px; color: #ffffff; position: relative; overflow: hidden;
@@ -246,47 +246,6 @@
             display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3); transition: all 0.2s ease;
         }
         .recruitment-btn:hover { background: #a0d8ef; transform: translateY(-2px); }
-
-        /* SEZIONE IDENTITÀ TIPO SSC NAPOLI */
-        .identity-section {
-            background: linear-gradient(135deg, #001229 0%, #00224a 100%);
-            color: #ffffff;
-            border-top: 3px solid #87ceeb;
-            border-bottom: 3px solid #87ceeb;
-            padding: 50px 20px;
-            text-align: center;
-        }
-        .identity-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .identity-badge {
-            display: inline-block;
-            background: rgba(135, 206, 235, 0.15);
-            border: 1px solid #87ceeb;
-            color: #87ceeb;
-            font-size: 0.8rem;
-            font-weight: 800;
-            padding: 4px 14px;
-            border-radius: 20px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-        .identity-title {
-            font-family: 'Bebas Neue', 'Montserrat', sans-serif;
-            font-size: 2.6rem;
-            letter-spacing: 1px;
-            color: #ffffff;
-            margin-bottom: 15px;
-            line-height: 1.1;
-        }
-        .identity-desc {
-            font-size: 1rem;
-            color: #cbd5e1;
-            line-height: 1.7;
-            margin-bottom: 25px;
-        }
 
         /* MINI-FAQ ACCORDION */
         .mini-faq-container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
@@ -322,8 +281,28 @@
         .card-logo-wrap img, .hero-logo-wrap img { display: block !important; width: 100% !important; height: 100% !important; max-width: 100% !important; max-height: 100% !important; object-fit: contain !important; border-radius: 0 !important; background: transparent !important; transform: none !important; }
         .hero-logo-wrap img { filter: drop-shadow(0 0 8px rgba(135, 206, 235, 0.75)) !important; }
 
+        /* --- MATCH CENTER GRID & SWIPE PER MOBILE --- */
         .match-center-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media (max-width: 768px) { .match-center-grid { display: flex !important; flex-direction: column-reverse !important; gap: 20px !important; } }
+        
+        @media (max-width: 768px) { 
+            .match-center-grid { 
+                display: flex !important; 
+                flex-direction: row !important; 
+                overflow-x: auto !important; 
+                scroll-snap-type: x mandatory; 
+                gap: 15px !important; 
+                padding-bottom: 15px; 
+                -webkit-overflow-scrolling: touch;
+                margin: 0 -15px;
+                padding-left: 15px;
+                padding-right: 15px;
+            } 
+            .match-center-grid > div {
+                flex: 0 0 88% !important;
+                max-width: 88% !important;
+                scroll-snap-align: center;
+            }
+        }
 
         .match-vs-center { font-family: var(--font-brand) !important; font-size: 2.2rem !important; color: var(--primary-sky) !important; display: flex !important; align-items: center !important; justify-content: center !important; text-align: center !important; white-space: nowrap !important; }
         .score-past { color: var(--dark-navy) !important; letter-spacing: 1px !important; font-size: 2.2rem !important; font-weight: 800; }
@@ -525,25 +504,6 @@
         <div class="stripe navy"></div>
     </div>
   </div>
-</section>
-
-<!-- SEZIONE IDENTITÀ D'IMPATTO (INSPIRAZIONE SSC NAPOLI) -->
-<section class="identity-section">
-    <div class="identity-container">
-        <span class="identity-badge"><i class="fas fa-shield-alt"></i> <span data-i18n="identity.badge">AZZURRO IN YOKOHAMA</span></span>
-        <h2 class="identity-title" data-i18n="identity.title">PROUD OF OUR IDENTITY</h2>
-        <p class="identity-desc" data-i18n="identity.desc">
-            イタリアンフットボールの組織的戦術と、横浜のカルチャーが融合するアマチュアサッカークラブ。個の閃きと組織の連動（Gioco di Squadra）で勝利を目指します。
-        </p>
-        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-            <a href="players.html" class="hero-btn hero-btn-primary">
-                <i class="fas fa-users"></i> <span data-i18n="identity.btn_squad">選手一覧を見る</span>
-            </a>
-            <a href="about.html" class="hero-btn hero-btn-outline">
-                <i class="fas fa-chess-board"></i> <span data-i18n="identity.btn_philosophy">戦術・哲学</span>
-            </a>
-        </div>
-    </div>
 </section>
 
 <section class="section" id="about">
@@ -828,12 +788,6 @@
             "hero.btn_about": "クラブ紹介",
             "hero.btn_contact": "お問い合わせ",
 
-            "identity.badge": "AZZURRO IN YOKOHAMA",
-            "identity.title": "PROUD OF OUR IDENTITY",
-            "identity.desc": "イタリアンフットボールの組織的戦術と、横浜のカルチャーが融合するアマチュアサッカークラブ。個の閃きと組織の連動（Gioco di Squadra）で勝利を目指します。",
-            "identity.btn_squad": "選手一覧を見る",
-            "identity.btn_philosophy": "戦術・哲学",
-
             "about.title": "Yokohama Calcioとは",
             "about.subtitle": "横浜発、イタリアンスタイルの社会人サッカーチーム",
             "about.p1": "Yokohama Calcio（ヨコハマ・カルチョ）は、2025年に横浜で設立された社会人アマチュアサッカークラブです。イタリアサッカーの組織的な戦術アプローチからインスピレーションを受け、一人ひとりが役割を理解し連動するチームを目指しています。",
@@ -892,12 +846,6 @@
             "hero.title": "La passione italiana nel cuore di Yokohama", "hero.subtitle": "Il calcio che unisce le persone",
             "hero.btn_about": "Chi Siamo", "hero.btn_contact": "Contattaci",
 
-            "identity.badge": "AZZURRO A YOKOHAMA",
-            "identity.title": "PROUD OF OUR IDENTITY",
-            "identity.desc": "La fusione tra l'organizzazione tattica del calcio italiano e l'energia di Yokohama. Uniamo talento individuale e disciplina tattica per vincere insieme.",
-            "identity.btn_squad": "Vedi la Rosa",
-            "identity.btn_philosophy": "Tattica e Filosofia",
-
             "about.title": "Cos'è lo Yokohama Calcio", "about.subtitle": "Da Yokohama, una squadra dilettantistica in perfetto stile italiano",
             "about.p1": "Lo Yokohama Calcio è una squadra di calcio amatoriale fondata nel 2025 a Yokohama. Ispirati dalla cultura e dall'organizzazione tattica del calcio italiano, cerchiamo di creare una squadra dove ogni giocatore comprende il proprio ruolo e si muove in sintonia con i compagni.",
             "about.p2": "Guidati dal principio “Crescita individuale, evoluzione della squadra”, uniamo persone di diversa provenienza per vivere il calcio con la massima serietà ma al tempo stesso con autentico divertimento.",
@@ -948,12 +896,6 @@
             
             "hero.title": "Italian Football Passion in Yokohama", "hero.subtitle": "Where Football Connects People",
             "hero.btn_about": "About Club", "hero.btn_contact": "Contact Us",
-
-            "identity.badge": "AZZURRO IN YOKOHAMA",
-            "identity.title": "PROUD OF OUR IDENTITY",
-            "identity.desc": "Where tactical Italian football meets the vibrant community of Yokohama. Combining individual brilliance with tactical discipline to win together.",
-            "identity.btn_squad": "View Roster",
-            "identity.btn_philosophy": "Tactics & Philosophy",
 
             "about.title": "About Yokohama Calcio", "about.subtitle": "Italian-style Amateur Football Club in Yokohama",
             "about.p1": "Yokohama Calcio is an amateur football club founded in 2025 in Yokohama. Inspired by Italian football tactical culture, we aim to build a team where every player understands their role and coordinates in harmony with teammates.",
