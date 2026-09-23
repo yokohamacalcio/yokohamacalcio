@@ -383,7 +383,9 @@
         }
 
         .main-nav > a:hover,
-        .main-nav .dropdown-toggle:hover {
+        .main-nav .dropdown-toggle:hover,
+        .main-nav > a.active,
+        .main-nav .dropdown-toggle.active {
             color: var(--primary-sky, #87ceeb) !important;
         }
 
@@ -524,6 +526,62 @@
             font-weight: 600; color: var(--dark-navy, #003c82); font-size: 0.9rem;
         }
 
+        /* --- STILE CONTO ALLA ROVESCIA (COUNTDOWN) HERO --- */
+        .match-countdown-wrapper {
+            margin-top: 18px;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(135, 206, 235, 0.35);
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        .countdown-title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--primary-sky, #87ceeb);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+        .cd-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 48px;
+        }
+        .cd-num {
+            font-family: 'Bebas Neue', 'Montserrat', sans-serif;
+            font-size: 1.85rem;
+            line-height: 1;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(135, 206, 235, 0.5);
+        }
+        .cd-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.75);
+            margin-top: 3px;
+        }
+        .cd-colon {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary-sky, #87ceeb);
+            margin-top: -12px;
+            opacity: 0.8;
+        }
+
         /* --- REVISIONATO LAYOUT FILTRI E CONTROLLI SU MOBILE --- */
         .matches-controls-row {
             display: flex;
@@ -559,6 +617,9 @@
                 justify-content: center !important;
                 width: 100% !important;
             }
+            .cd-num { font-size: 1.5rem !important; }
+            .cd-box { min-width: 38px !important; }
+            .countdown-timer { gap: 8px !important; }
         }
 
         /* STRUTTURA A GRIGLIA PER NOMI E LOGHI SQUADRE */
@@ -770,7 +831,7 @@
             </div>
           </div>
 
-          <a href="matches.html" style="color: var(--primary-sky); font-weight: 700;" data-i18n="nav.matches">試合日程・結果</a>
+          <a href="matches.html" class="active" data-i18n="nav.matches">試合日程・結果</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
           <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
           <a href="contact.html" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
@@ -891,6 +952,21 @@
                 </div>
                 <div class="match-info-hero-bar"><div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>11:00 K.O.</span></div><div class="match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>人工芝</span></div></div>
             </div>
+
+            <!-- BOX COUNTDOWN HERO -->
+            <div class="match-countdown-wrapper">
+                <div class="countdown-title"><i class="fas fa-stopwatch"></i> <span data-i18n="countdown.title">キックオフまで</span></div>
+                <div class="countdown-timer">
+                    <div class="cd-box"><span class="cd-num" id="cd-days">00</span><span class="cd-label" data-i18n="countdown.days">日</span></div>
+                    <div class="cd-colon">:</div>
+                    <div class="cd-box"><span class="cd-num" id="cd-hours">00</span><span class="cd-label" data-i18n="countdown.hours">時間</span></div>
+                    <div class="cd-colon">:</div>
+                    <div class="cd-box"><span class="cd-num" id="cd-mins">00</span><span class="cd-label" data-i18n="countdown.mins">分</span></div>
+                    <div class="cd-colon">:</div>
+                    <div class="cd-box"><span class="cd-num" id="cd-secs">00</span><span class="cd-label" data-i18n="countdown.secs">秒</span></div>
+                </div>
+            </div>
+
             <div>
                 <div class="match-box-venue">
                     <a href="https://maps.google.com/?q=谷本公園グラウンド" target="_blank" rel="noopener noreferrer">
@@ -996,6 +1072,8 @@
     let opponentsData = {};
     let isAllUpcomingVisible = false;
 
+    let countdownInterval = null;
+
     const commonRomajiMap = {
         'レガリア川崎': 'Legalia Kawasaki',
         '東方チタニウム': 'Toho Titanium',
@@ -1017,7 +1095,8 @@
             "btn.show_all_upcoming": "全予定を表示", "btn.hide_upcoming": "閉じる",
             "label.venue": "会場:", "label.surface": "ピッチ:", "label.kickoff": "キックオフ:", "label.scorers": "得点者:", "label.assists": "アシスト:",
             "label.mvp": "MVP:", "label.yellow_cards": "警告:", "label.red_cards": "退場:",
-            "btn.details": "詳細を見る", "btn.close_details": "詳細を閉じる", "btn.load_more_3": "さらに3試合を表示", "btn.show_less": "最初の3試合に戻す", "btn.back_home": "ホームに戻る"
+            "btn.details": "詳細を見る", "btn.close_details": "詳細を閉じる", "btn.load_more_3": "さらに3試合を表示", "btn.show_less": "最初の3試合に戻す", "btn.back_home": "ホームに戻る",
+            "countdown.title": "キックオフまで", "countdown.days": "日", "countdown.hours": "時間", "countdown.mins": "分", "countdown.secs": "秒"
         },
         it: {
             "nav.home": "Home", "nav.team": "Squadra", "nav.team_group": "SQUADRA", "nav.about_group": "CLUB", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
@@ -1031,7 +1110,8 @@
             "btn.show_all_upcoming": "Mostra calendario completo", "btn.hide_upcoming": "Nascondi calendario",
             "label.venue": "Campo:", "label.surface": "Superficie:", "label.kickoff": "Calcio d'inizio:", "label.scorers": "Marcatori:", "label.assists": "Assist:",
             "label.mvp": "MVP:", "label.yellow_cards": "Ammoniti:", "label.red_cards": "Espulsi:",
-            "btn.details": "Mostra dettagli", "btn.close_details": "Chiudi dettagli", "btn.load_more_3": "Mostra le prossime 3 partite", "btn.show_less": "Riduci elenco", "btn.back_home": "Torna alla Home"
+            "btn.details": "Mostra dettagli", "btn.close_details": "Chiudi dettagli", "btn.load_more_3": "Mostra le prossime 3 partite", "btn.show_less": "Riduci elenco", "btn.back_home": "Torna alla Home",
+            "countdown.title": "Calcio d'inizio tra", "countdown.days": "gg", "countdown.hours": "ore", "countdown.mins": "min", "countdown.secs": "sec"
         },
         en: {
             "nav.home": "Home", "nav.team": "Team", "nav.team_group": "TEAM", "nav.about_group": "CLUB", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Statistics",
@@ -1045,7 +1125,8 @@
             "btn.show_all_upcoming": "Show full schedule", "btn.hide_upcoming": "Hide schedule",
             "label.venue": "Venue:", "label.surface": "Pitch:", "label.kickoff": "Kick-Off:", "label.scorers": "Scorers:", "label.assists": "Assists:",
             "label.mvp": "MVP:", "label.yellow_cards": "Yellow Cards:", "label.red_cards": "Red Cards:",
-            "btn.details": "Show details", "btn.close_details": "Close details", "btn.load_more_3": "Show next 3 matches", "btn.show_less": "Show less", "btn.back_home": "Back to Home"
+            "btn.details": "Show details", "btn.close_details": "Close details", "btn.load_more_3": "Show next 3 matches", "btn.show_less": "Show less", "btn.back_home": "Back to Home",
+            "countdown.title": "Countdown to Kick-off", "countdown.days": "d", "countdown.hours": "h", "countdown.mins": "m", "countdown.secs": "s"
         }
     };
 
@@ -1212,6 +1293,49 @@
 
             return `${getPlayerNameInLang(str, lang)}${multiplier}`;
         }).filter(Boolean).join(', ');
+    }
+
+    function startCountdown(dateStr, timeStr) {
+        if (countdownInterval) clearInterval(countdownInterval);
+        if (!dateStr) return;
+
+        const time = timeStr ? timeStr.trim() : '10:00';
+        const isoDate = `${dateStr}T${time}:00+09:00`;
+        const targetTime = new Date(isoDate).getTime();
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const diff = targetTime - now;
+
+            const daysEl = document.getElementById('cd-days');
+            const hoursEl = document.getElementById('cd-hours');
+            const minsEl = document.getElementById('cd-mins');
+            const secsEl = document.getElementById('cd-secs');
+
+            if (!daysEl) return;
+
+            if (diff <= 0) {
+                daysEl.textContent = '00';
+                hoursEl.textContent = '00';
+                minsEl.textContent = '00';
+                secsEl.textContent = '00';
+                if (countdownInterval) clearInterval(countdownInterval);
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            daysEl.textContent = String(days).padStart(2, '0');
+            hoursEl.textContent = String(hours).padStart(2, '0');
+            minsEl.textContent = String(minutes).padStart(2, '0');
+            secsEl.textContent = String(seconds).padStart(2, '0');
+        }
+
+        updateTimer();
+        countdownInterval = setInterval(updateTimer, 1000);
     }
 
     function updateBtnTexts() {
@@ -1403,8 +1527,25 @@
                                 ${locInfo.surface ? `<div class="next-match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>${locInfo.surface}</span></div>` : ''}
                                 <div class="next-match-info-item venue-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i>${mapsHeroHtml}</div>
                             </div>
+
+                            <!-- COUNTDOWN WIDGET DINAMICO -->
+                            <div class="match-countdown-wrapper">
+                                <div class="countdown-title"><i class="fas fa-stopwatch"></i> <span data-i18n="countdown.title">${t('countdown.title')}</span></div>
+                                <div class="countdown-timer">
+                                    <div class="cd-box"><span class="cd-num" id="cd-days">00</span><span class="cd-label" data-i18n="countdown.days">${t('countdown.days')}</span></div>
+                                    <div class="cd-colon">:</div>
+                                    <div class="cd-box"><span class="cd-num" id="cd-hours">00</span><span class="cd-label" data-i18n="countdown.hours">${t('countdown.hours')}</span></div>
+                                    <div class="cd-colon">:</div>
+                                    <div class="cd-box"><span class="cd-num" id="cd-mins">00</span><span class="cd-label" data-i18n="countdown.mins">${t('countdown.mins')}</span></div>
+                                    <div class="cd-colon">:</div>
+                                    <div class="cd-box"><span class="cd-num" id="cd-secs">00</span><span class="cd-label" data-i18n="countdown.secs">${t('countdown.secs')}</span></div>
+                                </div>
+                            </div>
                         </div>
                     `;
+                    
+                    startCountdown(rawDate, nextM.time);
+
                 } else {
                     let upcomingDetailsHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i> <span><strong>${t('label.venue')}</strong> ${mapsCardHtml}</span></div>`;
                     if (locInfo.surface) {
@@ -1721,6 +1862,8 @@
 
             setLanguage(currentLang);
             handleHashOnLoad();
+            
+            startCountdown('2026-10-31', '11:00');
         } catch (error) {
             console.error("Errore nel caricamento dati:", error);
         }
