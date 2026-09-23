@@ -785,6 +785,9 @@
                 font-size: 0.9rem !important;
                 padding: 10px 16px !important;
             }
+            .cd-num { font-size: 1.4rem !important; }
+            .cd-box { min-width: 36px !important; }
+            .countdown-timer { gap: 6px !important; }
         }
 
         /* --- STILI BADGES MATCH --- */
@@ -999,6 +1002,62 @@
         }
         .no-match-box i { font-size: 2.2rem; color: #87ceeb; }
         .no-match-box p { font-size: 0.95rem; font-weight: 700; margin: 0; line-height: 1.5; }
+
+        /* --- STILE CONTO ALLA ROVESCIA (COUNTDOWN) HERO --- */
+        .match-countdown-wrapper {
+            margin-top: 16px;
+            padding: 12px 14px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(135, 206, 235, 0.35);
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        .countdown-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--primary-sky, #87ceeb);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .cd-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 42px;
+        }
+        .cd-num {
+            font-family: 'Bebas Neue', 'Montserrat', sans-serif;
+            font-size: 1.6rem;
+            line-height: 1;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(135, 206, 235, 0.5);
+        }
+        .cd-label {
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.75);
+            margin-top: 2px;
+        }
+        .cd-colon {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary-sky, #87ceeb);
+            margin-top: -10px;
+            opacity: 0.8;
+        }
 
         .contact-card-enhanced {
             background: #ffffff; border-radius: 12px;
@@ -1572,7 +1631,9 @@
             "contact.r1_d": "18歳〜40歳の経験者対象・ブランク可", "contact.r2_h": "練習試合・対戦のお申し込み",
             "contact.r2_d": "親善試合・グラウンド手配", "contact.r3_h": "パートナー・協賛のご相談",
             "contact.r3_d": "チーム支援・パートナーシップ", "contact.r4_h": "その他チームに関するご質問",
-            "contact.btn": "お問い合わせフォームを開く"
+            "contact.btn": "お問い合わせフォームを開く",
+
+            "countdown.title": "キックオフまで", "countdown.days": "日", "countdown.hours": "時間", "countdown.mins": "分", "countdown.secs": "秒"
         },
         it: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
@@ -1642,7 +1703,9 @@
             "contact.r1_d": "Dai 18 ai 40 anni con esperienza (anche dopo periodi di stop)", "contact.r2_h": "Richiesta Partita Amichevole",
             "contact.r2_d": "Organizzazione sfide e campi", "contact.r3_h": "Partnership & Collaborazioni",
             "contact.r3_d": "Sostieni il club", "contact.r4_h": "Altre domande sul club",
-            "contact.btn": "Apri Modulo Contatti"
+            "contact.btn": "Apri Modulo Contatti",
+
+            "countdown.title": "Calcio d'inizio tra", "countdown.days": "gg", "countdown.hours": "ore", "countdown.mins": "min", "countdown.secs": "sec"
         },
         en: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
@@ -1712,7 +1775,9 @@
             "contact.r1_d": "Experienced players aged 18–40 (returning players OK)", "contact.r2_h": "Friendly Match Requests",
             "contact.r2_d": "Match scheduling & pitch setup", "contact.r3_h": "Partnership & Sponsorship",
             "contact.r3_d": "Support the club", "contact.r4_h": "General Questions",
-            "contact.btn": "Open Contact Form"
+            "contact.btn": "Open Contact Form",
+
+            "countdown.title": "Countdown to Kick-off", "countdown.days": "d", "countdown.hours": "h", "countdown.mins": "m", "countdown.secs": "s"
         }
     };
 
@@ -1725,6 +1790,7 @@
     let opponentsData = {};
     let playersData = [];
     let statsData = {};
+    let countdownInterval = null;
 
     /* =========================================================
        UTILS
@@ -1855,6 +1921,49 @@
             }
             return `${getPlayerNameInLang(str, lang)}${multiplier}`;
         }).filter(Boolean).join(', ');
+    }
+
+    function startCountdown(dateStr, timeStr) {
+        if (countdownInterval) clearInterval(countdownInterval);
+        if (!dateStr) return;
+
+        const time = timeStr ? timeStr.trim() : '10:00';
+        const isoDate = `${dateStr}T${time}:00+09:00`;
+        const targetTime = new Date(isoDate).getTime();
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const diff = targetTime - now;
+
+            const daysEl = document.getElementById('cd-days');
+            const hoursEl = document.getElementById('cd-hours');
+            const minsEl = document.getElementById('cd-mins');
+            const secsEl = document.getElementById('cd-secs');
+
+            if (!daysEl) return;
+
+            if (diff <= 0) {
+                daysEl.textContent = '00';
+                hoursEl.textContent = '00';
+                minsEl.textContent = '00';
+                secsEl.textContent = '00';
+                if (countdownInterval) clearInterval(countdownInterval);
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            daysEl.textContent = String(days).padStart(2, '0');
+            hoursEl.textContent = String(hours).padStart(2, '0');
+            minsEl.textContent = String(minutes).padStart(2, '0');
+            secsEl.textContent = String(seconds).padStart(2, '0');
+        }
+
+        updateTimer();
+        countdownInterval = setInterval(updateTimer, 1000);
     }
 
     function setLanguage(lang) {
@@ -2003,14 +2112,14 @@
                 statsHtml = `
                     <span><i class="fas fa-running" style="color:#2563eb;"></i> ${apps} ${lblApps}</span>
                     <span><i class="fas fa-shield-alt" style="color:#dc2626;"></i> ${conceded} ${lblConceded}</span>
-                    ${mvp > 0 ? `<span><i class="fas fa-star" style="color:#f59e0b;"></i> ${mvp}${lblMvp}</span>` : ''}
+                    ${mvp > 0 ? `<span><i class="fas fa-star" style="color:#f59e0b;"></i> ${mvp} ${lblMvp}</span>` : ''}
                 `;
             } else {
                 statsHtml = `
                     <span><i class="fas fa-running" style="color:#2563eb;"></i> ${apps} ${lblApps}</span>
                     <span><i class="fas fa-futbol" style="color:#059669;"></i> ${goals} ${lblGoals}</span>
                     <span><i class="fas fa-hands-helping" style="color:#8b5cf6;"></i> ${assists} ${lblAssists}</span>
-                    ${mvp > 0 ? `<span><i class="fas fa-star" style="color:#f59e0b;"></i> ${mvp}${lblMvp}</span>` : ''}
+                    ${mvp > 0 ? `<span><i class="fas fa-star" style="color:#f59e0b;"></i> ${mvp} ${lblMvp}</span>` : ''}
                 `;
             }
 
@@ -2195,6 +2304,20 @@
                         ${timeHtml}
                         ${surfaceHtml}
                     </div>
+
+                    <!-- BOX COUNTDOWN HERO -->
+                    <div class="match-countdown-wrapper">
+                        <div class="countdown-title"><i class="fas fa-stopwatch"></i> <span>${translations[lang]['countdown.title'] || 'キックオフまで'}</span></div>
+                        <div class="countdown-timer">
+                            <div class="cd-box"><span class="cd-num" id="cd-days">00</span><span class="cd-label">${translations[lang]['countdown.days'] || '日'}</span></div>
+                            <div class="cd-colon">:</div>
+                            <div class="cd-box"><span class="cd-num" id="cd-hours">00</span><span class="cd-label">${translations[lang]['countdown.hours'] || '時間'}</span></div>
+                            <div class="cd-colon">:</div>
+                            <div class="cd-box"><span class="cd-num" id="cd-mins">00</span><span class="cd-label">${translations[lang]['countdown.mins'] || '分'}</span></div>
+                            <div class="cd-colon">:</div>
+                            <div class="cd-box"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">${translations[lang]['countdown.secs'] || '秒'}</span></div>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <div class="match-box-venue">
@@ -2235,6 +2358,9 @@
         if (upcomingMatches.length > 0) {
             const nextMatch = upcomingMatches[0];
             upcomingContainer.innerHTML = generateNextMatchHeroHtml(nextMatch, lang);
+
+            const rawDate = nextMatch.date ? nextMatch.date.trim().replace(/\./g, '-').substring(0, 10) : '';
+            startCountdown(rawDate, nextMatch.time);
         } else {
             upcomingContainer.innerHTML = `
                 <div class="next-match-hero" style="justify-content: center; align-items: center; text-align: center;">
@@ -2330,7 +2456,6 @@
                 toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
             });
 
-            // Quando il mouse esce dall'elemento del menu, rimuove la classe .open
             item.addEventListener('mouseleave', () => {
                 item.classList.remove('open');
                 toggle.setAttribute('aria-expanded', 'false');
