@@ -42,22 +42,6 @@
     }
     </script>
 
-    <!-- SCHEMA_EVENTS_START -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SportsEvent",
-  "@id": "https://yokohamacalcio.com/matches.html#match-8",
-  "name": "Yokohama Calcio vs La Masia Japan (VS)",
-  "description": "Match Yokohama Calcio vs La Masia Japan (VS). Score: VS. Venue: 谷本公園球技場.",
-  "startDate": "2026-10-31T11:00:00+09:00",
-  "location": { "@type": "Place", "name": "谷本公園球技場" },
-  "homeTeam": { "@type": "SportsTeam", "name": "Yokohama Calcio" },
-  "awayTeam": { "@type": "SportsTeam", "name": "La Masia Japan" }
-}
-</script>
-<!-- SCHEMA_EVENTS_END -->
-
     <style>
         /* --- OVERLAY MENU MOBILE SCURO --- */
         .mobile-nav { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 10, 25, 0.75); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 9999; display: flex; justify-content: center; align-items: flex-start; padding: 15px; box-sizing: border-box; }
@@ -105,12 +89,10 @@
             .main-nav > a, .main-nav .dropdown-toggle { padding: 6px 6px !important; font-size: 0.85rem !important; }
             .main-nav .nav-cta-btn { padding: 6px 12px !important; font-size: 0.85rem !important; }
         }
-
         @media (max-width: 900px) and (orientation: portrait) {
             .desktop-nav-wrapper { display: none !important; }
             .mobile-menu-toggle { display: flex !important; }
         }
-
         @media (orientation: landscape) and (max-height: 500px) {
             .desktop-nav-wrapper { display: flex !important; }
             .mobile-menu-toggle { display: none !important; }
@@ -149,7 +131,6 @@
             .about-text-box h3, .recruitment-text-box h3 { font-size: 1.25rem !important; }
         }
 
-        /* BANNER RECLUTAMENTO */
         .recruitment-banner { background: linear-gradient(135deg, #00224a 0%, #001229 100%); border-radius: 16px; padding: 35px 25px; color: #ffffff; position: relative; overflow: hidden; border: 1px solid rgba(135, 206, 235, 0.3); box-shadow: 0 10px 30px rgba(0, 34, 74, 0.2); margin: 40px auto 0; max-width: 1000px; }
         .recruitment-banner::before { content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: linear-gradient(to bottom, #87ceeb 33%, #ffffff 33%, #ffffff 66%, #00224a 66%); }
         .recruitment-content { display: flex; align-items: center; justify-content: space-between; gap: 25px; }
@@ -160,7 +141,6 @@
         .recruitment-btn { background: #87ceeb; color: #00224a !important; font-weight: 800; font-size: 0.98rem; padding: 14px 28px; border-radius: 30px; text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3); transition: all 0.2s ease; }
         .recruitment-btn:hover { background: #a0d8ef; transform: translateY(-2px); }
 
-        /* MINI-FAQ ACCORDION */
         .mini-faq-container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
         .faq-item { background: #ffffff; border-radius: 10px; border: 1px solid #e2e8f0; overflow: hidden; }
         .faq-question { width: 100%; background: transparent; border: none; padding: 16px 20px; text-align: left; font-weight: 700; font-size: 0.95rem; color: #003c82; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s ease; }
@@ -170,7 +150,6 @@
         .faq-item.active .faq-answer { display: block; }
         .faq-item.active .faq-question i { transform: rotate(180deg); }
 
-        /* BADGES MATCH */
         .match-badge-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
         .match-badge { font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; }
         .badge-official, .badge-league { background: #003c82; color: #ffffff; }
@@ -181,10 +160,10 @@
         .match-teams-wrapper { display: flex !important; flex-direction: column !important; gap: 10px !important; width: 100% !important; margin: 12px 0 !important; }
         .teams-logos-row { display: grid !important; grid-template-columns: 1fr 70px 1fr !important; align-items: center !important; justify-items: center !important; width: 100% !important; }
         .teams-names-row { display: grid !important; grid-template-columns: 1fr 70px 1fr !important; align-items: start !important; justify-items: center !important; width: 100% !important; }
-        .team-name-col { font-weight: 700 !important; font-size: 0.82rem !important; line-height: 1.2 !important; color: var(--dark-navy) !important; text-align: center !important; width: 100% !important; padding: 0 4px !important; display: -webkit-box !important; -webkit-line-clamp: 2 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; }
+        .team-name-col { font-weight: 700 !important; font-size: 0.85rem !important; line-height: 1.2 !important; color: var(--dark-navy) !important; text-align: center !important; width: 100% !important; padding: 0 4px !important; display: -webkit-box !important; -webkit-line-clamp: 2 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; }
         @media (min-width: 500px) { .team-name-col { font-size: 0.95rem !important; } }
 
-        /* ====== LOGHI: STESSE REGOLE DI MATCHES.HTML ====== */
+        /* ====== LOGHI: FILTRO SUL WRAPPER (NO BAGLIORE QUADRATO) ====== */
         .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important;
@@ -196,137 +175,138 @@
         .card-logo-wrap { width: 58px !important; height: 58px !important; }
         .hero-logo-wrap { width: 88px !important; height: 88px !important; }
 
+        /* Filtro glow applicato al WRAPPER, non all'img */
+        .hero-logo-wrap {
+            filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.85));
+        }
+        .card-logo-wrap {
+            filter: none;
+        }
+
+        /* img: nessun filtro diretto */
         .card-logo-wrap img, .hero-logo-wrap img {
             width: 100% !important;
             height: 100% !important;
             max-width: 100% !important;
             max-height: 100% !important;
             object-fit: contain !important;
-            border-radius: 0 !important;
             background: transparent !important;
             transform: none !important;
+            filter: none !important;
+            border-radius: 0 !important;
         }
 
-        .hero-logo-wrap img {
-            filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.8)) !important;
-        }
-        .hero-logo-wrap img[src*="ui-avatars.com"] {
-            border-radius: 50% !important;
-            object-fit: contain !important;
-            width: 100% !important;
-            height: 100% !important;
-            background: #ffffff !important;
-            filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.8)) !important;
-        }
-        .card-logo-wrap img {
-            filter: none !important;
-        }
+        /* Avatar rotondi (già restituiti circolari dal server con rounded=true) */
+        .hero-logo-wrap img[src*="ui-avatars.com"],
         .card-logo-wrap img[src*="ui-avatars.com"] {
             border-radius: 50% !important;
-            object-fit: contain !important;
-            width: 100% !important;
-            height: 100% !important;
-            background: #ffffff !important;
-            filter: none !important;
         }
 
-        /* MATCH CENTER GRID */
-        .match-center-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: stretch; }
-        
-        @media (max-width: 768px) { 
-            .match-center-grid { 
-                display: flex !important; 
-                flex-direction: row !important; 
-                overflow-x: auto !important; 
-                scroll-snap-type: x mandatory; 
-                gap: 16px !important; 
-                padding-bottom: 15px; 
-                -webkit-overflow-scrolling: touch;
-                margin: 0 -15px;
-                padding-left: 15px;
-                padding-right: 15px;
-                align-items: stretch !important;
-            } 
-            .match-center-grid > div {
-                flex: 0 0 88% !important;
-                max-width: 88% !important;
-                scroll-snap-align: center;
-            }
+        /* ====== MATCH CENTER: PAST QUADRATA + NEXT RETTANGOLARE (stessa altezza) ====== */
+        .match-center-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 20px;
+            align-items: stretch;
         }
 
-        .match-vs-center { font-family: var(--font-brand) !important; font-size: 2.2rem !important; color: var(--primary-sky) !important; display: flex !important; align-items: center !important; justify-content: center !important; text-align: center !important; white-space: nowrap !important; }
-        .score-past { color: var(--dark-navy) !important; letter-spacing: 1px !important; font-size: 2.2rem !important; font-weight: 800; }
+        /* Container: display contents per far sì che i figli siano le vere card del grid */
+        .match-center-grid > #pastContainer,
+        .match-center-grid > #upcomingContainer {
+            display: contents;
+        }
 
-        /* ====== SCHEDE PARTITA: ENTRAMBE QUADRATE, STESSA ALTEZZA ====== */
-        .match-past-box, .next-match-hero {
+        .match-past-box {
+            width: 440px;
+            aspect-ratio: 1 / 1;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 18px rgba(0, 60, 130, 0.06);
+            border-radius: 16px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             box-sizing: border-box;
-            border-radius: 16px;
-            padding: 20px;
-            aspect-ratio: 1 / 1;
             overflow: hidden;
-            position: relative;
         }
-        .match-past-box {
-            background: var(--white, #ffffff);
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 18px rgba(0, 60, 130, 0.06);
-        }
+
         .next-match-hero {
+            width: 100%;
+            min-width: 0;
             background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%);
             color: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             border: 2px solid var(--primary-sky, #87ceeb);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
         }
+
+        @media (max-width: 900px) {
+            .match-center-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .match-center-grid > #pastContainer,
+            .match-center-grid > #upcomingContainer {
+                display: flex !important;
+                flex-direction: column;
+                gap: 16px;
+            }
+            .match-past-box {
+                width: 100%;
+                max-width: 440px;
+                aspect-ratio: 1 / 1;
+                margin: 0 auto;
+            }
+            .next-match-hero {
+                width: 100%;
+                min-height: 0;
+            }
+        }
+
         .next-match-hero .team-name-col { color: #ffffff !important; font-size: 0.95rem !important; }
         .next-match-hero .match-vs-center { font-size: 2rem !important; color: var(--primary-sky) !important; }
 
         .next-match-header, .match-past-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 6px; }
         .next-match-header { border-bottom-color: rgba(255,255,255,0.2); }
         .next-match-badge { background: var(--primary-sky, #87ceeb); color: var(--dark-navy, #003c82); font-weight: 800; padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; text-transform: uppercase; }
-        
+
         .match-info-hero-bar { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 6px 14px; background: #f8fafc; border: 1px solid #e2e8f0; padding: 7px 10px; border-radius: 8px; font-size: 0.78rem; margin-top: 8px; color: var(--dark-navy); font-weight: 600; }
         .next-match-hero .match-info-hero-bar { background: rgba(255, 255, 255, 0.08); border: none; color: #ffffff; }
         .match-info-item { display: flex; align-items: center; gap: 6px; }
         .match-info-item i { width: 14px; text-align: center; font-size: 0.78rem; }
         .match-box-date { font-size: 0.76rem; color: #64748b; font-weight: 600; }
-        .match-box-venue { font-size: 0.76rem; color: var(--primary-sky); font-weight: 600; margin-top: 8px; padding-top: 6px; border-top: 1px dashed #e2e8f0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; }
+        .match-box-venue { font-size: 0.78rem; color: var(--primary-sky); font-weight: 600; margin-top: 8px; padding-top: 6px; border-top: 1px dashed #e2e8f0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; }
         .match-box-venue a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
         .match-box-venue a:hover { text-decoration: underline; }
         .next-match-hero .match-box-venue { border-top-color: rgba(255,255,255,0.2); }
         .next-match-hero .match-box-venue a { color: #ffffff; }
 
         .match-card-footer { display: flex; justify-content: flex-end; margin-top: 8px; padding-top: 6px; border-top: 1px solid #f1f5f9; }
-        .match-card-footer-hero { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 6px; border-top: 1px solid rgba(255, 255, 255, 0.2); gap: 8px; }
+        .match-card-footer-hero { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.2); gap: 10px; flex-wrap: wrap; }
         .btn-match-detail { background: var(--primary-sky, #003c82); color: #ffffff; font-size: 0.74rem; font-weight: 700; padding: 6px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-match-detail-hero { background: var(--primary-sky, #87ceeb); color: var(--dark-navy, #003c82); font-size: 0.74rem; font-weight: 800; padding: 6px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .btn-match-detail-hero { background: var(--primary-sky, #87ceeb); color: var(--dark-navy, #003c82); font-size: 0.76rem; font-weight: 800; padding: 7px 14px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 
-        /* COUNTDOWN */
         .match-countdown-wrapper { margin-top: 8px; padding: 8px 10px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(135, 206, 235, 0.35); border-radius: 10px; text-align: center; box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2); }
-        .countdown-title { font-size: 0.68rem; font-weight: 700; color: var(--primary-sky, #87ceeb); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .countdown-timer { display: flex; justify-content: center; align-items: center; gap: 6px; }
-        .cd-box { display: flex; flex-direction: column; align-items: center; min-width: 34px; }
-        .cd-num { font-family: 'Bebas Neue', 'Montserrat', sans-serif; font-size: 1.3rem; line-height: 1; font-weight: 700; color: #ffffff; text-shadow: 0 0 10px rgba(135, 206, 235, 0.5); }
-        .cd-label { font-size: 0.6rem; font-weight: 600; color: rgba(255, 255, 255, 0.75); margin-top: 1px; }
+        .countdown-title { font-size: 0.7rem; font-weight: 700; color: var(--primary-sky, #87ceeb); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .countdown-timer { display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .cd-box { display: flex; flex-direction: column; align-items: center; min-width: 40px; }
+        .cd-num { font-family: 'Bebas Neue', 'Montserrat', sans-serif; font-size: 1.4rem; line-height: 1; font-weight: 700; color: #ffffff; text-shadow: 0 0 10px rgba(135, 206, 235, 0.5); }
+        .cd-label { font-size: 0.62rem; font-weight: 600; color: rgba(255, 255, 255, 0.75); margin-top: 1px; }
         .cd-colon { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--primary-sky, #87ceeb); margin-top: -8px; opacity: 0.8; }
 
-        /* DROPDOWN CALENDARIO */
         .add-to-cal-wrapper { position: relative; display: inline-block; }
-        .add-to-cal-btn { background: rgba(255, 255, 255, 0.12); color: #ffffff; border: 1px solid rgba(135, 206, 235, 0.4); padding: 6px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s ease; white-space: nowrap; }
+        .add-to-cal-btn { background: rgba(255, 255, 255, 0.12); color: #ffffff; border: 1px solid rgba(135, 206, 235, 0.4); padding: 7px 12px; border-radius: 20px; font-size: 0.74rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s ease; white-space: nowrap; }
         .add-to-cal-btn:hover { background: rgba(135, 206, 235, 0.25); border-color: #87ceeb; }
         .cal-dropdown-menu { display: none; position: absolute; bottom: 100%; left: 0; margin-bottom: 8px; background: #001a38; border: 1px solid rgba(135, 206, 235, 0.4); border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 100; white-space: nowrap; overflow: hidden; }
         .cal-dropdown-menu.show { display: block; }
         .cal-dropdown-menu button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 10px 14px; background: transparent; border: none; color: #ffffff; text-decoration: none; font-size: 0.78rem; font-weight: 600; text-align: left; cursor: pointer; transition: background 0.2s ease; }
         .cal-dropdown-menu button:hover { background: rgba(135, 206, 235, 0.2); color: #87ceeb; }
-
-        /* Adatta aspect-ratio su schermi piccoli */
-        @media (max-width: 480px) {
-            .match-past-box, .next-match-hero { padding: 16px 14px !important; }
-            .cd-num { font-size: 1.1rem !important; }
-            .cd-box { min-width: 30px !important; }
-        }
     </style>
 </head>
 <body>
@@ -767,6 +747,7 @@
         return rawName || 'Opponent';
     }
 
+    /* FIX GLOW: aggiunto &rounded=true per far sì che l'avatar abbia angoli trasparenti */
     function getAvatarUrl(matchOrName, romajiFallback) {
         const identifier = (typeof matchOrName === 'object' && matchOrName !== null) 
             ? (matchOrName.opponent_id || matchOrName.team2Name || 'opponent') 
@@ -775,7 +756,7 @@
             ? getRomajiName(matchOrName, matchOrName.team2Name) 
             : (romajiFallback || identifier);
         const bgHex = getUniqueTeamColor(identifier);
-        return `https://ui-avatars.com/api/?name=${encodeURIComponent(romaji)}&background=${bgHex}&color=ffffff&bold=true&size=128`;
+        return `https://ui-avatars.com/api/?name=${encodeURIComponent(romaji)}&background=${bgHex}&color=ffffff&bold=true&size=128&rounded=true`;
     }
 
     function getOpponentInfo(match, lang) {
@@ -989,7 +970,6 @@
         } catch (e) { console.error("Errore nel caricamento dati:", e); }
     }
 
-    /* --- CARD PARTITA PASSATA (quadrata, con info bar + link campo + link dettagli) --- */
     function generateLastMatchHtml(m, lang) {
         const oppInfo = getOpponentInfo(m, lang);
         const locInfo = getLocationInfo(m.location_id, m.venue, lang);
@@ -1064,7 +1044,6 @@
             </div>`;
     }
 
-    /* --- CARD PROSSIMA PARTITA (quadrata, con info bar + countdown + add-to-cal + link campo + link dettagli) --- */
     function generateNextMatchHeroHtml(m, lang) {
         const oppInfo = getOpponentInfo(m, lang);
         const locInfo = getLocationInfo(m.location_id, m.venue, lang);
