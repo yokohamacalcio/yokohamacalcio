@@ -165,6 +165,35 @@
             display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;
         }
 
+        /* COMPATTAZIONE MENU MOBILE IN ORIZZONTALE O SCHERMI BASSI */
+        @media (orientation: landscape) and (max-height: 600px), (max-height: 600px) {
+            .mobile-nav-content {
+                max-height: 90vh !important;
+                padding: 12px 16px !important;
+                margin-top: 5px !important;
+            }
+            .mobile-nav-header {
+                padding-bottom: 6px !important;
+                margin-bottom: 8px !important;
+            }
+            .mobile-link {
+                padding: 6px 10px !important;
+                font-size: 0.85rem !important;
+            }
+            .mobile-submenu .mobile-link.sub {
+                padding: 5px 8px !important;
+                font-size: 0.80rem !important;
+            }
+            .mobile-cta-wrapper {
+                margin-top: 8px !important;
+                padding-top: 8px !important;
+            }
+            .mobile-cta-btn {
+                padding: 8px !important;
+                font-size: 0.85rem !important;
+            }
+        }
+
         /* ALLINEAMENTO MENU DESKTOP */
         .desktop-nav-wrapper { display: flex; align-items: center; }
         .main-nav { display: flex !important; align-items: center !important; gap: 16px; white-space: nowrap; }
@@ -213,16 +242,129 @@
             .mobile-menu-toggle { display: flex !important; }
         }
 
-        /* HERO CTA BUTTONS */
-        .hero-action-btns { display: flex; justify-content: center; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
-        .hero-btn {
-            padding: 10px 20px; border-radius: 30px; font-weight: 700; font-size: 0.9rem;
-            text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s ease;
+        /* --- HERO SECTION MODERNA (TESTI ORIGINALI) --- */
+        .hero-section {
+            position: relative;
+            min-height: 580px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(90deg, rgba(5, 18, 30, 0.92) 0%, rgba(5, 18, 30, 0.75) 45%, rgba(5, 18, 30, 0.35) 100%), 
+                        url('./immagini/gallery/foto1.jpeg') center center / cover no-repeat;
+            color: #ffffff;
         }
-        .hero-btn-primary { background: var(--primary-sky, #87ceeb); color: var(--dark-navy, #003c82); box-shadow: 0 4px 12px rgba(135, 206, 235, 0.3); }
-        .hero-btn-primary:hover { transform: translateY(-2px); background: #a0d8ef; }
-        .hero-btn-outline { background: rgba(255, 255, 255, 0.15); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.4); backdrop-filter: blur(4px); }
-        .hero-btn-outline:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-2px); }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.5) 100%);
+            pointer-events: none;
+        }
+        .hero-content-wrapper {
+            position: relative;
+            z-index: 2;
+            width: min(1200px, 90%);
+            margin: 0 auto;
+            padding: 70px 0 80px 0;
+        }
+        .hero-kicker {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #87ceeb;
+        }
+        .hero-kicker-line {
+            width: 36px;
+            height: 2px;
+            background: #87ceeb;
+        }
+        .hero-kicker-year {
+            color: rgba(255,255,255,0.6);
+            font-weight: 500;
+        }
+        .hero-main-title {
+            margin: 0;
+            max-width: 900px;
+            font-size: clamp(32px, 5.5vw, 64px);
+            line-height: 1.15;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+        }
+        .hero-subtitle {
+            margin: 18px 0 0;
+            max-width: 580px;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.88);
+            font-weight: 500;
+        }
+        .hero-action-btns {
+            display: flex;
+            gap: 14px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+        }
+        .hero-btn {
+            padding: 12px 26px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+        }
+        .hero-btn-primary {
+            background: #87ceeb;
+            color: #00224a;
+            box-shadow: 0 4px 15px rgba(135, 206, 235, 0.35);
+        }
+        .hero-btn-primary:hover {
+            background: #ffffff;
+            color: #00224a;
+            transform: translateY(-2px);
+        }
+        .hero-btn-outline {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(6px);
+        }
+        .hero-btn-outline:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section { min-height: 500px; background-position: 60% center; }
+            .hero-content-wrapper { width: 90%; padding: 45px 0 55px 0; }
+            .hero-main-title { font-size: clamp(26px, 7.5vw, 42px); line-height: 1.2; }
+            .hero-subtitle { font-size: 0.92rem; line-height: 1.6; margin-top: 14px; }
+            .hero-action-btns { margin-top: 22px; gap: 10px; }
+            .hero-btn { padding: 10px 20px; font-size: 0.85rem; }
+
+            p, 
+            .about-text-box p, 
+            .recruitment-text-box p, 
+            .faq-answer, 
+            .contact-card-subtitle {
+                font-size: 0.90rem !important;
+                line-height: 1.65 !important;
+            }
+            .section-title {
+                font-size: 1.35rem !important;
+            }
+            .about-text-box h3, .recruitment-text-box h3 {
+                font-size: 1.25rem !important;
+            }
+        }
 
         /* BANNER RECLUTAMENTO */
         .recruitment-banner {
@@ -281,7 +423,7 @@
         .card-logo-wrap img, .hero-logo-wrap img { display: block !important; width: 100% !important; height: 100% !important; max-width: 100% !important; max-height: 100% !important; object-fit: contain !important; border-radius: 0 !important; background: transparent !important; transform: none !important; }
         .hero-logo-wrap img { filter: drop-shadow(0 0 8px rgba(135, 206, 235, 0.75)) !important; }
 
-        /* --- MATCH CENTER GRID & SWIPE PER MOBILE --- */
+        /* MATCH CENTER GRID */
         .match-center-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         
         @media (max-width: 768px) { 
@@ -290,7 +432,7 @@
                 flex-direction: row !important; 
                 overflow-x: auto !important; 
                 scroll-snap-type: x mandatory; 
-                gap: 15px !important; 
+                gap: 16px !important; 
                 padding-bottom: 15px; 
                 -webkit-overflow-scrolling: touch;
                 margin: 0 -15px;
@@ -298,8 +440,8 @@
                 padding-right: 15px;
             } 
             .match-center-grid > div {
-                flex: 0 0 88% !important;
-                max-width: 88% !important;
+                flex: 0 0 85% !important;
+                max-width: 85% !important;
                 scroll-snap-align: center;
             }
         }
@@ -331,7 +473,7 @@
         .btn-match-detail { background: var(--primary-sky, #003c82); color: #ffffff; font-size: 0.78rem; font-weight: 700; padding: 6px 14px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
         .btn-match-detail-hero { background: var(--primary-sky, #87ceeb); color: var(--dark-navy, #003c82); font-size: 0.78rem; font-weight: 800; padding: 6px 14px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
 
-        /* --- STILE CONTO ALLA ROVESCIA (COUNTDOWN) HERO --- */
+        /* CONTO ALLA ROVESCIA (COUNTDOWN) HERO */
         .match-countdown-wrapper { margin-top: 16px; padding: 12px 14px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(135, 206, 235, 0.35); border-radius: 12px; text-align: center; box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2); }
         .countdown-title { font-size: 0.78rem; font-weight: 700; color: var(--primary-sky, #87ceeb); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; }
         .countdown-timer { display: flex; justify-content: center; align-items: center; gap: 10px; }
@@ -340,7 +482,7 @@
         .cd-label { font-size: 0.68rem; font-weight: 600; color: rgba(255, 255, 255, 0.75); margin-top: 2px; }
         .cd-colon { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--primary-sky, #87ceeb); margin-top: -10px; opacity: 0.8; }
 
-        /* --- STILE MENU AGGIUNGI AL CALENDARIO DROPDOWN --- */
+        /* DROPDOWN CALENDARIO */
         .add-to-cal-wrapper { position: relative; display: inline-block; }
         .add-to-cal-btn {
             background: rgba(255, 255, 255, 0.12); color: #ffffff;
@@ -484,10 +626,17 @@
   </nav>
 </header>
 
-<section class="hero">
-  <div class="hero-content">
-    <h2 data-i18n="hero.title">横浜に咲くイタリアの情熱</h2>
-    <p data-i18n="hero.subtitle">サッカーで心をつなぐ場所</p>
+<!-- HERO SECTION ORIGINALE RIVISITATA IN CHIAVE PREMIUM -->
+<section class="hero-section">
+  <div class="hero-overlay"></div>
+  <div class="hero-content-wrapper">
+    <div class="hero-kicker">
+      <span class="hero-kicker-line"></span>
+      <span>YOKOHAMA CALCIO</span>
+      <span class="hero-kicker-year">EST. 2025</span>
+    </div>
+    <h1 class="hero-main-title" data-i18n="hero.title">横浜に咲くイタリアの情熱</h1>
+    <p class="hero-subtitle" data-i18n="hero.subtitle">サッカーで心をつなぐ場所</p>
 
     <div class="hero-action-btns">
         <a href="about.html" class="hero-btn hero-btn-outline">
@@ -633,7 +782,7 @@
     </div>
 </section>
 
-<!-- SEZIONE PARTNER (OPZIONE 3: SINGLE IMPACT HERO BOX) -->
+<!-- SEZIONE PARTNER -->
 <section class="section sponsors-section" id="sponsors">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-handshake"></i> <span data-i18n="sponsors.title">オフィシャルパートナー</span></h2>
@@ -760,9 +909,6 @@
 </footer>
 
 <script>
-    /* =========================================================
-       PAGE TITLES & TRANSLATIONS
-       ========================================================= */
     const pageTitles = {
         ja: "Yokohama Calcio | 横浜の社会人サッカーチーム・メンバー＆対戦相手募集",
         it: "Yokohama Calcio | Squadra di Calcio Dilettantistica a Yokohama",
@@ -1074,7 +1220,8 @@
         if (!dateStr) return;
 
         const time = timeStr ? timeStr.trim() : '10:00';
-        const isoDate = `${dateStr}T${time}:00+09:00`;
+        const cleanDate = dateStr.trim().replace(/\./g, '-');
+        const isoDate = `${cleanDate}T${time}:00+09:00`;
         const targetTime = new Date(isoDate).getTime();
 
         function updateTimer() {
@@ -1212,8 +1359,8 @@ END:VCALENDAR`;
 
     function parseMatchDate(dateStr) {
         if (!dateStr) return 0;
-        const clean = dateStr.replace(/\./g, '/').replace(/-/g, '/');
-        const match = clean.match(/(\d{4})\/(\d{1,2})\/(\d{1,2})/);
+        const clean = dateStr.trim().replace(/\./g, '-');
+        const match = clean.match(/(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
         if (match) return new Date(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3])).getTime();
         return 0;
     }
@@ -1221,7 +1368,8 @@ END:VCALENDAR`;
     function formatDateWithDay(dateStr, lang) {
         if (!dateStr) return '';
         if (dateStr.includes('(')) return dateStr;
-        const dateObj = new Date(dateStr);
+        const cleanDateStr = dateStr.trim().replace(/\./g, '-');
+        const dateObj = new Date(cleanDateStr);
         if (isNaN(dateObj)) return dateStr;
         const localeMap = { ja: 'ja-JP', it: 'it-IT', en: 'en-US' };
         const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
