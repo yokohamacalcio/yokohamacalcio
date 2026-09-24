@@ -165,36 +165,15 @@
             display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;
         }
 
-        /* COMPATTAZIONE MENU MOBILE IN ORIZZONTALE O SCHERMI BASSI */
         @media (orientation: landscape) and (max-height: 600px), (max-height: 600px) {
             .mobile-nav-content {
                 max-height: 90vh !important;
                 padding: 12px 16px !important;
                 margin-top: 5px !important;
             }
-            .mobile-nav-header {
-                padding-bottom: 6px !important;
-                margin-bottom: 8px !important;
-            }
-            .mobile-link {
-                padding: 6px 10px !important;
-                font-size: 0.85rem !important;
-            }
-            .mobile-submenu .mobile-link.sub {
-                padding: 5px 8px !important;
-                font-size: 0.80rem !important;
-            }
-            .mobile-cta-wrapper {
-                margin-top: 8px !important;
-                padding-top: 8px !important;
-            }
-            .mobile-cta-btn {
-                padding: 8px !important;
-                font-size: 0.85rem !important;
-            }
         }
 
-        /* ALLINEAMENTO MENU DESKTOP */
+        /* --- ALLINEAMENTO MENU DESKTOP IDENTICO A MATCHES --- */
         .desktop-nav-wrapper { display: flex; align-items: center; }
         .main-nav { display: flex !important; align-items: center !important; gap: 16px; white-space: nowrap; }
         .main-nav .nav-item { position: relative !important; display: inline-flex; align-items: center; }
@@ -208,7 +187,9 @@
             transition: color 0.2s ease, opacity 0.2s ease !important; box-sizing: border-box !important; margin: 0 !important;
         }
 
-        .main-nav > a:hover, .main-nav .dropdown-toggle:hover { color: var(--primary-sky, #87ceeb) !important; }
+        .main-nav > a:hover, .main-nav .dropdown-toggle:hover,
+        .main-nav > a.active, .main-nav .dropdown-toggle.active { color: var(--primary-sky, #87ceeb) !important; }
+
         .main-nav .nav-cta-btn {
             background: var(--dark-navy, #003c82) !important; color: #ffffff !important;
             padding: 8px 16px !important; border-radius: 20px !important; font-weight: 800 !important;
@@ -226,10 +207,13 @@
             transition: background 0.2s ease, color 0.2s ease !important; text-align: left !important;
         }
         .main-nav .dropdown-menu a:hover { background-color: #f1f5f9 !important; color: var(--primary-sky, #87ceeb) !important; }
+        
+        /* Comportamento identico a matches: gestisce sia hover che classe .open al click */
         .nav-item.dropdown:hover > .dropdown-menu, .nav-item.dropdown.open > .dropdown-menu {
             display: block !important; opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important;
         }
         .nav-item.dropdown:hover > .dropdown-toggle .nav-arrow, .nav-item.dropdown.open > .dropdown-toggle .nav-arrow { transform: rotate(180deg); }
+        .nav-arrow { transition: transform 0.2s ease; font-size: 0.75rem; opacity: 0.8; }
 
         @media (min-width: 1025px) and (max-width: 1200px) {
             .main-nav { gap: 8px !important; }
@@ -242,168 +226,7 @@
             .mobile-menu-toggle { display: flex !important; }
         }
 
-        /* --- HERO SECTION MODERNA (TESTI ORIGINALI) --- */
-        .hero-section {
-            position: relative;
-            min-height: 580px;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            background: linear-gradient(90deg, rgba(5, 18, 30, 0.92) 0%, rgba(5, 18, 30, 0.75) 45%, rgba(5, 18, 30, 0.35) 100%), 
-                        url('./immagini/gallery/foto1.jpeg') center center / cover no-repeat;
-            color: #ffffff;
-        }
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.5) 100%);
-            pointer-events: none;
-        }
-        .hero-content-wrapper {
-            position: relative;
-            z-index: 2;
-            width: min(1200px, 90%);
-            margin: 0 auto;
-            padding: 70px 0 80px 0;
-        }
-        .hero-kicker {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: #87ceeb;
-        }
-        .hero-kicker-line {
-            width: 36px;
-            height: 2px;
-            background: #87ceeb;
-        }
-        .hero-kicker-year {
-            color: rgba(255,255,255,0.6);
-            font-weight: 500;
-        }
-        .hero-main-title {
-            margin: 0;
-            max-width: 900px;
-            font-size: clamp(32px, 5.5vw, 64px);
-            line-height: 1.15;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            color: #ffffff;
-        }
-        .hero-subtitle {
-            margin: 18px 0 0;
-            max-width: 580px;
-            font-size: 1.05rem;
-            line-height: 1.7;
-            color: rgba(255, 255, 255, 0.88);
-            font-weight: 500;
-        }
-        .hero-action-btns {
-            display: flex;
-            gap: 14px;
-            margin-top: 28px;
-            flex-wrap: wrap;
-        }
-        .hero-btn {
-            padding: 12px 26px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.92rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.25s ease;
-        }
-        .hero-btn-primary {
-            background: #87ceeb;
-            color: #00224a;
-            box-shadow: 0 4px 15px rgba(135, 206, 235, 0.35);
-        }
-        .hero-btn-primary:hover {
-            background: #ffffff;
-            color: #00224a;
-            transform: translateY(-2px);
-        }
-        .hero-btn-outline {
-            background: rgba(255, 255, 255, 0.12);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.45);
-            backdrop-filter: blur(6px);
-        }
-        .hero-btn-outline:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: #ffffff;
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 768px) {
-            .hero-section { min-height: 500px; background-position: 60% center; }
-            .hero-content-wrapper { width: 90%; padding: 45px 0 55px 0; }
-            .hero-main-title { font-size: clamp(26px, 7.5vw, 42px); line-height: 1.2; }
-            .hero-subtitle { font-size: 0.92rem; line-height: 1.6; margin-top: 14px; }
-            .hero-action-btns { margin-top: 22px; gap: 10px; }
-            .hero-btn { padding: 10px 20px; font-size: 0.85rem; }
-
-            p, 
-            .about-text-box p, 
-            .recruitment-text-box p, 
-            .faq-answer, 
-            .contact-card-subtitle {
-                font-size: 0.90rem !important;
-                line-height: 1.65 !important;
-            }
-            .section-title {
-                font-size: 1.35rem !important;
-            }
-            .about-text-box h3, .recruitment-text-box h3 {
-                font-size: 1.25rem !important;
-            }
-        }
-
-        /* BANNER RECLUTAMENTO */
-        .recruitment-banner {
-            background: linear-gradient(135deg, #00224a 0%, #001229 100%);
-            border-radius: 16px; padding: 35px 25px; color: #ffffff; position: relative; overflow: hidden;
-            border: 1px solid rgba(135, 206, 235, 0.3); box-shadow: 0 10px 30px rgba(0, 34, 74, 0.2);
-            margin: 40px auto 0; max-width: 1000px;
-        }
-        .recruitment-banner::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%;
-            background: linear-gradient(to bottom, #87ceeb 33%, #ffffff 33%, #ffffff 66%, #00224a 66%);
-        }
-        .recruitment-content { display: flex; align-items: center; justify-content: space-between; gap: 25px; }
-        @media (max-width: 768px) { .recruitment-content { flex-direction: column; text-align: center; } }
-        .recruitment-text-box h3 { font-size: 1.5rem; font-weight: 800; color: #87ceeb; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
-        @media (max-width: 768px) { .recruitment-text-box h3 { justify-content: center; } }
-        .recruitment-text-box p { font-size: 0.95rem; color: #e2e8f0; line-height: 1.6; margin: 0; }
-        .recruitment-btn {
-            background: #87ceeb; color: #00224a !important; font-weight: 800; font-size: 0.98rem;
-            padding: 14px 28px; border-radius: 30px; text-decoration: none; white-space: nowrap;
-            display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3); transition: all 0.2s ease;
-        }
-        .recruitment-btn:hover { background: #a0d8ef; transform: translateY(-2px); }
-
-        /* MINI-FAQ ACCORDION */
-        .mini-faq-container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
-        .faq-item { background: #ffffff; border-radius: 10px; border: 1px solid #e2e8f0; overflow: hidden; }
-        .faq-question {
-            width: 100%; background: transparent; border: none; padding: 16px 20px; text-align: left;
-            font-weight: 700; font-size: 0.95rem; color: #003c82; display: flex; justify-content: space-between; align-items: center;
-            cursor: pointer; transition: background 0.2s ease;
-        }
-        .faq-question:hover { background: #f8fafc; }
-        .faq-question i { color: #87ceeb; transition: transform 0.2s ease; }
-        .faq-answer { padding: 0 20px 16px 20px; font-size: 0.88rem; color: #475569; line-height: 1.6; display: none; border-top: 1px dashed #f1f5f9; padding-top: 12px; }
-        .faq-item.active .faq-answer { display: block; }
-        .faq-item.active .faq-question i { transform: rotate(180deg); }
-
-        /* BADGES MATCH */
+        /* --- DIMENSIONI E LAYOUT SCHEDE PARTITA IDENTICHE A MATCHES --- */
         .match-badge-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
         .match-badge { font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; }
         .badge-official, .badge-league { background: #003c82; color: #ffffff; }
@@ -414,36 +237,21 @@
         .match-teams-wrapper { display: flex !important; flex-direction: column !important; gap: 10px !important; width: 100% !important; margin: 15px 0 !important; }
         .teams-logos-row { display: grid !important; grid-template-columns: 1fr 70px 1fr !important; align-items: center !important; justify-items: center !important; width: 100% !important; }
         .teams-names-row { display: grid !important; grid-template-columns: 1fr 70px 1fr !important; align-items: start !important; justify-items: center !important; width: 100% !important; }
-        .team-name-col { font-weight: 700 !important; font-size: 0.82rem !important; line-height: 1.2 !important; color: var(--dark-navy) !important; text-align: center !important; width: 100% !important; padding: 0 4px !important; display: -webkit-box !important; -webkit-line-clamp: 2 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; }
+        .team-name-col { font-weight: 700 !important; font-size: 0.85rem !important; line-height: 1.25 !important; color: var(--dark-navy) !important; text-align: center !important; width: 100% !important; padding: 0 4px !important; display: -webkit-box !important; -webkit-line-clamp: 2 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; word-break: break-word !important; }
         @media (min-width: 500px) { .team-name-col { font-size: 0.95rem !important; } }
 
-        .card-logo-wrap, .hero-logo-wrap { display: flex !important; align-items: center !important; justify-content: center !important; flex-shrink: 0 !important; background: transparent !important; overflow: visible !important; aspect-ratio: 1 / 1 !important; }
+        .card-logo-wrap, .hero-logo-wrap { display: flex !important; align-items: center !important; justify-content: center !important; flex-shrink: 0 !important; background: transparent !important; overflow: visible !important; }
         .card-logo-wrap { width: 58px !important; height: 58px !important; }
         .hero-logo-wrap { width: 88px !important; height: 88px !important; }
-        .card-logo-wrap img, .hero-logo-wrap img { display: block !important; width: 100% !important; height: 100% !important; max-width: 100% !important; max-height: 100% !important; object-fit: contain !important; border-radius: 0 !important; background: transparent !important; transform: none !important; }
-        .hero-logo-wrap img { filter: drop-shadow(0 0 8px rgba(135, 206, 235, 0.75)) !important; }
 
-        /* MATCH CENTER GRID */
+        .card-logo-wrap img, .hero-logo-wrap img { width: 100% !important; height: 100% !important; max-width: 100% !important; max-height: 100% !important; object-fit: contain !important; border-radius: 0 !important; background: transparent !important; transform: none !important; }
+        .hero-logo-wrap img { filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.8)) !important; }
+        .hero-logo-wrap img[src*="ui-avatars.com"], .card-logo-wrap img[src*="ui-avatars.com"] { border-radius: 50% !important; object-fit: contain !important; width: 100% !important; height: 100% !important; background: #ffffff !important; }
+
         .match-center-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        
         @media (max-width: 768px) { 
-            .match-center-grid { 
-                display: flex !important; 
-                flex-direction: row !important; 
-                overflow-x: auto !important; 
-                scroll-snap-type: x mandatory; 
-                gap: 16px !important; 
-                padding-bottom: 15px; 
-                -webkit-overflow-scrolling: touch;
-                margin: 0 -15px;
-                padding-left: 15px;
-                padding-right: 15px;
-            } 
-            .match-center-grid > div {
-                flex: 0 0 85% !important;
-                max-width: 85% !important;
-                scroll-snap-align: center;
-            }
+            .match-center-grid { display: flex !important; flex-direction: row !important; overflow-x: auto !important; scroll-snap-type: x mandatory; gap: 16px !important; padding-bottom: 15px; -webkit-overflow-scrolling: touch; margin: 0 -15px; padding-left: 15px; padding-right: 15px; } 
+            .match-center-grid > div { flex: 0 0 85% !important; max-width: 85% !important; scroll-snap-align: center; }
         }
 
         .match-vs-center { font-family: var(--font-brand) !important; font-size: 2.2rem !important; color: var(--primary-sky) !important; display: flex !important; align-items: center !important; justify-content: center !important; text-align: center !important; white-space: nowrap !important; }
@@ -453,6 +261,7 @@
         .next-match-hero { background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%); color: #ffffff; border-radius: 16px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); border: 2px solid var(--primary-sky, #87ceeb); display: flex; flex-direction: column; justify-content: space-between; height: 100%; box-sizing: border-box; }
         .next-match-hero .team-name-col { color: #ffffff !important; font-size: 1.05rem !important; }
         .next-match-hero .match-vs-center { font-size: 2.5rem !important; color: var(--primary-sky) !important; }
+        
         .next-match-header, .match-past-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 10px; }
         .next-match-header { border-bottom-color: rgba(255,255,255,0.2); }
         .next-match-badge { background: var(--primary-sky, #87ceeb); color: var(--dark-navy, #003c82); font-weight: 800; padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; text-transform: uppercase; }
@@ -460,7 +269,6 @@
         .match-info-hero-bar { display: flex; flex-direction: column; gap: 6px; background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-top: 15px; color: var(--dark-navy); font-weight: 600; }
         .next-match-hero .match-info-hero-bar { background: rgba(255, 255, 255, 0.08); border: none; color: #ffffff; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 10px 18px; }
         .match-info-item { display: flex; align-items: center; gap: 8px; }
-        .match-info-item i { width: 16px; text-align: center; }
         .match-box-date { font-size: 0.82rem; color: #64748b; font-weight: 600; }
         .match-box-venue { font-size: 0.8rem; color: var(--primary-sky); font-weight: 600; margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e2e8f0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; }
         .match-box-venue a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
@@ -473,7 +281,7 @@
         .btn-match-detail { background: var(--primary-sky, #003c82); color: #ffffff; font-size: 0.78rem; font-weight: 700; padding: 6px 14px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
         .btn-match-detail-hero { background: var(--primary-sky, #87ceeb); color: var(--dark-navy, #003c82); font-size: 0.78rem; font-weight: 800; padding: 6px 14px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
 
-        /* CONTO ALLA ROVESCIA (COUNTDOWN) HERO */
+        /* COUNTDOWN HERO */
         .match-countdown-wrapper { margin-top: 16px; padding: 12px 14px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(135, 206, 235, 0.35); border-radius: 12px; text-align: center; box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2); }
         .countdown-title { font-size: 0.78rem; font-weight: 700; color: var(--primary-sky, #87ceeb); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; }
         .countdown-timer { display: flex; justify-content: center; align-items: center; gap: 10px; }
@@ -484,25 +292,58 @@
 
         /* DROPDOWN CALENDARIO */
         .add-to-cal-wrapper { position: relative; display: inline-block; }
-        .add-to-cal-btn {
-            background: rgba(255, 255, 255, 0.12); color: #ffffff;
-            border: 1px solid rgba(135, 206, 235, 0.4); padding: 6px 12px;
-            border-radius: 20px; font-size: 0.78rem; font-weight: 700; cursor: pointer;
-            display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;
-        }
+        .add-to-cal-btn { background: rgba(255, 255, 255, 0.12); color: #ffffff; border: 1px solid rgba(135, 206, 235, 0.4); padding: 6px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease; }
         .add-to-cal-btn:hover { background: rgba(135, 206, 235, 0.25); border-color: #87ceeb; }
-        .cal-dropdown-menu {
-            display: none; position: absolute; bottom: 100%; left: 0; margin-bottom: 8px;
-            background: #001a38; border: 1px solid rgba(135, 206, 235, 0.4); border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 100; white-space: nowrap; overflow: hidden;
-        }
+        .cal-dropdown-menu { display: none; position: absolute; bottom: 100%; left: 0; margin-bottom: 8px; background: #001a38; border: 1px solid rgba(135, 206, 235, 0.4); border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 100; white-space: nowrap; overflow: hidden; }
         .cal-dropdown-menu.show { display: block; }
-        .cal-dropdown-menu button {
-            display: flex; align-items: center; gap: 8px; width: 100%; padding: 10px 14px;
-            background: transparent; border: none; color: #ffffff; text-decoration: none;
-            font-size: 0.78rem; font-weight: 600; text-align: left; cursor: pointer; transition: background 0.2s ease;
-        }
+        .cal-dropdown-menu button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 10px 14px; background: transparent; border: none; color: #ffffff; font-size: 0.78rem; font-weight: 600; text-align: left; cursor: pointer; transition: background 0.2s ease; }
         .cal-dropdown-menu button:hover { background: rgba(135, 206, 235, 0.2); color: #87ceeb; }
+
+        /* BANNER RECLUTAMENTO */
+        .recruitment-banner { background: linear-gradient(135deg, #00224a 0%, #001229 100%); border-radius: 16px; padding: 35px 25px; color: #ffffff; position: relative; overflow: hidden; border: 1px solid rgba(135, 206, 235, 0.3); box-shadow: 0 10px 30px rgba(0, 34, 74, 0.2); margin: 40px auto 0; max-width: 1000px; }
+        .recruitment-banner::before { content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: linear-gradient(to bottom, #87ceeb 33%, #ffffff 33%, #ffffff 66%, #00224a 66%); }
+        .recruitment-content { display: flex; align-items: center; justify-content: space-between; gap: 25px; }
+        @media (max-width: 768px) { .recruitment-content { flex-direction: column; text-align: center; } }
+        .recruitment-text-box h3 { font-size: 1.5rem; font-weight: 800; color: #87ceeb; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        @media (max-width: 768px) { .recruitment-text-box h3 { justify-content: center; } }
+        .recruitment-text-box p { font-size: 0.95rem; color: #e2e8f0; line-height: 1.6; margin: 0; }
+        .recruitment-btn { background: #87ceeb; color: #00224a !important; font-weight: 800; font-size: 0.98rem; padding: 14px 28px; border-radius: 30px; text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3); transition: all 0.2s ease; }
+        .recruitment-btn:hover { background: #a0d8ef; transform: translateY(-2px); }
+
+        /* MINI-FAQ */
+        .mini-faq-container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+        .faq-item { background: #ffffff; border-radius: 10px; border: 1px solid #e2e8f0; overflow: hidden; }
+        .faq-question { width: 100%; background: transparent; border: none; padding: 16px 20px; text-align: left; font-weight: 700; font-size: 0.95rem; color: #003c82; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s ease; }
+        .faq-question:hover { background: #f8fafc; }
+        .faq-question i { color: #87ceeb; transition: transform 0.2s ease; }
+        .faq-answer { padding: 0 20px 16px 20px; font-size: 0.88rem; color: #475569; line-height: 1.6; display: none; border-top: 1px dashed #f1f5f9; padding-top: 12px; }
+        .faq-item.active .faq-answer { display: block; }
+        .faq-item.active .faq-question i { transform: rotate(180deg); }
+
+        /* HERO ORIGINALE */
+        .hero-section { position: relative; min-height: 580px; display: flex; align-items: center; overflow: hidden; background: linear-gradient(90deg, rgba(5, 18, 30, 0.92) 0%, rgba(5, 18, 30, 0.75) 45%, rgba(5, 18, 30, 0.35) 100%), url('./immagini/gallery/foto1.jpeg') center center / cover no-repeat; color: #ffffff; }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.5) 100%); pointer-events: none; }
+        .hero-content-wrapper { position: relative; z-index: 2; width: min(1200px, 90%); margin: 0 auto; padding: 70px 0 80px 0; }
+        .hero-kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #87ceeb; }
+        .hero-kicker-line { width: 36px; height: 2px; background: #87ceeb; }
+        .hero-kicker-year { color: rgba(255,255,255,0.6); font-weight: 500; }
+        .hero-main-title { margin: 0; max-width: 900px; font-size: clamp(32px, 5.5vw, 64px); line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; color: #ffffff; }
+        .hero-subtitle { margin: 18px 0 0; max-width: 580px; font-size: 1.05rem; line-height: 1.7; color: rgba(255, 255, 255, 0.88); font-weight: 500; }
+        .hero-action-btns { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
+        .hero-btn { padding: 12px 26px; border-radius: 30px; font-weight: 700; font-size: 0.92rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.25s ease; }
+        .hero-btn-primary { background: #87ceeb; color: #00224a; box-shadow: 0 4px 15px rgba(135, 206, 235, 0.35); }
+        .hero-btn-primary:hover { background: #ffffff; color: #00224a; transform: translateY(-2px); }
+        .hero-btn-outline { background: rgba(255, 255, 255, 0.12); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.45); backdrop-filter: blur(6px); }
+        .hero-btn-outline:hover { background: rgba(255, 255, 255, 0.25); border-color: #ffffff; transform: translateY(-2px); }
+        
+        @media (max-width: 768px) {
+            .hero-section { min-height: 500px; background-position: 60% center; }
+            .hero-content-wrapper { width: 90%; padding: 45px 0 55px 0; }
+            .hero-main-title { font-size: clamp(26px, 7.5vw, 42px); line-height: 1.2; }
+            .hero-subtitle { font-size: 0.92rem; line-height: 1.6; margin-top: 14px; }
+            .hero-action-btns { margin-top: 22px; gap: 10px; }
+            .hero-btn { padding: 10px 20px; font-size: 0.85rem; }
+        }
     </style>
 </head>
 <body>
@@ -626,7 +467,7 @@
   </nav>
 </header>
 
-<!-- HERO SECTION ORIGINALE RIVISITATA IN CHIAVE PREMIUM -->
+<!-- HERO SECTION ORIGINALE -->
 <section class="hero-section">
   <div class="hero-overlay"></div>
   <div class="hero-content-wrapper">
@@ -661,28 +502,15 @@
         <div class="about-grid">
             <div class="about-text-box">
                 <h3 data-i18n="about.subtitle">横浜発、イタリアンスタイルの社会人サッカーチーム</h3>
-                <p data-i18n="about.p1">
-                    Yokohama Calcio（ヨコハマ・カルチョ）は、2025年に横浜で設立された社会人アマチュアサッカークラブです。イタリアサッカーの組織的な戦術アプローチからインスピレーションを受け、一人ひとりが役割を理解し連動するチームを目指しています。
-                </p>
-                <p data-i18n="about.p2">
-                    「個人の成長、チームの進化」を理念に掲げ、年齢やバックグラウンドを超えた仲間が集まり、真剣にフットボールと向き合っています。楽しむことと真剣に取り組むことを両立しながら、地域の試合やリーグ戦で一丸となって成長し続けています。
-                </p>
+                <p data-i18n="about.p1">Yokohama Calcio（ヨコハマ・カルチョ）は、2025年に横浜で設立された社会人アマチュアサッカークラブです。イタリアサッカーの組織的な戦術アプローチからインスピレーションを受け、一人ひとりが役割を理解し連動するチームを目指しています。</p>
+                <p data-i18n="about.p2">「個人の成長、チームの進化」を理念に掲げ、年齢やバックグラウンドを超えた仲間が集まり、真剣にフットボールと向き合っています。楽しむことと真剣に取り組むことを両立しながら、地域の試合やリーグ戦で一丸となって成長し続けています。</p>
             </div>
             <div class="mission-box">
                 <h3 data-i18n="about.values_title">私たちのコアバリュー</h3>
                 <ul>
-                    <li>
-                        <strong data-i18n="about.val1_h">個人の成長、チームの進化</strong>
-                        <span data-i18n="about.val1_d">個々の判断力と役割意識がつながる組織的フットボール</span>
-                    </li>
-                    <li>
-                        <strong data-i18n="about.val2_h">楽しくも、真剣に</strong>
-                        <span data-i18n="about.val2_d">妥協せずトレーニングに励み、達成感と勝利の喜びを分かち合う</span>
-                    </li>
-                    <li>
-                        <strong data-i18n="about.val3_h">組織と連動 (Gioco di Squadra)</strong>
-                        <span data-i18n="about.val3_d">ポジショニング、連動した守備、素早い切り替えの徹底</span>
-                    </li>
+                    <li><strong data-i18n="about.val1_h">個人の成長、チームの進化</strong><span data-i18n="about.val1_d">個々の判断力と役割意識がつながる組織的フットボール</span></li>
+                    <li><strong data-i18n="about.val2_h">楽しくも、真剣に</strong><span data-i18n="about.val2_d">妥協せずトレーニングに励み、達成感と勝利の喜びを分かち合う</span></li>
+                    <li><strong data-i18n="about.val3_h">組織と連動 (Gioco di Squadra)</strong><span data-i18n="about.val3_d">ポジショニング、連動した守備、素早い切り替えの徹底</span></li>
                 </ul>
             </div>
         </div>
@@ -729,28 +557,12 @@
 <section class="section gallery-section" id="gallery">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-camera"></i> <span data-i18n="gallery.title">フォトギャラリー</span></h2>
-
         <div class="gallery-compact-grid">
-            <div class="gallery-compact-item item-featured" data-src="./immagini/gallery/foto1.jpeg">
-                <img src="./immagini/gallery/foto1.jpeg" alt="Yokohama Calcio" loading="lazy">
-                <div class="gallery-zoom-overlay"><i class="fas fa-search-plus"></i></div>
-            </div>
-            <div class="gallery-compact-item" data-src="./immagini/gallery/foto2.jpeg">
-                <img src="./immagini/gallery/foto2.jpeg" alt="Yokohama Calcio" loading="lazy">
-                <div class="gallery-zoom-overlay"><i class="fas fa-search-plus"></i></div>
-            </div>
-            <div class="gallery-compact-item" data-src="./immagini/gallery/foto3.jpeg">
-                <img src="./immagini/gallery/foto3.jpeg" alt="Yokohama Calcio" loading="lazy">
-                <div class="gallery-zoom-overlay"><i class="fas fa-search-plus"></i></div>
-            </div>
-            <div class="gallery-compact-item" data-src="./immagini/gallery/foto4.jpeg">
-                <img src="./immagini/gallery/foto4.jpeg" alt="Yokohama Calcio" loading="lazy">
-                <div class="gallery-zoom-overlay"><i class="fas fa-search-plus"></i></div>
-            </div>
-            <div class="gallery-compact-item" data-src="./immagini/gallery/foto5.jpeg">
-                <img src="./immagini/gallery/foto5.jpeg" alt="Yokohama Calcio" loading="lazy">
-                <div class="gallery-zoom-overlay"><i class="fas fa-search-plus"></i></div>
-            </div>
+            <div class="gallery-compact-item item-featured" data-src="./immagini/gallery/foto1.jpeg"><img src="./immagini/gallery/foto1.jpeg" alt="Yokohama Calcio" loading="lazy"><div class="gallery-zoom-overlay"><i class="fas fa-search-plus"></i></div></div>
+            <div class="gallery-compact-item" data-src="./immagini/gallery/foto2.jpeg"><img src="./immagini/gallery/foto2.jpeg" alt="Yokohama Calcio" loading="lazy"><div class="gallery-zoom-overlay"><i class="fas fa-search-plus"></i></div></div>
+            <div class="gallery-compact-item" data-src="./immagini/gallery/foto3.jpeg"><img src="./immagini/gallery/foto3.jpeg" alt="Yokohama Calcio" loading="lazy"><div class="gallery-zoom-overlay"><i class="fas fa-search-plus"></i></div></div>
+            <div class="gallery-compact-item" data-src="./immagini/gallery/foto4.jpeg"><img src="./immagini/gallery/foto4.jpeg" alt="Yokohama Calcio" loading="lazy"><div class="gallery-zoom-overlay"><i class="fas fa-search-plus"></i></div></div>
+            <div class="gallery-compact-item" data-src="./immagini/gallery/foto5.jpeg"><img src="./immagini/gallery/foto5.jpeg" alt="Yokohama Calcio" loading="lazy"><div class="gallery-zoom-overlay"><i class="fas fa-search-plus"></i></div></div>
         </div>
     </div>
 </section>
@@ -759,9 +571,7 @@
     <button class="lightbox-close" id="lightboxClose" aria-label="Chiudi"><i class="fas fa-times"></i></button>
     <button class="lightbox-prev" id="lightboxPrev" aria-label="Precedente"><i class="fas fa-chevron-left"></i></button>
     <button class="lightbox-next" id="lightboxNext" aria-label="Successiva"><i class="fas fa-chevron-right"></i></button>
-    <div class="lightbox-content">
-        <img src="" alt="Gallery Full" class="lightbox-img" id="lightboxImg">
-    </div>
+    <div class="lightbox-content"><img src="" alt="Gallery Full" class="lightbox-img" id="lightboxImg"></div>
 </div>
 
 <section class="section shop-section" id="shop">
@@ -773,20 +583,16 @@
                 <h3 data-i18n="shop.card_title">Yokohama Calcio オフィシャルグッズ</h3>
                 <p data-i18n="shop.card_desc">Tシャツ、キャップ、キーホルダー、マフラータオルなどのオリジナルグッズを取り揃えています。売上収益はチームの活動費として大切に活用させていただきます。</p>
                 <a href="https://yokohamacalcio.designstore.jp" target="_blank" rel="noopener noreferrer" class="google-form-btn shop-btn">
-                    <i class="fas fa-store"></i>
-                    <span data-i18n="shop.btn">公式ショップを見る</span>
-                    <i class="fas fa-external-link-alt external-icon"></i>
+                    <i class="fas fa-store"></i> <span data-i18n="shop.btn">公式ショップを見る</span> <i class="fas fa-external-link-alt external-icon"></i>
                 </a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- SEZIONE PARTNER -->
 <section class="section sponsors-section" id="sponsors">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-handshake"></i> <span data-i18n="sponsors.title">オフィシャルパートナー</span></h2>
-        
         <div style="background: linear-gradient(135deg, #00224a 0%, #001229 100%); border-radius: 16px; padding: 35px 25px; border: 1px solid rgba(135,206,235,0.35); color: #ffffff; text-align: center; max-width: 850px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0, 34, 74, 0.2);">
             <div style="width: 60px; height: 60px; background: rgba(135,206,235,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; color: #87ceeb; font-size: 26px;">
                 <i class="fas fa-handshake-angle"></i>
@@ -796,50 +602,29 @@
                 当クラブでは、グラウンド手配や用具サポート、試合後のサードタイム（懇親会）等でご協力いただける横浜市内の飲食店・企業様・オフィシャルパートナーを募集しています。地域と共に成長するチームをぜひ応援してください！
             </p>
             <a href="contact.html?type=sponsor" class="google-form-btn" style="max-width: 320px; margin: 0 auto; background: #87ceeb; color: #00224a !important; font-weight: 800;">
-                <i class="fas fa-paper-plane"></i>
-                <span data-i18n="sponsors.hero_btn">パートナーシップについて問い合わせる</span>
+                <i class="fas fa-paper-plane"></i> <span data-i18n="sponsors.hero_btn">パートナーシップについて問い合わせる</span>
             </a>
         </div>
     </div>
 </section>
 
-<!-- MINI-FAQ -->
 <section class="section" id="mini-faq" style="background: #f8fafc;">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-question-circle"></i> <span data-i18n="minifaq.title">よくある質問（FAQ）</span></h2>
-        
         <div class="mini-faq-container">
             <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="minifaq.q1">Q: 体験練習参加に必要な持ち物や費用はありますか？</span>
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="faq-answer" data-i18n="minifaq.a1">
-                    動ける服装（サッカーウェア）、スパイクまたはトレーニングシューズ、飲料水をお持ちください。体験参加時の費用は原則無料です。
-                </div>
+                <button class="faq-question"><span data-i18n="minifaq.q1">Q: 体験練習参加に必要な持ち物や費用はありますか？</span><i class="fas fa-chevron-down"></i></button>
+                <div class="faq-answer" data-i18n="minifaq.a1">動ける服装（サッカーウェア）、スパイクまたはトレーニングシューズ、飲料水をお持ちください。体験参加時の費用は原則無料です。</div>
             </div>
-
             <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="minifaq.q2">Q: 募集対象の年齢やサッカー経験の基準は？</span>
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="faq-answer" data-i18n="minifaq.a2">
-                    18歳〜40歳程度のサッカー経験者が対象です。高校・大学部活出身者からブランクのある方まで、真剣かつ楽しくプレーできる方を募集しています。
-                </div>
+                <button class="faq-question"><span data-i18n="minifaq.q2">Q: 募集対象の年齢やサッカー経験の基準は？</span><i class="fas fa-chevron-down"></i></button>
+                <div class="faq-answer" data-i18n="minifaq.a2">18歳〜40歳程度のサッカー経験者が対象です。高校・大学部活出身者からブランクのある方まで、真剣かつ楽しくプレーできる方を募集しています。</div>
             </div>
-
             <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="minifaq.q3">Q: 活動の場所や頻度はどのくらいですか？</span>
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="faq-answer" data-i18n="minifaq.a3">
-                    主に土曜日・日曜日の午前または午後に、横浜市内および神奈川県内のグランド（新横浜公園、常盤公園、谷本公園など）で活動しています。
-                </div>
+                <button class="faq-question"><span data-i18n="minifaq.q3">Q: 活動の場所や頻度はどのくらいですか？</span><i class="fas fa-chevron-down"></i></button>
+                <div class="faq-answer" data-i18n="minifaq.a3">主に土曜日・日曜日の午前または午後に、横浜市内および神奈川県内のグランド（新横浜公園、常盤公園、谷本公園など）で活動しています。</div>
             </div>
         </div>
-
         <div style="text-align: center; margin-top: 25px;">
             <a href="faq.html" class="google-form-btn" style="max-width: 260px; margin: 0 auto; background: transparent; border: 2px solid #003c82; color: #003c82;">
                 <i class="fas fa-list-ul"></i> <span data-i18n="minifaq.btn">すべてのFAQを見る</span>
@@ -851,52 +636,20 @@
 <section class="section" id="contact">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-envelope"></i> <span data-i18n="contact.title">お問い合わせ</span></h2>
-        
         <div class="contact-card-enhanced">
             <div class="contact-card-header">
-                <div class="contact-icon-wrapper">
-                    <i class="fas fa-paper-plane"></i>
-                </div>
+                <div class="contact-icon-wrapper"><i class="fas fa-paper-plane"></i></div>
                 <h3 data-i18n="contact.subtitle">各種お申し込み・お問い合わせ</h3>
                 <p class="contact-card-subtitle" data-i18n="contact.card_subtitle">お気軽にご連絡ください</p>
             </div>
-
             <ul class="contact-reasons-list-enhanced">
-                <li>
-                    <i class="fas fa-user-plus"></i>
-                    <div>
-                        <strong data-i18n="contact.r1_h">体験練習・入部希望</strong>
-                        <span data-i18n="contact.r1_d">18歳〜40歳の経験者対象・ブランク可</span>
-                    </div>
-                </li>
-                <li>
-                    <i class="fas fa-futbol"></i>
-                    <div>
-                        <strong data-i18n="contact.r2_h">練習試合・対戦のお申し込み</strong>
-                        <span data-i18n="contact.r2_d">親善試合・グラウンド手配</span>
-                    </div>
-                </li>
-                <li>
-                    <i class="fas fa-handshake"></i>
-                    <div>
-                        <strong data-i18n="contact.r3_h">パートナー・協賛のご相談</strong>
-                        <span data-i18n="contact.r3_d">チーム支援・パートナーシップ</span>
-                    </div>
-                </li>
-                <li>
-                    <i class="fas fa-question-circle"></i>
-                    <div>
-                        <strong data-i18n="contact.r4_h">その他チームに関するご質問</strong>
-                    </div>
-                </li>
+                <li><i class="fas fa-user-plus"></i><div><strong data-i18n="contact.r1_h">体験練習・入部希望</strong><span data-i18n="contact.r1_d">18歳〜40歳の経験者対象・ブランク可</span></div></li>
+                <li><i class="fas fa-futbol"></i><div><strong data-i18n="contact.r2_h">練習試合・対戦のお申し込み</strong><span data-i18n="contact.r2_d">親善試合・グラウンド手配</span></div></li>
+                <li><i class="fas fa-handshake"></i><div><strong data-i18n="contact.r3_h">パートナー・協賛のご相談</strong><span data-i18n="contact.r3_d">チーム支援・パートナーシップ</span></div></li>
+                <li><i class="fas fa-question-circle"></i><div><strong data-i18n="contact.r4_h">その他チームに関するご質問</strong></div></li>
             </ul>
-
             <div class="contact-action">
-                <a href="contact.html" class="google-form-btn">
-                    <i class="fas fa-envelope-open-text"></i>
-                    <span data-i18n="contact.btn">お問い合わせフォームを開く</span>
-                    <i class="fas fa-arrow-right" style="margin-left: 4px;"></i>
-                </a>
+                <a href="contact.html" class="google-form-btn"><i class="fas fa-envelope-open-text"></i><span data-i18n="contact.btn">お問い合わせフォームを開く</span><i class="fas fa-arrow-right" style="margin-left: 4px;"></i></a>
             </div>
         </div>
     </div>
@@ -1093,7 +846,6 @@
     let locationsData = {};
     let opponentsData = {};
     let playersData = [];
-    let statsData = {};
     let countdownInterval = null;
 
     function cleanStr(s) { return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim(); }
@@ -1133,10 +885,10 @@
 
     function getAvatarUrl(matchOrName, romajiFallback) {
         const identifier = (typeof matchOrName === 'object' && matchOrName !== null) 
-            ? (matchOrName.opponent_id || matchOrName.team2Name || 'opponent') 
+            ? (matchOrName.opponent_id || matchOrName.opponent_name || matchOrName.team2Name || 'opponent') 
             : String(matchOrName || 'opponent');
         const romaji = (typeof matchOrName === 'object' && matchOrName !== null) 
-            ? getRomajiName(matchOrName, matchOrName.team2Name) 
+            ? getRomajiName(matchOrName, romajiFallback) 
             : (romajiFallback || identifier);
         const bgHex = getUniqueTeamColor(identifier);
         return `https://ui-avatars.com/api/?name=${encodeURIComponent(romaji)}&background=${bgHex}&color=ffffff&bold=true&size=128`;
@@ -1147,11 +899,11 @@
         let logo = '';
         if (match.opponent_id && opponentsData[match.opponent_id]) {
             const opp = opponentsData[match.opponent_id];
-            name = (opp.name && (opp.name[lang] || opp.name['ja'])) || match.team2Name || 'Opponent';
-            logo = opp.logo || match.team2Logo || '';
+            name = (opp.name && (opp.name[lang] || opp.name['ja'])) || match.opponent_name || match.team2Name || 'Opponent';
+            logo = opp.logo || match.opponent_logo || match.team2Logo || '';
         } else {
-            name = match.team2Name || 'Opponent';
-            logo = match.team2Logo || '';
+            name = match.opponent_name || match.team2Name || 'Opponent';
+            logo = match.opponent_logo || match.team2Logo || '';
         }
         const romajiName = getRomajiName(match, name);
         if (!logo || logo.trim() === '') { logo = getAvatarUrl(match, romajiName); }
@@ -1380,30 +1132,27 @@ END:VCALENDAR`;
         const loc = locationsData[locId];
         if (!loc) {
             const fallbackName = venueFallback || locId || '-';
-            return { name: fallbackName, url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fallbackName)}`, surface: '' };
+            return { name: fallbackName, maps: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fallbackName)}`, surface: '' };
         }
         const name = loc[lang] || loc['ja'] || venueFallback || locId;
         const surface = loc.surface ? (loc.surface[lang] || loc.surface['ja'] || '') : '';
-        let url = loc.url || loc.maps;
-        if (!url) url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`;
-        return { name, url, surface };
+        const maps = loc.maps || loc.url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`;
+        return { name, maps, surface };
     }
 
     async function initPageData() {
         try {
-            const [mResp, lResp, oResp, pResp, sResp] = await Promise.allSettled([
+            const [mResp, lResp, oResp, pResp] = await Promise.allSettled([
                 fetch('matches.json'),
                 fetch('locations.json'),
                 fetch('opponents.json'),
-                fetch('players.json'),
-                fetch('stats.json')
+                fetch('players.json')
             ]);
 
             if (mResp.status === 'fulfilled' && mResp.value.ok) cachedMatches = await mResp.value.json();
             if (lResp.status === 'fulfilled' && lResp.value.ok) locationsData = await lResp.value.json();
             if (oResp.status === 'fulfilled' && oResp.value.ok) opponentsData = await oResp.value.json();
             if (pResp.status === 'fulfilled' && pResp.value.ok) playersData = await pResp.value.json();
-            if (sResp.status === 'fulfilled' && sResp.value.ok) statsData = await sResp.value.json();
 
             renderMatchCenter(cachedMatches);
         } catch (e) {
@@ -1502,7 +1251,7 @@ END:VCALENDAR`;
                 </div>
                 <div>
                     <div class="match-box-venue">
-                        <a href="${locInfo.url}" target="_blank" rel="noopener noreferrer">
+                        <a href="${locInfo.maps}" target="_blank" rel="noopener noreferrer">
                             <i class="fas fa-map-marker-alt"></i> <span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i>
                         </a>
                     </div>
@@ -1579,7 +1328,7 @@ END:VCALENDAR`;
                         ${surfaceHtml}
                     </div>
 
-                    <!-- BOX COUNTDOWN HERO -->
+                    <!-- COUNTDOWN HERO -->
                     <div class="match-countdown-wrapper">
                         <div class="countdown-title"><i class="fas fa-stopwatch"></i> <span>${translations[lang]['countdown.title'] || 'キックオフまで'}</span></div>
                         <div class="countdown-timer">
@@ -1595,7 +1344,7 @@ END:VCALENDAR`;
                 </div>
                 <div>
                     <div class="match-box-venue">
-                        <a href="${locInfo.url}" target="_blank" rel="noopener noreferrer">
+                        <a href="${locInfo.maps}" target="_blank" rel="noopener noreferrer">
                             <i class="fas fa-map-marker-alt"></i> <span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i>
                         </a>
                     </div>
@@ -1711,7 +1460,9 @@ END:VCALENDAR`;
             if (!toggle) return;
 
             toggle.addEventListener('click', (e) => {
-                e.preventDefault(); e.stopPropagation();
+                e.preventDefault();
+                e.stopPropagation();
+
                 dropdownItems.forEach(d => {
                     if (d !== item) {
                         d.classList.remove('open');
@@ -1719,6 +1470,7 @@ END:VCALENDAR`;
                         if (t) t.setAttribute('aria-expanded', 'false');
                     }
                 });
+
                 const willOpen = !item.classList.contains('open');
                 item.classList.toggle('open', willOpen);
                 toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
@@ -1727,6 +1479,17 @@ END:VCALENDAR`;
             item.addEventListener('mouseleave', () => {
                 item.classList.remove('open');
                 toggle.setAttribute('aria-expanded', 'false');
+            });
+
+            toggle.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggle.click();
+                }
+                if (e.key === 'Escape') {
+                    item.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                }
             });
         });
 
@@ -1741,13 +1504,7 @@ END:VCALENDAR`;
         });
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-        setLanguage(currentLang);
-        initPageData();
-        initCompactGallery();
-        initMiniFaqAccordion();
-        initDesktopDropdowns();
-
+    function initMobileMenu() {
         const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
         const mobileNav = document.querySelector('.mobile-nav');
         const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
@@ -1788,6 +1545,15 @@ END:VCALENDAR`;
                 if (!e.target.closest('.mobile-nav-content') && !mobileMenuBtn.contains(e.target)) closeMobileMenu();
             });
         }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        setLanguage(currentLang);
+        initPageData();
+        initCompactGallery();
+        initMiniFaqAccordion();
+        initDesktopDropdowns();
+        initMobileMenu();
     });
 
     const topBtn = document.getElementById('scrollToTopBtn');
