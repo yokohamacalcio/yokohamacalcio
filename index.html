@@ -137,7 +137,7 @@
            ========================================= */
         .hero-section {
           position: relative;
-          min-height: 720px;
+          min-height: 680px;
           display: flex;
           align-items: center;
           overflow: hidden;
@@ -154,7 +154,6 @@
           color: #ffffff;
         }
 
-        /* DARK / COLOR OVERLAY */
         .hero-overlay {
           position: absolute;
           inset: 0;
@@ -165,29 +164,22 @@
               rgba(0, 0, 0, 0.05) 50%,
               rgba(0, 0, 0, 0.45) 100%
             );
-
           pointer-events: none;
         }
 
-        /* CONTENT */
         .hero-content-wrapper {
           position: relative;
           z-index: 2;
-
           width: min(1200px, 90%);
           margin: 0 auto;
-
-          padding: 100px 0 140px 0; /* Padding inferiore esteso per accogliere il Match Center sovrapposto */
+          padding: 90px 0 130px 0;
         }
 
-        /* SMALL CLUB IDENTIFIER */
         .hero-kicker {
           display: flex;
           align-items: center;
           gap: 14px;
-
-          margin-bottom: 28px;
-
+          margin-bottom: 24px;
           font-size: 12px;
           font-weight: 700;
           letter-spacing: 0.18em;
@@ -205,75 +197,50 @@
           font-weight: 500;
         }
 
-        /* MAIN TITLE */
         .hero-main-title {
           margin: 0;
-
           max-width: 1000px;
-
-          font-size: clamp(48px, 7vw, 92px);
+          font-size: clamp(44px, 6.5vw, 88px);
           line-height: 0.95;
-
           font-weight: 800;
           letter-spacing: -0.045em;
-
           text-transform: uppercase;
         }
 
-        /* AZURE ACCENT */
         .hero-main-title span {
           color: #87ceeb;
         }
 
-        /* SUBTITLE */
         .hero-subtitle {
-          margin: 34px 0 0;
-
+          margin: 28px 0 0;
           max-width: 560px;
-
-          font-size: 17px;
+          font-size: 16px;
           line-height: 1.75;
-
-          color: rgba(255,255,255,0.82);
-
+          color: rgba(255,255,255,0.85);
           font-weight: 400;
         }
 
-        /* CTA AREA */
         .hero-actions {
           display: flex;
           gap: 12px;
-
-          margin-top: 42px;
+          margin-top: 36px;
         }
 
-        /* BUTTONS */
         .hero-button {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-
           min-width: 140px;
-          height: 48px;
-
+          height: 46px;
           padding: 0 24px;
-
           font-size: 12px;
           font-weight: 700;
-
           letter-spacing: 0.12em;
           text-transform: uppercase;
-
           text-decoration: none;
-
-          transition:
-            background 0.25s ease,
-            color 0.25s ease,
-            border-color 0.25s ease,
-            transform 0.25s ease;
+          transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
         }
 
-        /* PRIMARY */
         .hero-button-primary {
           background: #87ceeb;
           color: #071722;
@@ -286,7 +253,6 @@
           transform: translateY(-2px);
         }
 
-        /* SECONDARY */
         .hero-button-secondary {
           color: #ffffff;
           border: 1px solid rgba(255,255,255,0.55);
@@ -299,48 +265,26 @@
           border-color: #ffffff;
         }
 
-        /* MOBILE HERO */
         @media (max-width: 768px) {
-          .hero-section {
-            min-height: 600px;
-            background-position: 62% center;
-          }
-
-          .hero-content-wrapper {
-            width: 88%;
-            padding: 60px 0 100px 0;
-          }
-
-          .hero-main-title {
-            font-size: clamp(38px, 11vw, 60px);
-            line-height: 0.98;
-          }
-
-          .hero-subtitle {
-            font-size: 15px;
-            line-height: 1.65;
-          }
-
-          .hero-actions {
-            margin-top: 32px;
-          }
-
-          .hero-button {
-            min-width: 125px;
-          }
+          .hero-section { min-height: 580px; background-position: 62% center; }
+          .hero-content-wrapper { width: 88%; padding: 50px 0 95px 0; }
+          .hero-main-title { font-size: clamp(36px, 10vw, 56px); line-height: 0.98; }
+          .hero-subtitle { font-size: 14px; line-height: 1.6; }
+          .hero-actions { margin-top: 28px; }
+          .hero-button { min-width: 120px; height: 42px; font-size: 11px; }
         }
 
         /* =====================================================
            MATCH CENTER CAROUSEL & SWIPE (SOVRAPPOSTO ALL'HERO)
            ===================================================== */
         .match-center-overlap-container {
-            position: relative; z-index: 10; margin-top: -65px; padding: 0 15px;
+            position: relative; z-index: 10; margin-top: -60px; padding: 0 15px;
         }
-        @media (max-width: 768px) { .match-center-overlap-container { margin-top: -50px; } }
+        @media (max-width: 768px) { .match-center-overlap-container { margin-top: -45px; } }
 
         .match-center-swipe-track {
             display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch; padding-bottom: 15px; padding-top: 5px;
+            -webkit-overflow-scrolling: touch; padding-bottom: 12px; padding-top: 5px;
             max-width: 1080px; margin: 0 auto;
         }
         .match-center-swipe-track::-webkit-scrollbar { height: 6px; }
@@ -354,15 +298,27 @@
             .match-card-item { flex: 1; max-width: 100%; }
         }
 
+        /* CORREZIONE STILE LOGHI SULLE SCHEDE MATCH (PULITO COME IN MATCHES) */
+        .hero-logo-wrap, .card-logo-wrap {
+            width: 68px; height: 68px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .hero-logo-wrap img, .card-logo-wrap img {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+        }
+        .hero-logo-wrap img[src*="ui-avatars.com"], .card-logo-wrap img[src*="ui-avatars.com"] {
+            border-radius: 50%; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+
         .match-past-napoli-card {
-            background: #ffffff; border-radius: 18px; padding: 24px; border: 1px solid #cbd5e1;
+            background: #ffffff; border-radius: 18px; padding: 22px 20px; border: 1px solid #cbd5e1;
             box-shadow: 0 12px 30px rgba(0, 38, 74, 0.12); display: flex; flex-direction: column;
             justify-content: space-between; height: 100%; box-sizing: border-box;
         }
 
         .next-match-napoli-card {
             position: relative; background: linear-gradient(135deg, #001a3a 0%, #000a17 100%);
-            border-radius: 18px; padding: 24px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border-radius: 18px; padding: 22px 20px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(135, 206, 235, 0.35); overflow: hidden; display: flex;
             flex-direction: column; justify-content: space-between; height: 100%; box-sizing: border-box;
         }
@@ -376,12 +332,12 @@
         .napoli-card-content { position: relative; z-index: 2; width: 100%; }
         .napoli-card-header {
             display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12); padding-bottom: 10px; margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12); padding-bottom: 10px; margin-bottom: 12px;
         }
 
         .next-match-badge-wide {
             background: linear-gradient(90deg, #87ceeb 0%, #4682b4 100%);
-            color: #001a3a; font-size: 0.85rem; font-weight: 800; padding: 6px 22px;
+            color: #001a3a; font-size: 0.85rem; font-weight: 800; padding: 5px 20px;
             border-radius: 20px; text-transform: uppercase; letter-spacing: 1.5px;
             min-width: 140px; text-align: center; display: inline-block;
             box-shadow: 0 2px 8px rgba(135, 206, 235, 0.3);
@@ -389,26 +345,53 @@
 
         .napoli-match-date { color: rgba(255, 255, 255, 0.88); font-weight: 700; font-size: 0.9rem; }
 
-        .match-teams-wrapper { display: flex; flex-direction: column; gap: 8px; width: 100%; margin: 12px 0; }
+        .match-teams-wrapper { display: flex; flex-direction: column; gap: 8px; width: 100%; margin: 10px 0; }
         .teams-logos-row { display: grid; grid-template-columns: 1fr 65px 1fr; align-items: center; justify-items: center; width: 100%; }
         .teams-names-row { display: grid; grid-template-columns: 1fr 65px 1fr; align-items: start; justify-items: center; width: 100%; }
-        .hero-logo-wrap { width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .hero-logo-wrap img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 8px rgba(135, 206, 235, 0.7)); }
-        .hero-logo-wrap img[src*="ui-avatars.com"] { border-radius: 50%; background: #ffffff; }
-        .team-name-col { font-weight: 700; font-size: 0.98rem; line-height: 1.2; text-align: center; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .team-name-col { font-weight: 700; font-size: 0.95rem; line-height: 1.25; text-align: center; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+        .match-meta-box {
+            background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 12px;
+            margin-top: 10px; font-size: 0.8rem; color: #334155; display: flex; flex-direction: column; gap: 4px;
+        }
+        .match-meta-row { display: flex; align-items: center; gap: 8px; font-weight: 600; }
 
         .match-countdown-wrapper {
-            margin-top: 14px; padding: 10px 12px; background: rgba(0, 0, 0, 0.35);
+            margin-top: 12px; padding: 8px 10px; background: rgba(0, 0, 0, 0.35);
             border: 1px solid rgba(135, 206, 235, 0.25); border-radius: 10px; text-align: center;
         }
-        .countdown-title { font-size: 0.75rem; font-weight: 700; color: #87ceeb; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+        .countdown-title { font-size: 0.72rem; font-weight: 700; color: #87ceeb; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
         .countdown-timer { display: flex; justify-content: center; align-items: center; gap: 10px; }
-        .cd-box { display: flex; flex-direction: column; align-items: center; min-width: 38px; }
-        .cd-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; line-height: 1; color: #ffffff; }
-        .cd-label { font-size: 0.65rem; color: rgba(255,255,255,0.7); }
-        .cd-colon { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: #87ceeb; margin-top: -8px; }
+        .cd-box { display: flex; flex-direction: column; align-items: center; min-width: 36px; }
+        .cd-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; line-height: 1; color: #ffffff; }
+        .cd-label { font-size: 0.62rem; color: rgba(255,255,255,0.7); }
+        .cd-colon { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: #87ceeb; margin-top: -6px; }
 
         .score-past { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: #003c82; font-weight: 800; }
+
+        /* PULSANTE AGGIUNGI AL CALENDARIO */
+        .cal-dropdown-wrapper { position: relative; display: inline-block; }
+        .btn-add-cal {
+            background: rgba(135, 206, 235, 0.15); color: #87ceeb; border: 1px solid rgba(135, 206, 235, 0.4);
+            padding: 6px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;
+        }
+        .btn-add-cal:hover { background: #87ceeb; color: #001a3a; }
+        .cal-dropdown-menu {
+            display: none; position: absolute; bottom: 100%; left: 0; margin-bottom: 6px;
+            background: #001a38; border: 1px solid rgba(135, 206, 235, 0.4); border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 100; white-space: nowrap; overflow: hidden;
+        }
+        .cal-dropdown-menu.show { display: block; }
+        .cal-dropdown-menu button {
+            display: flex; align-items: center; gap: 8px; width: 100%; padding: 10px 14px;
+            background: transparent; border: none; color: #ffffff; font-size: 0.78rem; font-weight: 600;
+            text-align: left; cursor: pointer; transition: background 0.2s ease;
+        }
+        .cal-dropdown-menu button:hover { background: rgba(135, 206, 235, 0.2); color: #87ceeb; }
+
+        /* WRAPPER PULSANTE TUTTI I MATCH (SOTTO LE SCHEDE) */
+        .match-center-all-btn-wrap { text-align: center; margin-top: 25px; margin-bottom: 10px; }
 
         /* =====================================================
            SEZIONE NEWS (CON SWIPE SU MOBILE)
@@ -617,9 +600,16 @@
   <div class="match-center-swipe-track" id="matchCenterSwipeTrack">
     <!-- Popolato dinamicamente via JS: 1. Ultima Partita (Past), 2. Prossima Partita (Next) -->
   </div>
+  
+  <!-- PULSANTE PER VEDERE TUTTE LE PARTITE (SOTTO LE DUE SCHEDE) -->
+  <div class="match-center-all-btn-wrap">
+    <a href="matches.html" class="google-form-btn" style="max-width: 320px; margin: 0 auto;">
+      <i class="fas fa-calendar-alt"></i> <span data-i18n="results.all_matches">全試合日程・詳細はこちら</span>
+    </a>
+  </div>
 </div>
 
-<section class="section" id="about" style="padding-top: 50px;">
+<section class="section" id="about" style="padding-top: 40px;">
     <div class="container">
         <h2 class="section-title" style="text-align: center;"><i class="fas fa-flag"></i> <span data-i18n="about.title">Yokohama Calcioとは</span></h2>
         
@@ -644,12 +634,12 @@
     </div>
 </section>
 
-<!-- SEZIONE NEWS CON CAROSELLO SWIPE -->
+<!-- SEZIONE NEWS (GESTITI DA NEWS.JSON) -->
 <section class="section" id="news" style="background: #ffffff;">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-newspaper"></i> <span data-i18n="news.title">クラブニュース</span></h2>
         <div class="news-grid" id="newsContainer">
-            <!-- News popolate dinamicamente -->
+            <!-- Popolate dinamicamente tramite news.json -->
         </div>
     </div>
 </section>
@@ -737,7 +727,7 @@
 
 <script>
     /* =========================================================
-       LOGICA JS, TRADUZIONI, RENDERING CARD SWIPE
+       LOGICA JS, TRADUZIONI, RENDERING news.json E MATCH CENTER
        ========================================================= */
     const pageTitles = {
         ja: "Yokohama Calcio | 横浜の社会人サッカーチーム・メンバー＆対戦相手募集",
@@ -770,6 +760,7 @@
             "recruit.banner_btn": "体験参加を申し込む",
             "results.past_title": "最新の試合結果", "results.last_badge": "前節結果", "results.next_badge": "NEXT MATCH",
             "results.detail": "詳細を見る", "results.all_matches": "全試合日程・詳細はこちら",
+            "results.scorers": "得点者", "results.mvp": "M.V.P.", "results.add_cal": "カレンダーに追加",
             "results.no_next_match": "現在、次の試合日程を調整中です。対戦相手も募集しています！", "results.friendly_req_btn": "練習試合を申し込む",
             "sponsors.title": "オフィシャルパートナー", "sponsors.hero_title": "Yokohama Calcioを応援しませんか？",
             "sponsors.hero_desc": "当クラブでは、グラウンド手配や用具サポート、試合後のサードタイム（懇親会）等でご協力いただける横浜市内の飲食店・企業様・オフィシャルパートナーを募集しています。",
@@ -781,7 +772,7 @@
             "minifaq.btn": "すべてのFAQを見る",
             "gallery.title": "フォトギャラリー", "shop.title": "公式オンラインショップ", "shop.card_title": "Yokohama Calcio オフィシャルグッズ",
             "shop.card_desc": "Tシャツ、キャップ、キーホルダー、マフラータオルなどのオリジナルグッズを取り揃えています。売上収益はチームの活動費として大切に活用させていただきます。", "shop.btn": "公式ショップを見る", 
-            "countdown.title": "キックオフまで", "countdown.days": "日", "countdown.hours": "時間", "countdown.mins": "分", "countdown.secs": "秒", "calendar.add": "カレンダーに追加", "btn.details": "全日程・詳細"
+            "countdown.title": "キックオフまで", "countdown.days": "日", "countdown.hours": "時間", "countdown.mins": "分", "countdown.secs": "秒", "btn.details": "詳細を見る"
         },
         it: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
@@ -795,6 +786,7 @@
             "recruit.banner_btn": "Prenota un allenamento",
             "results.past_title": "Ultimo Risultato", "results.last_badge": "Ultimo Match", "results.next_badge": "NEXT MATCH",
             "results.detail": "Dettagli", "results.all_matches": "Vedi tutte le partite",
+            "results.scorers": "Marcatori", "results.mvp": "M.V.P.", "results.add_cal": "Salva in Calendario",
             "results.no_next_match": "Stiamo programmando le prossime partite. Cerchi una squadra per un'amichevole?", "results.friendly_req_btn": "Organizza un'amichevole",
             "sponsors.title": "Partner Ufficiali", "sponsors.hero_title": "Sostieni il progetto Yokohama Calcio",
             "sponsors.hero_desc": "Siamo alla ricerca di partner e attività commerciali interessate a supportare la crescita della squadra. Unisciti a noi!",
@@ -806,7 +798,7 @@
             "minifaq.btn": "Vedi tutte le FAQ",
             "gallery.title": "Galleria", "shop.title": "Online Shop Ufficiale", "shop.card_title": "Merchandising Yokohama Calcio",
             "shop.card_desc": "Scopri t-shirt, cappellini e sciarpe per tifare la squadra. I proventi sostengono le attività del club.", "shop.btn": "Visita lo Store", 
-            "countdown.title": "Calcio d'inizio tra", "countdown.days": "gg", "countdown.hours": "ore", "countdown.mins": "min", "countdown.secs": "sec", "calendar.add": "Aggiungi al Calendario", "btn.details": "Dettagli Partita"
+            "countdown.title": "Calcio d'inizio tra", "countdown.days": "gg", "countdown.hours": "ore", "countdown.mins": "min", "countdown.secs": "sec", "btn.details": "Dettagli"
         },
         en: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
@@ -820,6 +812,7 @@
             "recruit.banner_btn": "Book a Trial",
             "results.past_title": "Latest Result", "results.last_badge": "Last Match", "results.next_badge": "NEXT MATCH",
             "results.detail": "Details", "results.all_matches": "View All Matches",
+            "results.scorers": "Scorers", "results.mvp": "M.V.P.", "results.add_cal": "Add to Calendar",
             "results.no_next_match": "Next match date is being scheduled. Looking for a friendly match?", "results.friendly_req_btn": "Request Friendly Match",
             "sponsors.title": "Official Partners", "sponsors.hero_title": "Support Yokohama Calcio",
             "sponsors.hero_desc": "We are seeking official partners, local venues, and sports supporters to join our journey. Grow together with us!",
@@ -831,7 +824,7 @@
             "minifaq.btn": "View All FAQs",
             "gallery.title": "Photo Gallery", "shop.title": "Official Online Shop", "shop.card_title": "Yokohama Calcio Merchandise",
             "shop.card_desc": "Discover t-shirts, caps, and scarves to support the team. Proceeds are used for the team's activities.", "shop.btn": "Visit Official Store", 
-            "countdown.title": "Countdown to Kick-off", "countdown.days": "d", "countdown.hours": "h", "countdown.mins": "m", "countdown.secs": "s", "calendar.add": "Add to Calendar", "btn.details": "Match Details"
+            "countdown.title": "Countdown to Kick-off", "countdown.days": "d", "countdown.hours": "h", "countdown.mins": "m", "countdown.secs": "s", "btn.details": "Match Details"
         }
     };
 
@@ -883,10 +876,63 @@
 
     function formatDate(ds, lang) {
         if (!ds) return '';
-        const d = new Date(ds);
+        const d = new Date(ds.replace(/\./g, '-'));
         if (isNaN(d)) return ds;
         const opts = { year: 'numeric', month: 'short', day: 'numeric', weekday: 'short' };
         return new Intl.DateTimeFormat(lang === 'ja' ? 'ja-JP' : (lang === 'it' ? 'it-IT' : 'en-US'), opts).format(d);
+    }
+
+    /* FUNZIONI PER IL SALVATAGGIO NEL CALENDARIO */
+    function getGoogleCalUrl(m, oppName, locName) {
+        const dStr = m.date ? m.date.replace(/\./g, '') : '';
+        const timeClean = m.time ? m.time.replace(':', '') : '1000';
+        const startStr = `${dStr}T${timeClean}00`;
+        const startHour = parseInt(m.time ? m.time.split(':')[0] : '10', 10);
+        const endHourStr = String(startHour + 2).padStart(2, '0');
+        const endStr = `${dStr}T${endHourStr}${m.time ? m.time.split(':')[1] : '00'}00`;
+        
+        const title = encodeURIComponent(`Yokohama Calcio vs ${oppName}`);
+        const details = encodeURIComponent(`Yokohama Calcio Match - ${m.type || '試合'}`);
+        const location = encodeURIComponent(locName || 'Yokohama');
+        return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startStr}/${endStr}&details=${details}&location=${location}&ctz=Asia/Tokyo`;
+    }
+
+    function downloadIcs(m, oppName, locName) {
+        const dStr = m.date ? m.date.replace(/\./g, '') : '';
+        const timeClean = m.time ? m.time.replace(':', '') : '1000';
+        const startStr = `${dStr}T${timeClean}00`;
+        const startHour = parseInt(m.time ? m.time.split(':')[0] : '10', 10);
+        const endHourStr = String(startHour + 2).padStart(2, '0');
+        const endStr = `${dStr}T${endHourStr}${m.time ? m.time.split(':')[1] : '00'}00`;
+        
+        const icsData = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//Yokohama Calcio//NONSGML Match Calendar//EN',
+            'BEGIN:VEVENT',
+            `SUMMARY:Yokohama Calcio vs ${oppName}`,
+            `DESCRIPTION:${m.type || 'Match'}`,
+            `LOCATION:${locName || 'Yokohama'}`,
+            `DTSTART;TZID=Asia/Tokyo:${startStr}`,
+            `DTEND;TZID=Asia/Tokyo:${endStr}`,
+            'END:VEVENT',
+            'END:VCALENDAR'
+        ].join('\r\n');
+
+        const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.setAttribute('download', `Yokohama_Calcio_vs_${oppName.replace(/\s+/g, '_')}.ics`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    function toggleCalDropdown(e) {
+        e.stopPropagation();
+        const menu = e.currentTarget.nextElementSibling;
+        document.querySelectorAll('.cal-dropdown-menu').forEach(m => { if(m !== menu) m.classList.remove('show'); });
+        if (menu) menu.classList.toggle('show');
     }
 
     function startCountdown(ds, ts) {
@@ -907,30 +953,32 @@
         update(); countdownInterval = setInterval(update, 1000);
     }
 
+    /* RENDERING NOTIZIE DA NEWS.JSON */
     function renderNews(newsList, lang) {
         const container = document.getElementById('newsContainer');
         if (!container || !newsList) return;
         container.innerHTML = newsList.slice(0, 3).map(n => {
             const cat = (n.category || 'INFO').toUpperCase();
             const img = n.image || defaultNewsImages[cat] || defaultNewsImages.DEFAULT;
-            const t = n.title ? (n.title[lang] || n.title['ja']) : '';
+            const t = n.title ? (n.title[lang] || n.title['ja'] || n.title['en'] || '') : '';
+            const linkUrl = n.link || 'contact.html';
             return `
                 <div class="news-card">
                     <div class="news-img-wrap"><img src="${img}" alt="${t}" loading="lazy"><span class="news-category-badge ${cat === 'RECRUIT'?'recruit':''}">${cat}</span></div>
                     <div class="news-body">
                         <div><div class="news-date"><i class="far fa-calendar"></i> ${n.date || ''}</div><h3 class="news-title-text">${t}</h3></div>
-                        <a href="contact.html" class="news-link"><span>${translations[lang]['results.detail'] || '詳細'}</span> <i class="fas fa-chevron-right"></i></a>
+                        <a href="${linkUrl}" class="news-link"><span>${translations[lang]['results.detail'] || '詳細'}</span> <i class="fas fa-chevron-right"></i></a>
                     </div>
                 </div>
             `;
         }).join('');
     }
 
-    /* CARD 1: ULTIMA PARTITA GIOCATA */
+    /* CARD 1: ULTIMA PARTITA GIOCATA (CON MARCATORI & MVP) */
     function generateLastMatchHtml(m, lang) {
         const opp = getOpponentInfo(m, lang);
         const loc = getLocationInfo(m.location_id, m.venue, lang);
-        const fDate = formatDate(m.date ? m.date.replace(/\./g, '-').substring(0, 10) : '', lang);
+        const fDate = formatDate(m.date ? m.date.substring(0, 10) : '', lang);
         
         let lName = m.isHome === false ? opp.name : 'Yokohama Calcio';
         let lLogo = m.isHome === false ? opp.logo : './immagini/logo.png?v=2';
@@ -947,16 +995,20 @@
             const p = dispScore.split('-'); dispScore = `${p[0].trim()} - ${p[1].trim()}`;
         }
 
+        /* Marcatori e MVP */
+        let scorersText = m.scorers ? (Array.isArray(m.scorers) ? m.scorers.join(', ') : m.scorers) : null;
+        let mvpText = m.mvp || null;
+
         return `
             <div class="match-card-item">
                 <div class="match-past-napoli-card">
                     <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 10px;">
                             <div class="match-badge-group">
-                                <span class="match-badge badge-official" style="background:#003c82; color:#fff; font-size:0.75rem; padding:4px 10px; border-radius:4px; font-weight:800;">${translations[lang]['results.last_badge']}</span>
-                                <span class="match-badge badge-friendly" style="background:#64748b; color:#fff; font-size:0.75rem; padding:4px 8px; border-radius:4px;">${m.type || '練習試合'}</span>
+                                <span class="match-badge badge-official" style="background:#003c82; color:#fff; font-size:0.75rem; padding:3px 10px; border-radius:4px; font-weight:800;">${translations[lang]['results.last_badge']}</span>
+                                <span class="match-badge badge-friendly" style="background:#64748b; color:#fff; font-size:0.75rem; padding:3px 8px; border-radius:4px;">${m.type || '練習試合'}</span>
                             </div>
-                            <span style="font-size: 0.85rem; color: #64748b; font-weight: 700;">${fDate}</span>
+                            <span style="font-size: 0.82rem; color: #64748b; font-weight: 700;">${fDate}</span>
                         </div>
                         <div class="match-teams-wrapper">
                             <div class="teams-logos-row">
@@ -968,17 +1020,24 @@
                                 <div class="team-name-col" style="color: #003c82;">${lName}</div><div></div><div class="team-name-col" style="color: #003c82;">${rName}</div>
                             </div>
                         </div>
+
+                        ${ (scorersText || mvpText) ? `
+                        <div class="match-meta-box">
+                            ${scorersText ? `<div class="match-meta-row"><i class="fas fa-futbol" style="color: #003c82;"></i> <span><strong>${translations[lang]['results.scorers']}:</strong> ${scorersText}</span></div>` : ''}
+                            ${mvpText ? `<div class="match-meta-row"><i class="fas fa-trophy" style="color: #d97706;"></i> <span><strong>${translations[lang]['results.mvp']}:</strong> ${mvpText}</span></div>` : ''}
+                        </div>` : ''}
                     </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 1px dashed #cbd5e1; padding-top: 12px;">
-                        <a href="${loc.url}" target="_blank" style="font-size: 0.82rem; color: #003c82; font-weight: 700; text-decoration: none;"><i class="fas fa-map-marker-alt" style="color:#87ceeb;"></i> ${loc.name}</a>
-                        <a href="matches.html#${m.id || ''}" style="background: #003c82; color: #fff; padding: 6px 14px; border-radius: 6px; font-size: 0.78rem; font-weight: 800; text-decoration: none; display:inline-flex; align-items:center; gap:4px;"><span>${translations[lang]['results.detail']}</span> <i class="fas fa-chevron-right"></i></a>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
+                        <a href="${loc.url}" target="_blank" style="font-size: 0.8rem; color: #003c82; font-weight: 700; text-decoration: none;"><i class="fas fa-map-marker-alt" style="color:#87ceeb;"></i> ${loc.name}</a>
+                        <a href="matches.html#match-${m.id || ''}" style="background: #003c82; color: #fff; padding: 6px 14px; border-radius: 6px; font-size: 0.78rem; font-weight: 800; text-decoration: none; display:inline-flex; align-items:center; gap:4px;"><span>${translations[lang]['results.detail']}</span> <i class="fas fa-chevron-right"></i></a>
                     </div>
                 </div>
             </div>
         `;
     }
 
-    /* CARD 2: PROSSIMA PARTITA (STILE NAPOLI CON BADGE DOPPIO) */
+    /* CARD 2: PROSSIMA PARTITA (CON PULSANTE CALENDARIO) */
     function generateNextMatchHtml(m, lang) {
         const opp = getOpponentInfo(m, lang);
         const loc = getLocationInfo(m.location_id, m.venue, lang);
@@ -992,6 +1051,8 @@
         let rName = m.isHome === false ? 'Yokohama Calcio' : opp.name;
         let rLogo = m.isHome === false ? './immagini/logo.png?v=2' : opp.logo;
         let rErr = m.isHome === false ? '' : `onerror="this.src='${getAvatarUrl(m, opp.romaji)}';"`;
+
+        const gCalLink = getGoogleCalUrl(m, opp.name, loc.name);
 
         return `
             <div class="match-card-item">
@@ -1014,7 +1075,7 @@
                                 <div class="team-name-col" style="color: #ffffff;">${lName}</div><div></div><div class="team-name-col" style="color: #ffffff;">${rName}</div>
                             </div>
                         </div>
-                        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; margin-top: 12px; padding: 8px; font-size: 0.82rem; color: #fff;">
+                        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; margin-top: 10px; padding: 6px 10px; font-size: 0.8rem; color: #fff;">
                             ${m.time ? `<div><i class="fas fa-clock" style="color: #87ceeb;"></i> ${m.time} K.O.</div>` : ''}
                             ${loc.surface ? `<div><i class="fas fa-layer-group" style="color: #87ceeb;"></i> ${loc.surface}</div>` : ''}
                             <div><i class="fas fa-map-marker-alt" style="color: #87ceeb;"></i> <a href="${loc.url}" target="_blank" style="color: #fff; text-decoration: none; font-weight:700;">${loc.name} <i class="fas fa-external-link-alt" style="font-size: 0.65rem;"></i></a></div>
@@ -1028,8 +1089,20 @@
                                 <div class="cd-box"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">${translations[lang]['countdown.secs']}</span></div>
                             </div>
                         </div>
-                        <div style="text-align: right; margin-top: 12px;">
-                            <a href="matches.html#${m.id || ''}" style="display: inline-flex; align-items: center; gap: 6px; background: #87ceeb; color: #001a3a; padding: 6px 16px; border-radius: 20px; font-weight: 800; font-size:0.78rem; text-decoration: none;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
+                            <!-- DROPDOWN CALENDARIO -->
+                            <div class="cal-dropdown-wrapper">
+                                <button class="btn-add-cal" onclick="toggleCalDropdown(event)">
+                                    <i class="far fa-calendar-plus"></i> <span>${translations[lang]['results.add_cal']}</span> <i class="fas fa-chevron-up" style="font-size: 0.65rem;"></i>
+                                </button>
+                                <div class="cal-dropdown-menu">
+                                    <button onclick="window.open('${gCalLink}', '_blank')"><i class="fab fa-google"></i> Google Calendar</button>
+                                    <button onclick="downloadIcs(${JSON.stringify(m).replace(/"/g, '&quot;')}, '${opp.name.replace(/'/g, "\\'")}', '${loc.name.replace(/'/g, "\\'")}')"><i class="fas fa-file-download"></i> iCal / Outlook (.ics)</button>
+                                </div>
+                            </div>
+
+                            <!-- PULSANTE DETTAGLI -->
+                            <a href="matches.html#match-${m.id || ''}" style="display: inline-flex; align-items: center; gap: 6px; background: #87ceeb; color: #001a3a; padding: 6px 14px; border-radius: 20px; font-weight: 800; font-size:0.78rem; text-decoration: none;">
                                 <span>${translations[lang]['btn.details']}</span> <i class="fas fa-chevron-right"></i>
                             </a>
                         </div>
@@ -1051,7 +1124,7 @@
             trackHtml += generateLastMatchHtml(past[past.length - 1], currentLang);
         }
 
-        /* 2. PROSSIMA PARTITA (CARD 2 - A DESTRA CON SWIPE) */
+        /* 2. PROSSIMA PARTITA (CARD 2) */
         const upc = matches.filter(m => m.status === 'upcoming').sort((a,b) => new Date(a.date) - new Date(b.date));
         if (upc.length > 0) {
             trackHtml += generateNextMatchHtml(upc[0], currentLang);
@@ -1087,21 +1160,30 @@
 
     async function initData() {
         try {
-            const [mR, lR, oR, nR] = await Promise.allSettled([ fetch('matches.json'), fetch('locations.json'), fetch('opponents.json'), fetch('news.json') ]);
+            const [mR, lR, oR, nR] = await Promise.allSettled([ 
+                fetch('matches.json'), 
+                fetch('locations.json'), 
+                fetch('opponents.json'), 
+                fetch('news.json') 
+            ]);
+            
             if (mR.status === 'fulfilled' && mR.value.ok) cachedMatches = await mR.value.json();
             if (lR.status === 'fulfilled' && lR.value.ok) locationsData = await lR.value.json();
             if (oR.status === 'fulfilled' && oR.value.ok) opponentsData = await oR.value.json();
-            if (nR.status === 'fulfilled' && nR.value.ok) cachedNews = await nR.value.json();
-            else cachedNews = [
-                { title: { ja: "次戦 La Masia Japan との対戦に向けて集中トレーニング実施", it: "Allenamento tattico pre-gara per la sfida con La Masia Japan", en: "Tactical training session ahead of La Masia Japan clash" }, category: "MATCH", date: "2026.10.15" },
-                { title: { ja: "2027年シーズンに向けた新メンバー体験参加・選考受付中", it: "Aperte le selezioni per nuovi giocatori - Stagione 2027", en: "Recruitment open for new players - 2027 Season" }, category: "RECRUIT", date: "2026.09.28" },
-                { title: { ja: "チーム親睦BBQ & サードタイムを開催しました", it: "Terzo tempo & Team BBQ a Yokohama", en: "Team BBQ & Post-match social gathering" }, category: "EVENT", date: "2026.09.10" }
-            ];
+            if (nR.status === 'fulfilled' && nR.value.ok) {
+                cachedNews = await nR.value.json();
+            } else {
+                cachedNews = [
+                    { id: "news-1", title: { ja: "次戦 La Masia Japan との対戦に向けて集中トレーニング実施", it: "Allenamento tattico pre-gara per la sfida con La Masia Japan", en: "Tactical training session ahead of La Masia Japan clash" }, category: "MATCH", date: "2026.10.15", link: "contact.html" },
+                    { id: "news-2", title: { ja: "2027年シーズンに向けた新メンバー体験参加・選考受付中", it: "Aperte le selezioni per nuovi giocatori - Stagione 2027", en: "Recruitment open for new players - 2027 Season" }, category: "RECRUIT", date: "2026.09.28", link: "contact.html?type=trial" },
+                    { id: "news-3", title: { ja: "チーム親睦BBQ & サードタイムを開催しました", it: "Terzo tempo & Team BBQ a Yokohama", en: "Team BBQ & Post-match social gathering" }, category: "EVENT", date: "2026.09.10", link: "about.html" }
+                ];
+            }
             setLanguage(currentLang);
         } catch (e) { console.error(e); }
     }
 
-    /* Inizializzazione Interfaccia Utente */
+    /* INIZIALIZZAZIONE INTERFACCIA UTENTE */
     window.addEventListener('DOMContentLoaded', () => {
         initData();
         const y = document.getElementById('currentYear'); if (y) y.textContent = new Date().getFullYear();
@@ -1119,7 +1201,10 @@
             });
             i.addEventListener('mouseleave', () => i.classList.remove('open'));
         });
-        document.addEventListener('click', e => { if(!e.target.closest('.main-nav .nav-item.dropdown')) dd.forEach(d => d.classList.remove('open')); });
+        document.addEventListener('click', e => { 
+            if(!e.target.closest('.main-nav .nav-item.dropdown')) dd.forEach(d => d.classList.remove('open'));
+            if(!e.target.closest('.cal-dropdown-wrapper')) document.querySelectorAll('.cal-dropdown-menu').forEach(m => m.classList.remove('show'));
+        });
 
         /* Menu Mobile */
         const mBtn = document.querySelector('.mobile-menu-toggle');
