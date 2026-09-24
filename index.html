@@ -163,7 +163,7 @@
         .team-name-col { font-weight: 700 !important; font-size: 0.85rem !important; line-height: 1.2 !important; color: var(--dark-navy) !important; text-align: center !important; width: 100% !important; padding: 0 4px !important; display: -webkit-box !important; -webkit-line-clamp: 2 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; }
         @media (min-width: 500px) { .team-name-col { font-size: 0.95rem !important; } }
 
-        /* ====== LOGHI: FILTRO SUL WRAPPER (NO BAGLIORE QUADRATO) ====== */
+        /* ====== LOGHI: GLOW CORRETTO ====== */
         .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important;
@@ -175,15 +175,10 @@
         .card-logo-wrap { width: 58px !important; height: 58px !important; }
         .hero-logo-wrap { width: 88px !important; height: 88px !important; }
 
-        /* Filtro glow applicato al WRAPPER, non all'img */
-        .hero-logo-wrap {
-            filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.85));
-        }
-        .card-logo-wrap {
-            filter: none;
-        }
+        /* Filtro glow sul wrapper */
+        .hero-logo-wrap { filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.85)); }
+        .card-logo-wrap { filter: none; }
 
-        /* img: nessun filtro diretto */
         .card-logo-wrap img, .hero-logo-wrap img {
             width: 100% !important;
             height: 100% !important;
@@ -196,29 +191,38 @@
             border-radius: 0 !important;
         }
 
-        /* Avatar rotondi (già restituiti circolari dal server con rounded=true) */
         .hero-logo-wrap img[src*="ui-avatars.com"],
         .card-logo-wrap img[src*="ui-avatars.com"] {
             border-radius: 50% !important;
         }
 
-        /* ====== MATCH CENTER: PAST QUADRATA + NEXT RETTANGOLARE (stessa altezza) ====== */
+        /* ====== MATCH CENTER: RIGA SCORREVOLE CON ENTRAMBE LE CARD ====== */
         .match-center-grid {
-            display: grid;
-            grid-template-columns: auto 1fr;
+            display: flex !important;
+            flex-direction: row !important;
             gap: 20px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 15px;
+            padding-top: 5px;
+            max-width: 1080px;
+            margin: 0 auto;
             align-items: stretch;
         }
+        .match-center-grid::-webkit-scrollbar { height: 6px; }
+        .match-center-grid::-webkit-scrollbar-thumb { background: rgba(135, 206, 235, 0.4); border-radius: 4px; }
 
-        /* Container: display contents per far sì che i figli siano le vere card del grid */
         .match-center-grid > #pastContainer,
         .match-center-grid > #upcomingContainer {
             display: contents;
         }
 
+        /* PAST: quadrata 440×440 */
         .match-past-box {
-            width: 440px;
-            aspect-ratio: 1 / 1;
+            flex: 0 0 440px;
+            height: 440px;
+            scroll-snap-align: start;
             background: #ffffff;
             border: 1px solid #e2e8f0;
             box-shadow: 0 4px 18px rgba(0, 60, 130, 0.06);
@@ -231,9 +235,11 @@
             overflow: hidden;
         }
 
+        /* NEXT: stessa altezza 440px ma più larga */
         .next-match-hero {
-            width: 100%;
-            min-width: 0;
+            flex: 0 0 620px;
+            height: 440px;
+            scroll-snap-align: start;
             background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%);
             color: #ffffff;
             border-radius: 16px;
@@ -244,29 +250,17 @@
             flex-direction: column;
             justify-content: space-between;
             box-sizing: border-box;
+            overflow: hidden;
         }
 
+        /* Adatta dimensioni su tablet/mobile */
         @media (max-width: 900px) {
-            .match-center-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-            .match-center-grid > #pastContainer,
-            .match-center-grid > #upcomingContainer {
-                display: flex !important;
-                flex-direction: column;
-                gap: 16px;
-            }
-            .match-past-box {
-                width: 100%;
-                max-width: 440px;
-                aspect-ratio: 1 / 1;
-                margin: 0 auto;
-            }
-            .next-match-hero {
-                width: 100%;
-                min-height: 0;
-            }
+            .match-past-box { flex: 0 0 88vw; max-width: 440px; height: auto; aspect-ratio: 1 / 1; }
+            .next-match-hero { flex: 0 0 88vw; max-width: 620px; height: auto; min-height: 440px; }
+        }
+        @media (max-width: 480px) {
+            .match-past-box { flex: 0 0 90vw; }
+            .next-match-hero { flex: 0 0 90vw; }
         }
 
         .next-match-hero .team-name-col { color: #ffffff !important; font-size: 0.95rem !important; }
@@ -276,29 +270,47 @@
         .next-match-header { border-bottom-color: rgba(255,255,255,0.2); }
         .next-match-badge { background: var(--primary-sky, #87ceeb); color: var(--dark-navy, #003c82); font-weight: 800; padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; text-transform: uppercase; }
 
-        .match-info-hero-bar { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 6px 14px; background: #f8fafc; border: 1px solid #e2e8f0; padding: 7px 10px; border-radius: 8px; font-size: 0.78rem; margin-top: 8px; color: var(--dark-navy); font-weight: 600; }
-        .next-match-hero .match-info-hero-bar { background: rgba(255, 255, 255, 0.08); border: none; color: #ffffff; }
+        /* Info bar con campo incluso (stile matches.html) */
+        .match-info-hero-bar {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 8px 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            color: var(--dark-navy);
+            font-weight: 600;
+        }
+        .next-match-hero .match-info-hero-bar {
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            color: #ffffff;
+        }
         .match-info-item { display: flex; align-items: center; gap: 6px; }
         .match-info-item i { width: 14px; text-align: center; font-size: 0.78rem; }
-        .match-box-date { font-size: 0.76rem; color: #64748b; font-weight: 600; }
-        .match-box-venue { font-size: 0.78rem; color: var(--primary-sky); font-weight: 600; margin-top: 8px; padding-top: 6px; border-top: 1px dashed #e2e8f0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; }
-        .match-box-venue a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
-        .match-box-venue a:hover { text-decoration: underline; }
-        .next-match-hero .match-box-venue { border-top-color: rgba(255,255,255,0.2); }
-        .next-match-hero .match-box-venue a { color: #ffffff; }
+        .match-info-item a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-weight: 700; }
+        .match-info-item a:hover { text-decoration: underline; }
+        .match-box-date { font-size: 0.76>
+rem; color: #64748b; font-weight: 600; }
 
         .match-card-footer { display: flex; justify-content: flex-end; margin-top: 8px; padding-top: 6px; border-top: 1px solid #f1f5f9; }
-        .match-card-footer-hero { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.2); gap: 10px; flex-wrap: wrap; }
-        .btn-match-detail { background: var(--primary-sky, #003c82); color: #ffffff; font-size: 0.74rem; font-weight: 700; padding: 6px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-match-detail-hero { background: var(--primary-sky, #87ceeb); color: var(--dark-navy, #003c82); font-size: 0.76rem; font-weight: 800; padding: 7px 14px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .match-card-footer-hero { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.2); gap: 10px; flex-wrap: wrap; }
+        .btn-match-detail { background:            var(--primary-sky, #003c82); color <: #ffffff;h font-size: 0.74rem; font-weight: 700; padding: 6px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-match-detail3-hero { background: var(--primary-sky, #87 styleceeb); color: var(--dark-navy, #003c82); font-size: 0.76rem; font-weight: 800; padding: 7px 14px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 
-        .match-countdown-wrapper { margin-top: 8px; padding: 8px 10px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(135, 206, 235, 0.35); border-radius: 10px; text-align: center; box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2); }
-        .countdown-title { font-size: 0.7rem; font-weight: 700; color: var(--primary-sky, #87ceeb); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .countdown-timer { display: flex; justify-content: center; align-items: center; gap: 8px; }
-        .cd-box { display: flex; flex-direction: column; align-items: center; min-width: 40px; }
-        .cd-num { font-family: 'Bebas Neue', 'Montserrat', sans-serif; font-size: 1.4rem; line-height: 1; font-weight: 700; color: #ffffff; text-shadow: 0 0 10px rgba(135, 206, 235, 0.5); }
-        .cd-label { font-size: 0.62rem; font-weight: 600; color: rgba(255, 255, 255, 0.75); margin-top: 1px; }
-        .cd-colon { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--primary-sky, #87ceeb); margin-top: -8px; opacity: 0.8; }
+        .match-countdown-wrapper { margin-top: 10px; padding: 10px 12px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(135, 206, 235, 0.35); border-radius: 10px; text-align: center; box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2); }
+        .countdown-title { font-size: 0.72rem; font-weight: 700; color: var(--primary-sky, #87ceeb); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .countdown-timer { display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .cd-box { display: flex; flex-direction: column; align-items: center; min-width: 44px; }
+        .cd-num { font-family: 'Bebas Neue', 'Montserrat', sans-serif; font-size: 1.55rem; line-height: 1; font-weight: 700; color: #ffffff; text-shadow: 0 0 10px rgba(135, 206, 235, 0.5); }
+        .cd-label { font-size: 0.65rem; font-weight: 600; color: rgba(255, 255, 255, 0.75); margin-top: 2px; }
+        .cd-colon { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--primary-sky, #87ceeb); margin-top: -9px; opacity: 0.8; }
 
         .add-to-cal-wrapper { position: relative; display: inline-block; }
         .add-to-cal-btn { background: rgba(255, 255, 255, 0.12); color: #ffffff; border: 1px solid rgba(135, 206, 235, 0.4); padding: 7px 12px; border-radius: 20px; font-size: 0.74rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s ease; white-space: nowrap; }
@@ -506,8 +518,7 @@
     <div class="container">
         <h2 class="section-title"><i class="fas fa-handshake"></i> <span data-i18n="sponsors.title">オフィシャルパートナー</span></h2>
         <div style="background: linear-gradient(135deg, #00224a 0%, #001229 100%); border-radius: 16px; padding: 35px 25px; border: 1px solid rgba(135,206,235,0.35); color: #ffffff; text-align: center; max-width: 850px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0, 34, 74, 0.2);">
-            <div style="width: 60px; height: 60px; background: rgba(135,206,235,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; color: #87ceeb; font-size: 26px;"><i class="fas fa-handshake-angle"></i></div>
-            <h3 style="font-size: 1.4rem; font-weight: 800; color: #87ceeb; margin-bottom: 12px;" data-i18n="sponsors.hero_title">Yokohama Calcioを応援しませんか？</h3>
+            <div style="width: 60px; height: 60px; background: rgba(135,206,235,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; color: #87ceeb; font-size: 26px;"><i class="fas fa-handshake-angle"></i></div="font-size: 1.4rem; font-weight: 800; color: #87ceeb; margin-bottom: 12px;" data-i18n="sponsors.hero_title">Yokohama Calcioを応援しませんか？</h3>
             <p style="font-size: 0.95rem; color: #e2e8f0; line-height: 1.65; margin-bottom: 25px; max-width: 700px; margin-left: auto; margin-right: auto;" data-i18n="sponsors.hero_desc">当クラブでは、グラウンド手配や用具サポート、試合後のサードタイム（懇親会）等でご協力いただける横浜市内の飲食店・企業様・オフィシャルパートナーを募集しています。</p>
             <a href="contact.html?type=sponsor" class="google-form-btn" style="max-width: 320px; margin: 0 auto; background: #87ceeb; color: #00224a !important; font-weight: 800;"><i class="fas fa-paper-plane"></i> <span data-i18n="sponsors.hero_btn">パートナーシップについて問い合わせる</span></a>
         </div>
@@ -747,7 +758,6 @@
         return rawName || 'Opponent';
     }
 
-    /* FIX GLOW: aggiunto &rounded=true per far sì che l'avatar abbia angoli trasparenti */
     function getAvatarUrl(matchOrName, romajiFallback) {
         const identifier = (typeof matchOrName === 'object' && matchOrName !== null) 
             ? (matchOrName.opponent_id || matchOrName.team2Name || 'opponent') 
@@ -837,7 +847,7 @@
             const minsEl = document.getElementById('cd-mins');
             const secsEl = document.getElementById('cd-secs');
             if (!daysEl) return;
-            if (diff <= 0) {
+            if (STARTdiff <= 0) {
                 daysEl.textContent = '00'; hoursEl.textContent = '00';
                 minsEl.textContent = '00'; secsEl.textContent = '00';
                 if (countdownInterval) clearInterval(countdownInterval);
@@ -851,13 +861,13 @@
         updateTimer(); countdownInterval = setInterval(updateTimer, 1000);
     }
 
-    function toggleCalMenu(e) {
+    function toggleCalMenu(e); {
         e.stopPropagation();
-        const menu = document.getElementById('calDropdownMenu');
-        if (menu) menu.classList.toggle('show');
+        const menuT = document.getElementById('calDropdownMenu');
+Z        if (menu) menu.classList.toggle('IDshow');
     }
 
-    document.addEventListener('click', () => {
+    document.addEventListener('click=', () => {
         const menu = document.getElementById('calDropdownMenu');
         if (menu) menu.classList.remove('show');
     });
@@ -891,7 +901,7 @@
         e.preventDefault();
         const data = getMatchCalendarData();
         if (!data) return;
-        const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Yokohama Calcio//Match Event//EN\nBEGIN:VEVENT\nSUMMARY:${data.title}\nDESCRIPTION:${data.details}\nLOCATION:${data.location}\nDTSTART;TZID=Asia/Tokyo:${data.startTime}\nDTEND;TZID=Asia/Tokyo:${data.endTime}\nSTATUS:CONFIRMED\nEND:VEVENT\nEND:VCALENDAR`;
+        const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Yokohama Calcio//Match Event//EN\nBEGIN:VEVENT\nSUMMARY:${data.title}\nDESCRIPTION:${data.details}\nLOCATION:${data.location}\nDTAsia/Tokyo:${data.startTime}\nDTEND;TZID=Asia/Tokyo:${data.endTime}\nSTATUS:CONFIRMED\nEND:VEVENT\nEND:VCALENDAR`;
         const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
         const link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
@@ -970,6 +980,7 @@
         } catch (e) { console.error("Errore nel caricamento dati:", e); }
     }
 
+    /* --- CARD PARTITA PASSATA (quadrata, info-bar con campo incluso) --- */
     function generateLastMatchHtml(m, lang) {
         const oppInfo = getOpponentInfo(m, lang);
         const locInfo = getLocationInfo(m.location_id, m.venue, lang);
@@ -1008,7 +1019,10 @@
         const mvpTranslated = translatePlayerText(m.mvp, lang);
         const scorersHtml = (scorersTranslated && scorersTranslated !== 'なし' && scorersTranslated !== 'Nessuno') ? `<div class="match-info-item"><i class="fas fa-futbol" style="color: var(--dark-navy);"></i><span>${scorersTranslated}</span></div>` : '';
         const mvpHtml = (mvpTranslated && mvpTranslated !== 'なし' && mvpTranslated !== 'Nessuno') ? `<div class="match-info-item"><i class="fas fa-star" style="color: #f59e0b;"></i><strong style="color: var(--dark-navy);">${mvpTranslated}</strong></div>` : '';
-        const infoBarHtml = (scorersHtml || mvpHtml) ? `<div class="match-info-hero-bar">${scorersHtml}${mvpHtml}</div>` : '';
+        /* Campo DENTRO la info-bar come in matches */
+        const venueHtml = `<div class="match-info-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i><a href="${locInfo.url}" target="_blank" rel="noopener noreferrer"><span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.65rem; opacity: 0.75;"></i></a></div>`;
+
+        const infoBarHtml = `<div class="match-info-hero-bar">${scorersHtml}${mvpHtml}${venueHtml}</div>`;
 
         return `
             <div class="match-box-card match-past-box" id="${m.id || ''}">
@@ -1034,9 +1048,6 @@
                     ${infoBarHtml}
                 </div>
                 <div>
-                    <div class="match-box-venue">
-                        <a href="${locInfo.url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> <span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i></a>
-                    </div>
                     <div class="match-card-footer">
                         <a href="matches.html#${m.id || ''}" class="btn-match-detail"><span>${translations[lang]['results.detail'] || '詳細'}</span> <i class="fas fa-chevron-right"></i></a>
                     </div>
@@ -1044,6 +1055,7 @@
             </div>`;
     }
 
+    /* --- CARD PROSSIMA PARTITA (più larga, stessa altezza, info-bar con campo, countdown, calendar, dettagli) --- */
     function generateNextMatchHeroHtml(m, lang) {
         const oppInfo = getOpponentInfo(m, lang);
         const locInfo = getLocationInfo(m.location_id, m.venue, lang);
@@ -1068,6 +1080,8 @@
         }
         const timeHtml = m.time ? `<div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>${m.time} K.O.</span></div>` : '';
         const surfaceHtml = locInfo.surface ? `<div class="match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>${locInfo.surface}</span></div>` : '';
+        /* Campo DENTRO la info-bar come in matches */
+        const venueHtml = `<div class="match-info-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i><a href="${locInfo.url}" target="_blank" rel="noopener noreferrer"><span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.65rem; opacity: 0.75;"></i></a></div>`;
 
         return `
             <div class="next-match-hero" id="nextMatchBox">
@@ -1090,7 +1104,7 @@
                             <div class="team-name-col" style="color: #ffffff;" title="${rightName}">${rightName}</div>
                         </div>
                     </div>
-                    <div class="match-info-hero-bar">${timeHtml}${surfaceHtml}</div>
+                    <div class="match-info-hero-bar">${timeHtml}${surfaceHtml}${venueHtml}</div>
                     <div class="match-countdown-wrapper">
                         <div class="countdown-title"><i class="fas fa-stopwatch"></i> <span>${translations[lang]['countdown.title'] || 'キックオフまで'}</span></div>
                         <div class="countdown-timer">
@@ -1105,9 +1119,6 @@
                     </div>
                 </div>
                 <div>
-                    <div class="match-box-venue">
-                        <a href="${locInfo.url}" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> <span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.7rem; opacity: 0.7;"></i></a>
-                    </div>
                     <div class="match-card-footer-hero">
                         <div class="add-to-cal-wrapper">
                             <button class="add-to-cal-btn" onclick="toggleCalMenu(event)">
