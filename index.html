@@ -163,7 +163,7 @@
         .team-name-col { font-weight: 700 !important; font-size: 0.85rem !important; line-height: 1.2 !important; color: var(--dark-navy) !important; text-align: center !important; width: 100% !important; padding: 0 4px !important; display: -webkit-box !important; -webkit-line-clamp: 2 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; }
         @media (min-width: 500px) { .team-name-col { font-size: 0.95rem !important; } }
 
-        /* ====== LOGHI: FILTRO SUL WRAPPER PER EVITARE GLOW QUADRATO ====== */
+        /* ====== LOGHI: FILTRO SUL WRAPPER (NO GLOW QUADRATO) ====== */
         .card-logo-wrap, .hero-logo-wrap {
             display: flex !important;
             align-items: center !important;
@@ -192,74 +192,138 @@
         .hero-logo-wrap img[src*="ui-avatars.com"],
         .card-logo-wrap img[src*="ui-avatars.com"] { border-radius: 50% !important; }
 
-        /* ====== MATCH CENTER: PAST + NEXT APPAIATI, QUADRATI, STESSA ALTEZZA ====== */
+        /* ==========================================================================
+           MATCH CENTER
+           - Desktop / Landscape / Tablet: 2 schede affiancate, entrambe visibili
+           - Mobile portrait: swipe con PEEK della seconda scheda, container full-bleed
+           ========================================================================== */
+        .match-center-section .container {
+            position: relative;
+        }
+
         .match-center-swipe-track {
             display: grid;
-            grid-template-columns: 440px 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
             align-items: stretch;
             max-width: 1080px;
             margin: 0 auto;
             width: 100%;
             box-sizing: border-box;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            outline: none;
+        }
+
+        .match-past-box, .next-match-hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
+            border-radius: 16px;
+            padding: 18px;
+            overflow: hidden;
+            min-height: 440px;
         }
 
         .match-past-box {
             background: #ffffff;
             border: 1px solid #e2e8f0;
             box-shadow: 0 4px 18px rgba(0, 60, 130, 0.06);
-            border-radius: 16px;
-            padding: 18px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-sizing: border-box;
-            width: 440px;
-            height: 440px;
-            overflow: hidden;
         }
-
         .next-match-hero {
             background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%);
             color: #ffffff;
-            border-radius: 16px;
-            padding: 18px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             border: 2px solid var(--primary-sky, #87ceeb);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-sizing: border-box;
-            min-width: 0;
-            min-height: 440px;
-            overflow: hidden;
         }
 
-        /* Mobile: swipe horizontal */
-        @media (max-width: 900px) {
+        /* ---- MOBILE PORTRAIT: scroll con PEEK, container full-bleed senza bordi ---- */
+        @media (max-width: 900px) and (orientation: portrait) {
+            .match-center-section .container {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                max-width: 100% !important;
+                overflow: visible !important;
+            }
+
             .match-center-swipe-track {
                 display: flex !important;
                 flex-direction: row !important;
                 overflow-x: auto !important;
+                overflow-y: hidden !important;
                 scroll-snap-type: x mandatory;
-                gap: 15px !important;
-                padding: 5px 15px 15px;
-                margin: 0 -15px;
-                max-width: none;
+                gap: 14px !important;
+                padding: 4px 20px 14px 20px !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                outline: none !important;
                 -webkit-overflow-scrolling: touch;
+                box-sizing: border-box;
+                scroll-padding-left: 20px;
             }
-            .match-center-swipe-track::-webkit-scrollbar { height: 6px; }
-            .match-center-swipe-track::-webkit-scrollbar-thumb { background: rgba(135, 206, 235, 0.4); border-radius: 4px; }
+            .match-center-swipe-track::-webkit-scrollbar { height: 4px; }
+            .match-center-swipe-track::-webkit-scrollbar-track { background: transparent; }
+            .match-center-swipe-track::-webkit-scrollbar-thumb {
+                background: rgba(135, 206, 235, 0.5);
+                border-radius: 4px;
+            }
 
             .match-past-box, .next-match-hero {
-                flex: 0 0 85% !important;
-                max-width: 85% !important;
-                min-width: 85% !important;
-                scroll-snap-align: center;
-                width: 85% !important;
-                height: 460px !important;
-                min-height: 460px !important;
+                flex: 0 0 78vw !important;
+                min-width: 78vw !important;
+                max-width: 78vw !important;
+                width: 78vw !important;
+                scroll-snap-align: start;
+                min-height: 0;
+                height: auto;
             }
+
+            /* Compensazione per il titolo e il pulsante finale, che devono
+               restare allineati al padding del .container */
+            .match-center-section .section-title,
+            .match-center-section .google-form-btn {
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+            .match-center-section > .container > div:last-child {
+                padding: 0 20px;
+            }
+        }
+
+        /* ---- LANDSCAPE (anche mobile) / schermi medi: 2 colonne affiancate ---- */
+        @media (orientation: landscape) and (max-height: 600px) {
+            .match-center-swipe-track {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                overflow: visible !important;
+                gap: 12px !important;
+                padding: 0 !important;
+                margin: 0 auto !important;
+                max-width: 1080px;
+            }
+            .match-past-box, .next-match-hero {
+                flex: initial !important;
+                min-width: 0 !important;
+                max-width: none !important;
+                width: auto !important;
+                min-height: 360px;
+                padding: 14px !important;
+            }
+            .cd-num { font-size: 1.1rem !important; }
+            .cd-box { min-width: 30px !important; }
+            .countdown-timer { gap: 4px !important; }
+            .hero-logo-wrap { width: 62px !important; height: 62px !important; }
+            .card-logo-wrap { width: 48px !important; height: 48px !important; }
+            .match-info-hero-bar { font-size: 0.68rem !important; padding: 5px 8px !important; }
+            .team-name-col { font-size: 0.75rem !important; }
+            .match-vs-center { font-size: 1.4rem !important; }
+            .score-past { font-size: 1.6rem !important; }
         }
 
         .next-match-hero .team-name-col { color: #ffffff !important; font-size: 0.95rem !important; }
@@ -269,7 +333,7 @@
         .next-match-header { border-bottom-color: rgba(255,255,255,0.2); }
         .next-match-badge { background: var(--primary-sky, #87ceeb); color: var(--dark-navy, #003c82); font-weight: 800; padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; text-transform: uppercase; }
 
-        /* Info bar (contiene ora + superficie + campo) */
+        /* Info bar: orario + superficie + campo, tutti insieme */
         .match-info-hero-bar {
             display: flex;
             flex-direction: row;
@@ -444,7 +508,7 @@
             <div class="about-text-box">
                 <h3 data-i18n="about.subtitle">横浜発、イタリアンスタイルの社会人サッカーチーム</h3>
                 <p data-i18n="about.p1">Yokohama Calcio（ヨコハマ・カルチョ）は、2025年に横浜で設立された社会人アマチュアサッカークラブです。イタリアサッカーの組織的な戦術アプローチからインスピレーションを受け、一人ひとりが役割を理解し連動するチームを目指しています。</p>
-                <p data-i18n="about.p2">「個人の成長、チームの進化」を理念に掲げ、年齢やバックグラウンドを超えた仲間が集まり、真剣にフットボールと向き合っています。楽しむことと真剣に取り組むことを両立しながら、地域の試合やリーグ戦で一丸となって成長し続けています。</p>
+                <p data-i18n="about.p2">「個人の成長、チームの進化」を理念に掲げ、年齢やバックグラウンドを超えた仲間が集まり、真剣にフットボールと向き合っています。</p>
             </div>
             <div class="mission-box">
                 <h3 data-i18n="about.values_title">私たちのコアバリュー</h3>
@@ -599,8 +663,8 @@
             "hero.btn_about": "クラブ紹介", "hero.btn_contact": "お問い合わせ",
             "about.title": "Yokohama Calcioとは",
             "about.subtitle": "横浜発、イタリアンスタイルの社会人サッカーチーム",
-            "about.p1": "Yokohama Calcio（ヨコハマ・カルチョ）は、2025年に横浜で設立された社会人アマチュアサッカークラブです。イタリアサッカーの組織的な戦術アプローチからインスピレーションを受け、一人ひとりが役割を理解し連動するチームを目指しています。",
-            "about.p2": "「個人の成長、チームの進化」を理念に掲げ、年齢やバックグラウンドを超えた仲間が集まり、真剣にフットボールと向き合っています。楽しむことと真剣に取り組むことを両立しながら、地域の試合やリーグ戦で一丸となって成長し続けています。",
+            "about.p1": "Yokohama Calcio（ヨコハマ・カルチョ）は、2025年に横浜で設立された社会人アマチュアサッカークラブです。",
+            "about.p2": "「個人の成長、チームの進化」を理念に掲げ、年齢やバックグラウンドを超えた仲間が集まり、真剣にフットボールと向き合っています。",
             "about.values_title": "私たちのコアバリュー", 
             "about.val1_h": "個人の成長、チームの進化", "about.val1_d": "個々の判断力と役割意識がつながる組織的フットボール", 
             "about.val2_h": "楽しくも、真剣に", "about.val2_d": "妥協せずトレーニングに励み、達成感と勝利の喜びを分かち合う",
@@ -642,14 +706,14 @@
             "hero.btn_about": "Chi Siamo", "hero.btn_contact": "Contattaci",
             "about.title": "Cos'è lo Yokohama Calcio", "about.subtitle": "Da Yokohama, una squadra dilettantistica in perfetto stile italiano",
             "about.p1": "Lo Yokohama Calcio è una squadra di calcio amatoriale fondata nel 2025 a Yokohama.",
-            "about.p2": "Guidati dal principio “Crescita individuale, evoluzione della squadra”, uniamo persone di diversa provenienza per vivere il calcio con la massima serietà.",
+            "about.p2": "Guidati dal principio “Crescita individuale, evoluzione della squadra”.",
             "about.values_title": "I nostri Valori Fondamentali", 
             "about.val1_h": "Crescita Individuale, Evoluzione di Squadra", "about.val1_d": "Sviluppo tattico e presa di decisione a servizio del collettivo.", 
             "about.val2_h": "Serietà e Divertimento", "about.val2_d": "Impegno massimo in allenamento per condividere la gioia della vittoria.",
             "about.val3_h": "Organizzazione e Sinergia (Gioco di Squadra)", "about.val3_d": "Lettura degli spazi, difesa coordinata e transizioni veloci.",
             "about.btn_more": "Scopri di più sulla storia e la filosofia del club",
             "recruit.banner_title": "Cercasi Nuovi Giocatori! (18–40 anni con esperienza)",
-            "recruit.banner_desc": "Vuoi provare l'organizzazione del calcio tattico italiano a Yokohama? Cerchiamo ragazzi motivati per crescere e vincere insieme.",
+            "recruit.banner_desc": "Vuoi provare l'organizzazione del calcio tattico italiano a Yokohama?",
             "recruit.banner_btn": "Prenota Allenamento di Prova",
             "results.title": "Calendario e Risultati", "results.last_badge": "Ultimo Match", "results.next_badge": "Prossimo Match",
             "results.detail": "Dettagli", "results.all_matches": "Vedi tutte le partite",
@@ -684,14 +748,14 @@
             "hero.btn_about": "About Club", "hero.btn_contact": "Contact Us",
             "about.title": "About Yokohama Calcio", "about.subtitle": "Italian-style Amateur Football Club in Yokohama",
             "about.p1": "Yokohama Calcio is an amateur football club founded in 2025 in Yokohama.",
-            "about.p2": "Guided by the philosophy “Individual Growth, Team Evolution”, we gather players of diverse backgrounds to enjoy football with passion.",
+            "about.p2": "Guided by the philosophy “Individual Growth, Team Evolution”.",
             "about.values_title": "Our Core Values", 
             "about.val1_h": "Individual Growth, Team Evolution", "about.val1_d": "Developing decision-making and tactical awareness to serve the team.",
             "about.val2_h": "Enjoyable, yet Serious", "about.val2_d": "Training passionately to share the satisfaction of accomplishment and victory.",
             "about.val3_h": "Tactical Synergy (Gioco di Squadra)", "about.val3_d": "Positioning, organized defense, and rapid transitions.",
             "about.btn_more": "Learn more about club history & philosophy",
             "recruit.banner_title": "Recruiting New Players! (18–40 yrs experienced)",
-            "recruit.banner_desc": "Experience tactical Italian football in Yokohama. We are looking for motivated players to grow and win together.",
+            "recruit.banner_desc": "Experience tactical Italian football in Yokohama.",
             "recruit.banner_btn": "Book a Trial Training",
             "results.title": "Matches & Results", "results.last_badge": "Last Match", "results.next_badge": "Next Match",
             "results.detail": "Details", "results.all_matches": "View All Matches",
@@ -763,7 +827,6 @@
         return rawName || 'Opponent';
     }
 
-    /* FIX GLOW QUADRATO: &rounded=true per far sì che l'avatar abbia angoli trasparenti */
     function getAvatarUrl(matchOrName, romajiFallback) {
         const identifier = (typeof matchOrName === 'object' && matchOrName !== null) 
             ? (matchOrName.opponent_id || matchOrName.team2Name || 'opponent') 
@@ -986,7 +1049,6 @@
         } catch (e) { console.error("Errore nel caricamento dati:", e); }
     }
 
-    /* CARD PARTITA PASSATA: info bar con scorers+mvp, campo dentro la info bar */
     function generateLastMatchHtml(m, lang) {
         const oppInfo = getOpponentInfo(m, lang);
         const locInfo = getLocationInfo(m.location_id, m.venue, lang);
@@ -1055,7 +1117,6 @@
             </div>`;
     }
 
-    /* CARD PROSSIMA PARTITA: info bar con ora+superficie+CAMPO, countdown, add-to-cal, dettagli */
     function generateNextMatchHeroHtml(m, lang) {
         const oppInfo = getOpponentInfo(m, lang);
         const locInfo = getLocationInfo(m.location_id, m.venue, lang);
@@ -1080,7 +1141,6 @@
         }
         const timeHtml = m.time ? `<div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>${m.time} K.O.</span></div>` : '';
         const surfaceHtml = locInfo.surface ? `<div class="match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>${locInfo.surface}</span></div>` : '';
-        /* CAMPO dentro la info bar, come in matches.html */
         const venueHtml = `<div class="match-info-item venue-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i><a href="${locInfo.url}" target="_blank" rel="noopener noreferrer">${locInfo.name} <i class="fas fa-external-link-alt" style="font-size: 0.62rem; opacity: 0.75;"></i></a></div>`;
 
         return `
