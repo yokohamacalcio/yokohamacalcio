@@ -35,7 +35,7 @@
       "alternateName": ["ヨコハマ・カルチョ", "Yokohama Calcio FC"],
       "url": "https://yokohamacalcio.com",
       "logo": "https://yokohamacalcio.com/immagini/logo.png",
-      "description": "Yokohama Calcio（ヨコハマ・カルチョ）は横浜市を拠点に活動する社会人サッカーチームです。イタリアンスタイルの組織的戦術とチームワークで競技に取り組んでいます。Amateur football club based in Yokohama.",
+      "description": "Yokohama Calcio（ヨコハマ・カルチョ）は横浜市を拠点に活動する社会人サッカーチームです。",
       "address": { "@type": "PostalAddress", "addressLocality": "Yokohama", "addressRegion": "Kanagawa", "addressCountry": "JP" },
       "sport": "Soccer",
       "sameAs": ["https://x.com/yokohamacalcio","https://instagram.com/yokohamacalcio","https://youtube.com/@yokohamacalcio?si=NBPkZ0qFxFVrOIof","https://yokohamacalcio.designstore.jp"]
@@ -87,7 +87,6 @@
             .mobile-cta-btn { padding: 8px !important; font-size: 0.85rem !important; }
         }
 
-        /* ALLINEAMENTO MENU DESKTOP */
         .desktop-nav-wrapper { display: flex; align-items: center; }
         .main-nav { display: flex !important; align-items: center !important; gap: 16px; white-space: nowrap; }
         .main-nav .nav-item { position: relative !important; display: inline-flex; align-items: center; }
@@ -112,7 +111,6 @@
             .mobile-menu-toggle { display: flex !important; }
         }
 
-        /* ====== MENU DESKTOP COMPATTO PER CELLULARE ORIZZONTALE (come matches.html) ====== */
         @media (orientation: landscape) and (max-height: 500px) {
             .desktop-nav-wrapper { display: flex !important; }
             .mobile-menu-toggle { display: none !important; }
@@ -180,20 +178,60 @@
         .badge-tournament, .badge-cup { background: #d97706; color: #ffffff; }
         .badge-next { background: #003c82; color: #ffffff; }
 
-        .match-teams-wrapper { display: flex !important; flex-direction: column !important; gap: 10px !important; width: 100% !important; margin: 15px 0 !important; }
+        .match-teams-wrapper { display: flex !important; flex-direction: column !important; gap: 10px !important; width: 100% !important; margin: 12px 0 !important; }
         .teams-logos-row { display: grid !important; grid-template-columns: 1fr 70px 1fr !important; align-items: center !important; justify-items: center !important; width: 100% !important; }
         .teams-names-row { display: grid !important; grid-template-columns: 1fr 70px 1fr !important; align-items: start !important; justify-items: center !important; width: 100% !important; }
         .team-name-col { font-weight: 700 !important; font-size: 0.82rem !important; line-height: 1.2 !important; color: var(--dark-navy) !important; text-align: center !important; width: 100% !important; padding: 0 4px !important; display: -webkit-box !important; -webkit-line-clamp: 2 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; }
         @media (min-width: 500px) { .team-name-col { font-size: 0.95rem !important; } }
 
-        .card-logo-wrap, .hero-logo-wrap { display: flex !important; align-items: center !important; justify-content: center !important; flex-shrink: 0 !important; background: transparent !important; overflow: visible !important; aspect-ratio: 1 / 1 !important; }
+        /* ====== LOGHI: STESSE REGOLE DI MATCHES.HTML ====== */
+        .card-logo-wrap, .hero-logo-wrap {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
+            background: transparent !important;
+            overflow: visible !important;
+        }
         .card-logo-wrap { width: 58px !important; height: 58px !important; }
         .hero-logo-wrap { width: 88px !important; height: 88px !important; }
-        .card-logo-wrap img, .hero-logo-wrap img { display: block !important; width: 100% !important; height: 100% !important; max-width: 100% !important; max-height: 100% !important; object-fit: contain !important; border-radius: 0 !important; background: transparent !important; transform: none !important; }
-        .hero-logo-wrap img { filter: drop-shadow(0 0 8px rgba(135, 206, 235, 0.75)) !important; }
+
+        .card-logo-wrap img, .hero-logo-wrap img {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            object-fit: contain !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            transform: none !important;
+        }
+
+        .hero-logo-wrap img {
+            filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.8)) !important;
+        }
+        .hero-logo-wrap img[src*="ui-avatars.com"] {
+            border-radius: 50% !important;
+            object-fit: contain !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: #ffffff !important;
+            filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.8)) !important;
+        }
+        .card-logo-wrap img {
+            filter: none !important;
+        }
+        .card-logo-wrap img[src*="ui-avatars.com"] {
+            border-radius: 50% !important;
+            object-fit: contain !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: #ffffff !important;
+            filter: none !important;
+        }
 
         /* MATCH CENTER GRID */
-        .match-center-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+        .match-center-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: stretch; }
         
         @media (max-width: 768px) { 
             .match-center-grid { 
@@ -207,11 +245,11 @@
                 margin: 0 -15px;
                 padding-left: 15px;
                 padding-right: 15px;
-                align-items: flex-start !important;
+                align-items: stretch !important;
             } 
             .match-center-grid > div {
-                flex: 0 0 85% !important;
-                max-width: 85% !important;
+                flex: 0 0 88% !important;
+                max-width: 88% !important;
                 scroll-snap-align: center;
             }
         }
@@ -219,68 +257,64 @@
         .match-vs-center { font-family: var(--font-brand) !important; font-size: 2.2rem !important; color: var(--primary-sky) !important; display: flex !important; align-items: center !important; justify-content: center !important; text-align: center !important; white-space: nowrap !important; }
         .score-past { color: var(--dark-navy) !important; letter-spacing: 1px !important; font-size: 2.2rem !important; font-weight: 800; }
 
-        /* ====== SCHEDE PARTITA: QUADRATA (PAST) + RETTANGOLARE LARGA (NEXT) ====== */
-        .match-past-box { 
-            background: var(--white, #ffffff); 
-            border-radius: 16px; 
-            padding: 24px; 
-            border: 1px solid #e2e8f0; 
-            box-shadow: 0 4px 18px rgba(0, 60, 130, 0.06); 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between; 
-            box-sizing: border-box; 
-            aspect-ratio: 1 / 1;   /* QUADRATA */
+        /* ====== SCHEDE PARTITA: ENTRAMBE QUADRATE, STESSA ALTEZZA ====== */
+        .match-past-box, .next-match-hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
+            border-radius: 16px;
+            padding: 20px;
+            aspect-ratio: 1 / 1;
             overflow: hidden;
+            position: relative;
         }
-        .next-match-hero { 
-            background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%); 
-            color: #ffffff; 
-            border-radius: 16px; 
-            padding: 24px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
-            border: 2px solid var(--primary-sky, #87ceeb); 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between; 
-            box-sizing: border-box; 
-            aspect-ratio: 16 / 10;   /* RETTANGOLARE LARGA */
-            overflow: hidden;
+        .match-past-box {
+            background: var(--white, #ffffff);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 18px rgba(0, 60, 130, 0.06);
         }
-        .next-match-hero .team-name-col { color: #ffffff !important; font-size: 1.05rem !important; }
-        .next-match-hero .match-vs-center { font-size: 2.5rem !important; color: var(--primary-sky) !important; }
-        .next-match-header, .match-past-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 10px; }
+        .next-match-hero {
+            background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%);
+            color: #ffffff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border: 2px solid var(--primary-sky, #87ceeb);
+        }
+        .next-match-hero .team-name-col { color: #ffffff !important; font-size: 0.95rem !important; }
+        .next-match-hero .match-vs-center { font-size: 2rem !important; color: var(--primary-sky) !important; }
+
+        .next-match-header, .match-past-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 6px; }
         .next-match-header { border-bottom-color: rgba(255,255,255,0.2); }
-        .next-match-badge { background: var(--primary-sky, #87ceeb); color: var(--dark-navy, #003c82); font-weight: 800; padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; text-transform: uppercase; }
+        .next-match-badge { background: var(--primary-sky, #87ceeb); color: var(--dark-navy, #003c82); font-weight: 800; padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; text-transform: uppercase; }
         
-        .match-info-hero-bar { display: flex; flex-direction: column; gap: 6px; background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-top: 15px; color: var(--dark-navy); font-weight: 600; }
-        .next-match-hero .match-info-hero-bar { background: rgba(255, 255, 255, 0.08); border: none; color: #ffffff; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 10px 18px; }
-        .match-info-item { display: flex; align-items: center; gap: 8px; }
-        .match-info-item i { width: 16px; text-align: center; }
-        .match-box-date { font-size: 0.82rem; color: #64748b; font-weight: 600; }
-        .match-box-venue { font-size: 0.8rem; color: var(--primary-sky); font-weight: 600; margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e2e8f0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; }
-        .match-box-venue a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .match-info-hero-bar { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 6px 14px; background: #f8fafc; border: 1px solid #e2e8f0; padding: 7px 10px; border-radius: 8px; font-size: 0.78rem; margin-top: 8px; color: var(--dark-navy); font-weight: 600; }
+        .next-match-hero .match-info-hero-bar { background: rgba(255, 255, 255, 0.08); border: none; color: #ffffff; }
+        .match-info-item { display: flex; align-items: center; gap: 6px; }
+        .match-info-item i { width: 14px; text-align: center; font-size: 0.78rem; }
+        .match-box-date { font-size: 0.76rem; color: #64748b; font-weight: 600; }
+        .match-box-venue { font-size: 0.76rem; color: var(--primary-sky); font-weight: 600; margin-top: 8px; padding-top: 6px; border-top: 1px dashed #e2e8f0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; }
+        .match-box-venue a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
         .match-box-venue a:hover { text-decoration: underline; }
         .next-match-hero .match-box-venue { border-top-color: rgba(255,255,255,0.2); }
         .next-match-hero .match-box-venue a { color: #ffffff; }
 
-        .match-card-footer { display: flex; justify-content: flex-end; margin-top: 12px; padding-top: 10px; border-top: 1px solid #f1f5f9; }
-        .match-card-footer-hero { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.2); }
-        .btn-match-detail { background: var(--primary-sky, #003c82); color: #ffffff; font-size: 0.78rem; font-weight: 700; padding: 6px 14px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-match-detail-hero { background: var(--primary-sky, #87ceeb); color: var(--dark-navy, #003c82); font-size: 0.78rem; font-weight: 800; padding: 6px 14px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .match-card-footer { display: flex; justify-content: flex-end; margin-top: 8px; padding-top: 6px; border-top: 1px solid #f1f5f9; }
+        .match-card-footer-hero { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 6px; border-top: 1px solid rgba(255, 255, 255, 0.2); gap: 8px; }
+        .btn-match-detail { background: var(--primary-sky, #003c82); color: #ffffff; font-size: 0.74rem; font-weight: 700; padding: 6px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-match-detail-hero { background: var(--primary-sky, #87ceeb); color: var(--dark-navy, #003c82); font-size: 0.74rem; font-weight: 800; padding: 6px 12px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 
         /* COUNTDOWN */
-        .match-countdown-wrapper { margin-top: 16px; padding: 12px 14px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(135, 206, 235, 0.35); border-radius: 12px; text-align: center; box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2); }
-        .countdown-title { font-size: 0.78rem; font-weight: 700; color: var(--primary-sky, #87ceeb); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .countdown-timer { display: flex; justify-content: center; align-items: center; gap: 10px; }
-        .cd-box { display: flex; flex-direction: column; align-items: center; min-width: 42px; }
-        .cd-num { font-family: 'Bebas Neue', 'Montserrat', sans-serif; font-size: 1.6rem; line-height: 1; font-weight: 700; color: #ffffff; text-shadow: 0 0 10px rgba(135, 206, 235, 0.5); }
-        .cd-label { font-size: 0.68rem; font-weight: 600; color: rgba(255, 255, 255, 0.75); margin-top: 2px; }
-        .cd-colon { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--primary-sky, #87ceeb); margin-top: -10px; opacity: 0.8; }
+        .match-countdown-wrapper { margin-top: 8px; padding: 8px 10px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(135, 206, 235, 0.35); border-radius: 10px; text-align: center; box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2); }
+        .countdown-title { font-size: 0.68rem; font-weight: 700; color: var(--primary-sky, #87ceeb); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .countdown-timer { display: flex; justify-content: center; align-items: center; gap: 6px; }
+        .cd-box { display: flex; flex-direction: column; align-items: center; min-width: 34px; }
+        .cd-num { font-family: 'Bebas Neue', 'Montserrat', sans-serif; font-size: 1.3rem; line-height: 1; font-weight: 700; color: #ffffff; text-shadow: 0 0 10px rgba(135, 206, 235, 0.5); }
+        .cd-label { font-size: 0.6rem; font-weight: 600; color: rgba(255, 255, 255, 0.75); margin-top: 1px; }
+        .cd-colon { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--primary-sky, #87ceeb); margin-top: -8px; opacity: 0.8; }
 
         /* DROPDOWN CALENDARIO */
         .add-to-cal-wrapper { position: relative; display: inline-block; }
-        .add-to-cal-btn { background: rgba(255, 255, 255, 0.12); color: #ffffff; border: 1px solid rgba(135, 206, 235, 0.4); padding: 6px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease; }
+        .add-to-cal-btn { background: rgba(255, 255, 255, 0.12); color: #ffffff; border: 1px solid rgba(135, 206, 235, 0.4); padding: 6px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s ease; white-space: nowrap; }
         .add-to-cal-btn:hover { background: rgba(135, 206, 235, 0.25); border-color: #87ceeb; }
         .cal-dropdown-menu { display: none; position: absolute; bottom: 100%; left: 0; margin-bottom: 8px; background: #001a38; border: 1px solid rgba(135, 206, 235, 0.4); border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 100; white-space: nowrap; overflow: hidden; }
         .cal-dropdown-menu.show { display: block; }
@@ -288,13 +322,10 @@
         .cal-dropdown-menu button:hover { background: rgba(135, 206, 235, 0.2); color: #87ceeb; }
 
         /* Adatta aspect-ratio su schermi piccoli */
-        @media (max-width: 768px) {
-            .match-past-box { aspect-ratio: 1 / 1 !important; }
-            .next-match-hero { aspect-ratio: 16 / 11 !important; }
-        }
         @media (max-width: 480px) {
-            .match-past-box { aspect-ratio: 1 / 1 !important; padding: 18px 16px !important; }
-            .next-match-hero { aspect-ratio: 4 / 3 !important; padding: 18px 16px !important; }
+            .match-past-box, .next-match-hero { padding: 16px 14px !important; }
+            .cd-num { font-size: 1.1rem !important; }
+            .cd-box { min-width: 30px !important; }
         }
     </style>
 </head>
@@ -324,7 +355,6 @@
         <a href="index.html"><img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo"></a>
         <a href="index.html" class="brand-name"><span>YOKOHAMA</span><span class="brand-sub">CALCIO</span></a>
       </div>
-
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
           <div class="nav-item dropdown">
@@ -338,7 +368,6 @@
               <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
             </div>
           </div>
-
           <div class="nav-item dropdown">
             <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
               <span data-i18n="nav.team_group">チーム・選手</span> 
@@ -349,26 +378,20 @@
               <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
             </div>
           </div>
-
           <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
           <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
           <a href="contact.html" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
         </nav>
       </div>
-
-      <button class="mobile-menu-toggle" aria-label="Menu">
-        <i class="fas fa-bars"></i>
-      </button>
+      <button class="mobile-menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
     </div>
   </div>
 
   <nav class="mobile-nav hidden">
     <div class="mobile-nav-content">
       <div class="mobile-nav-header">
-        <div class="logo-title" style="margin: 0;">
-          <span class="brand-name">YOKOHAMA <span class="brand-sub">CALCIO</span></span>
-        </div>
+        <div class="logo-title" style="margin: 0;"><span class="brand-name">YOKOHAMA <span class="brand-sub">CALCIO</span></span></div>
         <button class="mobile-nav-close" aria-label="Chiudi"><i class="fas fa-times"></i></button>
       </div>
       <a href="index.html" class="mobile-link"><i class="fas fa-home menu-icon"></i> <span data-i18n="nav.home">ホーム</span></a>
@@ -409,12 +432,8 @@
     <h1 class="hero-main-title" data-i18n="hero.title">横浜に咲くイタリアの情熱</h1>
     <p class="hero-subtitle" data-i18n="hero.subtitle">サッカーで心をつなぐ場所</p>
     <div class="hero-action-btns">
-        <a href="about.html" class="hero-btn hero-btn-outline">
-            <i class="fas fa-shield-alt"></i> <span data-i18n="hero.btn_about">クラブ紹介</span>
-        </a>
-        <a href="contact.html" class="hero-btn hero-btn-primary">
-            <i class="fas fa-envelope"></i> <span data-i18n="hero.btn_contact">お問い合わせ</span>
-        </a>
+        <a href="about.html" class="hero-btn hero-btn-outline"><i class="fas fa-shield-alt"></i> <span data-i18n="hero.btn_about">クラブ紹介</span></a>
+        <a href="contact.html" class="hero-btn hero-btn-primary"><i class="fas fa-envelope"></i> <span data-i18n="hero.btn_contact">お問い合わせ</span></a>
     </div>
   </div>
 </section>
@@ -443,10 +462,7 @@
                     <h3><i class="fas fa-futbol"></i> <span data-i18n="recruit.banner_title">新メンバー募集中！(18〜40歳経験者)</span></h3>
                     <p data-i18n="recruit.banner_desc">組織的なイタリアンフットボールを体感しませんか？真剣に勝利を目指しながら、共に進化できる仲間を探しています。体験参加へのご参加をお待ちしています！</p>
                 </div>
-                <a href="contact.html?type=trial" class="recruitment-btn">
-                    <i class="fas fa-paper-plane"></i>
-                    <span data-i18n="recruit.banner_btn">体験参加を申し込む</span>
-                </a>
+                <a href="contact.html?type=trial" class="recruitment-btn"><i class="fas fa-paper-plane"></i><span data-i18n="recruit.banner_btn">体験参加を申し込む</span></a>
             </div>
         </div>
         <div style="text-align: center; margin-top: 35px;">
@@ -500,9 +516,7 @@
                 <i class="fas fa-tshirt shop-icon"></i>
                 <h3 data-i18n="shop.card_title">Yokohama Calcio オフィシャルグッズ</h3>
                 <p data-i18n="shop.card_desc">Tシャツ、キャップ、キーホルダー、マフラータオルなどのオリジナルグッズを取り揃えています。売上収益はチームの活動費として大切に活用させていただきます。</p>
-                <a href="https://yokohamacalcio.designstore.jp" target="_blank" rel="noopener noreferrer" class="google-form-btn shop-btn">
-                    <i class="fas fa-store"></i> <span data-i18n="shop.btn">公式ショップを見る</span> <i class="fas fa-external-link-alt external-icon"></i>
-                </a>
+                <a href="https://yokohamacalcio.designstore.jp" target="_blank" rel="noopener noreferrer" class="google-form-btn shop-btn"><i class="fas fa-store"></i> <span data-i18n="shop.btn">公式ショップを見る</span> <i class="fas fa-external-link-alt external-icon"></i></a>
             </div>
         </div>
     </div>
@@ -514,10 +528,8 @@
         <div style="background: linear-gradient(135deg, #00224a 0%, #001229 100%); border-radius: 16px; padding: 35px 25px; border: 1px solid rgba(135,206,235,0.35); color: #ffffff; text-align: center; max-width: 850px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0, 34, 74, 0.2);">
             <div style="width: 60px; height: 60px; background: rgba(135,206,235,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; color: #87ceeb; font-size: 26px;"><i class="fas fa-handshake-angle"></i></div>
             <h3 style="font-size: 1.4rem; font-weight: 800; color: #87ceeb; margin-bottom: 12px;" data-i18n="sponsors.hero_title">Yokohama Calcioを応援しませんか？</h3>
-            <p style="font-size: 0.95rem; color: #e2e8f0; line-height: 1.65; margin-bottom: 25px; max-width: 700px; margin-left: auto; margin-right: auto;" data-i18n="sponsors.hero_desc">当クラブでは、グラウンド手配や用具サポート、試合後のサードタイム（懇親会）等でご協力いただける横浜市内の飲食店・企業様・オフィシャルパートナーを募集しています。地域と共に成長するチームをぜひ応援してください！</p>
-            <a href="contact.html?type=sponsor" class="google-form-btn" style="max-width: 320px; margin: 0 auto; background: #87ceeb; color: #00224a !important; font-weight: 800;">
-                <i class="fas fa-paper-plane"></i> <span data-i18n="sponsors.hero_btn">パートナーシップについて問い合わせる</span>
-            </a>
+            <p style="font-size: 0.95rem; color: #e2e8f0; line-height: 1.65; margin-bottom: 25px; max-width: 700px; margin-left: auto; margin-right: auto;" data-i18n="sponsors.hero_desc">当クラブでは、グラウンド手配や用具サポート、試合後のサードタイム（懇親会）等でご協力いただける横浜市内の飲食店・企業様・オフィシャルパートナーを募集しています。</p>
+            <a href="contact.html?type=sponsor" class="google-form-btn" style="max-width: 320px; margin: 0 auto; background: #87ceeb; color: #00224a !important; font-weight: 800;"><i class="fas fa-paper-plane"></i> <span data-i18n="sponsors.hero_btn">パートナーシップについて問い合わせる</span></a>
         </div>
     </div>
 </section>
@@ -540,9 +552,7 @@
             </div>
         </div>
         <div style="text-align: center; margin-top: 25px;">
-            <a href="faq.html" class="google-form-btn" style="max-width: 260px; margin: 0 auto; background: transparent; border: 2px solid #003c82; color: #003c82;">
-                <i class="fas fa-list-ul"></i> <span data-i18n="minifaq.btn">すべてのFAQを見る</span>
-            </a>
+            <a href="faq.html" class="google-form-btn" style="max-width: 260px; margin: 0 auto; background: transparent; border: 2px solid #003c82; color: #003c82;"><i class="fas fa-list-ul"></i> <span data-i18n="minifaq.btn">すべてのFAQを見る</span></a>
         </div>
     </div>
 </section>
@@ -979,6 +989,7 @@
         } catch (e) { console.error("Errore nel caricamento dati:", e); }
     }
 
+    /* --- CARD PARTITA PASSATA (quadrata, con info bar + link campo + link dettagli) --- */
     function generateLastMatchHtml(m, lang) {
         const oppInfo = getOpponentInfo(m, lang);
         const locInfo = getLocationInfo(m.location_id, m.venue, lang);
@@ -1053,6 +1064,7 @@
             </div>`;
     }
 
+    /* --- CARD PROSSIMA PARTITA (quadrata, con info bar + countdown + add-to-cal + link campo + link dettagli) --- */
     function generateNextMatchHeroHtml(m, lang) {
         const oppInfo = getOpponentInfo(m, lang);
         const locInfo = getLocationInfo(m.location_id, m.venue, lang);
@@ -1077,6 +1089,7 @@
         }
         const timeHtml = m.time ? `<div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>${m.time} K.O.</span></div>` : '';
         const surfaceHtml = locInfo.surface ? `<div class="match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>${locInfo.surface}</span></div>` : '';
+
         return `
             <div class="next-match-hero" id="nextMatchBox">
                 <div class="next-match-header">
@@ -1121,7 +1134,7 @@
                             <button class="add-to-cal-btn" onclick="toggleCalMenu(event)">
                                 <i class="far fa-calendar-plus"></i>
                                 <span>${translations[lang]['calendar.add'] || 'カレンダーに追加'}</span>
-                                <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 2px;"></i>
+                                <i class="fas fa-chevron-down" style="font-size: 0.65rem; margin-left: 1px;"></i>
                             </button>
                             <div class="cal-dropdown-menu" id="calDropdownMenu">
                                 <button onclick="addMatchToGoogleCal(event)"><i class="fab fa-google"></i> Google Calendar</button>
@@ -1153,9 +1166,9 @@
             upcomingContainer.innerHTML = `
                 <div class="next-match-hero" style="justify-content: center; align-items: center; text-align: center;">
                     <div class="no-match-box">
-                        <i class="fas fa-handshake-angle"></i>
-                        <p>${translations[lang]['results.no_next_match'] || '現在、次の試合日程を調整中です。対戦相手も募集しています！'}</p>
-                        <a href="contact.html?type=match" class="btn-match-detail-hero" style="margin-top: 10px; font-size: 0.88rem; padding: 10px 20px;">
+                        <i class="fas fa-handshake-angle" style="font-size: 2rem; color: #87ceeb; margin-bottom: 10px;"></i>
+                        <p style="color: #fff; font-size: 0.9rem; line-height: 1.5;">${translations[lang]['results.no_next_match'] || '現在、次の試合日程を調整中です。対戦相手も募集しています！'}</p>
+                        <a href="contact.html?type=match" class="btn-match-detail-hero" style="margin-top: 12px; font-size: 0.8rem; padding: 8px 16px;">
                             <i class="fas fa-paper-plane"></i> <span>${translations[lang]['results.friendly_req_btn'] || '練習試合を申し込む'}</span>
                         </a>
                     </div>
