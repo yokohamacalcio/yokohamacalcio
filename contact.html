@@ -805,13 +805,51 @@
                         </div>
                     </div>
 
+                    <!-- CAMPI SPECIFICI DINAMICI PER PARTITE AMICHEVOLE (MATCH) -->
+                    <div id="matchFieldsWrapper" style="display: none;">
+                        <div class="field-section-title"><i class="fas fa-futbol"></i> <span data-i18n="form.match_sec_title">対戦チーム情報</span></div>
+
+                        <!-- NOME SQUADRA -->
+                        <div class="form-group">
+                            <label for="match_team_name">
+                                <span data-i18n="form.match_team_name_label">チーム名</span>
+                                <span class="required-tag" data-i18n="form.required">必須</span>
+                            </label>
+                            <input type="text" id="match_team_name" name="match_team_name" class="form-control" placeholder="例: 横浜FCアマチュア">
+                        </div>
+
+                        <!-- LEGA A CUI PARTECIPANO -->
+                        <div class="form-group">
+                            <label for="match_league">
+                                <span data-i18n="form.match_league_label">所属リーグ・カテゴリー</span>
+                            </label>
+                            <input type="text" id="match_league" name="match_league" class="form-control" placeholder="例: 神奈川県社会人サッカーリーグ3部、横浜市1部など">
+                        </div>
+
+                        <!-- COLORI UNIFORME 1ST E 2ND -->
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="match_1st_kit">
+                                    <span data-i18n="form.match_1st_kit_label">1stユニフォーム（シャツ・パンツ・ソックス）</span>
+                                </label>
+                                <input type="text" id="match_1st_kit" name="match_1st_kit" class="form-control" placeholder="例: 赤 - 黒 - 赤">
+                            </div>
+                            <div class="form-group">
+                                <label for="match_2nd_kit">
+                                    <span data-i18n="form.match_2nd_kit_label">2ndユニフォーム（シャツ・パンツ・ソックス）</span>
+                                </label>
+                                <input type="text" id="match_2nd_kit" name="match_2nd_kit" class="form-control" placeholder="例: 白 - 白 - 白">
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- MESSAGGIO LIBERO -->
                     <div class="form-group">
                         <label for="message">
                             <span data-i18n="form.message_label">メッセージ内容</span>
                             <span class="required-tag" data-i18n="form.required">必須</span>
                         </label>
-                        <textarea id="message" name="message" class="form-control" placeholder="ご質問や体験参加のご希望日時などをご記入ください。" required></textarea>
+                        <textarea id="message" name="message" class="form-control" placeholder="ご質問や体験参加のご希望日時、グラウンド手配状況などをご記入ください。" required></textarea>
                     </div>
 
                     <button type="submit" class="submit-btn" id="submitBtn">
@@ -930,6 +968,12 @@
             "form.staff_role_kit": "用具管理・エキップメント",
             "form.staff_role_media": "広報・メディア・アナリスト",
 
+            "form.match_sec_title": "対戦チーム情報",
+            "form.match_team_name_label": "チーム名",
+            "form.match_league_label": "所属リーグ・カテゴリー",
+            "form.match_1st_kit_label": "1stユニフォーム（シャツ・パンツ・ソックス）",
+            "form.match_2nd_kit_label": "2ndユニフォーム（シャツ・パンツ・ソックス）",
+
             "form.message_label": "メッセージ内容",
             "form.submit_btn": "送信する",
 
@@ -992,6 +1036,12 @@
             "form.staff_role_kit": "Magazziniere / Responsabile Materiale",
             "form.staff_role_media": "Social Media / Foto / Video Analyst",
 
+            "form.match_sec_title": "Informazioni Squadra Avversaria",
+            "form.match_team_name_label": "Nome Squadra",
+            "form.match_league_label": "Campionato / Categoria",
+            "form.match_1st_kit_label": "Divisa 1st (Maglia - Pantaloni - Calze)",
+            "form.match_2nd_kit_label": "Divisa 2nd (Maglia - Pantaloni - Calze)",
+
             "form.message_label": "Messaggio",
             "form.submit_btn": "Invia Messaggio",
 
@@ -1052,6 +1102,12 @@
             "form.staff_role_trainer": "Trainer / Physiotherapist",
             "form.staff_role_kit": "Equipment / Kit Manager",
             "form.staff_role_media": "Media / Photographer / Analyst",
+
+            "form.match_sec_title": "Opponent Team Information",
+            "form.match_team_name_label": "Team Name",
+            "form.match_league_label": "League / Division",
+            "form.match_1st_kit_label": "1st Kit (Shirt - Shorts - Socks)",
+            "form.match_2nd_kit_label": "2nd Kit (Shirt - Shorts - Socks)",
 
             "form.message_label": "Message",
             "form.submit_btn": "Send Message",
@@ -1123,7 +1179,6 @@
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
 
-        // Re-render sub positions if visible
         renderSubPositions();
     }
 
@@ -1154,11 +1209,12 @@
         wrapper.style.display = 'block';
     }
 
-    // TOGGLE SEZIONI DINAMICHE
+    // TOGGLE SEZIONI DINAMICHE E ATTRIBUTI REQUIRED
     function updateSectionVisibility() {
         const category = document.getElementById('category').value;
         const playerWrapper = document.getElementById('trialFieldsWrapper');
         const staffWrapper = document.getElementById('staffFieldsWrapper');
+        const matchWrapper = document.getElementById('matchFieldsWrapper');
         
         const playerBirth = document.getElementById('birth_date');
         const playerExpLevel = document.getElementById('experience_level');
@@ -1167,33 +1223,56 @@
         const staffBirth = document.getElementById('staff_birth_date');
         const staffRole = document.getElementById('staff_role');
 
+        const matchTeamName = document.getElementById('match_team_name');
+
         if (category === 'trial') {
             playerWrapper.style.display = 'block';
             staffWrapper.style.display = 'none';
+            matchWrapper.style.display = 'none';
+
             playerBirth.setAttribute('required', 'required');
             playerExpLevel.setAttribute('required', 'required');
             playerMacro.setAttribute('required', 'required');
 
             staffBirth.removeAttribute('required');
             staffRole.removeAttribute('required');
+            matchTeamName.removeAttribute('required');
         } else if (category === 'staff') {
             playerWrapper.style.display = 'none';
             staffWrapper.style.display = 'block';
+            matchWrapper.style.display = 'none';
+
             playerBirth.removeAttribute('required');
             playerExpLevel.removeAttribute('required');
             playerMacro.removeAttribute('required');
 
             staffBirth.setAttribute('required', 'required');
             staffRole.setAttribute('required', 'required');
-        } else {
+            matchTeamName.removeAttribute('required');
+        } else if (category === 'match') {
             playerWrapper.style.display = 'none';
             staffWrapper.style.display = 'none';
+            matchWrapper.style.display = 'block';
+
             playerBirth.removeAttribute('required');
             playerExpLevel.removeAttribute('required');
             playerMacro.removeAttribute('required');
 
             staffBirth.removeAttribute('required');
             staffRole.removeAttribute('required');
+            matchTeamName.setAttribute('required', 'required');
+        } else {
+            playerWrapper.style.display = 'none';
+            staffWrapper.style.display = 'none';
+            matchWrapper.style.display = 'none';
+
+            playerBirth.removeAttribute('required');
+            playerExpLevel.removeAttribute('required');
+            playerMacro.removeAttribute('required');
+
+            staffBirth.removeAttribute('required');
+            staffRole.removeAttribute('required');
+            matchTeamName.removeAttribute('required');
         }
     }
 
