@@ -87,6 +87,223 @@
 <!-- SCHEMA_EVENTS_END -->
 
     <style>
+        /* --- FIX DIMENSIONE TITOLI SEZIONE SU MOBILE --- */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 1.35rem !important;
+                line-height: 1.3 !important;
+                letter-spacing: -0.3px;
+                word-break: keep-all;
+                white-space: normal;
+                padding: 0 5px;
+            }
+            .section-title i {
+                font-size: 1.15rem !important;
+                margin-right: 6px !important;
+            }
+        }
+
+        /* --- HERO SECTION: LOOK CLUB UFFICIALE / TACTICAL TECH --- */
+        .hero {
+            position: relative;
+            min-height: 75vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #ffffff;
+            overflow: hidden;
+            background: 
+                radial-gradient(circle at 50% 35%, rgba(135, 206, 235, 0.18) 0%, transparent 65%),
+                linear-gradient(rgba(135, 206, 235, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(135, 206, 235, 0.04) 1px, transparent 1px),
+                linear-gradient(180deg, #000a19 0%, #001f42 50%, #000a19 100%);
+            background-size: 100% 100%, 36px 36px, 36px 36px, 100% 100%;
+            padding: 100px 20px 50px;
+            border-bottom: 3px solid #87ceeb;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 320px;
+            border: 1px dashed rgba(135, 206, 235, 0.15);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(135, 206, 235, 0.1);
+            border: 1px solid rgba(135, 206, 235, 0.4);
+            color: #87ceeb;
+            font-size: 0.8rem;
+            font-weight: 800;
+            padding: 6px 16px;
+            border-radius: 20px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .hero h2 {
+            font-family: 'Bebas Neue', 'Montserrat', sans-serif;
+            font-size: 3.6rem;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+            margin-bottom: 8px;
+            line-height: 1.05;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            font-weight: 600;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            .hero { min-height: 65vh; padding: 85px 15px 40px; }
+            .hero h2 { font-size: 2.2rem !important; letter-spacing: 1px; }
+            .hero p { font-size: 0.95rem; }
+            .hero::after { width: 220px; height: 220px; }
+        }
+
+        /* --- SEZIONE NEWS CAROUSEL / GRID (MOBILE SWIPE) --- */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .news-grid {
+                display: flex !important;
+                flex-direction: row !important;
+                overflow-x: auto !important;
+                scroll-snap-type: x mandatory;
+                gap: 15px !important;
+                padding-bottom: 15px;
+                -webkit-overflow-scrolling: touch;
+                margin: 0 -15px;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            .news-card {
+                flex: 0 0 85% !important;
+                max-width: 85% !important;
+                scroll-snap-align: center;
+            }
+        }
+
+        .news-card {
+            background: #ffffff;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 15px rgba(0, 38, 74, 0.05);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 38, 74, 0.12);
+        }
+
+        .news-img-wrap {
+            position: relative;
+            width: 100%;
+            height: 160px;
+            overflow: hidden;
+            background: #001229;
+        }
+
+        .news-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .news-card:hover .news-img-wrap img {
+            transform: scale(1.05);
+        }
+
+        .news-category-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #003c82;
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .news-category-badge.recruit { background: #87ceeb; color: #00224a; }
+        .news-category-badge.event { background: #d97706; color: #ffffff; }
+
+        .news-body {
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .news-date {
+            font-size: 0.78rem;
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .news-title-text {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: #00224a;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-excerpt-text {
+            font-size: 0.85rem;
+            color: #475569;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-link {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #003c82;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         /* --- OVERLAY MENU MOBILE SCURO --- */
         .mobile-nav {
             position: fixed;
@@ -404,6 +621,7 @@
             </span>
             <div class="dropdown-menu">
               <a href="about.html" data-i18n="nav.about">チーム紹介</a>
+              <a href="index.html#news" data-i18n="nav.news">ニュース</a>
               <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
               <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
             </div>
@@ -458,6 +676,7 @@
           <a href="about.html" class="mobile-link sub" data-i18n="nav.about">チーム紹介</a>
           <a href="players.html" class="mobile-link sub" data-i18n="nav.players">選手紹介</a>
           <a href="stats.html" class="mobile-link sub" data-i18n="nav.stats">成績・スタッツ</a>
+          <a href="index.html#news" class="mobile-link sub" data-i18n="nav.news">ニュース</a>
           <a href="index.html#gallery" class="mobile-link sub" data-i18n="nav.gallery">ギャラリー</a>
         </div>
       </div>
@@ -484,8 +703,14 @@
   </nav>
 </header>
 
+<!-- NUOVA HERO SECTION TACTICAL TECH -->
 <section class="hero">
   <div class="hero-content">
+    <div class="hero-badge">
+      <i class="fas fa-shield-halved"></i>
+      <span data-i18n="hero.badge">YOKOHAMA CALCIO OFFICIAL</span>
+    </div>
+
     <h2 data-i18n="hero.title">横浜に咲くイタリアの情熱</h2>
     <p data-i18n="hero.subtitle">サッカーで心をつなぐ場所</p>
 
@@ -494,7 +719,7 @@
             <i class="fas fa-shield-alt"></i> <span data-i18n="hero.btn_about">クラブ紹介</span>
         </a>
         <a href="contact.html" class="hero-btn hero-btn-primary">
-            <i class="fas fa-envelope"></i> <span data-i18n="hero.btn_contact">お問い合わせ</span>
+            <i class="fas fa-paper-plane"></i> <span data-i18n="hero.btn_contact">お問い合わせ</span>
         </a>
     </div>
 
@@ -555,6 +780,17 @@
             <a href="about.html" class="google-form-btn" style="max-width: 360px; margin: 0 auto; background: var(--dark-navy, #003c82); color: #ffffff;">
                 <i class="fas fa-book-open"></i> <span data-i18n="about.btn_more">クラブ紹介・歴史の詳細はこちら</span> <i class="fas fa-arrow-right"></i>
             </a>
+        </div>
+    </div>
+</section>
+
+<!-- SEZIONE NEWS / TOPICS -->
+<section class="section" id="news" style="background: #ffffff;">
+    <div class="container">
+        <h2 class="section-title"><i class="fas fa-newspaper"></i> <span data-i18n="news.title">クラブニュース</span></h2>
+        
+        <div class="news-grid" id="newsContainer">
+            <!-- CARICAMENTO DINAMICO SCHEDE NEWS -->
         </div>
     </div>
 </section>
@@ -633,7 +869,7 @@
     </div>
 </section>
 
-<!-- SEZIONE PARTNER (OPZIONE 3: SINGLE IMPACT HERO BOX) -->
+<!-- SEZIONE PARTNER -->
 <section class="section sponsors-section" id="sponsors">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-handshake"></i> <span data-i18n="sponsors.title">オフィシャルパートナー</span></h2>
@@ -777,12 +1013,72 @@
         'F.C.LEGEND': 'FC Legend'
     };
 
+    const defaultNewsImages = {
+        MATCH: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600&auto=format&fit=crop',
+        RECRUIT: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&auto=format&fit=crop',
+        EVENT: 'https://images.unsplash.com/photo-1526232761682-d26e03ac148e?w=600&auto=format&fit=crop',
+        DEFAULT: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600&auto=format&fit=crop'
+    };
+
+    // DATI NEWS DI PROVA PREDEFINITI
+    const initialNewsData = [
+        {
+            id: "news-1",
+            date: "2026.10.15",
+            category: "MATCH",
+            title: {
+                ja: "次戦 La Masia Japan との対戦に向けて集中トレーニング実施",
+                it: "Allenamento tattico in vista della sfida contro La Masia Japan",
+                en: "Tactical training session ahead of La Masia Japan clash"
+            },
+            excerpt: {
+                ja: "10月31日の谷本公園での試合に向け、4-4-2の守備ブロックと速攻の連携を確認しました。",
+                it: "Esercitazioni sul blocco difensivo 4-4-2 e sulle transizioni rapide per il match del 31 ottobre.",
+                en: "Focusing on 4-4-2 defensive block and fast transitions for the upcoming Oct 31 fixture."
+            },
+            image: ""
+        },
+        {
+            id: "news-2",
+            date: "2026.09.28",
+            category: "RECRUIT",
+            title: {
+                ja: "2027年シーズンに向けた新メンバー体験参加・選考受付中",
+                it: "Aperte le selezioni per nuovi giocatori - Stagione 2027",
+                en: "Recruitment open for new players - 2027 Season"
+            },
+            excerpt: {
+                ja: "18〜40歳のサッカー経験者を募集中。組織的なフットボールを共に追求する仲間を待っています。",
+                it: "Cerchiamo giocatori motivati (18-40 anni) per rafforzare la rosa e preparare il nuovo campionato.",
+                en: "Looking for experienced players (aged 18–40) to join our squad for the upcoming season."
+            },
+            image: ""
+        },
+        {
+            id: "news-3",
+            date: "2026.09.10",
+            category: "EVENT",
+            title: {
+                ja: "チーム親睦BBQ & サードタイムを開催しました",
+                it: "Terzo tempo & Team BBQ a Yokohama",
+                en: "Team BBQ & Post-match social gathering"
+            },
+            excerpt: {
+                ja: "ピッチ外でもチームワークを深めるため、メンバーとスタッフで親睦イベントを実施しました。",
+                it: "Ottimo momento di aggregazione per rafforzare il gruppo anche fuori dal campo.",
+                en: "A great day for building team spirit and camaraderie off the pitch."
+            },
+            image: ""
+        }
+    ];
+
     const translations = {
         ja: {
             "nav.home": "ホーム", "nav.about_group": "クラブ", "nav.team_group": "チーム・選手", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
             "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー", "nav.faq": "よくある質問",
-            "nav.shop": "ショップ", "nav.contact": "お問い合わせ", 
+            "nav.shop": "ショップ", "nav.contact": "お問い合わせ", "nav.news": "ニュース",
             
+            "hero.badge": "YOKOHAMA CALCIO OFFICIAL",
             "hero.title": "横浜に咲くイタリアの情熱",
             "hero.subtitle": "サッカーで心をつなぐ場所",
             "hero.btn_about": "クラブ紹介",
@@ -800,6 +1096,8 @@
             "about.val3_h": "組織と連動 (Gioco di Squadra)", 
             "about.val3_d": "ポジショニング、連動した守備、素早い切り替えの徹底",
             "about.btn_more": "クラブ紹介・歴史の詳細はこちら",
+
+            "news.title": "クラブニュース",
 
             "recruit.banner_title": "新メンバー募集中！(18〜40歳経験者)",
             "recruit.banner_desc": "組織的なイタリアンフットボールを体感しませんか？真剣に勝利を目指しながら、共に進化できる仲間を探しています。",
@@ -841,8 +1139,9 @@
         it: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
             "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.sponsors": "Partner", "nav.faq": "FAQ",
-            "nav.shop": "Shop", "nav.contact": "Contatti", 
+            "nav.shop": "Shop", "nav.contact": "Contatti", "nav.news": "News",
             
+            "hero.badge": "YOKOHAMA CALCIO OFFICIAL",
             "hero.title": "La passione italiana nel cuore di Yokohama", "hero.subtitle": "Il calcio che unisce le persone",
             "hero.btn_about": "Chi Siamo", "hero.btn_contact": "Contattaci",
 
@@ -854,6 +1153,8 @@
             "about.val2_h": "Serietà e Divertimento", "about.val2_d": "Impegno massimo in allenamento per condividere la gioia della vittoria.",
             "about.val3_h": "Organizzazione e Sinergia (Gioco di Squadra)", "about.val3_d": "Lettura degli spazi, difesa coordinata e transizioni veloci.",
             "about.btn_more": "Scopri di più sulla storia e la filosofia del club",
+
+            "news.title": "Club News",
 
             "recruit.banner_title": "Cercasi Nuovi Giocatori! (18–40 anni con esperienza)",
             "recruit.banner_desc": "Vuoi provare l'organizzazione del calcio tattico italiano a Yokohama? Cerchiamo ragazzi motivati per crescere e vincere insieme.",
@@ -892,8 +1193,9 @@
         en: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
             "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.sponsors": "Partners", "nav.faq": "FAQ",
-            "nav.shop": "Shop", "nav.contact": "Contact Us", 
+            "nav.shop": "Shop", "nav.contact": "Contact Us", "nav.news": "News",
             
+            "hero.badge": "YOKOHAMA CALCIO OFFICIAL",
             "hero.title": "Italian Football Passion in Yokohama", "hero.subtitle": "Where Football Connects People",
             "hero.btn_about": "About Club", "hero.btn_contact": "Contact Us",
 
@@ -905,6 +1207,8 @@
             "about.val2_h": "Enjoyable, yet Serious", "about.val2_d": "Training passionately to share the satisfaction of accomplishment and victory.",
             "about.val3_h": "Tactical Synergy (Gioco di Squadra)", "about.val3_d": "Positioning, organized defense, and rapid transitions.",
             "about.btn_more": "Learn more about club history & philosophy",
+
+            "news.title": "Club News",
 
             "recruit.banner_title": "Recruiting New Players! (18–40 yrs experienced)",
             "recruit.banner_desc": "Experience tactical Italian football in Yokohama. We are looking for motivated players to grow and win together.",
@@ -944,6 +1248,7 @@
 
     let currentLang = localStorage.getItem('preferred_lang') || 'ja';
     let cachedMatches = [];
+    let cachedNews = initialNewsData;
     let locationsData = {};
     let opponentsData = {};
     let playersData = [];
@@ -952,6 +1257,46 @@
 
     function cleanStr(s) { return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim(); }
     function containsJapaneseChars(text) { return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf\u3400-\u4dbf]/.test(text); }
+
+    function renderNews(newsList, lang) {
+        const container = document.getElementById('newsContainer');
+        if (!container || !newsList) return;
+
+        container.innerHTML = newsList.slice(0, 3).map(item => {
+            const categoryKey = (item.category || 'INFO').toUpperCase();
+            
+            const imgSrc = item.image && item.image.trim() !== '' 
+                ? item.image 
+                : (defaultNewsImages[categoryKey] || defaultNewsImages.DEFAULT);
+
+            let badgeClass = '';
+            if (categoryKey === 'RECRUIT') badgeClass = 'recruit';
+            if (categoryKey === 'EVENT') badgeClass = 'event';
+
+            const title = item.title ? (item.title[lang] || item.title['ja'] || item.title) : '';
+            const excerpt = item.excerpt ? (item.excerpt[lang] || item.excerpt['ja'] || item.excerpt) : '';
+
+            return `
+                <div class="news-card">
+                    <div class="news-img-wrap">
+                        <img src="${imgSrc}" alt="${title}" loading="lazy">
+                        <span class="news-category-badge ${badgeClass}">${categoryKey}</span>
+                    </div>
+                    <div class="news-body">
+                        <div>
+                            <div class="news-date"><i class="far fa-calendar"></i> ${item.date || ''}</div>
+                            <h3 class="news-title-text">${title}</h3>
+                            <p class="news-excerpt-text">${excerpt}</p>
+                        </div>
+                        <a href="contact.html" class="news-link">
+                            <span>${translations[lang]['results.detail'] || '詳細'}</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
 
     function getUniqueTeamColor(idOrName) {
         let hash = 0;
@@ -1203,6 +1548,7 @@ END:VCALENDAR`;
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
 
+        renderNews(cachedNews, lang);
         if (cachedMatches.length > 0) renderMatchCenter(cachedMatches);
     }
 
@@ -1243,12 +1589,13 @@ END:VCALENDAR`;
 
     async function initPageData() {
         try {
-            const [mResp, lResp, oResp, pResp, sResp] = await Promise.allSettled([
+            const [mResp, lResp, oResp, pResp, sResp, nResp] = await Promise.allSettled([
                 fetch('matches.json'),
                 fetch('locations.json'),
                 fetch('opponents.json'),
                 fetch('players.json'),
-                fetch('stats.json')
+                fetch('stats.json'),
+                fetch('news.json')
             ]);
 
             if (mResp.status === 'fulfilled' && mResp.value.ok) cachedMatches = await mResp.value.json();
@@ -1256,10 +1603,13 @@ END:VCALENDAR`;
             if (oResp.status === 'fulfilled' && oResp.value.ok) opponentsData = await oResp.value.json();
             if (pResp.status === 'fulfilled' && pResp.value.ok) playersData = await pResp.value.json();
             if (sResp.status === 'fulfilled' && sResp.value.ok) statsData = await sResp.value.json();
+            if (nResp.status === 'fulfilled' && nResp.value.ok) cachedNews = await nResp.value.json();
 
+            renderNews(cachedNews, currentLang);
             renderMatchCenter(cachedMatches);
         } catch (e) {
             console.error("Errore nel caricamento dati:", e);
+            renderNews(initialNewsData, currentLang);
         }
     }
 
