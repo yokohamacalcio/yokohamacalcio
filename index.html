@@ -62,6 +62,10 @@
         .mobile-cta-wrapper { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.15); }
         .mobile-cta-btn { background: #87ceeb; color: #00224a !important; font-weight: 800; text-align: center; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
 
+        @media (orientation: landscape) and (max-height: 600px), (max-height: 600px) {
+            .mobile-nav-content { max-height: 90vh !important; padding: 12px 16px !important; margin-top: 5px !important; }
+        }
+
         .desktop-nav-wrapper { display: flex; align-items: center; }
         .main-nav { display: flex !important; align-items: center !important; gap: 16px; white-space: nowrap; }
         .main-nav .nav-item { position: relative !important; display: inline-flex; align-items: center; }
@@ -85,7 +89,7 @@
             .mobile-menu-toggle { display: flex !important; }
         }
 
-        /* MENU ESTESO COMPATTO PER SMARTPHONE IN ORIZZONTALE (LANDSCAPE) / SCHERMI PICCOLI */
+        /* --- MENU PER CELLULARI IN ORIZZONTALE E SCHERMI PICCOLI (COME MATCHES) --- */
         @media (orientation: landscape) and (max-height: 500px) {
             .desktop-nav-wrapper { display: flex !important; }
             .mobile-menu-toggle { display: none !important; }
@@ -96,11 +100,10 @@
             .brand-name { font-size: 0.95rem !important; }
         }
 
-        /* --- RIDUZIONE TITOLI SEZIONI E PARAGRAFI SU CELLULARE IN VERTICALE --- */
+        /* --- RIDUZIONE TITOLI SU CELLULARE IN VERTICALE --- */
         @media (max-width: 600px) {
             .section-title { font-size: 1.4rem !important; }
-            .about-text-box h3, .mission-box h3, .recruitment-text-box h3, .shop-content h3, .contact-card-header h3 { font-size: 1.15rem !important; }
-            .faq-question { font-size: 0.9rem !important; }
+            .about-text-box h3, .mission-box h3, .recruitment-text-box h3, .shop-content h3, .contact-card-header h3, .faq-question { font-size: 1.1rem !important; }
         }
 
         /* --- HERO SECTION --- */
@@ -147,7 +150,7 @@
         .faq-item.active .faq-answer { display: block; }
         .faq-item.active .faq-question i { transform: rotate(180deg); }
 
-        /* ====== MATCH CENTER CORRETTO ====== */
+        /* ====== MATCH CENTER ORIGINALE ====== */
         .match-badge-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
         .match-badge { font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; }
         .badge-official, .badge-league { background: #003c82; color: #ffffff; }
@@ -921,7 +924,7 @@
         const mvpTranslated = translatePlayerText(m.mvp, lang);
         const scorersHtml = (scorersTranslated && scorersTranslated !== 'なし' && scorersTranslated !== 'Nessuno') ? `<div class="match-info-item"><i class="fas fa-futbol" style="color: var(--dark-navy);"></i><span>${scorersTranslated}</span></div>` : '';
         const mvpHtml = (mvpTranslated && mvpTranslated !== 'なし' && mvpTranslated !== 'Nessuno') ? `<div class="match-info-item"><i class="fas fa-star" style="color: #f59e0b;"></i><strong style="color: var(--dark-navy);">${mvpTranslated}</strong></div>` : '';
-        const venueHtml = `<div class="match-info-item"><i class="fas fa-map-marker-alt" style="color: var(--dark-navy);"></i><a href="${locInfo.url}" target="_blank" rel="noopener noreferrer">${locInfo.name} <i class="fas fa-external-link-alt" style="font-size: 0.65rem; opacity: 0.7;"></i></a></div>`;
+        const venueHtml = `<div class="match-info-item venue-item"><i class="fas fa-map-marker-alt" style="color: var(--dark-navy);"></i><a href="${locInfo.url}" target="_blank" rel="noopener noreferrer" style="color: var(--dark-navy);">${locInfo.name} <i class="fas fa-external-link-alt" style="font-size: 0.62rem; opacity: 0.75;"></i></a></div>`;
         const infoBarHtml = `<div class="match-info-hero-bar">${scorersHtml}${mvpHtml}${venueHtml}</div>`;
 
         return `
@@ -950,7 +953,7 @@
                 <div class="match-card-footer">
                     <a href="matches.html#${m.id || ''}" class="btn-match-detail"><span>${translations[lang]['results.detail'] || '詳細'}</span> <i class="fas fa-chevron-right"></i></a>
                 </div>
-            `;
+            </div>`;
     }
 
     function generateNextMatchHeroHtml(m, lang) {
@@ -977,7 +980,7 @@
         }
         const timeHtml = m.time ? `<div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>${m.time} K.O.</span></div>` : '';
         const surfaceHtml = locInfo.surface ? `<div class="match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>${locInfo.surface}</span></div>` : '';
-        const venueHtml = `<div class="match-info-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i><a href="${locInfo.url}" target="_blank" rel="noopener noreferrer">${locInfo.name} <i class="fas fa-external-link-alt" style="font-size: 0.65rem; opacity: 0.7;"></i></a></div>`;
+        const venueHtml = `<div class="match-info-item venue-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i><a href="${locInfo.url}" target="_blank" rel="noopener noreferrer">${locInfo.name} <i class="fas fa-external-link-alt" style="font-size: 0.62rem; opacity: 0.75;"></i></a></div>`;
 
         return `
             <div class="next-match-hero" id="nextMatchBox">
@@ -1019,7 +1022,7 @@
                         <button class="add-to-cal-btn" onclick="toggleCalMenu(event)">
                             <i class="far fa-calendar-plus"></i>
                             <span>${translations[lang]['calendar.add'] || 'カレンダーに追加'}</span>
-                            <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 2px;"></i>
+                            <i class="fas fa-chevron-down" style="font-size: 0.65rem; margin-left: 1px;"></i>
                         </button>
                         <div class="cal-dropdown-menu" id="calDropdownMenu">
                             <button onclick="addMatchToGoogleCal(event)"><i class="fab fa-google"></i> Google Calendar</button>
