@@ -198,12 +198,22 @@
 
         .match-info-hero-bar { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 6px 14px; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 12px; border-radius: 8px; font-size: 0.78rem; margin-top: 8px; color: var(--dark-navy); font-weight: 600; }
         .next-match-hero .match-info-hero-bar { background: rgba(255, 255, 255, 0.08); border: none; color: #ffffff; }
+        
+        /* Scheda partita giocata: 3 righe distinte */
+        .match-past-box .match-info-hero-bar {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 6px !important;
+        }
+
         .match-info-item { display: flex; align-items: center; gap: 6px; }
         .match-info-item i { width: 14px; text-align: center; font-size: 0.78rem; }
         .match-info-item a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-weight: 700; }
         .match-info-item a:hover { text-decoration: underline; }
         .next-match-hero .match-info-item a { color: #ffffff; }
-        .match-info-item.venue-item { max-width: 100%; text-align: center; }
+        .match-past-box .match-info-item a { color: var(--dark-navy); }
+        .match-info-item.venue-item { max-width: 100%; text-align: left; }
 
         .match-box-date { font-size: 0.76rem; color: #64748b; font-weight: 600; }
         .match-card-footer { display: flex; justify-content: flex-end; margin-top: 8px; padding-top: 6px; border-top: 1px solid #f1f5f9; }
@@ -439,7 +449,7 @@
         <div class="mini-faq-container">
             <div class="faq-item">
                 <button class="faq-question"><span data-i18n="minifaq.q1">Q: 体験練習参加に必要な持ち物や費用はありますか？</span><i class="fas fa-chevron-down"></i></button>
-                <div class="faq-answer" data-i18n="minifaq.a1">動ける服装（サッカーウェア）、スパイクまたはトレーニングシューズ、飲料水をお持ちください。体験参加時の費用は原則無料です。</div>
+                <div class="faq-answer" data-i18n="minifaq.a1">動ける服装（サッカーウェア）、スパイクまたはトレーニングシューズ、飲料水をお持ちください。体験参加費は500円です。</div>
             </div>
             <div class="faq-item">
                 <button class="faq-question"><span data-i18n="minifaq.q2">Q: 募集対象の年齢やサッカー経験の基準は？</span><i class="fas fa-chevron-down"></i></button>
@@ -521,7 +531,7 @@
             "sponsors.hero_desc": "当クラブでは、グラウンド手配や用具サポート、試合後のサードタイム（懇親会）等でご協力いただける横浜市内の飲食店・企業様・オフィシャルパートナーを募集しています。",
             "sponsors.hero_btn": "パートナーシップについて問い合わせる",
             "minifaq.title": "よくある質問（FAQ）",
-            "minifaq.q1": "Q: 体験練習参加に必要な持ち物や費用はありますか？", "minifaq.a1": "動ける服装（サッカーウェア）、スパイクまたはトレーニングシューズ、飲料水をお持ちください。体験参加時の費用は原則無料です。",
+            "minifaq.q1": "Q: 体験練習参加に必要な持ち物や費用はありますか？", "minifaq.a1": "動ける服装（サッカーウェア）、スパイクまたはトレーニングシューズ、飲料水をお持ちください。体験参加費は500円です。",
             "minifaq.q2": "Q: 募集対象の年齢やサッカー経験の基準は？", "minifaq.a2": "18歳〜40歳程度のサッカー経験者が対象です。",
             "minifaq.q3": "Q: 活動の場所や頻度はどのくらいですか？", "minifaq.a3": "主に土曜日・日曜日の午前または午後に、横浜市内および神奈川県内のグランドで活動しています。",
             "minifaq.btn": "すべてのFAQを見る",
@@ -563,7 +573,7 @@
             "sponsors.hero_desc": "Siamo alla ricerca di partner e attività commerciali interessate a supportare la crescita della squadra.",
             "sponsors.hero_btn": "Richiedi informazioni per Partnership",
             "minifaq.title": "Domande Frequenti (FAQ)",
-            "minifaq.q1": "Q: Cosa serve per la prima prova e quanto costa?", "minifaq.a1": "Porta abbigliamento sportivo, scarpe da calcio e acqua. La prima sessione è gratuita.",
+            "minifaq.q1": "Q: Cosa serve per la prima prova e quanto costa?", "minifaq.a1": "Porta abbigliamento sportivo, scarpe da calcio e acqua. Il costo della prova è di 500 yen.",
             "minifaq.q2": "Q: Quali sono i requisiti di età e livello?", "minifaq.a2": "Cerchiamo giocatori dai 18 ai 40 anni con esperienza calcistica precedente.",
             "minifaq.q3": "Q: Dove e quando vi allenate?", "minifaq.a3": "Ci alleniamo e giochiamo nei fine settimana nei campi di Yokohama e Kanagawa.",
             "minifaq.btn": "Vedi tutte le FAQ",
@@ -605,7 +615,7 @@
             "sponsors.hero_desc": "We are seeking official partners and sports supporters to join our journey.",
             "sponsors.hero_btn": "Inquire About Partnership",
             "minifaq.title": "Frequently Asked Questions",
-            "minifaq.q1": "Q: What should I bring for a trial session and is there a fee?", "minifaq.a1": "Bring athletic wear, soccer cleats, and water. Trial training sessions are free of charge.",
+            "minifaq.q1": "Q: What should I bring for a trial session and is there a fee?", "minifaq.a1": "Bring athletic wear, soccer cleats, and water. Trial session costs 500 yen.",
             "minifaq.q2": "Q: What are the age and experience requirements?", "minifaq.a2": "We invite experienced players aged 18 to 40 who are dedicated to serious, enjoyable football.",
             "minifaq.q3": "Q: Where and when do you train?", "minifaq.a3": "We play on weekends at major grounds across Yokohama and Kanagawa.",
             "minifaq.btn": "View All FAQs",
@@ -922,10 +932,12 @@
         }
         const scorersTranslated = translatePlayerText(m.scorers, lang);
         const mvpTranslated = translatePlayerText(m.mvp, lang);
+        
+        // Ordine richiesto: Luogo, poi Gol, infine MVP (ciascuno su una riga separata)
+        const venueHtml = `<div class="match-info-item venue-item"><i class="fas fa-map-marker-alt" style="color: var(--dark-navy);"></i><a href="${locInfo.url}" target="_blank" rel="noopener noreferrer">${locInfo.name} <i class="fas fa-external-link-alt" style="font-size: 0.65rem; opacity: 0.7;"></i></a></div>`;
         const scorersHtml = (scorersTranslated && scorersTranslated !== 'なし' && scorersTranslated !== 'Nessuno') ? `<div class="match-info-item"><i class="fas fa-futbol" style="color: var(--dark-navy);"></i><span>${scorersTranslated}</span></div>` : '';
         const mvpHtml = (mvpTranslated && mvpTranslated !== 'なし' && mvpTranslated !== 'Nessuno') ? `<div class="match-info-item"><i class="fas fa-star" style="color: #f59e0b;"></i><strong style="color: var(--dark-navy);">${mvpTranslated}</strong></div>` : '';
-        const venueHtml = `<div class="match-info-item venue-item"><i class="fas fa-map-marker-alt" style="color: var(--dark-navy);"></i><a href="${locInfo.url}" target="_blank" rel="noopener noreferrer" style="color: var(--dark-navy);">${locInfo.name} <i class="fas fa-external-link-alt" style="font-size: 0.62rem; opacity: 0.75;"></i></a></div>`;
-        const infoBarHtml = `<div class="match-info-hero-bar">${scorersHtml}${mvpHtml}${venueHtml}</div>`;
+        const infoBarHtml = `<div class="match-info-hero-bar">${venueHtml}${scorersHtml}${mvpHtml}</div>`;
 
         return `
             <div class="match-past-box" id="${m.id || ''}">
@@ -980,7 +992,7 @@
         }
         const timeHtml = m.time ? `<div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>${m.time} K.O.</span></div>` : '';
         const surfaceHtml = locInfo.surface ? `<div class="match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>${locInfo.surface}</span></div>` : '';
-        const venueHtml = `<div class="match-info-item venue-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i><a href="${locInfo.url}" target="_blank" rel="noopener noreferrer">${locInfo.name} <i class="fas fa-external-link-alt" style="font-size: 0.62rem; opacity: 0.75;"></i></a></div>`;
+        const venueHtml = `<div class="match-info-item"><i class="fas fa-map-marker-alt" style="color: var(--primary-sky);"></i><a href="${locInfo.url}" target="_blank" rel="noopener noreferrer">${locInfo.name} <i class="fas fa-external-link-alt" style="font-size: 0.65rem; opacity: 0.7;"></i></a></div>`;
 
         return `
             <div class="next-match-hero" id="nextMatchBox">
@@ -1022,7 +1034,7 @@
                         <button class="add-to-cal-btn" onclick="toggleCalMenu(event)">
                             <i class="far fa-calendar-plus"></i>
                             <span>${translations[lang]['calendar.add'] || 'カレンダーに追加'}</span>
-                            <i class="fas fa-chevron-down" style="font-size: 0.65rem; margin-left: 1px;"></i>
+                            <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 2px;"></i>
                         </button>
                         <div class="cal-dropdown-menu" id="calDropdownMenu">
                             <button onclick="addMatchToGoogleCal(event)"><i class="fab fa-google"></i> Google Calendar</button>
