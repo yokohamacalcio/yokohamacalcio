@@ -34,9 +34,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
+    <!-- DATI STRUTTURATI CLUB -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsClub",
+      "name": "Yokohama Calcio",
+      "alternateName": ["ヨコハマ・カルチョ", "Yokohama Calcio FC"],
+      "url": "https://yokohamacalcio.com",
+      "logo": "https://yokohamacalcio.com/immagini/logo.png",
+      "description": "Yokohama Calcio（ヨコハマ・カルチョ）は横浜市を拠点に活動する社会人サッカーチームです。イタリアンスタイルの組織的戦術とチームワークで競技に取り組んでいます。Amateur football club based in Yokohama.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Yokohama",
+        "addressRegion": "Kanagawa",
+        "addressCountry": "JP"
+      },
+      "sport": "Soccer",
+      "sameAs": [
+        "https://x.com/yokohamacalcio",
+        "https://instagram.com/yokohamacalcio",
+        "https://youtube.com/@yokohamacalcio?si=NBPkZ0qFxFVrOIof",
+        "https://yokohamacalcio.designstore.jp"
+      ]
+    }
+    </script>
+
     <style>
         /* =====================================================
-           NAV E MENU MOBILE (COMPLETO DA MATCHES.HTML)
+           NAV E MENU MOBILE (IDENTICO A MATCHES.HTML)
            ===================================================== */
         .mobile-nav {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -106,13 +132,13 @@
         @media (orientation: landscape) and (max-height: 500px) { .desktop-nav-wrapper { display: flex !important; } .mobile-menu-toggle { display: none !important; } .main-nav { gap: 4px !important; } .main-nav > a, .main-nav .dropdown-toggle { padding: 4px 5px !important; font-size: 0.78rem !important; } .main-nav .nav-cta-btn { padding: 5px 10px !important; font-size: 0.75rem !important; } .logo-title img { height: 30px !important; } .brand-name { font-size: 0.95rem !important; } }
 
         /* =====================================================
-           HERO CON PRIDE BADGE
+           HERO SECTION CON PRIDE BADGE (EST. 2025)
            ===================================================== */
         .hero-section {
             position: relative;
             background: linear-gradient(135deg, #001229 0%, #00224a 50%, #001020 100%);
             color: #ffffff;
-            padding: 70px 20px 140px 20px; /* Spazio extra sotto per la sovrapposizione */
+            padding: 65px 20px 125px 20px;
             text-align: center;
             overflow: hidden;
             border-bottom: 2px solid #87ceeb;
@@ -129,86 +155,119 @@
         .club-pride-badge {
             display: inline-flex; align-items: center; gap: 10px; background: rgba(0, 60, 130, 0.45);
             border: 1px solid rgba(135, 206, 235, 0.4); padding: 8px 20px; border-radius: 50px;
-            margin-bottom: 22px; backdrop-filter: blur(8px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px; backdrop-filter: blur(8px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         .pride-badge-text { font-size: 0.85rem; font-weight: 800; letter-spacing: 1.5px; color: #87ceeb; text-transform: uppercase; }
         .pride-badge-divider { color: rgba(255, 255, 255, 0.3); }
         .pride-badge-sub { font-size: 0.82rem; color: #ffffff; font-weight: 600; }
         
         .hero-main-title {
-            font-family: 'Bebas Neue', 'Montserrat', sans-serif; font-size: 3.8rem; line-height: 1.05;
+            font-family: 'Bebas Neue', 'Montserrat', sans-serif; font-size: 3.6rem; line-height: 1.05;
             letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
         }
         .hero-main-title .highlight-sky {
             color: #87ceeb; background: linear-gradient(90deg, #87ceeb, #ffffff);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .hero-subtitle { font-size: 1.15rem; max-width: 720px; margin: 0 auto 10px auto; color: rgba(255, 255, 255, 0.88); line-height: 1.6; font-weight: 500; }
+        .hero-subtitle { font-size: 1.1rem; max-width: 720px; margin: 0 auto 10px auto; color: rgba(255, 255, 255, 0.88); line-height: 1.6; font-weight: 500; }
 
         @media (max-width: 768px) {
-            .hero-section { padding: 60px 15px 110px 15px; }
-            .hero-main-title { font-size: 2.6rem; }
-            .hero-subtitle { font-size: 0.98rem; }
+            .hero-section { padding: 55px 15px 105px 15px; }
+            .hero-main-title { font-size: 2.5rem; }
+            .hero-subtitle { font-size: 0.95rem; }
         }
 
         /* =====================================================
-           SEZIONE PROSSIMA PARTITA (SOVRAPPOSTA - STILE SSC NAPOLI)
+           MATCH CENTER CAROUSEL & SWIPE (SOVRAPPOSTO ALL'HERO)
            ===================================================== */
-        #nextMatchContainerWrapper {
-            position: relative; z-index: 10; margin-top: -65px; padding: 0 15px;
+        .match-center-overlap-container {
+            position: relative; z-index: 10; margin-top: -60px; padding: 0 15px;
         }
-        @media (max-width: 768px) { #nextMatchContainerWrapper { margin-top: -40px; } }
+        @media (max-width: 768px) { .match-center-overlap-container { margin-top: -45px; } }
 
+        /* TRACK CON SWIPE ORIZZONTALE (MOBILE 85% LARGHEZZA) */
+        .match-center-swipe-track {
+            display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch; padding-bottom: 15px; padding-top: 5px;
+            max-width: 1080px; margin: 0 auto;
+        }
+        .match-center-swipe-track::-webkit-scrollbar { height: 6px; }
+        .match-center-swipe-track::-webkit-scrollbar-thumb { background: rgba(135, 206, 235, 0.4); border-radius: 4px; }
+
+        .match-card-item {
+            flex: 0 0 88%; max-width: 88%; scroll-snap-align: start; box-sizing: border-box;
+        }
+        @media (min-width: 900px) {
+            .match-center-swipe-track { display: grid; grid-template-columns: 1fr 1fr; overflow-x: visible; }
+            .match-card-item { flex: 1; max-width: 100%; }
+        }
+
+        /* CARD ULTIMO RISULTATO */
+        .match-past-napoli-card {
+            background: #ffffff; border-radius: 18px; padding: 24px; border: 1px solid #cbd5e1;
+            box-shadow: 0 12px 30px rgba(0, 38, 74, 0.12); display: flex; flex-direction: column;
+            justify-content: space-between; height: 100%; box-sizing: border-box;
+        }
+
+        /* CARD PROSSIMA PARTITA (NAPOLI STYLE) */
         .next-match-napoli-card {
-            position: relative; max-width: 960px; margin: 0 auto;
-            background: linear-gradient(135deg, #001a3a 0%, #000a17 100%);
-            border-radius: 20px; padding: 30px 25px; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(135, 206, 235, 0.35); overflow: hidden;
+            position: relative; background: linear-gradient(135deg, #001a3a 0%, #000a17 100%);
+            border-radius: 18px; padding: 24px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(135, 206, 235, 0.35); overflow: hidden; display: flex;
+            flex-direction: column; justify-content: space-between; height: 100%; box-sizing: border-box;
         }
         .next-match-watermark {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-family: 'Bebas Neue', sans-serif; font-size: 14rem; line-height: 0.8; font-weight: 900;
-            color: rgba(135, 206, 235, 0.035); white-space: nowrap; user-select: none; pointer-events: none; z-index: 1; letter-spacing: 5px;
+            font-family: 'Bebas Neue', sans-serif; font-size: 11rem; line-height: 0.8; font-weight: 900;
+            color: rgba(135, 206, 235, 0.04); white-space: nowrap; user-select: none; pointer-events: none; z-index: 1; letter-spacing: 4px;
         }
-        @media (max-width: 768px) { .next-match-watermark { font-size: 7rem; } .next-match-napoli-card { padding: 20px 16px; } }
+        @media (max-width: 768px) { .next-match-watermark { font-size: 6.5rem; } .next-match-napoli-card, .match-past-napoli-card { padding: 18px 15px; } }
 
-        .napoli-card-content { position: relative; z-index: 2; }
+        .napoli-card-content { position: relative; z-index: 2; width: 100%; }
         .napoli-card-header {
             display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12); padding-bottom: 12px; margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12); padding-bottom: 10px; margin-bottom: 15px;
         }
-        .napoli-badge-tag {
-            background: linear-gradient(90deg, #87ceeb 0%, #4682b4 100%); color: #001a3a;
-            font-size: 0.85rem; font-weight: 800; padding: 5px 14px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;
-        }
-        .napoli-match-date { color: rgba(255, 255, 255, 0.85); font-weight: 700; font-size: 0.95rem; }
 
-        .match-teams-wrapper { display: flex; flex-direction: column; gap: 10px; width: 100%; margin: 15px 0; }
-        .teams-logos-row { display: grid; grid-template-columns: 1fr 70px 1fr; align-items: center; justify-items: center; width: 100%; }
-        .teams-names-row { display: grid; grid-template-columns: 1fr 70px 1fr; align-items: start; justify-items: center; width: 100%; }
-        .hero-logo-wrap { width: 88px; height: 88px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .hero-logo-wrap img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.8)); }
+        /* BADGE NEXT MATCH EXTRA LARGO (DOPPIA LARGHEZZA) */
+        .next-match-badge-wide {
+            background: linear-gradient(90deg, #87ceeb 0%, #4682b4 100%);
+            color: #001a3a; font-size: 0.85rem; font-weight: 800; padding: 6px 22px;
+            border-radius: 20px; text-transform: uppercase; letter-spacing: 1.5px;
+            min-width: 140px; text-align: center; display: inline-block;
+            box-shadow: 0 2px 8px rgba(135, 206, 235, 0.3);
+        }
+
+        .napoli-match-date { color: rgba(255, 255, 255, 0.88); font-weight: 700; font-size: 0.9rem; }
+
+        .match-teams-wrapper { display: flex; flex-direction: column; gap: 8px; width: 100%; margin: 12px 0; }
+        .teams-logos-row { display: grid; grid-template-columns: 1fr 65px 1fr; align-items: center; justify-items: center; width: 100%; }
+        .teams-names-row { display: grid; grid-template-columns: 1fr 65px 1fr; align-items: start; justify-items: center; width: 100%; }
+        .hero-logo-wrap { width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .hero-logo-wrap img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 8px rgba(135, 206, 235, 0.7)); }
         .hero-logo-wrap img[src*="ui-avatars.com"] { border-radius: 50%; background: #ffffff; }
-        .team-name-col { font-weight: 700; font-size: 1.1rem; line-height: 1.25; color: #ffffff; text-align: center; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .team-name-col { font-weight: 700; font-size: 0.98rem; line-height: 1.2; text-align: center; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
         .match-countdown-wrapper {
-            margin-top: 20px; padding: 14px 16px; background: rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(135, 206, 235, 0.25); border-radius: 12px; text-align: center;
+            margin-top: 14px; padding: 10px 12px; background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(135, 206, 235, 0.25); border-radius: 10px; text-align: center;
         }
-        .countdown-title { font-size: 0.8rem; font-weight: 700; color: #87ceeb; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        .countdown-timer { display: flex; justify-content: center; align-items: center; gap: 12px; }
-        .cd-box { display: flex; flex-direction: column; align-items: center; min-width: 45px; }
-        .cd-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; line-height: 1; color: #ffffff; }
-        .cd-label { font-size: 0.68rem; color: rgba(255,255,255,0.7); }
-        .cd-colon { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: #87ceeb; margin-top: -10px; }
+        .countdown-title { font-size: 0.75rem; font-weight: 700; color: #87ceeb; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+        .countdown-timer { display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .cd-box { display: flex; flex-direction: column; align-items: center; min-width: 38px; }
+        .cd-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; line-height: 1; color: #ffffff; }
+        .cd-label { font-size: 0.65rem; color: rgba(255,255,255,0.7); }
+        .cd-colon { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: #87ceeb; margin-top: -8px; }
+
+        .score-past { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: #003c82; font-weight: 800; }
 
         /* =====================================================
-           ALTRE SEZIONI (News, Risultati, Banner)
+           SEZIONE NEWS (CON SWIPE SU MOBILE)
            ===================================================== */
         .news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         @media (max-width: 768px) {
             .news-grid { display: flex !important; flex-direction: row !important; overflow-x: auto !important; scroll-snap-type: x mandatory; gap: 15px !important; padding-bottom: 15px; -webkit-overflow-scrolling: touch; margin: 0 -15px; padding-left: 15px; padding-right: 15px; }
-            .news-card { flex: 0 0 85% !important; max-width: 85% !important; scroll-snap-align: center; }
+            .news-card { flex: 0 0 85% !important; max-width: 85% !important; scroll-snap-align: start; }
         }
         .news-card { background: #ffffff; border-radius: 14px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0, 38, 74, 0.05); display: flex; flex-direction: column; transition: transform 0.2s ease, box-shadow 0.2s ease; }
         .news-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0, 38, 74, 0.12); }
@@ -223,30 +282,19 @@
         .news-title-text { font-size: 0.98rem; font-weight: 700; color: #00224a; line-height: 1.4; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .news-link { font-size: 0.82rem; font-weight: 700; color: #003c82; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
 
-        .recruitment-banner { background: linear-gradient(135deg, #00224a 0%, #001229 100%); border-radius: 16px; padding: 35px 25px; color: #ffffff; position: relative; overflow: hidden; border: 1px solid rgba(135, 206, 235, 0.3); box-shadow: 0 10px 30px rgba(0, 34, 74, 0.2); margin: 40px auto 0; max-width: 1000px; }
+        /* BANNER E ALTRE SEZIONI */
+        .recruitment-banner { background: linear-gradient(135deg, #00224a 0%, #001229 100%); border-radius: 16px; padding: 35px 25px; color: #ffffff; position: relative; overflow: hidden; border: 1px solid rgba(135, 206, 235, 0.3); box-shadow: 0 10px 30px rgba(0, 34, 74, 0.2); margin: 30px auto 0; max-width: 1000px; }
         .recruitment-banner::before { content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: linear-gradient(to bottom, #87ceeb 33%, #ffffff 33%, #ffffff 66%, #00224a 66%); }
         .recruitment-content { display: flex; align-items: center; justify-content: space-between; gap: 25px; }
         @media (max-width: 768px) { .recruitment-content { flex-direction: column; text-align: center; } }
         .recruitment-btn { background: #87ceeb; color: #00224a !important; font-weight: 800; font-size: 0.98rem; padding: 14px 28px; border-radius: 30px; text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3); transition: all 0.2s ease; }
         
-        .match-box-card { background: var(--white, #ffffff); border-radius: 16px; padding: 24px; border: 1px solid #e2e8f0; box-shadow: 0 4px 18px rgba(0, 60, 130, 0.06); display: flex; flex-direction: column; box-sizing: border-box; max-width: 600px; margin: 0 auto; }
-        .card-logo-wrap { width: 58px; height: 58px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .card-logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
-        .card-logo-wrap img[src*="ui-avatars.com"] { border-radius: 50%; }
-        .score-past { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: #003c82; }
-
         .mini-faq-container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
         .faq-item { background: #ffffff; border-radius: 10px; border: 1px solid #e2e8f0; overflow: hidden; }
         .faq-question { width: 100%; background: transparent; border: none; padding: 16px 20px; text-align: left; font-weight: 700; font-size: 0.95rem; color: #003c82; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s ease; }
         .faq-question:hover { background: #f8fafc; }
         .faq-answer { padding: 0 20px 16px 20px; font-size: 0.88rem; color: #475569; line-height: 1.6; display: none; border-top: 1px dashed #f1f5f9; padding-top: 12px; }
         .faq-item.active .faq-answer { display: block; }
-        
-        .add-to-cal-wrapper { position: relative; display: inline-block; }
-        .cal-dropdown-menu { display: none; position: absolute; bottom: 100%; left: 0; margin-bottom: 8px; background: #001a38; border: 1px solid rgba(135, 206, 235, 0.4); border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 100; white-space: nowrap; overflow: hidden; }
-        .cal-dropdown-menu.show { display: block; }
-        .cal-dropdown-menu button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 10px 14px; background: transparent; border: none; color: #ffffff; text-decoration: none; font-size: 0.78rem; font-weight: 600; text-align: left; cursor: pointer; transition: background 0.2s ease; }
-        .cal-dropdown-menu button:hover { background: rgba(135, 206, 235, 0.2); color: #87ceeb; }
     </style>
 </head>
 <body>
@@ -372,7 +420,7 @@
   </nav>
 </header>
 
-<!-- HERO SECTION CON PRIDE BADGE -->
+<!-- HERO SECTION CON PRIDE BADGE (EST. 2025) -->
 <section class="hero-section">
   <div class="hero-content-wrapper">
     
@@ -380,7 +428,7 @@
       <i class="fas fa-shield-alt" style="color: #87ceeb;"></i>
       <span class="pride-badge-text">YOKOHAMA PRIDE</span>
       <span class="pride-badge-divider">|</span>
-      <span class="pride-badge-sub">義理・人情 • EST. 2026</span>
+      <span class="pride-badge-sub">義理・人情 • EST. 2025</span>
     </div>
 
     <h1 class="hero-main-title">
@@ -394,29 +442,31 @@
   </div>
 </section>
 
-<!-- SEZIONE PROSSIMA PARTITA SOVRAPPOSTA (POPOLATA VIA JS) -->
-<div id="nextMatchContainerWrapper">
-  <!-- Container vuoto, verrà iniettato da renderMatchCenter() -->
+<!-- MATCH CENTER SWIPE TRACK (SOVRAPPOSTO ALL'HERO) -->
+<div class="match-center-overlap-container" id="results">
+  <div class="match-center-swipe-track" id="matchCenterSwipeTrack">
+    <!-- Popolato dinamicamente via JS: 1. Ultima Partita (Past), 2. Prossima Partita (Next) -->
+  </div>
 </div>
 
-<section class="section" id="about" style="padding-top: 60px;">
+<section class="section" id="about" style="padding-top: 50px;">
     <div class="container">
         <h2 class="section-title" style="text-align: center;"><i class="fas fa-flag"></i> <span data-i18n="about.title">Yokohama Calcioとは</span></h2>
         
-        <div class="recruitment-banner" style="margin-top: 20px;">
+        <div class="recruitment-banner">
             <div class="recruitment-content">
                 <div class="recruitment-text-box">
                     <h3><i class="fas fa-futbol"></i> <span data-i18n="recruit.banner_title">新メンバー募集中！(18〜40歳経験者)</span></h3>
-                    <p data-i18n="recruit.banner_desc" style="margin-top: 10px;">組織的なイタリアンフットボールを体感しませんか？真剣に勝利を目指しながら、共に進化できる仲間を探しています。体験参加へのご参加をお待ちしています！</p>
+                    <p data-i18n="recruit.banner_desc" style="margin-top: 8px;">組織的なイタリアンフットボールを体感しませんか？真剣に勝利を目指しながら、共に進化できる仲間を探しています。体験参加へのご参加をお待ちしています！</p>
                 </div>
-                <a href="contact.html?type=trial" class="recruitment-btn" style="margin-top: 15px;">
+                <a href="contact.html?type=trial" class="recruitment-btn" style="margin-top: 12px;">
                     <i class="fas fa-paper-plane"></i>
                     <span data-i18n="recruit.banner_btn">体験参加を申し込む</span>
                 </a>
             </div>
         </div>
 
-        <div style="text-align: center; margin-top: 35px;">
+        <div style="text-align: center; margin-top: 30px;">
             <a href="about.html" class="google-form-btn" style="max-width: 360px; margin: 0 auto; background: var(--dark-navy, #003c82); color: #ffffff;">
                 <i class="fas fa-book-open"></i> <span data-i18n="about.btn_more">クラブ紹介・歴史の詳細はこちら</span> <i class="fas fa-arrow-right"></i>
             </a>
@@ -424,26 +474,12 @@
     </div>
 </section>
 
-<!-- SEZIONE NEWS -->
+<!-- SEZIONE NEWS CON CAROSELLO SWIPE -->
 <section class="section" id="news" style="background: #ffffff;">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-newspaper"></i> <span data-i18n="news.title">クラブニュース</span></h2>
         <div class="news-grid" id="newsContainer">
             <!-- News popolate dinamicamente -->
-        </div>
-    </div>
-</section>
-
-<!-- MATCH CENTER (ULTIMA PARTITA) -->
-<section class="section match-center-section" id="results">
-    <div class="container">
-        <h2 class="section-title" style="text-align: center;"><i class="fas fa-history"></i> <span data-i18n="results.past_title">最新の試合結果</span></h2>
-        <div id="pastContainer" style="margin-top: 20px;"></div>
-        
-        <div style="text-align: center; margin-top: 30px;">
-            <a href="matches.html" class="google-form-btn" style="max-width: 320px; margin: 0 auto;">
-                <i class="fas fa-list"></i> <span data-i18n="results.all_matches">全試合日程・詳細はこちら</span>
-            </a>
         </div>
     </div>
 </section>
@@ -531,7 +567,7 @@
 
 <script>
     /* =========================================================
-       LOGICA JS, TRADUZIONI, RENDERING CARD
+       LOGICA JS, TRADUZIONI, RENDERING CARD SWIPE
        ========================================================= */
     const pageTitles = {
         ja: "Yokohama Calcio | 横浜の社会人サッカーチーム・メンバー＆対戦相手募集",
@@ -563,7 +599,7 @@
             "recruit.banner_desc": "組織的なイタリアンフットボールを体感しませんか？真剣に勝利を目指しながら、共に進化できる仲間を探しています。",
             "recruit.banner_btn": "体験参加を申し込む",
             "results.past_title": "最新の試合結果", "results.last_badge": "前節結果", "results.next_badge": "NEXT MATCH",
-            "results.detail": "詳細", "results.all_matches": "全試合日程・詳細はこちら",
+            "results.detail": "詳細を見る", "results.all_matches": "全試合日程・詳細はこちら",
             "results.no_next_match": "現在、次の試合日程を調整中です。対戦相手も募集しています！", "results.friendly_req_btn": "練習試合を申し込む",
             "sponsors.title": "オフィシャルパートナー", "sponsors.hero_title": "Yokohama Calcioを応援しませんか？",
             "sponsors.hero_desc": "当クラブでは、グラウンド手配や用具サポート、試合後のサードタイム（懇親会）等でご協力いただける横浜市内の飲食店・企業様・オフィシャルパートナーを募集しています。",
@@ -575,7 +611,7 @@
             "minifaq.btn": "すべてのFAQを見る",
             "gallery.title": "フォトギャラリー", "shop.title": "公式オンラインショップ", "shop.card_title": "Yokohama Calcio オフィシャルグッズ",
             "shop.card_desc": "Tシャツ、キャップ、キーホルダー、マフラータオルなどのオリジナルグッズを取り揃えています。売上収益はチームの活動費として大切に活用させていただきます。", "shop.btn": "公式ショップを見る", 
-            "countdown.title": "キックオフまで", "countdown.days": "日", "countdown.hours": "時間", "countdown.mins": "分", "countdown.secs": "秒", "calendar.add": "カレンダーに追加", "btn.details": "全日程・詳細を見る"
+            "countdown.title": "キックオフまで", "countdown.days": "日", "countdown.hours": "時間", "countdown.mins": "分", "countdown.secs": "秒", "calendar.add": "カレンダーに追加", "btn.details": "全日程・詳細"
         },
         it: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
@@ -600,7 +636,7 @@
             "minifaq.btn": "Vedi tutte le FAQ",
             "gallery.title": "Galleria", "shop.title": "Online Shop Ufficiale", "shop.card_title": "Merchandising Yokohama Calcio",
             "shop.card_desc": "Scopri t-shirt, cappellini e sciarpe per tifare la squadra. I proventi sostengono le attività del club.", "shop.btn": "Visita lo Store", 
-            "countdown.title": "Calcio d'inizio tra", "countdown.days": "gg", "countdown.hours": "ore", "countdown.mins": "min", "countdown.secs": "sec", "calendar.add": "Aggiungi al Calendario", "btn.details": "Scopri Dettagli"
+            "countdown.title": "Calcio d'inizio tra", "countdown.days": "gg", "countdown.hours": "ore", "countdown.mins": "min", "countdown.secs": "sec", "calendar.add": "Aggiungi al Calendario", "btn.details": "Dettagli Partita"
         },
         en: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
@@ -625,7 +661,7 @@
             "minifaq.btn": "View All FAQs",
             "gallery.title": "Photo Gallery", "shop.title": "Official Online Shop", "shop.card_title": "Yokohama Calcio Merchandise",
             "shop.card_desc": "Discover t-shirts, caps, and scarves to support the team. Proceeds are used for the team's activities.", "shop.btn": "Visit Official Store", 
-            "countdown.title": "Countdown to Kick-off", "countdown.days": "d", "countdown.hours": "h", "countdown.mins": "m", "countdown.secs": "s", "calendar.add": "Add to Calendar", "btn.details": "View Details"
+            "countdown.title": "Countdown to Kick-off", "countdown.days": "d", "countdown.hours": "h", "countdown.mins": "m", "countdown.secs": "s", "calendar.add": "Add to Calendar", "btn.details": "Match Details"
         }
     };
 
@@ -720,65 +756,7 @@
         }).join('');
     }
 
-    function generateNapoliCard(m, lang) {
-        const opp = getOpponentInfo(m, lang);
-        const loc = getLocationInfo(m.location_id, m.venue, lang);
-        const dStr = m.date ? m.date.replace(/\./g, '-').substring(0, 10) : '';
-        const fDate = formatDate(dStr, lang);
-        
-        let lName = m.isHome === false ? opp.name : 'Yokohama Calcio';
-        let lLogo = m.isHome === false ? opp.logo : './immagini/logo.png?v=2';
-        let lErr = m.isHome === false ? `onerror="this.src='${getAvatarUrl(m, opp.romaji)}';"` : '';
-        
-        let rName = m.isHome === false ? 'Yokohama Calcio' : opp.name;
-        let rLogo = m.isHome === false ? './immagini/logo.png?v=2' : opp.logo;
-        let rErr = m.isHome === false ? '' : `onerror="this.src='${getAvatarUrl(m, opp.romaji)}';"`;
-
-        return `
-            <div class="next-match-napoli-card" id="nextMatchBox">
-                <div class="next-match-watermark">NEXT MATCH</div>
-                <div class="napoli-card-content">
-                    <div class="napoli-card-header">
-                        <div class="match-badge-group">
-                            <span class="napoli-badge-tag">${translations[lang]['results.next_badge']}</span>
-                            <span class="match-badge badge-official" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);">${m.type || '練習試合'}</span>
-                        </div>
-                        <div class="napoli-match-date"><i class="far fa-calendar-alt" style="color: #87ceeb; margin-right: 5px;"></i> ${fDate}</div>
-                    </div>
-                    <div class="match-teams-wrapper">
-                        <div class="teams-logos-row">
-                            <div class="hero-logo-wrap"><img src="${lLogo}" alt="${lName}" ${lErr}></div>
-                            <div class="match-vs-center" style="font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; color: #87ceeb;">VS</div>
-                            <div class="hero-logo-wrap"><img src="${rLogo}" alt="${rName}" ${rErr}></div>
-                        </div>
-                        <div class="teams-names-row">
-                            <div class="team-name-col">${lName}</div><div></div><div class="team-name-col">${rName}</div>
-                        </div>
-                    </div>
-                    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; margin-top: 18px; padding: 12px; font-size: 0.9rem; color: #fff;">
-                        ${m.time ? `<div><i class="fas fa-clock" style="color: #87ceeb;"></i> ${m.time} K.O.</div>` : ''}
-                        ${loc.surface ? `<div><i class="fas fa-layer-group" style="color: #87ceeb;"></i> ${loc.surface}</div>` : ''}
-                        <div><i class="fas fa-map-marker-alt" style="color: #87ceeb;"></i> <a href="${loc.url}" target="_blank" style="color: #fff; text-decoration: none;">${loc.name} <i class="fas fa-external-link-alt" style="font-size: 0.7rem;"></i></a></div>
-                    </div>
-                    <div class="match-countdown-wrapper">
-                        <div class="countdown-title"><i class="fas fa-stopwatch"></i> ${translations[lang]['countdown.title']}</div>
-                        <div class="countdown-timer">
-                            <div class="cd-box"><span class="cd-num" id="cd-days">00</span><span class="cd-label">${translations[lang]['countdown.days']}</span></div><div class="cd-colon">:</div>
-                            <div class="cd-box"><span class="cd-num" id="cd-hours">00</span><span class="cd-label">${translations[lang]['countdown.hours']}</span></div><div class="cd-colon">:</div>
-                            <div class="cd-box"><span class="cd-num" id="cd-mins">00</span><span class="cd-label">${translations[lang]['countdown.mins']}</span></div><div class="cd-colon">:</div>
-                            <div class="cd-box"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">${translations[lang]['countdown.secs']}</span></div>
-                        </div>
-                    </div>
-                    <div style="text-align: center; margin-top: 20px;">
-                        <a href="matches.html#${m.id || ''}" class="btn-match-detail-hero" style="display: inline-flex; align-items: center; gap: 8px; background: #87ceeb; color: #001a3a; padding: 10px 24px; border-radius: 25px; font-weight: 800; text-decoration: none;">
-                            <span>${translations[lang]['btn.details']}</span> <i class="fas fa-chevron-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-
+    /* CARD 1: ULTIMA PARTITA GIOCATA */
     function generateLastMatchHtml(m, lang) {
         const opp = getOpponentInfo(m, lang);
         const loc = getLocationInfo(m.location_id, m.venue, lang);
@@ -800,54 +778,126 @@
         }
 
         return `
-            <div class="match-box-card">
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 15px;">
-                    <div class="match-badge-group">
-                        <span class="match-badge badge-official">${translations[lang]['results.last_badge']}</span>
-                        <span class="match-badge badge-friendly">${m.type || '練習試合'}</span>
+            <div class="match-card-item">
+                <div class="match-past-napoli-card">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 12px;">
+                            <div class="match-badge-group">
+                                <span class="match-badge badge-official" style="background:#003c82; color:#fff; font-size:0.75rem; padding:4px 10px; border-radius:4px; font-weight:800;">${translations[lang]['results.last_badge']}</span>
+                                <span class="match-badge badge-friendly" style="background:#64748b; color:#fff; font-size:0.75rem; padding:4px 8px; border-radius:4px;">${m.type || '練習試合'}</span>
+                            </div>
+                            <span style="font-size: 0.85rem; color: #64748b; font-weight: 700;">${fDate}</span>
+                        </div>
+                        <div class="match-teams-wrapper">
+                            <div class="teams-logos-row">
+                                <div class="card-logo-wrap"><img src="${lLogo}" alt="${lName}" ${lErr}></div>
+                                <div class="score-past">${dispScore}</div>
+                                <div class="card-logo-wrap"><img src="${rLogo}" alt="${rName}" ${rErr}></div>
+                            </div>
+                            <div class="teams-names-row">
+                                <div class="team-name-col" style="color: #003c82;">${lName}</div><div></div><div class="team-name-col" style="color: #003c82;">${rName}</div>
+                            </div>
+                        </div>
                     </div>
-                    <span style="font-size: 0.85rem; color: #64748b; font-weight: 600;">${fDate}</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 1px dashed #cbd5e1; padding-top: 12px;">
+                        <a href="${loc.url}" target="_blank" style="font-size: 0.82rem; color: #003c82; font-weight: 700; text-decoration: none;"><i class="fas fa-map-marker-alt" style="color:#87ceeb;"></i> ${loc.name}</a>
+                        <a href="matches.html#${m.id || ''}" style="background: #003c82; color: #fff; padding: 6px 14px; border-radius: 6px; font-size: 0.78rem; font-weight: 800; text-decoration: none; display:inline-flex; align-items:center; gap:4px;"><span>${translations[lang]['results.detail']}</span> <i class="fas fa-chevron-right"></i></a>
+                    </div>
                 </div>
-                <div class="match-teams-wrapper">
-                    <div class="teams-logos-row">
-                        <div class="card-logo-wrap"><img src="${lLogo}" alt="${lName}" ${lErr}></div>
-                        <div class="score-past">${dispScore}</div>
-                        <div class="card-logo-wrap"><img src="${rLogo}" alt="${rName}" ${rErr}></div>
+            </div>
+        `;
+    }
+
+    /* CARD 2: PROSSIMA PARTITA (STILE NAPOLI CON BADGE DOPPIO) */
+    function generateNextMatchHtml(m, lang) {
+        const opp = getOpponentInfo(m, lang);
+        const loc = getLocationInfo(m.location_id, m.venue, lang);
+        const dStr = m.date ? m.date.replace(/\./g, '-').substring(0, 10) : '';
+        const fDate = formatDate(dStr, lang);
+        
+        let lName = m.isHome === false ? opp.name : 'Yokohama Calcio';
+        let lLogo = m.isHome === false ? opp.logo : './immagini/logo.png?v=2';
+        let lErr = m.isHome === false ? `onerror="this.src='${getAvatarUrl(m, opp.romaji)}';"` : '';
+        
+        let rName = m.isHome === false ? 'Yokohama Calcio' : opp.name;
+        let rLogo = m.isHome === false ? './immagini/logo.png?v=2' : opp.logo;
+        let rErr = m.isHome === false ? '' : `onerror="this.src='${getAvatarUrl(m, opp.romaji)}';"`;
+
+        return `
+            <div class="match-card-item">
+                <div class="next-match-napoli-card">
+                    <div class="next-match-watermark">NEXT MATCH</div>
+                    <div class="napoli-card-content">
+                        <div class="napoli-card-header">
+                            <div class="match-badge-group">
+                                <span class="next-match-badge-wide">${translations[lang]['results.next_badge']}</span>
+                            </div>
+                            <div class="napoli-match-date"><i class="far fa-calendar-alt" style="color: #87ceeb; margin-right: 4px;"></i> ${fDate}</div>
+                        </div>
+                        <div class="match-teams-wrapper">
+                            <div class="teams-logos-row">
+                                <div class="hero-logo-wrap"><img src="${lLogo}" alt="${lName}" ${lErr}></div>
+                                <div class="match-vs-center" style="font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: #87ceeb;">VS</div>
+                                <div class="hero-logo-wrap"><img src="${rLogo}" alt="${rName}" ${rErr}></div>
+                            </div>
+                            <div class="teams-names-row">
+                                <div class="team-name-col" style="color: #ffffff;">${lName}</div><div></div><div class="team-name-col" style="color: #ffffff;">${rName}</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; margin-top: 12px; padding: 8px; font-size: 0.82rem; color: #fff;">
+                            ${m.time ? `<div><i class="fas fa-clock" style="color: #87ceeb;"></i> ${m.time} K.O.</div>` : ''}
+                            ${loc.surface ? `<div><i class="fas fa-layer-group" style="color: #87ceeb;"></i> ${loc.surface}</div>` : ''}
+                            <div><i class="fas fa-map-marker-alt" style="color: #87ceeb;"></i> <a href="${loc.url}" target="_blank" style="color: #fff; text-decoration: none; font-weight:700;">${loc.name} <i class="fas fa-external-link-alt" style="font-size: 0.65rem;"></i></a></div>
+                        </div>
+                        <div class="match-countdown-wrapper">
+                            <div class="countdown-title"><i class="fas fa-stopwatch"></i> ${translations[lang]['countdown.title']}</div>
+                            <div class="countdown-timer">
+                                <div class="cd-box"><span class="cd-num" id="cd-days">00</span><span class="cd-label">${translations[lang]['countdown.days']}</span></div><div class="cd-colon">:</div>
+                                <div class="cd-box"><span class="cd-num" id="cd-hours">00</span><span class="cd-label">${translations[lang]['countdown.hours']}</span></div><div class="cd-colon">:</div>
+                                <div class="cd-box"><span class="cd-num" id="cd-mins">00</span><span class="cd-label">${translations[lang]['countdown.mins']}</span></div><div class="cd-colon">:</div>
+                                <div class="cd-box"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">${translations[lang]['countdown.secs']}</span></div>
+                            </div>
+                        </div>
+                        <div style="text-align: right; margin-top: 12px;">
+                            <a href="matches.html#${m.id || ''}" style="display: inline-flex; align-items: center; gap: 6px; background: #87ceeb; color: #001a3a; padding: 6px 16px; border-radius: 20px; font-weight: 800; font-size:0.78rem; text-decoration: none;">
+                                <span>${translations[lang]['btn.details']}</span> <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
                     </div>
-                    <div class="teams-names-row">
-                        <div class="team-name-col" style="color: #003c82;">${lName}</div><div></div><div class="team-name-col" style="color: #003c82;">${rName}</div>
-                    </div>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 1px dashed #e2e8f0; padding-top: 15px;">
-                    <a href="${loc.url}" target="_blank" style="font-size: 0.85rem; color: #003c82; font-weight: 600; text-decoration: none;"><i class="fas fa-map-marker-alt"></i> ${loc.name}</a>
-                    <a href="matches.html#${m.id || ''}" style="background: #003c82; color: #fff; padding: 6px 14px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; text-decoration: none;">${translations[lang]['results.detail']} <i class="fas fa-chevron-right"></i></a>
                 </div>
             </div>
         `;
     }
 
     function renderMatchCenter(matches) {
-        const upW = document.getElementById('nextMatchContainerWrapper');
-        const pC = document.getElementById('pastContainer');
-        if (!upW || !pC) return;
+        const track = document.getElementById('matchCenterSwipeTrack');
+        if (!track) return;
 
-        const upc = matches.filter(m => m.status === 'upcoming').sort((a,b) => new Date(a.date) - new Date(b.date));
-        if (upc.length > 0) {
-            upW.innerHTML = '<div class="container">' + generateNapoliCard(upc[0], currentLang) + '</div>';
-            startCountdown(upc[0].date.replace(/\./g, '-').substring(0, 10), upc[0].time);
-        } else {
-            upW.innerHTML = `
-                <div class="container">
-                    <div class="next-match-napoli-card" style="text-align: center;">
-                        <i class="fas fa-handshake-angle" style="font-size: 3rem; color: #87ceeb; margin-bottom: 15px;"></i>
-                        <h3 style="color: #fff;">${translations[currentLang]['results.no_next_match']}</h3>
-                        <a href="contact.html?type=match" class="btn-match-detail-hero" style="display: inline-block; margin-top: 15px; background: #87ceeb; color: #001a3a; padding: 10px 24px; border-radius: 25px; font-weight: 800; text-decoration: none;">${translations[currentLang]['results.friendly_req_btn']}</a>
-                    </div>
-                </div>`;
+        let trackHtml = '';
+
+        /* 1. ULTIMA PARTITA GIOCATA (CARD 1) */
+        const past = matches.filter(m => m.status === 'past' || m.status === 'live').sort((a,b) => new Date(a.date) - new Date(b.date));
+        if (past.length > 0) {
+            trackHtml += generateLastMatchHtml(past[past.length - 1], currentLang);
         }
 
-        const past = matches.filter(m => m.status === 'past' || m.status === 'live').sort((a,b) => new Date(a.date) - new Date(b.date));
-        if (past.length > 0) pC.innerHTML = generateLastMatchHtml(past[past.length - 1], currentLang);
+        /* 2. PROSSIMA PARTITA (CARD 2 - A DESTRA CON SWIPE) */
+        const upc = matches.filter(m => m.status === 'upcoming').sort((a,b) => new Date(a.date) - new Date(b.date));
+        if (upc.length > 0) {
+            trackHtml += generateNextMatchHtml(upc[0], currentLang);
+            track.innerHTML = trackHtml;
+            startCountdown(upc[0].date.replace(/\./g, '-').substring(0, 10), upc[0].time);
+        } else {
+            trackHtml += `
+                <div class="match-card-item">
+                    <div class="next-match-napoli-card" style="text-align: center; justify-content: center;">
+                        <i class="fas fa-handshake-angle" style="font-size: 2.5rem; color: #87ceeb; margin-bottom: 10px;"></i>
+                        <h4 style="color: #fff; font-size:0.95rem;">${translations[currentLang]['results.no_next_match']}</h4>
+                        <a href="contact.html?type=match" style="display: inline-block; margin-top: 12px; background: #87ceeb; color: #001a3a; padding: 8px 18px; border-radius: 20px; font-weight: 800; font-size:0.8rem; text-decoration: none;">${translations[currentLang]['results.friendly_req_btn']}</a>
+                    </div>
+                </div>`;
+            track.innerHTML = trackHtml;
+        }
     }
 
     function setLanguage(lang) {
@@ -872,19 +922,23 @@
             if (lR.status === 'fulfilled' && lR.value.ok) locationsData = await lR.value.json();
             if (oR.status === 'fulfilled' && oR.value.ok) opponentsData = await oR.value.json();
             if (nR.status === 'fulfilled' && nR.value.ok) cachedNews = await nR.value.json();
-            else cachedNews = [{ title: { ja: "次戦 La Masia Japan との対戦に向けて集中トレーニング", it: "Allenamento tattico pre-gara", en: "Tactical training session" }, category: "MATCH", date: "2026.10.15" }];
+            else cachedNews = [
+                { title: { ja: "次戦 La Masia Japan との対戦に向けて集中トレーニング実施", it: "Allenamento tattico pre-gara per la sfida con La Masia Japan", en: "Tactical training session ahead of La Masia Japan clash" }, category: "MATCH", date: "2026.10.15" },
+                { title: { ja: "2027年シーズンに向けた新メンバー体験参加・選考受付中", it: "Aperte le selezioni per nuovi giocatori - Stagione 2027", en: "Recruitment open for new players - 2027 Season" }, category: "RECRUIT", date: "2026.09.28" },
+                { title: { ja: "チーム親睦BBQ & サードタイムを開催しました", it: "Terzo tempo & Team BBQ a Yokohama", en: "Team BBQ & Post-match social gathering" }, category: "EVENT", date: "2026.09.10" }
+            ];
             setLanguage(currentLang);
         } catch (e) { console.error(e); }
     }
 
-    /* Inizializzazione UI */
+    /* Inizializzazione Interfaccia Utente */
     window.addEventListener('DOMContentLoaded', () => {
         initData();
         const y = document.getElementById('currentYear'); if (y) y.textContent = new Date().getFullYear();
         
         document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => setLanguage(b.getAttribute('data-lang'))));
         
-        /* Dropdown Desktop */
+        /* Dropdown Menu Desktop */
         const dd = document.querySelectorAll('.main-nav .nav-item.dropdown');
         dd.forEach(i => {
             const t = i.querySelector('.dropdown-toggle');
