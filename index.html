@@ -131,61 +131,213 @@
         @media (max-width: 900px) and (orientation: portrait) { .desktop-nav-wrapper { display: none !important; } .mobile-menu-toggle { display: flex !important; } }
         @media (orientation: landscape) and (max-height: 500px) { .desktop-nav-wrapper { display: flex !important; } .mobile-menu-toggle { display: none !important; } .main-nav { gap: 4px !important; } .main-nav > a, .main-nav .dropdown-toggle { padding: 4px 5px !important; font-size: 0.78rem !important; } .main-nav .nav-cta-btn { padding: 5px 10px !important; font-size: 0.75rem !important; } .logo-title img { height: 30px !important; } .brand-name { font-size: 0.95rem !important; } }
 
-        /* =====================================================
-           HERO SECTION CON PRIDE BADGE (EST. 2025)
-           ===================================================== */
+        /* =========================================
+           YOKOHAMA CALCIO — HERO
+           Professional Football Club Style
+           ========================================= */
         .hero-section {
-            position: relative;
-            background: linear-gradient(135deg, #001229 0%, #00224a 50%, #001020 100%);
-            color: #ffffff;
-            padding: 65px 20px 125px 20px;
-            text-align: center;
-            overflow: hidden;
-            border-bottom: 2px solid #87ceeb;
-        }
-        .hero-section::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle at 50% 30%, rgba(135, 206, 235, 0.15), transparent 70%);
-            pointer-events: none;
-        }
-        .hero-content-wrapper {
-            max-width: 1000px; margin: 0 auto; position: relative; z-index: 2;
-            display: flex; flex-direction: column; align-items: center;
-        }
-        .club-pride-badge {
-            display: inline-flex; align-items: center; gap: 10px; background: rgba(0, 60, 130, 0.45);
-            border: 1px solid rgba(135, 206, 235, 0.4); padding: 8px 20px; border-radius: 50px;
-            margin-bottom: 20px; backdrop-filter: blur(8px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        .pride-badge-text { font-size: 0.85rem; font-weight: 800; letter-spacing: 1.5px; color: #87ceeb; text-transform: uppercase; }
-        .pride-badge-divider { color: rgba(255, 255, 255, 0.3); }
-        .pride-badge-sub { font-size: 0.82rem; color: #ffffff; font-weight: 600; }
-        
-        .hero-main-title {
-            font-family: 'Bebas Neue', 'Montserrat', sans-serif; font-size: 3.6rem; line-height: 1.05;
-            letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-        }
-        .hero-main-title .highlight-sky {
-            color: #87ceeb; background: linear-gradient(90deg, #87ceeb, #ffffff);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .hero-subtitle { font-size: 1.1rem; max-width: 720px; margin: 0 auto 10px auto; color: rgba(255, 255, 255, 0.88); line-height: 1.6; font-weight: 500; }
+          position: relative;
+          min-height: 720px;
+          display: flex;
+          align-items: center;
+          overflow: hidden;
 
+          background:
+            linear-gradient(
+              90deg,
+              rgba(5, 18, 30, 0.92) 0%,
+              rgba(5, 18, 30, 0.72) 42%,
+              rgba(5, 18, 30, 0.30) 100%
+            ),
+            url('./immagini/gallery/foto1.jpeg') center center / cover no-repeat;
+
+          color: #ffffff;
+        }
+
+        /* DARK / COLOR OVERLAY */
+        .hero-overlay {
+          position: absolute;
+          inset: 0;
+          background:
+            linear-gradient(
+              180deg,
+              rgba(0, 0, 0, 0.15) 0%,
+              rgba(0, 0, 0, 0.05) 50%,
+              rgba(0, 0, 0, 0.45) 100%
+            );
+
+          pointer-events: none;
+        }
+
+        /* CONTENT */
+        .hero-content-wrapper {
+          position: relative;
+          z-index: 2;
+
+          width: min(1200px, 90%);
+          margin: 0 auto;
+
+          padding: 100px 0 140px 0; /* Padding inferiore esteso per accogliere il Match Center sovrapposto */
+        }
+
+        /* SMALL CLUB IDENTIFIER */
+        .hero-kicker {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+
+          margin-bottom: 28px;
+
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+        }
+
+        .hero-kicker-line {
+          width: 42px;
+          height: 2px;
+          background: #87ceeb;
+        }
+
+        .hero-kicker-year {
+          color: rgba(255,255,255,0.55);
+          font-weight: 500;
+        }
+
+        /* MAIN TITLE */
+        .hero-main-title {
+          margin: 0;
+
+          max-width: 1000px;
+
+          font-size: clamp(48px, 7vw, 92px);
+          line-height: 0.95;
+
+          font-weight: 800;
+          letter-spacing: -0.045em;
+
+          text-transform: uppercase;
+        }
+
+        /* AZURE ACCENT */
+        .hero-main-title span {
+          color: #87ceeb;
+        }
+
+        /* SUBTITLE */
+        .hero-subtitle {
+          margin: 34px 0 0;
+
+          max-width: 560px;
+
+          font-size: 17px;
+          line-height: 1.75;
+
+          color: rgba(255,255,255,0.82);
+
+          font-weight: 400;
+        }
+
+        /* CTA AREA */
+        .hero-actions {
+          display: flex;
+          gap: 12px;
+
+          margin-top: 42px;
+        }
+
+        /* BUTTONS */
+        .hero-button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+
+          min-width: 140px;
+          height: 48px;
+
+          padding: 0 24px;
+
+          font-size: 12px;
+          font-weight: 700;
+
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+
+          text-decoration: none;
+
+          transition:
+            background 0.25s ease,
+            color 0.25s ease,
+            border-color 0.25s ease,
+            transform 0.25s ease;
+        }
+
+        /* PRIMARY */
+        .hero-button-primary {
+          background: #87ceeb;
+          color: #071722;
+          border: 1px solid #87ceeb;
+        }
+
+        .hero-button-primary:hover {
+          background: #ffffff;
+          border-color: #ffffff;
+          transform: translateY(-2px);
+        }
+
+        /* SECONDARY */
+        .hero-button-secondary {
+          color: #ffffff;
+          border: 1px solid rgba(255,255,255,0.55);
+          background: rgba(255,255,255,0.04);
+        }
+
+        .hero-button-secondary:hover {
+          background: #ffffff;
+          color: #071722;
+          border-color: #ffffff;
+        }
+
+        /* MOBILE HERO */
         @media (max-width: 768px) {
-            .hero-section { padding: 55px 15px 105px 15px; }
-            .hero-main-title { font-size: 2.5rem; }
-            .hero-subtitle { font-size: 0.95rem; }
+          .hero-section {
+            min-height: 600px;
+            background-position: 62% center;
+          }
+
+          .hero-content-wrapper {
+            width: 88%;
+            padding: 60px 0 100px 0;
+          }
+
+          .hero-main-title {
+            font-size: clamp(38px, 11vw, 60px);
+            line-height: 0.98;
+          }
+
+          .hero-subtitle {
+            font-size: 15px;
+            line-height: 1.65;
+          }
+
+          .hero-actions {
+            margin-top: 32px;
+          }
+
+          .hero-button {
+            min-width: 125px;
+          }
         }
 
         /* =====================================================
            MATCH CENTER CAROUSEL & SWIPE (SOVRAPPOSTO ALL'HERO)
            ===================================================== */
         .match-center-overlap-container {
-            position: relative; z-index: 10; margin-top: -60px; padding: 0 15px;
+            position: relative; z-index: 10; margin-top: -65px; padding: 0 15px;
         }
-        @media (max-width: 768px) { .match-center-overlap-container { margin-top: -45px; } }
+        @media (max-width: 768px) { .match-center-overlap-container { margin-top: -50px; } }
 
-        /* TRACK CON SWIPE ORIZZONTALE (MOBILE 85% LARGHEZZA) */
         .match-center-swipe-track {
             display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch; padding-bottom: 15px; padding-top: 5px;
@@ -202,14 +354,12 @@
             .match-card-item { flex: 1; max-width: 100%; }
         }
 
-        /* CARD ULTIMO RISULTATO */
         .match-past-napoli-card {
             background: #ffffff; border-radius: 18px; padding: 24px; border: 1px solid #cbd5e1;
             box-shadow: 0 12px 30px rgba(0, 38, 74, 0.12); display: flex; flex-direction: column;
             justify-content: space-between; height: 100%; box-sizing: border-box;
         }
 
-        /* CARD PROSSIMA PARTITA (NAPOLI STYLE) */
         .next-match-napoli-card {
             position: relative; background: linear-gradient(135deg, #001a3a 0%, #000a17 100%);
             border-radius: 18px; padding: 24px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
@@ -229,7 +379,6 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.12); padding-bottom: 10px; margin-bottom: 15px;
         }
 
-        /* BADGE NEXT MATCH EXTRA LARGO (DOPPIA LARGHEZZA) */
         .next-match-badge-wide {
             background: linear-gradient(90deg, #87ceeb 0%, #4682b4 100%);
             color: #001a3a; font-size: 0.85rem; font-weight: 800; padding: 6px 22px;
@@ -420,26 +569,47 @@
   </nav>
 </header>
 
-<!-- HERO SECTION CON PRIDE BADGE (EST. 2025) -->
+<!-- HERO SECTION — YOKOHAMA CALCIO -->
 <section class="hero-section">
+
+  <div class="hero-overlay"></div>
+
   <div class="hero-content-wrapper">
-    
-    <div class="club-pride-badge">
-      <i class="fas fa-shield-alt" style="color: #87ceeb;"></i>
-      <span class="pride-badge-text">YOKOHAMA PRIDE</span>
-      <span class="pride-badge-divider">|</span>
-      <span class="pride-badge-sub">義理・人情 • EST. 2025</span>
+
+    <!-- CLUB IDENTIFIER -->
+    <div class="hero-kicker">
+      <span class="hero-kicker-line"></span>
+      <span>YOKOHAMA CALCIO</span>
+      <span class="hero-kicker-year">EST. 2025</span>
     </div>
 
+    <!-- MAIN TITLE -->
     <h1 class="hero-main-title">
-      <span data-i18n="hero.title1">PASSIONE ITALIANA,</span><br>
-      <span class="highlight-sky" data-i18n="hero.title2">SPIRITO DI YOKOHAMA</span>
+      <span data-i18n="hero.title1">PASSIONE ITALIANA.</span>
+      <br>
+      <span data-i18n="hero.title2">SPIRITO DI YOKOHAMA.</span>
     </h1>
 
+    <!-- SUBTITLE -->
     <p class="hero-subtitle" data-i18n="hero.subtitle">
-      横浜市を拠点に活動する社会人サッカークラブ。仲間と共に挑み、勝利を目指す。
+      個人の成長、チームの進化。
+      <br>
+      横浜から、イタリアのサッカー文化を。
     </p>
+
+    <!-- CTA -->
+    <div class="hero-actions">
+      <a href="about.html" class="hero-button hero-button-primary">
+        CLUB
+      </a>
+
+      <a href="contact.html?type=trial" class="hero-button hero-button-secondary">
+        JOIN US
+      </a>
+    </div>
+
   </div>
+
 </section>
 
 <!-- MATCH CENTER SWIPE TRACK (SOVRAPPOSTO ALL'HERO) -->
@@ -591,8 +761,8 @@
         ja: {
             "nav.home": "ホーム", "nav.about_group": "クラブ", "nav.team_group": "チーム・選手", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
             "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー", "nav.faq": "よくある質問", "nav.shop": "ショップ", "nav.contact": "お問い合わせ", "nav.news": "ニュース",
-            "hero.title1": "PASSIONE ITALIANA,", "hero.title2": "SPIRITO DI YOKOHAMA",
-            "hero.subtitle": "横浜市を拠点に活動する社会人サッカークラブ。仲間と共に挑み、勝利を目指す。",
+            "hero.title1": "PASSIONE ITALIANA.", "hero.title2": "SPIRITO DI YOKOHAMA.",
+            "hero.subtitle": "個人の成長、チームの進化。<br>横浜から、イタリアのサッカー文化を。",
             "about.title": "Yokohama Calcioとは", "about.btn_more": "クラブ紹介・歴史の詳細はこちら",
             "news.title": "クラブニュース",
             "recruit.banner_title": "新メンバー募集中！(18〜40歳経験者)",
@@ -616,8 +786,8 @@
         it: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
             "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.sponsors": "Partner", "nav.faq": "FAQ", "nav.shop": "Shop", "nav.contact": "Contatti", "nav.news": "News",
-            "hero.title1": "PASSIONE ITALIANA,", "hero.title2": "SPIRITO DI YOKOHAMA",
-            "hero.subtitle": "Il club dilettantistico che unisce tattica e passione nel cuore di Yokohama.",
+            "hero.title1": "PASSIONE ITALIANA.", "hero.title2": "SPIRITO DI YOKOHAMA.",
+            "hero.subtitle": "Crescita individuale, evoluzione di squadra.<br>La cultura del calcio italiano nel cuore di Yokohama.",
             "about.title": "Cos'è lo Yokohama Calcio", "about.btn_more": "Scopri la storia del club",
             "news.title": "Club News",
             "recruit.banner_title": "Cercasi Nuovi Giocatori! (18–40 anni con esperienza)",
@@ -641,8 +811,8 @@
         en: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
             "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.sponsors": "Partners", "nav.faq": "FAQ", "nav.shop": "Shop", "nav.contact": "Contact", "nav.news": "News",
-            "hero.title1": "PASSIONE ITALIANA,", "hero.title2": "SPIRITO DI YOKOHAMA",
-            "hero.subtitle": "Amateur football club based in Yokohama. Uniting passion and tactical play.",
+            "hero.title1": "PASSIONE ITALIANA.", "hero.title2": "SPIRITO DI YOKOHAMA.",
+            "hero.subtitle": "Individual growth, team evolution.<br>Bringing Italian football culture to Yokohama.",
             "about.title": "About Yokohama Calcio", "about.btn_more": "Learn club history",
             "news.title": "Club News",
             "recruit.banner_title": "Recruiting New Players! (18–40 yrs experienced)",
