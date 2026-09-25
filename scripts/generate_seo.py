@@ -1,7 +1,7 @@
 import json
 import os
 import re
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 # ============================================================
 # PERCORSI ROBUSTI
@@ -240,7 +240,7 @@ def build_static_matches_html():
         </div>
         """
 
-  # SCHEMA EVENTI
+  # SCHEMA EVENTI (COMPLETO DI TUTTI I CAMPI SCHEMA.ORG / GOOGLE)
   schema_events = []
   for m in matches:
     opp_name, _ = get_opp_info(m, opponents)
@@ -261,14 +261,48 @@ def build_static_matches_html():
       desc_parts.append(f"MVP: {m.get('mvp')}.")
     desc_parts.append(f'Venue: {loc_name}.')
 
+    date_str = m.get('date', '')
+    time_str = m.get('time', '10:00')
+    start_iso = f"{date_str}T{time_str}:00+09:00"
+
+    try:
+      start_dt = datetime.strptime(f"{date_str} {time_str}", "%Y-%m-%d %H:%M")
+      end_dt = start_dt + timedelta(hours=2)
+      end_iso = f"{end_dt.strftime('%Y-%m-%dT%H:%M:%S')}+09:00"
+    except Exception:
+      end_iso = f"{date_str}T12:00:00+09:00"
+
+    if status == 'past' or (score and score != 'VS'):
+      event_status = 'https://schema.org/EventCompleted'
+    else:
+      event_status = 'https://schema.org/EventScheduled'
+
     event_schema = {
         '@context': 'https://schema.org',
         '@type': 'SportsEvent',
         '@id': f'{YOKOHAMA_FULL_URL}/matches.html#{m.get("id", "")}',
         'name': event_name,
         'description': ' '.join(desc_parts),
-        'startDate': f"{m.get('date', '')}T{m.get('time', '10:00')}:00+09:00",
+        'startDate': start_iso,
+        'endDate': end_iso,
+        'eventStatus': event_status,
+        'eventAttendanceMode': 'https://schema.org/OfflineEventAttendanceMode',
         'location': {'@type': 'Place', 'name': loc_name},
+        'image': [
+            f'{YOKOHAMA_FULL_URL}/immagini/logo.png'
+        ],
+        'organizer': {
+            '@type': 'SportsTeam',
+            'name': 'Yokohama Calcio',
+            'url': YOKOHAMA_FULL_URL
+        },
+        'offers': {
+            '@type': 'Offer',
+            'url': f'{YOKOHAMA_FULL_URL}/matches.html',
+            'price': '0',
+            'priceCurrency': 'JPY',
+            'availability': 'https://schema.org/InStock'
+        },
         'homeTeam': {'@type': 'SportsTeam', 'name': home_team},
         'awayTeam': {'@type': 'SportsTeam', 'name': away_team},
     }
@@ -282,9 +316,6 @@ def build_static_matches_html():
           performers.append(person_reference_from_name(name_only, players_data))
     if performers:
       event_schema['performer'] = performers
-
-    if status == 'past' and score:
-      event_schema['eventStatus'] = 'https://schema.org/EventCompleted'
 
     schema_events.append(event_schema)
 
