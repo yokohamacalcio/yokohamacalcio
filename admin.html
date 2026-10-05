@@ -1167,6 +1167,10 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                         <input type="text" id="oppNameJa" class="form-control" placeholder="横浜FC" required>
                     </div>
                     <div class="form-group">
+                        <label data-i18n="lblOppIt">Nome Italiano (IT):</label>
+                        <input type="text" id="oppNameIt" class="form-control" placeholder="Yokohama FC">
+                    </div>
+                    <div class="form-group">
                         <label data-i18n="lblOppEn">Nome Inglese (EN):</label>
                         <input type="text" id="oppNameEn" class="form-control" placeholder="Yokohama FC">
                     </div>
@@ -1189,6 +1193,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                         <tr>
                             <th data-sort="key">Key ID <i class="fas fa-sort"></i></th>
                             <th data-sort="ja">Nome JA <i class="fas fa-sort"></i></th>
+                            <th data-sort="it">Nome IT <i class="fas fa-sort"></i></th>
                             <th data-sort="en">Nome EN <i class="fas fa-sort"></i></th>
                             <th><span data-i18n="thActions">Azioni</span></th>
                         </tr>
@@ -1343,7 +1348,7 @@ const I18N_DICT = {
         lblSquadList: "Elenco Attuale Rosa",
         thName: "Nome", thRole: "Ruolo", thPos: "Posizione", thCaps: "Caps", thActions: "Azioni", thSurface: "Superficie",
         opponentsHeading: "Aggiungi / Modifica Avversario",
-        lblOppKey: "Key ID:", lblOppJa: "Nome JA:", lblOppEn: "Nome EN:",
+        lblOppKey: "Key ID:", lblOppJa: "Nome JA:", lblOppIt: "Nome IT:", lblOppEn: "Nome EN:",
         lblOpponentsList: "Lista Avversari",
         locationsHeading: "Aggiungi / Modifica Campo",
         lblLocKey: "Key ID:", lblLocSurface: "Superficie:",
@@ -1394,7 +1399,7 @@ const I18N_DICT = {
         lblSquadList: "現在の選手一覧",
         thName: "氏名", thRole: "役割", thPos: "ポジション", thCaps: "出場", thActions: "操作", thSurface: "状態",
         opponentsHeading: "対戦相手追加・編集",
-        lblOppKey: "Key ID:", lblOppJa: "日本語名:", lblOppEn: "英語名:",
+        lblOppKey: "Key ID:", lblOppJa: "日本語名:", lblOppIt: "伊語名:", lblOppEn: "英語名:",
         lblOpponentsList: "対戦相手一覧",
         locationsHeading: "会場追加・編集",
         lblLocKey: "Key ID:", lblLocSurface: "状態:",
@@ -1444,7 +1449,7 @@ const I18N_DICT = {
         lblSquadList: "Current Squad",
         thName: "Name", thRole: "Role", thPos: "Position", thCaps: "Caps", thActions: "Actions", thSurface: "Surface",
         opponentsHeading: "Add / Edit Opponent",
-        lblOppKey: "Key ID:", lblOppJa: "JA Name:", lblOppEn: "EN Name:",
+        lblOppKey: "Key ID:", lblOppJa: "JA Name:", lblOppIt: "IT Name:", lblOppEn: "EN Name:",
         lblOpponentsList: "Opponents",
         locationsHeading: "Add / Edit Venue",
         lblLocKey: "Key ID:", lblLocSurface: "Surface:",
@@ -1913,7 +1918,7 @@ async function initData() {
             State.statsData = sRes.value.content.players || {};
         }
 
-        // ── AUTO-SYNC CAPS da stats.json a players.json ──
+        // AUTO-SYNC CAPS da stats.json a players.json
         if (State.statsData && Object.keys(State.statsData).length > 0) {
             let changed = false;
             State.players = State.players.map(p => {
@@ -1963,12 +1968,13 @@ function renderOpponentsSelectAndTable() {
     let rows = keys.map(k => ({
         key: k,
         ja: State.opponents[k].name?.ja || '',
+        it: State.opponents[k].name?.it || '',
         en: State.opponents[k].name?.en || ''
     }));
     if (State.opponentSearch) {
         const q = State.opponentSearch.toLowerCase();
         rows = rows.filter(r =>
-            r.key.toLowerCase().includes(q) || r.ja.toLowerCase().includes(q) || r.en.toLowerCase().includes(q)
+            r.key.toLowerCase().includes(q) || r.ja.toLowerCase().includes(q) || r.it.toLowerCase().includes(q) || r.en.toLowerCase().includes(q)
         );
     }
     rows.sort((a, b) => {
@@ -1982,6 +1988,7 @@ function renderOpponentsSelectAndTable() {
         <tr>
             <td><b>${r.key}</b></td>
             <td>${r.ja || '-'}</td>
+            <td>${r.it || '-'}</td>
             <td>${r.en || '-'}</td>
             <td>
                 <button type="button" class="btn-edit" data-action="edit-opponent" data-key="${r.key}"><i class="fas fa-edit"></i></button>
@@ -1994,13 +2001,25 @@ function renderOpponentsSelectAndTable() {
 async function saveOpponentData() {
     const key = $('oppKey').value.trim().toLowerCase();
     const ja = $('oppNameJa').value.trim();
+    const it = $('oppNameIt').value.trim();
     const en = $('oppNameEn').value.trim();
     if (!key || !ja) { showToast('warn', 'Inserisci Key e Nome JA.'); return; }
-    State.opponents[key] = { name: { ja, en: en || ja } };
+
+    const logoPath = State.opponents[key]?.logo || `./immagini/opponents/${key}.png`;
+
+    State.opponents[key] = {
+        name: {
+            ja: ja,
+            it: it || en || ja,
+            en: en || it || ja
+        },
+        logo: logoPath
+    };
+
     renderOpponentsSelectAndTable();
     try {
         const { sha } = await ghGet('opponents.json');
-        await ghPut('opponents.json', State.opponents, sha, `Admin: Update opponents.json`);
+        await ghPut('opponents.json', State.opponents, sha, `Admin: Update opponents.json (${key})`);
         showToast('success', '✅ opponents.json salvato');
         resetOpponentForm();
     } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
@@ -2012,6 +2031,7 @@ function editOpponent(key) {
     $('editOpponentKey').value = key;
     $('oppKey').value = key;
     $('oppNameJa').value = o.name?.ja || '';
+    $('oppNameIt').value = o.name?.it || '';
     $('oppNameEn').value = o.name?.en || '';
 }
 
@@ -2194,7 +2214,6 @@ async function savePlayerToSquad() {
     if (!kanji) { showToast('warn', 'Inserisci almeno il nome.'); return; }
     const editId = $('editPlayerId').value;
     
-    // Generazione ID stabile e deterministica senza Math.random()
     let fallbackId = romaji ? romaji.toLowerCase().replace(/[^a-z0-9]+/g, '-') : `num-${parsedNum || 'unknown'}`;
     const id = editId || fallbackId;
 
@@ -2886,7 +2905,7 @@ async function deleteMatch() {
         const { sha: statsSha } = await ghGet('stats.json');
         await ghPut('stats.json', statsData, statsSha, `Admin: Update stats after deleting ${currentId}`);
 
-        // ── SYNC CAPS → players.json ──
+        // SYNC CAPS → players.json
         statusEl.innerHTML = `<i class="fas fa-spinner fa-spin"></i> players.json (sync caps)...`;
         const statsPlayerMap = statsData.players || {};
         const syncedPlayers = State.players.map(p => {
@@ -2961,6 +2980,8 @@ async function saveMatch(e) {
     e.preventDefault();
     if (!State.token) { showToast('warn', 'Token GitHub non presente. Effettua prima il login.'); return; }
 
+    const isUpcoming = $('matchStatus').value === 'upcoming';
+
     const startersPositions = {};
     const starters = [];
     $$('#pitchGrid .pitch-player-select').forEach(sel => {
@@ -3033,21 +3054,25 @@ async function saveMatch(e) {
         type: $('matchType').value.trim() || '練習試合',
         opponent_id: $('opponentSelect').value,
         isHome: $('isHome').value === 'true',
-        score: $('matchScore').value.trim() || 'VS',
-        scorers, assists,
-        mvp: $('mvpSelect').value,
-        yellow_cards: yellows.join(', '),
-        red_cards: reds.join(', '),
+        score: isUpcoming ? ($('matchScore').value.trim() || 'VS') : ($('matchScore').value.trim() || '0-0'),
+        scorers: isUpcoming ? "" : scorers,
+        assists: isUpcoming ? "" : assists,
+        mvp: isUpcoming ? "" : $('mvpSelect').value,
+        yellow_cards: isUpcoming ? "" : yellows.join(', '),
+        red_cards: isUpcoming ? "" : reds.join(', '),
         location_id: $('locationSelect').value,
-        goalkeepers,
-        formation: $('formationSelect').value,
-        starters_positions: startersPositions,
-        starters,
-        substitutes_in: subsIn,
-        substitutes_unused: subsUnused,
-        bench_details: benchDetails,
-        lineup: [...starters, ...subsIn]
+        goalkeepers: isUpcoming ? "" : goalkeepers
     };
+
+    if (!isUpcoming || starters.length > 0 || benchDetails.length > 0) {
+        payload.formation = $('formationSelect').value;
+        payload.starters_positions = startersPositions;
+        payload.starters = starters;
+        payload.substitutes_in = subsIn;
+        payload.substitutes_unused = subsUnused;
+        payload.bench_details = benchDetails;
+        payload.lineup = [...starters, ...subsIn];
+    }
 
     const btn = $('submitBtn');
     btn.disabled = true;
@@ -3068,7 +3093,7 @@ async function saveMatch(e) {
         const { sha: statsSha } = await ghGet('stats.json');
         await ghPut('stats.json', statsData, statsSha, `Admin: Update stats for ${payload.id}`);
 
-        // ── SYNC CAPS → players.json ──
+        // SYNC CAPS → players.json
         statusEl.innerHTML = `<i class="fas fa-spinner fa-spin"></i> players.json (sync caps)...`;
         const statsPlayerMap = statsData.players || {};
         const syncedPlayers = State.players.map(p => {
@@ -3099,13 +3124,12 @@ async function saveMatch(e) {
 }
 
 /* =========================================================
-   STATS ENGINE — completamente deterministico e senza duplicati
+   STATS ENGINE
    ========================================================= */
 function generateStatsJSON(playersData, matchesData) {
-    const playersMap = {}; // Dizionario nativo per prevenire qualsiasi doppione per chiave
+    const playersMap = {};
     const aliasToId = new Map();
 
-    // 1. Popolamento pulito e deterministico della rosa
     playersData.forEach(p => {
         if (p.role === 'staff') return;
         
