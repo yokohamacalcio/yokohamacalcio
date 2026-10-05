@@ -32,370 +32,766 @@
     <link rel="apple-touch-icon" href="./immagini/logo.png?v=2">
     <link rel="sitemap" type="application/xml" title="Sitemap" href="https://yokohamacalcio.com/sitemap.xml" />
 
-    <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
     <style>
-        :root {
-            --navy-deep: #001229;
-            --navy-main: #00224a;
-            --blue-accent: #003c82;
-            --sky-blue: #87ceeb;
-            --sky-hover: #a0d8ef;
-            --bg-light: #f8fafc;
-            --text-dark: #1e293b;
-            --text-muted: #64748b;
-            --border-color: #cbd5e1;
-            --success-color: #10b981;
-            --danger-color: #ef4444;
-            --card-shadow: 0 10px 30px rgba(0, 34, 74, 0.08);
-        }
-
-        body {
-            font-family: 'Montserrat', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
-            background-color: #f1f5f9;
-            color: var(--text-dark);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-
-        /* --- HEADER & NAVIGATION PROFESSIONAL UI --- */
-        .header {
-            background: #ffffff;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .top-bar {
-            background: var(--navy-deep);
-            color: #ffffff;
-            padding: 6px 0;
-            font-size: 0.82rem;
-        }
-        .top-bar-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .top-bar-social a {
-            color: #cbd5e1;
-            margin-right: 14px;
-            font-size: 0.95rem;
-            transition: color 0.2s ease;
-        }
-        .top-bar-social a:hover { color: var(--sky-blue); }
-        .lang-switcher { display: flex; align-items: center; gap: 6px; }
-        .lang-btn {
-            background: transparent;
-            border: none;
-            color: #cbd5e1;
-            font-size: 0.8rem;
-            font-weight: 700;
-            cursor: pointer;
-            padding: 2px 6px;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-        }
-        .lang-btn.active, .lang-btn:hover {
-            color: var(--navy-deep);
-            background: var(--sky-blue);
-        }
-        .lang-divider { color: rgba(255, 255, 255, 0.2); }
-
-        .main-header-bar { padding: 12px 0; }
-        .header-container { display: flex; justify-content: space-between; align-items: center; }
-        .logo-title { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .logo-title img { height: 42px; width: auto; }
-        .brand-name {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.5rem;
-            letter-spacing: 1.5px;
-            color: var(--navy-main);
-            line-height: 1;
-            display: flex;
-            flex-direction: column;
-            text-decoration: none;
-        }
-        .brand-sub { color: var(--blue-accent); font-size: 1.1rem; }
-
-        /* DESKTOP NAV */
-        .desktop-nav-wrapper { display: flex; align-items: center; }
-        .main-nav { display: flex; align-items: center; gap: 16px; white-space: nowrap; }
-        .main-nav .nav-item { position: relative; display: inline-flex; align-items: center; }
-        .main-nav > a, .main-nav .dropdown-toggle {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 8px 12px; font-size: 0.92rem; font-weight: 700;
-            color: var(--navy-main); text-decoration: none; border: none;
-            background: transparent; cursor: pointer; transition: color 0.2s ease;
-        }
-        .main-nav > a:hover, .main-nav .dropdown-toggle:hover { color: var(--sky-blue); }
-        .main-nav .nav-cta-btn {
-            background: var(--sky-blue) !important;
-            color: var(--navy-main) !important;
-            padding: 8px 20px !important;
-            border-radius: 20px !important;
-            font-weight: 800 !important;
-            box-shadow: 0 4px 10px rgba(135, 206, 235, 0.3);
-        }
-        .main-nav .nav-cta-btn:hover { background: var(--sky-hover) !important; }
-
-        .main-nav .dropdown-menu {
-            display: none; position: absolute; top: 100%; left: 0;
-            z-index: 1000; min-width: 200px; background: #ffffff;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12); border-radius: 10px;
-            padding: 8px 0; border: 1px solid #e2e8f0;
-        }
-        .main-nav .dropdown-menu a {
-            display: block; padding: 10px 18px; color: var(--navy-main);
-            text-decoration: none; font-size: 0.88rem; font-weight: 600;
-            transition: background 0.2s ease;
-        }
-        .main-nav .dropdown-menu a:hover { background-color: var(--bg-light); color: var(--blue-accent); }
-        .nav-item.dropdown:hover > .dropdown-menu, .nav-item.dropdown.open > .dropdown-menu { display: block; }
-
-        /* OVERLAY MENU MOBILE */
+        /* --- OVERLAY MENU MOBILE SCURO COMPATTO --- */
         .mobile-nav {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 18, 41, 0.82); backdrop-filter: blur(8px);
-            z-index: 9999; display: flex; justify-content: center; align-items: flex-start;
-            padding: 20px; box-sizing: border-box;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0, 10, 25, 0.75);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 9999;
+            display: flex; justify-content: center; align-items: flex-start;
+            padding: 15px; box-sizing: border-box;
         }
         .mobile-nav.hidden { display: none !important; }
         .mobile-nav-content {
             background: linear-gradient(145deg, #00224a 0%, #001229 100%);
-            color: #ffffff; width: 100%; max-width: 400px; max-height: 88vh;
-            overflow-y: auto; border-radius: 20px; padding: 24px;
-            border: 1px solid rgba(135, 206, 235, 0.3); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+            width: 100%; max-width: 380px; max-height: 85vh;
+            overflow-y: auto; border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(135, 206, 235, 0.25);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            display: flex; flex-direction: column; margin-top: 10px;
         }
         .mobile-nav-header {
             display: flex; justify-content: space-between; align-items: center;
-            padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            padding-bottom: 12px; margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
         }
+        .mobile-nav-header .brand-name { color: #ffffff; font-size: 1.15rem; font-weight: 800; letter-spacing: 1px; }
+        .mobile-nav-header .brand-sub { color: #87ceeb; }
         .mobile-nav-close {
-            background: rgba(255, 255, 255, 0.1); border: none; font-size: 1.1rem;
-            color: #ffffff; cursor: pointer; width: 36px; height: 36px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1.1rem; color: #ffffff; cursor: pointer;
+            width: 34px; height: 34px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s ease;
         }
+        .mobile-nav-close:active { background: #87ceeb; color: #00224a; }
         .mobile-link {
-            color: #ffffff !important; font-size: 0.98rem; font-weight: 600;
-            padding: 12px 14px; border-radius: 10px; display: flex; align-items: center; gap: 14px;
-            text-decoration: none; transition: background 0.2s ease;
+            color: #ffffff !important;
+            font-size: 0.95rem; font-weight: 600;
+            padding: 10px 12px; border-radius: 8px;
+            display: flex; align-items: center; gap: 12px;
+            text-decoration: none;
+            transition: background 0.2s ease;
         }
-        .mobile-link:hover { background: rgba(255, 255, 255, 0.1); }
+        .mobile-link:hover, .mobile-link:active { background: rgba(255, 255, 255, 0.08); }
+
+        .mobile-nav .menu-icon {
+            width: 24px !important;
+            min-width: 24px !important;
+            text-align: center !important;
+            color: #87ceeb !important;
+            font-size: 1.05rem !important;
+            display: inline-block !important;
+            flex-shrink: 0 !important;
+        }
+
         .mobile-dropdown-toggle {
-            width: 100%; background: transparent; border: none; color: #ffffff;
-            font-size: 0.98rem; font-weight: 600; padding: 12px 14px; display: flex;
-            justify-content: space-between; align-items: center; cursor: pointer;
+            width: 100%; background: transparent; border: none;
+            color: #ffffff !important; font-size: 0.95rem; font-weight: 600;
+            padding: 10px 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-radius: 8px; cursor: pointer; box-sizing: border-box;
         }
+        .mobile-dropdown-toggle-left { display: flex; align-items: center; gap: 12px; }
         .mobile-submenu {
-            background: rgba(0, 0, 0, 0.25); border-radius: 10px;
-            padding: 6px 0 6px 12px; margin: 4px 0 10px 10px; border-left: 3px solid var(--sky-blue);
+            background: rgba(0, 0, 0, 0.25); border-radius: 8px;
+            padding: 4px 0 4px 10px; margin: 4px 0 8px 8px;
+            border-left: 2px solid #87ceeb;
+        }
+        .mobile-submenu .mobile-link.sub {
+            font-size: 0.88rem; padding: 8px 10px;
+            color: #e2e8f0 !important;
+        }
+        .mobile-cta-wrapper {
+            margin-top: 12px; padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .mobile-cta-btn {
+            background: #87ceeb; color: #00224a !important;
+            font-weight: 800; text-align: center;
+            padding: 10px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; text-decoration: none;
         }
 
-        /* --- PAGE CONTENT LAYOUT --- */
-        .section { padding: 45px 0 70px 0; }
-        .section-title {
-            font-size: 1.8rem; font-weight: 800; color: var(--navy-main);
-            text-align: center; margin-bottom: 8px; display: flex;
-            align-items: center; justify-content: center; gap: 12px;
-        }
-        .section-subtitle {
-            text-align: center; color: var(--text-muted);
-            max-width: 650px; margin: 0 auto 40px auto; font-size: 0.96rem;
+        /* --- DESKTOP NAV --- */
+        .desktop-nav-wrapper { display: flex; align-items: center; }
+        .main-nav { display: flex !important; align-items: center !important; gap: 16px; white-space: nowrap; }
+        .main-nav .nav-item { position: relative !important; display: inline-flex; align-items: center; }
+        
+        .main-nav > a,
+        .main-nav .dropdown-toggle {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            padding: 8px 10px !important;
+            font-family: inherit !important;
+            font-size: 0.92rem !important;
+            font-weight: 700 !important;
+            color: var(--dark-navy, #003c82) !important;
+            text-decoration: none !important;
+            border: none !important;
+            background: transparent !important;
+            cursor: pointer !important;
+            user-select: none !important;
+            line-height: 1.2 !important;
+            transition: color 0.2s ease, opacity 0.2s ease !important;
+            box-sizing: border-box !important;
+            margin: 0 !important;
         }
 
+        .main-nav > a:hover,
+        .main-nav .dropdown-toggle:hover {
+            color: var(--primary-sky, #87ceeb) !important;
+        }
+
+        .main-nav .nav-cta-btn {
+            background: var(--dark-navy, #003c82) !important;
+            color: #ffffff !important;
+            padding: 8px 16px !important;
+            border-radius: 20px !important;
+            font-weight: 800 !important;
+        }
+        .main-nav .nav-cta-btn:hover {
+            background: var(--primary-sky, #87ceeb) !important;
+            color: var(--dark-navy, #003c82) !important;
+        }
+
+        .main-nav .dropdown-menu {
+            display: none;
+            position: absolute !important;
+            top: 100% !important;
+            left: 0 !important;
+            z-index: 1000 !important;
+            min-width: 190px;
+            background: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 8px 0;
+            margin-top: 2px;
+            white-space: nowrap;
+        }
+
+        .main-nav .dropdown-menu a {
+            display: block !important;
+            padding: 10px 16px !important;
+            color: var(--dark-navy, #003c82) !important;
+            text-decoration: none !important;
+            font-size: 0.88rem !important;
+            font-weight: 600 !important;
+            transition: background 0.2s ease, color 0.2s ease !important;
+            text-align: left !important;
+        }
+
+        .main-nav .dropdown-menu a:hover {
+            background-color: #f1f5f9 !important;
+            color: var(--primary-sky, #87ceeb) !important;
+        }
+
+        .nav-item.dropdown:hover > .dropdown-menu,
+        .nav-item.dropdown.open > .dropdown-menu {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateY(0) !important;
+        }
+        .nav-item.dropdown:hover > .dropdown-toggle .nav-arrow,
+        .nav-item.dropdown.open > .dropdown-toggle .nav-arrow {
+            transform: rotate(180deg);
+        }
+
+        @media (min-width: 1025px) and (max-width: 1200px) {
+            .main-nav { gap: 8px !important; }
+            .main-nav > a, .main-nav .dropdown-toggle { padding: 6px 6px !important; font-size: 0.85rem !important; }
+            .main-nav .nav-cta-btn { padding: 6px 12px !important; font-size: 0.85rem !important; }
+        }
+
+        @media (max-width: 900px) and (orientation: portrait) {
+            .desktop-nav-wrapper { display: none !important; }
+            .mobile-menu-toggle { display: flex !important; }
+        }
+
+        @media (orientation: landscape) and (max-height: 500px) {
+            .desktop-nav-wrapper { display: flex !important; }
+            .mobile-menu-toggle { display: none !important; }
+            .main-nav { gap: 4px !important; }
+            .main-nav > a, .main-nav .dropdown-toggle { padding: 4px 5px !important; font-size: 0.78rem !important; }
+            .main-nav .nav-cta-btn { padding: 5px 10px !important; font-size: 0.75rem !important; }
+            .logo-title img { height: 30px !important; }
+            .brand-name { font-size: 0.95rem !important; }
+        }
+
+        /* --- LAYOUT FORM CONTACT --- */
         .contact-grid-container {
             display: grid;
             grid-template-columns: 1fr 340px;
-            gap: 32px;
-            max-width: 1040px;
+            gap: 30px;
+            max-width: 1000px;
             margin: 0 auto;
         }
-        @media (max-width: 900px) { .contact-grid-container { grid-template-columns: 1fr; } }
+        @media (max-width: 880px) {
+            .contact-grid-container { grid-template-columns: 1fr; }
+        }
 
-        /* FORM CARD DESIGN */
         .contact-form-card {
             background: #ffffff;
-            border-radius: 20px;
-            padding: 36px;
-            box-shadow: var(--card-shadow);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             border: 1px solid #e2e8f0;
         }
 
-        .field-section-title {
-            font-size: 1rem; font-weight: 800; color: var(--navy-main);
-            border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;
-            margin: 28px 0 20px 0; display: flex; align-items: center; gap: 10px;
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 550px) {
+            .form-row-2 { grid-template-columns: 1fr; }
         }
 
-        .form-group { margin-bottom: 22px; display: flex; flex-direction: column; gap: 8px; }
-        .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-        @media (max-width: 580px) { .form-row-2 { grid-template-columns: 1fr; } }
-
+        /* ROW STABILIZZATA PER DATA DI NASCITA ED ETÀ */
         .form-row-date-age {
-            display: grid; grid-template-columns: 1fr 110px; gap: 14px; width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 100px;
+            gap: 12px;
+            width: 100%;
+            box-sizing: border-box;
         }
-        .form-row-date-age > div { display: flex; flex-direction: column; justify-content: flex-end; }
+        .form-row-date-age > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-width: 0;
+        }
+        .form-row-date-age label {
+            min-height: 24px;
+            white-space: nowrap;
+            margin-bottom: 6px;
+        }
 
         .form-group label {
-            font-weight: 700; font-size: 0.9rem; color: var(--navy-main);
-            display: flex; align-items: center; gap: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--dark-navy, #003c82);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        .required-tag {
-            background: var(--danger-color); color: #ffffff;
-            font-size: 0.68rem; padding: 2px 7px; border-radius: 4px; font-weight: 800;
+        .form-group label .required-tag {
+            background: #ef4444;
+            color: #ffffff;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 800;
         }
 
         .form-control {
-            width: 100%; height: 48px; padding: 0 14px; border: 1.5px solid var(--border-color);
-            border-radius: 10px; font-size: 0.95rem; font-family: inherit; color: var(--text-dark);
-            background: var(--bg-light); transition: all 0.25 ease; box-sizing: border-box;
+            width: 100%;
+            min-width: 0;
+            height: 46px;
+            padding: 0 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: #1e293b;
+            background: #f8fafc;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
         .form-control:focus {
-            outline: none; border-color: var(--sky-blue); background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(135, 206, 235, 0.25);
+            outline: none;
+            border-color: var(--primary-sky, #87ceeb);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.25);
         }
 
-        .form-control.is-valid { border-color: var(--success-color) !important; background-color: #f0fdf4 !important; }
-        .form-control.is-invalid { border-color: var(--danger-color) !important; background-color: #fef2f2 !important; }
-
-        .readonly-age {
-            background-color: #e2e8f0 !important; color: var(--navy-main) !important;
-            font-weight: 800; cursor: not-allowed; text-align: center;
+        input[type="date"].form-control {
+            height: 46px;
+            padding: 0 10px;
+            line-height: 46px;
+            background-color: #f8fafc;
         }
 
-        textarea.form-control { height: auto; min-height: 130px; padding: 14px; }
+        /* LIVE VALIDATION STYLES */
+        .form-control.is-valid {
+            border-color: #10b981 !important;
+            background-color: #f0fdf4 !important;
+        }
+        .form-control.is-invalid {
+            border-color: #ef4444 !important;
+            background-color: #fef2f2 !important;
+        }
 
-        /* CHECKBOXES POSIZIONI */
-        .sub-pos-container { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 4px; }
+        .form-control.readonly-age {
+            height: 46px;
+            background-color: #e2e8f0;
+            color: #00224a;
+            font-weight: 800;
+            cursor: not-allowed;
+            text-align: center;
+            padding: 0 6px;
+            line-height: 46px;
+        }
+
+        textarea.form-control {
+            height: auto;
+            min-height: 120px;
+            padding: 12px 14px;
+        }
+
+        /* Dynamic Checkboxes for Sub-roles UX Migliorato */
+        .sub-pos-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 6px 0;
+        }
         .checkbox-tag {
-            display: inline-flex; align-items: center; gap: 8px; background: var(--bg-light);
-            border: 1px solid var(--border-color); padding: 9px 16px; border-radius: 10px;
-            cursor: pointer; font-size: 0.88rem; font-weight: 600; color: #334155;
-            transition: all 0.2s ease; user-select: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #334155;
+            transition: all 0.2s ease;
+            user-select: none;
         }
         .checkbox-tag:hover { background: #e2e8f0; }
-        .checkbox-tag input[type="checkbox"] { accent-color: var(--blue-accent); width: 17px; height: 17px; cursor: pointer; }
+        .checkbox-tag.is-checked {
+            background: #e0f2fe !important;
+            border-color: #003c82 !important;
+            color: #00224a !important;
+            font-weight: 700 !important;
+            box-shadow: 0 2px 6px rgba(0, 60, 130, 0.15);
+        }
+        .checkbox-tag input[type="checkbox"] {
+            accent-color: #003c82;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
 
-        /* PRIVACY BOX */
+        /* PRIVACY CHECKBOX BOX */
         .privacy-box {
-            background: var(--bg-light); border: 1px solid var(--border-color);
-            padding: 16px; border-radius: 12px; margin: 20px 0;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            padding: 14px;
+            border-radius: 8px;
+            margin-top: 15px;
+            margin-bottom: 10px;
         }
         .privacy-checkbox-label {
-            display: flex; align-items: flex-start; gap: 12px; font-size: 0.88rem;
-            color: #334155; cursor: pointer; font-weight: 600; line-height: 1.5;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.88rem;
+            color: #334155;
+            cursor: pointer;
+            font-weight: 600;
+            line-height: 1.45;
         }
         .privacy-checkbox-label input[type="checkbox"] {
-            accent-color: var(--blue-accent); width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0;
+            accent-color: #003c82;
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+            cursor: pointer;
         }
-        .privacy-link { color: var(--blue-accent); text-decoration: underline; font-weight: 700; cursor: pointer; }
-        .privacy-link:hover { color: var(--sky-blue); }
-
-        /* BUTTONS */
-        .submit-btn {
-            background: var(--navy-main); color: #ffffff; border: none; padding: 16px 30px;
-            border-radius: 12px; font-size: 1.05rem; font-weight: 800; cursor: pointer;
-            display: inline-flex; align-items: center; justify-content: center; gap: 12px;
-            width: 100%; transition: all 0.25s ease; box-shadow: 0 6px 18px rgba(0, 34, 74, 0.18);
+        .privacy-link {
+            color: #003c82;
+            text-decoration: underline;
+            font-weight: 700;
+            cursor: pointer;
+            transition: color 0.2s ease;
         }
-        .submit-btn:hover { background: var(--blue-accent); transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0, 34, 74, 0.25); }
+        .privacy-link:hover {
+            color: #87ceeb;
+        }
 
-        /* SIDEBAR INFO CARD */
-        .contact-info-card { display: flex; flex-direction: column; gap: 24px; }
+        .field-section-title {
+            font-size: 0.98rem;
+            font-weight: 800;
+            color: #00224a;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+            margin: 20px 0 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* CARD INFORMAZIONI E DIRECT MAIL */
+        .contact-info-card {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .info-box {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 18px rgba(0, 60, 130, 0.05);
+        }
+        .info-box h4 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--dark-navy, #003c82);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 8px;
+        }
+        .info-box p {
+            font-size: 0.88rem;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        
         .direct-email-box {
-            background: linear-gradient(145deg, #00224a 0%, #001229 100%); color: #ffffff;
-            border-radius: 20px; padding: 28px; border: 1px solid rgba(135, 206, 235, 0.3);
-            box-shadow: var(--card-shadow);
+            background: linear-gradient(135deg, #00224a 0%, #001229 100%);
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
         }
-        .direct-email-box h4 { color: var(--sky-blue); font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
-        .direct-email-box p { font-size: 0.88rem; color: #e2e8f0; margin-bottom: 16px; line-height: 1.55; }
+        .direct-email-box h4 {
+            color: #87ceeb;
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .direct-email-box p {
+            font-size: 0.86rem;
+            color: #e2e8f0;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
         .email-address-wrapper {
-            background: rgba(255, 255, 255, 0.1); padding: 12px 16px; border-radius: 10px;
-            border: 1px dashed rgba(255, 255, 255, 0.3); font-weight: 700; font-size: 0.95rem;
-            color: #ffffff; text-align: center; margin-bottom: 14px; word-break: break-all;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px dashed rgba(255, 255, 255, 0.25);
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: #ffffff;
+            word-break: break-all;
+            text-align: center;
+            margin-bottom: 12px;
+            user-select: all;
         }
         .btn-copy-email {
-            width: 100%; background: var(--sky-blue); color: var(--navy-main); border: none;
-            padding: 12px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.2s ease;
+            width: 100%;
+            background: #87ceeb;
+            color: #00224a;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s ease;
         }
-        .btn-copy-email:hover { background: var(--sky-hover); }
+        .btn-copy-email:hover { background: #a0d8ef; }
 
-        .info-box {
-            background: #ffffff; border-radius: 20px; padding: 28px;
-            border: 1px solid #e2e8f0; box-shadow: var(--card-shadow);
+        .submit-btn {
+            background: var(--dark-navy, #003c82);
+            color: #ffffff;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            transition: background 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 12px rgba(0, 60, 130, 0.2);
+            margin-top: 10px;
         }
-        .info-box h4 { font-size: 1.05rem; font-weight: 800; color: var(--navy-main); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
-        .info-box p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; }
-
-        /* MODALS UI */
-        .confirm-modal-overlay, .privacy-modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 18, 41, 0.75); backdrop-filter: blur(6px); z-index: 10001;
-            display: flex; align-items: center; justify-content: center; padding: 20px;
-            box-sizing: border-box; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        .submit-btn:hover {
+            background: #002b5c;
+            transform: translateY(-1px);
         }
-        .confirm-modal-overlay.show, .privacy-modal-overlay.show { opacity: 1; pointer-events: auto; }
-        
-        .confirm-modal-card {
-            background: #ffffff; border-radius: 24px; max-width: 480px; width: 100%; padding: 36px 28px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3); text-align: center; transform: translateY(20px);
-            transition: transform 0.3s ease; border: 2px solid var(--sky-blue);
-        }
-        .confirm-modal-overlay.show .confirm-modal-card { transform: translateY(0); }
-        .confirm-modal-icon {
-            width: 72px; height: 72px; background: #f0fdf4; color: var(--success-color); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 20px auto; border: 2px solid #a7f3d0;
-        }
-        .confirm-modal-title { font-size: 1.4rem; font-weight: 800; color: var(--navy-main); margin-bottom: 12px; }
-        .confirm-modal-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 28px; }
-        
-        .privacy-modal-card {
-            background: #ffffff; border-radius: 24px; max-width: 640px; width: 100%; max-height: 85vh;
-            display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
-            transform: translateY(20px); transition: transform 0.3s ease; border: 2px solid var(--sky-blue); overflow: hidden;
-        }
-        .privacy-modal-overlay.show .privacy-modal-card { transform: translateY(0); }
-        .privacy-modal-header {
-            background: linear-gradient(145deg, #00224a 0%, #001229 100%); color: #ffffff; padding: 22px 28px;
-            display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid var(--sky-blue);
-        }
-        .privacy-modal-header h3 { font-size: 1.2rem; font-weight: 800; margin: 0; display: flex; align-items: center; gap: 10px; color: #ffffff; }
-        .privacy-modal-close-btn {
-            background: rgba(255, 255, 255, 0.15); border: none; color: #ffffff; width: 36px; height: 36px;
-            border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
-        }
-        .privacy-modal-body { padding: 28px; overflow-y: auto; font-size: 0.92rem; color: #334155; line-height: 1.7; }
-        .privacy-modal-body h4 { color: var(--navy-main); font-size: 1rem; font-weight: 800; margin-top: 18px; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-        .privacy-modal-body h4:first-child { margin-top: 0; }
-        .privacy-modal-footer { padding: 18px 28px; background: var(--bg-light); border-top: 1px solid var(--border-color); text-align: right; }
-
-        .modal-action-btn {
-            background: var(--navy-main); color: #ffffff; border: none; padding: 12px 32px;
-            border-radius: 25px; font-weight: 800; font-size: 0.95rem; cursor: pointer; transition: background 0.2s ease;
-        }
-        .modal-action-btn:hover { background: var(--sky-blue); color: var(--navy-main); }
 
         .toast-copy {
-            position: fixed; bottom: 24px; right: 24px; background: var(--success-color); color: #ffffff;
-            padding: 14px 24px; border-radius: 12px; font-weight: 700; font-size: 0.92rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2); z-index: 10000; opacity: 0; transform: translateY(20px);
-            transition: all 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 10px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #10b981;
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
         }
         .toast-copy.show { opacity: 1; transform: translateY(0); }
 
         .error-banner {
-            background: #fef2f2; border: 1px solid #fca5a5; color: #b91c1c; padding: 10px 14px;
-            border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: none; align-items: center; gap: 8px; margin-top: 6px;
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            color: #b91c1c;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
         }
 
-        /* FOOTER */
-        .footer { background: var(--navy-deep); color: #94a3b8; text-align: center; padding: 24px 0; font-size: 0.88rem; margin-top: 60px; }
+        /* --- MODAL DI CONFERMA CUSTOM --- */
+        .confirm-modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0, 10, 25, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .confirm-modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .confirm-modal-card {
+            background: #ffffff;
+            border-radius: 20px;
+            max-width: 480px;
+            width: 100%;
+            padding: 32px 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            border: 2px solid #87ceeb;
+        }
+        .confirm-modal-overlay.show .confirm-modal-card {
+            transform: translateY(0);
+        }
+        .confirm-modal-icon {
+            width: 70px;
+            height: 70px;
+            background: #f0fdf4;
+            color: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin: 0 auto 18px auto;
+            border: 2px solid #a7f3d0;
+        }
+        .confirm-modal-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #00224a;
+            margin-bottom: 12px;
+        }
+        .confirm-modal-text {
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        .confirm-modal-btn {
+            background: #003c82;
+            color: #ffffff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .confirm-modal-btn:hover {
+            background: #87ceeb;
+            color: #00224a;
+        }
+
+        /* --- MODAL PRIVACY INFORMATIVA (NON INVASIVO) --- */
+        .privacy-modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0, 10, 25, 0.75);
+            backdrop-filter: blur(5px);
+            z-index: 10002;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .privacy-modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .privacy-modal-card {
+            background: #ffffff;
+            border-radius: 20px;
+            max-width: 620px;
+            width: 100%;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            border: 2px solid #87ceeb;
+            overflow: hidden;
+        }
+        .privacy-modal-overlay.show .privacy-modal-card {
+            transform: translateY(0);
+        }
+        .privacy-modal-header {
+            background: linear-gradient(135deg, #00224a 0%, #001229 100%);
+            color: #ffffff;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #87ceeb;
+        }
+        .privacy-modal-header h3 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffffff;
+        }
+        .privacy-modal-close-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .privacy-modal-close-btn:hover {
+            background: #87ceeb;
+            color: #00224a;
+        }
+        .privacy-modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            color: #334155;
+            line-height: 1.65;
+            text-align: left;
+        }
+        .privacy-modal-body h4 {
+            color: #00224a;
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-top: 16px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .privacy-modal-body h4:first-child { margin-top: 0; }
+        .privacy-modal-body p { margin-bottom: 12px; }
+        .privacy-modal-footer {
+            padding: 16px 24px;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            text-align: right;
+        }
+
+        @media (max-width: 480px) {
+            .form-row-date-age {
+                grid-template-columns: 1fr 90px;
+                gap: 8px;
+            }
+            .form-row-date-age label {
+                font-size: 0.85rem;
+            }
+            .privacy-modal-card {
+                max-height: 90vh;
+            }
+            .privacy-modal-body {
+                padding: 16px;
+                font-size: 0.86rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .section-title { font-size: 1.45rem !important; text-align: center !important; }
+            .contact-form-card { padding: 20px 16px; }
+        }
     </style>
 </head>
 <body>
@@ -420,19 +816,22 @@
 
   <div class="main-header-bar">
     <div class="container header-container">
-      <a href="index.html" class="logo-title">
-        <img src="./immagini/logo.png?v=2" alt="Yokohama Calcio" class="logo">
-        <span class="brand-name">
+      <div class="logo-title">
+        <a href="index.html">
+          <img src="./immagini/logo.png?v=2" alt="Yokohama Calcio" class="logo">
+        </a>
+        <a href="index.html" class="brand-name">
           <span>YOKOHAMA</span>
           <span class="brand-sub">CALCIO</span>
-        </span>
-      </a>
+        </a>
+      </div>
 
       <div class="desktop-nav-wrapper">
         <nav class="main-nav">
           <div class="nav-item dropdown">
             <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
-              <span data-i18n="nav.about_group">クラブ</span> <i class="fas fa-chevron-down nav-arrow"></i>
+              <span data-i18n="nav.about_group">クラブ</span> 
+              <i class="fas fa-chevron-down nav-arrow"></i>
             </span>
             <div class="dropdown-menu">
               <a href="about.html" data-i18n="nav.about">チーム紹介</a>
@@ -443,7 +842,8 @@
 
           <div class="nav-item dropdown">
             <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
-              <span data-i18n="nav.team_group">チーム・選手</span> <i class="fas fa-chevron-down nav-arrow"></i>
+              <span data-i18n="nav.team_group">チーム・選手</span> 
+              <i class="fas fa-chevron-down nav-arrow"></i>
             </span>
             <div class="dropdown-menu">
               <a href="players.html" data-i18n="nav.players">選手紹介</a>
@@ -454,11 +854,11 @@
           <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
           <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
-          <a href="contact.html" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
+          <a href="contact.html" class="nav-cta-btn" style="background: var(--primary-sky, #87ceeb) !important; color: #00224a !important;" data-i18n="nav.contact">お問い合わせ</a>
         </nav>
       </div>
 
-      <button class="mobile-menu-toggle" aria-label="Menu" style="background:none; border:none; font-size:1.4rem; color:var(--navy-main); cursor:pointer;">
+      <button class="mobile-menu-toggle" aria-label="Menu">
         <i class="fas fa-bars"></i>
       </button>
     </div>
@@ -467,43 +867,79 @@
   <nav class="mobile-nav hidden">
     <div class="mobile-nav-content">
       <div class="mobile-nav-header">
-        <span class="brand-name" style="font-size:1.2rem; color:#fff;">YOKOHAMA <span style="color:var(--sky-blue);">CALCIO</span></span>
+        <div class="logo-title" style="margin: 0;">
+          <span class="brand-name">YOKOHAMA <span class="brand-sub">CALCIO</span></span>
+        </div>
         <button class="mobile-nav-close" aria-label="Chiudi"><i class="fas fa-times"></i></button>
       </div>
-      <a href="index.html" class="mobile-link"><i class="fas fa-home"></i> <span data-i18n="nav.home">ホーム</span></a>
-      <a href="about.html" class="mobile-link"><i class="fas fa-shield-alt"></i> <span data-i18n="nav.about">チーム紹介</span></a>
-      <a href="players.html" class="mobile-link"><i class="fas fa-user-friends"></i> <span data-i18n="nav.players">選手紹介</span></a>
-      <a href="matches.html" class="mobile-link"><i class="fas fa-calendar-alt"></i> <span data-i18n="nav.matches">試合日程・結果</span></a>
-      <a href="contact.html" class="mobile-link" style="background:var(--sky-blue); color:var(--navy-main) !important; font-weight:800; margin-top:10px;">
-        <i class="fas fa-paper-plane"></i> <span data-i18n="nav.contact">お問い合わせ</span>
+
+      <a href="index.html" class="mobile-link">
+        <i class="fas fa-home menu-icon"></i> <span data-i18n="nav.home">ホーム</span>
       </a>
+
+      <div class="mobile-dropdown-group">
+        <button class="mobile-dropdown-toggle">
+          <div class="mobile-dropdown-toggle-left">
+            <i class="fas fa-shield-alt menu-icon"></i>
+            <span data-i18n="nav.team_group">チーム・選手</span>
+          </div>
+          <i class="fas fa-chevron-down mobile-arrow" style="color: #87ceeb;"></i>
+        </button>
+        <div class="mobile-submenu hidden">
+          <a href="about.html" class="mobile-link sub" data-i18n="nav.about">チーム紹介</a>
+          <a href="players.html" class="mobile-link sub" data-i18n="nav.players">選手紹介</a>
+          <a href="stats.html" class="mobile-link sub" data-i18n="nav.stats">成績・スタッツ</a>
+          <a href="index.html#gallery" class="mobile-link sub" data-i18n="nav.gallery">ギャラリー</a>
+        </div>
+      </div>
+
+      <a href="matches.html" class="mobile-link">
+        <i class="fas fa-calendar-alt menu-icon"></i> <span data-i18n="nav.matches">試合日程・結果</span>
+      </a>
+      <a href="index.html#shop" class="mobile-link">
+        <i class="fas fa-shopping-bag menu-icon"></i> <span data-i18n="nav.shop">ショップ</span>
+      </a>
+      <a href="index.html#sponsors" class="mobile-link">
+        <i class="fas fa-handshake menu-icon"></i> <span data-i18n="nav.sponsors">パートナー</span>
+      </a>
+      <a href="faq.html" class="mobile-link">
+        <i class="fas fa-question-circle menu-icon"></i> <span data-i18n="nav.faq">よくある質問</span>
+      </a>
+
+      <div class="mobile-cta-wrapper">
+        <a href="contact.html" class="mobile-cta-btn" style="background: #87ceeb; color: #00224a !important; font-weight: 800;">
+          <i class="fas fa-paper-plane"></i> <span data-i18n="nav.contact">お問い合わせ</span>
+        </a>
+      </div>
     </div>
   </nav>
 </header>
 
 <section class="section">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-envelope" style="color: var(--sky-blue);"></i> <span data-i18n="contact_page.title">お問い合わせ</span></h2>
-        <p class="section-subtitle" data-i18n="contact_page.intro">
+        <h2 class="section-title"><i class="fas fa-envelope"></i> <span data-i18n="contact_page.title">お問い合わせ</span></h2>
+        <p style="text-align: center; color: #64748b; margin-bottom: 35px; font-size: 0.98rem;" data-i18n="contact_page.intro">
             体験練習参加、スタッフ応募、練習試合のお申し込み、パートナーシップに関するご質問など、お気軽にお問い合わせください。
         </p>
 
         <div class="contact-grid-container">
             
-            <!-- FORM MAIN CARD -->
+            <!-- MODULO DI CONTATTO NATIVO -->
             <div class="contact-form-card">
                 <form id="contactForm" action="https://formspree.io/f/xeaoqkbl" method="POST">
                     
+                    <!-- CAMPI DINAMICI FORMSPREE -->
                     <input type="hidden" name="_subject" id="formspree_subject" value="[Yokohama Calcio] お問い合わせ / Nuovo Contatto">
                     <input type="text" name="_gotcha" style="display:none !important;" tabindex="-1" autocomplete="off">
 
-                    <!-- CATEGORIA -->
+                    <!-- TIPO DI RICHIESTA CON SELEZIONE INIZIALE "SCEGLI" -->
                     <div class="form-group">
                         <label for="category">
                             <span data-i18n="form.category_label">お問い合わせ種別</span>
                             <span class="required-tag" data-i18n="form.required">必須</span>
                         </label>
                         <select id="category" name="category" class="form-control" required>
+                            <option value="" disabled selected data-i18n="form.select_category">選択してください（必須）</option>
                             <option value="trial" data-i18n="form.opt_trial">体験練習・選手入部希望（18〜40歳経験者）</option>
                             <option value="staff" data-i18n="form.opt_staff">スタッフ応募（マネージャー・コーチ等）</option>
                             <option value="match" data-i18n="form.opt_match">練習試合・対戦のお申し込み</option>
@@ -512,56 +948,85 @@
                         </select>
                     </div>
 
-                    <!-- NOME E COGNOME -->
+                    <!-- COGNOME E NOME -->
                     <div class="form-row-2">
                         <div class="form-group">
-                            <label for="last_name"><span data-i18n="form.last_name_label">姓</span> <span class="required-tag" data-i18n="form.required">必須</span></label>
+                            <label for="last_name">
+                                <span data-i18n="form.last_name_label">姓</span>
+                                <span class="required-tag" data-i18n="form.required">必須</span>
+                            </label>
                             <input type="text" id="last_name" name="last_name" class="form-control" placeholder="山田" required>
                         </div>
                         <div class="form-group">
-                            <label for="first_name"><span data-i18n="form.first_name_label">名</span> <span class="required-tag" data-i18n="form.required">必須</span></label>
+                            <label for="first_name">
+                                <span data-i18n="form.first_name_label">名</span>
+                                <span class="required-tag" data-i18n="form.required">必須</span>
+                            </label>
                             <input type="text" id="first_name" name="first_name" class="form-control" placeholder="太郎" required>
                         </div>
                     </div>
 
-                    <!-- KANA -->
+                    <!-- KANA COGNOME E NOME -->
                     <div class="form-row-2">
                         <div class="form-group">
-                            <label for="last_name_kana"><span data-i18n="form.last_name_kana_label">セイ (フリガナ)</span> <span class="required-tag" data-i18n="form.required">必須</span></label>
+                            <label for="last_name_kana">
+                                <span data-i18n="form.last_name_kana_label">セイ (フリガナ)</span>
+                                <span class="required-tag" data-i18n="form.required">必須</span>
+                            </label>
                             <input type="text" id="last_name_kana" name="last_name_kana" class="form-control" placeholder="ヤマダ" required>
                         </div>
                         <div class="form-group">
-                            <label for="first_name_kana"><span data-i18n="form.first_name_kana_label">メイ (フリガナ)</span> <span class="required-tag" data-i18n="form.required">必須</span></label>
+                            <label for="first_name_kana">
+                                <span data-i18n="form.first_name_kana_label">メイ (フリガナ)</span>
+                                <span class="required-tag" data-i18n="form.required">必須</span>
+                            </label>
                             <input type="text" id="first_name_kana" name="first_name_kana" class="form-control" placeholder="タロウ" required>
                         </div>
                     </div>
 
                     <!-- EMAIL -->
                     <div class="form-group">
-                        <label for="email"><span data-i18n="form.email_label">メールアドレス</span> <span class="required-tag" data-i18n="form.required">必須</span></label>
+                        <label for="email">
+                            <span data-i18n="form.email_label">メールアドレス</span>
+                            <span class="required-tag" data-i18n="form.required">必須</span>
+                        </label>
                         <input type="email" id="email" name="email" class="form-control" placeholder="example@email.com" required>
                     </div>
 
-                    <!-- SECTION GIOCATORI (TRIAL) -->
+                    <!-- CAMPI SPECIFICI DINAMICI PER SQUADRA (GIOCATORI) -->
                     <div id="trialFieldsWrapper">
-                        <div class="field-section-title"><i class="fas fa-running" style="color:var(--sky-blue);"></i> <span data-i18n="form.player_sec_title">選手情報</span></div>
+                        <div class="field-section-title"><i class="fas fa-running"></i> <span data-i18n="form.player_sec_title">選手情報</span></div>
                         
+                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ GIOCATORE CON GUIDA UX -->
                         <div class="form-group">
                             <div class="form-row-date-age">
                                 <div>
-                                    <label for="birth_date"><span data-i18n="form.birth_date_label">生年月日</span> <span class="required-tag" data-i18n="form.required">必須</span></label>
+                                    <label for="birth_date">
+                                        <span data-i18n="form.birth_date_label">生年月日</span>
+                                        <span class="required-tag" data-i18n="form.required">必須</span>
+                                        <small style="font-size:0.75rem; color:#64748b; font-weight:normal; margin-left:auto;" data-i18n="form.birth_date_hint">※年齢は自動計算されます</small>
+                                    </label>
                                     <input type="date" id="birth_date" name="birth_date" class="form-control">
                                 </div>
                                 <div>
-                                    <label for="calc_age_player"><span data-i18n="form.calculated_age_label">年齢</span></label>
+                                    <label for="calc_age_player">
+                                        <span data-i18n="form.calculated_age_label">年齢</span>
+                                    </label>
                                     <input type="text" id="calc_age_player" class="form-control readonly-age" placeholder="--" readonly tabindex="-1">
                                 </div>
                             </div>
-                            <div id="age_error_player" class="error-banner"><i class="fas fa-exclamation-triangle"></i> <span id="age_error_player_msg"></span></div>
+                            <div id="age_error_player" class="error-banner">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span id="age_error_player_msg"></span>
+                            </div>
                         </div>
 
+                        <!-- LIVELLO ESPERIENZA (MANDATORIO) -->
                         <div class="form-group">
-                            <label for="experience_level"><span data-i18n="form.exp_level_label">競技レベル・最高実績</span> <span class="required-tag" data-i18n="form.required">必須</span></label>
+                            <label for="experience_level">
+                                <span data-i18n="form.exp_level_label">競技レベル・最高実績</span>
+                                <span class="required-tag" data-i18n="form.required">必須</span>
+                            </label>
                             <select id="experience_level" name="experience_level" class="form-control">
                                 <option value="" data-i18n="form.select_option">選択してください</option>
                                 <option value="university" data-i18n="form.exp_univ">大学体育会・都県社会人リーグ経験</option>
@@ -572,13 +1037,20 @@
                             </select>
                         </div>
 
+                        <!-- SQUADRE PRECEDENTI -->
                         <div class="form-group">
-                            <label for="experience_details"><span data-i18n="form.exp_details_label">サッカー歴・前所属チーム</span></label>
+                            <label for="experience_details">
+                                <span data-i18n="form.exp_details_label">サッカー歴・前所属チーム</span>
+                            </label>
                             <input type="text" id="experience_details" name="experience_details" class="form-control" placeholder="〇〇高校サッカー部、〇〇大学サークルなど">
                         </div>
 
+                        <!-- MACROPOSIZIONE -->
                         <div class="form-group">
-                            <label for="macro_position"><span data-i18n="form.macro_pos_label">希望ポジション（メイン）</span> <span class="required-tag" data-i18n="form.required">必須</span></label>
+                            <label for="macro_position">
+                                <span data-i18n="form.macro_pos_label">希望ポジション（メイン）</span>
+                                <span class="required-tag" data-i18n="form.required">必須</span>
+                            </label>
                             <select id="macro_position" name="macro_position" class="form-control">
                                 <option value="" data-i18n="form.select_option">選択してください</option>
                                 <option value="GK">GK (ゴールキーパー)</option>
@@ -588,33 +1060,57 @@
                             </select>
                         </div>
 
+                        <!-- RUOLI SPECIFICI DINAMICI (MULTIPLE CHOICE ULTRA-CHIARO) -->
                         <div class="form-group" id="subPositionWrapper" style="display: none;">
-                            <label><span data-i18n="form.sub_pos_label">詳細役割（複数選択可）</span> <span class="required-tag" data-i18n="form.required">必須</span></label>
+                            <label style="display:flex; justify-content:space-between; align-items:center;">
+                                <div>
+                                    <span data-i18n="form.sub_pos_label">詳細役割（複数選択可）</span>
+                                    <span class="required-tag" data-i18n="form.required">必須</span>
+                                </div>
+                                <small style="font-size:0.75rem; color:#64748b; font-weight:normal;" data-i18n="form.sub_pos_hint">※該当するものをすべて選択</small>
+                            </label>
                             <div id="subPositionCheckboxes" class="sub-pos-container"></div>
-                            <div id="sub_pos_error" class="error-banner"><i class="fas fa-exclamation-triangle"></i> <span data-i18n="form.sub_pos_error">少なくとも1つの役割を選択してください。</span></div>
+                            <div id="sub_pos_error" class="error-banner">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span data-i18n="form.sub_pos_error">少なくとも1つの役割を選択してください。</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- SECTION STAFF -->
+                    <!-- CAMPI SPECIFICI DINAMICI PER STAFF -->
                     <div id="staffFieldsWrapper" style="display: none;">
-                        <div class="field-section-title"><i class="fas fa-user-tie" style="color:var(--sky-blue);"></i> <span data-i18n="form.staff_sec_title">スタッフ応募情報</span></div>
+                        <div class="field-section-title"><i class="fas fa-user-tie"></i> <span data-i18n="form.staff_sec_title">スタッフ応募情報</span></div>
 
+                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ STAFF -->
                         <div class="form-group">
                             <div class="form-row-date-age">
                                 <div>
-                                    <label for="staff_birth_date"><span data-i18n="form.birth_date_label">生年月日</span> <span class="required-tag" data-i18n="form.required">必須</span></label>
+                                    <label for="staff_birth_date">
+                                        <span data-i18n="form.birth_date_label">生年月日</span>
+                                        <span class="required-tag" data-i18n="form.required">必須</span>
+                                        <small style="font-size:0.75rem; color:#64748b; font-weight:normal; margin-left:auto;" data-i18n="form.birth_date_hint">※年齢は自動計算されます</small>
+                                    </label>
                                     <input type="date" id="staff_birth_date" name="staff_birth_date" class="form-control">
                                 </div>
                                 <div>
-                                    <label for="calc_age_staff"><span data-i18n="form.calculated_age_label">年齢</span></label>
+                                    <label for="calc_age_staff">
+                                        <span data-i18n="form.calculated_age_label">年齢</span>
+                                    </label>
                                     <input type="text" id="calc_age_staff" class="form-control readonly-age" placeholder="--" readonly tabindex="-1">
                                 </div>
                             </div>
-                            <div id="age_error_staff" class="error-banner"><i class="fas fa-exclamation-triangle"></i> <span id="age_error_staff_msg"></span></div>
+                            <div id="age_error_staff" class="error-banner">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span id="age_error_staff_msg"></span>
+                            </div>
                         </div>
 
+                        <!-- RUOLO STAFF RICHIESTO -->
                         <div class="form-group">
-                            <label for="staff_role"><span data-i18n="form.staff_role_label">希望スタッフ役職</span> <span class="required-tag" data-i18n="form.required">必須</span></label>
+                            <label for="staff_role">
+                                <span data-i18n="form.staff_role_label">希望スタッフ役職</span>
+                                <span class="required-tag" data-i18n="form.required">必須</span>
+                            </label>
                             <select id="staff_role" name="staff_role" class="form-control">
                                 <option value="" data-i18n="form.select_option">選択してください</option>
                                 <option value="assistant_coach" data-i18n="form.staff_role_coach">アシスタントコーチ</option>
@@ -625,45 +1121,63 @@
                             </select>
                         </div>
 
+                        <!-- ESPERIENZA / ESPERIENZA NELLO SPORT -->
                         <div class="form-group">
-                            <label for="staff_experience"><span data-i18n="form.staff_exp_label">指導歴・スポーツ関連経歴</span></label>
-                            <textarea id="staff_experience" name="staff_experience" class="form-control" style="min-height: 90px;" placeholder="過去のマネージャー経験、指導資格など"></textarea>
+                            <label for="staff_experience">
+                                <span data-i18n="form.staff_exp_label">指導歴・スポーツ関連経歴</span>
+                            </label>
+                            <textarea id="staff_experience" name="staff_experience" class="form-control" style="min-height: 80px;" placeholder="過去のマネージャー経験、指導資格、スポーツ救急など"></textarea>
                         </div>
                     </div>
 
-                    <!-- SECTION MATCH -->
+                    <!-- CAMPI SPECIFICI DINAMICI PER PARTITE AMICHEVOLE (MATCH) -->
                     <div id="matchFieldsWrapper" style="display: none;">
-                        <div class="field-section-title"><i class="fas fa-futbol" style="color:var(--sky-blue);"></i> <span data-i18n="form.match_sec_title">対戦チーム情報</span></div>
+                        <div class="field-section-title"><i class="fas fa-futbol"></i> <span data-i18n="form.match_sec_title">対戦チーム情報</span></div>
 
+                        <!-- NOME SQUADRA -->
                         <div class="form-group">
-                            <label for="match_team_name"><span data-i18n="form.match_team_name_label">チーム名</span> <span class="required-tag" data-i18n="form.required">必須</span></label>
+                            <label for="match_team_name">
+                                <span data-i18n="form.match_team_name_label">チーム名</span>
+                                <span class="required-tag" data-i18n="form.required">必須</span>
+                            </label>
                             <input type="text" id="match_team_name" name="match_team_name" class="form-control" placeholder="例: 横浜FCアマチュア">
                         </div>
 
+                        <!-- LEGA A CUI PARTECIPANO -->
                         <div class="form-group">
-                            <label for="match_league"><span data-i18n="form.match_league_label">所属リーグ・カテゴリー</span></label>
-                            <input type="text" id="match_league" name="match_league" class="form-control" placeholder="例: 神奈川県社会人サッカーリーグ3部">
+                            <label for="match_league">
+                                <span data-i18n="form.match_league_label">所属リーグ・カテゴリー</span>
+                            </label>
+                            <input type="text" id="match_league" name="match_league" class="form-control" placeholder="例: 神奈川県社会人サッカーリーグ3部、横浜市1部など">
                         </div>
 
+                        <!-- COLORI UNIFORME 1ST E 2ND -->
                         <div class="form-row-2">
                             <div class="form-group">
-                                <label for="match_1st_kit"><span data-i18n="form.match_1st_kit_label">1stユニフォーム</span></label>
+                                <label for="match_1st_kit">
+                                    <span data-i18n="form.match_1st_kit_label">1stユニフォーム（シャツ・パンツ・ソックス）</span>
+                                </label>
                                 <input type="text" id="match_1st_kit" name="match_1st_kit" class="form-control" placeholder="例: 赤 - 黒 - 赤">
                             </div>
                             <div class="form-group">
-                                <label for="match_2nd_kit"><span data-i18n="form.match_2nd_kit_label">2ndユニフォーム</span></label>
+                                <label for="match_2nd_kit">
+                                    <span data-i18n="form.match_2nd_kit_label">2ndユニフォーム（シャツ・パンツ・ソックス）</span>
+                                </label>
                                 <input type="text" id="match_2nd_kit" name="match_2nd_kit" class="form-control" placeholder="例: 白 - 白 - 白">
                             </div>
                         </div>
                     </div>
 
-                    <!-- MESSAGGIO -->
+                    <!-- MESSAGGIO LIBERO -->
                     <div class="form-group">
-                        <label for="message"><span data-i18n="form.message_label">メッセージ内容</span> <span class="required-tag" data-i18n="form.required">必須</span></label>
-                        <textarea id="message" name="message" class="form-control" placeholder="ご質問や体験参加のご希望日時などをご記入ください。" required></textarea>
+                        <label for="message">
+                            <span data-i18n="form.message_label">メッセージ内容</span>
+                            <span class="required-tag" data-i18n="form.required">必須</span>
+                        </label>
+                        <textarea id="message" name="message" class="form-control" placeholder="ご質問や体験参加のご希望日時、グラウンド手配状況などをご記入ください。" required></textarea>
                     </div>
 
-                    <!-- SPUNTA PRIVACY -->
+                    <!-- SPUNTA TRATTAMENTO DATI PERSONALI CON LINK PRIVACY POLICY -->
                     <div class="privacy-box">
                         <label class="privacy-checkbox-label" for="privacy_agree">
                             <input type="checkbox" id="privacy_agree" name="privacy_agree" required>
@@ -674,42 +1188,66 @@
                     </div>
 
                     <button type="submit" class="submit-btn" id="submitBtn">
-                        <i class="fas fa-paper-plane"></i> <span data-i18n="form.submit_btn">送信する</span>
+                        <i class="fas fa-paper-plane"></i>
+                        <span data-i18n="form.submit_btn">送信する</span>
                     </button>
                 </form>
             </div>
 
-            <!-- SIDEBAR INFO -->
+            <!-- CARD INFORMAZIONI E DIRECT MAIL -->
             <div class="contact-info-card">
+                
                 <div class="direct-email-box">
                     <h4><i class="fas fa-envelope-open-text"></i> <span data-i18n="info.direct_title">直接メールで連絡</span></h4>
                     <p data-i18n="info.direct_desc">お使いのメールソフトから直接ご連絡いただく場合は、以下のアドレス宛にお送りください。</p>
-                    <div class="email-address-wrapper" id="emailText">yokohamacalcio@gmail.com</div>
-                    <button class="btn-copy-email" id="copyEmailBtn"><i class="far fa-copy"></i> <span data-i18n="info.copy_btn">メールアドレスをコピー</span></button>
+                    
+                    <div class="email-address-wrapper" id="emailText">
+                        yokohamacalcio@gmail.com
+                    </div>
+
+                    <button class="btn-copy-email" id="copyEmailBtn">
+                        <i class="far fa-copy"></i>
+                        <span data-i18n="info.copy_btn">メールアドレスをコピー</span>
+                    </button>
                 </div>
 
                 <div class="info-box">
                     <h4><i class="fas fa-info-circle"></i> <span data-i18n="info.notice_title">ご案内とお願い</span></h4>
-                    <p data-i18n="info.notice_p1">通常、お問い合わせをいただいてから24〜48時間以内に担当者よりご返信いたします。</p>
-                    <p data-i18n="info.notice_p2">携帯電話のメールアドレスをご利用の場合、ドメイン指定受信設定（@gmail.com）をご確認ください。</p>
+                    <p data-i18n="info.notice_p1">
+                        通常、お問い合わせをいただいてから24〜48時間以内に担当者よりご返信いたします。
+                    </p>
+                    <p data-i18n="info.notice_p2">
+                        携帯電話のメールアドレスをご利用の場合、ドメイン指定受信設定（@gmail.com）をご確認ください。
+                    </p>
                 </div>
+
             </div>
 
+        </div>
+
+        <div class="back-home-wrapper" style="text-align: center; margin-top: 50px;">
+            <a href="index.html" class="google-form-btn back-btn" style="display: inline-flex; justify-content: center; align-items: center; max-width: 250px; margin: 0 auto; gap: 8px;">
+                <i class="fas fa-arrow-left"></i> <span data-i18n="btn.back_home">ホームに戻る</span>
+            </a>
         </div>
     </div>
 </section>
 
-<!-- MODAL DI CONFERMA -->
+<!-- MODAL DI CONFERMA INVIO CUSTOM -->
 <div class="confirm-modal-overlay" id="confirmModal">
     <div class="confirm-modal-card">
-        <div class="confirm-modal-icon"><i class="fas fa-check"></i></div>
+        <div class="confirm-modal-icon">
+            <i class="fas fa-check"></i>
+        </div>
         <h3 class="confirm-modal-title" data-i18n="modal.title">送信が完了しました</h3>
-        <p class="confirm-modal-text" data-i18n="modal.text">お問い合わせありがとうございます。メッセージを受け付けました。<br>担当者より通常24〜48時間以内にご連絡いたします。</p>
-        <button class="modal-action-btn" id="confirmModalCloseBtn" data-i18n="modal.btn">OK</button>
+        <p class="confirm-modal-text" data-i18n="modal.text">
+            お問い合わせありがとうございます。メッセージを受け付けました。<br>担当者より通常24〜48時間以内にご連絡いたします。
+        </p>
+        <button class="confirm-modal-btn" id="confirmModalCloseBtn" data-i18n="modal.btn">OK</button>
     </div>
 </div>
 
-<!-- MODAL PRIVACY POLICY -->
+<!-- MODAL INFORMATIVA PRIVACY (NON INVASIVO) -->
 <div class="privacy-modal-overlay" id="privacyModal">
     <div class="privacy-modal-card">
         <div class="privacy-modal-header">
@@ -718,29 +1256,39 @@
         </div>
         <div class="privacy-modal-body">
             <h4><i class="fas fa-info-circle"></i> <span data-i18n="privacy.sec1_title">1. 個人情報の収集目的</span></h4>
-            <p data-i18n="privacy.sec1_text">横浜カルチョ（Yokohama Calcio）は、体験練習への参加申し込み、スタッフ応募、対戦相手の募集、およびクラブに関するお問い合わせに対応する目的でのみ個人情報を収集いたします。</p>
+            <p data-i18n="privacy.sec1_text">
+                横浜カルチョ（Yokohama Calcio）は、体験練習への参加申し込み、スタッフ応募、対戦相手の募集、およびクラブに関するお問い合わせに対応する目的でのみ、氏名、メールアドレス、生年月日、サッカー経歴等の個人情報を収集いたします。
+            </p>
 
             <h4><i class="fas fa-lock"></i> <span data-i18n="privacy.sec2_title">2. 個人情報の管理と安全保護</span></h4>
-            <p data-i18n="privacy.sec2_text">収集した個人情報は適切な安全対策を講じて管理し、不正アクセス、紛失、漏洩などの防止に努めます。</p>
+            <p data-i18n="privacy.sec2_text">
+                収集した個人情報は適切な安全対策を講じて管理し、不正アクセス、紛失、改ざん、漏洩などの防止に努めます。
+            </p>
 
             <h4><i class="fas fa-handshake"></i> <span data-i18n="privacy.sec3_title">3. 第三者への開示・提供の禁止</span></h4>
-            <p data-i18n="privacy.sec3_text">当クラブは、法令に基づく場合やご本人の同意がある場合を除き、個人情報を第三者に開示・提供することは一切ありません。</p>
+            <p data-i18n="privacy.sec3_text">
+                当クラブは、法令に基づく場合やご本人の同意がある場合を除き、収集した個人情報を第三者に開示・提供することは一切ありません。
+            </p>
 
             <h4><i class="fas fa-user-edit"></i> <span data-i18n="privacy.sec4_title">4. ご本人の権利（照会・修正・削除）</span></h4>
-            <p data-i18n="privacy.sec4_text">個人情報の確認、修正、削除をご希望の場合は、yokohamacalcio@gmail.com までご連絡ください。</p>
+            <p data-i18n="privacy.sec4_text">
+                ご提供いただいた個人情報の確認、修正、または削除をご希望の場合は、当クラブのお問い合わせ窓口（yokohamacalcio@gmail.com）までご連絡ください。速やかに対応いたします。
+            </p>
         </div>
         <div class="privacy-modal-footer">
-            <button class="modal-action-btn" id="privacyModalOkBtn" style="padding: 10px 28px;" data-i18n="privacy.close_btn">閉じる</button>
+            <button class="confirm-modal-btn" id="privacyModalOkBtn" style="padding: 8px 24px;" data-i18n="privacy.close_btn">閉じる</button>
         </div>
     </div>
 </div>
 
-<div class="toast-copy" id="copyToast"><i class="fas fa-check-circle"></i> <span data-i18n="info.toast_copied">メールアドレスをコピーしました！</span></div>
+<div class="toast-copy" id="copyToast">
+    <i class="fas fa-check-circle"></i> <span data-i18n="info.toast_copied">メールアドレスをコピーしました！</span>
+</div>
+
+<button id="scrollToTopBtn" aria-label="Torna in cima"><i class="fas fa-chevron-up"></i></button>
 
 <footer class="footer">
-    <div class="container">
-        <p>&copy; <span id="currentYear"></span> Yokohama Calcio. All Rights Reserved.</p>
-    </div>
+    <p>&copy; <span id="currentYear"></span> Yokohama Calcio. All Rights Reserved.</p>
 </footer>
 
 <script>
@@ -758,53 +1306,90 @@
             "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
             "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー",
             "nav.faq": "よくある質問", "nav.shop": "ショップ", "nav.contact": "お問い合わせ",
+            
             "contact_page.title": "お問い合わせ",
             "contact_page.intro": "体験練習参加、スタッフ応募、練習試合のお申し込み、パートナーシップに関するご質問など、お気軽にお問い合わせください。",
-            "form.category_label": "お問い合わせ種別", "form.required": "必須",
+            
+            "form.category_label": "お問い合わせ種別",
+            "form.select_category": "選択してください（必須）",
+            "form.required": "必須",
             "form.opt_trial": "体験練習・選手入部希望（18〜40歳経験者）",
             "form.opt_staff": "スタッフ応募（マネージャー・コーチ等）",
             "form.opt_match": "練習試合・対戦のお申し込み",
-            "form.opt_sponsor": "パートナー・協賛のご相談", "form.opt_other": "その他のお問い合わせ",
-            "form.last_name_label": "姓", "form.first_name_label": "名",
-            "form.last_name_kana_label": "セイ (フリガナ)", "form.first_name_kana_label": "メイ (フリガナ)",
-            "form.email_label": "メールアドレス", "form.player_sec_title": "選手情報",
-            "form.birth_date_label": "生年月日", "form.calculated_age_label": "年齢", "form.age_unit": "歳",
+            "form.opt_sponsor": "パートナー・協賛のご相談",
+            "form.opt_other": "その他のお問い合わせ",
+            
+            "form.last_name_label": "姓",
+            "form.first_name_label": "名",
+            "form.last_name_kana_label": "セイ (フリガナ)",
+            "form.first_name_kana_label": "メイ (フリガナ)",
+            "form.email_label": "メールアドレス",
+            
+            "form.player_sec_title": "選手情報",
+            "form.birth_date_label": "生年月日",
+            "form.birth_date_hint": "※年齢は自動計算されます",
+            "form.calculated_age_label": "年齢",
+            "form.age_unit": "歳",
             "form.age_error_under": "申し訳ありません。18歳未満の方はご参加いただけません。（現在の年齢: {age}歳）",
             "form.age_error_over": "申し訳ありません。対象年齢は40歳までとなっております。（現在の年齢: {age}歳）",
+            
             "form.exp_level_label": "競技レベル・最高実績",
             "form.exp_univ": "大学体育会・都県社会人リーグ経験",
             "form.exp_hs": "高校サッカー部強豪・全国大会経験",
             "form.exp_youth": "ユース・クラブチーム出身",
             "form.exp_gen_hs": "一般高校サッカー部経験",
             "form.exp_enjoy": "競技系フットサル・エンジョイ経験",
-            "form.exp_details_label": "サッカー歴・前所属チーム", "form.macro_pos_label": "希望ポジション（メイン）",
-            "form.sub_pos_label": "詳細役割（複数選択可）", "form.sub_pos_error": "少なくとも1つの役割を選択してください。",
-            "form.select_option": "選択してください", "form.staff_sec_title": "スタッフ応募情報",
-            "form.staff_role_label": "希望スタッフ役職", "form.staff_exp_label": "指導歴・スポーツ関連経歴",
-            "form.staff_role_coach": "アシスタントコーチ", "form.staff_role_manager": "チームマネージャー / 運営スタッフ",
-            "form.staff_role_trainer": "トレーナー / フィジカル", "form.staff_role_kit": "用具管理・エキップメント",
-            "form.staff_role_media": "広報・メディア・アナリスト", "form.match_sec_title": "対戦チーム情報",
-            "form.match_team_name_label": "チーム名", "form.match_league_label": "所属リーグ・カテゴリー",
-            "form.match_1st_kit_label": "1stユニフォーム", "form.match_2nd_kit_label": "2ndユニフォーム",
-            "form.message_label": "メッセージ内容", "form.privacy_prefix": "個人情報の取り扱い（",
-            "form.privacy_link": "プライバシーポリシー", "form.privacy_suffix": "）に同意する",
-            "form.submit_btn": "送信する", "info.direct_title": "直接メールで連絡",
+            
+            "form.exp_details_label": "サッカー歴・前所属チーム",
+            "form.macro_pos_label": "希望ポジション（メイン）",
+            "form.sub_pos_label": "詳細役割（複数選択可）",
+            "form.sub_pos_hint": "※該当するものをすべて選択",
+            "form.sub_pos_error": "少なくとも1つの役割を選択してください。",
+            "form.select_option": "選択してください",
+
+            "form.staff_sec_title": "スタッフ応募情報",
+            "form.staff_role_label": "希望スタッフ役職",
+            "form.staff_exp_label": "指導歴・スポーツ関連経歴",
+            "form.staff_role_coach": "アシスタントコーチ",
+            "form.staff_role_manager": "チームマネージャー / 運営スタッフ",
+            "form.staff_role_trainer": "トレーナー / フィジカル",
+            "form.staff_role_kit": "用具管理・エキップメント",
+            "form.staff_role_media": "広報・メディア・アナリスト",
+
+            "form.match_sec_title": "対戦チーム情報",
+            "form.match_team_name_label": "チーム名",
+            "form.match_league_label": "所属リーグ・カテゴリー",
+            "form.match_1st_kit_label": "1stユニフォーム（シャツ・パンツ・ソックス）",
+            "form.match_2nd_kit_label": "2ndユニフォーム（シャツ・パンツ・ソックス）",
+
+            "form.message_label": "メッセージ内容",
+            "form.privacy_prefix": "個人情報の取り扱い（",
+            "form.privacy_link": "プライバシーポリシー",
+            "form.privacy_suffix": "）に同意する",
+            "form.submit_btn": "送信する",
+
+            "info.direct_title": "直接メールで連絡",
             "info.direct_desc": "お使いのメールソフトから直接ご連絡いただく場合は、以下のアドレス宛にお送りください。",
-            "info.copy_btn": "メールアドレスをコピー", "info.toast_copied": "メールアドレスをコピーしました！",
+            "info.copy_btn": "メールアドレスをコピー",
+            "info.toast_copied": "メールアドレスをコピーしました！",
             "info.notice_title": "ご案内とお願い",
             "info.notice_p1": "通常、お問い合わせをいただいてから24〜48時間以内に担当者よりご返信いたします。",
             "info.notice_p2": "携帯電話のメールアドレスをご利用の場合、返信メールが届くよう設定をご確認ください。",
+            "btn.back_home": "ホームに戻る",
+
             "modal.title": "送信が完了しました",
             "modal.text": "お問い合わせありがとうございます。メッセージを受け付けました。<br>担当者より通常24〜48時間以内にご連絡いたします。",
-            "modal.btn": "OK", "privacy.title": "プライバシーポリシー",
+            "modal.btn": "OK",
+
+            "privacy.title": "プライバシーポリシー",
             "privacy.sec1_title": "1. 個人情報の収集目的",
-            "privacy.sec1_text": "横浜カルチョ（Yokohama Calcio）は、体験練習への参加申し込み、スタッフ応募、対戦相手の募集、およびクラブに関するお問い合わせに対応する目的でのみ個人情報を収集いたします。",
+            "privacy.sec1_text": "横浜カルチョ（Yokohama Calcio）は、体験練習への参加申し込み、スタッフ応募、対戦相手の募集、およびクラブに関するお問い合わせに対応する目的でのみ、氏名、メールアドレス、生年月日、サッカー経歴等の個人情報を収集いたします。",
             "privacy.sec2_title": "2. 個人情報の管理と安全保護",
-            "privacy.sec2_text": "収集した個人情報は適切な安全対策を講じて管理し、不正アクセス、紛失、漏洩などの防止に努めます。",
+            "privacy.sec2_text": "収集した個人情報は適切な安全対策を講じて管理し、不正アクセス、紛失、改ざん、漏洩などの防止に努めます。",
             "privacy.sec3_title": "3. 第三者への開示・提供の禁止",
-            "privacy.sec3_text": "当クラブは、法令に基づく場合やご本人の同意がある場合を除き、個人情報を第三者に開示・提供することは一切ありません。",
+            "privacy.sec3_text": "当クラブは、法令に基づく場合やご本人の同意がある場合を除き、収集した個人情報を第三者に開示・提供することは一切ありません。",
             "privacy.sec4_title": "4. ご本人の権利（照会・修正・削除）",
-            "privacy.sec4_text": "個人情報の確認、修正、削除をご希望の場合は、yokohamacalcio@gmail.com までご連絡ください。",
+            "privacy.sec4_text": "ご提供いただいた個人情報の確認、修正、または削除をご希望の場合は、当クラブのお問い合わせ窓口（yokohamacalcio@gmail.com）までご連絡ください。速やかに対応いたします。",
             "privacy.close_btn": "閉じる"
         },
         it: {
@@ -812,112 +1397,189 @@
             "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
             "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.sponsors": "Partner",
             "nav.faq": "FAQ", "nav.shop": "Shop", "nav.contact": "Contatti",
+            
             "contact_page.title": "Contatti",
             "contact_page.intro": "Compila il modulo per sostenere un allenamento di prova, candidarti nello staff o organizzare un'amichevole.",
-            "form.category_label": "Tipo di Richiesta", "form.required": "Obbligatorio",
+            
+            "form.category_label": "Tipo di Richiesta",
+            "form.select_category": "Scegli un'opzione (Obbligatorio)",
+            "form.required": "Obbligatorio",
             "form.opt_trial": "Prova / Giocatore (18-40 anni con esperienza)",
             "form.opt_staff": "Candidatura Staff (Manager, Coach, Media, ecc.)",
             "form.opt_match": "Richiesta Partita Amichevole",
-            "form.opt_sponsor": "Sponsorship & Partner", "form.opt_other": "Altra Richiesta",
-            "form.last_name_label": "Cognome", "form.first_name_label": "Nome",
-            "form.last_name_kana_label": "Cognome (Kana)", "form.first_name_kana_label": "Nome (Kana)",
-            "form.email_label": "Indirizzo Email", "form.player_sec_title": "Informazioni Giocatore",
-            "form.birth_date_label": "Data di Nascita", "form.calculated_age_label": "Età", "form.age_unit": "anni",
+            "form.opt_sponsor": "Sponsorship & Partner",
+            "form.opt_other": "Altra Richiesta",
+            
+            "form.last_name_label": "Cognome",
+            "form.first_name_label": "Nome",
+            "form.last_name_kana_label": "Cognome (Furigana / Kana)",
+            "form.first_name_kana_label": "Nome (Furigana / Kana)",
+            "form.email_label": "Indirizzo Email",
+            
+            "form.player_sec_title": "Informazioni Giocatore",
+            "form.birth_date_label": "Data di Nascita",
+            "form.birth_date_hint": "※ Età calcolata automaticamente",
+            "form.calculated_age_label": "Età",
+            "form.age_unit": "anni",
             "form.age_error_under": "Spiacenti, l'età minima per partecipare è 18 anni (Età calcolata: {age} anni).",
             "form.age_error_over": "Spiacenti, l'età massima consentita è 40 anni (Età calcolata: {age} anni).",
+            
             "form.exp_level_label": "Livello di Esperienza",
             "form.exp_univ": "Università / Campionati Regionali",
             "form.exp_hs": "Superiori livello agonistico / Tornei nazionali",
             "form.exp_youth": "Settore Giovanile / Club",
             "form.exp_gen_hs": "Esperienza scolastica / Calcio amatoriale",
             "form.exp_enjoy": "Futsal / Tornei amatoriali",
-            "form.exp_details_label": "Esperienza / Squadre precedenti", "form.macro_pos_label": "Ruolo Principale",
-            "form.sub_pos_label": "Ruolo Specifico (scelta multipla)", "form.sub_pos_error": "Seleziona almeno un ruolo specifico.",
-            "form.select_option": "Seleziona un'opzione", "form.staff_sec_title": "Informazioni Candidato Staff",
-            "form.staff_role_label": "Ruolo Staff Richiesto", "form.staff_exp_label": "Esperienza / Qualifiche nello Sport",
-            "form.staff_role_coach": "Vice Allenatore", "form.staff_role_manager": "Dirigente / Team Manager",
-            "form.staff_role_trainer": "Preparatore / Fisioterapista", "form.staff_role_kit": "Magazziniere",
-            "form.staff_role_media": "Social Media / Foto / Video Analyst", "form.match_sec_title": "Informazioni Squadra Avversaria",
-            "form.match_team_name_label": "Nome Squadra", "form.match_league_label": "Campionato / Categoria",
-            "form.match_1st_kit_label": "Divisa 1st", "form.match_2nd_kit_label": "Divisa 2nd",
-            "form.message_label": "Messaggio", "form.privacy_prefix": "Acconsento al trattamento dei dati (",
-            "form.privacy_link": "Informativa sulla Privacy", "form.privacy_suffix": ")",
-            "form.submit_btn": "Invia Messaggio", "info.direct_title": "Email Diretta",
+            
+            "form.exp_details_label": "Esperienza / Squadre precedenti",
+            "form.macro_pos_label": "Ruolo Principale",
+            "form.sub_pos_label": "Ruolo Specifico (scelta multipla)",
+            "form.sub_pos_hint": "※ Seleziona una o più opzioni",
+            "form.sub_pos_error": "Seleziona almeno un ruolo specifico.",
+            "form.select_option": "Seleziona un'opzione",
+
+            "form.staff_sec_title": "Informazioni Candidato Staff",
+            "form.staff_role_label": "Ruolo Staff Richiesto",
+            "form.staff_exp_label": "Esperienza / Qualifiche nello Sport",
+            "form.staff_role_coach": "Vice Allenatore / Assistente Coach",
+            "form.staff_role_manager": "Dirigente / Team Manager",
+            "form.staff_role_trainer": "Preparatore / Fisioterapista",
+            "form.staff_role_kit": "Magazziniere / Responsabile Materiale",
+            "form.staff_role_media": "Social Media / Foto / Video Analyst",
+
+            "form.match_sec_title": "Informazioni Squadra Avversaria",
+            "form.match_team_name_label": "Nome Squadra",
+            "form.match_league_label": "Campionato / Categoria",
+            "form.match_1st_kit_label": "Divisa 1st (Maglia - Pantaloni - Calze)",
+            "form.match_2nd_kit_label": "Divisa 2nd (Maglia - Pantaloni - Calze)",
+
+            "form.message_label": "Messaggio",
+            "form.privacy_prefix": "Acconsento al trattamento dei dati (",
+            "form.privacy_link": "Informativa sulla Privacy",
+            "form.privacy_suffix": ")",
+            "form.submit_btn": "Invia Messaggio",
+
+            "info.direct_title": "Email Diretta",
             "info.direct_desc": "Se preferisci scriverci direttamente dal tuo programma di posta, utilizza l'indirizzo sottostante:",
-            "info.copy_btn": "Copia Indirizzo Email", "info.toast_copied": "Indirizzo email copiato!",
+            "info.copy_btn": "Copia Indirizzo Email",
+            "info.toast_copied": "Indirizzo email copiato!",
             "info.notice_title": "Informazioni utili",
             "info.notice_p1": "Rispondiamo solitamente a tutti i messaggi entro 24-48 ore.",
             "info.notice_p2": "Assicurati di controllare la cartella Spam se non ricevi nostra risposta.",
+            "btn.back_home": "Torna alla Home",
+
             "modal.title": "Messaggio Inviato!",
             "modal.text": "Grazie per averci contattato. Abbiamo ricevuto la tua richiesta.<br>Un nostro responsabile ti risponderà entro 24-48 ore.",
-            "modal.btn": "OK", "privacy.title": "Informativa sulla Privacy",
+            "modal.btn": "OK",
+
+            "privacy.title": "Informativa sulla Privacy",
             "privacy.sec1_title": "1. Finalità della raccolta dati",
-            "privacy.sec1_text": "Yokohama Calcio raccoglie i dati personali esclusivamente per la gestione di prove, iscrizioni staff, amichevoli e contatti.",
-            "privacy.sec2_title": "2. Sicurezza dei dati",
-            "privacy.sec2_text": "I dati sono custoditi con misure adeguate per prevenire accessi non autorizzati o perdite.",
-            "privacy.sec3_title": "3. Divieto cessione a terzi",
-            "privacy.sec3_text": "I dati non saranno mai ceduti a terzi salvo obblighi di legge.",
+            "privacy.sec1_text": "Yokohama Calcio raccoglie e tratta i dati personali (nome, email, data di nascita, esperienza calcistica) esclusivamente per la gestione delle richieste di allenamento di prova, candidature nello staff, organizzazione amichevoli e contatti col club.",
+            "privacy.sec2_title": "2. Sicurezza e gestione dei dati",
+            "privacy.sec2_text": "I dati raccolti sono custoditi con adeguate misure di sicurezza per prevenirne l'accesso non autorizzato, la perdita, la modifica o la diffusione indiscreta.",
+            "privacy.sec3_title": "3. Divieto di cessione a terzi",
+            "privacy.sec3_text": "Il club non cederà né comunicherà mai i tuoi dati personali a terzi, salvo esplicita autorizzazione o per adempimenti di legge.",
             "privacy.sec4_title": "4. Diritti dell'interessato",
-            "privacy.sec4_text": "Puoi richiedere la cancellazione dei dati scrivendo a yokohamacalcio@gmail.com.",
+            "privacy.sec4_text": "Puoi richiedere in qualsiasi momento la consultazione, rettifica o cancellazione dei tuoi dati personali scrivendo a: yokohamacalcio@gmail.com.",
             "privacy.close_btn": "Chiudi"
         },
         en: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "TEAM",
             "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
             "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.shop": "Shop", "nav.contact": "Contact Us",
+            
             "contact_page.title": "Contact Us",
             "contact_page.intro": "Feel free to reach out for trial trainings, staff applications, friendly match requests, or partnership inquiries.",
-            "form.category_label": "Inquiry Type", "form.required": "Required",
+            
+            "form.category_label": "Inquiry Type",
+            "form.select_category": "Please select an option (Required)",
+            "form.required": "Required",
             "form.opt_trial": "Join / Player Trial (18–40 yrs experienced)",
             "form.opt_staff": "Staff Application (Manager, Coach, Media, etc.)",
             "form.opt_match": "Friendly Match Request",
-            "form.opt_sponsor": "Sponsorship & Partnership", "form.opt_other": "General Inquiry",
-            "form.last_name_label": "Last Name", "form.first_name_label": "First Name",
-            "form.last_name_kana_label": "Last Name (Kana)", "form.first_name_kana_label": "First Name (Kana)",
-            "form.email_label": "Email Address", "form.player_sec_title": "Player Details",
-            "form.birth_date_label": "Date of Birth", "form.calculated_age_label": "Age", "form.age_unit": "yrs old",
+            "form.opt_sponsor": "Sponsorship & Partnership",
+            "form.opt_other": "General Inquiry",
+            
+            "form.last_name_label": "Last Name",
+            "form.first_name_label": "First Name",
+            "form.last_name_kana_label": "Last Name (Furigana / Kana)",
+            "form.first_name_kana_label": "First Name (Furigana / Kana)",
+            "form.email_label": "Email Address",
+            
+            "form.player_sec_title": "Player Details",
+            "form.birth_date_label": "Date of Birth",
+            "form.birth_date_hint": "※ Age is calculated automatically",
+            "form.calculated_age_label": "Age",
+            "form.age_unit": "yrs old",
             "form.age_error_under": "Sorry, minimum age requirement is 18 years old (Calculated age: {age}).",
             "form.age_error_over": "Sorry, maximum age limit is 40 years old (Calculated age: {age}).",
+            
             "form.exp_level_label": "Experience Level",
             "form.exp_univ": "University / Regional Prefectural League",
             "form.exp_hs": "High School Competitive / National Tournaments",
             "form.exp_youth": "Youth Academy / Club Teams",
             "form.exp_gen_hs": "General High School / Amateur Club",
             "form.exp_enjoy": "Futsal / Casual League",
-            "form.exp_details_label": "Football Experience / Previous Teams", "form.macro_pos_label": "Main Position",
-            "form.sub_pos_label": "Specific Sub-Roles (Multiple choice)", "form.sub_pos_error": "Please select at least one sub-role.",
-            "form.select_option": "Please select", "form.staff_sec_title": "Staff Application Details",
-            "form.staff_role_label": "Desired Staff Role", "form.staff_exp_label": "Background / Qualifications in Sports",
-            "form.staff_role_coach": "Assistant Coach", "form.staff_role_manager": "Team Manager / Club Admin",
-            "form.staff_role_trainer": "Trainer / Physiotherapist", "form.staff_role_kit": "Equipment / Kit Manager",
-            "form.staff_role_media": "Media / Photographer / Analyst", "form.match_sec_title": "Opponent Team Information",
-            "form.match_team_name_label": "Team Name", "form.match_league_label": "League / Division",
-            "form.match_1st_kit_label": "1st Kit", "form.match_2nd_kit_label": "2nd Kit",
-            "form.message_label": "Message", "form.privacy_prefix": "I agree to the processing of personal data (",
-            "form.privacy_link": "Privacy Policy", "form.privacy_suffix": ")",
-            "form.submit_btn": "Send Message", "info.direct_title": "Direct Email",
+            
+            "form.exp_details_label": "Football Experience / Previous Teams",
+            "form.macro_pos_label": "Main Position",
+            "form.sub_pos_label": "Specific Sub-Roles (Multiple choice)",
+            "form.sub_pos_hint": "※ Select all that apply",
+            "form.sub_pos_error": "Please select at least one sub-role.",
+            "form.select_option": "Please select",
+
+            "form.staff_sec_title": "Staff Application Details",
+            "form.staff_role_label": "Desired Staff Role",
+            "form.staff_exp_label": "Background / Qualifications in Sports",
+            "form.staff_role_coach": "Assistant Coach",
+            "form.staff_role_manager": "Team Manager / Club Admin",
+            "form.staff_role_trainer": "Trainer / Physiotherapist",
+            "form.staff_role_kit": "Equipment / Kit Manager",
+            "form.staff_role_media": "Media / Photographer / Analyst",
+
+            "form.match_sec_title": "Opponent Team Information",
+            "form.match_team_name_label": "Team Name",
+            "form.match_league_label": "League / Division",
+            "form.match_1st_kit_label": "1st Kit (Shirt - Shorts - Socks)",
+            "form.match_2nd_kit_label": "2nd Kit (Shirt - Shorts - Socks)",
+
+            "form.message_label": "Message",
+            "form.privacy_prefix": "I agree to the processing of personal data (",
+            "form.privacy_link": "Privacy Policy",
+            "form.privacy_suffix": ")",
+            "form.submit_btn": "Send Message",
+
+            "info.direct_title": "Direct Email",
             "info.direct_desc": "If you prefer writing directly from your mail client, please use the address below:",
-            "info.copy_btn": "Copy Email Address", "info.toast_copied": "Email address copied!",
+            "info.copy_btn": "Copy Email Address",
+            "info.toast_copied": "Email address copied!",
             "info.notice_title": "Notice",
             "info.notice_p1": "We usually respond to all inquiries within 24 to 48 hours.",
             "info.notice_p2": "Please check your spam folder if you do not receive our reply.",
+            "btn.back_home": "Back to Home",
+
             "modal.title": "Message Sent!",
             "modal.text": "Thank you for reaching out. We have received your message.<br>We will respond to you within 24-48 hours.",
-            "modal.btn": "OK", "privacy.title": "Privacy Policy",
+            "modal.btn": "OK",
+
+            "privacy.title": "Privacy Policy",
             "privacy.sec1_title": "1. Purpose of Data Collection",
-            "privacy.sec1_text": "Yokohama Calcio collects personal information strictly for trial applications, staff candidacies, and club communications.",
-            "privacy.sec2_title": "2. Data Security",
-            "privacy.sec2_text": "Collected data is stored securely using appropriate technical measures.",
-            "privacy.sec3_title": "3. Third-Party Disclosure",
-            "privacy.sec3_text": "The club will never share your personal data with third parties without consent.",
-            "privacy.sec4_title": "4. Your Rights",
-            "privacy.sec4_text": "You may request deletion of your personal data by contacting yokohamacalcio@gmail.com.",
+            "privacy.sec1_text": "Yokohama Calcio collects personal information (name, email, date of birth, football history) strictly for processing trial applications, staff candidacies, friendly match organization, and general club communications.",
+            "privacy.sec2_title": "2. Data Security & Protection",
+            "privacy.sec2_text": "Collected data is stored securely using appropriate technical measures to prevent unauthorized access, loss, alteration, or disclosure.",
+            "privacy.sec3_title": "3. No Third-Party Disclosure",
+            "privacy.sec3_text": "The club will never disclose or share your personal data with third parties without explicit consent or legal requirement.",
+            "privacy.sec4_title": "4. Your Rights (Access, Correction, Deletion)",
+            "privacy.sec4_text": "You may request access, correction, or deletion of your personal data at any time by contacting us at: yokohamacalcio@gmail.com.",
             "privacy.close_btn": "Close"
         }
     };
 
+    // Sub-positions config for Player Macro Positions
     const subPositionsData = {
-        GK: [{ id: 'GK', ja: 'GK (ゴールキーパー)', it: 'GK (Portiere)', en: 'GK (Goalkeeper)' }],
+        GK: [
+            { id: 'GK', ja: 'GK (ゴールキーパー)', it: 'GK (Portiere)', en: 'GK (Goalkeeper)' }
+        ],
         DF: [
             { id: 'CB', ja: 'CB (センターバック)', it: 'CB (Difensore Centrale)', en: 'CB (Center Back)' },
             { id: 'SB', ja: 'SB / WB (サイドバック・ウイングバック)', it: 'SB / WB (Terzino / Esterno)', en: 'SB / WB (Side Back / Wing Back)' }
@@ -928,11 +1590,92 @@
             { id: 'SH', ja: 'SH (サイドハーフ)', it: 'SH (Esterno di centrocampo)', en: 'SH (Side Midfielder)' }
         ],
         FW: [
-            { id: 'ST', ja: 'ST / SW (セカンドトップ・シャドー)', it: 'ST (Seconda Punta)', en: 'ST (Second Striker)' },
-            { id: 'CF', ja: 'CF (センターフォワード)', it: 'CF (Centravanti)', en: 'CF (Center Forward)' },
-            { id: 'WG', ja: 'WG (ウイング)', it: 'WG (Ala)', en: 'WG (Winger)' }
+            { id: 'ST', ja: 'ST / SW (セカンドトップ・シャドー)', it: 'ST (Seconda Punta / trequartista)', en: 'ST (Second Striker / Shadow)' },
+            { id: 'CF', ja: 'CF (センターフォワード)', it: 'CF (Prima Punta / Centravanti)', en: 'CF (Center Forward)' },
+            { id: 'WG', ja: 'WG (ウイング)', it: 'WG (Ala d\'attacco)', en: 'WG (Winger)' }
         ]
     };
+
+    // Dizionario etichette bilingui per la notifica Formspree
+    const fieldBilingualLabels = {
+        category: "お問い合わせ種別 / Tipo di Richiesta",
+        last_name: "姓 / Cognome",
+        first_name: "名 / Nome",
+        last_name_kana: "セイ (フリガナ) / Cognome Kana",
+        first_name_kana: "メイ (フリガナ) / Nome Kana",
+        email: "メールアドレス / Email",
+        birth_date: "生年月日 / Data di Nascita",
+        calc_age_player: "年齢 / Età",
+        calc_age_staff: "年齢 / Età",
+        experience_level: "競技レベル / Livello Esperienza",
+        experience_details: "サッカー歴・前所属 / Esperienza e Squadre Precedenti",
+        macro_position: "希望ポジション / Ruolo Principale",
+        "sub_positions[]": "詳細役割 / Ruoli Specifici",
+        staff_birth_date: "生年月日 / Data di Nascita",
+        staff_role: "希望スタッフ役職 / Ruolo Staff",
+        staff_experience: "指導歴・スポーツ経歴 / Esperienza Staff",
+        match_team_name: "対戦チーム名 / Nome Squadra Avversaria",
+        match_league: "所属リーグ / Campionato",
+        match_1st_kit: "1stユニフォーム / Divisa 1st",
+        match_2nd_kit: "2ndユニフォーム / Divisa 2nd",
+        message: "メッセージ内容 / Messaggio",
+        privacy_agree: "プライバシーポリシー同意 / Consenso Privacy"
+    };
+
+    // Mappatura valori selezioni bilingui per Formspree
+    const valueBilingualMap = {
+        trial: "体験練習・選手入部希望 / Prova Giocatore",
+        staff: "スタッフ応募 / Candidatura Staff",
+        match: "練習試合のお申し込み / Richiesta Partita Amichevole",
+        sponsor: "パートナー・協賛のご相談 / Sponsorship & Partner",
+        other: "その他のお問い合わせ / Altra Richiesta",
+
+        university: "大学体育会・都県社会人リーグ経験 / Università - Campionati Regionali",
+        highschool_strong: "高校サッカー部強豪・全国大会経験 / Superiori Agonistico - Tornei Nazionali",
+        youth_club: "ユース・クラブチーム出身 / Settore Giovanile - Club",
+        highschool_general: "一般高校サッカー部経験 / Calcio Scolastico - Amatoriale",
+        futsal_enjoy: "競技系フットサル・エンジョイ経験 / Futsal - Tornei Amatoriali",
+
+        GK: "GK (ゴールキーパー / Portiere)",
+        DF: "DF (ディフェンダー / Difensore)",
+        MF: "MF (ミッドフィルダー / Centrocampista)",
+        FW: "FW (フォワード / Attaccante)",
+
+        CB: "CB (センターバック / Difensore Centrale)",
+        SB: "SB / WB (サイドバック・ウイングバック / Terzino - Esterno)",
+        DM: "DM (ボランチ・アンカー / Mediano - Regista)",
+        CM: "CM (インサイドハーフ / Mezzala - Centrocampista)",
+        SH: "SH (サイドハーフ / Esterno Centrocampo)",
+        ST: "ST (セカンドトップ / Seconda Punta)",
+        CF: "CF (センターフォワード / Centravanti)",
+        WG: "WG (ウイング / Ala d'Attacco)",
+
+        assistant_coach: "アシスタントコーチ / Vice Allenatore",
+        team_manager: "チームマネージャー / Team Manager",
+        trainer: "トレーナー / Fisioterapista",
+        kit_manager: "用具管理 / Magazziniere",
+        media_analyst: "広報・アナリスト / Social Media & Analyst",
+
+        on: "同意する / Accetto"
+    };
+
+    const categorySubjects = {
+        trial: "[Yokohama Calcio] 体験練習・選手入部希望 / Richiesta Prova Giocatore",
+        staff: "[Yokohama Calcio] スタッフ応募 / Candidatura Staff",
+        match: "[Yokohama Calcio] 練習試合のお申し込み / Richiesta Partita Amichevole",
+        sponsor: "[Yokohama Calcio] パートナー・協賛のご相談 / Sponsorship & Partner",
+        other: "[Yokohama Calcio] その他のお問い合わせ / Altra Richiesta"
+    };
+
+    function updateFormspreeHiddenFields() {
+        const categorySelect = document.getElementById('category');
+        const subjectInput = document.getElementById('formspree_subject');
+
+        if (categorySelect && subjectInput) {
+            const selectedCat = categorySelect.value;
+            subjectInput.value = categorySubjects[selectedCat] || "[Yokohama Calcio] お問い合わせ / Nuovo Contatto";
+        }
+    }
 
     function calculateAge(birthDateStr) {
         if (!birthDateStr) return null;
@@ -941,7 +1684,9 @@
         const today = new Date();
         let age = today.getFullYear() - birthDate.getFullYear();
         const m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
         return age;
     }
 
@@ -961,6 +1706,14 @@
         currentLang = lang;
         localStorage.setItem('preferred_lang', lang);
 
+        if (pageTitles[lang]) {
+            document.title = pageTitles[lang];
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+            if (ogTitle) ogTitle.setAttribute('content', pageTitles[lang]);
+            if (twitterTitle) twitterTitle.setAttribute('content', pageTitles[lang]);
+        }
+
         document.querySelectorAll('[data-i18n]').forEach(elem => {
             const key = elem.getAttribute('data-i18n');
             if (translations[lang][key]) elem.innerHTML = translations[lang][key];
@@ -971,6 +1724,15 @@
         });
 
         renderSubPositions();
+        updateFormspreeHiddenFields();
+
+        const playerBirth = document.getElementById('birth_date');
+        const calcAgePlayer = document.getElementById('calc_age_player');
+        if (playerBirth) updateAgeDisplay(playerBirth, calcAgePlayer);
+
+        const staffBirth = document.getElementById('staff_birth_date');
+        const calcAgeStaff = document.getElementById('calc_age_staff');
+        if (staffBirth) updateAgeDisplay(staffBirth, calcAgeStaff);
     }
 
     function renderSubPositions() {
@@ -988,12 +1750,32 @@
         let html = '';
         list.forEach(item => {
             const labelText = item[currentLang] || item['ja'];
-            html += `<label class="checkbox-tag"><input type="checkbox" name="sub_positions[]" value="${item.id}"> <span>${labelText}</span></label>`;
+            const checkedAttr = (macroPos === 'GK') ? 'checked' : '';
+            const checkedClass = (macroPos === 'GK') ? 'is-checked' : '';
+            html += `
+                <label class="checkbox-tag ${checkedClass}">
+                    <input type="checkbox" name="sub_positions[]" value="${item.id}" ${checkedAttr}>
+                    <span>${labelText}</span>
+                </label>
+            `;
         });
         container.innerHTML = html;
         wrapper.style.display = 'block';
+
+        // GESTIONE UX DINAMICA STATO CHECKBOX
+        container.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+            chk.addEventListener('change', () => {
+                const parentTag = chk.closest('.checkbox-tag');
+                if (parentTag) parentTag.classList.toggle('is-checked', chk.checked);
+
+                const checkedSubs = container.querySelectorAll('input[name="sub_positions[]"]:checked');
+                const subErr = document.getElementById('sub_pos_error');
+                if (subErr && checkedSubs.length > 0) subErr.style.display = 'none';
+            });
+        });
     }
 
+    // TOGGLE SEZIONI DINAMICHE E ABILITAZIONE/DISABILITAZIONE CAMPI
     function updateSectionVisibility() {
         const category = document.getElementById('category').value;
         const playerWrapper = document.getElementById('trialFieldsWrapper');
@@ -1003,88 +1785,467 @@
         function toggleWrapperInputs(wrapper, enable) {
             if (!wrapper) return;
             wrapper.style.display = enable ? 'block' : 'none';
-            wrapper.querySelectorAll('input, select, textarea').forEach(input => {
-                if (enable) input.removeAttribute('disabled');
-                else { input.setAttribute('disabled', 'disabled'); input.classList.remove('is-valid', 'is-invalid'); }
+            const inputs = wrapper.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                if (enable) {
+                    input.removeAttribute('disabled');
+                } else {
+                    input.setAttribute('disabled', 'disabled');
+                    input.classList.remove('is-valid', 'is-invalid');
+                }
             });
         }
 
         toggleWrapperInputs(playerWrapper, category === 'trial');
         toggleWrapperInputs(staffWrapper, category === 'staff');
         toggleWrapperInputs(matchWrapper, category === 'match');
+
+        const playerBirth = document.getElementById('birth_date');
+        const playerExpLevel = document.getElementById('experience_level');
+        const playerMacro = document.getElementById('macro_position');
+
+        const staffBirth = document.getElementById('staff_birth_date');
+        const staffRole = document.getElementById('staff_role');
+
+        const matchTeamName = document.getElementById('match_team_name');
+
+        if (category === 'trial') {
+            if (playerBirth) playerBirth.setAttribute('required', 'required');
+            if (playerExpLevel) playerExpLevel.setAttribute('required', 'required');
+            if (playerMacro) playerMacro.setAttribute('required', 'required');
+
+            if (staffBirth) staffBirth.removeAttribute('required');
+            if (staffRole) staffRole.removeAttribute('required');
+            if (matchTeamName) matchTeamName.removeAttribute('required');
+        } else if (category === 'staff') {
+            if (playerBirth) playerBirth.removeAttribute('required');
+            if (playerExpLevel) playerExpLevel.removeAttribute('required');
+            if (playerMacro) playerMacro.removeAttribute('required');
+
+            if (staffBirth) staffBirth.setAttribute('required', 'required');
+            if (staffRole) staffRole.setAttribute('required', 'required');
+            if (matchTeamName) matchTeamName.removeAttribute('required');
+        } else if (category === 'match') {
+            if (playerBirth) playerBirth.removeAttribute('required');
+            if (playerExpLevel) playerExpLevel.removeAttribute('required');
+            if (playerMacro) playerMacro.removeAttribute('required');
+
+            if (staffBirth) staffBirth.removeAttribute('required');
+            if (staffRole) staffRole.removeAttribute('required');
+            if (matchTeamName) matchTeamName.setAttribute('required', 'required');
+        } else {
+            if (playerBirth) playerBirth.removeAttribute('required');
+            if (playerExpLevel) playerExpLevel.removeAttribute('required');
+            if (playerMacro) playerMacro.removeAttribute('required');
+
+            if (staffBirth) staffBirth.removeAttribute('required');
+            if (staffRole) staffRole.removeAttribute('required');
+            if (matchTeamName) matchTeamName.removeAttribute('required');
+        }
+    }
+
+    // VERIFICA ETÀ FOOL-PROOF
+    function validateAge(inputEl, errorBannerEl, errorMsgEl) {
+        const val = inputEl.value;
+        if (!val) {
+            errorBannerEl.style.display = 'none';
+            inputEl.classList.remove('is-valid', 'is-invalid');
+            return true;
+        }
+        const age = calculateAge(val);
+        if (age === null) return true;
+
+        if (age < 18) {
+            const template = translations[currentLang]['form.age_error_under'] || '18歳未満の方はご参加いただけません。';
+            errorMsgEl.textContent = template.replace('{age}', age);
+            errorBannerEl.style.display = 'flex';
+            inputEl.classList.remove('is-valid');
+            inputEl.classList.add('is-invalid');
+            return false;
+        } else if (age > 40) {
+            const template = translations[currentLang]['form.age_error_over'] || '対象年齢は40歳までとなっております。';
+            errorMsgEl.textContent = template.replace('{age}', age);
+            errorBannerEl.style.display = 'flex';
+            inputEl.classList.remove('is-valid');
+            inputEl.classList.add('is-invalid');
+            return false;
+        } else {
+            errorBannerEl.style.display = 'none';
+            inputEl.classList.remove('is-invalid');
+            inputEl.classList.add('is-valid');
+            return true;
+        }
+    }
+
+    // VALIDAZIONE IN TEMPO REALE (LIVE VALIDATION UX)
+    function initLiveValidation() {
+        const inputsToValidate = document.querySelectorAll('#contactForm input[required], #contactForm select[required], #contactForm textarea[required]');
+        
+        inputsToValidate.forEach(input => {
+            const validateInput = () => {
+                if (input.type === 'checkbox') {
+                    if (input.checked) {
+                        input.classList.remove('is-invalid');
+                    } else {
+                        input.classList.add('is-invalid');
+                    }
+                    return;
+                }
+
+                if (input.type === 'email') {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (emailRegex.test(input.value.trim())) {
+                        input.classList.remove('is-invalid');
+                        input.classList.add('is-valid');
+                    } else {
+                        input.classList.remove('is-valid');
+                        input.classList.add('is-invalid');
+                    }
+                    return;
+                }
+
+                if (input.value.trim() !== '') {
+                    input.classList.remove('is-invalid');
+                    input.classList.add('is-valid');
+                } else {
+                    input.classList.remove('is-valid');
+                    input.classList.add('is-invalid');
+                }
+            };
+
+            input.addEventListener('blur', validateInput);
+            input.addEventListener('change', validateInput);
+            input.addEventListener('input', () => {
+                if (input.classList.contains('is-invalid')) validateInput();
+            });
+        });
+    }
+
+    function initDesktopDropdowns() {
+        const dropdownItems = document.querySelectorAll('.main-nav .nav-item.dropdown');
+        dropdownItems.forEach(item => {
+            const toggle = item.querySelector('.dropdown-toggle');
+            if (!toggle) return;
+
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault(); e.stopPropagation();
+                dropdownItems.forEach(d => {
+                    if (d !== item) {
+                        d.classList.remove('open');
+                        const t = d.querySelector('.dropdown-toggle');
+                        if (t) t.setAttribute('aria-expanded', 'false');
+                    }
+                });
+                const willOpen = !item.classList.contains('open');
+                item.classList.toggle('open', willOpen);
+                toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            });
+
+            item.addEventListener('mouseleave', () => {
+                item.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.main-nav .nav-item.dropdown')) {
+                dropdownItems.forEach(d => {
+                    d.classList.remove('open');
+                    const t = d.querySelector('.dropdown-toggle');
+                    if (t) t.setAttribute('aria-expanded', 'false');
+                });
+            }
+        });
+    }
+
+    function initMobileMenu() {
+        const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
+        const mobileNav = document.querySelector('.mobile-nav');
+        const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
+        const mobileSubmenu = document.querySelector('.mobile-submenu');
+        const mobileCloseBtn = document.querySelector('.mobile-nav-close');
+
+        function closeMobileMenu() {
+            if (mobileNav) {
+                mobileNav.classList.add('hidden');
+                if (mobileMenuBtn) {
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (icon) { icon.classList.add('fa-bars'); icon.classList.remove('fa-times'); }
+                }
+            }
+        }
+
+        if (mobileMenuBtn && mobileNav) {
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isHidden = mobileNav.classList.contains('hidden');
+                if (isHidden) {
+                    mobileNav.classList.remove('hidden');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (icon) { icon.classList.remove('fa-bars'); icon.classList.add('fa-times'); }
+                } else { closeMobileMenu(); }
+            });
+
+            if (mobileDropdownToggle && mobileSubmenu) {
+                mobileDropdownToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    mobileSubmenu.classList.toggle('hidden');
+                    const arrow = mobileDropdownToggle.querySelector('.mobile-arrow');
+                    if (arrow) { arrow.classList.toggle('fa-chevron-down'); arrow.classList.toggle('fa-chevron-up'); }
+                });
+            }
+
+            document.querySelectorAll('.mobile-link, .mobile-cta-btn').forEach(link => { link.addEventListener('click', closeMobileMenu); });
+            if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', closeMobileMenu);
+            mobileNav.addEventListener('click', (e) => {
+                if (!e.target.closest('.mobile-nav-content') && !mobileMenuBtn.contains(e.target)) closeMobileMenu();
+            });
+        }
+    }
+
+    function handleUrlTypeParam() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const typeParam = urlParams.get('type');
+        const categorySelect = document.getElementById('category');
+        if (typeParam && categorySelect) {
+            if (['trial', 'staff', 'match', 'sponsor', 'other'].includes(typeParam)) {
+                categorySelect.value = typeParam;
+                updateSectionVisibility();
+                updateFormspreeHiddenFields();
+            }
+        }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        const yearSpan = document.getElementById('currentYear');
+        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+        // IMPOSTA LIMITE MAX PER DATA DI NASCITA (OGGI) PER PREVENIRE DATE FUTURE
+        const todayStr = new Date().toISOString().split('T')[0];
+        const playerBirth = document.getElementById('birth_date');
+        const staffBirth = document.getElementById('staff_birth_date');
+        if (playerBirth) playerBirth.setAttribute('max', todayStr);
+        if (staffBirth) staffBirth.setAttribute('max', todayStr);
+
+        initDesktopDropdowns();
+        initMobileMenu();
         setLanguage(currentLang);
+        initLiveValidation();
 
         const categorySelect = document.getElementById('category');
-        categorySelect.addEventListener('change', updateSectionVisibility);
-        document.getElementById('macro_position').addEventListener('change', renderSubPositions);
-
-        const playerBirth = document.getElementById('birth_date');
-        const calcAgePlayer = document.getElementById('calc_age_player');
-        if (playerBirth) {
-            playerBirth.addEventListener('change', () => updateAgeDisplay(playerBirth, calcAgePlayer));
+        if (categorySelect) {
+            categorySelect.addEventListener('change', () => {
+                updateSectionVisibility();
+                updateFormspreeHiddenFields();
+            });
         }
 
-        // PRIVACY MODAL
-        const privacyModal = document.getElementById('privacyModal');
-        document.getElementById('openPrivacyModal').addEventListener('click', (e) => { e.preventDefault(); privacyModal.classList.add('show'); });
-        document.getElementById('privacyModalCloseBtn').addEventListener('click', () => privacyModal.classList.remove('show'));
-        document.getElementById('privacyModalOkBtn').addEventListener('click', () => privacyModal.classList.remove('show'));
+        const macroSelect = document.getElementById('macro_position');
+        if (macroSelect) {
+            macroSelect.addEventListener('change', renderSubPositions);
+        }
 
-        // ESC KEY
+        // CONTROL ETÀ E CALCOLO AUTOMATICO GIOCATORE
+        const calcAgePlayer = document.getElementById('calc_age_player');
+        const playerAgeErr = document.getElementById('age_error_player');
+        const playerAgeMsg = document.getElementById('age_error_player_msg');
+        if (playerBirth) {
+            playerBirth.addEventListener('change', () => {
+                updateAgeDisplay(playerBirth, calcAgePlayer);
+                validateAge(playerBirth, playerAgeErr, playerAgeMsg);
+            });
+            playerBirth.addEventListener('input', () => updateAgeDisplay(playerBirth, calcAgePlayer));
+        }
+
+        // CONTROL ETÀ E CALCOLO AUTOMATICO STAFF
+        const calcAgeStaff = document.getElementById('calc_age_staff');
+        const staffAgeErr = document.getElementById('age_error_staff');
+        const staffAgeMsg = document.getElementById('age_error_staff_msg');
+        if (staffBirth) {
+            staffBirth.addEventListener('change', () => {
+                updateAgeDisplay(staffBirth, calcAgeStaff);
+                validateAge(staffBirth, staffAgeErr, staffAgeMsg);
+            });
+            staffBirth.addEventListener('input', () => updateAgeDisplay(staffBirth, calcAgeStaff));
+        }
+
+        // GESTIONE MODAL PRIVACY (APERTURA SOLTANTO SU CLICK DELL'UTENTE)
+        const privacyModal = document.getElementById('privacyModal');
+        const openPrivacyModalBtn = document.getElementById('openPrivacyModal');
+        const privacyModalCloseBtn = document.getElementById('privacyModalCloseBtn');
+        const privacyModalOkBtn = document.getElementById('privacyModalOkBtn');
+
+        function openPrivacy() { if (privacyModal) privacyModal.classList.add('show'); }
+        function closePrivacy() { if (privacyModal) privacyModal.classList.remove('show'); }
+
+        if (openPrivacyModalBtn) {
+            openPrivacyModalBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                openPrivacy();
+            });
+        }
+
+        if (privacyModalCloseBtn) privacyModalCloseBtn.addEventListener('click', closePrivacy);
+        if (privacyModalOkBtn) privacyModalOkBtn.addEventListener('click', closePrivacy);
+        if (privacyModal) {
+            privacyModal.addEventListener('click', (e) => {
+                if (e.target === privacyModal) closePrivacy();
+            });
+        }
+
+        // MODAL CONFERMA CLOSE HANDLERS
+        const confirmModal = document.getElementById('confirmModal');
+        const confirmModalCloseBtn = document.getElementById('confirmModalCloseBtn');
+        if (confirmModalCloseBtn && confirmModal) {
+            confirmModalCloseBtn.addEventListener('click', () => confirmModal.classList.remove('show'));
+            confirmModal.addEventListener('click', (e) => {
+                if (e.target === confirmModal) confirmModal.classList.remove('show');
+            });
+        }
+
+        // ESC KEY CLOSES OPEN MODALS
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                privacyModal.classList.remove('show');
-                document.getElementById('confirmModal').classList.remove('show');
+                if (privacyModal && privacyModal.classList.contains('show')) closePrivacy();
+                if (confirmModal && confirmModal.classList.contains('show')) confirmModal.classList.remove('show');
             }
         });
 
-        // FORM SUBMIT
+        // VALIDAZIONE SUBMIT FORM ED INVIO PULITO BILINGUE A FORMSPREE
         const form = document.getElementById('contactForm');
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
+        if (form) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
 
-            try {
-                const response = await fetch(form.action, {
-                    method: form.method,
-                    body: new FormData(form),
-                    headers: { 'Accept': 'application/json' }
-                });
-
-                if (response.ok) {
-                    document.getElementById('confirmModal').classList.add('show');
-                    form.reset();
-                    updateSectionVisibility();
-                } else {
-                    alert('Error submitting form.');
+                const category = categorySelect.value;
+                if (!category) {
+                    categorySelect.focus();
+                    categorySelect.classList.add('is-invalid');
+                    return false;
                 }
-            } catch (err) {
-                alert('Connection error.');
-            } finally {
-                submitBtn.disabled = false;
-            }
-        });
+                
+                if (category === 'trial') {
+                    const isAgeValid = validateAge(playerBirth, playerAgeErr, playerAgeMsg);
+                    if (!isAgeValid) {
+                        playerBirth.focus();
+                        return false;
+                    }
+                    const macro = macroSelect.value;
+                    if (macro) {
+                        const checkedSubs = document.querySelectorAll('input[name="sub_positions[]"]:checked');
+                        const subErr = document.getElementById('sub_pos_error');
+                        if (checkedSubs.length === 0) {
+                            subErr.style.display = 'flex';
+                            return false;
+                        } else {
+                            subErr.style.display = 'none';
+                        }
+                    }
+                } else if (category === 'staff') {
+                    const isStaffAgeValid = validateAge(staffBirth, staffAgeErr, staffAgeMsg);
+                    if (!isStaffAgeValid) {
+                        staffBirth.focus();
+                        return false;
+                    }
+                }
 
-        // COPY EMAIL
-        document.getElementById('copyEmailBtn').addEventListener('click', () => {
-            navigator.clipboard.writeText('yokohamacalcio@gmail.com').then(() => {
-                const toast = document.getElementById('copyToast');
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 3000);
+                updateFormspreeHiddenFields();
+
+                // COSTRUZIONE PAYLOAD FORMSPREE CON SOLI CAMPI POPOLATI E ETICHETTE BILINGUI
+                const rawFormData = new FormData(form);
+                const payloadData = new FormData();
+
+                if (rawFormData.get('_subject')) payloadData.append('_subject', rawFormData.get('_subject'));
+                if (rawFormData.get('_gotcha')) payloadData.append('_gotcha', rawFormData.get('_gotcha'));
+                if (rawFormData.get('email')) payloadData.append('_replyto', rawFormData.get('email'));
+
+                for (let [key, value] of rawFormData.entries()) {
+                    if (key.startsWith('_')) continue;
+
+                    const trimmedVal = typeof value === 'string' ? value.trim() : value;
+                    if (!trimmedVal || trimmedVal === '--') continue;
+
+                    const bilingualKey = fieldBilingualLabels[key] || key;
+                    const bilingualVal = valueBilingualMap[trimmedVal] || trimmedVal;
+
+                    payloadData.append(bilingualKey, bilingualVal);
+                }
+
+                // INSERIMENTO ESPLICITO DELL'ETÀ CALCOLATA NELLA NOTIFICA
+                if (category === 'trial' && calcAgePlayer && calcAgePlayer.value && calcAgePlayer.value !== '--') {
+                    payloadData.append("年齢 / Età", calcAgePlayer.value);
+                } else if (category === 'staff' && calcAgeStaff && calcAgeStaff.value && calcAgeStaff.value !== '--') {
+                    payloadData.append("年齢 / Età", calcAgeStaff.value);
+                }
+
+                const submitBtn = document.getElementById('submitBtn');
+                if (submitBtn) submitBtn.disabled = true;
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: form.method,
+                        body: payloadData,
+                        headers: { 'Accept': 'application/json' }
+                    });
+
+                    if (response.ok) {
+                        if (confirmModal) confirmModal.classList.add('show');
+                        form.reset();
+                        document.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-valid', 'is-invalid'));
+                        document.querySelectorAll('.checkbox-tag').forEach(tag => tag.classList.remove('is-checked'));
+                        if (calcAgePlayer) calcAgePlayer.value = '--';
+                        if (calcAgeStaff) calcAgeStaff.value = '--';
+                        updateSectionVisibility();
+                        updateFormspreeHiddenFields();
+                    } else {
+                        alert(currentLang === 'ja' ? 'エラーが発生しました。もう一度お試しください。' : (currentLang === 'it' ? 'Errore durante l\'invio. Riprova.' : 'An error occurred. Please try again.'));
+                    }
+                } catch (error) {
+                    console.error("Errore invio Formspree:", error);
+                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di接続.' : 'Connection error.'));
+                } finally {
+                    if (submitBtn) submitBtn.disabled = false;
+                }
             });
-        });
+        }
+
+        handleUrlTypeParam();
+        updateSectionVisibility();
+        updateFormspreeHiddenFields();
+
+        // GESTIONE COPIA EMAIL
+        const copyEmailBtn = document.getElementById('copyEmailBtn');
+        const emailText = document.getElementById('emailText');
+        const copyToast = document.getElementById('copyToast');
+
+        if (copyEmailBtn && emailText) {
+            copyEmailBtn.addEventListener('click', () => {
+                const textToCopy = emailText.textContent.trim();
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    if (copyToast) {
+                        copyToast.classList.add('show');
+                        setTimeout(() => copyToast.classList.remove('show'), 3000);
+                    }
+                }).catch(err => { console.error("Errore copia:", err); });
+            });
+        }
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
         });
-
-        updateSectionVisibility();
     });
+
+    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+    if (scrollToTopBtn) {
+        const checkScroll = () => {
+            if (window.scrollY > 300) scrollToTopBtn.classList.add('show');
+            else scrollToTopBtn.classList.remove('show');
+        };
+        window.addEventListener('scroll', checkScroll);
+        window.addEventListener('load', checkScroll);
+        scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    }
 </script>
 </body>
 </html>
