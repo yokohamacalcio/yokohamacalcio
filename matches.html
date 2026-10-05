@@ -1094,20 +1094,21 @@
                 <div class="match-badge-group">
                     <span class="next-match-badge">次戦</span>
                     <span class="match-badge badge-official">練習試合</span>
+                    <span class="match-badge" style="background: rgba(255,255,255,0.2); color: #ffffff;">AWAY</span>
                 </div>
                 <span class="match-box-date" style="color: rgba(255,255,255,0.8);">2026-10-11</span>
             </div>
             <div class="next-match-hero-inner">
                 <div class="match-teams-wrapper">
                     <div class="teams-logos-row">
-                        <div class="hero-logo-wrap"><img src="./immagini/opponents/bombs.png" alt="BOMB’S"></div>
+                        <div class="hero-logo-wrap"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio" class="yokohama-logo"></div>
                         <div class="match-vs-center">VS</div>
-                        <div class="hero-logo-wrap"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
+                        <div class="hero-logo-wrap"><img src="./immagini/opponents/bombs.png" alt="BOMB’S" class="opponent-logo"></div>
                     </div>
                     <div class="teams-names-row">
-                        <div class="team-name-col" style="color: #ffffff;">BOMB’S</div>
-                        <div></div>
                         <div class="team-name-col" style="color: #ffffff;">Yokohama Calcio</div>
+                        <div></div>
+                        <div class="team-name-col" style="color: #ffffff;">BOMB’S</div>
                     </div>
                 </div>
                 <div class="match-info-hero-bar"><div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>17:00 K.O.</span></div><div class="match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>人工芝</span></div></div>
@@ -1353,7 +1354,8 @@
     function formatDateWithDay(dateStr, lang) {
         if (!dateStr) return '';
         if (dateStr.includes('(')) return dateStr;
-        const dateObj = new Date(dateStr);
+        const cleanDateStr = dateStr.trim().replace(/\./g, '-');
+        const dateObj = new Date(cleanDateStr);
         if (isNaN(dateObj)) return dateStr;
         const localeMap = { ja: 'ja-JP', it: 'it-IT', en: 'en-US' };
         const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
@@ -1445,7 +1447,8 @@
         if (!dateStr) return;
 
         const time = timeStr ? timeStr.trim() : '10:00';
-        const isoDate = `${dateStr}T${time}:00+09:00`;
+        const cleanDate = dateStr.trim().replace(/\./g, '-');
+        const isoDate = `${cleanDate}T${time}:00+09:00`;
         const targetTime = new Date(isoDate).getTime();
 
         function updateTimer() {
@@ -1632,27 +1635,34 @@
 
                 const isHome = nextM.isHome !== undefined ? nextM.isHome : true;
                 
-                let t1Name = isHome ? (nextM.team1Name || 'Yokohama Calcio') : oppInfo.name;
-                let t1Logo = isHome ? './immagini/logo.png?v=2' : oppInfo.logo;
-                let t1Class = isHome ? 'yokohama-logo' : 'opponent-logo';
+                // Yokohama Calcio SEMPRE a sinistra per le prossime partite
+                const t1Name = nextM.team1Name || 'Yokohama Calcio';
+                const t1Logo = './immagini/logo.png?v=2';
+                const t1Class = 'yokohama-logo';
+                const t1Err = "";
 
-                let t2Name = isHome ? oppInfo.name : (nextM.team1Name || 'Yokohama Calcio');
-                let t2Logo = isHome ? oppInfo.logo : './immagini/logo.png?v=2';
-                let t2Class = isHome ? 'opponent-logo' : 'yokohama-logo';
+                const t2Name = oppInfo.name;
+                const t2Logo = oppInfo.logo;
+                const t2Class = 'opponent-logo';
+                const fallbackAvatar = getAvatarUrl(nextM, oppInfo.romajiName);
+                const t2Err = `onerror="this.onerror=null;this.src='${fallbackAvatar}';"`;
+
+                const homeAwayLabel = isHome ? 'HOME' : 'AWAY';
+                const homeAwayBadge = `<span class="match-badge" style="background: rgba(255,255,255,0.2); color: #ffffff;">${homeAwayLabel}</span>`;
 
                 const mapsHeroHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener"><span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.72rem; opacity: 0.8; margin-left: 3px;"></i></a>` : locInfo.name;
                 const mapsCardHtml = locInfo.maps !== '#' ? `<a href="${locInfo.maps}" target="_blank" rel="noopener" style="color:var(--dark-navy); text-decoration:none;"><span>${locInfo.name}</span> <i class="fas fa-external-link-alt" style="font-size: 0.72rem; opacity: 0.8; margin-left: 3px;"></i></a>` : locInfo.name;
-
-                const fallbackAvatar = getAvatarUrl(nextM, oppInfo.romajiName);
-                const t1Err = isHome ? "" : `onerror="this.onerror=null;this.src='${fallbackAvatar}';"`;
-                const t2Err = isHome ? `onerror="this.onerror=null;this.src='${fallbackAvatar}';"` : "";
 
                 if (index === 0) {
                     upcomingHtml += `
                         <div class="upcoming-item match-detail-card next-match-hero" data-match-category="${nextM.category}" data-match-date="${rawDate}">
                             <div class="next-match-header">
-                                <span class="next-match-badge">${t('badge.next')}</span>
-                                <span style="font-weight: 700; color: var(--primary-sky);">${catText}</span>
+                                <div class="match-badge-group">
+                                    <span class="next-match-badge">${t('badge.next')}</span>
+                                    <span class="match-badge ${catClass}">${catText}</span>
+                                    ${homeAwayBadge}
+                                </div>
+                                <span style="font-weight: 700; color: rgba(255,255,255,0.8); font-size: 0.85rem;">${formattedDate}</span>
                             </div>
                             <div class="match-teams-wrapper">
                                 <div class="teams-logos-row">
@@ -1706,6 +1716,7 @@
                                 <div class="match-badge-group">
                                     <span class="match-badge badge-next">${t('badge.next')}</span>
                                     <span class="match-badge ${catClass}">${catText}</span>
+                                    ${homeAwayBadge}
                                 </div>
                                 <span class="match-date-text"><i class="far fa-calendar-alt"></i> ${formattedDate}</span>
                             </div>
@@ -2007,8 +2018,6 @@
 
             setLanguage(currentLang);
             handleHashOnLoad();
-            
-            startCountdown('2026-10-31', '11:00');
         } catch (error) {
             console.error("Errore nel caricamento dati:", error);
         }
