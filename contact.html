@@ -267,20 +267,24 @@
             .form-row-2 { grid-template-columns: 1fr; }
         }
 
-        /* ROW COMPATTA PER DATA DI NASCITA ED ETÀ SULLA STESSA RIGA */
+        /* ROW STABILIZZATA PER DATA DI NASCITA ED ETÀ */
         .form-row-date-age {
             display: grid;
-            grid-template-columns: 1fr 110px;
+            grid-template-columns: 1fr 100px;
             gap: 12px;
-            align-items: flex-start;
             width: 100%;
             box-sizing: border-box;
         }
-        @media (max-width: 480px) {
-            .form-row-date-age {
-                grid-template-columns: 1fr 95px;
-                gap: 8px;
-            }
+        .form-row-date-age > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-width: 0; /* Previene l'overflow della griglia */
+        }
+        .form-row-date-age label {
+            min-height: 24px;
+            white-space: nowrap;
+            margin-bottom: 6px;
         }
 
         .form-group label {
@@ -300,10 +304,12 @@
             font-weight: 800;
         }
 
+        /* STILE UNIFORME PER TUTTI I CAMPI FORM (ALTEZZA E BOX-SIZING UNIFORMI) */
         .form-control {
             width: 100%;
-            min-width: 0; /* Previene sbordamenti del layout grid */
-            padding: 12px 14px;
+            min-width: 0;
+            height: 46px; /* Altezza identica per tutti i campi */
+            padding: 0 12px;
             border: 1px solid #cbd5e1;
             border-radius: 8px;
             font-size: 0.95rem;
@@ -312,6 +318,9 @@
             background: #f8fafc;
             transition: all 0.2s ease;
             box-sizing: border-box;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
         .form-control:focus {
             outline: none;
@@ -320,8 +329,12 @@
             box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.25);
         }
 
+        /* REGOLAZIONE SPECIFICA PER INPUT DATE SUI VARI BROWSER */
         input[type="date"].form-control {
-            padding: 11px 10px;
+            height: 46px;
+            padding: 0 10px;
+            line-height: 46px;
+            background-color: #f8fafc;
         }
 
         /* LIVE VALIDATION STYLES */
@@ -334,19 +347,22 @@
             background-color: #fef2f2 !important;
         }
 
-        /* CAMPO ETÀ NON MODIFICABILE COMPATTO */
+        /* CAMPO ETÀ NON MODIFICABILE COMPATTO CON ALTEZZA ALLINEATA */
         .form-control.readonly-age {
+            height: 46px;
             background-color: #e2e8f0;
             color: #00224a;
             font-weight: 800;
             cursor: not-allowed;
             text-align: center;
-            padding: 12px 6px;
+            padding: 0 6px;
+            line-height: 46px;
         }
 
         textarea.form-control {
-            resize: vertical;
+            height: auto;
             min-height: 120px;
+            padding: 12px 14px;
         }
 
         /* Dynamic Checkboxes for Sub-roles */
@@ -640,6 +656,16 @@
             color: #00224a;
         }
 
+        @media (max-width: 480px) {
+            .form-row-date-age {
+                grid-template-columns: 1fr 90px;
+                gap: 8px;
+            }
+            .form-row-date-age label {
+                font-size: 0.85rem;
+            }
+        }
+
         @media (max-width: 600px) {
             .section-title { font-size: 1.45rem !important; text-align: center !important; }
             .contact-form-card { padding: 20px 16px; }
@@ -848,7 +874,7 @@
                     <div id="trialFieldsWrapper">
                         <div class="field-section-title"><i class="fas fa-running"></i> <span data-i18n="form.player_sec_title">選手情報</span></div>
                         
-                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ GIOCATORE (SULLA STESSA RIGA) -->
+                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ GIOCATORE (PERFETTAMENTE ALINEATI) -->
                         <div class="form-group">
                             <div class="form-row-date-age">
                                 <div>
@@ -928,7 +954,7 @@
                     <div id="staffFieldsWrapper" style="display: none;">
                         <div class="field-section-title"><i class="fas fa-user-tie"></i> <span data-i18n="form.staff_sec_title">スタッフ応募情報</span></div>
 
-                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ STAFF (SULLA STESSA RIGA) -->
+                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ STAFF (PERFETTAMENTE ALINEATI) -->
                         <div class="form-group">
                             <div class="form-row-date-age">
                                 <div>
