@@ -267,6 +267,22 @@
             .form-row-2 { grid-template-columns: 1fr; }
         }
 
+        /* ROW COMPATTA PER DATA DI NASCITA ED ETÀ SULLA STESSA RIGA */
+        .form-row-date-age {
+            display: grid;
+            grid-template-columns: 1fr 110px;
+            gap: 12px;
+            align-items: flex-start;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        @media (max-width: 480px) {
+            .form-row-date-age {
+                grid-template-columns: 1fr 95px;
+                gap: 8px;
+            }
+        }
+
         .form-group label {
             font-weight: 700;
             font-size: 0.9rem;
@@ -286,6 +302,7 @@
 
         .form-control {
             width: 100%;
+            min-width: 0; /* Previene sbordamenti del layout grid */
             padding: 12px 14px;
             border: 1px solid #cbd5e1;
             border-radius: 8px;
@@ -303,6 +320,10 @@
             box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.25);
         }
 
+        input[type="date"].form-control {
+            padding: 11px 10px;
+        }
+
         /* LIVE VALIDATION STYLES */
         .form-control.is-valid {
             border-color: #10b981 !important;
@@ -313,13 +334,14 @@
             background-color: #fef2f2 !important;
         }
 
-        /* READONLY AGE DISPLAY FIELD */
+        /* CAMPO ETÀ NON MODIFICABILE COMPATTO */
         .form-control.readonly-age {
             background-color: #e2e8f0;
             color: #00224a;
             font-weight: 800;
             cursor: not-allowed;
             text-align: center;
+            padding: 12px 6px;
         }
 
         textarea.form-control {
@@ -538,7 +560,7 @@
             display: none;
             align-items: center;
             gap: 8px;
-            margin-top: 4px;
+            margin-top: 6px;
         }
 
         /* --- MODAL DI CONFERMA CUSTOM --- */
@@ -826,25 +848,27 @@
                     <div id="trialFieldsWrapper">
                         <div class="field-section-title"><i class="fas fa-running"></i> <span data-i18n="form.player_sec_title">選手情報</span></div>
                         
-                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ GIOCATORE -->
-                        <div class="form-row-2">
-                            <div class="form-group">
-                                <label for="birth_date">
-                                    <span data-i18n="form.birth_date_label">生年月日</span>
-                                    <span class="required-tag" data-i18n="form.required">必須</span>
-                                </label>
-                                <input type="date" id="birth_date" name="birth_date" class="form-control">
+                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ GIOCATORE (SULLA STESSA RIGA) -->
+                        <div class="form-group">
+                            <div class="form-row-date-age">
+                                <div>
+                                    <label for="birth_date">
+                                        <span data-i18n="form.birth_date_label">生年月日</span>
+                                        <span class="required-tag" data-i18n="form.required">必須</span>
+                                    </label>
+                                    <input type="date" id="birth_date" name="birth_date" class="form-control">
+                                </div>
+                                <div>
+                                    <label for="calc_age_player">
+                                        <span data-i18n="form.calculated_age_label">年齢</span>
+                                    </label>
+                                    <input type="text" id="calc_age_player" class="form-control readonly-age" placeholder="--" readonly tabindex="-1">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="calc_age_player">
-                                    <span data-i18n="form.calculated_age_label">年齢 (自動計算)</span>
-                                </label>
-                                <input type="text" id="calc_age_player" class="form-control readonly-age" placeholder="--" readonly tabindex="-1">
+                            <div id="age_error_player" class="error-banner">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span id="age_error_player_msg"></span>
                             </div>
-                        </div>
-                        <div id="age_error_player" class="error-banner">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <span id="age_error_player_msg"></span>
                         </div>
 
                         <!-- LIVELLO ESPERIENZA (MANDATORIO) -->
@@ -904,25 +928,27 @@
                     <div id="staffFieldsWrapper" style="display: none;">
                         <div class="field-section-title"><i class="fas fa-user-tie"></i> <span data-i18n="form.staff_sec_title">スタッフ応募情報</span></div>
 
-                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ STAFF -->
-                        <div class="form-row-2">
-                            <div class="form-group">
-                                <label for="staff_birth_date">
-                                    <span data-i18n="form.birth_date_label">生年月日</span>
-                                    <span class="required-tag" data-i18n="form.required">必須</span>
-                                </label>
-                                <input type="date" id="staff_birth_date" name="staff_birth_date" class="form-control">
+                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ STAFF (SULLA STESSA RIGA) -->
+                        <div class="form-group">
+                            <div class="form-row-date-age">
+                                <div>
+                                    <label for="staff_birth_date">
+                                        <span data-i18n="form.birth_date_label">生年月日</span>
+                                        <span class="required-tag" data-i18n="form.required">必須</span>
+                                    </label>
+                                    <input type="date" id="staff_birth_date" name="staff_birth_date" class="form-control">
+                                </div>
+                                <div>
+                                    <label for="calc_age_staff">
+                                        <span data-i18n="form.calculated_age_label">年齢</span>
+                                    </label>
+                                    <input type="text" id="calc_age_staff" class="form-control readonly-age" placeholder="--" readonly tabindex="-1">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="calc_age_staff">
-                                    <span data-i18n="form.calculated_age_label">年齢 (自動計算)</span>
-                                </label>
-                                <input type="text" id="calc_age_staff" class="form-control readonly-age" placeholder="--" readonly tabindex="-1">
+                            <div id="age_error_staff" class="error-banner">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span id="age_error_staff_msg"></span>
                             </div>
-                        </div>
-                        <div id="age_error_staff" class="error-banner">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <span id="age_error_staff_msg"></span>
                         </div>
 
                         <!-- RUOLO STAFF RICHIESTO (ESCLUSO HEAD COACH) -->
@@ -1110,7 +1136,7 @@
             
             "form.player_sec_title": "選手情報",
             "form.birth_date_label": "生年月日",
-            "form.calculated_age_label": "年齢 (自動計算)",
+            "form.calculated_age_label": "年齢",
             "form.age_unit": "歳",
             "form.age_error_under": "申し訳ありません。18歳未満の方はご参加いただけません。（現在の年齢: {age}歳）",
             "form.age_error_over": "申し訳ありません。対象年齢は40歳までとなっております。（現在の年齢: {age}歳）",
@@ -1185,7 +1211,7 @@
             
             "form.player_sec_title": "Informazioni Giocatore",
             "form.birth_date_label": "Data di Nascita",
-            "form.calculated_age_label": "Età (calcolo automatico)",
+            "form.calculated_age_label": "Età",
             "form.age_unit": "anni",
             "form.age_error_under": "Spiacenti, l'età minima per partecipare è 18 anni (Età calcolata: {age} anni).",
             "form.age_error_over": "Spiacenti, l'età massima consentita è 40 anni (Età calcolata: {age} anni).",
@@ -1259,7 +1285,7 @@
             
             "form.player_sec_title": "Player Details",
             "form.birth_date_label": "Date of Birth",
-            "form.calculated_age_label": "Age (Auto Calculated)",
+            "form.calculated_age_label": "Age",
             "form.age_unit": "yrs old",
             "form.age_error_under": "Sorry, minimum age requirement is 18 years old (Calculated age: {age}).",
             "form.age_error_over": "Sorry, maximum age limit is 40 years old (Calculated age: {age}).",
@@ -1332,7 +1358,69 @@
         ]
     };
 
-    // Oggetti mail bilingui Formspree (Giapponese / Italiano)
+    // Dizionario etichette bilingui per la notifica Formspree
+    const fieldBilingualLabels = {
+        category: "お問い合わせ種別 / Tipo di Richiesta",
+        last_name: "姓 / Cognome",
+        first_name: "名 / Nome",
+        last_name_kana: "セイ (フリガナ) / Cognome Kana",
+        first_name_kana: "メイ (フリガナ) / Nome Kana",
+        email: "メールアドレス / Email",
+        birth_date: "生年月日 / Data di Nascita",
+        calc_age_player: "年齢 / Età",
+        calc_age_staff: "年齢 / Età",
+        experience_level: "競技レベル / Livello Esperienza",
+        experience_details: "サッカー歴・前所属 / Esperienza e Squadre Precedenti",
+        macro_position: "希望ポジション / Ruolo Principale",
+        "sub_positions[]": "詳細役割 / Ruoli Specifici",
+        staff_birth_date: "生年月日 / Data di Nascita",
+        staff_role: "希望スタッフ役職 / Ruolo Staff",
+        staff_experience: "指導歴・スポーツ経歴 / Esperienza Staff",
+        match_team_name: "対戦チーム名 / Nome Squadra Avversaria",
+        match_league: "所属リーグ / Campionato",
+        match_1st_kit: "1stユニフォーム / Divisa 1st",
+        match_2nd_kit: "2ndユニフォーム / Divisa 2nd",
+        message: "メッセージ内容 / Messaggio",
+        privacy_agree: "プライバシーポリシー同意 / Consenso Privacy"
+    };
+
+    // Mappatura valori selezioni bilingui per Formspree
+    const valueBilingualMap = {
+        trial: "体験練習・選手入部希望 / Prova Giocatore",
+        staff: "スタッフ応募 / Candidatura Staff",
+        match: "練習試合のお申し込み / Richiesta Partita Amichevole",
+        sponsor: "パートナー・協賛のご相談 / Sponsorship & Partner",
+        other: "その他のお問い合わせ / Altra Richiesta",
+
+        university: "大学体育会・都県社会人リーグ経験 / Università - Campionati Regionali",
+        highschool_strong: "高校サッカー部強豪・全国大会経験 / Superiori Agonistico - Tornei Nazionali",
+        youth_club: "ユース・クラブチーム出身 / Settore Giovanile - Club",
+        highschool_general: "一般高校サッカー部経験 / Calcio Scolastico - Amatoriale",
+        futsal_enjoy: "競技系フットサル・エンジョイ経験 / Futsal - Tornei Amatoriali",
+
+        GK: "GK (ゴールキーパー / Portiere)",
+        DF: "DF (ディフェンダー / Difensore)",
+        MF: "MF (ミッドフィルダー / Centrocampista)",
+        FW: "FW (フォワード / Attaccante)",
+
+        CB: "CB (センターバック / Difensore Centrale)",
+        SB: "SB / WB (サイドバック・ウイングバック / Terzino - Esterno)",
+        DM: "DM (ボランチ・アンカー / Mediano - Regista)",
+        CM: "CM (インサイドハーフ / Mezzala - Centrocampista)",
+        SH: "SH (サイドハーフ / Esterno Centrocampo)",
+        ST: "ST (セカンドトップ / Seconda Punta)",
+        CF: "CF (センターフォワード / Centravanti)",
+        WG: "WG (ウイング / Ala d'Attacco)",
+
+        assistant_coach: "アシスタントコーチ / Vice Allenatore",
+        team_manager: "チームマネージャー / Team Manager",
+        trainer: "トレーナー / Fisioterapista",
+        kit_manager: "用具管理 / Magazziniere",
+        media_analyst: "広報・アナリスト / Social Media & Analyst",
+
+        on: "同意する / Accetto"
+    };
+
     const categorySubjects = {
         trial: "[Yokohama Calcio] 体験練習・選手入部希望 / Richiesta Prova Giocatore",
         staff: "[Yokohama Calcio] スタッフ応募 / Candidatura Staff",
@@ -1400,7 +1488,6 @@
         renderSubPositions();
         updateFormspreeHiddenFields();
 
-        // Aggiorna etichetta età per entrambi gli input
         const playerBirth = document.getElementById('birth_date');
         const calcAgePlayer = document.getElementById('calc_age_player');
         if (playerBirth) updateAgeDisplay(playerBirth, calcAgePlayer);
@@ -1437,13 +1524,31 @@
         wrapper.style.display = 'block';
     }
 
-    // TOGGLE SEZIONI DINAMICHE E ATTRIBUTI REQUIRED
+    // TOGGLE SEZIONI DINAMICHE E ABILITAZIONE/DISABILITAZIONE CAMPI
     function updateSectionVisibility() {
         const category = document.getElementById('category').value;
         const playerWrapper = document.getElementById('trialFieldsWrapper');
         const staffWrapper = document.getElementById('staffFieldsWrapper');
         const matchWrapper = document.getElementById('matchFieldsWrapper');
-        
+
+        function toggleWrapperInputs(wrapper, enable) {
+            if (!wrapper) return;
+            wrapper.style.display = enable ? 'block' : 'none';
+            const inputs = wrapper.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                if (enable) {
+                    input.removeAttribute('disabled');
+                } else {
+                    input.setAttribute('disabled', 'disabled');
+                    input.classList.remove('is-valid', 'is-invalid');
+                }
+            });
+        }
+
+        toggleWrapperInputs(playerWrapper, category === 'trial');
+        toggleWrapperInputs(staffWrapper, category === 'staff');
+        toggleWrapperInputs(matchWrapper, category === 'match');
+
         const playerBirth = document.getElementById('birth_date');
         const playerExpLevel = document.getElementById('experience_level');
         const playerMacro = document.getElementById('macro_position');
@@ -1454,53 +1559,37 @@
         const matchTeamName = document.getElementById('match_team_name');
 
         if (category === 'trial') {
-            playerWrapper.style.display = 'block';
-            staffWrapper.style.display = 'none';
-            matchWrapper.style.display = 'none';
+            if (playerBirth) playerBirth.setAttribute('required', 'required');
+            if (playerExpLevel) playerExpLevel.setAttribute('required', 'required');
+            if (playerMacro) playerMacro.setAttribute('required', 'required');
 
-            playerBirth.setAttribute('required', 'required');
-            playerExpLevel.setAttribute('required', 'required');
-            playerMacro.setAttribute('required', 'required');
-
-            staffBirth.removeAttribute('required');
-            staffRole.removeAttribute('required');
-            matchTeamName.removeAttribute('required');
+            if (staffBirth) staffBirth.removeAttribute('required');
+            if (staffRole) staffRole.removeAttribute('required');
+            if (matchTeamName) matchTeamName.removeAttribute('required');
         } else if (category === 'staff') {
-            playerWrapper.style.display = 'none';
-            staffWrapper.style.display = 'block';
-            matchWrapper.style.display = 'none';
+            if (playerBirth) playerBirth.removeAttribute('required');
+            if (playerExpLevel) playerExpLevel.removeAttribute('required');
+            if (playerMacro) playerMacro.removeAttribute('required');
 
-            playerBirth.removeAttribute('required');
-            playerExpLevel.removeAttribute('required');
-            playerMacro.removeAttribute('required');
-
-            staffBirth.setAttribute('required', 'required');
-            staffRole.setAttribute('required', 'required');
-            matchTeamName.removeAttribute('required');
+            if (staffBirth) staffBirth.setAttribute('required', 'required');
+            if (staffRole) staffRole.setAttribute('required', 'required');
+            if (matchTeamName) matchTeamName.removeAttribute('required');
         } else if (category === 'match') {
-            playerWrapper.style.display = 'none';
-            staffWrapper.style.display = 'none';
-            matchWrapper.style.display = 'block';
+            if (playerBirth) playerBirth.removeAttribute('required');
+            if (playerExpLevel) playerExpLevel.removeAttribute('required');
+            if (playerMacro) playerMacro.removeAttribute('required');
 
-            playerBirth.removeAttribute('required');
-            playerExpLevel.removeAttribute('required');
-            playerMacro.removeAttribute('required');
-
-            staffBirth.removeAttribute('required');
-            staffRole.removeAttribute('required');
-            matchTeamName.setAttribute('required', 'required');
+            if (staffBirth) staffBirth.removeAttribute('required');
+            if (staffRole) staffRole.removeAttribute('required');
+            if (matchTeamName) matchTeamName.setAttribute('required', 'required');
         } else {
-            playerWrapper.style.display = 'none';
-            staffWrapper.style.display = 'none';
-            matchWrapper.style.display = 'none';
+            if (playerBirth) playerBirth.removeAttribute('required');
+            if (playerExpLevel) playerExpLevel.removeAttribute('required');
+            if (playerMacro) playerMacro.removeAttribute('required');
 
-            playerBirth.removeAttribute('required');
-            playerExpLevel.removeAttribute('required');
-            playerMacro.removeAttribute('required');
-
-            staffBirth.removeAttribute('required');
-            staffRole.removeAttribute('required');
-            matchTeamName.removeAttribute('required');
+            if (staffBirth) staffBirth.removeAttribute('required');
+            if (staffRole) staffRole.removeAttribute('required');
+            if (matchTeamName) matchTeamName.removeAttribute('required');
         }
     }
 
@@ -1726,7 +1815,7 @@
             });
         }
 
-        // VALIDAZIONE SUBMIT FORM ED INVIO FORMSPREE
+        // VALIDAZIONE SUBMIT FORM ED INVIO PULITO BILINGUE A FORMSPREE
         const form = document.getElementById('contactForm');
         if (form) {
             form.addEventListener('submit', async (e) => {
@@ -1761,19 +1850,44 @@
 
                 updateFormspreeHiddenFields();
 
-                const formData = new FormData(form);
+                // COSTRUZIONE PAYLOAD FORMSPREE CON SOLI CAMPI POPOLATI E ETICHETTE BILINGUI
+                const rawFormData = new FormData(form);
+                const payloadData = new FormData();
+
+                if (rawFormData.get('_subject')) payloadData.append('_subject', rawFormData.get('_subject'));
+                if (rawFormData.get('_gotcha')) payloadData.append('_gotcha', rawFormData.get('_gotcha'));
+                if (rawFormData.get('email')) payloadData.append('_replyto', rawFormData.get('email'));
+
+                for (let [key, value] of rawFormData.entries()) {
+                    if (key.startsWith('_')) continue;
+
+                    const trimmedVal = typeof value === 'string' ? value.trim() : value;
+                    if (!trimmedVal || trimmedVal === '--') continue;
+
+                    const bilingualKey = fieldBilingualLabels[key] || key;
+                    const bilingualVal = valueBilingualMap[trimmedVal] || trimmedVal;
+
+                    payloadData.append(bilingualKey, bilingualVal);
+                }
+
+                // INSERIMENTO ESPLICITO DELL'ETÀ CALCOLATA NELLA NOTIFICA
+                if (category === 'trial' && calcAgePlayer && calcAgePlayer.value && calcAgePlayer.value !== '--') {
+                    payloadData.append("年齢 / Età", calcAgePlayer.value);
+                } else if (category === 'staff' && calcAgeStaff && calcAgeStaff.value && calcAgeStaff.value !== '--') {
+                    payloadData.append("年齢 / Età", calcAgeStaff.value);
+                }
+
                 const submitBtn = document.getElementById('submitBtn');
                 if (submitBtn) submitBtn.disabled = true;
 
                 try {
                     const response = await fetch(form.action, {
                         method: form.method,
-                        body: formData,
+                        body: payloadData,
                         headers: { 'Accept': 'application/json' }
                     });
 
                     if (response.ok) {
-                        // APRE IL MODAL CUSTOM INVECE DELL'ALERT
                         if (confirmModal) confirmModal.classList.add('show');
                         form.reset();
                         document.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-valid', 'is-invalid'));
