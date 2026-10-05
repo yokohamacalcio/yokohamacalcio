@@ -302,6 +302,26 @@
             background: #ffffff;
             box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.25);
         }
+
+        /* LIVE VALIDATION STYLES */
+        .form-control.is-valid {
+            border-color: #10b981 !important;
+            background-color: #f0fdf4 !important;
+        }
+        .form-control.is-invalid {
+            border-color: #ef4444 !important;
+            background-color: #fef2f2 !important;
+        }
+
+        /* READONLY AGE DISPLAY FIELD */
+        .form-control.readonly-age {
+            background-color: #e2e8f0;
+            color: #00224a;
+            font-weight: 800;
+            cursor: not-allowed;
+            text-align: center;
+        }
+
         textarea.form-control {
             resize: vertical;
             min-height: 120px;
@@ -334,6 +354,34 @@
             accent-color: #003c82;
             width: 16px;
             height: 16px;
+            cursor: pointer;
+        }
+
+        /* PRIVACY CHECKBOX BOX */
+        .privacy-box {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            padding: 14px;
+            border-radius: 8px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        .privacy-checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.88rem;
+            color: #334155;
+            cursor: pointer;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        .privacy-checkbox-label input[type="checkbox"] {
+            accent-color: #003c82;
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
             cursor: pointer;
         }
 
@@ -491,6 +539,83 @@
             align-items: center;
             gap: 8px;
             margin-top: 4px;
+        }
+
+        /* --- MODAL DI CONFERMA CUSTOM --- */
+        .confirm-modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0, 10, 25, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .confirm-modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .confirm-modal-card {
+            background: #ffffff;
+            border-radius: 20px;
+            max-width: 480px;
+            width: 100%;
+            padding: 32px 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            border: 2px solid #87ceeb;
+        }
+        .confirm-modal-overlay.show .confirm-modal-card {
+            transform: translateY(0);
+        }
+        .confirm-modal-icon {
+            width: 70px;
+            height: 70px;
+            background: #f0fdf4;
+            color: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin: 0 auto 18px auto;
+            border: 2px solid #a7f3d0;
+        }
+        .confirm-modal-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #00224a;
+            margin-bottom: 12px;
+        }
+        .confirm-modal-text {
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        .confirm-modal-btn {
+            background: #003c82;
+            color: #ffffff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .confirm-modal-btn:hover {
+            background: #87ceeb;
+            color: #00224a;
         }
 
         @media (max-width: 600px) {
@@ -701,17 +826,25 @@
                     <div id="trialFieldsWrapper">
                         <div class="field-section-title"><i class="fas fa-running"></i> <span data-i18n="form.player_sec_title">選手情報</span></div>
                         
-                        <!-- DATA DI NASCITA E CALCOLO ETÀ -->
-                        <div class="form-group">
-                            <label for="birth_date">
-                                <span data-i18n="form.birth_date_label">生年月日</span>
-                                <span class="required-tag" data-i18n="form.required">必須</span>
-                            </label>
-                            <input type="date" id="birth_date" name="birth_date" class="form-control">
-                            <div id="age_error_player" class="error-banner">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span id="age_error_player_msg"></span>
+                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ GIOCATORE -->
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="birth_date">
+                                    <span data-i18n="form.birth_date_label">生年月日</span>
+                                    <span class="required-tag" data-i18n="form.required">必須</span>
+                                </label>
+                                <input type="date" id="birth_date" name="birth_date" class="form-control">
                             </div>
+                            <div class="form-group">
+                                <label for="calc_age_player">
+                                    <span data-i18n="form.calculated_age_label">年齢 (自動計算)</span>
+                                </label>
+                                <input type="text" id="calc_age_player" class="form-control readonly-age" placeholder="--" readonly tabindex="-1">
+                            </div>
+                        </div>
+                        <div id="age_error_player" class="error-banner">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span id="age_error_player_msg"></span>
                         </div>
 
                         <!-- LIVELLO ESPERIENZA (MANDATORIO) -->
@@ -771,17 +904,25 @@
                     <div id="staffFieldsWrapper" style="display: none;">
                         <div class="field-section-title"><i class="fas fa-user-tie"></i> <span data-i18n="form.staff_sec_title">スタッフ応募情報</span></div>
 
-                        <!-- DATA DI NASCITA E CALCOLO ETÀ STAFF -->
-                        <div class="form-group">
-                            <label for="staff_birth_date">
-                                <span data-i18n="form.birth_date_label">生年月日</span>
-                                <span class="required-tag" data-i18n="form.required">必須</span>
-                            </label>
-                            <input type="date" id="staff_birth_date" name="staff_birth_date" class="form-control">
-                            <div id="age_error_staff" class="error-banner">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span id="age_error_staff_msg"></span>
+                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ STAFF -->
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="staff_birth_date">
+                                    <span data-i18n="form.birth_date_label">生年月日</span>
+                                    <span class="required-tag" data-i18n="form.required">必須</span>
+                                </label>
+                                <input type="date" id="staff_birth_date" name="staff_birth_date" class="form-control">
                             </div>
+                            <div class="form-group">
+                                <label for="calc_age_staff">
+                                    <span data-i18n="form.calculated_age_label">年齢 (自動計算)</span>
+                                </label>
+                                <input type="text" id="calc_age_staff" class="form-control readonly-age" placeholder="--" readonly tabindex="-1">
+                            </div>
+                        </div>
+                        <div id="age_error_staff" class="error-banner">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span id="age_error_staff_msg"></span>
                         </div>
 
                         <!-- RUOLO STAFF RICHIESTO (ESCLUSO HEAD COACH) -->
@@ -856,6 +997,14 @@
                         <textarea id="message" name="message" class="form-control" placeholder="ご質問や体験参加のご希望日時、グラウンド手配状況などをご記入ください。" required></textarea>
                     </div>
 
+                    <!-- SPUNTA TRATTAMENTO DATI PERSONALI (PRIVACY) -->
+                    <div class="privacy-box">
+                        <label class="privacy-checkbox-label" for="privacy_agree">
+                            <input type="checkbox" id="privacy_agree" name="privacy_agree" required>
+                            <span data-i18n="form.privacy_label">個人情報の取り扱い（プライバシーポリシー）に同意する</span>
+                        </label>
+                    </div>
+
                     <button type="submit" class="submit-btn" id="submitBtn">
                         <i class="fas fa-paper-plane"></i>
                         <span data-i18n="form.submit_btn">送信する</span>
@@ -902,6 +1051,20 @@
     </div>
 </section>
 
+<!-- MODAL DI CONFERMA CUSTOM -->
+<div class="confirm-modal-overlay" id="confirmModal">
+    <div class="confirm-modal-card">
+        <div class="confirm-modal-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <h3 class="confirm-modal-title" data-i18n="modal.title">送信が完了しました</h3>
+        <p class="confirm-modal-text" data-i18n="modal.text">
+            お問い合わせありがとうございます。メッセージを受け付けました。<br>担当者より通常24〜48時間以内にご連絡いたします。
+        </p>
+        <button class="confirm-modal-btn" id="confirmModalCloseBtn" data-i18n="modal.btn">OK</button>
+    </div>
+</div>
+
 <div class="toast-copy" id="copyToast">
     <i class="fas fa-check-circle"></i> <span data-i18n="info.toast_copied">メールアドレスをコピーしました！</span>
 </div>
@@ -947,6 +1110,8 @@
             
             "form.player_sec_title": "選手情報",
             "form.birth_date_label": "生年月日",
+            "form.calculated_age_label": "年齢 (自動計算)",
+            "form.age_unit": "歳",
             "form.age_error_under": "申し訳ありません。18歳未満の方はご参加いただけません。（現在の年齢: {age}歳）",
             "form.age_error_over": "申し訳ありません。対象年齢は40歳までとなっております。（現在の年齢: {age}歳）",
             
@@ -979,6 +1144,7 @@
             "form.match_2nd_kit_label": "2ndユニフォーム（シャツ・パンツ・ソックス）",
 
             "form.message_label": "メッセージ内容",
+            "form.privacy_label": "個人情報の取り扱い（プライバシーポリシー）に同意する",
             "form.submit_btn": "送信する",
 
             "info.direct_title": "直接メールで連絡",
@@ -988,7 +1154,11 @@
             "info.notice_title": "ご案内とお願い",
             "info.notice_p1": "通常、お問い合わせをいただいてから24〜48時間以内に担当者よりご返信いたします。",
             "info.notice_p2": "携帯電話のメールアドレスをご利用の場合、返信メールが届くよう設定をご確認ください。",
-            "btn.back_home": "ホームに戻る"
+            "btn.back_home": "ホームに戻る",
+
+            "modal.title": "送信が完了しました",
+            "modal.text": "お問い合わせありがとうございます。メッセージを受け付けました。<br>担当者より通常24〜48時間以内にご連絡いたします。",
+            "modal.btn": "OK"
         },
         it: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "SQUADRA",
@@ -1015,6 +1185,8 @@
             
             "form.player_sec_title": "Informazioni Giocatore",
             "form.birth_date_label": "Data di Nascita",
+            "form.calculated_age_label": "Età (calcolo automatico)",
+            "form.age_unit": "anni",
             "form.age_error_under": "Spiacenti, l'età minima per partecipare è 18 anni (Età calcolata: {age} anni).",
             "form.age_error_over": "Spiacenti, l'età massima consentita è 40 anni (Età calcolata: {age} anni).",
             
@@ -1047,6 +1219,7 @@
             "form.match_2nd_kit_label": "Divisa 2nd (Maglia - Pantaloni - Calze)",
 
             "form.message_label": "Messaggio",
+            "form.privacy_label": "Acconsento al trattamento dei dati personali (Privacy Policy)",
             "form.submit_btn": "Invia Messaggio",
 
             "info.direct_title": "Email Diretta",
@@ -1056,7 +1229,11 @@
             "info.notice_title": "Informazioni utili",
             "info.notice_p1": "Rispondiamo solitamente a tutti i messaggi entro 24-48 ore.",
             "info.notice_p2": "Assicurati di controllare la cartella Spam se non ricevi nostra risposta.",
-            "btn.back_home": "Torna alla Home"
+            "btn.back_home": "Torna alla Home",
+
+            "modal.title": "Messaggio Inviato!",
+            "modal.text": "Grazie per averci contattato. Abbiamo ricevuto la tua richiesta.<br>Un nostro responsabile ti risponderà entro 24-48 ore.",
+            "modal.btn": "OK"
         },
         en: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "TEAM",
@@ -1082,6 +1259,8 @@
             
             "form.player_sec_title": "Player Details",
             "form.birth_date_label": "Date of Birth",
+            "form.calculated_age_label": "Age (Auto Calculated)",
+            "form.age_unit": "yrs old",
             "form.age_error_under": "Sorry, minimum age requirement is 18 years old (Calculated age: {age}).",
             "form.age_error_over": "Sorry, maximum age limit is 40 years old (Calculated age: {age}).",
             
@@ -1114,6 +1293,7 @@
             "form.match_2nd_kit_label": "2nd Kit (Shirt - Shorts - Socks)",
 
             "form.message_label": "Message",
+            "form.privacy_label": "I agree to the processing of personal data (Privacy Policy)",
             "form.submit_btn": "Send Message",
 
             "info.direct_title": "Direct Email",
@@ -1123,7 +1303,11 @@
             "info.notice_title": "Notice",
             "info.notice_p1": "We usually respond to all inquiries within 24 to 48 hours.",
             "info.notice_p2": "Please check your spam folder if you do not receive our reply.",
-            "btn.back_home": "Back to Home"
+            "btn.back_home": "Back to Home",
+
+            "modal.title": "Message Sent!",
+            "modal.text": "Thank you for reaching out. We have received your message.<br>We will respond to you within 24-48 hours.",
+            "modal.btn": "OK"
         }
     };
 
@@ -1180,6 +1364,17 @@
         return age;
     }
 
+    function updateAgeDisplay(dateInputEl, calcAgeEl) {
+        if (!dateInputEl || !calcAgeEl) return;
+        const age = calculateAge(dateInputEl.value);
+        if (age !== null && !isNaN(age)) {
+            const unit = translations[currentLang]['form.age_unit'] || '歳';
+            calcAgeEl.value = `${age} ${unit}`;
+        } else {
+            calcAgeEl.value = '--';
+        }
+    }
+
     function setLanguage(lang) {
         if (!translations[lang]) return;
         currentLang = lang;
@@ -1204,6 +1399,15 @@
 
         renderSubPositions();
         updateFormspreeHiddenFields();
+
+        // Aggiorna etichetta età per entrambi gli input
+        const playerBirth = document.getElementById('birth_date');
+        const calcAgePlayer = document.getElementById('calc_age_player');
+        if (playerBirth) updateAgeDisplay(playerBirth, calcAgePlayer);
+
+        const staffBirth = document.getElementById('staff_birth_date');
+        const calcAgeStaff = document.getElementById('calc_age_staff');
+        if (staffBirth) updateAgeDisplay(staffBirth, calcAgeStaff);
     }
 
     function renderSubPositions() {
@@ -1326,6 +1530,49 @@
         }
     }
 
+    // VALIDAZIONE IN TEMPO REALE (LIVE VALIDATION UX)
+    function initLiveValidation() {
+        const inputsToValidate = document.querySelectorAll('#contactForm input[required], #contactForm select[required], #contactForm textarea[required]');
+        
+        inputsToValidate.forEach(input => {
+            const validateInput = () => {
+                if (input.type === 'checkbox') {
+                    if (input.checked) {
+                        input.classList.remove('is-invalid');
+                    } else {
+                        input.classList.add('is-invalid');
+                    }
+                    return;
+                }
+
+                if (input.type === 'email') {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (emailRegex.test(input.value.trim())) {
+                        input.classList.remove('is-invalid');
+                        input.classList.add('is-valid');
+                    } else {
+                        input.classList.remove('is-valid');
+                        input.classList.add('is-invalid');
+                    }
+                    return;
+                }
+
+                if (input.value.trim() !== '') {
+                    input.classList.remove('is-invalid');
+                    input.classList.add('is-valid');
+                } else {
+                    input.classList.remove('is-valid');
+                    input.classList.add('is-invalid');
+                }
+            };
+
+            input.addEventListener('blur', validateInput);
+            input.addEventListener('input', () => {
+                if (input.classList.contains('is-invalid')) validateInput();
+            });
+        });
+    }
+
     function initDesktopDropdowns() {
         const dropdownItems = document.querySelectorAll('.main-nav .nav-item.dropdown');
         dropdownItems.forEach(item => {
@@ -1428,6 +1675,7 @@
         initDesktopDropdowns();
         initMobileMenu();
         setLanguage(currentLang);
+        initLiveValidation();
 
         const categorySelect = document.getElementById('category');
         if (categorySelect) {
@@ -1442,20 +1690,40 @@
             macroSelect.addEventListener('change', renderSubPositions);
         }
 
-        // CONTROL ETÀ GIOCATORE
+        // CONTROL ETÀ E CALCOLO AUTOMATICO GIOCATORE
         const playerBirth = document.getElementById('birth_date');
+        const calcAgePlayer = document.getElementById('calc_age_player');
         const playerAgeErr = document.getElementById('age_error_player');
         const playerAgeMsg = document.getElementById('age_error_player_msg');
         if (playerBirth) {
-            playerBirth.addEventListener('change', () => validateAge(playerBirth, playerAgeErr, playerAgeMsg));
+            playerBirth.addEventListener('change', () => {
+                updateAgeDisplay(playerBirth, calcAgePlayer);
+                validateAge(playerBirth, playerAgeErr, playerAgeMsg);
+            });
+            playerBirth.addEventListener('input', () => updateAgeDisplay(playerBirth, calcAgePlayer));
         }
 
-        // CONTROL ETÀ STAFF
+        // CONTROL ETÀ E CALCOLO AUTOMATICO STAFF
         const staffBirth = document.getElementById('staff_birth_date');
+        const calcAgeStaff = document.getElementById('calc_age_staff');
         const staffAgeErr = document.getElementById('age_error_staff');
         const staffAgeMsg = document.getElementById('age_error_staff_msg');
         if (staffBirth) {
-            staffBirth.addEventListener('change', () => validateAge(staffBirth, staffAgeErr, staffAgeMsg));
+            staffBirth.addEventListener('change', () => {
+                updateAgeDisplay(staffBirth, calcAgeStaff);
+                validateAge(staffBirth, staffAgeErr, staffAgeMsg);
+            });
+            staffBirth.addEventListener('input', () => updateAgeDisplay(staffBirth, calcAgeStaff));
+        }
+
+        // MODAL CONFERMA CLOSE HANDLERS
+        const confirmModal = document.getElementById('confirmModal');
+        const confirmModalCloseBtn = document.getElementById('confirmModalCloseBtn');
+        if (confirmModalCloseBtn && confirmModal) {
+            confirmModalCloseBtn.addEventListener('click', () => confirmModal.classList.remove('show'));
+            confirmModal.addEventListener('click', (e) => {
+                if (e.target === confirmModal) confirmModal.classList.remove('show');
+            });
         }
 
         // VALIDAZIONE SUBMIT FORM ED INVIO FORMSPREE
@@ -1505,8 +1773,12 @@
                     });
 
                     if (response.ok) {
-                        alert(currentLang === 'ja' ? 'メッセージが正常に送信されました。' : (currentLang === 'it' ? 'Messaggio inviato con successo!' : 'Message sent successfully!'));
+                        // APRE IL MODAL CUSTOM INVECE DELL'ALERT
+                        if (confirmModal) confirmModal.classList.add('show');
                         form.reset();
+                        document.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-valid', 'is-invalid'));
+                        if (calcAgePlayer) calcAgePlayer.value = '--';
+                        if (calcAgeStaff) calcAgeStaff.value = '--';
                         updateSectionVisibility();
                         updateFormspreeHiddenFields();
                     } else {
@@ -1514,7 +1786,7 @@
                     }
                 } catch (error) {
                     console.error("Errore invio Formspree:", error);
-                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di接続.' : 'Connection error.'));
+                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di connessione.' : 'Connection error.'));
                 } finally {
                     if (submitBtn) submitBtn.disabled = false;
                 }
