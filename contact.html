@@ -37,6 +37,17 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
+        /* ====== FIX OVERFLOW ORIZZONTALE GLOBALE ====== */
+        html, body {
+            overflow-x: hidden !important;
+            max-width: 100vw !important;
+            width: 100% !important;
+            box-sizing: border-box;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         /* --- OVERLAY MENU MOBILE SCURO COMPATTO --- */
         .mobile-nav {
             position: fixed;
@@ -235,13 +246,15 @@
         /* --- LAYOUT FORM CONTACT --- */
         .contact-grid-container {
             display: grid;
-            grid-template-columns: 1fr 340px;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
             gap: 30px;
             max-width: 1000px;
+            width: 100%;
             margin: 0 auto;
+            box-sizing: border-box;
         }
         @media (max-width: 880px) {
-            .contact-grid-container { grid-template-columns: 1fr; }
+            .contact-grid-container { grid-template-columns: 1fr; gap: 20px; }
         }
 
         .contact-form-card {
@@ -250,6 +263,9 @@
             padding: 32px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             border: 1px solid #e2e8f0;
+            min-width: 0;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .form-group {
@@ -257,20 +273,23 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            min-width: 0;
+            max-width: 100%;
         }
         .form-row-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
+            min-width: 0;
         }
         @media (max-width: 550px) {
             .form-row-2 { grid-template-columns: 1fr; }
         }
 
-        /* ROW STABILIZZATA PER DATA DI NASCITA ED ETÀ */
+        /* ROW DATA DI NASCITA ED ETÀ - RESA RESPONSIVE */
         .form-row-date-age {
             display: grid;
-            grid-template-columns: 1fr 100px;
+            grid-template-columns: minmax(0, 1fr) minmax(80px, 100px);
             gap: 12px;
             width: 100%;
             box-sizing: border-box;
@@ -323,9 +342,11 @@
             pointer-events: none;
         }
 
+        /* ====== FORM CONTROL BASE ====== */
         .form-control {
             width: 100%;
             min-width: 0;
+            max-width: 100%;
             height: 46px;
             padding: 0 12px;
             border: 1px solid #cbd5e1;
@@ -354,6 +375,23 @@
             background-color: #f8fafc;
         }
 
+        /* ====== FRECCIA CUSTOM DENTRO I SELECT ====== */
+        select.form-control {
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23003c82' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 18px 18px;
+            padding-right: 44px;
+            cursor: pointer;
+        }
+        select.form-control:focus {
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2387ceeb' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+        }
+        select.form-control:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
         /* LIVE VALIDATION STYLES */
         .form-control.is-valid {
             border-color: #10b981 !important;
@@ -362,6 +400,12 @@
         .form-control.is-invalid {
             border-color: #ef4444 !important;
             background-color: #fef2f2 !important;
+        }
+        select.form-control.is-valid,
+        select.form-control.is-invalid {
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 18px 18px;
         }
 
         .form-control.readonly-age {
@@ -485,6 +529,8 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
+            min-width: 0;
+            max-width: 100%;
         }
         .info-box {
             background: #ffffff;
@@ -492,6 +538,8 @@
             padding: 24px;
             border: 1px solid #e2e8f0;
             box-shadow: 0 4px 18px rgba(0, 60, 130, 0.05);
+            min-width: 0;
+            max-width: 100%;
         }
         .info-box h4 {
             font-size: 1.05rem;
@@ -518,6 +566,8 @@
             padding: 24px;
             border: 1px solid rgba(135, 206, 235, 0.3);
             box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            min-width: 0;
+            max-width: 100%;
         }
         .direct-email-box h4 {
             color: #87ceeb;
@@ -607,6 +657,7 @@
             transform: translateY(20px);
             transition: all 0.3s ease;
             pointer-events: none;
+            max-width: calc(100vw - 40px);
         }
         .toast-copy.show { opacity: 1; transform: translateY(0); }
 
@@ -804,7 +855,7 @@
 
         @media (max-width: 480px) {
             .form-row-date-age {
-                grid-template-columns: 1fr 90px;
+                grid-template-columns: minmax(0, 1fr) 88px;
                 gap: 8px;
             }
             .form-row-date-age label {
@@ -822,6 +873,7 @@
         @media (max-width: 600px) {
             .section-title { font-size: 1.45rem !important; text-align: center !important; }
             .contact-form-card { padding: 20px 16px; }
+            .contact-grid-container { padding: 0; }
         }
     </style>
 </head>
@@ -1919,7 +1971,6 @@
             return false;
         }
 
-        // Accetta Katakana (全角カタカナ)
         const kanaRegex = /^[\u30A0-\u30FF\u30FC\s]+$/;
         if (kanaRegex.test(val)) {
             if (errorEl) errorEl.style.display = 'none';
@@ -1984,36 +2035,54 @@
         }
     }
 
-    // VALIDAZIONE IN TEMPO REALE (LIVE VALIDATION UX)
+    // ==========================================
+    // LIVE VALIDATION — SOLO NOME, DATA DI NASCITA, EMAIL
+    // ==========================================
     function initLiveValidation() {
-        const inputsToValidate = document.querySelectorAll('#contactForm input[required], #contactForm select[required], #contactForm textarea[required]');
-        
-        inputsToValidate.forEach(input => {
-            const validateInput = () => {
-                if (input.type === 'checkbox') {
-                    if (input.checked) {
-                        input.classList.remove('is-invalid');
-                    } else {
-                        input.classList.add('is-invalid');
-                    }
-                    return;
-                }
+        const liveValidationIds = [
+            'last_name',
+            'first_name',
+            'birth_date',
+            'staff_birth_date',
+            'email'
+        ];
 
-                if (input.id === 'email') {
+        liveValidationIds.forEach(id => {
+            const input = document.getElementById(id);
+            if (!input) return;
+
+            const validateInput = () => {
+                // EMAIL
+                if (id === 'email') {
                     validateEmailInput(input, document.getElementById('email_error'));
                     return;
                 }
 
-                if (input.id === 'last_name_kana') {
-                    validateKanaInput(input, document.getElementById('last_name_kana_error'));
+                // DATA DI NASCITA
+                if (id === 'birth_date') {
+                    const ageErr = document.getElementById('age_error_player');
+                    const ageMsg = document.getElementById('age_error_player_msg');
+                    if (input.value) {
+                        validateAge(input, ageErr, ageMsg);
+                    } else {
+                        ageErr.style.display = 'none';
+                        input.classList.remove('is-valid', 'is-invalid');
+                    }
+                    return;
+                }
+                if (id === 'staff_birth_date') {
+                    const ageErr = document.getElementById('age_error_staff');
+                    const ageMsg = document.getElementById('age_error_staff_msg');
+                    if (input.value) {
+                        validateAge(input, ageErr, ageMsg);
+                    } else {
+                        ageErr.style.display = 'none';
+                        input.classList.remove('is-valid', 'is-invalid');
+                    }
                     return;
                 }
 
-                if (input.id === 'first_name_kana') {
-                    validateKanaInput(input, document.getElementById('first_name_kana_error'));
-                    return;
-                }
-
+                // NOME / COGNOME
                 if (input.value.trim() !== '') {
                     input.classList.remove('is-invalid');
                     input.classList.add('is-valid');
@@ -2024,9 +2093,10 @@
             };
 
             input.addEventListener('blur', validateInput);
-            input.addEventListener('change', validateInput);
             input.addEventListener('input', () => {
-                if (input.classList.contains('is-invalid')) validateInput();
+                if (input.classList.contains('is-invalid') || input.value.trim() !== '') {
+                    validateInput();
+                }
             });
         });
     }
@@ -2130,7 +2200,6 @@
         const yearSpan = document.getElementById('currentYear');
         if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-        // IMPOSTA LIMITE MAX PER DATA DI NASCITA (OGGI)
         const todayStr = new Date().toISOString().split('T')[0];
         const playerBirth = document.getElementById('birth_date');
         const staffBirth = document.getElementById('staff_birth_date');
@@ -2157,31 +2226,21 @@
             macroSelect.addEventListener('change', renderSubPositions);
         }
 
-        // CONTROL ETÀ E CALCOLO AUTOMATICO GIOCATORE
+        // CALCOLO ETÀ AUTOMATICO GIOCATORE
         const calcAgePlayer = document.getElementById('calc_age_player');
-        const playerAgeErr = document.getElementById('age_error_player');
-        const playerAgeMsg = document.getElementById('age_error_player_msg');
         if (playerBirth) {
-            playerBirth.addEventListener('change', () => {
-                updateAgeDisplay(playerBirth, calcAgePlayer);
-                validateAge(playerBirth, playerAgeErr, playerAgeMsg);
-            });
+            playerBirth.addEventListener('change', () => updateAgeDisplay(playerBirth, calcAgePlayer));
             playerBirth.addEventListener('input', () => updateAgeDisplay(playerBirth, calcAgePlayer));
         }
 
-        // CONTROL ETÀ E CALCOLO AUTOMATICO STAFF
+        // CALCOLO ETÀ AUTOMATICO STAFF
         const calcAgeStaff = document.getElementById('calc_age_staff');
-        const staffAgeErr = document.getElementById('age_error_staff');
-        const staffAgeMsg = document.getElementById('age_error_staff_msg');
         if (staffBirth) {
-            staffBirth.addEventListener('change', () => {
-                updateAgeDisplay(staffBirth, calcAgeStaff);
-                validateAge(staffBirth, staffAgeErr, staffAgeMsg);
-            });
+            staffBirth.addEventListener('change', () => updateAgeDisplay(staffBirth, calcAgeStaff));
             staffBirth.addEventListener('input', () => updateAgeDisplay(staffBirth, calcAgeStaff));
         }
 
-        // GESTIONE MODAL PRIVACY (APERTURA SOLTANTO SU CLICK DELL'UTENTE)
+        // MODAL PRIVACY
         const privacyModal = document.getElementById('privacyModal');
         const openPrivacyModalBtn = document.getElementById('openPrivacyModal');
         const privacyModalCloseBtn = document.getElementById('privacyModalCloseBtn');
@@ -2206,7 +2265,7 @@
             });
         }
 
-        // MODAL CONFERMA CLOSE HANDLERS
+        // MODAL CONFERMA
         const confirmModal = document.getElementById('confirmModal');
         const confirmModalCloseBtn = document.getElementById('confirmModalCloseBtn');
         if (confirmModalCloseBtn && confirmModal) {
@@ -2216,7 +2275,7 @@
             });
         }
 
-        // ESC KEY CLOSES OPEN MODALS
+        // ESC
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 if (privacyModal && privacyModal.classList.contains('show')) closePrivacy();
@@ -2224,7 +2283,7 @@
             }
         });
 
-        // VALIDAZIONE SUBMIT FORM ED INVIO PULITO BILINGUE A FORMSPREE
+        // SUBMIT
         const form = document.getElementById('contactForm');
         if (form) {
             form.addEventListener('submit', async (e) => {
@@ -2237,11 +2296,11 @@
                     return false;
                 }
 
-                // VALIDAZIONE KANA E EMAIL
                 const lastNameKana = document.getElementById('last_name_kana');
                 const firstNameKana = document.getElementById('first_name_kana');
                 const emailInput = document.getElementById('email');
 
+                // Validazione kana solo al submit (non live)
                 const isLastNameKanaValid = validateKanaInput(lastNameKana, document.getElementById('last_name_kana_error'));
                 const isFirstNameKanaValid = validateKanaInput(firstNameKana, document.getElementById('first_name_kana_error'));
                 const isEmailValid = validateEmailInput(emailInput, document.getElementById('email_error'));
@@ -2251,7 +2310,9 @@
                 if (!isEmailValid) { emailInput.focus(); return false; }
                 
                 if (category === 'trial') {
-                    const isAgeValid = validateAge(playerBirth, playerAgeErr, playerAgeMsg);
+                    const ageErr = document.getElementById('age_error_player');
+                    const ageMsg = document.getElementById('age_error_player_msg');
+                    const isAgeValid = validateAge(playerBirth, ageErr, ageMsg);
                     if (!isAgeValid) {
                         playerBirth.focus();
                         return false;
@@ -2268,7 +2329,9 @@
                         }
                     }
                 } else if (category === 'staff') {
-                    const isStaffAgeValid = validateAge(staffBirth, staffAgeErr, staffAgeMsg);
+                    const ageErr = document.getElementById('age_error_staff');
+                    const ageMsg = document.getElementById('age_error_staff_msg');
+                    const isStaffAgeValid = validateAge(staffBirth, ageErr, ageMsg);
                     if (!isStaffAgeValid) {
                         staffBirth.focus();
                         return false;
@@ -2277,7 +2340,6 @@
 
                 updateFormspreeHiddenFields();
 
-                // COSTRUZIONE PAYLOAD FORMSPREE CON SOLI CAMPI POPOLATI E ETICHETTE BILINGUI
                 const rawFormData = new FormData(form);
                 const payloadData = new FormData();
 
@@ -2297,7 +2359,6 @@
                     payloadData.append(bilingualKey, bilingualVal);
                 }
 
-                // INSERIMENTO ESPLICITO DELL'ETÀ CALCOLATA NELLA NOTIFICA
                 if (category === 'trial' && calcAgePlayer && calcAgePlayer.value && calcAgePlayer.value !== '--') {
                     payloadData.append("年齢 / Età", calcAgePlayer.value);
                 } else if (category === 'staff' && calcAgeStaff && calcAgeStaff.value && calcAgeStaff.value !== '--') {
@@ -2328,7 +2389,7 @@
                     }
                 } catch (error) {
                     console.error("Errore invio Formspree:", error);
-                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di connessione.' : 'Connection error.'));
+                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di接続.' : 'Connection error.'));
                 } finally {
                     if (submitBtn) submitBtn.disabled = false;
                 }
@@ -2339,7 +2400,7 @@
         updateSectionVisibility();
         updateFormspreeHiddenFields();
 
-        // GESTIONE COPIA EMAIL
+        // COPIA EMAIL
         const copyEmailBtn = document.getElementById('copyEmailBtn');
         const emailText = document.getElementById('emailText');
         const copyToast = document.getElementById('copyToast');
