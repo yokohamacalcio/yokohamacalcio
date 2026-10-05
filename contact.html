@@ -304,6 +304,25 @@
             font-weight: 800;
         }
 
+        /* CAMPO DATA CON ICONA CALENDARIO EVIDENTE */
+        .date-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .date-input-wrapper input[type="date"] {
+            padding-right: 38px;
+            cursor: pointer;
+        }
+        .date-input-wrapper .calendar-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #003c82;
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
         .form-control {
             width: 100%;
             min-width: 0;
@@ -362,7 +381,7 @@
             padding: 12px 14px;
         }
 
-        /* Dynamic Checkboxes for Sub-roles UX Migliorato */
+        /* Dynamic Checkboxes for Sub-roles UX Migliorato con FRECCE */
         .sub-pos-container {
             display: flex;
             flex-wrap: wrap;
@@ -391,6 +410,14 @@
             color: #00224a !important;
             font-weight: 700 !important;
             box-shadow: 0 2px 6px rgba(0, 60, 130, 0.15);
+        }
+        .checkbox-tag .tag-arrow {
+            color: #003c82;
+            font-size: 0.8rem;
+            transition: transform 0.2s ease;
+        }
+        .checkbox-tag.is-checked .tag-arrow {
+            color: #10b981;
         }
         .checkbox-tag input[type="checkbox"] {
             accent-color: #003c82;
@@ -948,39 +975,41 @@
                         </select>
                     </div>
 
-                    <!-- COGNOME E NOME -->
+                    <!-- COGNOME E NOME CON VALIDAZIONE KANJI/ROMAJI -->
                     <div class="form-row-2">
                         <div class="form-group">
                             <label for="last_name">
                                 <span data-i18n="form.last_name_label">姓</span>
                                 <span class="required-tag" data-i18n="form.required">必須</span>
                             </label>
-                            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="山田" required>
+                            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="山田 / Rossi" required>
                         </div>
                         <div class="form-group">
                             <label for="first_name">
                                 <span data-i18n="form.first_name_label">名</span>
                                 <span class="required-tag" data-i18n="form.required">必須</span>
                             </label>
-                            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="太郎" required>
+                            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="太郎 / Mario" required>
                         </div>
                     </div>
 
-                    <!-- KANA COGNOME E NOME -->
+                    <!-- KANA COGNOME E NOME (KATAKANA O ROMAJI PER STRANIERI) -->
                     <div class="form-row-2">
                         <div class="form-group">
                             <label for="last_name_kana">
-                                <span data-i18n="form.last_name_kana_label">セイ (フリガナ)</span>
+                                <span data-i18n="form.last_name_kana_label">セイ (フリガナ / Romaji)</span>
                                 <span class="required-tag" data-i18n="form.required">必須</span>
                             </label>
-                            <input type="text" id="last_name_kana" name="last_name_kana" class="form-control" placeholder="ヤマダ" required>
+                            <input type="text" id="last_name_kana" name="last_name_kana" class="form-control" placeholder="ヤマダ / Rossi" required>
+                            <div id="last_name_kana_error" class="error-banner" style="display:none;"><i class="fas fa-exclamation-triangle"></i> <span data-i18n="form.kana_error">カタカナまたは英字（Romaji）で入力してください。</span></div>
                         </div>
                         <div class="form-group">
                             <label for="first_name_kana">
-                                <span data-i18n="form.first_name_kana_label">メイ (フリガナ)</span>
+                                <span data-i18n="form.first_name_kana_label">メイ (フリガナ / Romaji)</span>
                                 <span class="required-tag" data-i18n="form.required">必須</span>
                             </label>
-                            <input type="text" id="first_name_kana" name="first_name_kana" class="form-control" placeholder="タロウ" required>
+                            <input type="text" id="first_name_kana" name="first_name_kana" class="form-control" placeholder="タロウ / Mario" required>
+                            <div id="first_name_kana_error" class="error-banner" style="display:none;"><i class="fas fa-exclamation-triangle"></i> <span data-i18n="form.kana_error">カタカナまたは英字（Romaji）で入力してください。</span></div>
                         </div>
                     </div>
 
@@ -991,13 +1020,14 @@
                             <span class="required-tag" data-i18n="form.required">必須</span>
                         </label>
                         <input type="email" id="email" name="email" class="form-control" placeholder="example@email.com" required>
+                        <div id="email_error" class="error-banner" style="display:none;"><i class="fas fa-exclamation-triangle"></i> <span data-i18n="form.email_error">有効なメールアドレスを入力してください。</span></div>
                     </div>
 
-                    <!-- CAMPI SPECIFICI DINAMICI PER SQUADRA (GIOCATORI) -->
-                    <div id="trialFieldsWrapper">
+                    <!-- CAMPI SPECIFICI DINAMICI PER SQUADRA (GIOCATORI) - NASCOSTI ALL'AVVIO -->
+                    <div id="trialFieldsWrapper" style="display: none;">
                         <div class="field-section-title"><i class="fas fa-running"></i> <span data-i18n="form.player_sec_title">選手情報</span></div>
                         
-                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ GIOCATORE CON GUIDA UX -->
+                        <!-- DATA DI NASCITA CON ICONA CALENDARIO E ETÀ AUTOMATICA -->
                         <div class="form-group">
                             <div class="form-row-date-age">
                                 <div>
@@ -1006,7 +1036,10 @@
                                         <span class="required-tag" data-i18n="form.required">必須</span>
                                         <small style="font-size:0.75rem; color:#64748b; font-weight:normal; margin-left:auto;" data-i18n="form.birth_date_hint">※年齢は自動計算されます</small>
                                     </label>
-                                    <input type="date" id="birth_date" name="birth_date" class="form-control">
+                                    <div class="date-input-wrapper">
+                                        <input type="date" id="birth_date" name="birth_date" class="form-control">
+                                        <i class="far fa-calendar-alt calendar-icon"></i>
+                                    </div>
                                 </div>
                                 <div>
                                     <label for="calc_age_player">
@@ -1021,7 +1054,7 @@
                             </div>
                         </div>
 
-                        <!-- LIVELLO ESPERIENZA (MANDATORIO) -->
+                        <!-- LIVELLO ESPERIENZA -->
                         <div class="form-group">
                             <label for="experience_level">
                                 <span data-i18n="form.exp_level_label">競技レベル・最高実績</span>
@@ -1060,7 +1093,7 @@
                             </select>
                         </div>
 
-                        <!-- RUOLI SPECIFICI DINAMICI (MULTIPLE CHOICE ULTRA-CHIARO) -->
+                        <!-- RUOLI SPECIFICI DINAMICI (SCELTA MULTIPLA CON FRECCE E EVIDENZIATORE) -->
                         <div class="form-group" id="subPositionWrapper" style="display: none;">
                             <label style="display:flex; justify-content:space-between; align-items:center;">
                                 <div>
@@ -1077,11 +1110,11 @@
                         </div>
                     </div>
 
-                    <!-- CAMPI SPECIFICI DINAMICI PER STAFF -->
+                    <!-- CAMPI SPECIFICI DINAMICI PER STAFF - NASCOSTI ALL'AVVIO -->
                     <div id="staffFieldsWrapper" style="display: none;">
                         <div class="field-section-title"><i class="fas fa-user-tie"></i> <span data-i18n="form.staff_sec_title">スタッフ応募情報</span></div>
 
-                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ STAFF -->
+                        <!-- DATA DI NASCITA E ETÀ STAFF CON CALENDARIO -->
                         <div class="form-group">
                             <div class="form-row-date-age">
                                 <div>
@@ -1090,7 +1123,10 @@
                                         <span class="required-tag" data-i18n="form.required">必須</span>
                                         <small style="font-size:0.75rem; color:#64748b; font-weight:normal; margin-left:auto;" data-i18n="form.birth_date_hint">※年齢は自動計算されます</small>
                                     </label>
-                                    <input type="date" id="staff_birth_date" name="staff_birth_date" class="form-control">
+                                    <div class="date-input-wrapper">
+                                        <input type="date" id="staff_birth_date" name="staff_birth_date" class="form-control">
+                                        <i class="far fa-calendar-alt calendar-icon"></i>
+                                    </div>
                                 </div>
                                 <div>
                                     <label for="calc_age_staff">
@@ -1130,7 +1166,7 @@
                         </div>
                     </div>
 
-                    <!-- CAMPI SPECIFICI DINAMICI PER PARTITE AMICHEVOLE (MATCH) -->
+                    <!-- CAMPI SPECIFICI DINAMICI PER PARTITE AMICHEVOLE - NASCOSTI ALL'AVVIO -->
                     <div id="matchFieldsWrapper" style="display: none;">
                         <div class="field-section-title"><i class="fas fa-futbol"></i> <span data-i18n="form.match_sec_title">対戦チーム情報</span></div>
 
@@ -1321,9 +1357,11 @@
             
             "form.last_name_label": "姓",
             "form.first_name_label": "名",
-            "form.last_name_kana_label": "セイ (フリガナ)",
-            "form.first_name_kana_label": "メイ (フリガナ)",
+            "form.last_name_kana_label": "セイ (フリガナ / Romaji)",
+            "form.first_name_kana_label": "メイ (フリガナ / Romaji)",
+            "form.kana_error": "カタカナまたは半角英字（Romaji）で入力してください。",
             "form.email_label": "メールアドレス",
+            "form.email_error": "有効なメールアドレスを入力してください。",
             
             "form.player_sec_title": "選手情報",
             "form.birth_date_label": "生年月日",
@@ -1412,9 +1450,11 @@
             
             "form.last_name_label": "Cognome",
             "form.first_name_label": "Nome",
-            "form.last_name_kana_label": "Cognome (Furigana / Kana)",
-            "form.first_name_kana_label": "Nome (Furigana / Kana)",
+            "form.last_name_kana_label": "Cognome (Furigana / Romaji)",
+            "form.first_name_kana_label": "Nome (Furigana / Romaji)",
+            "form.kana_error": "Inserisci in Katakana o caratteri alfabetici (Romaji).",
             "form.email_label": "Indirizzo Email",
+            "form.email_error": "Inserisci un indirizzo email valido.",
             
             "form.player_sec_title": "Informazioni Giocatore",
             "form.birth_date_label": "Data di Nascita",
@@ -1502,9 +1542,11 @@
             
             "form.last_name_label": "Last Name",
             "form.first_name_label": "First Name",
-            "form.last_name_kana_label": "Last Name (Furigana / Kana)",
-            "form.first_name_kana_label": "First Name (Furigana / Kana)",
+            "form.last_name_kana_label": "Last Name (Furigana / Romaji)",
+            "form.first_name_kana_label": "First Name (Furigana / Romaji)",
+            "form.kana_error": "Please enter in Katakana or Latin Alphabet (Romaji).",
             "form.email_label": "Email Address",
+            "form.email_error": "Please enter a valid email address.",
             
             "form.player_sec_title": "Player Details",
             "form.birth_date_label": "Date of Birth",
@@ -1750,11 +1792,15 @@
         let html = '';
         list.forEach(item => {
             const labelText = item[currentLang] || item['ja'];
-            const checkedAttr = (macroPos === 'GK') ? 'checked' : '';
-            const checkedClass = (macroPos === 'GK') ? 'is-checked' : '';
+            const isDefaultChecked = (macroPos === 'GK');
+            const checkedAttr = isDefaultChecked ? 'checked' : '';
+            const checkedClass = isDefaultChecked ? 'is-checked' : '';
+            const arrowIcon = isDefaultChecked ? 'fa-check' : 'fa-chevron-right';
+
             html += `
                 <label class="checkbox-tag ${checkedClass}">
                     <input type="checkbox" name="sub_positions[]" value="${item.id}" ${checkedAttr}>
+                    <i class="fas ${arrowIcon} tag-arrow"></i>
                     <span>${labelText}</span>
                 </label>
             `;
@@ -1762,11 +1808,24 @@
         container.innerHTML = html;
         wrapper.style.display = 'block';
 
-        // GESTIONE UX DINAMICA STATO CHECKBOX
+        // GESTIONE UX DINAMICA STATO CHECKBOX CON FRECCE E SPUNTE
         container.querySelectorAll('input[type="checkbox"]').forEach(chk => {
             chk.addEventListener('change', () => {
                 const parentTag = chk.closest('.checkbox-tag');
-                if (parentTag) parentTag.classList.toggle('is-checked', chk.checked);
+                const icon = parentTag ? parentTag.querySelector('.tag-arrow') : null;
+
+                if (parentTag) {
+                    parentTag.classList.toggle('is-checked', chk.checked);
+                }
+                if (icon) {
+                    if (chk.checked) {
+                        icon.classList.remove('fa-chevron-right');
+                        icon.classList.add('fa-check');
+                    } else {
+                        icon.classList.remove('fa-check');
+                        icon.classList.add('fa-chevron-right');
+                    }
+                }
 
                 const checkedSubs = container.querySelectorAll('input[name="sub_positions[]"]:checked');
                 const subErr = document.getElementById('sub_pos_error');
@@ -1775,9 +1834,11 @@
         });
     }
 
-    // TOGGLE SEZIONI DINAMICHE E ABILITAZIONE/DISABILITAZIONE CAMPI
+    // TOGGLE SEZIONI DINAMICHE: NASCONDE TUTTO FINCHÉ NON SI SELEZIONA UNA CATEGORIA
     function updateSectionVisibility() {
-        const category = document.getElementById('category').value;
+        const categorySelect = document.getElementById('category');
+        const category = categorySelect ? categorySelect.value : '';
+
         const playerWrapper = document.getElementById('trialFieldsWrapper');
         const staffWrapper = document.getElementById('staffFieldsWrapper');
         const matchWrapper = document.getElementById('matchFieldsWrapper');
@@ -1844,6 +1905,47 @@
         }
     }
 
+    // VALIDAZIONE KANAI / ROMAJI PER CAMPI KANA
+    function validateKanaInput(inputEl, errorEl) {
+        const val = inputEl.value.trim();
+        if (!val) {
+            if (errorEl) errorEl.style.display = 'none';
+            inputEl.classList.remove('is-valid', 'is-invalid');
+            return false;
+        }
+
+        // Accetta Katakana (全角カタカナ) oppure Romaji / Caratteri alfabetici ([a-zA-Z])
+        const kanaRomajiRegex = /^[\u30A0-\u30FF\u30FCa-zA-Z\s\.\'-]+$/;
+        if (kanaRomajiRegex.test(val)) {
+            if (errorEl) errorEl.style.display = 'none';
+            inputEl.classList.remove('is-invalid');
+            inputEl.classList.add('is-valid');
+            return true;
+        } else {
+            if (errorEl) errorEl.style.display = 'flex';
+            inputEl.classList.remove('is-valid');
+            inputEl.classList.add('is-invalid');
+            return false;
+        }
+    }
+
+    // VALIDAZIONE EMAIL STRICT
+    function validateEmailInput(inputEl, errorEl) {
+        const val = inputEl.value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(val)) {
+            if (errorEl) errorEl.style.display = 'none';
+            inputEl.classList.remove('is-invalid');
+            inputEl.classList.add('is-valid');
+            return true;
+        } else {
+            if (errorEl) errorEl.style.display = 'flex';
+            inputEl.classList.remove('is-valid');
+            inputEl.classList.add('is-invalid');
+            return false;
+        }
+    }
+
     // VERIFICA ETÀ FOOL-PROOF
     function validateAge(inputEl, errorBannerEl, errorMsgEl) {
         const val = inputEl.value;
@@ -1892,15 +1994,18 @@
                     return;
                 }
 
-                if (input.type === 'email') {
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (emailRegex.test(input.value.trim())) {
-                        input.classList.remove('is-invalid');
-                        input.classList.add('is-valid');
-                    } else {
-                        input.classList.remove('is-valid');
-                        input.classList.add('is-invalid');
-                    }
+                if (input.id === 'email') {
+                    validateEmailInput(input, document.getElementById('email_error'));
+                    return;
+                }
+
+                if (input.id === 'last_name_kana') {
+                    validateKanaInput(input, document.getElementById('last_name_kana_error'));
+                    return;
+                }
+
+                if (input.id === 'first_name_kana') {
+                    validateKanaInput(input, document.getElementById('first_name_kana_error'));
                     return;
                 }
 
@@ -2020,7 +2125,7 @@
         const yearSpan = document.getElementById('currentYear');
         if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-        // IMPOSTA LIMITE MAX PER DATA DI NASCITA (OGGI) PER PREVENIRE DATE FUTURE
+        // IMPOSTA LIMITE MAX PER DATA DI NASCITA (OGGI)
         const todayStr = new Date().toISOString().split('T')[0];
         const playerBirth = document.getElementById('birth_date');
         const staffBirth = document.getElementById('staff_birth_date');
@@ -2037,6 +2142,8 @@
             categorySelect.addEventListener('change', () => {
                 updateSectionVisibility();
                 updateFormspreeHiddenFields();
+                categorySelect.classList.remove('is-invalid');
+                categorySelect.classList.add('is-valid');
             });
         }
 
@@ -2124,6 +2231,19 @@
                     categorySelect.classList.add('is-invalid');
                     return false;
                 }
+
+                // VALIDAZIONE KANA E EMAIL
+                const lastNameKana = document.getElementById('last_name_kana');
+                const firstNameKana = document.getElementById('first_name_kana');
+                const emailInput = document.getElementById('email');
+
+                const isLastNameKanaValid = validateKanaInput(lastNameKana, document.getElementById('last_name_kana_error'));
+                const isFirstNameKanaValid = validateKanaInput(firstNameKana, document.getElementById('first_name_kana_error'));
+                const isEmailValid = validateEmailInput(emailInput, document.getElementById('email_error'));
+
+                if (!isLastNameKanaValid) { lastNameKana.focus(); return false; }
+                if (!isFirstNameKanaValid) { firstNameKana.focus(); return false; }
+                if (!isEmailValid) { emailInput.focus(); return false; }
                 
                 if (category === 'trial') {
                     const isAgeValid = validateAge(playerBirth, playerAgeErr, playerAgeMsg);
@@ -2203,7 +2323,7 @@
                     }
                 } catch (error) {
                     console.error("Errore invio Formspree:", error);
-                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di接続.' : 'Connection error.'));
+                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di connessione.' : 'Connection error.'));
                 } finally {
                     if (submitBtn) submitBtn.disabled = false;
                 }
