@@ -635,7 +635,6 @@
                     
                     <!-- CAMPI DINAMICI FORMSPREE -->
                     <input type="hidden" name="_subject" id="formspree_subject" value="[Yokohama Calcio] お問い合わせ / Nuovo Contatto">
-                    <input type="hidden" name="_autoresponse" id="formspree_autoresponse" value="">
                     <input type="text" name="_gotcha" style="display:none !important;" tabindex="-1" autocomplete="off">
 
                     <!-- TIPO DI RICHIESTA -->
@@ -1158,44 +1157,14 @@
         other: "[Yokohama Calcio] その他のお問い合わせ / Altra Richiesta"
     };
 
-    // Messaggi di autorisposta automatica per Formspree in base alla lingua
-    const autoresponseMessages = {
-        ja: "Yokohama Calcioへのお問い合わせありがとうございます。\nメッセージを受信いたしました。内容を確認の上、担当者より通常24〜48時間以内にご連絡いたします。",
-        it: "Grazie per aver contattato Yokohama Calcio!\nAbbiamo ricevuto il tuo messaggio. Un nostro responsabile ti risponderà entro 24-48 ore.",
-        en: "Thank you for contacting Yokohama Calcio!\nWe have received your message and will get back to you within 24-48 hours."
-    };
-
-    // Endpoint Google Forms per invio silenzioso dello storico
-    const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSe3SbRIn556RaXSo0w0e7PEcwQoYib-CmvE1P7eihr-9f99lg/formResponse';
-
     function updateFormspreeHiddenFields() {
         const categorySelect = document.getElementById('category');
         const subjectInput = document.getElementById('formspree_subject');
-        const autoresponseInput = document.getElementById('formspree_autoresponse');
 
         if (categorySelect && subjectInput) {
             const selectedCat = categorySelect.value;
             subjectInput.value = categorySubjects[selectedCat] || "[Yokohama Calcio] お問い合わせ / Nuovo Contatto";
         }
-
-        if (autoresponseInput) {
-            autoresponseInput.value = autoresponseMessages[currentLang] || autoresponseMessages['ja'];
-        }
-    }
-
-    function submitToGoogleFormsSilently(formData) {
-        const googleData = new URLSearchParams();
-        const categoryVal = formData.get('category') || '';
-        const categoryLabel = categorySubjects[categoryVal] || categoryVal;
-
-        googleData.append('entry.1907111646', categoryLabel);
-
-        fetch(GOOGLE_FORM_ACTION_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: googleData
-        }).catch(err => console.error("Errore salvataggio Google Forms:", err));
     }
 
     function calculateAge(birthDateStr) {
@@ -1489,7 +1458,7 @@
             staffBirth.addEventListener('change', () => validateAge(staffBirth, staffAgeErr, staffAgeMsg));
         }
 
-        // VALIDAZIONE SUBMIT FORM E DOPPIA SPEDIZIONE
+        // VALIDAZIONE SUBMIT FORM ED INVIO FORMSPREE
         const form = document.getElementById('contactForm');
         if (form) {
             form.addEventListener('submit', async (e) => {
@@ -1525,11 +1494,6 @@
                 updateFormspreeHiddenFields();
 
                 const formData = new FormData(form);
-
-                // 1. Invia silenziosamente a Google Forms per lo storico
-                submitToGoogleFormsSilently(formData);
-
-                // 2. Invia a Formspree tramite AJAX/fetch
                 const submitBtn = document.getElementById('submitBtn');
                 if (submitBtn) submitBtn.disabled = true;
 
@@ -1550,7 +1514,7 @@
                     }
                 } catch (error) {
                     console.error("Errore invio Formspree:", error);
-                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di connessione.' : 'Connection error.'));
+                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di接続.' : 'Connection error.'));
                 } finally {
                     if (submitBtn) submitBtn.disabled = false;
                 }
