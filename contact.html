@@ -279,7 +279,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            min-width: 0; /* Previene l'overflow della griglia */
+            min-width: 0;
         }
         .form-row-date-age label {
             min-height: 24px;
@@ -304,11 +304,10 @@
             font-weight: 800;
         }
 
-        /* STILE UNIFORME PER TUTTI I CAMPI FORM (ALTEZZA E BOX-SIZING UNIFORMI) */
         .form-control {
             width: 100%;
             min-width: 0;
-            height: 46px; /* Altezza identica per tutti i campi */
+            height: 46px;
             padding: 0 12px;
             border: 1px solid #cbd5e1;
             border-radius: 8px;
@@ -329,7 +328,6 @@
             box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.25);
         }
 
-        /* REGOLAZIONE SPECIFICA PER INPUT DATE SUI VARI BROWSER */
         input[type="date"].form-control {
             height: 46px;
             padding: 0 10px;
@@ -347,7 +345,6 @@
             background-color: #fef2f2 !important;
         }
 
-        /* CAMPO ETÀ NON MODIFICABILE COMPATTO CON ALTEZZA ALLINEATA */
         .form-control.readonly-age {
             height: 46px;
             background-color: #e2e8f0;
@@ -412,7 +409,7 @@
             color: #334155;
             cursor: pointer;
             font-weight: 600;
-            line-height: 1.4;
+            line-height: 1.45;
         }
         .privacy-checkbox-label input[type="checkbox"] {
             accent-color: #003c82;
@@ -421,6 +418,16 @@
             margin-top: 2px;
             flex-shrink: 0;
             cursor: pointer;
+        }
+        .privacy-link {
+            color: #003c82;
+            text-decoration: underline;
+            font-weight: 700;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .privacy-link:hover {
+            color: #87ceeb;
         }
 
         .field-section-title {
@@ -656,6 +663,107 @@
             color: #00224a;
         }
 
+        /* --- MODAL PRIVACY INFORMATIVA (NON INVASIVO) --- */
+        .privacy-modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0, 10, 25, 0.75);
+            backdrop-filter: blur(5px);
+            z-index: 10002;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .privacy-modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .privacy-modal-card {
+            background: #ffffff;
+            border-radius: 20px;
+            max-width: 620px;
+            width: 100%;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            border: 2px solid #87ceeb;
+            overflow: hidden;
+        }
+        .privacy-modal-overlay.show .privacy-modal-card {
+            transform: translateY(0);
+        }
+        .privacy-modal-header {
+            background: linear-gradient(135deg, #00224a 0%, #001229 100%);
+            color: #ffffff;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #87ceeb;
+        }
+        .privacy-modal-header h3 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffffff;
+        }
+        .privacy-modal-close-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .privacy-modal-close-btn:hover {
+            background: #87ceeb;
+            color: #00224a;
+        }
+        .privacy-modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            color: #334155;
+            line-height: 1.65;
+            text-align: left;
+        }
+        .privacy-modal-body h4 {
+            color: #00224a;
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-top: 16px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .privacy-modal-body h4:first-child { margin-top: 0; }
+        .privacy-modal-body p { margin-bottom: 12px; }
+        .privacy-modal-footer {
+            padding: 16px 24px;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            text-align: right;
+        }
+
         @media (max-width: 480px) {
             .form-row-date-age {
                 grid-template-columns: 1fr 90px;
@@ -663,6 +771,13 @@
             }
             .form-row-date-age label {
                 font-size: 0.85rem;
+            }
+            .privacy-modal-card {
+                max-height: 90vh;
+            }
+            .privacy-modal-body {
+                padding: 16px;
+                font-size: 0.86rem;
             }
         }
 
@@ -874,7 +989,7 @@
                     <div id="trialFieldsWrapper">
                         <div class="field-section-title"><i class="fas fa-running"></i> <span data-i18n="form.player_sec_title">選手情報</span></div>
                         
-                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ GIOCATORE (PERFETTAMENTE ALINEATI) -->
+                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ GIOCATORE -->
                         <div class="form-group">
                             <div class="form-row-date-age">
                                 <div>
@@ -954,7 +1069,7 @@
                     <div id="staffFieldsWrapper" style="display: none;">
                         <div class="field-section-title"><i class="fas fa-user-tie"></i> <span data-i18n="form.staff_sec_title">スタッフ応募情報</span></div>
 
-                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ STAFF (PERFETTAMENTE ALINEATI) -->
+                        <!-- DATA DI NASCITA E CALCOLO AUTOMATICO ETÀ STAFF -->
                         <div class="form-group">
                             <div class="form-row-date-age">
                                 <div>
@@ -1049,11 +1164,13 @@
                         <textarea id="message" name="message" class="form-control" placeholder="ご質問や体験参加のご希望日時、グラウンド手配状況などをご記入ください。" required></textarea>
                     </div>
 
-                    <!-- SPUNTA TRATTAMENTO DATI PERSONALI (PRIVACY) -->
+                    <!-- SPUNTA TRATTAMENTO DATI PERSONALI CON LINK PRIVACY POLICY -->
                     <div class="privacy-box">
                         <label class="privacy-checkbox-label" for="privacy_agree">
                             <input type="checkbox" id="privacy_agree" name="privacy_agree" required>
-                            <span data-i18n="form.privacy_label">個人情報の取り扱い（プライバシーポリシー）に同意する</span>
+                            <span>
+                                <span data-i18n="form.privacy_prefix">個人情報の取り扱い（</span><span class="privacy-link" id="openPrivacyModal" data-i18n="form.privacy_link">プライバシーポリシー</span><span data-i18n="form.privacy_suffix">）に同意する</span>
+                            </span>
                         </label>
                     </div>
 
@@ -1103,7 +1220,7 @@
     </div>
 </section>
 
-<!-- MODAL DI CONFERMA CUSTOM -->
+<!-- MODAL DI CONFERMA INVIO CUSTOM -->
 <div class="confirm-modal-overlay" id="confirmModal">
     <div class="confirm-modal-card">
         <div class="confirm-modal-icon">
@@ -1114,6 +1231,40 @@
             お問い合わせありがとうございます。メッセージを受け付けました。<br>担当者より通常24〜48時間以内にご連絡いたします。
         </p>
         <button class="confirm-modal-btn" id="confirmModalCloseBtn" data-i18n="modal.btn">OK</button>
+    </div>
+</div>
+
+<!-- MODAL INFORMATIVA PRIVACY (NON INVASIVO) -->
+<div class="privacy-modal-overlay" id="privacyModal">
+    <div class="privacy-modal-card">
+        <div class="privacy-modal-header">
+            <h3><i class="fas fa-user-shield"></i> <span data-i18n="privacy.title">プライバシーポリシー</span></h3>
+            <button class="privacy-modal-close-btn" id="privacyModalCloseBtn" aria-label="Chiudi"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="privacy-modal-body">
+            <h4><i class="fas fa-info-circle"></i> <span data-i18n="privacy.sec1_title">1. 個人情報の収集目的</span></h4>
+            <p data-i18n="privacy.sec1_text">
+                横浜カルチョ（Yokohama Calcio）は、体験練習への参加申し込み、スタッフ応募、対戦相手の募集、およびクラブに関するお問い合わせに対応する目的でのみ、氏名、メールアドレス、生年月日、サッカー経歴等の個人情報を収集いたします。
+            </p>
+
+            <h4><i class="fas fa-lock"></i> <span data-i18n="privacy.sec2_title">2. 個人情報の管理と安全保護</span></h4>
+            <p data-i18n="privacy.sec2_text">
+                収集した個人情報は適切な安全対策を講じて管理し、不正アクセス、紛失、改ざん、漏洩などの防止に努めます。
+            </p>
+
+            <h4><i class="fas fa-handshake"></i> <span data-i18n="privacy.sec3_title">3. 第三者への開示・提供の禁止</span></h4>
+            <p data-i18n="privacy.sec3_text">
+                当クラブは、法令に基づく場合やご本人の同意がある場合を除き、収集した個人情報を第三者に開示・提供することは一切ありません。
+            </p>
+
+            <h4><i class="fas fa-user-edit"></i> <span data-i18n="privacy.sec4_title">4. ご本人の権利（照会・修正・削除）</span></h4>
+            <p data-i18n="privacy.sec4_text">
+                ご提供いただいた個人情報の確認、修正、または削除をご希望の場合は、当クラブのお問い合わせ窓口（yokohamacalcio@gmail.com）までご連絡ください。速やかに対応いたします。
+            </p>
+        </div>
+        <div class="privacy-modal-footer">
+            <button class="confirm-modal-btn" id="privacyModalOkBtn" style="padding: 8px 24px;" data-i18n="privacy.close_btn">閉じる</button>
+        </div>
     </div>
 </div>
 
@@ -1196,7 +1347,9 @@
             "form.match_2nd_kit_label": "2ndユニフォーム（シャツ・パンツ・ソックス）",
 
             "form.message_label": "メッセージ内容",
-            "form.privacy_label": "個人情報の取り扱い（プライバシーポリシー）に同意する",
+            "form.privacy_prefix": "個人情報の取り扱い（",
+            "form.privacy_link": "プライバシーポリシー",
+            "form.privacy_suffix": "）に同意する",
             "form.submit_btn": "送信する",
 
             "info.direct_title": "直接メールで連絡",
@@ -1210,7 +1363,18 @@
 
             "modal.title": "送信が完了しました",
             "modal.text": "お問い合わせありがとうございます。メッセージを受け付けました。<br>担当者より通常24〜48時間以内にご連絡いたします。",
-            "modal.btn": "OK"
+            "modal.btn": "OK",
+
+            "privacy.title": "プライバシーポリシー",
+            "privacy.sec1_title": "1. 個人情報の収集目的",
+            "privacy.sec1_text": "横浜カルチョ（Yokohama Calcio）は、体験練習への参加申し込み、スタッフ応募、対戦相手の募集、およびクラブに関するお問い合わせに対応する目的でのみ、氏名、メールアドレス、生年月日、サッカー経歴等の個人情報を収集いたします。",
+            "privacy.sec2_title": "2. 個人情報の管理と安全保護",
+            "privacy.sec2_text": "収集した個人情報は適切な安全対策を講じて管理し、不正アクセス、紛失、改ざん、漏洩などの防止に努めます。",
+            "privacy.sec3_title": "3. 第三者への開示・提供の禁止",
+            "privacy.sec3_text": "当クラブは、法令に基づく場合やご本人の同意がある場合を除き、収集した個人情報を第三者に開示・提供することは一切ありません。",
+            "privacy.sec4_title": "4. ご本人の権利（照会・修正・削除）",
+            "privacy.sec4_text": "ご提供いただいた個人情報の確認、修正、または削除をご希望の場合は、当クラブのお問い合わせ窓口（yokohamacalcio@gmail.com）までご連絡ください。速やかに対応いたします。",
+            "privacy.close_btn": "閉じる"
         },
         it: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "SQUADRA",
@@ -1271,7 +1435,9 @@
             "form.match_2nd_kit_label": "Divisa 2nd (Maglia - Pantaloni - Calze)",
 
             "form.message_label": "Messaggio",
-            "form.privacy_label": "Acconsento al trattamento dei dati personali (Privacy Policy)",
+            "form.privacy_prefix": "Acconsento al trattamento dei dati (",
+            "form.privacy_link": "Informativa sulla Privacy",
+            "form.privacy_suffix": ")",
             "form.submit_btn": "Invia Messaggio",
 
             "info.direct_title": "Email Diretta",
@@ -1285,7 +1451,18 @@
 
             "modal.title": "Messaggio Inviato!",
             "modal.text": "Grazie per averci contattato. Abbiamo ricevuto la tua richiesta.<br>Un nostro responsabile ti risponderà entro 24-48 ore.",
-            "modal.btn": "OK"
+            "modal.btn": "OK",
+
+            "privacy.title": "Informativa sulla Privacy",
+            "privacy.sec1_title": "1. Finalità della raccolta dati",
+            "privacy.sec1_text": "Yokohama Calcio raccoglie e tratta i dati personali (nome, email, data di nascita, esperienza calcistica) esclusivamente per la gestione delle richieste di allenamento di prova, candidature nello staff, organizzazione amichevoli e contatti col club.",
+            "privacy.sec2_title": "2. Sicurezza e gestione dei dati",
+            "privacy.sec2_text": "I dati raccolti sono custoditi con adeguate misure di sicurezza per prevenirne l'accesso non autorizzato, la perdita, la modifica o la diffusione indiscreta.",
+            "privacy.sec3_title": "3. Divieto di cessione a terzi",
+            "privacy.sec3_text": "Il club non cederà né comunicherà mai i tuoi dati personali a terzi, salvo esplicita autorizzazione o per adempimenti di legge.",
+            "privacy.sec4_title": "4. Diritti dell'interessato",
+            "privacy.sec4_text": "Puoi richiedere in qualsiasi momento la consultazione, rettifica o cancellazione dei tuoi dati personali scrivendo a: yokohamacalcio@gmail.com.",
+            "privacy.close_btn": "Chiudi"
         },
         en: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "TEAM",
@@ -1345,7 +1522,9 @@
             "form.match_2nd_kit_label": "2nd Kit (Shirt - Shorts - Socks)",
 
             "form.message_label": "Message",
-            "form.privacy_label": "I agree to the processing of personal data (Privacy Policy)",
+            "form.privacy_prefix": "I agree to the processing of personal data (",
+            "form.privacy_link": "Privacy Policy",
+            "form.privacy_suffix": ")",
             "form.submit_btn": "Send Message",
 
             "info.direct_title": "Direct Email",
@@ -1359,7 +1538,18 @@
 
             "modal.title": "Message Sent!",
             "modal.text": "Thank you for reaching out. We have received your message.<br>We will respond to you within 24-48 hours.",
-            "modal.btn": "OK"
+            "modal.btn": "OK",
+
+            "privacy.title": "Privacy Policy",
+            "privacy.sec1_title": "1. Purpose of Data Collection",
+            "privacy.sec1_text": "Yokohama Calcio collects personal information (name, email, date of birth, football history) strictly for processing trial applications, staff candidacies, friendly match organization, and general club communications.",
+            "privacy.sec2_title": "2. Data Security & Protection",
+            "privacy.sec2_text": "Collected data is stored securely using appropriate technical measures to prevent unauthorized access, loss, alteration, or disclosure.",
+            "privacy.sec3_title": "3. No Third-Party Disclosure",
+            "privacy.sec3_text": "The club will never disclose or share your personal data with third parties without explicit consent or legal requirement.",
+            "privacy.sec4_title": "4. Your Rights (Access, Correction, Deletion)",
+            "privacy.sec4_text": "You may request access, correction, or deletion of your personal data at any time by contacting us at: yokohamacalcio@gmail.com.",
+            "privacy.close_btn": "Close"
         }
     };
 
@@ -1831,6 +2021,31 @@
             staffBirth.addEventListener('input', () => updateAgeDisplay(staffBirth, calcAgeStaff));
         }
 
+        // GESTIONE MODAL PRIVACY (APERTURA SOLTANTO SU SUCCESSO / CLICK DELL'UTENTE)
+        const privacyModal = document.getElementById('privacyModal');
+        const openPrivacyModalBtn = document.getElementById('openPrivacyModal');
+        const privacyModalCloseBtn = document.getElementById('privacyModalCloseBtn');
+        const privacyModalOkBtn = document.getElementById('privacyModalOkBtn');
+
+        function openPrivacy() { if (privacyModal) privacyModal.classList.add('show'); }
+        function closePrivacy() { if (privacyModal) privacyModal.classList.remove('show'); }
+
+        if (openPrivacyModalBtn) {
+            openPrivacyModalBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                openPrivacy();
+            });
+        }
+
+        if (privacyModalCloseBtn) privacyModalCloseBtn.addEventListener('click', closePrivacy);
+        if (privacyModalOkBtn) privacyModalOkBtn.addEventListener('click', closePrivacy);
+        if (privacyModal) {
+            privacyModal.addEventListener('click', (e) => {
+                if (e.target === privacyModal) closePrivacy();
+            });
+        }
+
         // MODAL CONFERMA CLOSE HANDLERS
         const confirmModal = document.getElementById('confirmModal');
         const confirmModalCloseBtn = document.getElementById('confirmModalCloseBtn');
@@ -1840,6 +2055,14 @@
                 if (e.target === confirmModal) confirmModal.classList.remove('show');
             });
         }
+
+        // ESC KEY CLOSES OPEN MODALS
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (privacyModal && privacyModal.classList.contains('show')) closePrivacy();
+                if (confirmModal && confirmModal.classList.contains('show')) confirmModal.classList.remove('show');
+            }
+        });
 
         // VALIDAZIONE SUBMIT FORM ED INVIO PULITO BILINGUE A FORMSPREE
         const form = document.getElementById('contactForm');
@@ -1926,7 +2149,7 @@
                     }
                 } catch (error) {
                     console.error("Errore invio Formspree:", error);
-                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di connessione.' : 'Connection error.'));
+                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di接続 connection.' : 'Connection error.'));
                 } finally {
                     if (submitBtn) submitBtn.disabled = false;
                 }
