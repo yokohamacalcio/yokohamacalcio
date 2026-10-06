@@ -268,6 +268,15 @@
             box-sizing: border-box;
         }
 
+        /* Animazione comparsa form dinamico */
+        #dynamicFormContainer {
+            animation: fadeIn 0.4s ease forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .form-group {
             margin-bottom: 20px;
             display: flex;
@@ -355,7 +364,7 @@
             font-family: inherit;
             color: #1e293b;
             background: #f8fafc;
-            /* ATTENZIONE: Transizione selettiva per EVITARE il glitch delle frecce SVG sdoppiate */
+            /* Transizione selettiva per EVITARE il glitch delle frecce SVG sdoppiate */
             transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
             box-sizing: border-box;
             -webkit-appearance: none;
@@ -384,7 +393,6 @@
             background-size: 18px 18px;
             padding-right: 44px;
             cursor: pointer;
-            /* Fix overflow e testi spezzati */
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
@@ -395,6 +403,7 @@
         select.form-control:disabled {
             cursor: not-allowed;
             opacity: 0.6;
+            background-color: #e2e8f0;
         }
         select::-ms-expand {
             display: none;
@@ -436,11 +445,11 @@
         }
         .checkbox-tag {
             display: inline-flex;
-            align-items: center;
-            gap: 10px;
+            align-items: flex-start; /* Risolve il problema del wrap e allinea al top */
+            gap: 8px;
             background: #f1f5f9;
             border: 1.5px solid #cbd5e1;
-            padding: 10px 16px;
+            padding: 10px 14px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 0.9rem;
@@ -448,6 +457,11 @@
             color: #334155;
             transition: all 0.2s ease;
             user-select: none;
+            white-space: normal; /* Permette al testo di andare a capo */
+            word-break: break-word;
+            height: auto;
+            line-height: 1.35;
+            max-width: 100%;
         }
         .checkbox-tag:hover {
             background: #e2e8f0;
@@ -463,6 +477,8 @@
         .checkbox-tag .tag-arrow {
             color: #003c82;
             font-size: 0.85rem;
+            margin-top: 3px; /* Allinea icona con la prima riga di testo */
+            flex-shrink: 0;  /* Evita che l'icona si schiacci */
             transition: transform 0.2s ease, color 0.2s ease;
         }
         .checkbox-tag.is-checked .tag-arrow {
@@ -470,10 +486,10 @@
             transform: scale(1.1);
         }
         .checkbox-tag input[type="checkbox"] {
-            accent-color: #003c82;
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
+            display: none; /* Nascosto, usiamo l'icona e l'area cliccabile */
+        }
+        .checkbox-tag span {
+            display: inline-block;
         }
 
         /* PRIVACY CHECKBOX BOX */
@@ -524,6 +540,36 @@
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        /* Banner errore Globale Custom */
+        .global-error-banner {
+            background: #fef2f2;
+            border: 2px solid #ef4444;
+            color: #b91c1c;
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+        }
+
+        .error-banner {
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            color: #b91c1c;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
         }
 
         /* CARD INFORMAZIONI E DIRECT MAIL */
@@ -633,7 +679,6 @@
             width: 100%;
             transition: background 0.2s ease, transform 0.1s ease;
             box-shadow: 0 4px 12px rgba(0, 60, 130, 0.2);
-            margin-top: 10px;
         }
         .submit-btn:hover {
             background: #002b5c;
@@ -662,20 +707,6 @@
             max-width: calc(100vw - 40px);
         }
         .toast-copy.show { opacity: 1; transform: translateY(0); }
-
-        .error-banner {
-            background: #fef2f2;
-            border: 1px solid #fca5a5;
-            color: #b91c1c;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            display: none;
-            align-items: center;
-            gap: 8px;
-            margin-top: 6px;
-        }
 
         /* --- MODAL DI CONFERMA CUSTOM --- */
         .confirm-modal-overlay {
@@ -754,7 +785,7 @@
             color: #00224a;
         }
 
-        /* --- MODAL PRIVACY INFORMATIVA (NON INVASIVO) --- */
+        /* --- MODAL PRIVACY INFORMATIVA --- */
         .privacy-modal-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -771,10 +802,7 @@
             pointer-events: none;
             transition: opacity 0.3s ease;
         }
-        .privacy-modal-overlay.show {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .privacy-modal-overlay.show { opacity: 1; pointer-events: auto; }
         .privacy-modal-card {
             background: #ffffff;
             border-radius: 20px;
@@ -789,9 +817,7 @@
             border: 2px solid #87ceeb;
             overflow: hidden;
         }
-        .privacy-modal-overlay.show .privacy-modal-card {
-            transform: translateY(0);
-        }
+        .privacy-modal-overlay.show .privacy-modal-card { transform: translateY(0); }
         .privacy-modal-header {
             background: linear-gradient(135deg, #00224a 0%, #001229 100%);
             color: #ffffff;
@@ -802,57 +828,28 @@
             border-bottom: 2px solid #87ceeb;
         }
         .privacy-modal-header h3 {
-            font-size: 1.15rem;
-            font-weight: 800;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #ffffff;
+            font-size: 1.15rem; font-weight: 800; margin: 0;
+            display: flex; align-items: center; gap: 10px; color: #ffffff;
         }
         .privacy-modal-close-btn {
             background: rgba(255, 255, 255, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            color: #ffffff;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            font-size: 1.1rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: #ffffff; width: 34px; height: 34px; border-radius: 50%;
+            font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
             transition: all 0.2s ease;
         }
-        .privacy-modal-close-btn:hover {
-            background: #87ceeb;
-            color: #00224a;
-        }
+        .privacy-modal-close-btn:hover { background: #87ceeb; color: #00224a; }
         .privacy-modal-body {
-            padding: 24px;
-            overflow-y: auto;
-            font-size: 0.9rem;
-            color: #334155;
-            line-height: 1.65;
-            text-align: left;
+            padding: 24px; overflow-y: auto; font-size: 0.9rem; color: #334155; line-height: 1.65; text-align: left;
         }
         .privacy-modal-body h4 {
-            color: #00224a;
-            font-size: 0.95rem;
-            font-weight: 800;
-            margin-top: 16px;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            color: #00224a; font-size: 0.95rem; font-weight: 800; margin-top: 16px; margin-bottom: 6px;
+            display: flex; align-items: center; gap: 6px;
         }
         .privacy-modal-body h4:first-child { margin-top: 0; }
         .privacy-modal-body p { margin-bottom: 12px; }
         .privacy-modal-footer {
-            padding: 16px 24px;
-            background: #f8fafc;
-            border-top: 1px solid #e2e8f0;
-            text-align: right;
+            padding: 16px 24px; background: #f8fafc; border-top: 1px solid #e2e8f0; text-align: right;
         }
 
         /* --- PREVENZIONE ZOOM E TESTI SPEZZATI SU MOBILE --- */
@@ -865,16 +862,9 @@
                 grid-template-columns: minmax(0, 1fr) 88px;
                 gap: 8px;
             }
-            .form-row-date-age label {
-                font-size: 0.85rem;
-            }
-            .privacy-modal-card {
-                max-height: 90vh;
-            }
-            .privacy-modal-body {
-                padding: 16px;
-                font-size: 0.86rem;
-            }
+            .form-row-date-age label { font-size: 0.85rem; }
+            .privacy-modal-card { max-height: 90vh; }
+            .privacy-modal-body { padding: 16px; font-size: 0.86rem; }
         }
 
         @media (max-width: 600px) {
@@ -1014,15 +1004,13 @@
 
         <div class="contact-grid-container">
             
-            <!-- MODULO DI CONTATTO NATIVO -->
             <div class="contact-form-card">
-                <form id="contactForm" action="https://formspree.io/f/xeaoqkbl" method="POST">
+                <form id="contactForm" action="https://formspree.io/f/xeaoqkbl" method="POST" novalidate>
                     
-                    <!-- CAMPI DINAMICI FORMSPREE -->
                     <input type="hidden" name="_subject" id="formspree_subject" value="[Yokohama Calcio] お問い合わせ / Nuovo Contatto">
                     <input type="text" name="_gotcha" style="display:none !important;" tabindex="-1" autocomplete="off">
 
-                    <!-- TIPO DI RICHIESTA CON SELEZIONE INIZIALE "SCEGLI" -->
+                    <!-- SELEZIONE INIZIALE (Sempre visibile) -->
                     <div class="form-group">
                         <label for="category">
                             <span data-i18n="form.category_label">お問い合わせ種別</span>
@@ -1038,259 +1026,295 @@
                         </select>
                     </div>
 
-                    <!-- COGNOME E NOME -->
-                    <div class="form-row-2">
-                        <div class="form-group">
-                            <label for="last_name">
-                                <span data-i18n="form.last_name_label">姓</span>
-                                <span class="required-tag" data-i18n="form.required">必須</span>
-                            </label>
-                            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="山田" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="first_name">
-                                <span data-i18n="form.first_name_label">名</span>
-                                <span class="required-tag" data-i18n="form.required">必須</span>
-                            </label>
-                            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="太郎" required>
-                        </div>
-                    </div>
-
-                    <!-- KANA COGNOME E NOME (FURIGANA KATAKANA) -->
-                    <div class="form-row-2">
-                        <div class="form-group">
-                            <label for="last_name_kana">
-                                <span data-i18n="form.last_name_kana_label">セイ (フリガナ)</span>
-                                <span class="required-tag" data-i18n="form.required">必須</span>
-                            </label>
-                            <input type="text" id="last_name_kana" name="last_name_kana" class="form-control" placeholder="ヤマダ" required>
-                            <div id="last_name_kana_error" class="error-banner" style="display:none;"><i class="fas fa-exclamation-triangle"></i> <span data-i18n="form.kana_error">全角カタカナで入力してください。</span></div>
-                        </div>
-                        <div class="form-group">
-                            <label for="first_name_kana">
-                                <span data-i18n="form.first_name_kana_label">メイ (フリガナ)</span>
-                                <span class="required-tag" data-i18n="form.required">必須</span>
-                            </label>
-                            <input type="text" id="first_name_kana" name="first_name_kana" class="form-control" placeholder="タロウ" required>
-                            <div id="first_name_kana_error" class="error-banner" style="display:none;"><i class="fas fa-exclamation-triangle"></i> <span data-i18n="form.kana_error">全角カタカナで入力してください。</span></div>
-                        </div>
-                    </div>
-
-                    <!-- EMAIL -->
-                    <div class="form-group">
-                        <label for="email">
-                            <span data-i18n="form.email_label">メールアドレス</span>
-                            <span class="required-tag" data-i18n="form.required">必須</span>
-                        </label>
-                        <input type="email" id="email" name="email" class="form-control" placeholder="example@email.com" required>
-                        <div id="email_error" class="error-banner" style="display:none;"><i class="fas fa-exclamation-triangle"></i> <span data-i18n="form.email_error">有効なメールアドレスを入力してください。</span></div>
-                    </div>
-
-                    <!-- CAMPI SPECIFICI DINAMICI PER SQUADRA (GIOCATORI) - NASCOSTI ALL'AVVIO -->
-                    <div id="trialFieldsWrapper" style="display: none;">
-                        <div class="field-section-title"><i class="fas fa-running"></i> <span data-i18n="form.player_sec_title">選手情報</span></div>
+                    <!-- BLOCCO DINAMICO: Nascosto finché non si sceglie una categoria -->
+                    <div id="dynamicFormContainer" style="display: none;">
                         
-                        <!-- DATA DI NASCITA CON ICONA CALENDARIO E ETÀ AUTOMATICA -->
-                        <div class="form-group">
-                            <div class="form-row-date-age">
-                                <div>
-                                    <label for="birth_date">
-                                        <span data-i18n="form.birth_date_label">生年月日</span>
-                                        <span class="required-tag" data-i18n="form.required">必須</span>
-                                        <small style="font-size:0.75rem; color:#64748b; font-weight:normal; margin-left:auto;" data-i18n="form.birth_date_hint">※年齢は自動計算されます</small>
-                                    </label>
-                                    <div class="date-input-wrapper">
-                                        <input type="date" id="birth_date" name="birth_date" class="form-control">
-                                        <i class="far fa-calendar-alt calendar-icon"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label for="calc_age_player">
-                                        <span data-i18n="form.calculated_age_label">年齢</span>
-                                    </label>
-                                    <input type="text" id="calc_age_player" class="form-control readonly-age" placeholder="--" readonly tabindex="-1">
-                                </div>
-                            </div>
-                            <div id="age_error_player" class="error-banner">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span id="age_error_player_msg"></span>
-                            </div>
-                        </div>
-
-                        <!-- LIVELLO ESPERIENZA -->
-                        <div class="form-group">
-                            <label for="experience_level">
-                                <span data-i18n="form.exp_level_label">競技レベル・最高実績</span>
-                                <span class="required-tag" data-i18n="form.required">必須</span>
-                            </label>
-                            <select id="experience_level" name="experience_level" class="form-control">
-                                <option value="" data-i18n="form.select_option">選択してください</option>
-                                <option value="university" data-i18n="form.exp_univ">大学体育会・都県社会人リーグ経験</option>
-                                <option value="highschool_strong" data-i18n="form.exp_hs">高校サッカー部強豪・全国大会経験</option>
-                                <option value="youth_club" data-i18n="form.exp_youth">ユース・クラブチーム出身</option>
-                                <option value="highschool_general" data-i18n="form.exp_gen_hs">一般高校サッカー部経験</option>
-                                <option value="futsal_enjoy" data-i18n="form.exp_enjoy">競技系フットサル・エンジョイ経験</option>
-                            </select>
-                        </div>
-
-                        <!-- SQUADRE PRECEDENTI -->
-                        <div class="form-group">
-                            <label for="experience_details">
-                                <span data-i18n="form.exp_details_label">サッカー歴・前所属チーム</span>
-                            </label>
-                            <input type="text" id="experience_details" name="experience_details" class="form-control" placeholder="〇〇高校サッカー部、〇〇大学サークルなど">
-                        </div>
-
-                        <!-- MACROPOSIZIONE -->
-                        <div class="form-group">
-                            <label for="macro_position">
-                                <span data-i18n="form.macro_pos_label">希望ポジション（メイン）</span>
-                                <span class="required-tag" data-i18n="form.required">必須</span>
-                            </label>
-                            <select id="macro_position" name="macro_position" class="form-control">
-                                <option value="" data-i18n="form.select_option">選択してください</option>
-                                <option value="GK">GK (ゴールキーパー)</option>
-                                <option value="DF">DF (ディフェンダー)</option>
-                                <option value="MF">MF (ミッドフィルダー)</option>
-                                <option value="FW">FW (フォワード)</option>
-                            </select>
-                        </div>
-
-                        <!-- RUOLI SPECIFICI DINAMICI (SCELTA MULTIPLA CON FRECCE E EVIDENZIATORE) -->
-                        <div class="form-group" id="subPositionWrapper" style="display: none;">
-                            <label style="display:flex; justify-content:space-between; align-items:center;">
-                                <div>
-                                    <i class="fas fa-chevron-right" style="color: #003c82; font-size: 0.85rem; margin-right: 4px;"></i>
-                                    <span data-i18n="form.sub_pos_label">詳細役割（複数選択可）</span>
-                                    <span class="required-tag" data-i18n="form.required">必須</span>
-                                </div>
-                                <small style="font-size:0.75rem; color:#64748b; font-weight:normal;" data-i18n="form.sub_pos_hint">※該当するものをすべて選択</small>
-                            </label>
-                            <div id="subPositionCheckboxes" class="sub-pos-container"></div>
-                            <div id="sub_pos_error" class="error-banner">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span data-i18n="form.sub_pos_error">少なくとも1つの役割を選択してください。</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- CAMPI SPECIFICI DINAMICI PER STAFF - NASCOSTI ALL'AVVIO -->
-                    <div id="staffFieldsWrapper" style="display: none;">
-                        <div class="field-section-title"><i class="fas fa-user-tie"></i> <span data-i18n="form.staff_sec_title">スタッフ応募情報</span></div>
-
-                        <!-- DATA DI NASCITA E ETÀ STAFF CON CALENDARIO -->
-                        <div class="form-group">
-                            <div class="form-row-date-age">
-                                <div>
-                                    <label for="staff_birth_date">
-                                        <span data-i18n="form.birth_date_label">生年月日</span>
-                                        <span class="required-tag" data-i18n="form.required">必須</span>
-                                        <small style="font-size:0.75rem; color:#64748b; font-weight:normal; margin-left:auto;" data-i18n="form.birth_date_hint">※年齢は自動計算されます</small>
-                                    </label>
-                                    <div class="date-input-wrapper">
-                                        <input type="date" id="staff_birth_date" name="staff_birth_date" class="form-control">
-                                        <i class="far fa-calendar-alt calendar-icon"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label for="calc_age_staff">
-                                        <span data-i18n="form.calculated_age_label">年齢</span>
-                                    </label>
-                                    <input type="text" id="calc_age_staff" class="form-control readonly-age" placeholder="--" readonly tabindex="-1">
-                                </div>
-                            </div>
-                            <div id="age_error_staff" class="error-banner">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span id="age_error_staff_msg"></span>
-                            </div>
-                        </div>
-
-                        <!-- RUOLO STAFF RICHIESTO -->
-                        <div class="form-group">
-                            <label for="staff_role">
-                                <span data-i18n="form.staff_role_label">希望スタッフ役職</span>
-                                <span class="required-tag" data-i18n="form.required">必須</span>
-                            </label>
-                            <select id="staff_role" name="staff_role" class="form-control">
-                                <option value="" data-i18n="form.select_option">選択してください</option>
-                                <option value="assistant_coach" data-i18n="form.staff_role_coach">アシスタントコーチ</option>
-                                <option value="team_manager" data-i18n="form.staff_role_manager">チームマネージャー / 運営スタッフ</option>
-                                <option value="trainer" data-i18n="form.staff_role_trainer">トレーナー / フィジカル</option>
-                                <option value="kit_manager" data-i18n="form.staff_role_kit">用具管理・エキップメント</option>
-                                <option value="media_analyst" data-i18n="form.staff_role_media">広報・メディア・アナリスト</option>
-                            </select>
-                        </div>
-
-                        <!-- ESPERIENZA / ESPERIENZA NELLO SPORT -->
-                        <div class="form-group">
-                            <label for="staff_experience">
-                                <span data-i18n="form.staff_exp_label">指導歴・スポーツ関連経歴</span>
-                            </label>
-                            <textarea id="staff_experience" name="staff_experience" class="form-control" style="min-height: 80px;" placeholder="過去のマネージャー経験、指導資格、スポーツ救急など"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- CAMPI SPECIFICI DINAMICI PER PARTITE AMICHEVOLE - NASCOSTI ALL'AVVIO -->
-                    <div id="matchFieldsWrapper" style="display: none;">
-                        <div class="field-section-title"><i class="fas fa-futbol"></i> <span data-i18n="form.match_sec_title">対戦チーム情報</span></div>
-
-                        <!-- NOME SQUADRA -->
-                        <div class="form-group">
-                            <label for="match_team_name">
-                                <span data-i18n="form.match_team_name_label">チーム名</span>
-                                <span class="required-tag" data-i18n="form.required">必須</span>
-                            </label>
-                            <input type="text" id="match_team_name" name="match_team_name" class="form-control" placeholder="例: 横浜FCアマチュア">
-                        </div>
-
-                        <!-- LEGA A CUI PARTECIPANO -->
-                        <div class="form-group">
-                            <label for="match_league">
-                                <span data-i18n="form.match_league_label">所属リーグ・カテゴリー</span>
-                            </label>
-                            <input type="text" id="match_league" name="match_league" class="form-control" placeholder="例: 神奈川県社会人サッカーリーグ3部、横浜市1部など">
-                        </div>
-
-                        <!-- COLORI UNIFORME 1ST E 2ND -->
+                        <!-- NOME / KANA / EMAIL (Comuni) -->
                         <div class="form-row-2">
                             <div class="form-group">
-                                <label for="match_1st_kit">
-                                    <span data-i18n="form.match_1st_kit_label">1stユニフォーム（シャツ・パンツ・ソックス）</span>
+                                <label for="last_name">
+                                    <span data-i18n="form.last_name_label">姓</span>
+                                    <span class="required-tag" data-i18n="form.required">必須</span>
                                 </label>
-                                <input type="text" id="match_1st_kit" name="match_1st_kit" class="form-control" placeholder="例: 赤 - 黒 - 赤">
+                                <input type="text" id="last_name" name="last_name" class="form-control" placeholder="山田" required>
                             </div>
                             <div class="form-group">
-                                <label for="match_2nd_kit">
-                                    <span data-i18n="form.match_2nd_kit_label">2ndユニフォーム（シャツ・パンツ・ソックス）</span>
+                                <label for="first_name">
+                                    <span data-i18n="form.first_name_label">名</span>
+                                    <span class="required-tag" data-i18n="form.required">必須</span>
                                 </label>
-                                <input type="text" id="match_2nd_kit" name="match_2nd_kit" class="form-control" placeholder="例: 白 - 白 - 白">
+                                <input type="text" id="first_name" name="first_name" class="form-control" placeholder="太郎" required>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- MESSAGGIO LIBERO -->
-                    <div class="form-group">
-                        <label for="message">
-                            <span data-i18n="form.message_label">メッセージ内容</span>
-                            <span class="required-tag" data-i18n="form.required">必須</span>
-                        </label>
-                        <textarea id="message" name="message" class="form-control" placeholder="ご質問や体験参加のご希望日時、グラウンド手配状況などをご記入ください。" required></textarea>
-                    </div>
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="last_name_kana">
+                                    <span data-i18n="form.last_name_kana_label">セイ (フリガナ)</span>
+                                    <span class="required-tag" data-i18n="form.required">必須</span>
+                                </label>
+                                <input type="text" id="last_name_kana" name="last_name_kana" class="form-control" placeholder="ヤマダ" required>
+                                <div id="last_name_kana_error" class="error-banner"><i class="fas fa-exclamation-triangle"></i> <span data-i18n="form.kana_error">全角カタカナで入力してください。</span></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="first_name_kana">
+                                    <span data-i18n="form.first_name_kana_label">メイ (フリガナ)</span>
+                                    <span class="required-tag" data-i18n="form.required">必須</span>
+                                </label>
+                                <input type="text" id="first_name_kana" name="first_name_kana" class="form-control" placeholder="タロウ" required>
+                                <div id="first_name_kana_error" class="error-banner"><i class="fas fa-exclamation-triangle"></i> <span data-i18n="form.kana_error">全角カタカナで入力してください。</span></div>
+                            </div>
+                        </div>
 
-                    <!-- SPUNTA TRATTAMENTO DATI PERSONALI CON LINK PRIVACY POLICY -->
-                    <div class="privacy-box">
-                        <label class="privacy-checkbox-label" for="privacy_agree">
-                            <input type="checkbox" id="privacy_agree" name="privacy_agree" required>
-                            <span>
-                                <span data-i18n="form.privacy_prefix">個人情報の取り扱い（</span><span class="privacy-link" id="openPrivacyModal" data-i18n="form.privacy_link">プライバシーポリシー</span><span data-i18n="form.privacy_suffix">）に同意する</span>
-                            </span>
-                        </label>
-                    </div>
+                        <div class="form-group">
+                            <label for="email">
+                                <span data-i18n="form.email_label">メールアドレス</span>
+                                <span class="required-tag" data-i18n="form.required">必須</span>
+                            </label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="example@email.com" required>
+                            <div id="email_error" class="error-banner"><i class="fas fa-exclamation-triangle"></i> <span data-i18n="form.email_error">有効なメールアドレスを入力してください。</span></div>
+                        </div>
 
-                    <button type="submit" class="submit-btn" id="submitBtn">
-                        <i class="fas fa-paper-plane"></i>
-                        <span data-i18n="form.submit_btn">送信する</span>
-                    </button>
+                        <!-- SEZIONE: GIOCATORE (TRIAL) -->
+                        <div id="trialFieldsWrapper" style="display: none;">
+                            <div class="field-section-title"><i class="fas fa-running"></i> <span data-i18n="form.player_sec_title">選手情報</span></div>
+                            
+                            <div class="form-group">
+                                <div class="form-row-date-age">
+                                    <div>
+                                        <label for="birth_date">
+                                            <span data-i18n="form.birth_date_label">生年月日</span>
+                                            <span class="required-tag" data-i18n="form.required">必須</span>
+                                            <small style="font-size:0.75rem; color:#64748b; font-weight:normal; margin-left:auto;" data-i18n="form.birth_date_hint">※年齢は自動計算されます</small>
+                                        </label>
+                                        <div class="date-input-wrapper">
+                                            <input type="date" id="birth_date" name="birth_date" class="form-control">
+                                            <i class="far fa-calendar-alt calendar-icon"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="calc_age_player">
+                                            <span data-i18n="form.calculated_age_label">年齢</span>
+                                        </label>
+                                        <input type="text" id="calc_age_player" class="form-control readonly-age" placeholder="--" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div id="age_error_player" class="error-banner">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span id="age_error_player_msg"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="experience_level">
+                                    <span data-i18n="form.exp_level_label">競技レベル・最高実績</span>
+                                    <span class="required-tag" data-i18n="form.required">必須</span>
+                                </label>
+                                <select id="experience_level" name="experience_level" class="form-control">
+                                    <option value="" data-i18n="form.select_option">選択してください</option>
+                                    <option value="university" data-i18n="form.exp_univ">大学体育会・都県社会人リーグ経験</option>
+                                    <option value="highschool_strong" data-i18n="form.exp_hs">高校サッカー部強豪・全国大会経験</option>
+                                    <option value="youth_club" data-i18n="form.exp_youth">ユース・クラブチーム出身</option>
+                                    <option value="highschool_general" data-i18n="form.exp_gen_hs">一般高校サッカー部経験</option>
+                                    <option value="futsal_enjoy" data-i18n="form.exp_enjoy">競技系フットサル・エンジョイ経験</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="experience_details">
+                                    <span data-i18n="form.exp_details_label">サッカー歴・前所属チーム</span>
+                                </label>
+                                <input type="text" id="experience_details" name="experience_details" class="form-control" placeholder="〇〇高校サッカー部、〇〇大学サークルなど">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="macro_position">
+                                    <span data-i18n="form.macro_pos_label">希望ポジション（メイン）</span>
+                                    <span class="required-tag" data-i18n="form.required">必須</span>
+                                </label>
+                                <select id="macro_position" name="macro_position" class="form-control">
+                                    <option value="" data-i18n="form.select_option">選択してください</option>
+                                    <option value="GK">GK (ゴールキーパー)</option>
+                                    <option value="DF">DF (ディフェンダー)</option>
+                                    <option value="MF">MF (ミッドフィルダー)</option>
+                                    <option value="FW">FW (フォワード)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="subPositionWrapper" style="display: none;">
+                                <label style="display:flex; justify-content:space-between; align-items:flex-end;">
+                                    <div>
+                                        <i class="fas fa-chevron-right" style="color: #003c82; font-size: 0.85rem; margin-right: 4px;"></i>
+                                        <span data-i18n="form.sub_pos_label">詳細役割（複数選択可）</span>
+                                        <span class="required-tag" data-i18n="form.required">必須</span>
+                                    </div>
+                                    <small style="font-size:0.75rem; color:#64748b; font-weight:normal;" data-i18n="form.sub_pos_hint">※該当するものをすべて選択</small>
+                                </label>
+                                <div id="subPositionCheckboxes" class="sub-pos-container"></div>
+                                <div id="sub_pos_error" class="error-banner">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span data-i18n="form.sub_pos_error">少なくとも1つの役割を選択してください。</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SEZIONE: STAFF -->
+                        <div id="staffFieldsWrapper" style="display: none;">
+                            <div class="field-section-title"><i class="fas fa-user-tie"></i> <span data-i18n="form.staff_sec_title">スタッフ応募情報</span></div>
+
+                            <div class="form-group">
+                                <div class="form-row-date-age">
+                                    <div>
+                                        <label for="staff_birth_date">
+                                            <span data-i18n="form.birth_date_label">生年月日</span>
+                                            <span class="required-tag" data-i18n="form.required">必須</span>
+                                            <small style="font-size:0.75rem; color:#64748b; font-weight:normal; margin-left:auto;" data-i18n="form.birth_date_hint">※年齢は自動計算されます</small>
+                                        </label>
+                                        <div class="date-input-wrapper">
+                                            <input type="date" id="staff_birth_date" name="staff_birth_date" class="form-control">
+                                            <i class="far fa-calendar-alt calendar-icon"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="calc_age_staff">
+                                            <span data-i18n="form.calculated_age_label">年齢</span>
+                                        </label>
+                                        <input type="text" id="calc_age_staff" class="form-control readonly-age" placeholder="--" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div id="age_error_staff" class="error-banner">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span id="age_error_staff_msg"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="staff_role">
+                                    <span data-i18n="form.staff_role_label">希望スタッフ役職</span>
+                                    <span class="required-tag" data-i18n="form.required">必須</span>
+                                </label>
+                                <select id="staff_role" name="staff_role" class="form-control">
+                                    <option value="" data-i18n="form.select_option">選択してください</option>
+                                    <option value="assistant_coach" data-i18n="form.staff_role_coach">アシスタントコーチ</option>
+                                    <option value="team_manager" data-i18n="form.staff_role_manager">チームマネージャー / 運営スタッフ</option>
+                                    <option value="trainer" data-i18n="form.staff_role_trainer">トレーナー / フィジカル</option>
+                                    <option value="kit_manager" data-i18n="form.staff_role_kit">用具管理・エキップメント</option>
+                                    <option value="media_analyst" data-i18n="form.staff_role_media">広報・メディア・アナリスト</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="staff_experience">
+                                    <span data-i18n="form.staff_exp_label">指導歴・スポーツ関連経歴</span>
+                                </label>
+                                <textarea id="staff_experience" name="staff_experience" class="form-control" style="min-height: 80px;" placeholder="過去のマネージャー経験、指導資格、スポーツ救急など"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- SEZIONE: AMICHEVOLE (MATCH) -->
+                        <div id="matchFieldsWrapper" style="display: none;">
+                            <div class="field-section-title"><i class="fas fa-futbol"></i> <span data-i18n="form.match_sec_title">対戦チーム情報</span></div>
+
+                            <div class="form-group">
+                                <label for="match_team_name">
+                                    <span data-i18n="form.match_team_name_label">チーム名</span>
+                                    <span class="required-tag" data-i18n="form.required">必須</span>
+                                </label>
+                                <input type="text" id="match_team_name" name="match_team_name" class="form-control" placeholder="例: 横浜FCアマチュア">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="match_league">
+                                    <span data-i18n="form.match_league_label">所属リーグ・カテゴリー</span>
+                                </label>
+                                <input type="text" id="match_league" name="match_league" class="form-control" placeholder="例: 神奈川県社会人サッカーリーグ3部など">
+                            </div>
+
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label for="match_1st_kit"><span data-i18n="form.match_1st_kit_label">1stユニフォーム</span></label>
+                                    <input type="text" id="match_1st_kit" name="match_1st_kit" class="form-control" placeholder="例: 赤-黒-赤">
+                                </div>
+                                <div class="form-group">
+                                    <label for="match_2nd_kit"><span data-i18n="form.match_2nd_kit_label">2ndユニフォーム</span></label>
+                                    <input type="text" id="match_2nd_kit" name="match_2nd_kit" class="form-control" placeholder="例: 白-白-白">
+                                </div>
+                            </div>
+
+                            <div class="form-group checkbox-group" style="margin-top: 10px;">
+                                <label class="privacy-checkbox-label">
+                                    <input type="checkbox" id="has_pitch" name="has_pitch">
+                                    <span data-i18n="form.has_pitch_label" style="color:#003c82;">グラウンド確保済み (既に予約済みのグラウンドがある)</span>
+                                </label>
+                            </div>
+
+                            <div class="form-group" id="pitchNameWrapper" style="display: none;">
+                                <label for="pitch_name">
+                                    <span data-i18n="form.pitch_name_label">グラウンド名・場所</span>
+                                    <span class="required-tag" data-i18n="form.required">必須</span>
+                                </label>
+                                <input type="text" id="pitch_name" name="pitch_name" class="form-control" placeholder="例: 谷本公園、保土ケ谷公園など">
+                            </div>
+                        </div>
+
+                        <!-- SEZIONE: SPONSOR -->
+                        <div id="sponsorFieldsWrapper" style="display: none;">
+                            <div class="field-section-title"><i class="fas fa-building"></i> <span data-i18n="form.sponsor_sec_title">パートナー情報</span></div>
+
+                            <div class="form-group">
+                                <label for="company_name">
+                                    <span data-i18n="form.company_label">会社名・団体名</span>
+                                    <span class="required-tag" data-i18n="form.required">必須</span>
+                                </label>
+                                <input type="text" id="company_name" name="company_name" class="form-control" placeholder="株式会社〇〇">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sponsor_type">
+                                    <span data-i18n="form.sponsor_type_label">ご検討のパートナーシップ種類</span>
+                                    <span class="required-tag" data-i18n="form.required">必須</span>
+                                </label>
+                                <select id="sponsor_type" name="sponsor_type" class="form-control">
+                                    <option value="" data-i18n="form.select_option">選択してください</option>
+                                    <option value="financial" data-i18n="form.opt_sponsor_fin">資金スポンサー (ユニフォーム掲出等)</option>
+                                    <option value="technical" data-i18n="form.opt_sponsor_tech">サプライヤー (物品・ウェア提供)</option>
+                                    <option value="services" data-i18n="form.opt_sponsor_supply">サービス提供・施設利用支援</option>
+                                    <option value="other_partner" data-i18n="form.opt_sponsor_other">その他・企画協賛</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- MESSAGGIO LIBERO -->
+                        <div class="form-group">
+                            <label for="message">
+                                <span data-i18n="form.message_label">メッセージ内容</span>
+                                <span class="required-tag" data-i18n="form.required">必須</span>
+                            </label>
+                            <textarea id="message" name="message" class="form-control" placeholder="ご質問や詳細をご記入ください。" required></textarea>
+                        </div>
+
+                        <!-- SPUNTA TRATTAMENTO DATI -->
+                        <div class="privacy-box">
+                            <label class="privacy-checkbox-label" for="privacy_agree">
+                                <input type="checkbox" id="privacy_agree" name="privacy_agree" required>
+                                <span>
+                                    <span data-i18n="form.privacy_prefix">個人情報の取り扱い（</span><span class="privacy-link" id="openPrivacyModal" data-i18n="form.privacy_link">プライバシーポリシー</span><span data-i18n="form.privacy_suffix">）に同意する</span>
+                                </span>
+                            </label>
+                        </div>
+
+                        <!-- ERRORE GLOBALE VALIDAZIONE -->
+                        <div id="global_form_error" class="global-error-banner">
+                            <i class="fas fa-exclamation-circle" style="font-size:1.2rem;"></i>
+                            <span id="global_form_error_msg"></span>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <i class="fas fa-paper-plane"></i>
+                            <span data-i18n="form.submit_btn">送信する</span>
+                        </button>
+
+                    </div> <!-- Fine dynamicFormContainer -->
                 </form>
             </div>
 
@@ -1347,7 +1371,7 @@
     </div>
 </div>
 
-<!-- MODAL INFORMATIVA PRIVACY (NON INVASIVO) -->
+<!-- MODAL INFORMATIVA PRIVACY -->
 <div class="privacy-modal-overlay" id="privacyModal">
     <div class="privacy-modal-card">
         <div class="privacy-modal-header">
@@ -1436,11 +1460,11 @@
             "form.age_error_over": "申し訳ありません。対象年齢は40歳までとなっております。（現在の年齢: {age}歳）",
             
             "form.exp_level_label": "競技レベル・最高実績",
-            "form.exp_univ": "大学体育会・都県社会人リーグ経験",
-            "form.exp_hs": "高校サッカー部強豪・全国大会経験",
-            "form.exp_youth": "ユース・クラブチーム出身",
-            "form.exp_gen_hs": "一般高校サッカー部経験",
-            "form.exp_enjoy": "競技系フットサル・エンジョイ経験",
+            "form.exp_univ": "大学・都県社会人リーグ",
+            "form.exp_hs": "高校サッカー部強豪・全国",
+            "form.exp_youth": "ユース・クラブチーム",
+            "form.exp_gen_hs": "一般高校サッカー部",
+            "form.exp_enjoy": "競技系フットサル・エンジョイ",
             
             "form.exp_details_label": "サッカー歴・前所属チーム",
             "form.macro_pos_label": "希望ポジション（メイン）",
@@ -1452,8 +1476,8 @@
             "form.staff_sec_title": "スタッフ応募情報",
             "form.staff_role_label": "希望スタッフ役職",
             "form.staff_exp_label": "指導歴・スポーツ関連経歴",
-            "form.staff_role_coach": "アシ কূটনীতিকチ",
-            "form.staff_role_manager": "チームマネージャー / 運営スタッフ",
+            "form.staff_role_coach": "アシスタントコーチ",
+            "form.staff_role_manager": "チームマネージャー / 運営",
             "form.staff_role_trainer": "トレーナー / フィジカル",
             "form.staff_role_kit": "用具管理・エキップメント",
             "form.staff_role_media": "広報・メディア・アナリスト",
@@ -1461,14 +1485,27 @@
             "form.match_sec_title": "対戦チーム情報",
             "form.match_team_name_label": "チーム名",
             "form.match_league_label": "所属リーグ・カテゴリー",
-            "form.match_1st_kit_label": "1stユニフォーム（シャツ・パンツ・ソックス）",
-            "form.match_2nd_kit_label": "2ndユニフォーム（シャツ・パンツ・ソックス）",
+            "form.match_1st_kit_label": "1stユニフォーム",
+            "form.match_2nd_kit_label": "2ndユニフォーム",
+            "form.has_pitch_label": "グラウンド確保済み (既に予約済みのグラウンドがある)",
+            "form.pitch_name_label": "グラウンド名・場所",
+
+            "form.sponsor_sec_title": "パートナー情報",
+            "form.company_label": "会社名・団体名",
+            "form.sponsor_type_label": "ご検討のパートナーシップ種類",
+            "form.opt_sponsor_fin": "資金スポンサー (ユニフォーム掲出等)",
+            "form.opt_sponsor_tech": "サプライヤー (物品・ウェア提供)",
+            "form.opt_sponsor_supply": "サービス提供・施設利用支援",
+            "form.opt_sponsor_other": "その他・企画協賛",
 
             "form.message_label": "メッセージ内容",
             "form.privacy_prefix": "個人情報の取り扱い（",
             "form.privacy_link": "プライバシーポリシー",
             "form.privacy_suffix": "）に同意する",
             "form.submit_btn": "送信する",
+
+            "form.error_general": "必須項目が正しく入力されていません。赤枠の項目を確認してください。",
+            "form.error_privacy": "プライバシーポリシーへの同意（チェック）が必要です。",
 
             "info.direct_title": "直接メールで連絡",
             "info.direct_desc": "お使いのメールソフトから直接ご連絡いただく場合は、以下のアドレス宛にお送りください。",
@@ -1501,13 +1538,13 @@
             "nav.faq": "FAQ", "nav.shop": "Shop", "nav.contact": "Contatti",
             
             "contact_page.title": "Contatti",
-            "contact_page.intro": "Compila il modulo per sostenere un allenamento di prova, candidarti nello staff o organizzare un'amichevole.",
+            "contact_page.intro": "Compila il modulo per un allenamento di prova, candidarti nello staff o per partnership e amichevoli.",
             
             "form.category_label": "Tipo di Richiesta",
             "form.select_category": "Scegli un'opzione (Obbligatorio)",
             "form.required": "Obbligatorio",
-            "form.opt_trial": "Prova / Giocatore (18-40 anni con esperienza)",
-            "form.opt_staff": "Candidatura Staff (Manager, Coach, Media, ecc.)",
+            "form.opt_trial": "Prova / Giocatore (18-40 anni)",
+            "form.opt_staff": "Candidatura Staff (Manager, Coach...)",
             "form.opt_match": "Richiesta Partita Amichevole",
             "form.opt_sponsor": "Sponsorship & Partner",
             "form.opt_other": "Altra Richiesta",
@@ -1520,16 +1557,16 @@
             "form.email_label": "Indirizzo Email",
             "form.email_error": "Inserisci un indirizzo email valido.",
             
-            "form.player_sec_title": "Informazioni Giocatore",
+            "form.player_sec_title": "Info Giocatore",
             "form.birth_date_label": "Data di Nascita",
-            "form.birth_date_hint": "※ Età calcolata automaticamente",
+            "form.birth_date_hint": "※ Età calcolata in automatico",
             "form.calculated_age_label": "Età",
             "form.age_unit": "anni",
-            "form.age_error_under": "Spiacenti, l'età minima per partecipare è 18 anni (Età calcolata: {age} anni).",
-            "form.age_error_over": "Spiacenti, l'età massima consentita è 40 anni (Età calcolata: {age} anni).",
+            "form.age_error_under": "Spiacenti, l'età minima per partecipare è 18 anni (Calcolata: {age} anni).",
+            "form.age_error_over": "Spiacenti, l'età massima consentita è 40 anni (Calcolata: {age} anni).",
             
             "form.exp_level_label": "Livello di Esperienza",
-            "form.exp_univ": "Università / Campionati Regionali",
+            "form.exp_univ": "Università / Categorie Regionali",
             "form.exp_hs": "Superiori livello agonistico / Tornei nazionali",
             "form.exp_youth": "Settore Giovanile / Club",
             "form.exp_gen_hs": "Esperienza scolastica / Calcio amatoriale",
@@ -1537,31 +1574,44 @@
             
             "form.exp_details_label": "Esperienza / Squadre precedenti",
             "form.macro_pos_label": "Ruolo Principale",
-            "form.sub_pos_label": "Ruolo Specifico (scelta multipla)",
+            "form.sub_pos_label": "Ruolo Specifico (multiplo)",
             "form.sub_pos_hint": "※ Seleziona una o più opzioni",
-            "form.sub_pos_error": "Seleziona almeno un ruolo specifico.",
-            "form.select_option": "Seleziona un'opzione",
+            "form.sub_pos_error": "Seleziona almeno un ruolo.",
+            "form.select_option": "Seleziona",
 
-            "form.staff_sec_title": "Informazioni Candidato Staff",
+            "form.staff_sec_title": "Info Candidato Staff",
             "form.staff_role_label": "Ruolo Staff Richiesto",
-            "form.staff_exp_label": "Esperienza / Qualifiche nello Sport",
-            "form.staff_role_coach": "Vice Allenatore / Assistente Coach",
+            "form.staff_exp_label": "Esperienza / Qualifiche",
+            "form.staff_role_coach": "Vice Allenatore / Assistente",
             "form.staff_role_manager": "Dirigente / Team Manager",
             "form.staff_role_trainer": "Preparatore / Fisioterapista",
-            "form.staff_role_kit": "Magazziniere / Responsabile Materiale",
-            "form.staff_role_media": "Social Media / Foto / Video Analyst",
+            "form.staff_role_kit": "Magazziniere / Materiale",
+            "form.staff_role_media": "Social Media / Foto / Video",
 
-            "form.match_sec_title": "Informazioni Squadra Avversaria",
+            "form.match_sec_title": "Info Squadra Avversaria",
             "form.match_team_name_label": "Nome Squadra",
             "form.match_league_label": "Campionato / Categoria",
-            "form.match_1st_kit_label": "Divisa 1st (Maglia - Pantaloni - Calze)",
-            "form.match_2nd_kit_label": "Divisa 2nd (Maglia - Pantaloni - Calze)",
+            "form.match_1st_kit_label": "Divisa 1st",
+            "form.match_2nd_kit_label": "Divisa 2nd",
+            "form.has_pitch_label": "Abbiamo già un campo prenotato",
+            "form.pitch_name_label": "Nome e Luogo del campo",
+
+            "form.sponsor_sec_title": "Info Partner",
+            "form.company_label": "Nome Azienda o Ente",
+            "form.sponsor_type_label": "Tipo di Partnership richiesta",
+            "form.opt_sponsor_fin": "Sponsor Finanziario (Es. Logo maglia)",
+            "form.opt_sponsor_tech": "Sponsor Tecnico (Fornitura materiale)",
+            "form.opt_sponsor_supply": "Servizi (Uso strutture, agevolazioni)",
+            "form.opt_sponsor_other": "Altra tipologia di collaborazione",
 
             "form.message_label": "Messaggio",
             "form.privacy_prefix": "Acconsento al trattamento dei dati (",
-            "form.privacy_link": "Informativa sulla Privacy",
+            "form.privacy_link": "Informativa Privacy",
             "form.privacy_suffix": ")",
             "form.submit_btn": "Invia Messaggio",
+
+            "form.error_general": "Compila tutti i campi obbligatori correttamente (vedi riquadri rossi).",
+            "form.error_privacy": "Devi accettare l'Informativa sulla Privacy per proseguire.",
 
             "info.direct_title": "Email Diretta",
             "info.direct_desc": "Se preferisci scriverci direttamente dal tuo programma di posta, utilizza l'indirizzo sottostante:",
@@ -1578,13 +1628,13 @@
 
             "privacy.title": "Informativa sulla Privacy",
             "privacy.sec1_title": "1. Finalità della raccolta dati",
-            "privacy.sec1_text": "Yokohama Calcio raccoglie e tratta i dati personali (nome, email, data di nascita, esperienza calcistica) esclusivamente per la gestione delle richieste di allenamento di prova, candidature nello staff, organizzazione amichevoli e contatti col club.",
-            "privacy.sec2_title": "2. Sicurezza e gestione dei dati",
-            "privacy.sec2_text": "I dati raccolti sono custoditi con adeguate misure di sicurezza per prevenirne l'accesso non autorizzato, la perdita, la modifica o la diffusione indiscreta.",
+            "privacy.sec1_text": "Yokohama Calcio raccoglie i dati personali (nome, email, data di nascita, esperienza) esclusivamente per gestire richieste di prova, candidature staff, amichevoli e comunicazioni.",
+            "privacy.sec2_title": "2. Sicurezza dei dati",
+            "privacy.sec2_text": "I dati sono custoditi con adeguate misure di sicurezza per prevenirne perdita, modifica o diffusione non autorizzata.",
             "privacy.sec3_title": "3. Divieto di cessione a terzi",
-            "privacy.sec3_text": "Il club non cederà né comunicherà mai i tuoi dati personali a terzi, salvo esplicita autorizzazione o per adempimenti di legge.",
+            "privacy.sec3_text": "Il club non cederà mai i tuoi dati a terzi, salvo esplicita autorizzazione o adempimenti legali.",
             "privacy.sec4_title": "4. Diritti dell'interessato",
-            "privacy.sec4_text": "Puoi richiedere in qualsiasi momento la consultazione, rettifica o cancellazione dei tuoi dati personali scrivendo a: yokohamacalcio@gmail.com.",
+            "privacy.sec4_text": "Puoi richiedere la cancellazione o rettifica dei tuoi dati scrivendo a: yokohamacalcio@gmail.com.",
             "privacy.close_btn": "Chiudi"
         },
         en: {
@@ -1593,13 +1643,13 @@
             "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.shop": "Shop", "nav.contact": "Contact Us",
             
             "contact_page.title": "Contact Us",
-            "contact_page.intro": "Feel free to reach out for trial trainings, staff applications, friendly match requests, or partnership inquiries.",
+            "contact_page.intro": "Feel free to reach out for trial trainings, staff applications, friendly match requests, or partnerships.",
             
             "form.category_label": "Inquiry Type",
-            "form.select_category": "Please select an option (Required)",
+            "form.select_category": "Please select (Required)",
             "form.required": "Required",
-            "form.opt_trial": "Join / Player Trial (18–40 yrs experienced)",
-            "form.opt_staff": "Staff Application (Manager, Coach, Media, etc.)",
+            "form.opt_trial": "Player Trial (18–40 yrs)",
+            "form.opt_staff": "Staff Application (Manager, Coach...)",
             "form.opt_match": "Friendly Match Request",
             "form.opt_sponsor": "Sponsorship & Partnership",
             "form.opt_other": "General Inquiry",
@@ -1614,46 +1664,59 @@
             
             "form.player_sec_title": "Player Details",
             "form.birth_date_label": "Date of Birth",
-            "form.birth_date_hint": "※ Age is calculated automatically",
+            "form.birth_date_hint": "※ Age calculated automatically",
             "form.calculated_age_label": "Age",
-            "form.age_unit": "yrs old",
-            "form.age_error_under": "Sorry, minimum age requirement is 18 years old (Calculated age: {age}).",
-            "form.age_error_over": "Sorry, maximum age limit is 40 years old (Calculated age: {age}).",
+            "form.age_unit": "yrs",
+            "form.age_error_under": "Sorry, minimum age is 18 (Calculated: {age}).",
+            "form.age_error_over": "Sorry, maximum age is 40 (Calculated: {age}).",
             
             "form.exp_level_label": "Experience Level",
-            "form.exp_univ": "University / Regional Prefectural League",
-            "form.exp_hs": "High School Competitive / National Tournaments",
+            "form.exp_univ": "University / Regional Leagues",
+            "form.exp_hs": "High School Competitive / Nationals",
             "form.exp_youth": "Youth Academy / Club Teams",
-            "form.exp_gen_hs": "General High School / Amateur Club",
+            "form.exp_gen_hs": "General High School / Amateur",
             "form.exp_enjoy": "Futsal / Casual League",
             
-            "form.exp_details_label": "Football Experience / Previous Teams",
+            "form.exp_details_label": "Football Experience / Prev. Teams",
             "form.macro_pos_label": "Main Position",
-            "form.sub_pos_label": "Specific Sub-Roles (Multiple choice)",
+            "form.sub_pos_label": "Specific Roles (Multiple)",
             "form.sub_pos_hint": "※ Select all that apply",
-            "form.sub_pos_error": "Please select at least one sub-role.",
+            "form.sub_pos_error": "Please select at least one role.",
             "form.select_option": "Please select",
 
             "form.staff_sec_title": "Staff Application Details",
             "form.staff_role_label": "Desired Staff Role",
-            "form.staff_exp_label": "Background / Qualifications in Sports",
+            "form.staff_exp_label": "Background / Qualifications",
             "form.staff_role_coach": "Assistant Coach",
-            "form.staff_role_manager": "Team Manager / Club Admin",
-            "form.staff_role_trainer": "Trainer / Physiotherapist",
-            "form.staff_role_kit": "Equipment / Kit Manager",
-            "form.staff_role_media": "Media / Photographer / Analyst",
+            "form.staff_role_manager": "Team Manager / Admin",
+            "form.staff_role_trainer": "Trainer / Physio",
+            "form.staff_role_kit": "Kit / Equipment Manager",
+            "form.staff_role_media": "Media / Photographer",
 
             "form.match_sec_title": "Opponent Team Information",
             "form.match_team_name_label": "Team Name",
             "form.match_league_label": "League / Division",
-            "form.match_1st_kit_label": "1st Kit (Shirt - Shorts - Socks)",
-            "form.match_2nd_kit_label": "2nd Kit (Shirt - Shorts - Socks)",
+            "form.match_1st_kit_label": "1st Kit",
+            "form.match_2nd_kit_label": "2nd Kit",
+            "form.has_pitch_label": "We already have a booked pitch",
+            "form.pitch_name_label": "Pitch Name & Location",
+
+            "form.sponsor_sec_title": "Partnership Info",
+            "form.company_label": "Company / Organization Name",
+            "form.sponsor_type_label": "Partnership Type",
+            "form.opt_sponsor_fin": "Financial Sponsor (Kit Logo, etc.)",
+            "form.opt_sponsor_tech": "Technical Supplier (Gear/Apparel)",
+            "form.opt_sponsor_supply": "Service & Facility Support",
+            "form.opt_sponsor_other": "Other Collaboration",
 
             "form.message_label": "Message",
             "form.privacy_prefix": "I agree to the processing of personal data (",
             "form.privacy_link": "Privacy Policy",
             "form.privacy_suffix": ")",
             "form.submit_btn": "Send Message",
+
+            "form.error_general": "Please fill in all required fields correctly (highlighted in red).",
+            "form.error_privacy": "You must agree to the Privacy Policy to proceed.",
 
             "info.direct_title": "Direct Email",
             "info.direct_desc": "If you prefer writing directly from your mail client, please use the address below:",
@@ -1670,13 +1733,13 @@
 
             "privacy.title": "Privacy Policy",
             "privacy.sec1_title": "1. Purpose of Data Collection",
-            "privacy.sec1_text": "Yokohama Calcio collects personal information (name, email, date of birth, football history) strictly for processing trial applications, staff candidacies, friendly match organization, and general club communications.",
+            "privacy.sec1_text": "Yokohama Calcio collects personal information strictly for processing trial applications, staff candidacies, match organization, and communications.",
             "privacy.sec2_title": "2. Data Security & Protection",
-            "privacy.sec2_text": "Collected data is stored securely using appropriate technical measures to prevent unauthorized access, loss, alteration, or disclosure.",
+            "privacy.sec2_text": "Collected data is stored securely using technical measures to prevent unauthorized access or disclosure.",
             "privacy.sec3_title": "3. No Third-Party Disclosure",
-            "privacy.sec3_text": "The club will never disclose or share your personal data with third parties without explicit consent or legal requirement.",
-            "privacy.sec4_title": "4. Your Rights (Access, Correction, Deletion)",
-            "privacy.sec4_text": "You may request access, correction, or deletion of your personal data at any time by contacting us at: yokohamacalcio@gmail.com.",
+            "privacy.sec3_text": "The club will never share your personal data with third parties without explicit consent.",
+            "privacy.sec4_title": "4. Your Rights",
+            "privacy.sec4_text": "You may request access, correction, or deletion of your data at any time by contacting us at: yokohamacalcio@gmail.com.",
             "privacy.close_btn": "Close"
         }
     };
@@ -1688,21 +1751,21 @@
         ],
         DF: [
             { id: 'CB', ja: 'CB (センターバック)', it: 'CB (Difensore Centrale)', en: 'CB (Center Back)' },
-            { id: 'SB', ja: 'SB / WB (サイドバック・ウイングバック)', it: 'SB / WB (Terzino / Esterno)', en: 'SB / WB (Side Back / Wing Back)' }
+            { id: 'SB', ja: 'SB / WB (サイドバック・ウイングバック)', it: 'SB / WB (Terzino / Esterno)', en: 'SB / WB (Side/Wing Back)' }
         ],
         MF: [
-            { id: 'DM', ja: 'DM (ボランチ・アンカー)', it: 'DM (Mediano / Regista)', en: 'DM (Defensive Midfielder)' },
-            { id: 'CM', ja: 'CM (インサイドハーフ)', it: 'CM (Mezzala / Centrocampista)', en: 'CM (Central Midfielder)' },
-            { id: 'SH', ja: 'SH (サイドハーフ)', it: 'SH (Esterno di centrocampo)', en: 'SH (Side Midfielder)' }
+            { id: 'DM', ja: 'DM (ボランチ・アンカー)', it: 'DM (Mediano / Regista)', en: 'DM (Defensive Mid)' },
+            { id: 'CM', ja: 'CM (インサイドハーフ)', it: 'CM (Mezzala / Centrale)', en: 'CM (Central Mid)' },
+            { id: 'SH', ja: 'SH (サイドハーフ)', it: 'SH (Esterno centrocampo)', en: 'SH (Side Midfielder)' }
         ],
         FW: [
-            { id: 'ST', ja: 'ST / SW (セカンドトップ・シャドー)', it: 'ST (Seconda Punta / trequartista)', en: 'ST (Second Striker / Shadow)' },
+            { id: 'ST', ja: 'ST / SW (セカンドトップ・シャドー)', it: 'ST (Seconda Punta / Trequartista)', en: 'ST (Second Striker)' },
             { id: 'CF', ja: 'CF (センターフォワード)', it: 'CF (Prima Punta / Centravanti)', en: 'CF (Center Forward)' },
             { id: 'WG', ja: 'WG (ウイング)', it: 'WG (Ala d\'attacco)', en: 'WG (Winger)' }
         ]
     };
 
-    // Dizionario etichette bilingui per la notifica Formspree
+    // Formspree labels and values mapping
     const fieldBilingualLabels = {
         category: "お問い合わせ種別 / Tipo di Richiesta",
         last_name: "姓 / Cognome",
@@ -1714,7 +1777,7 @@
         calc_age_player: "年齢 / Età",
         calc_age_staff: "年齢 / Età",
         experience_level: "競技レベル / Livello Esperienza",
-        experience_details: "サッカー歴・前所属 / Esperienza e Squadre Precedenti",
+        experience_details: "サッカー歴・前所属 / Esperienza Precedente",
         macro_position: "希望ポジション / Ruolo Principale",
         "sub_positions[]": "詳細役割 / Ruoli Specifici",
         staff_birth_date: "生年月日 / Data di Nascita",
@@ -1724,15 +1787,18 @@
         match_league: "所属リーグ / Campionato",
         match_1st_kit: "1stユニフォーム / Divisa 1st",
         match_2nd_kit: "2ndユニフォーム / Divisa 2nd",
+        has_pitch: "グラウンド確保状況 / Campo Prenotato",
+        pitch_name: "グラウンド名 / Nome Campo",
+        company_name: "会社名・団体名 / Nome Azienda",
+        sponsor_type: "パートナーシップ種類 / Tipo Partnership",
         message: "メッセージ内容 / Messaggio",
         privacy_agree: "プライバシーポリシー同意 / Consenso Privacy"
     };
 
-    // Mappatura valori selezioni bilingui per Formspree
     const valueBilingualMap = {
         trial: "体験練習・選手入部希望 / Prova Giocatore",
         staff: "スタッフ応募 / Candidatura Staff",
-        match: "練習試合のお申し込み / Richiesta Partita Amichevole",
+        match: "練習試合のお申し込み / Richiesta Partita",
         sponsor: "パートナー・協賛のご相談 / Sponsorship & Partner",
         other: "その他のお問い合わせ / Altra Richiesta",
 
@@ -1750,7 +1816,7 @@
         CB: "CB (センターバック / Difensore Centrale)",
         SB: "SB / WB (サイドバック・ウイングバック / Terzino - Esterno)",
         DM: "DM (ボランチ・アンカー / Mediano - Regista)",
-        CM: "CM (インサイドハーフ / Mezzala - Centrocampista)",
+        CM: "CM (インサイドハーフ / Mezzala - Centrale)",
         SH: "SH (サイドハーフ / Esterno Centrocampo)",
         ST: "ST (セカンドトップ / Seconda Punta)",
         CF: "CF (センターフォワード / Centravanti)",
@@ -1760,9 +1826,14 @@
         team_manager: "チームマネージャー / Team Manager",
         trainer: "トレーナー / Fisioterapista",
         kit_manager: "用具管理 / Magazziniere",
-        media_analyst: "広報・アナリスト / Social Media & Analyst",
+        media_analyst: "広報・アナリスト / Media & Analyst",
 
-        on: "同意する / Accetto"
+        financial: "資金スポンサー / Sponsor Finanziario",
+        technical: "サプライヤー / Fornitore Tecnico",
+        services: "サービス提供・施設利用 / Servizi e Strutture",
+        other_partner: "その他・企画協賛 / Altra Collaborazione",
+
+        on: "はい (Sì) / Accetto"
     };
 
     const categorySubjects = {
@@ -1776,7 +1847,6 @@
     function updateFormspreeHiddenFields() {
         const categorySelect = document.getElementById('category');
         const subjectInput = document.getElementById('formspree_subject');
-
         if (categorySelect && subjectInput) {
             const selectedCat = categorySelect.value;
             subjectInput.value = categorySubjects[selectedCat] || "[Yokohama Calcio] お問い合わせ / Nuovo Contatto";
@@ -1839,6 +1909,8 @@
         const staffBirth = document.getElementById('staff_birth_date');
         const calcAgeStaff = document.getElementById('calc_age_staff');
         if (staffBirth) updateAgeDisplay(staffBirth, calcAgeStaff);
+
+        document.getElementById('global_form_error').style.display = 'none';
     }
 
     function renderSubPositions() {
@@ -1872,15 +1944,13 @@
         container.innerHTML = html;
         wrapper.style.display = 'block';
 
-        // GESTIONE UX DINAMICA STATO CHECKBOX CON FRECCE E SPUNTE
         container.querySelectorAll('input[type="checkbox"]').forEach(chk => {
             chk.addEventListener('change', () => {
                 const parentTag = chk.closest('.checkbox-tag');
                 const icon = parentTag ? parentTag.querySelector('.tag-arrow') : null;
 
-                if (parentTag) {
-                    parentTag.classList.toggle('is-checked', chk.checked);
-                }
+                if (parentTag) parentTag.classList.toggle('is-checked', chk.checked);
+                
                 if (icon) {
                     if (chk.checked) {
                         icon.classList.remove('fa-chevron-right');
@@ -1890,7 +1960,6 @@
                         icon.classList.add('fa-chevron-right');
                     }
                 }
-
                 const checkedSubs = container.querySelectorAll('input[name="sub_positions[]"]:checked');
                 const subErr = document.getElementById('sub_pos_error');
                 if (subErr && checkedSubs.length > 0) subErr.style.display = 'none';
@@ -1898,14 +1967,23 @@
         });
     }
 
-    // TOGGLE SEZIONI DINAMICHE: NASCONDE TUTTO FINCHÉ NON SI SELEZIONA UNA CATEGORIA
+    // GESTIONE VISIBILITA' SEZIONI (NASCONDE TUTTO FINO A SELEZIONE CATEGORIA)
     function updateSectionVisibility() {
         const categorySelect = document.getElementById('category');
         const category = categorySelect ? categorySelect.value : '';
+        const dynamicFormContainer = document.getElementById('dynamicFormContainer');
+
+        if (!category) {
+            dynamicFormContainer.style.display = 'none';
+            return;
+        } else {
+            dynamicFormContainer.style.display = 'block';
+        }
 
         const playerWrapper = document.getElementById('trialFieldsWrapper');
         const staffWrapper = document.getElementById('staffFieldsWrapper');
         const matchWrapper = document.getElementById('matchFieldsWrapper');
+        const sponsorWrapper = document.getElementById('sponsorFieldsWrapper');
 
         function toggleWrapperInputs(wrapper, enable) {
             if (!wrapper) return;
@@ -1924,7 +2002,9 @@
         toggleWrapperInputs(playerWrapper, category === 'trial');
         toggleWrapperInputs(staffWrapper, category === 'staff');
         toggleWrapperInputs(matchWrapper, category === 'match');
+        toggleWrapperInputs(sponsorWrapper, category === 'sponsor');
 
+        // Required toggles per i campi all'interno
         const playerBirth = document.getElementById('birth_date');
         const playerExpLevel = document.getElementById('experience_level');
         const playerMacro = document.getElementById('macro_position');
@@ -1933,43 +2013,34 @@
         const staffRole = document.getElementById('staff_role');
 
         const matchTeamName = document.getElementById('match_team_name');
+        
+        const compName = document.getElementById('company_name');
+        const sponType = document.getElementById('sponsor_type');
+
+        // Reset tutti
+        [playerBirth, playerExpLevel, playerMacro, staffBirth, staffRole, matchTeamName, compName, sponType].forEach(el => {
+            if(el) el.removeAttribute('required');
+        });
 
         if (category === 'trial') {
             if (playerBirth) playerBirth.setAttribute('required', 'required');
             if (playerExpLevel) playerExpLevel.setAttribute('required', 'required');
             if (playerMacro) playerMacro.setAttribute('required', 'required');
-
-            if (staffBirth) staffBirth.removeAttribute('required');
-            if (staffRole) staffRole.removeAttribute('required');
-            if (matchTeamName) matchTeamName.removeAttribute('required');
         } else if (category === 'staff') {
-            if (playerBirth) playerBirth.removeAttribute('required');
-            if (playerExpLevel) playerExpLevel.removeAttribute('required');
-            if (playerMacro) playerMacro.removeAttribute('required');
-
             if (staffBirth) staffBirth.setAttribute('required', 'required');
             if (staffRole) staffRole.setAttribute('required', 'required');
-            if (matchTeamName) matchTeamName.removeAttribute('required');
         } else if (category === 'match') {
-            if (playerBirth) playerBirth.removeAttribute('required');
-            if (playerExpLevel) playerExpLevel.removeAttribute('required');
-            if (playerMacro) playerMacro.removeAttribute('required');
-
-            if (staffBirth) staffBirth.removeAttribute('required');
-            if (staffRole) staffRole.removeAttribute('required');
             if (matchTeamName) matchTeamName.setAttribute('required', 'required');
-        } else {
-            if (playerBirth) playerBirth.removeAttribute('required');
-            if (playerExpLevel) playerExpLevel.removeAttribute('required');
-            if (playerMacro) playerMacro.removeAttribute('required');
-
-            if (staffBirth) staffBirth.removeAttribute('required');
-            if (staffRole) staffRole.removeAttribute('required');
-            if (matchTeamName) matchTeamName.removeAttribute('required');
+            // Trigger checkbox logic del pitch
+            const hasPitch = document.getElementById('has_pitch');
+            if(hasPitch) hasPitch.dispatchEvent(new Event('change'));
+        } else if (category === 'sponsor') {
+            if (compName) compName.setAttribute('required', 'required');
+            if (sponType) sponType.setAttribute('required', 'required');
         }
     }
 
-    // VALIDAZIONE FURIGANA KATAKANA PER CAMPI KANA
+    // VALIDAZIONE KATAKANA
     function validateKanaInput(inputEl, errorEl) {
         const val = inputEl.value.trim();
         if (!val) {
@@ -1992,7 +2063,7 @@
         }
     }
 
-    // VALIDAZIONE EMAIL STRICT
+    // VALIDAZIONE EMAIL
     function validateEmailInput(inputEl, errorEl) {
         const val = inputEl.value.trim();
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -2009,7 +2080,7 @@
         }
     }
 
-    // VERIFICA ETÀ FOOL-PROOF
+    // VALIDAZIONE ETA'
     function validateAge(inputEl, errorBannerEl, errorMsgEl) {
         const val = inputEl.value;
         if (!val) {
@@ -2021,14 +2092,14 @@
         if (age === null) return true;
 
         if (age < 18) {
-            const template = translations[currentLang]['form.age_error_under'] || '18歳未満の方はご参加いただけません。';
+            const template = translations[currentLang]['form.age_error_under'];
             errorMsgEl.textContent = template.replace('{age}', age);
             errorBannerEl.style.display = 'flex';
             inputEl.classList.remove('is-valid');
             inputEl.classList.add('is-invalid');
             return false;
         } else if (age > 40) {
-            const template = translations[currentLang]['form.age_error_over'] || '対象年齢は40歳までとなっております。';
+            const template = translations[currentLang]['form.age_error_over'];
             errorMsgEl.textContent = template.replace('{age}', age);
             errorBannerEl.style.display = 'flex';
             inputEl.classList.remove('is-valid');
@@ -2042,16 +2113,17 @@
         }
     }
 
-    // ==========================================
-    // LIVE VALIDATION — SOLO NOME, DATA DI NASCITA, EMAIL
-    // ==========================================
+    // LIVE VALIDATION
     function initLiveValidation() {
         const liveValidationIds = [
             'last_name',
             'first_name',
+            'last_name_kana',
+            'first_name_kana',
             'birth_date',
             'staff_birth_date',
-            'email'
+            'email',
+            'message'
         ];
 
         liveValidationIds.forEach(id => {
@@ -2059,37 +2131,29 @@
             if (!input) return;
 
             const validateInput = () => {
-                // EMAIL
                 if (id === 'email') {
                     validateEmailInput(input, document.getElementById('email_error'));
                     return;
                 }
-
-                // DATA DI NASCITA
+                if (id === 'last_name_kana' || id === 'first_name_kana') {
+                    validateKanaInput(input, document.getElementById(id + '_error'));
+                    return;
+                }
                 if (id === 'birth_date') {
                     const ageErr = document.getElementById('age_error_player');
                     const ageMsg = document.getElementById('age_error_player_msg');
-                    if (input.value) {
-                        validateAge(input, ageErr, ageMsg);
-                    } else {
-                        ageErr.style.display = 'none';
-                        input.classList.remove('is-valid', 'is-invalid');
-                    }
+                    if (input.value) validateAge(input, ageErr, ageMsg);
+                    else { ageErr.style.display = 'none'; input.classList.remove('is-valid', 'is-invalid'); }
                     return;
                 }
                 if (id === 'staff_birth_date') {
                     const ageErr = document.getElementById('age_error_staff');
                     const ageMsg = document.getElementById('age_error_staff_msg');
-                    if (input.value) {
-                        validateAge(input, ageErr, ageMsg);
-                    } else {
-                        ageErr.style.display = 'none';
-                        input.classList.remove('is-valid', 'is-invalid');
-                    }
+                    if (input.value) validateAge(input, ageErr, ageMsg);
+                    else { ageErr.style.display = 'none'; input.classList.remove('is-valid', 'is-invalid'); }
                     return;
                 }
 
-                // NOME / COGNOME
                 if (input.value.trim() !== '') {
                     input.classList.remove('is-invalid');
                     input.classList.add('is-valid');
@@ -2101,11 +2165,31 @@
 
             input.addEventListener('blur', validateInput);
             input.addEventListener('input', () => {
-                if (input.classList.contains('is-invalid') || input.value.trim() !== '') {
-                    validateInput();
-                }
+                if (input.classList.contains('is-invalid') || input.value.trim() !== '') validateInput();
             });
         });
+    }
+
+    // LOGICA CAMPO AMICHEVOLE PITCH
+    function initPitchLogic() {
+        const hasPitch = document.getElementById('has_pitch');
+        const pitchName = document.getElementById('pitch_name');
+        const wrapper = document.getElementById('pitchNameWrapper');
+
+        if(hasPitch && pitchName && wrapper) {
+            hasPitch.addEventListener('change', () => {
+                if (hasPitch.checked) {
+                    wrapper.style.display = 'block';
+                    pitchName.setAttribute('required', 'required');
+                    pitchName.removeAttribute('disabled');
+                } else {
+                    wrapper.style.display = 'none';
+                    pitchName.removeAttribute('required');
+                    pitchName.setAttribute('disabled', 'disabled');
+                    pitchName.classList.remove('is-invalid', 'is-valid');
+                }
+            });
+        }
     }
 
     function initDesktopDropdowns() {
@@ -2203,6 +2287,16 @@
         }
     }
 
+    // Evidenzia i campi invalidi di HTML5 custom
+    function highlightInvalidFields(form) {
+        const elements = form.querySelectorAll('input, select, textarea');
+        elements.forEach(el => {
+            if (!el.disabled && !el.checkValidity()) {
+                el.classList.add('is-invalid');
+            }
+        });
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
         const yearSpan = document.getElementById('currentYear');
         if (yearSpan) yearSpan.textContent = new Date().getFullYear();
@@ -2217,30 +2311,26 @@
         initMobileMenu();
         setLanguage(currentLang);
         initLiveValidation();
+        initPitchLogic();
 
         const categorySelect = document.getElementById('category');
         if (categorySelect) {
             categorySelect.addEventListener('change', () => {
                 updateSectionVisibility();
                 updateFormspreeHiddenFields();
-                // Rimuove l'invalid se c'era un errore, ma NON aggiunge più is-valid
                 categorySelect.classList.remove('is-invalid');
             });
         }
 
         const macroSelect = document.getElementById('macro_position');
-        if (macroSelect) {
-            macroSelect.addEventListener('change', renderSubPositions);
-        }
+        if (macroSelect) macroSelect.addEventListener('change', renderSubPositions);
 
-        // CALCOLO ETÀ AUTOMATICO GIOCATORE
         const calcAgePlayer = document.getElementById('calc_age_player');
         if (playerBirth) {
             playerBirth.addEventListener('change', () => updateAgeDisplay(playerBirth, calcAgePlayer));
             playerBirth.addEventListener('input', () => updateAgeDisplay(playerBirth, calcAgePlayer));
         }
 
-        // CALCOLO ETÀ AUTOMATICO STAFF
         const calcAgeStaff = document.getElementById('calc_age_staff');
         if (staffBirth) {
             staffBirth.addEventListener('change', () => updateAgeDisplay(staffBirth, calcAgeStaff));
@@ -2252,37 +2342,23 @@
         const openPrivacyModalBtn = document.getElementById('openPrivacyModal');
         const privacyModalCloseBtn = document.getElementById('privacyModalCloseBtn');
         const privacyModalOkBtn = document.getElementById('privacyModalOkBtn');
-
         function openPrivacy() { if (privacyModal) privacyModal.classList.add('show'); }
         function closePrivacy() { if (privacyModal) privacyModal.classList.remove('show'); }
 
-        if (openPrivacyModalBtn) {
-            openPrivacyModalBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                openPrivacy();
-            });
-        }
-
+        if (openPrivacyModalBtn) openPrivacyModalBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openPrivacy(); });
         if (privacyModalCloseBtn) privacyModalCloseBtn.addEventListener('click', closePrivacy);
         if (privacyModalOkBtn) privacyModalOkBtn.addEventListener('click', closePrivacy);
-        if (privacyModal) {
-            privacyModal.addEventListener('click', (e) => {
-                if (e.target === privacyModal) closePrivacy();
-            });
-        }
+        if (privacyModal) privacyModal.addEventListener('click', (e) => { if (e.target === privacyModal) closePrivacy(); });
 
         // MODAL CONFERMA
         const confirmModal = document.getElementById('confirmModal');
         const confirmModalCloseBtn = document.getElementById('confirmModalCloseBtn');
         if (confirmModalCloseBtn && confirmModal) {
             confirmModalCloseBtn.addEventListener('click', () => confirmModal.classList.remove('show'));
-            confirmModal.addEventListener('click', (e) => {
-                if (e.target === confirmModal) confirmModal.classList.remove('show');
-            });
+            confirmModal.addEventListener('click', (e) => { if (e.target === confirmModal) confirmModal.classList.remove('show'); });
         }
 
-        // ESC
+        // ESC KEY
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 if (privacyModal && privacyModal.classList.contains('show')) closePrivacy();
@@ -2290,11 +2366,17 @@
             }
         });
 
-        // SUBMIT
+        // ==========================
+        // SUBMIT E VALIDAZIONE FINALE
+        // ==========================
         const form = document.getElementById('contactForm');
         if (form) {
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                
+                const globalErrorBox = document.getElementById('global_form_error');
+                const globalErrorMsg = document.getElementById('global_form_error_msg');
+                globalErrorBox.style.display = 'none';
 
                 const category = categorySelect.value;
                 if (!category) {
@@ -2303,11 +2385,30 @@
                     return false;
                 }
 
+                // 1. Controllo base HTML5 per i campi visibili
+                if (!form.checkValidity()) {
+                    highlightInvalidFields(form);
+                    globalErrorMsg.textContent = translations[currentLang]['form.error_general'];
+                    globalErrorBox.style.display = 'flex';
+                    // Scroll verso il primo errore
+                    const firstInvalid = form.querySelector('.is-invalid:not([disabled])');
+                    if (firstInvalid) firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+                    return false;
+                }
+
+                // 2. Controllo Privacy Policy
+                const privacyCheckbox = document.getElementById('privacy_agree');
+                if (!privacyCheckbox.checked) {
+                    globalErrorMsg.textContent = translations[currentLang]['form.error_privacy'];
+                    globalErrorBox.style.display = 'flex';
+                    return false;
+                }
+
+                // 3. Controlli personalizzati Katakana ed Email
                 const lastNameKana = document.getElementById('last_name_kana');
                 const firstNameKana = document.getElementById('first_name_kana');
                 const emailInput = document.getElementById('email');
 
-                // Validazione kana solo al submit (non live)
                 const isLastNameKanaValid = validateKanaInput(lastNameKana, document.getElementById('last_name_kana_error'));
                 const isFirstNameKanaValid = validateKanaInput(firstNameKana, document.getElementById('first_name_kana_error'));
                 const isEmailValid = validateEmailInput(emailInput, document.getElementById('email_error'));
@@ -2316,20 +2417,21 @@
                 if (!isFirstNameKanaValid) { firstNameKana.focus(); return false; }
                 if (!isEmailValid) { emailInput.focus(); return false; }
                 
+                // 4. Controllo logiche specifiche per categoria (Età e Sotto-Ruoli)
                 if (category === 'trial') {
                     const ageErr = document.getElementById('age_error_player');
                     const ageMsg = document.getElementById('age_error_player_msg');
                     const isAgeValid = validateAge(playerBirth, ageErr, ageMsg);
-                    if (!isAgeValid) {
-                        playerBirth.focus();
-                        return false;
-                    }
+                    if (!isAgeValid) { playerBirth.focus(); return false; }
+
                     const macro = macroSelect.value;
                     if (macro) {
                         const checkedSubs = document.querySelectorAll('input[name="sub_positions[]"]:checked');
                         const subErr = document.getElementById('sub_pos_error');
                         if (checkedSubs.length === 0) {
                             subErr.style.display = 'flex';
+                            globalErrorMsg.textContent = translations[currentLang]['form.error_general'];
+                            globalErrorBox.style.display = 'flex';
                             return false;
                         } else {
                             subErr.style.display = 'none';
@@ -2339,12 +2441,10 @@
                     const ageErr = document.getElementById('age_error_staff');
                     const ageMsg = document.getElementById('age_error_staff_msg');
                     const isStaffAgeValid = validateAge(staffBirth, ageErr, ageMsg);
-                    if (!isStaffAgeValid) {
-                        staffBirth.focus();
-                        return false;
-                    }
+                    if (!isStaffAgeValid) { staffBirth.focus(); return false; }
                 }
 
+                // Tutto valido: prepariamo i dati
                 updateFormspreeHiddenFields();
 
                 const rawFormData = new FormData(form);
@@ -2356,13 +2456,11 @@
 
                 for (let [key, value] of rawFormData.entries()) {
                     if (key.startsWith('_')) continue;
-
                     const trimmedVal = typeof value === 'string' ? value.trim() : value;
                     if (!trimmedVal || trimmedVal === '--') continue;
 
                     const bilingualKey = fieldBilingualLabels[key] || key;
                     const bilingualVal = valueBilingualMap[trimmedVal] || trimmedVal;
-
                     payloadData.append(bilingualKey, bilingualVal);
                 }
 
@@ -2411,7 +2509,6 @@
         const copyEmailBtn = document.getElementById('copyEmailBtn');
         const emailText = document.getElementById('emailText');
         const copyToast = document.getElementById('copyToast');
-
         if (copyEmailBtn && emailText) {
             copyEmailBtn.addEventListener('click', () => {
                 const textToCopy = emailText.textContent.trim();
