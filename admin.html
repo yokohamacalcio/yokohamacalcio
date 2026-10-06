@@ -50,8 +50,9 @@ body {
     background: var(--body-bg);
     color: var(--text);
     margin: 0;
-    padding: 8px;
+    padding: 12px;
     transition: background 0.3s, color 0.3s;
+    -webkit-text-size-adjust: 100%;
 }
 
 .hidden { display: none !important; }
@@ -72,11 +73,11 @@ body {
 .admin-container {
     width: 100%;
     max-width: 1200px;
-    margin: 6px auto;
-    padding: 16px;
+    margin: 10px auto;
+    padding: 24px;
     background: var(--card-bg);
-    border-radius: 14px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+    border-radius: 18px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.35);
 }
 
 .admin-header-bar {
@@ -84,10 +85,10 @@ body {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
     border-bottom: 2px solid var(--border);
-    padding-bottom: 12px;
-    margin-bottom: 14px;
+    padding-bottom: 16px;
+    margin-bottom: 18px;
 }
 
 h2, h3, h4 { color: var(--navy); margin: 0; font-weight: 800; }
@@ -96,31 +97,57 @@ body.dark h2, body.dark h3, body.dark h4 { color: var(--sky); }
 .section-box {
     background: var(--bg);
     border: 1px solid var(--border);
-    padding: 14px;
-    border-radius: 12px;
+    padding: 22px;
+    border-radius: 14px;
+    margin-bottom: 22px;
+    position: relative;
+}
+
+.section-box h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.05rem;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
     margin-bottom: 16px;
 }
 
-.form-group { margin-bottom: 12px; }
+.section-box h3 .sec-num {
+    background: var(--navy);
+    color: #fff;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.82rem;
+    flex-shrink: 0;
+}
+body.dark .section-box h3 .sec-num { background: var(--sky); color: var(--navy-dark); }
+
+.form-group { margin-bottom: 14px; }
 .form-group label {
     display: block;
     font-weight: bold;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     color: var(--navy);
-    font-size: 0.85rem;
+    font-size: 0.88rem;
 }
 body.dark .form-group label { color: var(--sky); }
 
 .form-control {
     width: 100%;
-    padding: 9px 11px;
+    padding: 11px 12px;
     border: 1px solid var(--input-border);
     border-radius: 8px;
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     background: var(--input-bg);
     color: var(--text);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     font-family: inherit;
+    min-height: 44px;
 }
 .form-control:focus {
     outline: none;
@@ -128,46 +155,69 @@ body.dark .form-group label { color: var(--sky); }
     box-shadow: 0 0 0 3px rgba(2,132,199,0.15);
 }
 
-.row { display: flex; gap: 10px; flex-wrap: wrap; }
-.row .form-group { flex: 1; min-width: 180px; }
+select.form-control {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23003c82' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px 16px;
+    padding-right: 38px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+body.dark select.form-control {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2387ceeb' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+}
 
+.row { display: flex; gap: 12px; flex-wrap: wrap; }
+.row .form-group { flex: 1; min-width: 200px; }
+
+/* ====== LOGIN ====== */
 .login-box {
-    max-width: 420px;
-    margin: 40px auto;
-    padding: 24px;
+    max-width: 440px;
+    margin: 60px auto;
+    padding: 32px;
     background: var(--card-bg);
-    border-radius: 16px;
+    border-radius: 18px;
     box-shadow: 0 10px 35px rgba(0,0,0,0.3);
     text-align: center;
 }
-.login-box i.lock-icon { font-size: 3rem; color: var(--navy); margin-bottom: 12px; }
+.login-box i.lock-icon { font-size: 3.5rem; color: var(--navy); margin-bottom: 15px; }
 body.dark .login-box i.lock-icon { color: var(--sky); }
 
+/* ====== TABS ====== */
 .admin-tabs {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     overflow-x: auto;
-    padding-bottom: 6px;
-    margin-bottom: 16px;
+    padding: 4px 4px 12px;
+    margin-bottom: 22px;
     border-bottom: 2px solid var(--border);
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
+    scroll-snap-type: x proximity;
 }
+.admin-tabs::-webkit-scrollbar { height: 5px; }
+.admin-tabs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
 .tab-btn {
     background: #f1f5f9;
     border: 1px solid var(--border);
     color: var(--text-muted);
-    padding: 10px 14px;
-    border-radius: 8px;
+    padding: 12px 18px;
+    border-radius: 10px;
     font-weight: bold;
-    font-size: 0.82rem;
+    font-size: 0.88rem;
     cursor: pointer;
     white-space: nowrap;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     transition: all 0.2s ease;
     font-family: inherit;
+    scroll-snap-align: start;
+    min-height: 44px;
 }
 body.dark .tab-btn { background: #0f172a; color: #94a3b8; }
 .tab-btn:hover { background: var(--bg); color: var(--navy); }
@@ -180,37 +230,227 @@ body.dark .tab-btn:hover { color: var(--sky); }
 }
 body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); border-color: var(--sky); }
 
-/* MISTER HELPER */
+/* ====== MATCH SELECTOR HERO ====== */
+.match-selector-hero {
+    background: linear-gradient(135deg, #00224a 0%, #003c82 100%);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(135, 206, 235, 0.25);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+.match-selector-hero .hero-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--sky);
+    font-weight: 800;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+}
+.match-selector-hero .hero-label i { color: #87ceeb; font-size: 1.1rem; }
+
+.match-selector-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.match-selector-row select {
+    width: 100%;
+    padding: 12px 38px 12px 14px;
+    border-radius: 10px;
+    border: 2px solid rgba(135, 206, 235, 0.4);
+    background: #ffffff;
+    color: #0f172a;
+    font-weight: 700;
+    font-size: 0.92rem;
+    font-family: inherit;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23003c82' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 18px 18px;
+    min-height: 46px;
+}
+.match-selector-row select:focus {
+    outline: none;
+    border-color: #87ceeb;
+    box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.35);
+}
+.match-selector-row .hero-btn {
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 46px;
+    transition: transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+}
+.match-selector-row .hero-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(56, 189, 248, 0.5);
+}
+
+.match-id-search {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.match-id-search .search-toggle-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    color: #cbd5e1;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+.match-id-search .search-toggle-btn:hover {
+    background: rgba(135, 206, 235, 0.15);
+    color: #87ceeb;
+    border-color: rgba(135, 206, 235, 0.5);
+}
+.match-id-search .search-input-wrap {
+    flex: 1;
+    min-width: 0;
+    display: none;
+    gap: 6px;
+}
+.match-id-search .search-input-wrap.open {
+    display: flex;
+}
+.match-id-search input {
+    flex: 1;
+    min-width: 100px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(135, 206, 235, 0.4);
+    background: #fff;
+    font-family: inherit;
+    font-size: 0.88rem;
+}
+.match-id-search input:focus {
+    outline: none;
+    border-color: #87ceeb;
+    box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.35);
+}
+.match-id-search button {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: none;
+    background: #87ceeb;
+    color: #00224a;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85rem;
+    min-height: 44px;
+}
+.match-id-search button.search-go {
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+    color: #fff;
+}
+
+.match-quick-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(135, 206, 235, 0.15);
+}
+.quick-action-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #e2e8f0;
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    min-height: 40px;
+}
+.quick-action-btn:hover {
+    background: rgba(135, 206, 235, 0.2);
+    border-color: rgba(135, 206, 235, 0.5);
+    color: #fff;
+}
+.quick-action-btn.danger {
+    background: rgba(220, 38, 38, 0.15);
+    border-color: rgba(220, 38, 38, 0.4);
+    color: #fca5a5;
+}
+.quick-action-btn.danger:hover {
+    background: rgba(220, 38, 38, 0.35);
+    color: #fff;
+}
+.quick-action-btn.new {
+    background: rgba(5, 150, 105, 0.2);
+    border-color: rgba(5, 150, 105, 0.5);
+    color: #a7f3d0;
+}
+.quick-action-btn.new:hover {
+    background: rgba(5, 150, 105, 0.4);
+    color: #fff;
+}
+
+/* ====== MISTER HELPER ====== */
 .mister-helper-box {
     background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
-    border-radius: 14px;
-    padding: 14px;
-    margin-bottom: 16px;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
     border: 1px solid rgba(135, 206, 235, 0.25);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 .mister-helper-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 12px;
-    padding-bottom: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 .mister-helper-header strong {
     color: #ffffff;
-    font-size: 0.98rem;
+    font-size: 1.05rem;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
-.mister-helper-header strong i { color: #87ceeb; font-size: 1.1rem; }
+.mister-helper-header strong i { color: #87ceeb; font-size: 1.2rem; }
 .mister-helper-subtitle {
     display: block;
     color: #94a3b8;
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     font-weight: 500;
     margin-top: 2px;
 }
@@ -218,69 +458,76 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
     color: #ffffff;
     border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
+    padding: 11px 18px;
+    border-radius: 10px;
     font-weight: 800;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     font-family: inherit;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+    min-height: 44px;
 }
 .btn-suggest-lineup:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(56, 189, 248, 0.6);
+    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.6);
 }
 .mister-helper-body {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
 }
 .mister-pos-suggestion {
     background: rgba(30, 41, 59, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 8px;
-    padding: 8px;
+    border-radius: 10px;
+    padding: 10px;
     color: #e2e8f0;
+    transition: transform 0.2s, border-color 0.2s;
+}
+.mister-pos-suggestion:hover {
+    border-color: rgba(135, 206, 235, 0.4);
+    transform: translateY(-2px);
 }
 .mister-pos-head {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 .mister-pos-suggestion .pos-label {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
     color: #000;
     font-weight: 900;
-    font-size: 0.62rem;
-    padding: 2px 6px;
+    font-size: 0.65rem;
+    padding: 2px 7px;
     border-radius: 4px;
+    letter-spacing: 0.4px;
 }
 .mister-pos-suggestion .pos-macro {
     background: rgba(255, 255, 255, 0.1);
     color: #87ceeb;
-    font-size: 0.58rem;
+    font-size: 0.6rem;
     font-weight: 700;
-    padding: 2px 5px;
+    padding: 2px 6px;
     border-radius: 4px;
 }
 .mister-top-players {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 4px;
 }
 .mister-player-line {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 6px;
-    font-size: 0.72rem;
-    padding: 3px 5px;
-    border-radius: 5px;
+    gap: 8px;
+    font-size: 0.75rem;
+    padding: 4px 6px;
+    border-radius: 6px;
     background: rgba(255, 255, 255, 0.03);
     min-width: 0;
 }
@@ -305,37 +552,37 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
 }
 .mister-player-count {
     flex: 0 0 auto;
-    min-width: 38px;
+    min-width: 44px;
     text-align: center;
     background: rgba(0, 0, 0, 0.35);
     color: #87ceeb;
     font-weight: 800;
-    padding: 1px 4px;
-    border-radius: 6px;
-    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-size: 0.68rem;
 }
 .mister-player-line.rank-1 .mister-player-count { background: rgba(16, 185, 129, 0.35); color: #a7f3d0; }
 .mister-player-line.rank-2 .mister-player-count { background: rgba(245, 158, 11, 0.35); color: #fde68a; }
 .mister-player-line.rank-3 .mister-player-count { background: rgba(100, 116, 139, 0.35); color: #cbd5e1; }
 
-/* CAMPO TATTICO */
+/* ====== PITCH ====== */
 .tactical-pitch-container {
     background: radial-gradient(circle, #16a34a 0%, #15803d 60%, #14532d 100%);
-    border-radius: 14px;
-    padding: 10px;
-    border: 3px solid #0f172a;
-    box-shadow: inset 0 0 25px rgba(0,0,0,0.7), 0 6px 20px rgba(0,0,0,0.25);
+    border-radius: 16px;
+    padding: 14px;
+    border: 4px solid #0f172a;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.25);
     position: relative;
     overflow: hidden;
-    margin-top: 10px;
+    margin-top: 14px;
 }
 .pitch-header-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 12px;
+    gap: 10px;
+    margin-bottom: 16px;
     position: relative;
     z-index: 2;
 }
@@ -343,11 +590,11 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     position: relative;
     aspect-ratio: 3 / 4;
     background:
-        repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 35px, transparent 35px, transparent 70px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 40px, transparent 40px, transparent 80px),
         radial-gradient(ellipse at center, rgba(255,255,255,0.06) 0%, transparent 70%);
-    border-radius: 6px;
+    border-radius: 8px;
     z-index: 2;
-    min-height: 460px;
+    min-height: 500px;
 }
 .pitch-grid::before {
     content: '';
@@ -361,7 +608,7 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     content: '';
     position: absolute;
     top: 50%; left: 50%;
-    width: 80px; height: 80px;
+    width: 90px; height: 90px;
     border: 2px solid rgba(255,255,255,0.35);
     border-radius: 50%;
     transform: translate(-50%, -50%);
@@ -370,15 +617,20 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
 .pitch-position-card {
     position: absolute;
     transform: translate(-50%, -50%);
-    width: 96px;
+    width: 108px;
     background: rgba(15, 23, 42, 0.94);
     border: 2px solid #f59e0b;
-    border-radius: 7px;
-    padding: 5px;
+    border-radius: 8px;
+    padding: 6px;
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.5);
     transition: transform 0.15s, border-color 0.2s, box-shadow 0.2s;
     z-index: 3;
+}
+.pitch-position-card:hover {
+    border-color: var(--sky);
+    box-shadow: 0 6px 20px rgba(135,206,235,0.5);
+    z-index: 4;
 }
 .pitch-position-card.filled {
     border-color: #10b981;
@@ -393,23 +645,24 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     animation: pulseNewPos 2s infinite;
 }
 @keyframes pulseNewPos {
-    0%, 100% { box-shadow: 0 4px 12px rgba(0,0,0,0.5), 0 0 0 0 rgba(239,68,68,0.5); }
-    50% { box-shadow: 0 4px 12px rgba(0,0,0,0.5), 0 0 0 5px rgba(239,68,68,0); }
+    0%, 100% { box-shadow: 0 4px 14px rgba(0,0,0,0.5), 0 0 0 0 rgba(239,68,68,0.5); }
+    50% { box-shadow: 0 4px 14px rgba(0,0,0,0.5), 0 0 0 6px rgba(239,68,68,0); }
 }
 .pitch-pos-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 3px;
-    font-size: 0.6rem;
+    margin-bottom: 4px;
+    font-size: 0.65rem;
 }
 .pos-badge {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
     color: #000;
     font-weight: 900;
-    font-size: 0.58rem;
-    padding: 1px 4px;
+    font-size: 0.6rem;
+    padding: 1px 5px;
     border-radius: 3px;
+    letter-spacing: 0.3px;
     white-space: nowrap;
 }
 .pitch-position-card.filled .pos-badge {
@@ -417,12 +670,13 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
     color: #065f46;
 }
 .affinity-badge {
-    font-size: 0.52rem;
+    font-size: 0.55rem;
     font-weight: 800;
-    padding: 1px 3px;
+    padding: 1px 4px;
     border-radius: 3px;
     color: #ffffff;
     white-space: nowrap;
+    letter-spacing: 0.2px;
 }
 .affinity-badge.high { background: #10b981; }
 .affinity-badge.medium { background: #f59e0b; }
@@ -430,125 +684,125 @@ body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); bor
 .affinity-badge.new { background: #991b1b; }
 .pitch-player-select {
     width: 100%;
-    font-size: 0.65rem;
-    padding: 3px 2px;
+    font-size: 0.7rem;
+    padding: 4px 5px;
     border-radius: 4px;
     border: none;
     background: rgba(255,255,255,0.95);
     color: #0f172a;
     font-family: inherit;
     cursor: pointer;
-}
-@media (max-width: 600px) {
-    .pitch-position-card { width: 84px; padding: 4px; }
-    .pitch-player-select { font-size: 0.6rem; }
+    min-height: 26px;
 }
 
-.bench-container { margin-top: 16px; }
+/* ====== BENCH ====== */
+.bench-container { margin-top: 22px; }
 .bench-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 8px;
-    margin-top: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
 }
 .bench-card {
     background: var(--card-bg);
     border: 1px solid var(--border);
-    padding: 8px;
-    border-radius: 8px;
-    font-size: 0.82rem;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 0.85rem;
     box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
 .bench-card-header {
     font-weight: bold;
     color: var(--navy);
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.8rem;
 }
 body.dark .bench-card-header { color: var(--sky); }
 .bench-sub-row {
     display: flex;
     align-items: center;
-    gap: 4px;
-    margin-top: 5px;
+    gap: 6px;
+    margin-top: 6px;
     background: var(--bg);
-    padding: 4px 5px;
-    border-radius: 5px;
+    padding: 5px 6px;
+    border-radius: 6px;
     flex-wrap: wrap;
 }
 .bench-sub-row label {
-    font-size: 0.68rem;
+    font-size: 0.72rem;
     font-weight: 700;
     color: var(--text-muted);
     margin: 0;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 4px;
 }
 
+/* ====== TRIALISTS ====== */
 .trialist-box {
     background: #ecfdf5;
     border: 1px solid #a7f3d0;
-    border-radius: 10px;
-    padding: 12px;
-    margin-top: 14px;
+    border-radius: 12px;
+    padding: 14px;
+    margin-top: 16px;
 }
 body.dark .trialist-box { background: #064e3b; border-color: #047857; }
 .trialist-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 6px;
+    gap: 8px;
+    margin-top: 8px;
 }
 .trialist-item {
     background: var(--green);
     color: white;
-    padding: 4px 10px;
-    border-radius: 16px;
-    font-size: 0.78rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.82rem;
     font-weight: bold;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 .btn-remove-trialist {
     background: transparent;
     border: none;
     color: #fecdd3;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     padding: 0;
 }
 
+/* ====== TABLES ====== */
 .data-table-container {
     overflow-x: auto;
-    margin-top: 8px;
-    border-radius: 8px;
+    margin-top: 10px;
+    border-radius: 10px;
     border: 1px solid var(--border);
     -webkit-overflow-scrolling: touch;
 }
 .data-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.82rem;
+    font-size: 0.85rem;
 }
 .data-table th {
     background: var(--navy);
     color: white;
     text-align: left;
-    padding: 8px;
+    padding: 10px;
     white-space: nowrap;
     position: sticky;
     top: 0;
+    font-size: 0.82rem;
 }
 .data-table th[data-sort] { cursor: pointer; user-select: none; }
 .data-table th[data-sort]:hover { background: var(--navy-dark); }
 .data-table td {
-    padding: 7px 8px;
+    padding: 9px 10px;
     border-bottom: 1px solid var(--border);
     white-space: nowrap;
 }
@@ -558,76 +812,83 @@ body.dark .trialist-box { background: #064e3b; border-color: #047857; }
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
+    gap: 10px;
+    margin-bottom: 10px;
     flex-wrap: wrap;
 }
 
+/* ====== STAT ROWS ====== */
 .stat-row {
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin-bottom: 6px;
+    gap: 8px;
+    margin-bottom: 8px;
     background: var(--card-bg);
-    padding: 6px;
-    border-radius: 7px;
+    padding: 8px;
+    border-radius: 8px;
     border: 1px solid var(--border);
     flex-wrap: wrap;
 }
-.stat-row select { flex: 1; min-width: 130px; }
-.stat-row input[type="number"] { width: 55px; text-align: center; }
-.stat-row input[type="text"].minute-input { width: 55px; text-align: center; }
+.stat-row select { flex: 1; min-width: 140px; }
+.stat-row input[type="number"] { width: 60px; text-align: center; }
+.stat-row input[type="text"].minute-input { width: 60px; text-align: center; }
 
-.btn-remove-row { background: var(--red); color: white; border: none; padding: 5px 8px; border-radius: 5px; cursor: pointer; font-family: inherit; }
-.btn-add-row { background: var(--sky-dark); color: white; border: none; padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; margin-top: 4px; font-family: inherit; }
-.btn-clear-pitch { background: var(--red); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.78rem; font-weight: bold; font-family: inherit; }
-.btn-new-match { background: var(--green); color: white; border: none; padding: 9px 12px; border-radius: 7px; cursor: pointer; font-weight: bold; font-size: 0.82rem; white-space: nowrap; font-family: inherit; }
-.btn-add-trialist { background: var(--green); color: white; border: none; padding: 9px 14px; border-radius: 7px; cursor: pointer; font-size: 0.82rem; font-weight: bold; width: 100%; margin-top: 8px; font-family: inherit; }
+.btn-remove-row { background: var(--red); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-family: inherit; min-height: 40px; }
+.btn-add-row { background: var(--sky-dark); color: white; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 0.84rem; font-weight: bold; margin-top: 5px; font-family: inherit; min-height: 42px; }
+.btn-clear-pitch { background: var(--red); color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: bold; font-family: inherit; min-height: 40px; }
+.btn-new-match { background: var(--green); color: white; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.88rem; white-space: nowrap; font-family: inherit; min-height: 44px; }
+.btn-add-trialist { background: var(--green); color: white; border: none; padding: 12px 16px; border-radius: 10px; cursor: pointer; font-size: 0.9rem; font-weight: bold; width: 100%; margin-top: 10px; font-family: inherit; min-height: 48px; }
 .btn-submit {
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
     color: white;
-    padding: 12px 18px;
+    padding: 16px 20px;
     border: none;
-    border-radius: 9px;
-    font-weight: bold;
+    border-radius: 12px;
+    font-weight: 800;
     cursor: pointer;
     width: 100%;
-    font-size: 0.95rem;
-    box-shadow: 0 4px 10px rgba(0,60,130,0.3);
+    font-size: 1rem;
+    box-shadow: 0 6px 18px rgba(0,60,130,0.35);
     font-family: inherit;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, transform 0.1s;
+    min-height: 54px;
+    letter-spacing: 0.3px;
 }
-.btn-submit:hover:not(:disabled) { opacity: 0.92; }
+.btn-submit:hover:not(:disabled) { opacity: 0.92; transform: translateY(-1px); }
 .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; box-shadow: none; }
-.btn-logout { background: var(--red); color: white; padding: 5px 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.78rem; font-family: inherit; }
-.btn-load { background: var(--sky-dark); color: white; border: none; padding: 9px 14px; border-radius: 7px; cursor: pointer; font-weight: bold; font-size: 0.82rem; font-family: inherit; }
-.btn-reset { background: #64748b; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.78rem; font-weight: bold; font-family: inherit; }
-.btn-edit { background: var(--sky-dark); color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-family: inherit; }
-.btn-delete { background: var(--red); color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-family: inherit; }
+.btn-logout { background: var(--red); color: white; padding: 8px 14px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.82rem; font-family: inherit; min-height: 40px; }
+.btn-load { background: var(--sky-dark); color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.88rem; font-family: inherit; min-height: 44px; }
+.btn-reset { background: #64748b; color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: bold; font-family: inherit; min-height: 40px; }
+.btn-edit { background: var(--sky-dark); color: white; border: none; padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-family: inherit; min-height: 34px; }
+.btn-delete { background: var(--red); color: white; border: none; padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-family: inherit; min-height: 34px; }
 .btn-icon {
     background: rgba(255,255,255,0.1);
     border: 1px solid var(--border);
     color: var(--text);
-    padding: 5px 8px;
-    border-radius: 6px;
+    padding: 8px 12px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-family: inherit;
     transition: all 0.2s;
+    min-height: 40px;
+    min-width: 40px;
 }
 .btn-icon:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
 
-.lang-switcher-admin { display: flex; gap: 3px; align-items: center; }
+.lang-switcher-admin { display: flex; gap: 4px; align-items: center; }
 .lang-btn-admin {
     background: transparent;
     border: 1px solid var(--border);
-    padding: 5px 8px;
-    border-radius: 5px;
-    font-size: 0.75rem;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
     font-weight: bold;
     cursor: pointer;
     color: var(--text-muted);
     font-family: inherit;
+    min-height: 40px;
+    min-width: 40px;
 }
 .lang-btn-admin.active {
     background: var(--navy);
@@ -636,6 +897,7 @@ body.dark .trialist-box { background: #064e3b; border-color: #047857; }
 }
 body.dark .lang-btn-admin.active { background: var(--sky); color: var(--navy-dark); }
 
+/* ====== MODAL ====== */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -645,7 +907,7 @@ body.dark .lang-btn-admin.active { background: var(--sky); color: var(--navy-dar
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 16px;
+    padding: 20px;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s;
@@ -654,52 +916,53 @@ body.dark .lang-btn-admin.active { background: var(--sky); color: var(--navy-dar
 .modal-box {
     background: var(--card-bg);
     color: var(--text);
-    border-radius: 14px;
-    padding: 20px;
-    max-width: 440px;
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 480px;
     width: 100%;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     transform: scale(0.95);
     transition: transform 0.2s;
     max-height: 90vh;
     overflow-y: auto;
 }
 .modal-overlay.show .modal-box { transform: scale(1); }
-.modal-title { font-size: 1.1rem; font-weight: 800; color: var(--navy); margin-bottom: 10px; }
+.modal-title { font-size: 1.15rem; font-weight: 800; color: var(--navy); margin-bottom: 12px; }
 body.dark .modal-title { color: var(--sky); }
-.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
-.modal-actions button { padding: 8px 14px; border-radius: 7px; font-weight: bold; font-family: inherit; cursor: pointer; border: none; font-size: 0.85rem; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+.modal-actions button { padding: 11px 20px; border-radius: 8px; font-weight: bold; font-family: inherit; cursor: pointer; border: none; font-size: 0.9rem; min-height: 44px; }
 .btn-modal-cancel { background: var(--border); color: var(--text); }
 .btn-modal-confirm { background: var(--navy); color: #fff; }
 body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); }
 .btn-modal-danger { background: var(--red); color: #fff; }
 
+/* ====== TOAST ====== */
 #toastContainer {
     position: fixed;
-    top: 12px;
-    right: 12px;
+    top: 20px;
+    right: 20px;
     z-index: 9999;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    max-width: 360px;
+    gap: 10px;
+    max-width: 380px;
     pointer-events: none;
 }
 .toast {
-    padding: 12px 16px;
-    border-radius: 9px;
+    padding: 14px 18px;
+    border-radius: 10px;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: #fff;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
     transform: translateX(120%);
     transition: transform 0.3s ease, opacity 0.3s ease;
     opacity: 0;
     pointer-events: auto;
     display: flex;
     align-items: flex-start;
-    gap: 8px;
-    line-height: 1.35;
+    gap: 10px;
+    line-height: 1.4;
 }
 .toast.show { transform: translateX(0); opacity: 1; }
 .toast-success { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
@@ -712,41 +975,102 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
     border: 1px solid #f59e0b;
     color: #78350f;
-    padding: 10px 14px;
-    border-radius: 9px;
-    margin-bottom: 14px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     flex-wrap: wrap;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
 }
 .draft-banner button {
-    padding: 5px 10px;
-    border-radius: 5px;
+    padding: 8px 14px;
+    border-radius: 6px;
     border: none;
     cursor: pointer;
     font-weight: bold;
     font-family: inherit;
-    font-size: 0.78rem;
+    font-size: 0.82rem;
+    min-height: 40px;
 }
 
+/* ====== RESPONSIVE MOBILE ====== */
 @media (max-width: 768px) {
     body { padding: 4px; }
-    .admin-container { padding: 10px; border-radius: 10px; margin: 2px auto; }
-    .row { flex-direction: column; gap: 6px; }
-    .row .form-group { min-width: 100%; margin-bottom: 6px; }
-    .admin-header-bar { flex-direction: column; align-items: stretch; gap: 10px; }
-    .tab-btn { padding: 8px 12px; font-size: 0.78rem; }
+    .admin-container { padding: 14px; border-radius: 12px; margin: 4px auto; }
+    .row { flex-direction: column; gap: 0; }
+    .row .form-group { min-width: 100%; margin-bottom: 12px; }
+    .admin-header-bar { flex-direction: column; align-items: stretch; gap: 12px; }
+    .admin-tabs { gap: 6px; padding: 4px 2px 10px; }
+    .tab-btn { padding: 10px 14px; font-size: 0.82rem; gap: 6px; }
+    .tab-btn span { display: inline; }
     .bench-grid { grid-template-columns: 1fr; }
-    .section-box { padding: 10px; margin-bottom: 12px; border-radius: 10px; }
-    .form-control { font-size: 0.85rem; padding: 8px; }
-    .btn-submit { padding: 11px 14px; font-size: 0.9rem; }
-    .pitch-grid { min-height: 380px; }
-    .mister-helper-body { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-    #toastContainer { top: 8px; right: 8px; left: 8px; max-width: none; }
+    .section-box { padding: 16px; margin-bottom: 16px; border-radius: 12px; }
+    .form-control { font-size: 0.92rem; padding: 11px 12px; }
+    .btn-submit { padding: 15px 18px; font-size: 0.98rem; }
+    .pitch-grid { min-height: 440px; }
+    .mister-helper-body { grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 8px; }
+    #toastContainer { top: 10px; right: 10px; left: 10px; max-width: none; }
+
+    .pitch-position-card { width: 92px; padding: 5px; }
+    .pitch-player-select { font-size: 0.66rem; padding: 3px 4px; }
+    .pos-badge { font-size: 0.55rem; padding: 1px 4px; }
+    .affinity-badge { font-size: 0.5rem; }
+
+    .match-selector-hero { padding: 14px; }
+    .match-selector-row { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+    .match-selector-row .hero-btn { width: 100%; justify-content: center; }
+    .match-quick-actions { gap: 6px; }
+    .quick-action-btn { flex: 1; justify-content: center; min-width: calc(50% - 3px); }
+    .match-id-search { width: 100%; }
+    .match-id-search .search-input-wrap { flex-direction: column; }
+    .match-id-search .search-input-wrap input,
+    .match-id-search .search-input-wrap button { width: 100%; }
+}
+
+@media (max-width: 480px) {
+    .pitch-position-card { width: 82px; padding: 4px; }
+    .pitch-player-select { font-size: 0.62rem; }
+    .pitch-grid { min-height: 400px; }
+    .mister-helper-body { grid-template-columns: 1fr 1fr; gap: 6px; }
+    .mister-pos-suggestion { padding: 8px; }
+    .mister-player-line { font-size: 0.68rem; padding: 3px 4px; }
+    .mister-player-count { font-size: 0.6rem; min-width: 38px; }
+
+    .section-box h3 { font-size: 0.95rem; }
+    .section-box h3 .sec-num { width: 22px; height: 22px; font-size: 0.75rem; }
+
+    .stat-row { padding: 6px; gap: 6px; }
+    .stat-row select { font-size: 0.82rem; min-width: 100px; }
+    .stat-row input[type="number"],
+    .stat-row input.minute-input { width: 50px; font-size: 0.82rem; }
+
+    .quick-action-btn { font-size: 0.75rem; padding: 8px 10px; }
+
+    .tab-btn { padding: 9px 12px; font-size: 0.78rem; }
+    .tab-btn span { display: none; }
+    .tab-btn i { font-size: 1rem; }
+}
+
+/* Fix tab scroll indicator on mobile */
+@media (max-width: 768px) {
+    .admin-tabs {
+        position: relative;
+        padding-right: 30px;
+    }
+    .admin-tabs::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 12px;
+        width: 30px;
+        background: linear-gradient(90deg, transparent, var(--card-bg));
+        pointer-events: none;
+    }
 }
 </style>
 </head>
@@ -756,12 +1080,12 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
 
 <div id="loginSection" class="login-box" role="main">
     <i class="fas fa-lock lock-icon" aria-hidden="true"></i>
-    <h2 style="margin-bottom: 6px;">Yokohama Calcio Admin</h2>
-    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;" data-i18n="loginSub">
+    <h2 style="margin-bottom: 8px;">Yokohama Calcio Admin</h2>
+    <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;" data-i18n="loginSub">
         Inserisci il GitHub Token (PAT) per accedere.
     </p>
 
-    <div class="lang-switcher-admin" style="justify-content: center; margin-bottom: 16px;">
+    <div class="lang-switcher-admin" style="justify-content: center; margin-bottom: 20px;">
         <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="ja">JP</button>
         <button type="button" class="lang-btn-admin active" data-action="set-lang" data-lang="it">IT</button>
         <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="en">EN</button>
@@ -774,8 +1098,8 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
         <button type="submit" class="btn-submit" id="loginBtn" data-i18n="loginBtn">Accedi</button>
     </form>
-    <div id="loginError" style="color: var(--red); font-size: 0.82rem; margin-top: 12px; font-weight: bold;"></div>
-    <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 16px;">
+    <div id="loginError" style="color: var(--red); font-size: 0.85rem; margin-top: 15px; font-weight: bold;"></div>
+    <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 20px;">
         🔒 Il token resta in <b>sessionStorage</b> e viene cancellato alla chiusura del browser.
     </div>
 </div>
@@ -785,12 +1109,12 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     <div class="admin-header-bar">
         <div>
             <h2 id="mainContent"><i class="fas fa-shield-alt"></i> Yokohama Calcio Admin</h2>
-            <span style="font-size: 0.75rem; color: var(--green); font-weight: bold;">
+            <span style="font-size: 0.78rem; color: var(--green); font-weight: bold;">
                 <i class="fas fa-check-circle"></i> <span data-i18n="authenticated">Authenticated</span>
             </span>
         </div>
 
-        <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
             <div class="lang-switcher-admin">
                 <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="ja">JP</button>
                 <button type="button" class="lang-btn-admin active" data-action="set-lang" data-lang="it">IT</button>
@@ -816,7 +1140,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
 
     <div id="draftBanner" class="draft-banner hidden">
         <span><i class="fas fa-save"></i> <span data-i18n="draftFound">Trovato un draft non salvato.</span></span>
-        <div style="display: flex; gap: 6px;">
+        <div style="display: flex; gap: 8px;">
             <button type="button" class="btn-reset" data-action="restore-draft" style="background: var(--green);">
                 <i class="fas fa-check"></i> <span data-i18n="draftRestore">Ripristina</span>
             </button>
@@ -846,30 +1170,52 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
 
     <div id="matchesTab" class="tab-content" role="tabpanel">
         <form id="matchForm" autocomplete="off">
-            <input type="hidden" id="repoPath" value="yokohamacalcio/yokohamacalcio">
 
-            <div class="section-box">
-                <h3 data-i18n="matchInfoHeading">1. Informazioni Partita</h3>
-                
-                <!-- SELETTORE RAPIDO PARTITE -->
-                <div class="form-group" style="margin-top: 10px;">
-                    <label><i class="fas fa-list"></i> <span data-i18n="lblSelectExistingMatch">Seleziona Partita Esistente:</span></label>
-                    <select id="existingMatchSelect" class="form-control">
-                        <option value="">-- Seleziona o digita sotto --</option>
-                    </select>
+            <!-- ============================================================
+                 MATCH SELECTOR HERO
+                 ============================================================ -->
+            <div class="match-selector-hero">
+                <div class="hero-label">
+                    <i class="fas fa-search"></i> <span data-i18n="heroSelectorLabel">Seleziona Partita da Modificare</span>
                 </div>
 
-                <div class="row" style="align-items: flex-end;">
-                    <div class="form-group" style="flex: 2;">
-                        <label data-i18n="lblMatchId">ID Match (es. match-9):</label>
-                        <div style="display: flex; gap: 5px; flex-wrap: wrap;">
-                            <input type="text" id="matchId" class="form-control" placeholder="match-9" required style="flex: 1; min-width: 110px;">
-                            <button type="button" class="btn-load" data-action="load-match" title="Carica"><i class="fas fa-search"></i></button>
-                            <button type="button" class="btn-load" data-action="duplicate-match" title="Duplica" style="background: var(--amber);"><i class="fas fa-clone"></i></button>
-                            <button type="button" class="btn-new-match" data-action="new-match"><i class="fas fa-plus-circle"></i> <span data-i18n="btnNewMatch">Nuova</span></button>
-                            <button type="button" class="btn-delete" data-action="delete-match" title="Elimina Partita" style="padding: 9px 12px; white-space: nowrap;"><i class="fas fa-trash"></i> <span data-i18n="btnDeleteMatch">Elimina</span></button>
-                        </div>
+                <div class="match-selector-row">
+                    <select id="matchSelector" data-i18n-aria="heroSelectorAria" aria-label="Seleziona partita">
+                        <option value="">— Scegli una partita dall'elenco —</option>
+                    </select>
+                    <button type="button" class="hero-btn" data-action="load-match-from-selector">
+                        <i class="fas fa-arrow-right"></i> Carica
+                    </button>
+                </div>
+
+                <div class="match-id-search">
+                    <button type="button" class="search-toggle-btn" data-action="toggle-id-search">
+                        <i class="fas fa-keyboard"></i> <span data-i18n="orSearchById">Oppure cerca per ID / codice</span>
+                    </button>
+                    <div class="search-input-wrap" id="searchInputWrap">
+                        <input type="text" id="matchId" placeholder="es. match-9" data-i18n-placeholder="searchByIdPlaceholder">
+                        <button type="button" class="search-go" data-action="search-by-id">
+                            <i class="fas fa-search"></i>
+                        </button>
                     </div>
+                </div>
+
+                <div class="match-quick-actions">
+                    <button type="button" class="quick-action-btn new" data-action="new-match">
+                        <i class="fas fa-plus-circle"></i> <span data-i18n="btnNewMatch">Nuova Partita</span>
+                    </button>
+                    <button type="button" class="quick-action-btn" data-action="duplicate-match">
+                        <i class="fas fa-clone"></i> <span data-i18n="btnDuplicate">Duplica Corrente</span>
+                    </button>
+                    <button type="button" class="quick-action-btn danger" data-action="delete-match">
+                        <i class="fas fa-trash"></i> <span data-i18n="btnDeleteMatch">Elimina Corrente</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="section-box">
+                <h3><span class="sec-num">1</span> <i class="fas fa-info-circle"></i> <span data-i18n="matchInfoHeading">Informazioni Partita</span></h3>
+                <div class="row">
                     <div class="form-group">
                         <label data-i18n="lblStatus">Stato Partita:</label>
                         <select id="matchStatus" class="form-control">
@@ -877,9 +1223,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                             <option value="upcoming" data-i18n="optUpcoming">In programma (upcoming)</option>
                         </select>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="form-group">
                         <label data-i18n="lblDate">Data:</label>
                         <input type="date" id="matchDate" class="form-control" required>
@@ -932,7 +1275,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
             </div>
 
             <div class="section-box">
-                <h3 data-i18n="matchEventsHeading">2. Eventi & Prestazioni</h3>
+                <h3><span class="sec-num">2</span> <i class="fas fa-chart-line"></i> <span data-i18n="matchEventsHeading">Eventi & Prestazioni</span></h3>
 
                 <div class="form-group">
                     <label><i class="fas fa-futbol"></i> <span data-i18n="lblScorers">Marcatori (Gol segnati)</span>:</label>
@@ -984,9 +1327,9 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
             </div>
 
             <div class="section-box">
-                <h3 data-i18n="tacticsHeading">3. Assetto Tattico & Convocati</h3>
+                <h3><span class="sec-num">3</span> <i class="fas fa-chess-board"></i> <span data-i18n="tacticsHeading">Assetto Tattico & Convocati</span></h3>
 
-                <div class="row" style="margin-top: 8px;">
+                <div class="row" style="margin-top: 10px;">
                     <div class="form-group">
                         <label><i class="fas fa-chess-board"></i> <span data-i18n="lblFormation">Modulo Tattico</span>:</label>
                         <select id="formationSelect" class="form-control">
@@ -1014,7 +1357,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                         </button>
                     </div>
                     <div class="mister-helper-body" id="misterHelperBody">
-                        <div style="color:#94a3b8; font-size:0.75rem; grid-column: 1/-1; text-align:center; padding: 8px;">
+                        <div style="color:#94a3b8; font-size:0.8rem; grid-column: 1/-1; text-align:center; padding: 10px;">
                             <i class="fas fa-info-circle"></i> Apri un match o seleziona una formazione per vedere i suggerimenti.
                         </div>
                     </div>
@@ -1022,7 +1365,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
 
                 <div class="tactical-pitch-container">
                     <div class="pitch-header-bar">
-                        <h4 style="color: #fef08a; font-size: 0.9rem;">
+                        <h4 style="color: #fef08a; font-size: 0.95rem;">
                             <i class="fas fa-gamepad"></i> <span data-i18n="lblStartersTitle">Titolari in Campo</span>
                         </h4>
                         <button type="button" class="btn-clear-pitch" data-action="clear-pitch">
@@ -1033,7 +1376,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                 </div>
 
                 <div class="bench-container">
-                    <h4 style="color: var(--navy); margin-top: 12px; margin-bottom: 8px; font-size: 0.9rem;">
+                    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 10px; font-size: 0.95rem;">
                         <i class="fas fa-chair"></i> <span data-i18n="lblBenchTitle">Panchina (10 Posti)</span>
                     </h4>
                     <div class="bench-grid" id="benchGrid"></div>
@@ -1043,7 +1386,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                     <button type="button" class="btn-add-trialist" data-action="add-trialist">
                         <i class="fas fa-user-plus"></i> <span data-i18n="btnAddTrialist">+ Aggiungi Giocatore in Prova</span>
                     </button>
-                    <div style="margin-top: 8px; font-weight: bold; font-size: 0.78rem; color: #047857;">
+                    <div style="margin-top: 10px; font-weight: bold; font-size: 0.82rem; color: #047857;">
                         <i class="fas fa-list"></i> <span data-i18n="lblTrialistsList">Giocatori in Prova (solo per questo match):</span>
                     </div>
                     <div class="trialist-list" id="trialistListContainer"></div>
@@ -1059,7 +1402,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     <div id="playersTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
             <h3><i class="fas fa-user-plus"></i> <span data-i18n="playersHeading">Aggiungi / Modifica Giocatore</span></h3>
-            <form id="playerEditForm" style="margin-top: 12px;" autocomplete="off">
+            <form id="playerEditForm" style="margin-top: 15px;" autocomplete="off">
                 <input type="hidden" id="editPlayerId">
                 <input type="hidden" id="editPlayerCaps" value="0">
                 <div class="row">
@@ -1113,8 +1456,8 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                     </div>
                 </div>
 
-                <div style="display: flex; gap: 8px; margin-top: 8px;">
-                    <button type="button" class="btn-submit" style="background: var(--green);" data-action="save-player">
+                <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+                    <button type="button" class="btn-submit" style="background: var(--green); flex: 1; min-width: 180px;" data-action="save-player">
                         <i class="fas fa-cloud-upload-alt"></i> <span data-i18n="btnSavePlayer">Salva su GitHub</span>
                     </button>
                     <button type="button" class="btn-reset" data-action="reset-player-form">Annulla</button>
@@ -1125,8 +1468,8 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         <div class="section-box">
             <h3><i class="fas fa-list-ul"></i> <span data-i18n="lblSquadList">Elenco Attuale Rosa</span></h3>
             <div class="table-toolbar">
-                <input type="text" id="playerSearch" class="form-control" placeholder="🔍 Cerca giocatore..." style="max-width: 260px;">
-                <span id="playerCountBadge" style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;"></span>
+                <input type="text" id="playerSearch" class="form-control" placeholder="🔍 Cerca giocatore..." style="max-width: 300px;">
+                <span id="playerCountBadge" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;"></span>
             </div>
             <div class="data-table-container">
                 <table class="data-table">
@@ -1151,7 +1494,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     <div id="opponentsTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
             <h3><i class="fas fa-shield-cat"></i> <span data-i18n="opponentsHeading">Aggiungi / Modifica Avversario</span></h3>
-            <form id="opponentEditForm" style="margin-top: 12px;" autocomplete="off">
+            <form id="opponentEditForm" style="margin-top: 15px;" autocomplete="off">
                 <input type="hidden" id="editOpponentKey">
                 <div class="row">
                     <div class="form-group">
@@ -1171,8 +1514,8 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                         <input type="text" id="oppNameEn" class="form-control" placeholder="Yokohama FC">
                     </div>
                 </div>
-                <div style="display: flex; gap: 8px; margin-top: 8px;">
-                    <button type="button" class="btn-submit" style="background: var(--green);" data-action="save-opponent">
+                <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+                    <button type="button" class="btn-submit" style="background: var(--green); flex: 1; min-width: 180px;" data-action="save-opponent">
                         <i class="fas fa-cloud-upload-alt"></i> <span data-i18n="btnSaveOpponent">Salva su GitHub</span>
                     </button>
                     <button type="button" class="btn-reset" data-action="reset-opponent-form">Annulla</button>
@@ -1182,7 +1525,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
 
         <div class="section-box">
             <h3><i class="fas fa-shield-halved"></i> <span data-i18n="lblOpponentsList">Lista Avversari</span></h3>
-            <input type="text" id="opponentSearch" class="form-control" placeholder="🔍 Cerca..." style="max-width: 260px; margin-bottom: 8px;">
+            <input type="text" id="opponentSearch" class="form-control" placeholder="🔍 Cerca..." style="max-width: 300px; margin-bottom: 10px;">
             <div class="data-table-container">
                 <table class="data-table">
                     <thead>
@@ -1203,7 +1546,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     <div id="locationsTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
             <h3><i class="fas fa-map-marked-alt"></i> <span data-i18n="locationsHeading">Aggiungi / Modifica Campo</span></h3>
-            <form id="locationEditForm" style="margin-top: 12px;" autocomplete="off">
+            <form id="locationEditForm" style="margin-top: 15px;" autocomplete="off">
                 <input type="hidden" id="editLocationKey">
 
                 <div class="row">
@@ -1237,8 +1580,8 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                     <input type="url" id="locMapsUrl" class="form-control" placeholder="https://maps.google.com/?q=...">
                 </div>
 
-                <div style="display: flex; gap: 8px; margin-top: 8px;">
-                    <button type="button" class="btn-submit" style="background: var(--green);" data-action="save-location">
+                <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+                    <button type="button" class="btn-submit" style="background: var(--green); flex: 1; min-width: 180px;" data-action="save-location">
                         <i class="fas fa-cloud-upload-alt"></i> <span data-i18n="btnSaveLocation">Salva su GitHub</span>
                     </button>
                     <button type="button" class="btn-reset" data-action="reset-location-form">Annulla</button>
@@ -1269,23 +1612,23 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     <div id="lineTab" class="tab-content hidden" role="tabpanel">
         <div class="section-box">
             <h3><i class="fab fa-line" style="color: #06c755;"></i> <span data-i18n="lineHeading">Generatore Convocazioni LINE</span></h3>
-            <p style="font-size: 0.85rem; color: var(--text-muted);" data-i18n="lineSub">
+            <p style="font-size: 0.88rem; color: var(--text-muted);" data-i18n="lineSub">
                 Genera il messaggio pronto da incollare nel gruppo LINE della squadra.
             </p>
 
-            <button type="button" class="btn-submit" style="background: #06c755; margin-bottom: 12px;" data-action="generate-line">
+            <button type="button" class="btn-submit" style="background: #06c755; margin-bottom: 15px;" data-action="generate-line">
                 <i class="fas fa-magic"></i> <span data-i18n="btnGenerateLine">Genera Testo</span>
             </button>
 
-            <textarea id="lineTextOutput" class="form-control" rows="12" readonly style="font-family: monospace; font-size: 0.85rem;"></textarea>
+            <textarea id="lineTextOutput" class="form-control" rows="14" readonly style="font-family: monospace; font-size: 0.9rem;"></textarea>
 
-            <button type="button" class="btn-submit" style="margin-top: 8px; background: var(--sky-dark);" data-action="copy-line">
+            <button type="button" class="btn-submit" style="margin-top: 10px; background: var(--sky-dark);" data-action="copy-line">
                 <i class="fas fa-copy"></i> <span data-i18n="btnCopyLine">Copia negli Appunti</span>
             </button>
         </div>
     </div>
 
-    <div id="statusMsg" style="margin-top: 14px; font-weight: bold; text-align: center;"></div>
+    <div id="statusMsg" style="margin-top: 18px; font-weight: bold; text-align: center;"></div>
 </div>
 
 <div id="modalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -1316,23 +1659,27 @@ const I18N_DICT = {
         btnReset: "Reset", btnLogout: "Logout",
         btnSaveMatch: "Salva Partita e Aggiorna Statistiche",
         btnSavePlayer: "Salva su GitHub", btnSaveOpponent: "Salva su GitHub", btnSaveLocation: "Salva su GitHub",
-        btnNewMatch: "Nuova", btnDeleteMatch: "Elimina", btnGenerateLine: "Genera Testo", btnCopyLine: "Copia negli Appunti",
+        btnNewMatch: "Nuova Partita", btnDeleteMatch: "Elimina Corrente", btnDuplicate: "Duplica Corrente",
+        btnGenerateLine: "Genera Testo", btnCopyLine: "Copia negli Appunti",
         btnClearPitch: "Cancella", btnAddTrialist: "+ Aggiungi Giocatore in Prova",
         btnAddScorer: "Aggiungi Marcatore", btnAddAssist: "Aggiungi Assistman",
         btnAddGk: "Aggiungi Portiere", btnAddYellow: "Aggiungi", btnAddRed: "Aggiungi",
         tab1: "1. Partite & Formazione", tab2: "2. Rosa Giocatori", tab3: "3. Avversari",
         tab4: "4. Campi & Impianti", tab5: "5. Testo Convocati LINE",
-        matchInfoHeading: "1. Informazioni Partita",
-        lblSelectExistingMatch: "Seleziona Partita Esistente:",
-        lblMatchId: "ID Match:", btnLoad: "Carica", btnDuplicate: "Duplica",
-        lblStatus: "Stato:", optPast: "Finita", optUpcoming: "In programma",
+        heroSelectorLabel: "Seleziona Partita da Modificare",
+        heroSelectorAria: "Seleziona partita dall'elenco",
+        orSearchById: "Oppure cerca per ID / codice",
+        searchByIdPlaceholder: "es. match-9",
+        matchInfoHeading: "Informazioni Partita",
+        lblMatchId: "ID Match:", btnLoad: "Carica",
+        lblStatus: "Stato Partita:", optPast: "Finita", optUpcoming: "In programma",
         lblDate: "Data:", lblTime: "Orario K.O.:", lblCategory: "Categoria:",
         lblType: "Tipo:", lblOpponent: "Avversario:", lblLocation: "Campo:",
         lblHomeAway: "Casa / Trasferta:", optHome: "Casa", optAway: "Trasferta",
-        lblScore: "Risultato (es. 2 - 1, sempre nostri-loro):", matchEventsHeading: "2. Eventi & Prestazioni",
+        lblScore: "Risultato (es. 2 - 1, sempre nostri-loro):", matchEventsHeading: "Eventi & Prestazioni",
         lblScorers: "Marcatori", lblAssists: "Assistman", lblGoalkeepers: "Portieri & Gol Subiti",
         lblMvp: "MVP del Match", lblYellows: "Cartellini Gialli", lblReds: "Cartellini Rossi",
-        tacticsHeading: "3. Assetto Tattico & Convocati",
+        tacticsHeading: "Assetto Tattico & Convocati",
         lblFormation: "Modulo Tattico", lblStartersTitle: "Titolari in Campo",
         lblBenchTitle: "Panchina (10 Posti)",
         lblTrialistsList: "Giocatori in Prova (solo per questo match):",
@@ -1360,7 +1707,8 @@ const I18N_DICT = {
         unsavedTitle: "Modifiche non salvate",
         unsavedMsg: "Ci sono modifiche non salvate. Cambiare tab?",
         saving: "Salvataggio in corso...", saved: "Salvato con successo!",
-        errorPrefix: "Errore:"
+        errorPrefix: "Errore:",
+        noMatchSelected: "Nessuna partita selezionata. Scegli dall'elenco o cerca per ID."
     },
     ja: {
         loginSub: "アクセスするには GitHub Token (PAT) を入力してください。",
@@ -1368,23 +1716,27 @@ const I18N_DICT = {
         btnReset: "リセット", btnLogout: "ログアウト",
         btnSaveMatch: "試合結果を保存してスタッツ更新",
         btnSavePlayer: "GitHub に保存", btnSaveOpponent: "GitHub に保存", btnSaveLocation: "GitHub に保存",
-        btnNewMatch: "新規", btnDeleteMatch: "削除", btnGenerateLine: "招集文を生成", btnCopyLine: "コピー",
+        btnNewMatch: "新規試合", btnDeleteMatch: "削除", btnDuplicate: "複製",
+        btnGenerateLine: "招集文を生成", btnCopyLine: "コピー",
         btnClearPitch: "クリア", btnAddTrialist: "+ 練習生を追加",
         btnAddScorer: "得点者を追加", btnAddAssist: "アシストを追加",
         btnAddGk: "GKを追加", btnAddYellow: "追加", btnAddRed: "追加",
         tab1: "1. 試合 & フォーメーション", tab2: "2. 選手一覧", tab3: "3. 対戦相手",
         tab4: "4. 会場", tab5: "5. LINE招集文",
-        matchInfoHeading: "1. 試合情報",
-        lblSelectExistingMatch: "既存の試合を選択:",
-        lblMatchId: "試合ID:", btnLoad: "読込", btnDuplicate: "複製",
+        heroSelectorLabel: "編集する試合を選択",
+        heroSelectorAria: "試合一覧から選択",
+        orSearchById: "または ID で検索",
+        searchByIdPlaceholder: "例: match-9",
+        matchInfoHeading: "試合情報",
+        lblMatchId: "試合ID:", btnLoad: "読込",
         lblStatus: "ステータス:", optPast: "終了", optUpcoming: "予定",
         lblDate: "日付:", lblTime: "K.O.:", lblCategory: "カテゴリ:",
         lblType: "種別:", lblOpponent: "対戦相手:", lblLocation: "会場:",
         lblHomeAway: "ホーム/アウェイ:", optHome: "ホーム", optAway: "アウェイ",
-        lblScore: "スコア（常に自-相手）:", matchEventsHeading: "2. イベント",
+        lblScore: "スコア（常に自-相手）:", matchEventsHeading: "イベント",
         lblScorers: "得点者", lblAssists: "アシスト", lblGoalkeepers: "GK & 失点",
         lblMvp: "MVP", lblYellows: "警告", lblReds: "退場",
-        tacticsHeading: "3. フォーメーション",
+        tacticsHeading: "フォーメーション",
         lblFormation: "フォーメーション", lblStartersTitle: "先発メンバー",
         lblBenchTitle: "控え (10名)",
         lblTrialistsList: "練習生 (この試合のみ):",
@@ -1411,7 +1763,8 @@ const I18N_DICT = {
         confirmDelete: "削除しますか:",
         unsavedTitle: "未保存の変更",
         unsavedMsg: "未保存の変更があります。タブを切り替えますか？",
-        saving: "保存中...", saved: "保存完了", errorPrefix: "エラー:"
+        saving: "保存中...", saved: "保存完了", errorPrefix: "エラー:",
+        noMatchSelected: "試合が選択されていません。一覧から選ぶか、ID で検索してください。"
     },
     en: {
         loginSub: "Enter your GitHub Personal Access Token (PAT) to log in.",
@@ -1419,23 +1772,27 @@ const I18N_DICT = {
         btnReset: "Reset", btnLogout: "Logout",
         btnSaveMatch: "Save Match & Update Stats",
         btnSavePlayer: "Save to GitHub", btnSaveOpponent: "Save to GitHub", btnSaveLocation: "Save to GitHub",
-        btnNewMatch: "New", btnDeleteMatch: "Delete", btnGenerateLine: "Generate Text", btnCopyLine: "Copy",
+        btnNewMatch: "New Match", btnDeleteMatch: "Delete Current", btnDuplicate: "Duplicate Current",
+        btnGenerateLine: "Generate Text", btnCopyLine: "Copy",
         btnClearPitch: "Clear", btnAddTrialist: "+ Add Trialist",
         btnAddScorer: "Add Scorer", btnAddAssist: "Add Assist",
         btnAddGk: "Add GK", btnAddYellow: "Add", btnAddRed: "Add",
         tab1: "1. Matches & Lineup", tab2: "2. Squad", tab3: "3. Opponents",
         tab4: "4. Venues", tab5: "5. LINE Text",
-        matchInfoHeading: "1. Match Information",
-        lblSelectExistingMatch: "Select Existing Match:",
-        lblMatchId: "Match ID:", btnLoad: "Load", btnDuplicate: "Duplicate",
+        heroSelectorLabel: "Select Match to Edit",
+        heroSelectorAria: "Select match from list",
+        orSearchById: "Or search by ID / code",
+        searchByIdPlaceholder: "e.g. match-9",
+        matchInfoHeading: "Match Information",
+        lblMatchId: "Match ID:", btnLoad: "Load",
         lblStatus: "Status:", optPast: "Finished", optUpcoming: "Scheduled",
         lblDate: "Date:", lblTime: "K.O.:", lblCategory: "Category:",
         lblType: "Type:", lblOpponent: "Opponent:", lblLocation: "Venue:",
         lblHomeAway: "Home/Away:", optHome: "Home", optAway: "Away",
-        lblScore: "Score (e.g. 2 - 1, always us-them):", matchEventsHeading: "2. Events",
+        lblScore: "Score (e.g. 2 - 1, always us-them):", matchEventsHeading: "Events",
         lblScorers: "Scorers", lblAssists: "Assists", lblGoalkeepers: "GK & Conceded",
         lblMvp: "MVP", lblYellows: "Yellows", lblReds: "Reds",
-        tacticsHeading: "3. Tactics & Lineup",
+        tacticsHeading: "Tactics & Lineup",
         lblFormation: "Formation", lblStartersTitle: "Starting XI",
         lblBenchTitle: "Bench (10 Slots)",
         lblTrialistsList: "Trialists (this match only):",
@@ -1463,7 +1820,8 @@ const I18N_DICT = {
         unsavedTitle: "Unsaved changes",
         unsavedMsg: "You have unsaved changes. Switch tab?",
         saving: "Saving...", saved: "Saved successfully",
-        errorPrefix: "Error:"
+        errorPrefix: "Error:",
+        noMatchSelected: "No match selected. Choose from the list or search by ID."
     }
 };
 
@@ -1560,7 +1918,8 @@ const State = {
     locationSort: { field: 'key', dir: 'asc' },
     playerSearch: '',
     opponentSearch: '',
-    autosaveTimer: null
+    autosaveTimer: null,
+    currentMatchId: ''
 };
 
 /* =========================================================
@@ -1571,6 +1930,7 @@ function $$(sel, ctx = document) { return ctx.querySelectorAll(sel); }
 function cleanStr(s) { return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim(); }
 function isJapanese(s) { return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf]/.test(s); }
 function t(key) { return (I18N_DICT[State.lang] && I18N_DICT[State.lang][key]) || key; }
+function escapeHtml(s) { return String(s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
 function utf8ToBase64(str) {
     const bytes = new TextEncoder().encode(str);
@@ -1741,7 +2101,6 @@ function renderAllTables() {
     renderOpponentsSelectAndTable();
     renderLocationsSelectAndTable();
     renderPlayersTable();
-    renderExistingMatchDropdown();
 }
 
 function setLanguage(lang) {
@@ -1756,9 +2115,18 @@ function setLanguage(lang) {
         const key = el.getAttribute('data-i18n');
         if (I18N_DICT[lang][key]) el.textContent = I18N_DICT[lang][key];
     });
+    $$('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (I18N_DICT[lang][key]) el.setAttribute('placeholder', I18N_DICT[lang][key]);
+    });
+    $$('[data-i18n-aria]').forEach(el => {
+        const key = el.getAttribute('data-i18n-aria');
+        if (I18N_DICT[lang][key]) el.setAttribute('aria-label', I18N_DICT[lang][key]);
+    });
 
     renderSurfaceDropdown();
     renderAllTables();
+    renderMatchSelector();
 
     if (State.players.length > 0) {
         updateAllPlayerDropdowns();
@@ -1943,15 +2311,113 @@ async function initData() {
         renderOpponentsSelectAndTable();
         renderLocationsSelectAndTable();
         renderPlayersTable();
-        renderExistingMatchDropdown();
         renderPitchAndBench();
         updateAllPlayerDropdowns();
         renderTrialistsList();
+        renderMatchSelector();
 
         checkDraft();
     } catch (e) {
         showToast('error', '❌ Errore caricamento dati: ' + e.message);
         console.error(e);
+    }
+}
+
+/* =========================================================
+   MATCH SELECTOR (dropdown dinamico)
+   ========================================================= */
+function renderMatchSelector() {
+    const sel = $('matchSelector');
+    if (!sel) return;
+
+    const currentVal = sel.value;
+
+    const sorted = [...State.matches].sort((a, b) => {
+        // Prima gli upcoming, poi i past. Dentro ogni gruppo, ordina per data (decrescente per i past, crescente per gli upcoming)
+        const sa = String(a.status || '').toLowerCase();
+        const sb = String(b.status || '').toLowerCase();
+        const pa = (sa === 'upcoming' || sa === 'live') ? 0 : 1;
+        const pb = (sb === 'upcoming' || sb === 'live') ? 0 : 1;
+        if (pa !== pb) return pa - pb;
+        const da = new Date((a.date || '2000-01-01').replace(/\./g, '-')).getTime() || 0;
+        const db = new Date((b.date || '2000-01-01').replace(/\./g, '-')).getTime() || 0;
+        return pa === 0 ? da - db : db - da;
+    });
+
+    if (sorted.length === 0) {
+        sel.innerHTML = '<option value="">— Nessuna partita disponibile —</option>';
+        return;
+    }
+
+    const placeholderLabel = State.lang === 'ja'
+        ? `— ${sorted.length}試合から選択 —`
+        : (State.lang === 'en' ? `— Choose from ${sorted.length} matches —` : `— Scegli tra ${sorted.length} partite —`);
+
+    let html = `<option value="">${placeholderLabel}</option>`;
+
+    sorted.forEach(m => {
+        const isUpcoming = String(m.status || '').toLowerCase() === 'upcoming' || String(m.status || '').toLowerCase() === 'live';
+        const statusIcon = isUpcoming ? '🟢' : '⚪';
+        const date = m.date || '?';
+        const oppKey = m.opponent_id || '';
+        const oppName = State.opponents[oppKey]?.name?.[State.lang]
+            || State.opponents[oppKey]?.name?.it
+            || State.opponents[oppKey]?.name?.en
+            || State.opponents[oppKey]?.name?.ja
+            || m.opponent_name
+            || oppKey
+            || '?';
+        const scoreStr = (m.score && m.score !== 'VS') ? ` (${m.score})` : '';
+        const label = `${statusIcon} ${date} — vs ${oppName}${scoreStr} · [${m.id}]`;
+        html += `<option value="${escapeHtml(m.id)}">${escapeHtml(label)}</option>`;
+    });
+
+    sel.innerHTML = html;
+
+    if (currentVal && sorted.some(m => String(m.id) === currentVal)) {
+        sel.value = currentVal;
+    }
+}
+
+async function loadMatchFromSelector() {
+    const sel = $('matchSelector');
+    const id = sel.value;
+    if (!id) {
+        showToast('warn', t('noMatchSelected'));
+        return;
+    }
+    await loadMatchData(id);
+    // Aggiorna anche l'input di ricerca con l'ID
+    const searchInput = $('matchId');
+    if (searchInput) searchInput.value = id;
+    // Apri il campo ricerca in modo che sia visibile quale match è caricato
+    const wrap = $('searchInputWrap');
+    if (wrap) wrap.classList.add('open');
+}
+
+async function searchById() {
+    const input = $('matchId');
+    const id = (input.value || '').trim();
+    if (!id) {
+        showToast('warn', 'Inserisci un ID Match (es. match-9).');
+        input.focus();
+        return;
+    }
+    await loadMatchData(id);
+    // Sincronizza il selettore se il match esiste
+    const sel = $('matchSelector');
+    if (sel && State.matches.some(m => String(m.id).toLowerCase() === id.toLowerCase())) {
+        const actual = State.matches.find(m => String(m.id).toLowerCase() === id.toLowerCase());
+        if (actual) sel.value = actual.id;
+    }
+}
+
+function toggleIdSearch() {
+    const wrap = $('searchInputWrap');
+    if (!wrap) return;
+    wrap.classList.toggle('open');
+    if (wrap.classList.contains('open')) {
+        setTimeout(() => $('matchId').focus(), 100);
     }
 }
 
@@ -1963,7 +2429,7 @@ function renderOpponentsSelectAndTable() {
     $('opponentSelect').innerHTML = keys.map(k => {
         const n = State.opponents[k].name || {};
         const name = n[State.lang] || n.it || n.en || n.ja || k;
-        return `<option value="${k}">${name} (${k})</option>`;
+        return `<option value="${k}">${escapeHtml(name)} (${escapeHtml(k)})</option>`;
     }).join('');
 
     let rows = keys.map(k => ({
@@ -1987,13 +2453,13 @@ function renderOpponentsSelectAndTable() {
 
     $('opponentsTableBody').innerHTML = rows.map(r => `
         <tr>
-            <td><b>${r.key}</b></td>
-            <td>${r.ja || '-'}</td>
-            <td>${r.it || '-'}</td>
-            <td>${r.en || '-'}</td>
+            <td><b>${escapeHtml(r.key)}</b></td>
+            <td>${escapeHtml(r.ja) || '-'}</td>
+            <td>${escapeHtml(r.it) || '-'}</td>
+            <td>${escapeHtml(r.en) || '-'}</td>
             <td>
-                <button type="button" class="btn-edit" data-action="edit-opponent" data-key="${r.key}"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn-delete" data-action="delete-opponent" data-key="${r.key}"><i class="fas fa-trash"></i></button>
+                <button type="button" class="btn-edit" data-action="edit-opponent" data-key="${escapeHtml(r.key)}"><i class="fas fa-edit"></i></button>
+                <button type="button" class="btn-delete" data-action="delete-opponent" data-key="${escapeHtml(r.key)}"><i class="fas fa-trash"></i></button>
             </td>
         </tr>
     `).join('');
@@ -2018,6 +2484,7 @@ async function saveOpponentData() {
     };
 
     renderOpponentsSelectAndTable();
+    renderMatchSelector();
     try {
         const { sha } = await ghGet('opponents.json');
         await ghPut('opponents.json', State.opponents, sha, `Admin: Update opponents.json (${key})`);
@@ -2041,6 +2508,7 @@ async function deleteOpponent(key) {
     if (!ok) return;
     delete State.opponents[key];
     renderOpponentsSelectAndTable();
+    renderMatchSelector();
     try {
         const { sha } = await ghGet('opponents.json');
         await ghPut('opponents.json', State.opponents, sha, `Admin: Delete opponent ${key}`);
@@ -2072,7 +2540,7 @@ function renderLocationsSelectAndTable() {
     $('locationSelect').innerHTML = keys.map(k => {
         const loc = State.locations[k];
         const name = loc[State.lang] || loc.it || loc.en || loc.ja || k;
-        return `<option value="${k}">${name} (${k})</option>`;
+        return `<option value="${k}">${escapeHtml(name)} (${escapeHtml(k)})</option>`;
     }).join('');
 
     let rows = keys.map(k => {
@@ -2091,14 +2559,14 @@ function renderLocationsSelectAndTable() {
     });
     $('locationsTableBody').innerHTML = rows.map(r => `
         <tr>
-            <td><b>${r.key}</b></td>
-            <td>${r.ja}</td>
-            <td>${r.it || '-'}</td>
-            <td><b>${r.surface}</b></td>
-            <td>${r.maps ? `<a href="${r.maps}" target="_blank" style="color: var(--sky-dark);">Link</a>` : '-'}</td>
+            <td><b>${escapeHtml(r.key)}</b></td>
+            <td>${escapeHtml(r.ja)}</td>
+            <td>${escapeHtml(r.it) || '-'}</td>
+            <td><b>${escapeHtml(r.surface)}</b></td>
+            <td>${r.maps ? `<a href="${escapeHtml(r.maps)}" target="_blank" style="color: var(--sky-dark);">Link</a>` : '-'}</td>
             <td>
-                <button type="button" class="btn-edit" data-action="edit-location" data-key="${r.key}"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn-delete" data-action="delete-location" data-key="${r.key}"><i class="fas fa-trash"></i></button>
+                <button type="button" class="btn-edit" data-action="edit-location" data-key="${escapeHtml(r.key)}"><i class="fas fa-edit"></i></button>
+                <button type="button" class="btn-delete" data-action="delete-location" data-key="${escapeHtml(r.key)}"><i class="fas fa-trash"></i></button>
             </td>
         </tr>
     `).join('');
@@ -2114,6 +2582,7 @@ async function saveLocationData() {
     if (!key || !ja) { showToast('warn', 'Inserisci Key e Nome JA.'); return; }
     State.locations[key] = { ja, it: it || ja, en: en || ja, surface: SURFACE_PRESETS[surfKey], maps };
     renderLocationsSelectAndTable();
+    renderMatchSelector();
     try {
         const { sha } = await ghGet('locations.json');
         await ghPut('locations.json', State.locations, sha, 'Admin: Update locations.json');
@@ -2143,6 +2612,7 @@ async function deleteLocation(key) {
     if (!ok) return;
     delete State.locations[key];
     renderLocationsSelectAndTable();
+    renderMatchSelector();
     try {
         const { sha } = await ghGet('locations.json');
         await ghPut('locations.json', State.locations, sha, `Admin: Delete location ${key}`);
@@ -2185,15 +2655,15 @@ function renderPlayersTable() {
     $('playersTableBody').innerHTML = rows.map(p => `
         <tr>
             <td><b>${p.number ?? '-'}</b></td>
-            <td>${localizePlayerName(p) || '-'}</td>
-            <td>${p.name_romaji || '-'}</td>
-            <td><span class="pos-badge">${(p.role || '').toUpperCase()}</span></td>
-            <td>${p.position || '-'}</td>
-            <td>${p.hometown || '-'}</td>
+            <td>${escapeHtml(localizePlayerName(p)) || '-'}</td>
+            <td>${escapeHtml(p.name_romaji) || '-'}</td>
+            <td><span class="pos-badge">${escapeHtml((p.role || '').toUpperCase())}</span></td>
+            <td>${escapeHtml(p.position) || '-'}</td>
+            <td>${escapeHtml(p.hometown) || '-'}</td>
             <td><b>${p.caps ?? 0}</b></td>
             <td>
-                <button type="button" class="btn-edit" data-action="edit-player" data-id="${p.id}"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn-delete" data-action="delete-player" data-id="${p.id}"><i class="fas fa-trash"></i></button>
+                <button type="button" class="btn-edit" data-action="edit-player" data-id="${escapeHtml(p.id)}"><i class="fas fa-edit"></i></button>
+                <button type="button" class="btn-delete" data-action="delete-player" data-id="${escapeHtml(p.id)}"><i class="fas fa-trash"></i></button>
             </td>
         </tr>
     `).join('');
@@ -2308,13 +2778,13 @@ function renderTrialistsList() {
     const c = $('trialistListContainer');
     if (!c) return;
     if (State.trialists.length === 0) {
-        c.innerHTML = '<span style="font-size: 0.75rem; color: var(--text-muted);">Nessun giocatore in prova</span>';
+        c.innerHTML = '<span style="font-size: 0.78rem; color: var(--text-muted);">Nessun giocatore in prova</span>';
         return;
     }
     c.innerHTML = State.trialists.map(t => `
         <div class="trialist-item">
-            <span><i class="fas fa-user-clock"></i> ${localizePlayerName(t)}</span>
-            <button type="button" class="btn-remove-trialist" data-action="remove-trialist" data-id="${t.id}">
+            <span><i class="fas fa-user-clock"></i> ${escapeHtml(localizePlayerName(t))}</span>
+            <button type="button" class="btn-remove-trialist" data-action="remove-trialist" data-id="${escapeHtml(t.id)}">
                 <i class="fas fa-times-circle"></i>
             </button>
         </div>
@@ -2322,7 +2792,7 @@ function renderTrialistsList() {
 }
 
 /* =========================================================
-   AFFINITY CALCULATIONS
+   AFFINITY
    ========================================================= */
 function getAllAvailablePlayers(onlyGK = false) {
     const list = [{ name: '— nessuno —', value: '' }];
@@ -2426,7 +2896,7 @@ function renderMisterHelper() {
 
     if (Object.keys(State.statsData).length === 0) {
         container.innerHTML = `
-            <div style="color:#94a3b8; font-size:0.75rem; grid-column: 1/-1; text-align:center; padding: 10px;">
+            <div style="color:#94a3b8; font-size:0.8rem; grid-column: 1/-1; text-align:center; padding: 15px;">
                 <i class="fas fa-info-circle"></i> Nessun dato statistico disponibile. Salva qualche partita per sbloccare l'analisi dei ruoli.
             </div>
         `;
@@ -2452,10 +2922,10 @@ function renderMisterHelper() {
         const playersHtml = ranked.length > 0
             ? ranked.map((p, i) => {
                 const pct = Math.round(p.displayPct);
-                const usedMark = p.isUsed ? ' <i class="fas fa-check" style="color:#10b981;font-size:0.65rem;margin-left:2px;"></i>' : '';
+                const usedMark = p.isUsed ? ' <i class="fas fa-check" style="color:#10b981;font-size:0.7rem;margin-left:2px;"></i>' : '';
                 return `
                     <div class="mister-player-line rank-${i+1}">
-                        <span class="mister-player-name" title="${p.name}">${p.name}${usedMark}</span>
+                        <span class="mister-player-name" title="${escapeHtml(p.name)}">${escapeHtml(p.name)}${usedMark}</span>
                         <span class="mister-player-count" title="${p.exact}/${p.totalApps} partite">${pct}%</span>
                     </div>
                 `;
@@ -2465,7 +2935,7 @@ function renderMisterHelper() {
         return `
             <div class="mister-pos-suggestion">
                 <div class="mister-pos-head">
-                    <span class="pos-label">${posTag}</span>
+                    <span class="pos-label">${pos[Tag}</span>
                     <span class="pos-macro">${macro}</span>
                 </div>
                 <div class="mister-top-players">${playersHtml}</div>
@@ -2529,25 +2999,6 @@ function suggestLineup() {
 /* =========================================================
    PITCH & BENCH
    ========================================================= */
-function renderExistingMatchDropdown() {
-    const sel = $('existingMatchSelect');
-    if (!sel) return;
-    const currentVal = $('matchId').value;
-    
-    // Ordina i match per data decrescente o per ID
-    const sorted = [...State.matches].sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
-    
-    let html = '<option value="">-- Seleziona una partita esistente --</option>';
-    sorted.forEach(m => {
-        const dateStr = m.date || 'Data N.D.';
-        const opp = m.opponent_id || 'Avversario';
-        const scoreStr = m.score ? `(${m.score})` : '';
-        html += `<option value="${m.id}">${m.id} — ${dateStr} vs ${opp} ${scoreStr}</option>`;
-    });
-    sel.innerHTML = html;
-    if (currentVal) sel.value = currentVal;
-}
-
 function renderPitchAndBench() {
     const formation = $('formationSelect').value;
     const coords = FORMATION_COORDS[formation] || FORMATION_COORDS['4-4-2'];
@@ -2584,7 +3035,7 @@ function renderPitchAndBench() {
                 <select class="form-control player-dropdown-dynamic bench-player-select match-squad-select"></select>
                 <div class="bench-sub-row">
                     <label><input type="checkbox" class="bench-subbed-in"> Sceso in campo</label>
-                    <select class="form-control bench-pos-select" style="font-size: 0.75rem; padding: 3px;" disabled>
+                    <select class="form-control bench-pos-select" style="font-size: 0.8rem; padding: 4px;" disabled>
                         ${Object.keys(coords).map(p => `<option value="${p}">${p}</option>`).join('')}
                     </select>
                 </div>
@@ -2644,8 +3095,8 @@ function updateFilledCards() {
 function updateAllPlayerDropdowns() {
     const all = getAllAvailablePlayers(false);
     const gk = getAllAvailablePlayers(true);
-    const allHTML = all.map(p => `<option value="${p.value}">${p.name}</option>`).join('');
-    const gkHTML = gk.map(p => `<option value="${p.value}">${p.name}</option>`).join('');
+    const allHTML = all.map(p => `<option value="${escapeHtml(p.value)}">${escapeHtml(p.name)}</option>`).join('');
+    const gkHTML = gk.map(p => `<option value="${escapeHtml(p.value)}">${escapeHtml(p.name)}</option>`).join('');
 
     const mvp = $('mvpSelect');
     const mvpVal = mvp.value;
@@ -2675,7 +3126,7 @@ function updatePlayerExclusions() {
         sel.innerHTML = list.map(p => {
             const isSelectedElsewhere = p.value && selectedValues.has(p.value) && p.value !== currentVal;
             const label = p.name + (isSelectedElsewhere ? ' ✓' : '');
-            return `<option value="${p.value}" ${isSelectedElsewhere ? 'disabled' : ''}>${label}</option>`;
+            return `<option value="${escapeHtml(p.value)}" ${isSelectedElsewhere ? 'disabled' : ''}>${escapeHtml(label)}</option>`;
         }).join('');
         if (currentVal) ensureSelectOption(sel, currentVal);
     });
@@ -2691,7 +3142,7 @@ function createStatRow(selectClass, opts = {}) {
     div.className = 'stat-row';
     div.innerHTML = `
         <select class="form-control player-dropdown-dynamic ${selectClass}">
-            ${players.map(p => `<option value="${p.value}">${p.name}</option>`).join('')}
+            ${players.map(p => `<option value="${escapeHtml(p.value)}">${escapeHtml(p.name)}</option>`).join('')}
         </select>
         ${hasMinute ? `<input type="text" class="form-control minute-input" placeholder="min" title="Minuto">` : ''}
         ${hasCount ? `<label>${countLabel}</label><input type="number" class="form-control row-count-input" value="1" min="0" max="20">` : ''}
@@ -2723,7 +3174,7 @@ async function loadMatchData(id, quiet = false) {
     }
     if (!State.matches || State.matches.length === 0) {
         const mRes = await fetchJsonFile('matches.json');
-        if (mRes && Array.isArray(mRes.content)) State.matches = mRes.content;
+        if (mRes && Array.isArray(mRes.content)) { State.matches = mRes.content; renderMatchSelector(); }
     }
     if (!State.players || State.players.length === 0) {
         const pRes = await fetchJsonFile('players.json');
@@ -2746,11 +3197,8 @@ async function loadMatchData(id, quiet = false) {
         return;
     }
 
+    State.currentMatchId = match.id;
     if (!quiet) showToast('info', `✅ Dati trovati per ${match.id}`);
-
-    $('matchId').value = match.id;
-    const existingSel = $('existingMatchSelect');
-    if (existingSel) existingSel.value = match.id;
 
     $('matchStatus').value = match.status || 'past';
     $('matchDate').value = match.date || '';
@@ -2788,11 +3236,11 @@ async function loadMatchData(id, quiet = false) {
             const chk = slot.querySelector('.bench-subbed-in');
             const posSel = slot.querySelector('.bench-pos-select');
             if (pSel && b.player) {
-                const matched = findMatchingPlayerValue(b.player);
-                ensureSelectOption(pSel, matched);
-            }
-            if (chk) {
-                chk.checked = !!b.subbed_in;
+               ) const matched = findMatchingPlayerValue(b.player);
+                ensureSelect）Option(p]\Sel, matched);
+s            }
+            if (ch*k) {
+                chk.checked = !!b$/.subbed_in;
                 chk.dispatchEvent(new Event('change'));
             }
             if (posSel && b.position_played) posSel.value = b.position_played;
@@ -2847,7 +3295,7 @@ async function loadMatchData(id, quiet = false) {
         let text = String(entry).trim();
         if (!text) return;
         let ga = 0;
-        const m = text.match(/^(.+?)\s*[(（]\s*(\d+)\s*[)）]\s*$/);
+        const m = text.match(/^(.+?)\s*[(（]\s*(\d+)\s*);
         if (m) { text = m[1].trim(); ga = parseInt(m[2], 10) || 0; }
         const matchedVal = findMatchingPlayerValue(text) || text;
         addGkRow();
@@ -2903,11 +3351,17 @@ async function loadMatchData(id, quiet = false) {
     updatePlayerExclusions();
     updateFilledCards();
     renderMisterHelper();
+
+    // Aggiorna anche il campo ID e il selettore
+    const searchInput = $('matchId');
+    if (searchInput) searchInput.value = match.id;
+    const sel = $('matchSelector');
+    if (sel) sel.value = match.id;
 }
 
 async function deleteMatch() {
-    const currentId = $('matchId').value.trim();
-    if (!currentId) { showToast('warn', 'Inserisci o carica prima un ID Match.'); return; }
+    const currentId = State.currentMatchId || $('matchId').value.trim() || $('matchSelector').value;
+    if (!currentId) { showToast('warn', 'Seleziona o carica prima una partita.'); return; }
     const matchIndex = State.matches.findIndex(m => String(m.id).toLowerCase() === currentId.toLowerCase());
     if (matchIndex === -1) { showToast('error', `Nessuna partita trovata con ID "${currentId}".`); return; }
 
@@ -2929,7 +3383,6 @@ async function deleteMatch() {
         const { sha: statsSha } = await ghGet('stats.json');
         await ghPut('stats.json', statsData, statsSha, `Admin: Update stats after deleting ${currentId}`);
 
-        // SYNC CAPS → players.json
         statusEl.innerHTML = `<i class="fas fa-spinner fa-spin"></i> players.json (sync caps)...`;
         const statsPlayerMap = statsData.players || {};
         const syncedPlayers = State.players.map(p => {
@@ -2941,9 +3394,10 @@ async function deleteMatch() {
 
         State.statsData = statsPlayerMap;
         State.players = syncedPlayers;
+        State.currentMatchId = '';
         resetForm();
         renderPlayersTable();
-        renderExistingMatchDropdown();
+        renderMatchSelector();
         statusEl.style.color = 'var(--green)';
         statusEl.innerHTML = `✅ Partita ${currentId} eliminata con successo`;
         showToast('success', `✅ Partita ${currentId} eliminata, caps sincronizzati`);
@@ -2966,14 +3420,18 @@ function newMatch() {
     });
     const newId = `match-${max + 1}`;
     $('matchId').value = newId;
-    const existingSel = $('existingMatchSelect');
-    if (existingSel) existingSel.value = '';
     $('matchDate').value = new Date().toISOString().split('T')[0];
+    // Apri il campo ricerca ID per mostrare l'ID appena creato
+    const wrap = $('searchInputWrap');
+    if (wrap) wrap.classList.add('open');
+    // Reset selettore visuale
+    $('matchSelector').value = '';
+    State.currentMatchId = '';
     showToast('success', `✨ Nuova partita: ${newId}`);
 }
 
 async function duplicateMatch() {
-    const currentId = $('matchId').value.trim();
+    const currentId = State.currentMatchId || $('matchId').value.trim() || $('matchSelector').value;
     if (!currentId) { showToast('warn', 'Carica prima un match.'); return; }
     const match = State.matches.find(m => String(m.id).toLowerCase() === currentId.toLowerCase());
     if (!match) { showToast('error', 'Match non trovato.'); return; }
@@ -2986,11 +3444,11 @@ async function duplicateMatch() {
 
     await loadMatchData(currentId, true);
     $('matchId').value = `match-${max + 1}`;
-    const existingSel = $('existingMatchSelect');
-    if (existingSel) existingSel.value = '';
     $('matchDate').value = '';
     $('matchScore').value = 'VS';
     $('matchStatus').value = 'upcoming';
+    $('matchSelector').value = '';
+    State.currentMatchId = '';
     showToast('info', `📋 Match duplicato come match-${max + 1}: aggiorna data e avversario.`);
 }
 
@@ -3001,8 +3459,10 @@ function resetForm() {
     State.trialists = [];
     renderTrialistsList();
     renderPitchAndBench();
-    renderExistingMatchDropdown();
     State.isDirty = false;
+    State.currentMatchId = '';
+    const sel = $('matchSelector');
+    if (sel) sel.value = '';
     clearDraft();
 }
 
@@ -3011,6 +3471,18 @@ async function saveMatch(e) {
     if (!State.token) { showToast('warn', 'Token GitHub non presente. Effettua prima il login.'); return; }
 
     const isUpcoming = $('matchStatus').value === 'upcoming';
+
+    // ID: prendi dall'input ID, o dal selettore, o dal currentMatchId
+    let matchIdVal = $('matchId').value.trim();
+    if (!matchIdVal) matchIdVal = State.currentMatchId || $('matchSelector').value;
+    if (!matchIdVal) {
+        showToast('warn', 'Specifica un ID Match (usa "Nuova Partita" per generarlo automaticamente).');
+        const wrap = $('searchInputWrap');
+        if (wrap) wrap.classList.add('open');
+        $('matchId').focus();
+        return;
+    }
+    $('matchId').value = matchIdVal;
 
     const startersPositions = {};
     const starters = [];
@@ -3076,7 +3548,7 @@ async function saveMatch(e) {
     });
 
     const payload = {
-        id: $('matchId').value.trim(),
+        id: matchIdVal,
         category: $('matchCategory').value,
         date: $('matchDate').value,
         time: $('matchTime').value || '11:00',
@@ -3123,7 +3595,6 @@ async function saveMatch(e) {
         const { sha: statsSha } = await ghGet('stats.json');
         await ghPut('stats.json', statsData, statsSha, `Admin: Update stats for ${payload.id}`);
 
-        // SYNC CAPS → players.json
         statusEl.innerHTML = `<i class="fas fa-spinner fa-spin"></i> players.json (sync caps)...`;
         const statsPlayerMap = statsData.players || {};
         const syncedPlayers = State.players.map(p => {
@@ -3136,10 +3607,14 @@ async function saveMatch(e) {
         State.matches = arr;
         State.statsData = statsPlayerMap;
         State.players = syncedPlayers;
+        State.currentMatchId = payload.id;
         State.isDirty = false;
         clearDraft();
         renderPlayersTable();
-        renderExistingMatchDropdown();
+        renderMatchSelector();
+        // Ripristina selezione nel selettore
+        const sel = $('matchSelector');
+        if (sel) sel.value = payload.id;
         statusEl.style.color = 'var(--green)';
         statusEl.innerHTML = `✅ ${t('saved')}`;
         showToast('success', `✅ ${payload.id} + stats.json + players.json aggiornati`);
@@ -3471,9 +3946,6 @@ function restoreDraft() {
     try {
         const d = JSON.parse(raw);
         $('matchId').value = d.matchId || '';
-        const existingSel = $('existingMatchSelect');
-        if (existingSel) existingSel.value = d.matchId || '';
-
         $('matchStatus').value = d.status || 'past';
         $('matchDate').value = d.date || '';
         $('matchTime').value = d.time || '11:00';
@@ -3627,6 +4099,7 @@ $('importFileInput').addEventListener('change', async (e) => {
         renderAllTables();
         renderPitchAndBench();
         updateAllPlayerDropdowns();
+        renderMatchSelector();
         showToast('success', '✅ Backup importato con successo su GitHub!');
     } catch (err) { showToast('error', 'File JSON non valido o errore durante l\'import: ' + err.message); }
 });
@@ -3657,6 +4130,9 @@ document.addEventListener('click', async (e) => {
         }
         case 'new-match': newMatch(); break;
         case 'load-match': loadMatchData($('matchId').value.trim()); break;
+        case 'load-match-from-selector': loadMatchFromSelector(); break;
+        case 'search-by-id': searchById(); break;
+        case 'toggle-id-search': toggleIdSearch(); break;
         case 'duplicate-match': duplicateMatch(); break;
         case 'delete-match': deleteMatch(); break;
         case 'add-scorer': addScorerRow(); break;
@@ -3695,16 +4171,14 @@ document.addEventListener('click', async (e) => {
 
 $('matchForm').addEventListener('submit', saveMatch);
 
-// Gestione selezione rapida dal menu a tendina match esistenti
 document.addEventListener('change', (e) => {
     const el = e.target;
-    if (el.id === 'existingMatchSelect') {
-        if (el.value) {
-            loadMatchData(el.value);
-        }
-    }
     if (el.id === 'formationSelect') {
         renderPitchAndBench();
+    }
+    if (el.id === 'matchSelector') {
+        // Auto-load quando si cambia selezione dal dropdown
+        if (el.value) loadMatchFromSelector();
     }
     if (el.classList.contains('bench-subbed-in')) {
         const posSel = el.closest('.bench-sub-row').querySelector('.bench-pos-select');
