@@ -318,15 +318,7 @@
             display: inline-block;
         }
 
-        /* ROW DATA DI NASCITA ED ETÀ - NUOVO LAYOUT ARMONIZZATO */
-        .field-label-group {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 8px;
-        }
-        .field-label-group label {
-            margin-bottom: 3px;
-        }
+        /* ROW DATA DI NASCITA ED ETÀ COMPATTA */
         .field-hint {
             font-size: 0.75rem;
             color: #64748b;
@@ -334,12 +326,23 @@
         }
 
         .form-row-date-age {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(80px, 100px);
+            display: flex;
+            align-items: center;
             gap: 12px;
             width: 100%;
             box-sizing: border-box;
-            align-items: end;
+        }
+        
+        .date-wrapper {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .age-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
         }
 
         /* CAMPO DATA CON ICONA CALENDARIO EVIDENTE */
@@ -428,7 +431,8 @@
             background-color: #fef2f2 !important;
         }
 
-        .form-control.readonly-age {
+        .readonly-age {
+            width: 70px !important;
             height: 46px;
             background-color: #e2e8f0;
             color: #00224a;
@@ -838,7 +842,6 @@
                 font-size: 16px !important;
             }
             .form-row-date-age {
-                grid-template-columns: minmax(0, 1fr) 88px;
                 gap: 8px;
             }
             .privacy-modal-card { max-height: 90vh; }
@@ -988,7 +991,6 @@
                     <input type="hidden" name="_subject" id="formspree_subject" value="[Yokohama Calcio] お問い合わせ / Nuovo Contatto">
                     <input type="text" name="_gotcha" style="display:none !important;" tabindex="-1" autocomplete="off">
 
-                    <!-- SELEZIONE INIZIALE (Sempre visibile) -->
                     <div class="form-group">
                         <label for="category">
                             <span data-i18n="form.category_label">お問い合わせ種別</span>
@@ -1004,10 +1006,8 @@
                         </select>
                     </div>
 
-                    <!-- BLOCCO DINAMICO: Nascosto finché non si sceglie una categoria -->
                     <div id="dynamicFormContainer" style="display: none;">
                         
-                        <!-- NOME (Comuni) -->
                         <div class="form-row-2">
                             <div class="form-group">
                                 <label for="last_name">
@@ -1025,7 +1025,6 @@
                             </div>
                         </div>
 
-                        <!-- FURIGANA KANA (Spazio nascosto dinamicamente in IT/EN via JS) -->
                         <div class="form-row-2" id="kanaFieldsRow">
                             <div class="form-group">
                                 <label for="last_name_kana">
@@ -1045,7 +1044,6 @@
                             </div>
                         </div>
 
-                        <!-- EMAIL -->
                         <div class="form-group">
                             <label for="email">
                                 <span data-i18n="form.email_label">メールアドレス</span>
@@ -1055,31 +1053,29 @@
                             <div id="email_error" class="error-banner"><i class="fas fa-exclamation-triangle"></i> <span data-i18n="form.email_error">有効なメールアドレスを入力してください。</span></div>
                         </div>
 
-                        <!-- SEZIONE: GIOCATORE (TRIAL) -->
                         <div id="trialFieldsWrapper" style="display: none;">
                             <div class="field-section-title"><i class="fas fa-running"></i> <span data-i18n="form.player_sec_title">選手情報</span></div>
                             
-                            <div class="form-group">
-                                <div class="field-label-group">
-                                    <label for="birth_date">
-                                        <span data-i18n="form.birth_date_label">生年月日</span>
-                                        <span class="required-tag" data-i18n="form.required">必須</span>
-                                    </label>
-                                </div>
+                            <div class="form-group" style="gap: 4px;">
+                                <label for="birth_date" style="margin-bottom: 0;">
+                                    <span data-i18n="form.birth_date_label">生年月日</span>
+                                    <span class="required-tag" data-i18n="form.required">必須</span>
+                                </label>
+                                <div class="field-hint" data-i18n="form.birth_date_hint" style="margin-bottom: 2px;">※年齢は自動計算されます</div>
+                                
                                 <div class="form-row-date-age">
-                                    <div>
+                                    <div class="date-wrapper">
                                         <div class="date-input-wrapper">
                                             <input type="date" id="birth_date" name="birth_date" class="form-control" required>
                                             <i class="far fa-calendar-alt calendar-icon"></i>
                                         </div>
                                     </div>
-                                    <div>
-                                        <div style="font-weight: 700; font-size: 0.85rem; color: var(--dark-navy); margin-bottom: 4px;" data-i18n="form.calculated_age_label">年齢</div>
+                                    <div class="age-wrapper">
+                                        <span style="font-weight: 700; font-size: 0.85rem; color: var(--dark-navy);" data-i18n="form.calculated_age_label">年齢</span>
                                         <input type="text" id="calc_age_player" class="form-control readonly-age" placeholder="--" readonly tabindex="-1">
                                     </div>
                                 </div>
-                                <div class="field-hint" data-i18n="form.birth_date_hint" style="margin-top: 6px;">※年齢は自動計算されます</div>
-                                <div id="age_error_player" class="error-banner">
+                                <div id="age_error_player" class="error-banner" style="margin-top: 4px;">
                                     <i class="fas fa-exclamation-triangle"></i>
                                     <span id="age_error_player_msg"></span>
                                 </div>
@@ -1134,36 +1130,34 @@
                                 <div id="subPositionCheckboxes" class="sub-pos-container"></div>
                                 <div id="sub_pos_error" class="error-banner">
                                     <i class="fas fa-exclamation-triangle"></i>
-                                    <span data-i18n="form.sub_pos_error">少なくとも1つの役割を選択してください。</span>
+                                    <span data-i18n="form.sub_pos_error">少なくとも1つを選択してください。</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- SEZIONE: STAFF -->
                         <div id="staffFieldsWrapper" style="display: none;">
                             <div class="field-section-title"><i class="fas fa-user-tie"></i> <span data-i18n="form.staff_sec_title">スタッフ応募情報</span></div>
 
-                            <div class="form-group">
-                                <div class="field-label-group">
-                                    <label for="staff_birth_date">
-                                        <span data-i18n="form.birth_date_label">生年月日</span>
-                                        <span class="required-tag" data-i18n="form.required">必須</span>
-                                    </label>
-                                </div>
+                            <div class="form-group" style="gap: 4px;">
+                                <label for="staff_birth_date" style="margin-bottom: 0;">
+                                    <span data-i18n="form.birth_date_label">生年月日</span>
+                                    <span class="required-tag" data-i18n="form.required">必須</span>
+                                </label>
+                                <div class="field-hint" data-i18n="form.birth_date_hint" style="margin-bottom: 2px;">※年齢は自動計算されます</div>
+                                
                                 <div class="form-row-date-age">
-                                    <div>
+                                    <div class="date-wrapper">
                                         <div class="date-input-wrapper">
                                             <input type="date" id="staff_birth_date" name="staff_birth_date" class="form-control">
                                             <i class="far fa-calendar-alt calendar-icon"></i>
                                         </div>
                                     </div>
-                                    <div>
-                                        <div style="font-weight: 700; font-size: 0.85rem; color: var(--dark-navy); margin-bottom: 4px;" data-i18n="form.calculated_age_label">年齢</div>
+                                    <div class="age-wrapper">
+                                        <span style="font-weight: 700; font-size: 0.85rem; color: var(--dark-navy);" data-i18n="form.calculated_age_label">年齢</span>
                                         <input type="text" id="calc_age_staff" class="form-control readonly-age" placeholder="--" readonly tabindex="-1">
                                     </div>
                                 </div>
-                                <div class="field-hint" data-i18n="form.birth_date_hint" style="margin-top: 6px;">※年齢は自動計算されます</div>
-                                <div id="age_error_staff" class="error-banner">
+                                <div id="age_error_staff" class="error-banner" style="margin-top: 4px;">
                                     <i class="fas fa-exclamation-triangle"></i>
                                     <span id="age_error_staff_msg"></span>
                                 </div>
@@ -1192,7 +1186,6 @@
                             </div>
                         </div>
 
-                        <!-- SEZIONE: AMICHEVOLE (MATCH) -->
                         <div id="matchFieldsWrapper" style="display: none;">
                             <div class="field-section-title"><i class="fas fa-futbol"></i> <span data-i18n="form.match_sec_title">対戦チーム情報</span></div>
 
@@ -1238,7 +1231,6 @@
                             </div>
                         </div>
 
-                        <!-- SEZIONE: SPONSOR -->
                         <div id="sponsorFieldsWrapper" style="display: none;">
                             <div class="field-section-title"><i class="fas fa-building"></i> <span data-i18n="form.sponsor_sec_title">パートナー情報</span></div>
 
@@ -1265,7 +1257,6 @@
                             </div>
                         </div>
 
-                        <!-- MESSAGGIO LIBERO -->
                         <div class="form-group">
                             <label for="message">
                                 <span data-i18n="form.message_label">メッセージ内容</span>
@@ -1274,7 +1265,6 @@
                             <textarea id="message" name="message" class="form-control" placeholder="ご質問や詳細をご記入ください。" required></textarea>
                         </div>
 
-                        <!-- SPUNTA TRATTAMENTO DATI -->
                         <div class="privacy-box">
                             <label class="privacy-checkbox-label" for="privacy_agree">
                                 <input type="checkbox" id="privacy_agree" name="privacy_agree" required>
@@ -1284,7 +1274,6 @@
                             </label>
                         </div>
 
-                        <!-- ERRORE GLOBALE VALIDAZIONE -->
                         <div id="global_form_error" class="global-error-banner">
                             <i class="fas fa-exclamation-circle" style="font-size:1.2rem;"></i>
                             <span id="global_form_error_msg"></span>
@@ -1295,11 +1284,9 @@
                             <span data-i18n="form.submit_btn">送信する</span>
                         </button>
 
-                    </div> <!-- Fine dynamicFormContainer -->
-                </form>
+                    </div> </form>
             </div>
 
-            <!-- CARD INFORMAZIONI E DIRECT MAIL -->
             <div class="contact-info-card">
                 
                 <div class="direct-email-box">
@@ -1338,7 +1325,6 @@
     </div>
 </section>
 
-<!-- MODAL DI CONFERMA INVIO CUSTOM -->
 <div class="confirm-modal-overlay" id="confirmModal">
     <div class="confirm-modal-card">
         <div class="confirm-modal-icon">
@@ -1352,7 +1338,6 @@
     </div>
 </div>
 
-<!-- MODAL INFORMATIVA PRIVACY -->
 <div class="privacy-modal-overlay" id="privacyModal">
     <div class="privacy-modal-card">
         <div class="privacy-modal-header">
