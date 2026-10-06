@@ -240,7 +240,7 @@ def build_static_matches_html():
         </div>
         """
 
-  # SCHEMA EVENTI (COMPLETO DI TUTTI I CAMPI SCHEMA.ORG / GOOGLE)
+  # SCHEMA EVENTI
   schema_events = []
   for m in matches:
     opp_name, _ = get_opp_info(m, opponents)
@@ -503,25 +503,8 @@ def _person_schema_with_stats(p, p_stats):
   goals = safe_int(st.get('goals', 0))
   assists = safe_int(st.get('assists', 0))
   mvps = safe_int(st.get('mvps', 0))
-  yellows = safe_int(st.get('yellows', 0))
-  reds = safe_int(st.get('reds', 0))
   conceded = safe_int(st.get('goals_conceded', 0))
   clean_sheets = safe_int(st.get('clean_sheets', 0))
-
-  additional = [
-      {'@type': 'PropertyValue', 'name': 'appearances', 'value': caps},
-      {'@type': 'PropertyValue', 'name': 'starters', 'value': starters},
-      {'@type': 'PropertyValue', 'name': 'substitute_appearances', 'value': subs},
-      {'@type': 'PropertyValue', 'name': 'goals', 'value': goals},
-      {'@type': 'PropertyValue', 'name': 'assists', 'value': assists},
-      {'@type': 'PropertyValue', 'name': 'mvp_awards', 'value': mvps},
-      {'@type': 'PropertyValue', 'name': 'yellow_cards', 'value': yellows},
-      {'@type': 'PropertyValue', 'name': 'red_cards', 'value': reds},
-  ]
-  if role == 'gk':
-    additional.append({'@type': 'PropertyValue', 'name': 'goals_conceded', 'value': conceded})
-    additional.append({'@type': 'PropertyValue', 'name': 'clean_sheets', 'value': clean_sheets})
-  person['additionalProperty'] = additional
 
   role_label = {'gk': 'Goalkeeper', 'df': 'Defender', 'mf': 'Midfielder', 'fw': 'Forward'}.get(role, 'Player')
   desc_parts = [f'{role_label} of Yokohama Calcio.']
@@ -668,13 +651,10 @@ def _player_display_name_ja(p):
 
 
 def build_static_stats_rankings():
-  """Ritorna un dict { marker_key: html_content } con l'HTML statico
-  di ogni classifica (top 20). Il JS lo sovrascrive al render."""
   players_data = load_json('players.json') or []
   stats_data = load_json('stats.json') or {}
   stats_map = stats_data.get('players', {})
 
-  # Arricchisci
   enriched = []
   for p in players_data:
     if p.get('role') == 'staff': continue
@@ -715,7 +695,7 @@ def build_static_stats_rankings():
       value_fmt=lambda val, st: f'{val} 本',
   )
 
-  # APPEARANCES (nuova): caps DESC, poi starters DESC
+  # APPEARANCES
   apps_rows = []
   for p, st in enriched:
     caps = safe_int(st.get('caps', 0))
@@ -732,7 +712,7 @@ def build_static_stats_rankings():
     apps_items.append(_build_ranking_item_html(idx, name, value_html))
   result['APPEARANCES'] = '\n'.join(apps_items)
 
-  # GK (solo portieri): gol subiti ASC, poi gol subiti tot ASC
+  # GK
   gk_rows = []
   for p, st in enriched:
     if (p.get('role') or '').lower() != 'gk': continue
@@ -777,7 +757,6 @@ def build_static_stats_rankings():
 
 
 def inject_stats_rankings(filename, rankings):
-  """Inietta HTML statico dentro i marker RANKING_*_START/END di stats.html."""
   if not rankings: return
   full_path = os.path.join(ROOT_DIR, filename)
   if not os.path.exists(full_path): return
@@ -812,10 +791,6 @@ def inject_stats_rankings(filename, rankings):
 # STATS: JSON-LD COMPLETO (Dataset + ItemList)
 # ============================================================
 def build_stats_schemas():
-  """Ritorna una lista di schemi JSON-LD per stats.html:
-  1. Dataset con team_totals
-  2. ItemList per ogni classifica (goals, assists, appearances, mvps, gk, yellows, reds)
-  """
   players_data = load_json('players.json') or []
   stats_data = load_json('stats.json') or {}
   stats_map = stats_data.get('players', {})
@@ -826,7 +801,6 @@ def build_stats_schemas():
 
   schemas = []
 
-  # 1) Dataset con team totals
   today_iso = date.today().isoformat()
   dataset = {
       '@context': 'https://schema.org',
@@ -861,28 +835,19 @@ def build_stats_schemas():
   }
   schemas.append(dataset)
 
-  # 2) ItemList per ogni classifica
   def _make_itemlist(name, description, rows, item_list_order='https://schema.org/Descending'):
     items = []
-    for idx, (p, st, extra) in enumerate(rows, 1):
+    for idx, (p, st) in enumerate(rows, 1):
       person_ref = {
           '@type': 'Person',
           '@id': f'{YOKOHAMA_FULL_URL}/players.html#{p.get("id", "")}',
           'name': p.get('name_kanji') or p.get('name_romaji') or '',
       }
-      # allega le stat principali come additionalProperty nel ListItem
-      props = extra if extra else {}
-      additional = []
-      for k, v in props.items():
-        if v is None: continue
-        additional.append({'@type': 'PropertyValue', 'name': k, 'value': v})
       item = {
           '@type': 'ListItem',
           'position': idx,
           'item': person_ref,
       }
-      if additional:
-        item['item']['additionalProperty'] = additional
       items.append(item)
     return {
         '@context': 'https://schema.org',
@@ -902,8 +867,8 @@ def build_stats_schemas():
     st = stats_map.get(p.get('id'), {}) or {}
     g = safe_int(st.get('goals', 0))
     if g > 0:
-      scorers.append((p, st, {'goals': g, 'appearances': safe_int(st.get('caps', 0))}))
-  scorers.sort(key=lambda x: -x[2]['goals'])
+      scorers.append((p, st))
+  scorers.sort(key=lambda x: -safe_int(stats_map.get(x[0].get('id'), {}).get('goals', 0)))
   if scorers:
     schemas.append(_make_itemlist('Top Scorers', 'Yokohama Calcio top scorers ranked by goals scored.', scorers))
 
@@ -914,34 +879,25 @@ def build_stats_schemas():
     st = stats_map.get(p.get('id'), {}) or {}
     a = safe_int(st.get('assists', 0))
     if a > 0:
-      assists.append((p, st, {'assists': a, 'appearances': safe_int(st.get('caps', 0))}))
-  assists.sort(key=lambda x: -x[2]['assists'])
+      assists.append((p, st))
+  assists.sort(key=lambda x: -safe_int(stats_map.get(x[0].get('id'), {}).get('assists', 0)))
   if assists:
     schemas.append(_make_itemlist('Top Assists', 'Yokohama Calcio top assist providers.', assists))
 
-  # Appearances (ordinamento: caps DESC, starters DESC, subs DESC)
+  # Appearances
   apps = []
   for p in players_data:
     if p.get('role') == 'staff': continue
     st = stats_map.get(p.get('id'), {}) or {}
     caps = safe_int(st.get('caps', 0))
     if caps <= 0: continue
-    starters = safe_int(st.get('starters', 0))
-    subs = safe_int(st.get('subs', 0))
-    apps.append((p, st, {
-        'appearances': caps,
-        'starters': starters,
-        'substitute_appearances': subs,
-    }, caps, starters, subs))
-  apps.sort(key=lambda x: (-x[3], -x[4], -x[5]))
+    apps.append((p, st))
+  apps.sort(key=lambda x: (-safe_int(stats_map.get(x[0].get('id'), {}).get('caps', 0)), -safe_int(stats_map.get(x[0].get('id'), {}).get('starters', 0))))
   if apps:
-    apps_for_list = [(a[0], a[1], a[2]) for a in apps]
     schemas.append(_make_itemlist(
         'Appearances Ranking',
-        'Yokohama Calcio appearances ranking. Sorted by total appearances descending, '
-        'then by starts from the starting lineup descending. '
-        'The value in parentheses in the visual ranking represents appearances from the bench.',
-        apps_for_list,
+        'Yokohama Calcio appearances ranking. Sorted by total appearances descending, then by starts descending.',
+        apps,
     ))
 
   # MVP
@@ -951,32 +907,25 @@ def build_stats_schemas():
     st = stats_map.get(p.get('id'), {}) or {}
     m = safe_int(st.get('mvps', 0))
     if m > 0:
-      mvps.append((p, st, {'mvp_awards': m, 'appearances': safe_int(st.get('caps', 0))}))
-  mvps.sort(key=lambda x: -x[2]['mvp_awards'])
+      mvps.append((p, st))
+  mvps.sort(key=lambda x: -safe_int(stats_map.get(x[0].get('id'), {}).get('mvps', 0)))
   if mvps:
     schemas.append(_make_itemlist('MVP Awards', 'Yokohama Calcio MVP award winners.', mvps))
 
-  # Goalkeepers (ordinamento: avg conceded ASC)
+  # Goalkeepers
   gks = []
   for p in players_data:
     if (p.get('role') or '').lower() != 'gk': continue
     st = stats_map.get(p.get('id'), {}) or {}
     caps = safe_int(st.get('caps', 0))
     if caps <= 0: continue
-    conceded = safe_int(st.get('goals_conceded', 0))
-    avg = conceded / caps if caps > 0 else 0
-    gks.append((p, st, {
-        'appearances': caps,
-        'goals_conceded': conceded,
-        'clean_sheets': safe_int(st.get('clean_sheets', 0)),
-    }, avg))
-  gks.sort(key=lambda x: x[3])
+    gks.append((p, st))
+  gks.sort(key=lambda x: safe_int(stats_map.get(x[0].get('id'), {}).get('goals_conceded', 0)) / max(1, safe_int(stats_map.get(x[0].get('id'), {}).get('caps', 1))))
   if gks:
-    gks_for_list = [(g[0], g[1], g[2]) for g in gks]
     schemas.append(_make_itemlist(
         'Goalkeeper Ranking',
         'Yokohama Calcio goalkeepers ranked by average goals conceded per appearance (ascending).',
-        gks_for_list,
+        gks,
         item_list_order='https://schema.org/Ascending',
     ))
 
@@ -987,8 +936,8 @@ def build_stats_schemas():
     st = stats_map.get(p.get('id'), {}) or {}
     y = safe_int(st.get('yellows', 0))
     if y > 0:
-      yellows.append((p, st, {'yellow_cards': y}))
-  yellows.sort(key=lambda x: -x[2]['yellow_cards'])
+      yellows.append((p, st))
+  yellows.sort(key=lambda x: -safe_int(stats_map.get(x[0].get('id'), {}).get('yellows', 0)))
   if yellows:
     schemas.append(_make_itemlist('Yellow Cards', 'Yokohama Calcio players ranked by yellow cards.', yellows))
 
@@ -996,11 +945,11 @@ def build_stats_schemas():
   reds = []
   for p in players_data:
     if p.get('role') == 'staff': continue
-    st = stats_map.get(p.get('id'), {})
+    st = stats_map.get(p.get('id'), {}) or {}
     r = safe_int(st.get('reds', 0))
     if r > 0:
-      reds.append((p, st, {'red_cards': r}))
-  reds.sort(key=lambda x: -x[2]['red_cards'])
+      reds.append((p, st))
+  reds.sort(key=lambda x: -safe_int(stats_map.get(x[0].get('id'), {}).get('reds', 0)))
   if reds:
     schemas.append(_make_itemlist('Red Cards', 'Yokohama Calcio players ranked by red cards.', reds))
 
