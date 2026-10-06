@@ -278,7 +278,7 @@
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -295,41 +295,51 @@
             .form-row-2 { grid-template-columns: 1fr; }
         }
 
-        /* ROW DATA DI NASCITA ED ETÀ - RESA RESPONSIVE */
+        /* ETICHETTE E BADGE OBBLIGATORIO */
+        .form-group label, .field-label-wrapper > div {
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--dark-navy, #003c82);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        /* BADGE OBBLIGATORIO GLOBALE ROSSO VIVO */
+        .required-tag {
+            background-color: #ef4444 !important;
+            color: #ffffff !important;
+            font-size: 0.7rem;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-weight: 800;
+            margin-left: 4px;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        /* ROW DATA DI NASCITA ED ETÀ - NUOVO LAYOUT ARMONIZZATO */
+        .field-label-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 8px;
+        }
+        .field-label-group label {
+            margin-bottom: 3px;
+        }
+        .field-hint {
+            font-size: 0.75rem;
+            color: #64748b;
+            line-height: 1.4;
+        }
+
         .form-row-date-age {
             display: grid;
             grid-template-columns: minmax(0, 1fr) minmax(80px, 100px);
             gap: 12px;
             width: 100%;
             box-sizing: border-box;
-        }
-        .form-row-date-age > div {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            min-width: 0;
-        }
-        .form-row-date-age label {
-            min-height: 24px;
-            white-space: nowrap;
-            margin-bottom: 6px;
-        }
-
-        .form-group label {
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: var(--dark-navy, #003c82);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .form-group label .required-tag {
-            background: #ef4444;
-            color: #ffffff;
-            font-size: 0.7rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 800;
+            align-items: end;
         }
 
         /* CAMPO DATA CON ICONA CALENDARIO EVIDENTE */
@@ -435,7 +445,7 @@
             padding: 12px 14px;
         }
 
-        /* Dynamic Checkboxes for Sub-roles UX Migliorato con FRECCE */
+        /* Dynamic Checkboxes for Sub-roles, Staff & Sponsor */
         .sub-pos-container {
             display: flex;
             flex-wrap: wrap;
@@ -860,7 +870,6 @@
                 grid-template-columns: minmax(0, 1fr) 88px;
                 gap: 8px;
             }
-            .form-row-date-age label { font-size: 0.85rem; }
             .privacy-modal-card { max-height: 90vh; }
             .privacy-modal-body { padding: 16px; font-size: 0.86rem; }
         }
@@ -1080,22 +1089,22 @@
                             <div class="field-section-title"><i class="fas fa-running"></i> <span data-i18n="form.player_sec_title">選手情報</span></div>
                             
                             <div class="form-group">
+                                <div class="field-label-group">
+                                    <label for="birth_date">
+                                        <span data-i18n="form.birth_date_label">生年月日</span>
+                                        <span class="required-tag" data-i18n="form.required">必須</span>
+                                    </label>
+                                    <div class="field-hint" data-i18n="form.birth_date_hint">※年齢は自動計算されます</div>
+                                </div>
                                 <div class="form-row-date-age">
                                     <div>
-                                        <label for="birth_date">
-                                            <span data-i18n="form.birth_date_label">生年月日</span>
-                                            <span class="required-tag" data-i18n="form.required">必須</span>
-                                            <small style="font-size:0.75rem; color:#64748b; font-weight:normal; margin-left:auto;" data-i18n="form.birth_date_hint">※年齢は自動計算されます</small>
-                                        </label>
                                         <div class="date-input-wrapper">
-                                            <input type="date" id="birth_date" name="birth_date" class="form-control">
+                                            <input type="date" id="birth_date" name="birth_date" class="form-control" required>
                                             <i class="far fa-calendar-alt calendar-icon"></i>
                                         </div>
                                     </div>
                                     <div>
-                                        <label for="calc_age_player">
-                                            <span data-i18n="form.calculated_age_label">年齢</span>
-                                        </label>
+                                        <div style="font-weight: 700; font-size: 0.85rem; color: var(--dark-navy); margin-bottom: 4px;" data-i18n="form.calculated_age_label">年齢</div>
                                         <input type="text" id="calc_age_player" class="form-control readonly-age" placeholder="--" readonly tabindex="-1">
                                     </div>
                                 </div>
@@ -1142,7 +1151,6 @@
                             </div>
 
                             <div class="form-group" id="subPositionWrapper" style="display: none;">
-                                <!-- Layout corretto per evitare che il tag "Obbligatorio" vada a capo da solo -->
                                 <div class="field-label-wrapper" style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px;">
                                     <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
                                         <i class="fas fa-chevron-right" style="color: #003c82; font-size: 0.85rem;"></i>
@@ -1165,22 +1173,22 @@
                             <div class="field-section-title"><i class="fas fa-user-tie"></i> <span data-i18n="form.staff_sec_title">スタッフ応募情報</span></div>
 
                             <div class="form-group">
+                                <div class="field-label-group">
+                                    <label for="staff_birth_date">
+                                        <span data-i18n="form.birth_date_label">生年月日</span>
+                                        <span class="required-tag" data-i18n="form.required">必須</span>
+                                    </label>
+                                    <div class="field-hint" data-i18n="form.birth_date_hint">※年齢は自動計算されます</div>
+                                </div>
                                 <div class="form-row-date-age">
                                     <div>
-                                        <label for="staff_birth_date">
-                                            <span data-i18n="form.birth_date_label">生年月日</span>
-                                            <span class="required-tag" data-i18n="form.required">必須</span>
-                                            <small style="font-size:0.75rem; color:#64748b; font-weight:normal; margin-left:auto;" data-i18n="form.birth_date_hint">※年齢は自動計算されます</small>
-                                        </label>
                                         <div class="date-input-wrapper">
                                             <input type="date" id="staff_birth_date" name="staff_birth_date" class="form-control">
                                             <i class="far fa-calendar-alt calendar-icon"></i>
                                         </div>
                                     </div>
                                     <div>
-                                        <label for="calc_age_staff">
-                                            <span data-i18n="form.calculated_age_label">年齢</span>
-                                        </label>
+                                        <div style="font-weight: 700; font-size: 0.85rem; color: var(--dark-navy); margin-bottom: 4px;" data-i18n="form.calculated_age_label">年齢</div>
                                         <input type="text" id="calc_age_staff" class="form-control readonly-age" placeholder="--" readonly tabindex="-1">
                                     </div>
                                 </div>
@@ -1191,18 +1199,24 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="staff_role">
-                                    <span data-i18n="form.staff_role_label">希望スタッフ役職</span>
-                                    <span class="required-tag" data-i18n="form.required">必須</span>
-                                </label>
-                                <select id="staff_role" name="staff_role" class="form-control">
-                                    <option value="" data-i18n="form.select_option">選択してください</option>
-                                    <option value="assistant_coach" data-i18n="form.staff_role_coach">アシスタントコーチ</option>
-                                    <option value="team_manager" data-i18n="form.staff_role_manager">チームマネージャー / 運営スタッフ</option>
-                                    <option value="trainer" data-i18n="form.staff_role_trainer">トレーナー / フィジカル</option>
-                                    <option value="kit_manager" data-i18n="form.staff_role_kit">用具管理・エキップメント</option>
-                                    <option value="media_analyst" data-i18n="form.staff_role_media">広報・メディア・アナリスト</option>
-                                </select>
+                                <div class="field-label-wrapper" style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px;">
+                                    <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
+                                        <span data-i18n="form.staff_role_label" style="font-weight: 700; font-size: 0.9rem; color: #003c82;">希望スタッフ役職</span>
+                                        <span class="required-tag" data-i18n="form.required">必須</span>
+                                    </div>
+                                    <small style="font-size:0.75rem; color:#64748b; font-weight:normal;" data-i18n="form.sub_pos_hint">※該当するものをすべて選択</small>
+                                </div>
+                                <div class="sub-pos-container" id="staffRolesCheckboxes">
+                                    <label class="checkbox-tag"><input type="checkbox" name="staff_roles[]" value="assistant_coach"><i class="fas fa-chevron-right tag-arrow"></i> <span data-i18n="form.staff_role_coach">アシスタントコーチ</span></label>
+                                    <label class="checkbox-tag"><input type="checkbox" name="staff_roles[]" value="team_manager"><i class="fas fa-chevron-right tag-arrow"></i> <span data-i18n="form.staff_role_manager">チームマネージャー / 運営スタッフ</span></label>
+                                    <label class="checkbox-tag"><input type="checkbox" name="staff_roles[]" value="trainer"><i class="fas fa-chevron-right tag-arrow"></i> <span data-i18n="form.staff_role_trainer">トレーナー / フィジカル</span></label>
+                                    <label class="checkbox-tag"><input type="checkbox" name="staff_roles[]" value="kit_manager"><i class="fas fa-chevron-right tag-arrow"></i> <span data-i18n="form.staff_role_kit">用具管理・エキップメント</span></label>
+                                    <label class="checkbox-tag"><input type="checkbox" name="staff_roles[]" value="media_analyst"><i class="fas fa-chevron-right tag-arrow"></i> <span data-i18n="form.staff_role_media">広報・メディア・アナリスト</span></label>
+                                </div>
+                                <div id="staff_role_error" class="error-banner">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span data-i18n="form.sub_pos_error">少なくとも1つの役割を選択してください。</span>
+                                </div>
                             </div>
 
                             <div class="form-group">
@@ -1272,17 +1286,23 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="sponsor_type">
-                                    <span data-i18n="form.sponsor_type_label">ご検討のパートナーシップ種類</span>
-                                    <span class="required-tag" data-i18n="form.required">必須</span>
-                                </label>
-                                <select id="sponsor_type" name="sponsor_type" class="form-control">
-                                    <option value="" data-i18n="form.select_option">選択してください</option>
-                                    <option value="financial" data-i18n="form.opt_sponsor_fin">資金スポンサー (ユニフォーム掲出等)</option>
-                                    <option value="technical" data-i18n="form.opt_sponsor_tech">サプライヤー (物品・ウェア提供)</option>
-                                    <option value="services" data-i18n="form.opt_sponsor_supply">サービス提供・施設利用支援</option>
-                                    <option value="other_partner" data-i18n="form.opt_sponsor_other">その他・企画協賛</option>
-                                </select>
+                                <div class="field-label-wrapper" style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px;">
+                                    <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
+                                        <span data-i18n="form.sponsor_type_label" style="font-weight: 700; font-size: 0.9rem; color: #003c82;">ご検討のパートナーシップ種類</span>
+                                        <span class="required-tag" data-i18n="form.required">必須</span>
+                                    </div>
+                                    <small style="font-size:0.75rem; color:#64748b; font-weight:normal;" data-i18n="form.sub_pos_hint">※該当するものをすべて選択</small>
+                                </div>
+                                <div class="sub-pos-container" id="sponsorTypesCheckboxes">
+                                    <label class="checkbox-tag"><input type="checkbox" name="sponsor_types[]" value="financial"><i class="fas fa-chevron-right tag-arrow"></i> <span data-i18n="form.opt_sponsor_fin">資金スポンサー (ユニフォーム掲出等)</span></label>
+                                    <label class="checkbox-tag"><input type="checkbox" name="sponsor_types[]" value="technical"><i class="fas fa-chevron-right tag-arrow"></i> <span data-i18n="form.opt_sponsor_tech">サプライヤー (物品・ウェア提供)</span></label>
+                                    <label class="checkbox-tag"><input type="checkbox" name="sponsor_types[]" value="services"><i class="fas fa-chevron-right tag-arrow"></i> <span data-i18n="form.opt_sponsor_supply">サービス提供・施設利用支援</span></label>
+                                    <label class="checkbox-tag"><input type="checkbox" name="sponsor_types[]" value="other_partner"><i class="fas fa-chevron-right tag-arrow"></i> <span data-i18n="form.opt_sponsor_other">その他・企画協賛</span></label>
+                                </div>
+                                <div id="sponsor_type_error" class="error-banner">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span data-i18n="form.sub_pos_error">少なくとも1つの役割を選択してください。</span>
+                                </div>
                             </div>
                         </div>
 
@@ -1476,7 +1496,7 @@
             "form.pos_fw": "FW (フォワード)",
             "form.sub_pos_label": "詳細役割（複数選択可）",
             "form.sub_pos_hint": "※該当するものをすべて選択",
-            "form.sub_pos_error": "少なくとも1つの役割を選択してください。",
+            "form.sub_pos_error": "少なくとも1つを選択してください。",
             "form.select_option": "選択してください",
 
             "form.staff_sec_title": "スタッフ応募情報",
@@ -1584,13 +1604,13 @@
             "form.pos_df": "Difensore (DF)",
             "form.pos_mf": "Centrocampista (MF)",
             "form.pos_fw": "Attaccante (FW)",
-            "form.sub_pos_label": "Ruolo Specifico (multiplo)",
+            "form.sub_pos_label": "Dettaglio Ruolo (multiplo)",
             "form.sub_pos_hint": "※ Seleziona una o più opzioni",
-            "form.sub_pos_error": "Seleziona almeno un ruolo.",
+            "form.sub_pos_error": "Seleziona almeno un'opzione.",
             "form.select_option": "Seleziona",
 
             "form.staff_sec_title": "Info Candidato Staff",
-            "form.staff_role_label": "Ruolo Staff Richiesto",
+            "form.staff_role_label": "Ruolo Staff Desiderato",
             "form.staff_exp_label": "Esperienza / Qualifiche",
             "form.staff_role_coach": "Allenatore / Vice Allenatore",
             "form.staff_role_manager": "Dirigente / Team Manager",
@@ -1695,7 +1715,7 @@
             "form.pos_fw": "Forward (FW)",
             "form.sub_pos_label": "Specific Roles (Multiple)",
             "form.sub_pos_hint": "※ Select all that apply",
-            "form.sub_pos_error": "Please select at least one role.",
+            "form.sub_pos_error": "Please select at least one option.",
             "form.select_option": "Please select",
 
             "form.staff_sec_title": "Staff Application Details",
@@ -1758,7 +1778,7 @@
         }
     };
 
-    // Sub-positions config for Player Macro Positions (Traduzioni aggiornate)
+    // Sub-positions config for Player Macro Positions
     const subPositionsData = {
         GK: [
             { id: 'GK', ja: 'GK (ゴールキーパー)', it: 'Portiere', en: 'Goalkeeper' }
@@ -1793,9 +1813,9 @@
         experience_level: "競技レベル / Livello Esperienza",
         experience_details: "サッカー歴・前所属 / Esperienza Precedente",
         macro_position: "希望ポジション / Ruolo Principale",
-        "sub_positions[]": "詳細役割 / Ruoli Specifici",
-        staff_birth_date: "生年月日 / Data di Nascita",
-        staff_role: "希望スタッフ役職 / Ruolo Staff",
+        "sub_positions[]": "詳細役割 / Ruoli Specifici Giocatore",
+        staff_birth_date: "生年月日 / Data di Nascita Staff",
+        "staff_roles[]": "希望スタッフ役職 / Ruoli Staff Richiesti",
         staff_experience: "指導歴・スポーツ経歴 / Esperienza Staff",
         match_team_name: "対戦チーム名 / Nome Squadra Avversaria",
         match_league: "所属リーグ / Campionato",
@@ -1804,7 +1824,7 @@
         has_pitch: "グラウンド確保状況 / Campo Prenotato",
         pitch_name: "グラウンド名 / Nome Campo",
         company_name: "会社名・団体名 / Nome Azienda",
-        sponsor_type: "パートナーシップ種類 / Tipo Partnership",
+        "sponsor_types[]": "パートナーシップ種類 / Tipi Partnership",
         message: "メッセージ内容 / Messaggio",
         privacy_agree: "プライバシーポリシー同意 / Consenso Privacy"
     };
@@ -1949,6 +1969,32 @@
         document.getElementById('global_form_error').style.display = 'none';
     }
 
+    function bindCheckboxTags(containerSelector, errorId) {
+        const container = document.querySelector(containerSelector);
+        if (!container) return;
+        container.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+            chk.addEventListener('change', () => {
+                const parentTag = chk.closest('.checkbox-tag');
+                const icon = parentTag ? parentTag.querySelector('.tag-arrow') : null;
+
+                if (parentTag) parentTag.classList.toggle('is-checked', chk.checked);
+                
+                if (icon) {
+                    if (chk.checked) {
+                        icon.classList.remove('fa-chevron-right');
+                        icon.classList.add('fa-check');
+                    } else {
+                        icon.classList.remove('fa-check');
+                        icon.classList.add('fa-chevron-right');
+                    }
+                }
+                const checkedSubs = container.querySelectorAll('input[type="checkbox"]:checked');
+                const subErr = document.getElementById(errorId);
+                if (subErr && checkedSubs.length > 0) subErr.style.display = 'none';
+            });
+        });
+    }
+
     function renderSubPositions() {
         const macroPos = document.getElementById('macro_position').value;
         const wrapper = document.getElementById('subPositionWrapper');
@@ -1980,30 +2026,10 @@
         container.innerHTML = html;
         wrapper.style.display = 'block';
 
-        container.querySelectorAll('input[type="checkbox"]').forEach(chk => {
-            chk.addEventListener('change', () => {
-                const parentTag = chk.closest('.checkbox-tag');
-                const icon = parentTag ? parentTag.querySelector('.tag-arrow') : null;
-
-                if (parentTag) parentTag.classList.toggle('is-checked', chk.checked);
-                
-                if (icon) {
-                    if (chk.checked) {
-                        icon.classList.remove('fa-chevron-right');
-                        icon.classList.add('fa-check');
-                    } else {
-                        icon.classList.remove('fa-check');
-                        icon.classList.add('fa-chevron-right');
-                    }
-                }
-                const checkedSubs = container.querySelectorAll('input[name="sub_positions[]"]:checked');
-                const subErr = document.getElementById('sub_pos_error');
-                if (subErr && checkedSubs.length > 0) subErr.style.display = 'none';
-            });
-        });
+        bindCheckboxTags('#subPositionCheckboxes', 'sub_pos_error');
     }
 
-    // GESTIONE VISIBILITA' SEZIONI (NASCONDE TUTTO FINO A SELEZIONE CATEGORIA)
+    // GESTIONE VISIBILITA' SEZIONI
     function updateSectionVisibility() {
         const categorySelect = document.getElementById('category');
         const category = categorySelect ? categorySelect.value : '';
@@ -2040,21 +2066,15 @@
         toggleWrapperInputs(matchWrapper, category === 'match');
         toggleWrapperInputs(sponsorWrapper, category === 'sponsor');
 
-        // Required toggles per i campi all'interno
         const playerBirth = document.getElementById('birth_date');
         const playerExpLevel = document.getElementById('experience_level');
         const playerMacro = document.getElementById('macro_position');
-
         const staffBirth = document.getElementById('staff_birth_date');
-        const staffRole = document.getElementById('staff_role');
-
         const matchTeamName = document.getElementById('match_team_name');
-        
         const compName = document.getElementById('company_name');
-        const sponType = document.getElementById('sponsor_type');
 
         // Reset tutti
-        [playerBirth, playerExpLevel, playerMacro, staffBirth, staffRole, matchTeamName, compName, sponType].forEach(el => {
+        [playerBirth, playerExpLevel, playerMacro, staffBirth, matchTeamName, compName].forEach(el => {
             if(el) el.removeAttribute('required');
         });
 
@@ -2064,15 +2084,12 @@
             if (playerMacro) playerMacro.setAttribute('required', 'required');
         } else if (category === 'staff') {
             if (staffBirth) staffBirth.setAttribute('required', 'required');
-            if (staffRole) staffRole.setAttribute('required', 'required');
         } else if (category === 'match') {
             if (matchTeamName) matchTeamName.setAttribute('required', 'required');
-            // Trigger checkbox logic del pitch
             const hasPitch = document.getElementById('has_pitch');
             if(hasPitch) hasPitch.dispatchEvent(new Event('change'));
         } else if (category === 'sponsor') {
             if (compName) compName.setAttribute('required', 'required');
-            if (sponType) sponType.setAttribute('required', 'required');
         }
     }
 
@@ -2084,7 +2101,6 @@
             inputEl.classList.remove('is-valid', 'is-invalid');
             return false;
         }
-
         const kanaRegex = /^[\u30A0-\u30FF\u30FC\s]+$/;
         if (kanaRegex.test(val)) {
             if (errorEl) errorEl.style.display = 'none';
@@ -2172,7 +2188,6 @@
                     return;
                 }
                 if (id === 'last_name_kana' || id === 'first_name_kana') {
-                    // Ignoriamo la validazione se il campo è stato rimosso per EN/IT
                     if (currentLang === 'ja') {
                         validateKanaInput(input, document.getElementById(id + '_error'));
                     }
@@ -2352,6 +2367,9 @@
         initLiveValidation();
         initPitchLogic();
 
+        bindCheckboxTags('#staffRolesCheckboxes', 'staff_role_error');
+        bindCheckboxTags('#sponsorTypesCheckboxes', 'sponsor_type_error');
+
         const categorySelect = document.getElementById('category');
         if (categorySelect) {
             categorySelect.addEventListener('change', () => {
@@ -2429,7 +2447,6 @@
                     highlightInvalidFields(form);
                     globalErrorMsg.textContent = translations[currentLang]['form.error_general'];
                     globalErrorBox.style.display = 'flex';
-                    // Scroll verso il primo errore
                     const firstInvalid = form.querySelector('.is-invalid:not([disabled])');
                     if (firstInvalid) firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
                     return false;
@@ -2483,6 +2500,28 @@
                     const ageMsg = document.getElementById('age_error_staff_msg');
                     const isStaffAgeValid = validateAge(staffBirth, ageErr, ageMsg);
                     if (!isStaffAgeValid) { staffBirth.focus(); return false; }
+
+                    const checkedStaff = document.querySelectorAll('input[name="staff_roles[]"]:checked');
+                    const staffErr = document.getElementById('staff_role_error');
+                    if (checkedStaff.length === 0) {
+                        staffErr.style.display = 'flex';
+                        globalErrorMsg.textContent = translations[currentLang]['form.error_general'];
+                        globalErrorBox.style.display = 'flex';
+                        return false;
+                    } else {
+                        staffErr.style.display = 'none';
+                    }
+                } else if (category === 'sponsor') {
+                    const checkedSponsor = document.querySelectorAll('input[name="sponsor_types[]"]:checked');
+                    const sponsorErr = document.getElementById('sponsor_type_error');
+                    if (checkedSponsor.length === 0) {
+                        sponsorErr.style.display = 'flex';
+                        globalErrorMsg.textContent = translations[currentLang]['form.error_general'];
+                        globalErrorBox.style.display = 'flex';
+                        return false;
+                    } else {
+                        sponsorErr.style.display = 'none';
+                    }
                 }
 
                 // Tutto valido: prepariamo i dati
