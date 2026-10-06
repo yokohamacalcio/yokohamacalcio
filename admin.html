@@ -2286,7 +2286,6 @@ async function initData() {
             State.statsData = sRes.value.content.players || {};
         }
 
-        // AUTO-SYNC CAPS da stats.json a players.json
         if (State.statsData && Object.keys(State.statsData).length > 0) {
             let changed = false;
             State.players = State.players.map(p => {
@@ -2333,7 +2332,6 @@ function renderMatchSelector() {
     const currentVal = sel.value;
 
     const sorted = [...State.matches].sort((a, b) => {
-        // Prima gli upcoming, poi i past. Dentro ogni gruppo, ordina per data (decrescente per i past, crescente per gli upcoming)
         const sa = String(a.status || '').toLowerCase();
         const sb = String(b.status || '').toLowerCase();
         const pa = (sa === 'upcoming' || sa === 'live') ? 0 : 1;
@@ -2387,10 +2385,8 @@ async function loadMatchFromSelector() {
         return;
     }
     await loadMatchData(id);
-    // Aggiorna anche l'input di ricerca con l'ID
     const searchInput = $('matchId');
     if (searchInput) searchInput.value = id;
-    // Apri il campo ricerca in modo che sia visibile quale match è caricato
     const wrap = $('searchInputWrap');
     if (wrap) wrap.classList.add('open');
 }
@@ -2404,7 +2400,6 @@ async function searchById() {
         return;
     }
     await loadMatchData(id);
-    // Sincronizza il selettore se il match esiste
     const sel = $('matchSelector');
     if (sel && State.matches.some(m => String(m.id).toLowerCase() === id.toLowerCase())) {
         const actual = State.matches.find(m => String(m.id).toLowerCase() === id.toLowerCase());
@@ -2935,7 +2930,7 @@ function renderMisterHelper() {
         return `
             <div class="mister-pos-suggestion">
                 <div class="mister-pos-head">
-                    <span class="pos-label">${pos[Tag}</span>
+                    <span class="pos-label">${posTag}</span>
                     <span class="pos-macro">${macro}</span>
                 </div>
                 <div class="mister-top-players">${playersHtml}</div>
@@ -3236,11 +3231,11 @@ async function loadMatchData(id, quiet = false) {
             const chk = slot.querySelector('.bench-subbed-in');
             const posSel = slot.querySelector('.bench-pos-select');
             if (pSel && b.player) {
-               ) const matched = findMatchingPlayerValue(b.player);
-                ensureSelect）Option(p]\Sel, matched);
-s            }
-            if (ch*k) {
-                chk.checked = !!b$/.subbed_in;
+                const matched = findMatchingPlayerValue(b.player);
+                ensureSelectOption(pSel, matched);
+            }
+            if (chk) {
+                chk.checked = !!b.subbed_in;
                 chk.dispatchEvent(new Event('change'));
             }
             if (posSel && b.position_played) posSel.value = b.position_played;
@@ -3249,7 +3244,6 @@ s            }
 
     clearStatContainers();
 
-    // MARCATORI
     const scorerRaw = match.scorers || '';
     const scorerItems = Array.isArray(scorerRaw) ? scorerRaw : String(scorerRaw).split(/[,、]/);
     scorerItems.forEach(entry => {
@@ -3270,7 +3264,6 @@ s            }
         }
     });
 
-    // ASSIST
     const assistRaw = match.assists || '';
     const assistItems = Array.isArray(assistRaw) ? assistRaw : String(assistRaw).split(/[,、]/);
     assistItems.forEach(entry => {
@@ -3288,14 +3281,13 @@ s            }
         }
     });
 
-    // PORTIERI
     const gkRaw = match.goalkeepers || '';
     const gkItems = Array.isArray(gkRaw) ? gkRaw : String(gkRaw).split(/[,、]/);
     gkItems.forEach(entry => {
         let text = String(entry).trim();
         if (!text) return;
         let ga = 0;
-        const m = text.match(/^(.+?)\s*[(（]\s*(\d+)\s*);
+        const m = text.match(/^(.+?)\s*[(（]\s*(\d+)\s*[)）]\s*$/);
         if (m) { text = m[1].trim(); ga = parseInt(m[2], 10) || 0; }
         const matchedVal = findMatchingPlayerValue(text) || text;
         addGkRow();
@@ -3306,13 +3298,11 @@ s            }
         }
     });
 
-    // MVP
     if (match.mvp && match.mvp !== 'なし' && match.mvp !== 'Nessuno') {
         const mvpVal = findMatchingPlayerValue(match.mvp) || match.mvp;
         ensureSelectOption($('mvpSelect'), mvpVal);
     }
 
-    // GIALLI
     const yellowRaw = match.yellow_cards || '';
     const yellowItems = Array.isArray(yellowRaw) ? yellowRaw : String(yellowRaw).split(/[,、]/);
     yellowItems.forEach(entry => {
@@ -3330,7 +3320,6 @@ s            }
         }
     });
 
-    // ROSSI
     const redRaw = match.red_cards || '';
     const redItems = Array.isArray(redRaw) ? redRaw : String(redRaw).split(/[,、]/);
     redItems.forEach(entry => {
@@ -3352,7 +3341,6 @@ s            }
     updateFilledCards();
     renderMisterHelper();
 
-    // Aggiorna anche il campo ID e il selettore
     const searchInput = $('matchId');
     if (searchInput) searchInput.value = match.id;
     const sel = $('matchSelector');
@@ -3421,10 +3409,8 @@ function newMatch() {
     const newId = `match-${max + 1}`;
     $('matchId').value = newId;
     $('matchDate').value = new Date().toISOString().split('T')[0];
-    // Apri il campo ricerca ID per mostrare l'ID appena creato
     const wrap = $('searchInputWrap');
     if (wrap) wrap.classList.add('open');
-    // Reset selettore visuale
     $('matchSelector').value = '';
     State.currentMatchId = '';
     showToast('success', `✨ Nuova partita: ${newId}`);
@@ -3472,7 +3458,6 @@ async function saveMatch(e) {
 
     const isUpcoming = $('matchStatus').value === 'upcoming';
 
-    // ID: prendi dall'input ID, o dal selettore, o dal currentMatchId
     let matchIdVal = $('matchId').value.trim();
     if (!matchIdVal) matchIdVal = State.currentMatchId || $('matchSelector').value;
     if (!matchIdVal) {
@@ -3612,7 +3597,6 @@ async function saveMatch(e) {
         clearDraft();
         renderPlayersTable();
         renderMatchSelector();
-        // Ripristina selezione nel selettore
         const sel = $('matchSelector');
         if (sel) sel.value = payload.id;
         statusEl.style.color = 'var(--green)';
@@ -4177,7 +4161,6 @@ document.addEventListener('change', (e) => {
         renderPitchAndBench();
     }
     if (el.id === 'matchSelector') {
-        // Auto-load quando si cambia selezione dal dropdown
         if (el.value) loadMatchFromSelector();
     }
     if (el.classList.contains('bench-subbed-in')) {
