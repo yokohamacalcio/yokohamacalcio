@@ -364,7 +364,6 @@
             font-family: inherit;
             color: #1e293b;
             background: #f8fafc;
-            /* Transizione selettiva per EVITARE il glitch delle frecce SVG sdoppiate */
             transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
             box-sizing: border-box;
             -webkit-appearance: none;
@@ -445,7 +444,7 @@
         }
         .checkbox-tag {
             display: inline-flex;
-            align-items: flex-start; /* Risolve il problema del wrap e allinea al top */
+            align-items: flex-start;
             gap: 8px;
             background: #f1f5f9;
             border: 1.5px solid #cbd5e1;
@@ -457,7 +456,7 @@
             color: #334155;
             transition: all 0.2s ease;
             user-select: none;
-            white-space: normal; /* Permette al testo di andare a capo */
+            white-space: normal;
             word-break: break-word;
             height: auto;
             line-height: 1.35;
@@ -477,8 +476,8 @@
         .checkbox-tag .tag-arrow {
             color: #003c82;
             font-size: 0.85rem;
-            margin-top: 3px; /* Allinea icona con la prima riga di testo */
-            flex-shrink: 0;  /* Evita che l'icona si schiacci */
+            margin-top: 3px; 
+            flex-shrink: 0;  
             transition: transform 0.2s ease, color 0.2s ease;
         }
         .checkbox-tag.is-checked .tag-arrow {
@@ -486,7 +485,7 @@
             transform: scale(1.1);
         }
         .checkbox-tag input[type="checkbox"] {
-            display: none; /* Nascosto, usiamo l'icona e l'area cliccabile */
+            display: none; 
         }
         .checkbox-tag span {
             display: inline-block;
@@ -855,7 +854,6 @@
         /* --- PREVENZIONE ZOOM E TESTI SPEZZATI SU MOBILE --- */
         @media (max-width: 768px) {
             .form-control {
-                /* Font size a 16px previene lo zoom automatico e la rottura del layout su iOS Safari */
                 font-size: 16px !important;
             }
             .form-row-date-age {
@@ -1029,7 +1027,7 @@
                     <!-- BLOCCO DINAMICO: Nascosto finché non si sceglie una categoria -->
                     <div id="dynamicFormContainer" style="display: none;">
                         
-                        <!-- NOME / KANA / EMAIL (Comuni) -->
+                        <!-- NOME (Comuni) -->
                         <div class="form-row-2">
                             <div class="form-group">
                                 <label for="last_name">
@@ -1047,7 +1045,8 @@
                             </div>
                         </div>
 
-                        <div class="form-row-2">
+                        <!-- FURIGANA KANA (Spazio nascosto dinamicamente in IT/EN via JS) -->
+                        <div class="form-row-2" id="kanaFieldsRow">
                             <div class="form-group">
                                 <label for="last_name_kana">
                                     <span data-i18n="form.last_name_kana_label">セイ (フリガナ)</span>
@@ -1066,6 +1065,7 @@
                             </div>
                         </div>
 
+                        <!-- EMAIL -->
                         <div class="form-group">
                             <label for="email">
                                 <span data-i18n="form.email_label">メールアドレス</span>
@@ -1134,22 +1134,24 @@
                                 </label>
                                 <select id="macro_position" name="macro_position" class="form-control">
                                     <option value="" data-i18n="form.select_option">選択してください</option>
-                                    <option value="GK">GK (ゴールキーパー)</option>
-                                    <option value="DF">DF (ディフェンダー)</option>
-                                    <option value="MF">MF (ミッドフィルダー)</option>
-                                    <option value="FW">FW (フォワード)</option>
+                                    <option value="GK" data-i18n="form.pos_gk">GK (ゴールキーパー)</option>
+                                    <option value="DF" data-i18n="form.pos_df">DF (ディフェンダー)</option>
+                                    <option value="MF" data-i18n="form.pos_mf">MF (ミッドフィルダー)</option>
+                                    <option value="FW" data-i18n="form.pos_fw">FW (フォワード)</option>
                                 </select>
                             </div>
 
                             <div class="form-group" id="subPositionWrapper" style="display: none;">
-                                <label style="display:flex; justify-content:space-between; align-items:flex-end;">
-                                    <div>
-                                        <i class="fas fa-chevron-right" style="color: #003c82; font-size: 0.85rem; margin-right: 4px;"></i>
-                                        <span data-i18n="form.sub_pos_label">詳細役割（複数選択可）</span>
+                                <!-- Layout corretto per evitare che il tag "Obbligatorio" vada a capo da solo -->
+                                <div class="field-label-wrapper" style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px;">
+                                    <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
+                                        <i class="fas fa-chevron-right" style="color: #003c82; font-size: 0.85rem;"></i>
+                                        <span data-i18n="form.sub_pos_label" style="font-weight: 700; font-size: 0.9rem; color: #003c82;">詳細役割（複数選択可）</span>
                                         <span class="required-tag" data-i18n="form.required">必須</span>
                                     </div>
-                                    <small style="font-size:0.75rem; color:#64748b; font-weight:normal;" data-i18n="form.sub_pos_hint">※該当するものをすべて選択</small>
-                                </label>
+                                    <small style="font-size:0.75rem; color:#64748b; font-weight:normal; margin-left: 18px;" data-i18n="form.sub_pos_hint">※該当するものをすべて選択</small>
+                                </div>
+                                
                                 <div id="subPositionCheckboxes" class="sub-pos-container"></div>
                                 <div id="sub_pos_error" class="error-banner">
                                     <i class="fas fa-exclamation-triangle"></i>
@@ -1468,6 +1470,10 @@
             
             "form.exp_details_label": "サッカー歴・前所属チーム",
             "form.macro_pos_label": "希望ポジション（メイン）",
+            "form.pos_gk": "GK (ゴールキーパー)",
+            "form.pos_df": "DF (ディフェンダー)",
+            "form.pos_mf": "MF (ミッドフィルダー)",
+            "form.pos_fw": "FW (フォワード)",
             "form.sub_pos_label": "詳細役割（複数選択可）",
             "form.sub_pos_hint": "※該当するものをすべて選択",
             "form.sub_pos_error": "少なくとも1つの役割を選択してください。",
@@ -1544,15 +1550,15 @@
             "form.select_category": "Scegli un'opzione (Obbligatorio)",
             "form.required": "Obbligatorio",
             "form.opt_trial": "Prova / Giocatore (18-40 anni)",
-            "form.opt_staff": "Candidatura Staff (Manager, Coach...)",
+            "form.opt_staff": "Candidatura Staff (Allenatore, Dirigente...)",
             "form.opt_match": "Richiesta Partita Amichevole",
             "form.opt_sponsor": "Sponsorship & Partner",
             "form.opt_other": "Altra Richiesta",
             
             "form.last_name_label": "Cognome",
             "form.first_name_label": "Nome",
-            "form.last_name_kana_label": "Cognome (Furigana / Katakana)",
-            "form.first_name_kana_label": "Nome (Furigana / Katakana)",
+            "form.last_name_kana_label": "Cognome (Furigana)",
+            "form.first_name_kana_label": "Nome (Furigana)",
             "form.kana_error": "Inserisci il testo in Katakana.",
             "form.email_label": "Indirizzo Email",
             "form.email_error": "Inserisci un indirizzo email valido.",
@@ -1574,6 +1580,10 @@
             
             "form.exp_details_label": "Esperienza / Squadre precedenti",
             "form.macro_pos_label": "Ruolo Principale",
+            "form.pos_gk": "Portiere (GK)",
+            "form.pos_df": "Difensore (DF)",
+            "form.pos_mf": "Centrocampista (MF)",
+            "form.pos_fw": "Attaccante (FW)",
             "form.sub_pos_label": "Ruolo Specifico (multiplo)",
             "form.sub_pos_hint": "※ Seleziona una o più opzioni",
             "form.sub_pos_error": "Seleziona almeno un ruolo.",
@@ -1582,7 +1592,7 @@
             "form.staff_sec_title": "Info Candidato Staff",
             "form.staff_role_label": "Ruolo Staff Richiesto",
             "form.staff_exp_label": "Esperienza / Qualifiche",
-            "form.staff_role_coach": "Vice Allenatore / Assistente",
+            "form.staff_role_coach": "Allenatore / Vice Allenatore",
             "form.staff_role_manager": "Dirigente / Team Manager",
             "form.staff_role_trainer": "Preparatore / Fisioterapista",
             "form.staff_role_kit": "Magazziniere / Materiale",
@@ -1656,8 +1666,8 @@
             
             "form.last_name_label": "Last Name",
             "form.first_name_label": "First Name",
-            "form.last_name_kana_label": "Last Name (Furigana / Katakana)",
-            "form.first_name_kana_label": "First Name (Furigana / Katakana)",
+            "form.last_name_kana_label": "Last Name (Furigana)",
+            "form.first_name_kana_label": "First Name (Furigana)",
             "form.kana_error": "Please enter in Katakana.",
             "form.email_label": "Email Address",
             "form.email_error": "Please enter a valid email address.",
@@ -1679,6 +1689,10 @@
             
             "form.exp_details_label": "Football Experience / Prev. Teams",
             "form.macro_pos_label": "Main Position",
+            "form.pos_gk": "Goalkeeper (GK)",
+            "form.pos_df": "Defender (DF)",
+            "form.pos_mf": "Midfielder (MF)",
+            "form.pos_fw": "Forward (FW)",
             "form.sub_pos_label": "Specific Roles (Multiple)",
             "form.sub_pos_hint": "※ Select all that apply",
             "form.sub_pos_error": "Please select at least one role.",
@@ -1687,7 +1701,7 @@
             "form.staff_sec_title": "Staff Application Details",
             "form.staff_role_label": "Desired Staff Role",
             "form.staff_exp_label": "Background / Qualifications",
-            "form.staff_role_coach": "Assistant Coach",
+            "form.staff_role_coach": "Coach / Assistant Coach",
             "form.staff_role_manager": "Team Manager / Admin",
             "form.staff_role_trainer": "Trainer / Physio",
             "form.staff_role_kit": "Kit / Equipment Manager",
@@ -1744,24 +1758,24 @@
         }
     };
 
-    // Sub-positions config for Player Macro Positions
+    // Sub-positions config for Player Macro Positions (Traduzioni aggiornate)
     const subPositionsData = {
         GK: [
-            { id: 'GK', ja: 'GK (ゴールキーパー)', it: 'GK (Portiere)', en: 'GK (Goalkeeper)' }
+            { id: 'GK', ja: 'GK (ゴールキーパー)', it: 'Portiere', en: 'Goalkeeper' }
         ],
         DF: [
-            { id: 'CB', ja: 'CB (センターバック)', it: 'CB (Difensore Centrale)', en: 'CB (Center Back)' },
-            { id: 'SB', ja: 'SB / WB (サイドバック・ウイングバック)', it: 'SB / WB (Terzino / Esterno)', en: 'SB / WB (Side/Wing Back)' }
+            { id: 'CB', ja: 'CB (センターバック)', it: 'Difensore Centrale', en: 'Center Back' },
+            { id: 'SB', ja: 'SB / WB (サイドバック・ウイングバック)', it: 'Terzino / Esterno', en: 'Fullback / Wingback' }
         ],
         MF: [
-            { id: 'DM', ja: 'DM (ボランチ・アンカー)', it: 'DM (Mediano / Regista)', en: 'DM (Defensive Mid)' },
-            { id: 'CM', ja: 'CM (インサイドハーフ)', it: 'CM (Mezzala / Centrale)', en: 'CM (Central Mid)' },
-            { id: 'SH', ja: 'SH (サイドハーフ)', it: 'SH (Esterno centrocampo)', en: 'SH (Side Midfielder)' }
+            { id: 'DM', ja: 'DM (ボランチ・アンカー)', it: 'Mediano / Regista', en: 'Defensive Midfielder' },
+            { id: 'CM', ja: 'CM (インサイドハーフ)', it: 'Mezzala / Centrale', en: 'Central Midfielder' },
+            { id: 'SH', ja: 'SH (サイドハーフ)', it: 'Esterno di Centrocampo', en: 'Wide Midfielder' }
         ],
         FW: [
-            { id: 'ST', ja: 'ST / SW (セカンドトップ・シャドー)', it: 'ST (Seconda Punta / Trequartista)', en: 'ST (Second Striker)' },
-            { id: 'CF', ja: 'CF (センターフォワード)', it: 'CF (Prima Punta / Centravanti)', en: 'CF (Center Forward)' },
-            { id: 'WG', ja: 'WG (ウイング)', it: 'WG (Ala d\'attacco)', en: 'WG (Winger)' }
+            { id: 'ST', ja: 'ST / SW (セカンドトップ・シャドー)', it: 'Seconda Punta / Trequartista', en: 'Second Striker / CAM' },
+            { id: 'CF', ja: 'CF (センターフォワード)', it: 'Centravanti / Punta Centrale', en: 'Center Forward / Striker' },
+            { id: 'WG', ja: 'WG (ウイング)', it: 'Ala d\'attacco', en: 'Winger' }
         ]
     };
 
@@ -1808,19 +1822,19 @@
         highschool_general: "一般高校サッカー部経験 / Calcio Scolastico - Amatoriale",
         futsal_enjoy: "競技系フットサル・エンジョイ経験 / Futsal - Tornei Amatoriali",
 
-        GK: "GK (ゴールキーパー / Portiere)",
-        DF: "DF (ディフェンダー / Difensore)",
-        MF: "MF (ミッドフィルダー / Centrocampista)",
-        FW: "FW (フォワード / Attaccante)",
+        GK: "GK (Goalkeeper / Portiere)",
+        DF: "DF (Defender / Difensore)",
+        MF: "MF (Midfielder / Centrocampista)",
+        FW: "FW (Forward / Attaccante)",
 
-        CB: "CB (センターバック / Difensore Centrale)",
-        SB: "SB / WB (サイドバック・ウイングバック / Terzino - Esterno)",
-        DM: "DM (ボランチ・アンカー / Mediano - Regista)",
-        CM: "CM (インサイドハーフ / Mezzala - Centrale)",
-        SH: "SH (サイドハーフ / Esterno Centrocampo)",
-        ST: "ST (セカンドトップ / Seconda Punta)",
-        CF: "CF (センターフォワード / Centravanti)",
-        WG: "WG (ウイング / Ala d'Attacco)",
+        CB: "CB (Center Back / Difensore Centrale)",
+        SB: "SB / WB (Side Back / Terzino)",
+        DM: "DM (Defensive Mid / Mediano)",
+        CM: "CM (Central Mid / Mezzala)",
+        SH: "SH (Side Mid / Esterno)",
+        ST: "ST (Second Striker / Seconda Punta)",
+        CF: "CF (Center Forward / Centravanti)",
+        WG: "WG (Winger / Ala)",
 
         assistant_coach: "アシスタントコーチ / Vice Allenatore",
         team_manager: "チームマネージャー / Team Manager",
@@ -1898,6 +1912,28 @@
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
+
+        // Gestione visibilità campi Furigana in base alla lingua
+        const kanaRow = document.getElementById('kanaFieldsRow');
+        const kanaLast = document.getElementById('last_name_kana');
+        const kanaFirst = document.getElementById('first_name_kana');
+        if (lang === 'ja') {
+            if (kanaRow) kanaRow.style.display = 'grid'; // Stile originario della riga
+            if (kanaLast) kanaLast.setAttribute('required', 'required');
+            if (kanaFirst) kanaFirst.setAttribute('required', 'required');
+        } else {
+            if (kanaRow) kanaRow.style.display = 'none'; // Nasconde i campi per IT e EN
+            if (kanaLast) { 
+                kanaLast.removeAttribute('required'); 
+                kanaLast.value = ''; 
+                kanaLast.classList.remove('is-invalid', 'is-valid'); 
+            }
+            if (kanaFirst) { 
+                kanaFirst.removeAttribute('required'); 
+                kanaFirst.value = ''; 
+                kanaFirst.classList.remove('is-invalid', 'is-valid'); 
+            }
+        }
 
         renderSubPositions();
         updateFormspreeHiddenFields();
@@ -2136,7 +2172,10 @@
                     return;
                 }
                 if (id === 'last_name_kana' || id === 'first_name_kana') {
-                    validateKanaInput(input, document.getElementById(id + '_error'));
+                    // Ignoriamo la validazione se il campo è stato rimosso per EN/IT
+                    if (currentLang === 'ja') {
+                        validateKanaInput(input, document.getElementById(id + '_error'));
+                    }
                     return;
                 }
                 if (id === 'birth_date') {
@@ -2409,12 +2448,14 @@
                 const firstNameKana = document.getElementById('first_name_kana');
                 const emailInput = document.getElementById('email');
 
-                const isLastNameKanaValid = validateKanaInput(lastNameKana, document.getElementById('last_name_kana_error'));
-                const isFirstNameKanaValid = validateKanaInput(firstNameKana, document.getElementById('first_name_kana_error'));
-                const isEmailValid = validateEmailInput(emailInput, document.getElementById('email_error'));
+                if (currentLang === 'ja') {
+                    const isLastNameKanaValid = validateKanaInput(lastNameKana, document.getElementById('last_name_kana_error'));
+                    const isFirstNameKanaValid = validateKanaInput(firstNameKana, document.getElementById('first_name_kana_error'));
+                    if (!isLastNameKanaValid) { lastNameKana.focus(); return false; }
+                    if (!isFirstNameKanaValid) { firstNameKana.focus(); return false; }
+                }
 
-                if (!isLastNameKanaValid) { lastNameKana.focus(); return false; }
-                if (!isFirstNameKanaValid) { firstNameKana.focus(); return false; }
+                const isEmailValid = validateEmailInput(emailInput, document.getElementById('email_error'));
                 if (!isEmailValid) { emailInput.focus(); return false; }
                 
                 // 4. Controllo logiche specifiche per categoria (Età e Sotto-Ruoli)
