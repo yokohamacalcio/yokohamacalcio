@@ -15,12 +15,16 @@
     <link rel="alternate" hreflang="it" href="https://yokohamacalcio.com/stats.html?lang=it" />
     <link rel="alternate" hreflang="en" href="https://yokohamacalcio.com/stats.html?lang=en" />
     <link rel="alternate" hreflang="x-default" href="https://yokohamacalcio.com/stats.html" />
+    <link rel="canonical" href="https://yokohamacalcio.com/stats.html" />
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://yokohamacalcio.com/stats.html">
     <meta property="og:title" content="成績・スタッツ | Yokohama Calcio">
     <meta property="og:description" content="Yokohama Calcioのチーム戦績および個人スタッツ（得点王、アシスト王、MVP、カード）一覧です。">
     <meta property="og:image" content="https://yokohamacalcio.com/immagini/logo.png?v=2">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Yokohama Calcio - Team & Player Statistics">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@yokohamacalcio">
@@ -1629,6 +1633,11 @@
                 <i class="fas fa-calendar-alt"></i> <span data-i18n="stats.season_label">シーズン:</span>
             </label>
             <select id="seasonSelect" class="filter-btn" style="padding: 6px 16px; cursor: pointer; outline: none;">
+                <!-- Popolato via Python con stagioni disponibili -->
+                <!-- STATS_SEASON_OPTIONS_START -->
+                <option value="2026">2026年</option>
+                <option value="all">全期間 (All Time)</option>
+                <!-- STATS_SEASON_OPTIONS_END -->
             </select>
         </div>
 
@@ -1654,6 +1663,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- STATS_TEAM_TABLE_START -->
                         <tr>
                             <td><strong data-i18n="row.league">リーグ戦</strong></td>
                             <td id="league-played">0</td>
@@ -1694,6 +1704,7 @@
                             <td id="tot-ga">0</td>
                             <td id="tot-winrate" style="color: var(--primary-sky); font-size: 1.05rem; font-weight: 800;">0%</td>
                         </tr>
+                        <!-- STATS_TEAM_TABLE_END -->
                     </tbody>
                 </table>
             </div>
@@ -1710,6 +1721,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- STATS_DISCIPLINE_TABLE_START -->
                         <tr>
                             <td><strong data-i18n="row.league">リーグ戦</strong></td>
                             <td id="league-yellow">0</td>
@@ -1734,6 +1746,7 @@
                             <td id="tot-red" style="color: #dc2626; font-weight: 800;">0</td>
                             <td id="tot-card-avg" style="color: var(--dark-navy, #003c82); font-weight: 800;">0.0</td>
                         </tr>
+                        <!-- STATS_DISCIPLINE_TABLE_END -->
                     </tbody>
                 </table>
             </div>
@@ -2172,6 +2185,7 @@
         if (!translations[lang]) return;
         currentLanguage = lang;
         localStorage.setItem('preferred_lang', lang);
+        document.documentElement.lang = lang;
 
         if (pageTitles[lang]) {
             document.title = pageTitles[lang];
