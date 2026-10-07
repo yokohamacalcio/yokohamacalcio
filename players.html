@@ -11,6 +11,7 @@
     <meta name="author" content="Yokohama Calcio">
     <meta name="robots" content="index, follow">
 
+    <link rel="canonical" href="https://yokohamacalcio.com/players.html" />
     <link rel="alternate" hreflang="ja" href="https://yokohamacalcio.com/players.html" />
     <link rel="alternate" hreflang="it" href="https://yokohamacalcio.com/players.html?lang=it" />
     <link rel="alternate" hreflang="en" href="https://yokohamacalcio.com/players.html?lang=en" />
@@ -21,6 +22,9 @@
     <meta property="og:title" content="選手名鑑・メンバー一覧 | Yokohama Calcio">
     <meta property="og:description" content="Yokohama Calcioの選手一覧・プロフィールページ。メンバーの詳細情報と個人成績をご覧いただけます。">
     <meta property="og:image" content="https://yokohamacalcio.com/immagini/logo.png?v=2">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Yokohama Calcio Logo">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@yokohamacalcio">
@@ -36,6 +40,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800;900&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
+    <!-- SCHEMA_PLAYERS_START -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -51,6 +56,7 @@
       }
     }
     </script>
+    <!-- SCHEMA_PLAYERS_END -->
 
     <style>
         /* --- MOBILE NAV --- */
@@ -328,9 +334,7 @@
         .role-badge-back.role-badge-fw { background: #dc2626; }
         .stats-highlight { font-weight: 700; color: var(--dark-navy, #003c82); }
 
-        /* =========================================================
-           HEATMAP TRIGGER BUTTON (nel retro card)
-           ========================================================= */
+        /* HEATMAP TRIGGER BUTTON */
         .heatmap-trigger {
             display: flex;
             align-items: center;
@@ -359,9 +363,7 @@
         }
         .heatmap-trigger i { color: #87ceeb; }
 
-        /* =========================================================
-           HEATMAP MODAL — Football Manager style (14 posizioni)
-           ========================================================= */
+        /* HEATMAP MODAL — Football Manager style (14 posizioni) */
         .heatmap-modal {
             position: fixed;
             inset: 0;
@@ -528,7 +530,7 @@
         .heatmap-goal-top { top: 0; border-top: none; }
         .heatmap-goal-bottom { bottom: 0; border-bottom: none; }
 
-        /* --- DOTS (DIMENSIONI E STILE FOOTBALL MANAGER - 14 POSIZIONI) --- */
+        /* --- DOTS --- */
         .heatmap-dot {
             position: absolute;
             transform: translate(-50%, -50%);
@@ -568,7 +570,6 @@
             to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
-        /* Intensità colori basati sulle percentuali */
         .heatmap-dot[data-intensity="1"] { background: #fde68a; color: #78350f; border-color: #fbbf24; }
         .heatmap-dot[data-intensity="2"] { background: #fbbf24; color: #78350f; border-color: #f59e0b; }
         .heatmap-dot[data-intensity="3"] { background: #f97316; color: #ffffff; border-color: #ea580c; }
@@ -608,7 +609,6 @@
             flex-shrink: 0;
         }
 
-        /* Empty message */
         .heatmap-empty {
             text-align: center;
             padding: 30px 12px;
@@ -783,7 +783,6 @@
         </div>
 
         <!-- PLAYERS_START -->
-
         <div class="role-group" data-role-section="gk">
             <h3 class="role-title"><i class="fas fa-hands"></i> <span data-i18n="section.gk">GOALKEEPER</span></h3>
             <div class="players-grid" id="players-gk">
@@ -1498,8 +1497,7 @@
             </div>
         </div>
         </div>
-        
-<!-- PLAYERS_END -->
+        <!-- PLAYERS_END -->
 
         <div class="back-home-wrapper" style="text-align: center; margin-top: 40px;">
             <a href="index.html" class="google-form-btn back-btn" style="display: inline-flex; justify-content: center; align-items: center; max-width: 250px; margin: 0 auto; gap: 8px;">
@@ -1515,9 +1513,7 @@
     <p>&copy; <span id="currentYear"></span> Yokohama Calcio. All Rights Reserved.</p>
 </footer>
 
-<!-- =========================================================
-     HEATMAP MODAL — Football Manager style (14 posizioni)
-     ========================================================= -->
+<!-- HEATMAP MODAL — Football Manager style (14 posizioni) -->
 <div class="heatmap-modal" id="heatmapModal" aria-hidden="true">
     <div class="heatmap-modal-backdrop" data-heatmap-close></div>
     <div class="heatmap-modal-content" role="dialog" aria-modal="true" aria-labelledby="heatmapPlayerName">
@@ -1567,9 +1563,7 @@
 </div>
 
 <script>
-    /* =========================================================
-       PAGE TITLES & TRANSLATIONS
-       ========================================================= */
+    /* PAGE TITLES & TRANSLATIONS */
     const pageTitles = {
         ja: "選手名鑑・メンバー一覧 | Yokohama Calcio",
         it: "Rosa & Giocatori | Yokohama Calcio",
@@ -1691,9 +1685,7 @@
         }
     };
 
-    /* =========================================================
-       HEATMAP CONFIGURATION (Esattamente 14 posizioni FM)
-       ========================================================= */
+    /* HEATMAP CONFIGURATION (Esattamente 14 posizioni FM) */
     const HEATMAP_POSITIONS = {
         'GK':  { x: 50, y: 92, label: 'GK' },
         'LB':  { x: 16, y: 78, label: 'LB' },
@@ -1733,17 +1725,17 @@
         'CM-R':  'CM',
         'RM':    'RM',
         'LW':    'LW',
-        'AM-L':  'LW',  /* AM-L convoglia in LW */
+        'AM-L':  'LW',
         'RW':    'RW',
-        'AM-R':  'RW',  /* AM-R convoglia in RW */
+        'AM-R':  'RW',
         'AM':    'AM',
         'AM-C':  'AM',
         'CAM':   'AM',
         'ST':    'ST',
         'FW':    'ST',
         'CF':    'ST',
-        'FW-L':  'ST',  /* FW-L convoglia in ST */
-        'FW-R':  'ST'   /* FW-R convoglia in ST */
+        'FW-L':  'ST',
+        'FW-R':  'ST'
     };
 
     function normalizeHeatmapTag(raw) {
@@ -1762,16 +1754,14 @@
     }
 
     function getIntensityLevelByPercentage(pct) {
-        if (pct > 60) return 4;   /* Rosso (> 60%) */
-        if (pct > 40) return 3;   /* Arancione (41% - 60%) */
-        if (pct > 20) return 2;   /* Giallo (21% - 40%) */
-        if (pct > 0) return 1;    /* Giallo chiaro (1% - 20%) */
+        if (pct > 60) return 4;
+        if (pct > 40) return 3;
+        if (pct > 20) return 2;
+        if (pct > 0) return 1;
         return 0;
     }
 
-    /* =========================================================
-       STATE
-       ========================================================= */
+    /* STATE */
     const urlParams = new URLSearchParams(window.location.search);
     const langParam = urlParams.get('lang');
     let currentLang = langParam || localStorage.getItem('preferred_lang') || 'ja';
@@ -1779,9 +1769,7 @@
     let globalStatsMap = {};
     let surnameCounts = {};
 
-    /* =========================================================
-       UTILS
-       ========================================================= */
+    /* UTILS */
     function cleanStr(s) {
         return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim();
     }
@@ -1837,13 +1825,12 @@
         return icons[role] || 'fa-user';
     }
 
-    /* =========================================================
-       LANGUAGE
-       ========================================================= */
+    /* LANGUAGE */
     function setLanguage(lang) {
         if (!translations[lang]) return;
         currentLang = lang;
         localStorage.setItem('preferred_lang', lang);
+        document.documentElement.lang = lang;
 
         if (pageTitles[lang]) {
             document.title = pageTitles[lang];
@@ -1892,9 +1879,7 @@
         });
     }
 
-    /* =========================================================
-       MENU (desktop dropdown + mobile)
-       ========================================================= */
+    /* MENU (desktop dropdown + mobile) */
     function initDesktopDropdowns() {
         const dropdownItems = document.querySelectorAll('.main-nav .nav-item.dropdown');
 
@@ -2014,9 +1999,7 @@
         }
     }
 
-    /* =========================================================
-       PLAYER CARD
-       ========================================================= */
+    /* PLAYER CARD CREATION */
     function createPlayerCard(p, pStats = {}) {
         const isGK = (p.role === 'gk') || (p.position && p.position.toUpperCase().includes('GK'));
         const numberOnly = (p.number !== null && p.number !== undefined) ? p.number : '-';
@@ -2130,9 +2113,7 @@
         `;
     }
 
-    /* =========================================================
-       HEATMAP MODAL
-       ========================================================= */
+    /* HEATMAP MODAL */
     function openHeatmapModal(playerId) {
         const card = document.querySelector(`.player-card[data-player-id="${playerId}"]`);
         if (!card) return;
@@ -2231,9 +2212,7 @@
         document.body.style.overflow = '';
     }
 
-    /* =========================================================
-       URL HASH & SCROLL
-       ========================================================= */
+    /* URL HASH & SCROLL */
     function checkUrlHashAndScroll() {
         const hash = window.location.hash.replace('#', '');
         if (!hash) return;
@@ -2274,9 +2253,7 @@
         }
     }
 
-    /* =========================================================
-       LOAD PLAYERS
-       ========================================================= */
+    /* LOAD PLAYERS */
     async function populatePlayers() {
         try {
             let statsMap = {};
@@ -2329,9 +2306,7 @@
         }
     }
 
-    /* =========================================================
-       EVENT LISTENERS
-       ========================================================= */
+    /* EVENT LISTENERS */
     document.addEventListener('click', (e) => {
         const heatmapBtn = e.target.closest('[data-heatmap-trigger]');
         if (heatmapBtn) {
@@ -2391,9 +2366,7 @@
         });
     }
 
-    /* =========================================================
-       BOOT
-       ========================================================= */
+    /* BOOT */
     window.addEventListener('DOMContentLoaded', () => {
         const yearSpan = document.getElementById('currentYear');
         if (yearSpan) yearSpan.textContent = new Date().getFullYear();
