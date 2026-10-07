@@ -3,30 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Yokohama Calcio | 横浜の社会人サッカーチーム・メンバー＆対戦相手募集</title>
+    
     <meta name="description" content="Yokohama Calcio（ヨコハマ・カルチョ）は横浜市で活動する社会人サッカーチームです。イタリアンスタイルの組織的戦術とチームワークを大切に、新規メンバーおよび練習試合の対戦相手を募集しています。Amateur football club based in Yokohama, Japan.">
     <meta name="keywords" content="Yokohama Calcio, 横浜 サッカーチーム, 社会人サッカー 横浜, フットボールクラブ 横浜, メンバー募集 サッカー, 社会人サッカー メンバー募集, 横浜 練習試合 対戦相手募集, Amateur Football Club Yokohama, Squadra calcio amatoriale Yokohama">
     <meta name="author" content="Yokohama Calcio">
     <meta name="robots" content="index, follow">
+
+    <link rel="canonical" href="https://yokohamacalcio.com/" />
     <link rel="alternate" hreflang="ja" href="https://yokohamacalcio.com/" />
     <link rel="alternate" hreflang="it" href="https://yokohamacalcio.com/?lang=it" />
     <link rel="alternate" hreflang="en" href="https://yokohamacalcio.com/?lang=en" />
     <link rel="alternate" hreflang="x-default" href="https://yokohamacalcio.com/" />
+
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://yokohamacalcio.com/">
     <meta property="og:title" content="Yokohama Calcio | 横浜の社会人サッカーチーム">
     <meta property="og:description" content="横浜発、イタリアンスタイルの社会人サッカーチーム。メンバー＆練習試合対戦相手募集中！">
-    <meta property="og:image" content="https://yokohamacalcio.com/immagini/logo.png">
+    <meta property="og:image" content="https://yokohamacalcio.com/immagini/logo.png?v=2">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Yokohama Calcio Logo">
+
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@yokohamacalcio">
     <meta name="twitter:title" content="Yokohama Calcio | 横浜の社会人サッカーチーム">
     <meta name="twitter:description" content="横浜発、イタリアンスタイルの社会人サッカーチーム。体験参加・メンバー募集中！">
-    <meta name="twitter:image" content="https://yokohamacalcio.com/immagini/logo.png">
-    <link rel="icon" href="./immagini/logo.png" type="image/png">
+    <meta name="twitter:image" content="https://yokohamacalcio.com/immagini/logo.png?v=2">
+
+    <link rel="icon" href="./immagini/logo.png?v=2" type="image/png">
+    <link rel="apple-touch-icon" href="./immagini/logo.png?v=2">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="https://yokohamacalcio.com/sitemap.xml" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
+    <!-- SCHEMA_INDEX_START -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -34,13 +48,14 @@
       "name": "Yokohama Calcio",
       "alternateName": ["ヨコハマ・カルチョ", "Yokohama Calcio FC"],
       "url": "https://yokohamacalcio.com",
-      "logo": "https://yokohamacalcio.com/immagini/logo.png",
+      "logo": "https://yokohamacalcio.com/immagini/logo.png?v=2",
       "description": "Yokohama Calcio（ヨコハマ・カルチョ）は横浜市を拠点に活動する社会人サッカーチームです。",
       "address": { "@type": "PostalAddress", "addressLocality": "Yokohama", "addressRegion": "Kanagawa", "addressCountry": "JP" },
       "sport": "Soccer",
       "sameAs": ["https://x.com/yokohamacalcio","https://instagram.com/yokohamacalcio","https://youtube.com/@yokohamacalcio?si=NBPkZ0qFxFVrOIof","https://yokohamacalcio.designstore.jp"]
     }
     </script>
+    <!-- SCHEMA_INDEX_END -->
 
     <style>
         /* --- OVERLAY MENU MOBILE SCURO --- */
@@ -261,7 +276,7 @@
   <div class="main-header-bar">
     <div class="container header-container">
       <div class="logo-title">
-        <a href="index.html"><img src="./immagini/logo.png" alt="Yokohama Calcio" class="logo"></a>
+        <a href="index.html"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio" class="logo"></a>
         <a href="index.html" class="brand-name"><span>YOKOHAMA</span><span class="brand-sub">CALCIO</span></a>
       </div>
       <div class="desktop-nav-wrapper">
@@ -832,6 +847,7 @@
         if (!translations[lang]) return;
         currentLang = lang;
         localStorage.setItem('preferred_lang', lang);
+        document.documentElement.lang = lang;
         if (pageTitles[lang]) {
             document.title = pageTitles[lang];
             const ogTitle = document.querySelector('meta[property="og:title"]');
@@ -912,14 +928,14 @@
         const fallbackAvatar = getAvatarUrl(m, oppInfo.romajiName);
 
         if (isHome) {
-            leftName = m.team1Name || 'Yokohama Calcio'; leftLogo = './immagini/logo.png'; leftClass = 'yokohama-logo';
+            leftName = m.team1Name || 'Yokohama Calcio'; leftLogo = './immagini/logo.png?v=2'; leftClass = 'yokohama-logo';
             rightName = oppInfo.name; rightLogo = oppInfo.logo; rightClass = 'opponent-logo';
             rightErr = `onerror="this.onerror=null;this.src='${fallbackAvatar}';"`;
             rawScore = m.score;
         } else {
             leftName = oppInfo.name; leftLogo = oppInfo.logo; leftClass = 'opponent-logo';
             leftErr = `onerror="this.onerror=null;this.src='${fallbackAvatar}';"`;
-            rightName = m.team1Name || 'Yokohama Calcio'; rightLogo = './immagini/logo.png'; rightClass = 'yokohama-logo';
+            rightName = m.team1Name || 'Yokohama Calcio'; rightLogo = './immagini/logo.png?v=2'; rightClass = 'yokohama-logo';
             if (m.score && m.score !== 'VS' && m.score.includes('-')) {
                 const parts = m.score.split('-');
                 rawScore = parts.length === 2 ? `${parts[1].trim()}-${parts[0].trim()}` : m.score;
@@ -980,7 +996,7 @@
 
         // Yokohama Calcio SEMPRE a sinistra
         const leftName = m.team1Name || 'Yokohama Calcio';
-        const leftLogo = './immagini/logo.png';
+        const leftLogo = './immagini/logo.png?v=2';
         const leftClass = 'yokohama-logo';
         const leftErr = "";
 
