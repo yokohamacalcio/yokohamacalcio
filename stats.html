@@ -543,12 +543,15 @@
                 </table>
             </div>
 
-            <h3 class="ranking-title" style="margin-top: 35px;"><i class="fas fa-list-ol"></i> <span data-i18n="stats.standings">リーグ順位表</span></h3>
-            <div id="standingsContainer" class="ranking-card" style="text-align: center; padding: 30px;">
-                <i class="fas fa-info-circle" style="font-size: 2rem; color: var(--primary-sky); margin-bottom: 10px;"></i>
-                <p id="noStandingsMsg" style="color: var(--text-color); font-weight: 600;" data-i18n="stats.no_standings">
-                    今シーズンは公式リーグ戦への参加がないため、順位表はありません。
-                </p>
+            <!-- SEZIONE CLASSIFICA LEGA (Nascosta quando si seleziona Coppa/Amichevoli) -->
+            <div id="standingsSection">
+                <h3 class="ranking-title" style="margin-top: 35px;"><i class="fas fa-list-ol"></i> <span data-i18n="stats.standings">リーグ順位表</span></h3>
+                <div id="standingsContainer" class="ranking-card" style="text-align: center; padding: 30px;">
+                    <i class="fas fa-info-circle" style="font-size: 2rem; color: var(--primary-sky); margin-bottom: 10px;"></i>
+                    <p id="noStandingsMsg" style="color: var(--text-color); font-weight: 600;" data-i18n="stats.no_standings">
+                        今シーズンは公式リーグ戦への参加がないため、順位表はありません。
+                    </p>
+                </div>
             </div>
         </div>
 
@@ -1107,7 +1110,7 @@
     }
 
     /* =========================================================
-       EVIDENZIAZIONE RIGHE TABELLA
+       EVIDENZIAZIONE RIGHE TABELLA E GESTIONE VISIBILITÀ CLASSIFICA
        ========================================================= */
     function highlightTeamStatsRow(comp) {
         const rowMap = { 'all': 'tot', 'league': 'league', 'cup': 'cup', 'friendly': 'fr' };
@@ -1136,6 +1139,16 @@
                 }
             }
         });
+
+        // NASCONDE IL BLOCCO CLASSIFICA QUANDO SI SELEZIONA COPPA O AMICHEVOLI
+        const standingsSec = document.getElementById('standingsSection');
+        if (standingsSec) {
+            if (comp === 'cup' || comp === 'friendly') {
+                standingsSec.style.display = 'none';
+            } else {
+                standingsSec.style.display = 'block';
+            }
+        }
     }
 
     /* =========================================================
@@ -1248,11 +1261,11 @@
                 return;
             }
 
-            // RACCOLTA PRESENZE
-            if (m.starting_lineup) {
+            // RACCOLTA PRESENZE PER LA COMPETIZIONE SELEZIONATA
+            if (m.starting_lineup && m.starting_lineup !== 'なし' && m.starting_lineup !== 'Nessuno') {
                 m.starting_lineup.split(/[,、]/).forEach(p => addAppearance(p, false));
             }
-            if (m.substitutes) {
+            if (m.substitutes && m.substitutes !== 'なし' && m.substitutes !== 'Nessuno') {
                 m.substitutes.split(/[,、]/).forEach(p => addAppearance(p, true));
             }
 
@@ -1325,26 +1338,6 @@
             stats.friendly.losses = parseInt(tt.losses, 10) || 0;
             stats.friendly.gf = parseInt(tt.goals_for, 10) || 0;
             stats.friendly.ga = parseInt(tt.goals_against, 10) || 0;
-        }
-
-        if (selectedCompetition === 'all' && precomputedStats && precomputedStats.players) {
-            Object.entries(precomputedStats.players).forEach(([playerId, pStats]) => {
-                const pObj = playersData.find(p => p.id === playerId) || { id: playerId, name_kanji: playerId, name_romaji: playerId };
-                if (pStats.goals > 0 && !goalsMap[playerId]) goalsMap[playerId] = { count: pStats.goals, pObj, rawName: playerId };
-                if (pStats.assists > 0 && !assistsMap[playerId]) assistsMap[playerId] = { count: pStats.assists, pObj, rawName: playerId };
-                if (pStats.mvps > 0 && !mvpMap[playerId]) mvpMap[playerId] = { count: pStats.mvps, pObj, rawName: playerId };
-                if (pStats.yellows > 0 && !yellowsMap[playerId]) yellowsMap[playerId] = { count: pStats.yellows, pObj, rawName: playerId };
-                if (pStats.reds > 0 && !redsMap[playerId]) redsMap[playerId] = { count: pStats.reds, pObj, rawName: playerId };
-                if (pStats.goals_conceded !== undefined && !gkGoalsMap[playerId]) {
-                    gkGoalsMap[playerId] = {
-                        count: pStats.goals_conceded,
-                        played: pStats.caps || 1,
-                        clean_sheets: pStats.clean_sheets || 0,
-                        pObj,
-                        rawName: playerId
-                    };
-                }
-            });
         }
 
         const updateRow = (prefix, st) => {
@@ -1537,7 +1530,7 @@
 
             let rows = Object.values(appsMap);
 
-            if (rows.length === 0 && selectedCompetition === 'all' && precomputedStats && precomputedStats.players) {
+            if (rows.length === 0 && rawMatchesData.length === 0 && precomputedStats && precomputedStats.players) {
                 rows = Object.values(precomputedStats.players)
                     .filter(p => (parseInt(p.caps, 10) || 0) > 0)
                     .map(p => {
@@ -1550,18 +1543,6 @@
                             subs: parseInt(p.subs, 10) || 0
                         };
                     });
-            }
-
-            if (rows.length === 0 && playersData && playersData.length > 0) {
-                rows = playersData
-                    .filter(p => p.role !== 'staff' && (parseInt(p.caps, 10) || 0) > 0)
-                    .map(p => ({
-                        pObj: p,
-                        rawName: p.name_kanji || p.id,
-                        caps: parseInt(p.caps, 10) || 0,
-                        starters: 0,
-                        subs: 0
-                    }));
             }
 
             rows.sort((a, b) => {
@@ -1585,7 +1566,7 @@
             visibleItems.forEach((item, index) => {
                 const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
                 const nameHtml = formatPlayerNameHtml(item.pObj, item.rawName, currentLanguage);
-                const subsDisplay = item.subs > 0 ? `(${item.subs})` : '';
+                const subsDisplay = `(${item.subs || 0})`;
 
                 list.innerHTML += `
                     <li class="ranking-item">
