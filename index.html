@@ -148,113 +148,127 @@
             .hero-btn { padding: 10px 20px; font-size: 0.85rem; }
         }
 
-        /* ====== SEZIONE NEWS & NOTICES ====== */
-        .news-section {
-            background-color: #f8fafc;
-            padding: 45px 0;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .news-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 12px;
-        }
-        .news-header-title {
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: #00224a;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 0;
-        }
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-            gap: 20px;
-        }
-        .news-card {
-            background: #ffffff;
-            border-radius: 14px;
-            padding: 22px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .news-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 60, 130, 0.1);
-            border-color: #87ceeb;
-        }
-        .news-meta {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-        .news-badge {
-            font-size: 0.72rem;
-            font-weight: 800;
-            padding: 3px 10px;
-            border-radius: 20px;
+        /* ====== TICKER NEWS SCORREVOLE (Stile Borsa Valori) ====== */
+        .news-ticker-bar {
+            background: linear-gradient(90deg, #001229 0%, #00224a 100%);
             color: #ffffff;
-            text-transform: uppercase;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            border-bottom: 2px solid #87ceeb;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 10;
+        }
+
+        .ticker-label {
+            background: #87ceeb;
+            color: #00224a;
+            font-weight: 800;
+            font-size: 0.8rem;
+            padding: 0 16px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            z-index: 2;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.2);
             letter-spacing: 0.5px;
         }
-        .badge-league { background-color: #003c82; }
-        .badge-trial { background-color: #10b981; }
-        .badge-notice { background-color: #d97706; }
-        .news-date {
-            font-size: 0.8rem;
+
+        .ticker-label i {
+            font-size: 0.85rem;
+            animation: pulse-icon 1.8s infinite;
+        }
+
+        @keyframes pulse-icon {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.15); }
+        }
+
+        .ticker-content-wrapper {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .ticker-track {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            white-space: nowrap;
+            will-change: transform;
+            animation: ticker-scroll 32s linear infinite;
+        }
+
+        .news-ticker-bar:hover .ticker-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes ticker-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.88rem;
+            color: #e2e8f0;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .ticker-item:hover {
+            color: #87ceeb;
+        }
+
+        .ticker-tag {
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(135, 206, 235, 0.2);
+            color: #87ceeb;
+            border: 1px solid rgba(135, 206, 235, 0.4);
+        }
+
+        .ticker-tag.badge-trial {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border-color: rgba(52, 211, 153, 0.4);
+        }
+
+        .ticker-tag.badge-notice {
+            background: rgba(217, 119, 6, 0.2);
+            color: #fbbf24;
+            border-color: rgba(251, 191, 36, 0.4);
+        }
+
+        .ticker-date {
+            font-size: 0.78rem;
             color: #94a3b8;
             font-weight: 600;
         }
-        .news-card-title {
-            font-size: 1rem;
-            font-weight: 800;
-            color: #00224a;
-            margin-bottom: 10px;
-            line-height: 1.45;
-        }
-        .news-card-title a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        .news-card-title a:hover {
-            color: #87ceeb;
-        }
-        .news-excerpt {
-            font-size: 0.88rem;
-            color: #64748b;
-            line-height: 1.6;
-            margin: 0 0 14px 0;
-        }
-        .news-card-footer {
-            margin-top: auto;
-            padding-top: 10px;
-            border-top: 1px solid #f1f5f9;
+
+        .ticker-divider {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.5rem;
             display: flex;
-            justify-content: flex-end;
-        }
-        .news-link-btn {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #003c82;
-            text-decoration: none;
-            display: inline-flex;
             align-items: center;
-            gap: 6px;
-            transition: color 0.2s ease;
         }
-        .news-link-btn:hover {
-            color: #87ceeb;
+
+        @media (max-width: 600px) {
+            .ticker-label span { display: none; }
+            .ticker-label { padding: 0 12px; }
+            .news-ticker-bar { height: 40px; }
+            .ticker-item { font-size: 0.82rem; }
         }
 
         .recruitment-banner { background: linear-gradient(135deg, #00224a 0%, #001229 100%); border-radius: 16px; padding: 35px 25px; color: #ffffff; position: relative; overflow: hidden; border: 1px solid rgba(135, 206, 235, 0.3); box-shadow: 0 10px 30px rgba(0, 34, 74, 0.2); margin: 40px auto 0; max-width: 1000px; }
@@ -471,81 +485,60 @@
   </div>
 </section>
 
-<!-- SECTION NEWS & NOTICES -->
-<section class="section news-section" id="news">
-    <div class="container">
-        <div class="news-header">
-            <h2 class="news-header-title">
-                <i class="fas fa-bullhorn" style="color: #003c82;"></i>
-                <span data-i18n="news.title">最新ニュース・お知らせ</span>
-            </h2>
-        </div>
-        <div class="news-grid">
-            <!-- NEWS ITEM 1 -->
-            <article class="news-card">
-                <div>
-                    <div class="news-meta">
-                        <span class="news-badge badge-league" data-i18n="news.badge_league">リーグ参戦</span>
-                        <time class="news-date">2026.10.15</time>
-                    </div>
-                    <h3 class="news-card-title">
-                        <a href="contact.html?type=trial" data-i18n="news.item1_title">2027年シーズン「神奈川県リーグ」＆「横浜市リーグ」ダブル参戦決定！</a>
-                    </h3>
-                    <p class="news-excerpt" data-i18n="news.item1_excerpt">
-                        Yokohama Calcioは2027年度より、神奈川県社会人サッカーリーグおよび横浜市社会人サッカーリーグへのダブル参戦が決定いたしました。
-                    </p>
-                </div>
-                <div class="news-card-footer">
-                    <a href="contact.html?type=trial" class="news-link-btn">
-                        <span data-i18n="news.read_more">詳細を見る</span> <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </article>
+<!-- STRISCIA NEWS SCORREVOLE (TICKER STYLE BORSA VALORI) -->
+<div class="news-ticker-bar" id="newsTickerBar">
+    <div class="ticker-label">
+        <i class="fas fa-bullhorn"></i>
+        <span data-i18n="ticker.label">NEWS</span>
+    </div>
+    <div class="ticker-content-wrapper">
+        <div class="ticker-track">
+            <!-- SET 1 -->
+            <a href="contact.html?type=trial" class="ticker-item">
+                <span class="ticker-date">2026.10.15</span>
+                <span class="ticker-tag" data-i18n="news.badge_league">リーグ参戦</span>
+                <span data-i18n="news.item1_title">2027年シーズン「神奈川県リーグ」＆「横浜市リーグ」ダブル参戦決定！</span>
+            </a>
+            <span class="ticker-divider"><i class="fas fa-circle"></i></span>
 
-            <!-- NEWS ITEM 2 -->
-            <article class="news-card">
-                <div>
-                    <div class="news-meta">
-                        <span class="news-badge badge-trial" data-i18n="news.badge_trial">メンバー募集</span>
-                        <time class="news-date">2026.10.10</time>
-                    </div>
-                    <h3 class="news-card-title">
-                        <a href="contact.html?type=trial" data-i18n="news.item2_title">2027シーズンに向けた新入団選手・体験練習生を大募集！</a>
-                    </h3>
-                    <p class="news-excerpt" data-i18n="news.item2_excerpt">
-                        ダブルリーグ参戦に伴い、チーム体制強化のため各ポジション（GK・DF・MF・FW）の新規メンバーを募集しています。
-                    </p>
-                </div>
-                <div class="news-card-footer">
-                    <a href="contact.html?type=trial" class="news-link-btn">
-                        <span data-i18n="news.read_more">体験参加はこちら</span> <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </article>
+            <a href="contact.html?type=trial" class="ticker-item">
+                <span class="ticker-date">2026.10.10</span>
+                <span class="ticker-tag badge-trial" data-i18n="news.badge_trial">メンバー募集</span>
+                <span data-i18n="news.item2_title">2027シーズンに向けた新入団選手・体験練習生を大募集！</span>
+            </a>
+            <span class="ticker-divider"><i class="fas fa-circle"></i></span>
 
-            <!-- NEWS ITEM 3 -->
-            <article class="news-card">
-                <div>
-                    <div class="news-meta">
-                        <span class="news-badge badge-notice" data-i18n="news.badge_match">試合情報</span>
-                        <time class="news-date">2026.10.05</time>
-                    </div>
-                    <h3 class="news-card-title">
-                        <a href="matches.html" data-i18n="news.item3_title">10/31(土) La Masia Japanとの親善試合が決定！</a>
-                    </h3>
-                    <p class="news-excerpt" data-i18n="news.item3_excerpt">
-                        10月31日(土) 11:00より、大和ゆとりの森にてLa Masia Japanとのトレーニングマッチを行います。
-                    </p>
-                </div>
-                <div class="news-card-footer">
-                    <a href="matches.html" class="news-link-btn">
-                        <span data-i18n="news.read_more">試合日程を見る</span> <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </article>
+            <a href="matches.html" class="ticker-item">
+                <span class="ticker-date">2026.10.05</span>
+                <span class="ticker-tag badge-notice" data-i18n="news.badge_match">試合情報</span>
+                <span data-i18n="news.item3_title">10/31(土) La Masia Japanとの親善試合が決定！</span>
+            </a>
+            <span class="ticker-divider"><i class="fas fa-circle"></i></span>
+
+            <!-- SET 2 (Duplicato per garantire lo scorrimento continuo e senza interruzioni) -->
+            <a href="contact.html?type=trial" class="ticker-item">
+                <span class="ticker-date">2026.10.15</span>
+                <span class="ticker-tag" data-i18n="news.badge_league">リーグ参戦</span>
+                <span data-i18n="news.item1_title">2027年シーズン「神奈川県リーグ」＆「横浜市リーグ」ダブル参戦決定！</span>
+            </a>
+            <span class="ticker-divider"><i class="fas fa-circle"></i></span>
+
+            <a href="contact.html?type=trial" class="ticker-item">
+                <span class="ticker-date">2026.10.10</span>
+                <span class="ticker-tag badge-trial" data-i18n="news.badge_trial">メンバー募集</span>
+                <span data-i18n="news.item2_title">2027シーズンに向けた新入団選手・体験練習生を大募集！</span>
+            </a>
+            <span class="ticker-divider"><i class="fas fa-circle"></i></span>
+
+            <a href="matches.html" class="ticker-item">
+                <span class="ticker-date">2026.10.05</span>
+                <span class="ticker-tag badge-notice" data-i18n="news.badge_match">試合情報</span>
+                <span data-i18n="news.item3_title">10/31(土) La Masia Japanとの親善試合が決定！</span>
+            </a>
+            <span class="ticker-divider"><i class="fas fa-circle"></i></span>
         </div>
     </div>
-</section>
+</div>
 
 <section class="section" id="about">
     <div class="container">
@@ -694,17 +687,13 @@
             "hero.title": "横浜に咲くイタリアの情熱", "hero.subtitle": "サッカーで心をつなぐ場所",
             "hero.btn_about": "クラブ紹介", "hero.btn_contact": "お問い合わせ",
             
-            "news.title": "最新ニュース・お知らせ",
+            "ticker.label": "NEWS",
             "news.badge_league": "リーグ参戦",
             "news.badge_trial": "メンバー募集",
             "news.badge_match": "試合情報",
             "news.item1_title": "2027年シーズン「神奈川県リーグ」＆「横浜市リーグ」ダブル参戦決定！",
-            "news.item1_excerpt": "Yokohama Calcioは2027年度より、神奈川県社会人サッカーリーグおよび横浜市社会人サッカーリーグへのダブル参戦が決定いたしました。",
             "news.item2_title": "2027シーズンに向けた新入団選手・体験練習生を大募集！",
-            "news.item2_excerpt": "ダブルリーグ参戦に伴い、チーム体制強化のため各ポジション（GK・DF・MF・FW）の新規メンバーを募集しています。",
             "news.item3_title": "10/31(土) La Masia Japanとの親善試合が決定！",
-            "news.item3_excerpt": "10月31日(土) 11:00より、大和ゆとりの森にてLa Masia Japanとのトレーニングマッチを行います。",
-            "news.read_more": "詳細を見る",
 
             "about.title": "Yokohama Calcioとは",
             "about.subtitle": "横浜発、イタリアンスタイルの社会人サッカーチーム",
@@ -745,17 +734,13 @@
             "hero.title": "La passione italiana nel cuore di Yokohama", "hero.subtitle": "Il calcio che unisce le persone",
             "hero.btn_about": "Chi Siamo", "hero.btn_contact": "Contattaci",
             
-            "news.title": "Ultime Notizie & Avvisi",
+            "ticker.label": "NEWS",
             "news.badge_league": "Campionato",
             "news.badge_trial": "Selezione",
             "news.badge_match": "Partite",
             "news.item1_title": "Stagione 2027: Ufficiale l'iscrizione sia alla Kanagawa League che alla Yokohama League!",
-            "news.item1_excerpt": "Yokohama Calcio parteciperà ufficialmente a entrambi i campionati dalla stagione 2027.",
             "news.item2_title": "Aperte le selezioni e gli allenamenti di prova per la stagione 2027",
-            "news.item2_excerpt": "In vista dell'impegno nei due campionati, cerchiamo nuovi giocatori in tutti i ruoli (GK, DF, MF, FW).",
             "news.item3_title": "Sabato 31/10: Amichevole confermata contro La Masia Japan!",
-            "news.item3_excerpt": "Calcio d'inizio alle 11:00 presso il campo Yamato Yutori no Mori.",
-            "news.read_more": "Leggi di più",
 
             "about.title": "Cos'è lo Yokohama Calcio", "about.subtitle": "Da Yokohama, una squadra dilettantistica in perfetto stile italiano",
             "about.p1": "Lo Yokohama Calcio è una squadra di calcio amatoriale fondata nel 2025 a Yokohama.",
@@ -795,17 +780,13 @@
             "hero.title": "Italian Football Passion in Yokohama", "hero.subtitle": "Where Football Connects People",
             "hero.btn_about": "About Club", "hero.btn_contact": "Contact Us",
             
-            "news.title": "Latest News & Announcements",
+            "ticker.label": "NEWS",
             "news.badge_league": "League",
             "news.badge_trial": "Recruitment",
             "news.badge_match": "Matches",
             "news.item1_title": "2027 Season: Officially Entering Both Kanagawa & Yokohama Leagues!",
-            "news.item1_excerpt": "Yokohama Calcio will participate in both Kanagawa Prefectural and Yokohama City Leagues from 2027.",
             "news.item2_title": "Recruitment Open for New Players & Trial Trainings for 2027 Season",
-            "news.item2_excerpt": "We are seeking new players across all positions (GK, DF, MF, FW) to strengthen our squad.",
             "news.item3_title": "Sat Oct 31: Friendly Match Confirmed vs La Masia Japan!",
-            "news.item3_excerpt": "Kick-off at 11:00 AM at Yamato Yutori no Mori Pitch.",
-            "news.read_more": "Learn more",
 
             "about.title": "About Yokohama Calcio", "about.subtitle": "Italian-style Amateur Football Club in Yokohama",
             "about.p1": "Yokohama Calcio is an amateur football club founded in 2025 in Yokohama.",
