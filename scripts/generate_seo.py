@@ -68,8 +68,11 @@ def get_loc_info(loc_id, venue_fallback, locations):
 
 def get_category_label(cat):
   labels = {
-      'official': '公式戦', 'league': '公式戦', 'friendly': '練習試合',
-      'tournament': '大会', 'cup': 'カップ戦',
+      'official': '公式戦',
+      'league': '公式戦',
+      'friendly': '練習試合',
+      'tournament': '大会',
+      'cup': 'カップ戦',
   }
   return labels.get(cat, '試合')
 
@@ -85,12 +88,24 @@ def find_player_by_name(name_str, players_data):
     return None
   for pl in players_data:
     for key in ('name_kanji', 'name_kana', 'name_romaji'):
-      v = str(pl.get(key, '')).strip().lower().replace(' ', '').replace('　', '')
+      v = (
+          str(pl.get(key, ''))
+          .strip()
+          .lower()
+          .replace(' ', '')
+          .replace('　', '')
+      )
       if v and v == target:
         return pl
   for pl in players_data:
     for key in ('name_kanji', 'name_kana', 'name_romaji'):
-      v = str(pl.get(key, '')).strip().lower().replace(' ', '').replace('　', '')
+      v = (
+          str(pl.get(key, ''))
+          .strip()
+          .lower()
+          .replace(' ', '')
+          .replace('　', '')
+      )
       if v and (v in target or target in v):
         return pl
   return None
@@ -131,7 +146,8 @@ def build_static_matches_html():
     next_m = upcoming[0]
     opp_name, opp_logo = get_opp_info(next_m, opponents)
     loc_name, loc_url, loc_surface = get_loc_info(
-        next_m.get('location_id'), next_m.get('venue'), locations)
+        next_m.get('location_id'), next_m.get('venue'), locations
+    )
     is_home = next_m.get('isHome', True)
     cat_label = get_category_label(next_m.get('category', ''))
 
@@ -142,8 +158,18 @@ def build_static_matches_html():
 
     date_str = next_m.get('date', '')
     time_str = f"{next_m.get('time')} K.O." if next_m.get('time') else ''
-    time_html = (f'<div class="match-info-item"><i class="fas fa-clock" style="color: var(--primary-sky);"></i><span>{time_str}</span></div>' if time_str else '')
-    surface_html = (f'<div class="match-info-item"><i class="fas fa-layer-group" style="color: var(--primary-sky);"></i><span>{loc_surface}</span></div>' if loc_surface else '')
+    time_html = (
+        f'<div class="match-info-item"><i class="fas fa-clock" style="color:'
+        f' var(--primary-sky);"></i><span>{time_str}</span></div>'
+        if time_str
+        else ''
+    )
+    surface_html = (
+        '<div class="match-info-item"><i class="fas fa-layer-group"'
+        f' style="color: var(--primary-sky);"></i><span>{loc_surface}</span></div>'
+        if loc_surface
+        else ''
+    )
 
     upcoming_html = f"""
         <div class="next-match-hero" id="nextMatchBox">
@@ -187,7 +213,9 @@ def build_static_matches_html():
   if past:
     last_m = past[0]
     opp_name, opp_logo = get_opp_info(last_m, opponents)
-    loc_name, loc_url, _ = get_loc_info(last_m.get('location_id'), last_m.get('venue'), locations)
+    loc_name, loc_url, _ = get_loc_info(
+        last_m.get('location_id'), last_m.get('venue'), locations
+    )
     is_home = last_m.get('isHome', True)
     cat_label = get_category_label(last_m.get('category', ''))
 
@@ -199,9 +227,23 @@ def build_static_matches_html():
 
     scorers = last_m.get('scorers', '')
     mvp = last_m.get('mvp', '')
-    scorers_html = (f'<div class="match-info-item"><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span>{scorers}</span></div>' if scorers and scorers not in ['なし', 'Nessuno'] else '')
-    mvp_html = (f'<div class="match-info-item"><i class="fas fa-star" style="color: #f59e0b;"></i> <strong style="color: var(--dark-navy);">{mvp}</strong></div>' if mvp and mvp not in ['なし', 'Nessuno'] else '')
-    info_bar_html = f'<div class="match-info-hero-bar">{scorers_html}{mvp_html}</div>' if (scorers_html or mvp_html) else ''
+    scorers_html = (
+        '<div class="match-info-item"><i class="fas fa-futbol" style="color:'
+        f' var(--dark-navy);"></i> <span>{scorers}</span></div>'
+        if scorers and scorers not in ['なし', 'Nessuno']
+        else ''
+    )
+    mvp_html = (
+        '<div class="match-info-item"><i class="fas fa-star" style="color:'
+        f' #f59e0b;"></i> <strong style="color: var(--dark-navy);">{mvp}</strong></div>'
+        if mvp and mvp not in ['なし', 'Nessuno']
+        else ''
+    )
+    info_bar_html = (
+        f'<div class="match-info-hero-bar">{scorers_html}{mvp_html}</div>'
+        if (scorers_html or mvp_html)
+        else ''
+    )
 
     past_html = f"""
         <div class="match-box-card match-past-box" id="{last_m.get('id', '')}">
@@ -244,7 +286,9 @@ def build_static_matches_html():
   schema_events = []
   for m in matches:
     opp_name, _ = get_opp_info(m, opponents)
-    loc_name, _, _ = get_loc_info(m.get('location_id'), m.get('venue'), locations)
+    loc_name, _, _ = get_loc_info(
+        m.get('location_id'), m.get('venue'), locations
+    )
     is_home = m.get('isHome', True)
     home_team = 'Yokohama Calcio' if is_home else opp_name
     away_team = opp_name if is_home else 'Yokohama Calcio'
@@ -254,7 +298,8 @@ def build_static_matches_html():
     event_name = f'{home_team} vs {away_team}{title_score}'
 
     desc_parts = [f'Match {event_name}.']
-    if score: desc_parts.append(f'Score: {score}.')
+    if score:
+      desc_parts.append(f'Score: {score}.')
     if m.get('scorers') and m.get('scorers') not in ['なし', 'Nessuno']:
       desc_parts.append(f"Scorers: {m.get('scorers')}.")
     if m.get('mvp') and m.get('mvp') not in ['なし', 'Nessuno']:
@@ -263,19 +308,25 @@ def build_static_matches_html():
 
     date_str = m.get('date', '')
     time_str = m.get('time', '10:00')
-    start_iso = f"{date_str}T{time_str}:00+09:00"
+    start_iso = f'{date_str}T{time_str}:00+09:00'
 
     try:
-      start_dt = datetime.strptime(f"{date_str} {time_str}", "%Y-%m-%d %H:%M")
+      start_dt = datetime.strptime(f'{date_str} {time_str}', '%Y-%m-%d %H:%M')
       end_dt = start_dt + timedelta(hours=2)
       end_iso = f"{end_dt.strftime('%Y-%m-%dT%H:%M:%S')}+09:00"
     except Exception:
-      end_iso = f"{date_str}T12:00:00+09:00"
+      end_iso = f'{date_str}T12:00:00+09:00'
 
     if status == 'past' or (score and score != 'VS'):
       event_status = 'https://schema.org/EventCompleted'
     else:
       event_status = 'https://schema.org/EventScheduled'
+
+    valid_from_iso = (
+        f'{date_str}T00:00:00+09:00'
+        if date_str
+        else '2026-01-01T00:00:00+09:00'
+    )
 
     event_schema = {
         '@context': 'https://schema.org',
@@ -288,20 +339,19 @@ def build_static_matches_html():
         'eventStatus': event_status,
         'eventAttendanceMode': 'https://schema.org/OfflineEventAttendanceMode',
         'location': {'@type': 'Place', 'name': loc_name},
-        'image': [
-            f'{YOKOHAMA_FULL_URL}/immagini/logo.png'
-        ],
+        'image': [f'{YOKOHAMA_FULL_URL}/immagini/logo.png?v=2'],
         'organizer': {
             '@type': 'SportsTeam',
             'name': 'Yokohama Calcio',
-            'url': YOKOHAMA_FULL_URL
+            'url': YOKOHAMA_FULL_URL,
         },
         'offers': {
             '@type': 'Offer',
             'url': f'{YOKOHAMA_FULL_URL}/matches.html',
             'price': '0',
             'priceCurrency': 'JPY',
-            'availability': 'https://schema.org/InStock'
+            'availability': 'https://schema.org/InStock',
+            'validFrom': valid_from_iso,
         },
         'homeTeam': {'@type': 'SportsTeam', 'name': home_team},
         'awayTeam': {'@type': 'SportsTeam', 'name': away_team},
@@ -325,28 +375,52 @@ def build_static_matches_html():
 # ============================================================
 # PLAYERS (players.html)
 # ============================================================
-SECTION_ICONS = {'gk': 'fa-hands', 'df': 'fa-shield-alt', 'mf': 'fa-running', 'fw': 'fa-futbol'}
-BADGE_ICONS = {'gk': 'fa-hands', 'df': 'fa-shield-alt', 'mf': 'fa-running', 'fw': 'fa-bullseye'}
-SECTION_LABELS = {'gk': 'GOALKEEPER', 'df': 'DEFENDER', 'mf': 'MIDFIELDER', 'fw': 'FORWARD'}
-ROLE_BADGE_CLASSES = {'gk': 'role-badge-gk', 'df': 'role-badge-df', 'mf': 'role-badge-mf', 'fw': 'role-badge-fw'}
+SECTION_ICONS = {
+    'gk': 'fa-hands',
+    'df': 'fa-shield-alt',
+    'mf': 'fa-running',
+    'fw': 'fa-futbol',
+}
+BADGE_ICONS = {
+    'gk': 'fa-hands',
+    'df': 'fa-shield-alt',
+    'mf': 'fa-running',
+    'fw': 'fa-bullseye',
+}
+SECTION_LABELS = {
+    'gk': 'GOALKEEPER',
+    'df': 'DEFENDER',
+    'mf': 'MIDFIELDER',
+    'fw': 'FORWARD',
+}
+ROLE_BADGE_CLASSES = {
+    'gk': 'role-badge-gk',
+    'df': 'role-badge-df',
+    'mf': 'role-badge-mf',
+    'fw': 'role-badge-fw',
+}
 
 
 def calculate_age(birth_date):
-  if not birth_date: return '-'
+  if not birth_date:
+    return '-'
   try:
     birth = datetime.strptime(birth_date, '%Y-%m-%d').date()
     today = date.today()
     age = today.year - birth.year
-    if (today.month, today.day) < (birth.month, birth.day): age -= 1
+    if (today.month, today.day) < (birth.month, birth.day):
+      age -= 1
     return age
   except Exception:
     return '-'
 
 
 def _extract_surname_parts(raw):
-  if not raw: return '', []
+  if not raw:
+    return '', []
   parts = raw.strip().split()
-  if not parts: return '', []
+  if not parts:
+    return '', []
   prefixes = ['di', 'de', 'da', 'del', 'della', 'van', 'von', 'san', 'st.']
   if len(parts) >= 2 and parts[0].lower() in prefixes:
     return f'{parts[0]} {parts[1]}'.upper(), parts[2:]
@@ -356,16 +430,32 @@ def _extract_surname_parts(raw):
 def compute_surname_counts(players):
   counts = {}
   for p in players:
-    raw = (p.get('name_romaji') if p.get('name_romaji') and p.get('name_romaji') != '-' else p.get('name_kanji', '')) or ''
+    raw = (
+        (
+            p.get('name_romaji')
+            if p.get('name_romaji') and p.get('name_romaji') != '-'
+            else p.get('name_kanji', '')
+        )
+        or ''
+    )
     surname, _ = _extract_surname_parts(raw)
-    if surname: counts[surname] = counts.get(surname, 0) + 1
+    if surname:
+      counts[surname] = counts.get(surname, 0) + 1
   return counts
 
 
 def get_surname_display(p, surname_counts):
-  raw = (p.get('name_romaji') if p.get('name_romaji') and p.get('name_romaji') != '-' else p.get('name_kanji', '')) or 'YOKOHAMA'
+  raw = (
+      (
+          p.get('name_romaji')
+          if p.get('name_romaji') and p.get('name_romaji') != '-'
+          else p.get('name_kanji', '')
+      )
+      or 'YOKOHAMA'
+  )
   surname, remaining = _extract_surname_parts(raw)
-  if not surname: return 'YOKOHAMA'
+  if not surname:
+    return 'YOKOHAMA'
   if surname_counts.get(surname, 0) > 1 and remaining:
     initial = remaining[-1][0].upper()
     return f'{surname} {initial}.'
@@ -393,39 +483,87 @@ def _build_details_rows(p, player_stats):
   goals_conceded = st.get('goals_conceded', 0)
   clean_sheets = st.get('clean_sheets', 0)
 
-  role_row = ('<div class="player-detail-row">'
-      '<span data-i18n="label.role_detail">役割:</span> '
-      f'<span class="role-badge-back {role_badge_class}"><i class="fas {role_icon}"></i> <strong>{position}</strong></span></div>')
-  hometown_row = ('<div class="player-detail-row">'
-      '<span data-i18n="label.hometown">出身地:</span> '
-      f'<strong data-hometown="{hometown}"></strong></div>')
-  age_row = ('<div class="player-detail-row">'
-      '<span data-i18n="label.age">年齢:</span> '
-      f'<strong data-age="{age}">{age} 歳</strong></div>')
+  role_row = (
+      '<div class="player-detail-row"><span data-i18n="label.role_detail">役割:</span>'
+      f' <span class="role-badge-back {role_badge_class}"><i class="fas'
+      f' {role_icon}"></i> <strong>{position}</strong></span></div>'
+  )
+  hometown_row = (
+      '<div class="player-detail-row"><span'
+      ' data-i18n="label.hometown">出身地:</span> <strong'
+      f' data-hometown="{hometown}"></strong></div>'
+  )
+  age_row = (
+      '<div class="player-detail-row"><span data-i18n="label.age">年齢:</span>'
+      f' <strong data-age="{age}">{age} 歳</strong></div>'
+  )
 
-  caps_row = ('<div class="player-detail-row">'
-      '<div class="player-detail-row-left">'
-      '<i class="fas fa-tshirt" style="color: var(--dark-navy);"></i> '
-      '<span data-i18n="label.appearances">出場数 (先発/途中):</span>'
-      '</div>'
-      '<strong class="stats-highlight">'
-      f'<span class="stat-caps">{caps}</span>'
-      f'<span class="sub-stat-detail">(<span class="stat-starters">{starters}</span>/<span class="stat-subs">{subs}</span>)</span>'
-      '</strong></div>')
+  caps_row = (
+      '<div class="player-detail-row"><div class="player-detail-row-left"><i'
+      ' class="fas fa-tshirt" style="color: var(--dark-navy);"></i> <span'
+      ' data-i18n="label.appearances">出場数 (先発/途中):</span></div><strong'
+      ' class="stats-highlight">'
+      f'<span class="stat-caps">{caps}</span><span'
+      ' class="sub-stat-detail">(<span'
+      f' class="stat-starters">{starters}</span>/<span'
+      f' class="stat-subs">{subs}</span>)</span>'
+      '</strong></div>'
+  )
 
   if is_gk:
-    stat_rows = (caps_row
-        + f'<div class="player-detail-row"><span><i class="fas fa-shield-halved"></i> <span data-i18n="label.goals_conceded">失点:</span></span> <strong class="stats-highlight stat-goals-conceded">{goals_conceded}</strong></div>'
-        + f'<div class="player-detail-row"><span><i class="fas fa-lock"></i> <span data-i18n="label.clean_sheets">クリーンシート:</span></span> <strong class="stats-highlight stat-clean-sheets">{clean_sheets}</strong></div>'
-        + f'<div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">{mvps}</strong></div>')
+    stat_rows = (
+        caps_row
+        + (
+            '<div class="player-detail-row"><span><i class="fas'
+            ' fa-shield-halved"></i> <span data-i18n="label.goals_conceded">失点:</span></span>'
+            ' <strong'
+            f' class="stats-highlight stat-goals-conceded">{goals_conceded}</strong></div>'
+        )
+        + (
+            '<div class="player-detail-row"><span><i class="fas fa-lock"></i>'
+            ' <span data-i18n="label.clean_sheets">クリーンシート:</span></span> <strong'
+            f' class="stats-highlight stat-clean-sheets">{clean_sheets}</strong></div>'
+        )
+        + (
+            '<div class="player-detail-row"><span><i class="fas fa-star"'
+            ' style="color: #f59e0b;"></i> MVP:</span> <strong'
+            f' class="stats-highlight stat-mvps">{mvps}</strong></div>'
+        )
+    )
   else:
-    stat_rows = (caps_row
-        + f'<div class="player-detail-row"><span><i class="fas fa-futbol" style="color: var(--dark-navy);"></i> <span data-i18n="label.goals">得点:</span></span> <strong class="stats-highlight stat-goals">{goals}</strong></div>'
-        + f'<div class="player-detail-row"><span><i class="fas fa-shoe-prints" style="color: var(--primary-sky);"></i> <span data-i18n="label.assists">アシスト:</span></span> <strong class="stats-highlight stat-assists">{assists}</strong></div>'
-        + f'<div class="player-detail-row"><span><i class="fas fa-star" style="color: #f59e0b;"></i> MVP:</span> <strong class="stats-highlight stat-mvps">{mvps}</strong></div>')
+    stat_rows = (
+        caps_row
+        + (
+            '<div class="player-detail-row"><span><i class="fas fa-futbol"'
+            ' style="color: var(--dark-navy);"></i> <span'
+            ' data-i18n="label.goals">得点:</span></span> <strong'
+            f' class="stats-highlight stat-goals">{goals}</strong></div>'
+        )
+        + (
+            '<div class="player-detail-row"><span><i class="fas fa-shoe-prints"'
+            ' style="color: var(--primary-sky);"></i> <span'
+            ' data-i18n="label.assists">アシスト:</span></span> <strong'
+            f' class="stats-highlight stat-assists">{assists}</strong></div>'
+        )
+        + (
+            '<div class="player-detail-row"><span><i class="fas fa-star"'
+            ' style="color: #f59e0b;"></i> MVP:</span> <strong'
+            f' class="stats-highlight stat-mvps">{mvps}</strong></div>'
+        )
+    )
 
-  yellow_row = f'<div class="player-detail-row"><span><i class="fas fa-square" style="color: #f59e0b;"></i> <span data-i18n="label.yellows">警告:</span></span> <strong class="stats-highlight stat-yellows">{yellows}</strong></div>'
-  red_row = f'<div class="player-detail-row"><span><i class="fas fa-square" style="color: #ef4444;"></i> <span data-i18n="label.reds">退場:</span></span> <strong class="stats-highlight stat-reds">{reds}</strong></div>'
+  yellow_row = (
+      '<div class="player-detail-row"><span><i class="fas fa-square"'
+      ' style="color: #f59e0b;"></i> <span'
+      ' data-i18n="label.yellows">警告:</span></span> <strong'
+      f' class="stats-highlight stat-yellows">{yellows}</strong></div>'
+  )
+  red_row = (
+      '<div class="player-detail-row"><span><i class="fas fa-square"'
+      ' style="color: #ef4444;"></i> <span'
+      ' data-i18n="label.reds">退場:</span></span> <strong'
+      f' class="stats-highlight stat-reds">{reds}</strong></div>'
+  )
 
   return role_row + hometown_row + age_row + stat_rows + yellow_row + red_row
 
@@ -487,14 +625,24 @@ def _person_schema_with_stats(p, p_stats):
       '@type': 'Person',
       '@id': f'{YOKOHAMA_FULL_URL}/players.html#{pid}',
       'name': name_kanji or name_romaji or 'Player',
-      'memberOf': {'@type': 'SportsTeam', 'name': 'Yokohama Calcio', 'url': YOKOHAMA_FULL_URL},
+      'memberOf': {
+          '@type': 'SportsTeam',
+          'name': 'Yokohama Calcio',
+          'url': YOKOHAMA_FULL_URL,
+      },
   }
-  if name_romaji: person['alternateName'] = name_romaji
-  if p.get('name_kana'): person['givenName'] = p['name_kana']
-  if position: person['jobTitle'] = f'Soccer Player ({position})'
-  if p.get('birth_date'): person['birthDate'] = p['birth_date']
-  if p.get('hometown'): person['birthPlace'] = {'@type': 'Place', 'name': p['hometown']}
-  if p.get('number') is not None: person['identifier'] = str(p['number'])
+  if name_romaji:
+    person['alternateName'] = name_romaji
+  if p.get('name_kana'):
+    person['givenName'] = p['name_kana']
+  if position:
+    person['jobTitle'] = f'Soccer Player ({position})'
+  if p.get('birth_date'):
+    person['birthDate'] = p['birth_date']
+  if p.get('hometown'):
+    person['birthPlace'] = {'@type': 'Place', 'name': p['hometown']}
+  if p.get('number') is not None:
+    person['identifier'] = str(p['number'])
 
   st = p_stats or {}
   caps = safe_int(st.get('caps', 0))
@@ -506,14 +654,22 @@ def _person_schema_with_stats(p, p_stats):
   conceded = safe_int(st.get('goals_conceded', 0))
   clean_sheets = safe_int(st.get('clean_sheets', 0))
 
-  role_label = {'gk': 'Goalkeeper', 'df': 'Defender', 'mf': 'Midfielder', 'fw': 'Forward'}.get(role, 'Player')
+  role_label = {
+      'gk': 'Goalkeeper',
+      'df': 'Defender',
+      'mf': 'Midfielder',
+      'fw': 'Forward',
+  }.get(role, 'Player')
   desc_parts = [f'{role_label} of Yokohama Calcio.']
-  desc_parts.append(f'{caps} appearances ({starters} as starter, {subs} as substitute).')
+  desc_parts.append(
+      f'{caps} appearances ({starters} as starter, {subs} as substitute).'
+  )
   if role == 'gk':
     desc_parts.append(f'{conceded} goals conceded, {clean_sheets} clean sheets.')
   else:
     desc_parts.append(f'{goals} goals, {assists} assists.')
-  if mvps > 0: desc_parts.append(f'{mvps} MVP award{"s" if mvps != 1 else ""}.')
+  if mvps > 0:
+    desc_parts.append(f'{mvps} MVP award{"s" if mvps != 1 else ""}.')
   person['description'] = ' '.join(desc_parts)
 
   return person
@@ -546,7 +702,10 @@ def build_players_html():
 
   html_parts = []
   for role in ['gk', 'df', 'mf', 'fw']:
-    cards_html = '\n'.join(create_player_card_html(p, surname_counts, s) for (p, s) in sections[role])
+    cards_html = '\n'.join(
+        create_player_card_html(p, surname_counts, s)
+        for (p, s) in sections[role]
+    )
     html_parts.append(f"""
         <div class="role-group" data-role-section="{role}">
             <h3 class="role-title"><i class="fas {SECTION_ICONS[role]}"></i> <span data-i18n="section.{role}">{SECTION_LABELS[role]}</span></h3>
@@ -571,24 +730,36 @@ def build_static_showcase_html(n=3):
 
   enriched = []
   for p in players_data:
-    if p.get('role') == 'staff': continue
-    if p.get('number') is None or p.get('number') == '': continue
+    if p.get('role') == 'staff':
+      continue
+    if p.get('number') is None or p.get('number') == '':
+      continue
     enriched.append((p, stats_map.get(p.get('id'), {}) or {}))
 
-  if not enriched: return ''
+  if not enriched:
+    return ''
 
-  top_scorer = max(enriched, key=lambda x: safe_int(x[1].get('goals', 0)), default=None)
-  top_assist = max(enriched, key=lambda x: safe_int(x[1].get('assists', 0)), default=None)
-  top_caps = max(enriched, key=lambda x: safe_int(x[1].get('caps', 0)), default=None)
+  top_scorer = max(
+      enriched, key=lambda x: safe_int(x[1].get('goals', 0)), default=None
+  )
+  top_assist = max(
+      enriched, key=lambda x: safe_int(x[1].get('assists', 0)), default=None
+  )
+  top_caps = max(
+      enriched, key=lambda x: safe_int(x[1].get('caps', 0)), default=None
+  )
 
   picks, seen = [], set()
   for entry in [top_scorer, top_assist, top_caps]:
     if entry and entry[0].get('id') not in seen:
-      picks.append(entry); seen.add(entry[0].get('id'))
+      picks.append(entry)
+      seen.add(entry[0].get('id'))
   for entry in enriched:
-    if len(picks) >= n: break
+    if len(picks) >= n:
+      break
     if entry[0].get('id') not in seen:
-      picks.append(entry); seen.add(entry[0].get('id'))
+      picks.append(entry)
+      seen.add(entry[0].get('id'))
 
   cards = []
   for p, st in picks[:n]:
@@ -605,14 +776,30 @@ def build_static_showcase_html(n=3):
     conceded = safe_int(st.get('goals_conceded', 0))
 
     if role == 'gk':
-      stats_html = (f'<span><i class="fas fa-running" style="color:#2563eb;"></i> {caps} Pres.</span>'
-                    f'<span><i class="fas fa-shield-alt" style="color:#dc2626;"></i> {conceded} Conc.</span>'
-                    + (f'<span><i class="fas fa-star" style="color:#f59e0b;"></i> {mvps} MVP</span>' if mvps > 0 else ''))
+      stats_html = (
+          f'<span><i class="fas fa-running" style="color:#2563eb;"></i> {caps}'
+          ' Pres.</span><span><i class="fas fa-shield-alt"'
+          f' style="color:#dc2626;"></i> {conceded} Conc.</span>'
+          + (
+              f'<span><i class="fas fa-star" style="color:#f59e0b;"></i> {mvps}'
+              ' MVP</span>'
+              if mvps > 0
+              else ''
+          )
+      )
     else:
-      stats_html = (f'<span><i class="fas fa-running" style="color:#2563eb;"></i> {caps} Pres.</span>'
-                    f'<span><i class="fas fa-futbol" style="color:#059669;"></i> {goals} Goals</span>'
-                    f'<span><i class="fas fa-hands-helping" style="color:#8b5cf6;"></i> {assists} Ast</span>'
-                    + (f'<span><i class="fas fa-star" style="color:#f59e0b;"></i> {mvps} MVP</span>' if mvps > 0 else ''))
+      stats_html = (
+          f'<span><i class="fas fa-running" style="color:#2563eb;"></i> {caps}'
+          ' Pres.</span><span><i class="fas fa-futbol"'
+          f' style="color:#059669;"></i> {goals} Goals</span><span><i class="fas'
+          f' fa-hands-helping" style="color:#8b5cf6;"></i> {assists} Ast</span>'
+          + (
+              f'<span><i class="fas fa-star" style="color:#f59e0b;"></i> {mvps}'
+              ' MVP</span>'
+              if mvps > 0
+              else ''
+          )
+      )
 
     cards.append(f"""
                 <div class="player-preview-card">
@@ -632,21 +819,31 @@ def build_static_showcase_html(n=3):
 # STATS: HTML STATICO DEI RANKING (per bot AI)
 # ============================================================
 def _build_ranking_item_html(rank_idx, player_name, value_html):
-  rank_class = 'rank-1' if rank_idx == 1 else 'rank-2' if rank_idx == 2 else 'rank-3' if rank_idx == 3 else ''
+  rank_class = (
+      'rank-1'
+      if rank_idx == 1
+      else 'rank-2'
+      if rank_idx == 2
+      else 'rank-3'
+      if rank_idx == 3
+      else ''
+  )
   return (
-      f'<li class="ranking-item">'
-      f'<div style="display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1;">'
-      f'<span class="rank-number {rank_class}" style="flex-shrink:0;">{rank_idx}</span>'
-      f'<div class="player-info-wrapper"><span class="player-name-text">{player_name}</span></div>'
-      f'</div>'
-      f'<span class="stats-highlight" style="white-space: nowrap; flex-shrink: 0;">{value_html}</span>'
-      f'</li>'
+      '<li class="ranking-item"><div style="display: flex; align-items: center;'
+      ' gap: 8px; min-width: 0; flex: 1;"><span class="rank-number'
+      f' {rank_class}" style="flex-shrink:0;">{rank_idx}</span><div'
+      ' class="player-info-wrapper"><span'
+      f' class="player-name-text">{player_name}</span></div></div><span'
+      ' class="stats-highlight" style="white-space: nowrap; flex-shrink:'
+      f' 0;">{value_html}</span></li>'
   )
 
 
 def _player_display_name_ja(p):
-  if not p: return '-'
-  if p.get('name_kanji'): return p['name_kanji']
+  if not p:
+    return '-'
+  if p.get('name_kanji'):
+    return p['name_kanji']
   return p.get('name_romaji') or p.get('name_kana') or '-'
 
 
@@ -657,7 +854,8 @@ def build_static_stats_rankings():
 
   enriched = []
   for p in players_data:
-    if p.get('role') == 'staff': continue
+    if p.get('role') == 'staff':
+      continue
     st = stats_map.get(p.get('id'), {}) or {}
     enriched.append((p, st))
 
@@ -667,7 +865,8 @@ def build_static_stats_rankings():
     rows = []
     for p, st in enriched:
       val = key_getter(st)
-      if filter_zero and val <= 0: continue
+      if filter_zero and val <= 0:
+        continue
       rows.append((p, st, val))
     rows.sort(key=sort_key, reverse=True)
     rows = rows[:TOP_N]
@@ -699,7 +898,8 @@ def build_static_stats_rankings():
   apps_rows = []
   for p, st in enriched:
     caps = safe_int(st.get('caps', 0))
-    if caps <= 0: continue
+    if caps <= 0:
+      continue
     starters = safe_int(st.get('starters', 0))
     subs = safe_int(st.get('subs', 0))
     apps_rows.append((p, st, caps, starters, subs))
@@ -708,17 +908,22 @@ def build_static_stats_rankings():
   apps_items = []
   for idx, (p, st, caps, starters, subs) in enumerate(apps_rows, 1):
     name = _player_display_name_ja(p)
-    value_html = f'{caps} <span style="font-size: 0.78rem; color: #64748b; font-weight: 600;">({subs})</span>'
+    value_html = (
+        f'{caps} <span style="font-size: 0.78rem; color: #64748b; font-weight:'
+        f' 600;">({subs})</span>'
+    )
     apps_items.append(_build_ranking_item_html(idx, name, value_html))
   result['APPEARANCES'] = '\n'.join(apps_items)
 
   # GK
   gk_rows = []
   for p, st in enriched:
-    if (p.get('role') or '').lower() != 'gk': continue
+    if (p.get('role') or '').lower() != 'gk':
+      continue
     conceded = safe_int(st.get('goals_conceded', 0))
     caps = safe_int(st.get('caps', 0))
-    if caps <= 0: continue
+    if caps <= 0:
+      continue
     avg = conceded / caps if caps > 0 else 0
     gk_rows.append((p, st, conceded, caps, avg))
   gk_rows.sort(key=lambda x: (x[4], x[2]))
@@ -726,9 +931,13 @@ def build_static_stats_rankings():
   gk_items = []
   for idx, (p, st, conceded, caps, avg) in enumerate(gk_rows, 1):
     name = _player_display_name_ja(p)
-    value_html = (f'{conceded} 失点 '
-                  f'<span class="gk-apps-text" style="font-size:0.78rem;color:#64748b;font-weight:600;">({caps}試合)</span>'
-                  f'<br><span style="font-size:0.72rem;color:#64748b;font-weight:600;">平均: {avg:.2f}/試合</span>')
+    value_html = (
+        f'{conceded} 失点 <span class="gk-apps-text"'
+        ' style="font-size:0.78rem;color:#64748b;font-weight:600;">('
+        f'{caps}試合)</span><br><span'
+        ' style="font-size:0.72rem;color:#64748b;font-weight:600;">平均:'
+        f' {avg:.2f}/試合</span>'
+    )
     gk_items.append(_build_ranking_item_html(idx, name, value_html))
   result['GK'] = '\n'.join(gk_items)
 
@@ -757,9 +966,11 @@ def build_static_stats_rankings():
 
 
 def inject_stats_rankings(filename, rankings):
-  if not rankings: return
+  if not rankings:
+    return
   full_path = os.path.join(ROOT_DIR, filename)
-  if not os.path.exists(full_path): return
+  if not os.path.exists(full_path):
+    return
 
   try:
     with open(full_path, 'r', encoding='utf-8') as f:
@@ -808,34 +1019,76 @@ def build_stats_schemas():
       '@id': f'{YOKOHAMA_FULL_URL}/stats.html#dataset',
       'name': 'Yokohama Calcio — Team and Player Statistics',
       'description': (
-          f'Statistical dataset for Yokohama Calcio covering season to date. '
-          f'Total matches: {team_totals.get("total_matches", 0)}, '
-          f'Wins: {team_totals.get("wins", 0)}, '
-          f'Draws: {team_totals.get("draws", 0)}, '
-          f'Losses: {team_totals.get("losses", 0)}, '
-          f'Goals for: {team_totals.get("goals_for", 0)}, '
-          f'Goals against: {team_totals.get("goals_against", 0)}, '
-          f'Clean sheets: {team_totals.get("clean_sheets", 0)}.'
+          'Statistical dataset for Yokohama Calcio covering season to date.'
+          f' Total matches: {team_totals.get("total_matches", 0)}, Wins:'
+          f' {team_totals.get("wins", 0)}, Draws:'
+          f' {team_totals.get("draws", 0)}, Losses:'
+          f' {team_totals.get("losses", 0)}, Goals for:'
+          f' {team_totals.get("goals_for", 0)}, Goals against:'
+          f' {team_totals.get("goals_against", 0)}, Clean sheets:'
+          f' {team_totals.get("clean_sheets", 0)}.'
       ),
-      'creator': {'@type': 'SportsTeam', 'name': 'Yokohama Calcio', 'url': YOKOHAMA_FULL_URL},
+      'creator': {
+          '@type': 'SportsTeam',
+          'name': 'Yokohama Calcio',
+          'url': YOKOHAMA_FULL_URL,
+      },
       'dateModified': today_iso,
       'license': f'{YOKOHAMA_FULL_URL}/terms',
       'variableMeasured': [
-          {'@type': 'PropertyValue', 'name': 'appearances', 'description': 'Total appearances'},
-          {'@type': 'PropertyValue', 'name': 'starters', 'description': 'Appearances as starter'},
-          {'@type': 'PropertyValue', 'name': 'substitute_appearances', 'description': 'Appearances from bench'},
-          {'@type': 'PropertyValue', 'name': 'goals', 'description': 'Goals scored'},
-          {'@type': 'PropertyValue', 'name': 'assists', 'description': 'Assists provided'},
-          {'@type': 'PropertyValue', 'name': 'mvp_awards', 'description': 'MVP awards'},
-          {'@type': 'PropertyValue', 'name': 'yellow_cards', 'description': 'Yellow cards'},
+          {
+              '@type': 'PropertyValue',
+              'name': 'appearances',
+              'description': 'Total appearances',
+          },
+          {
+              '@type': 'PropertyValue',
+              'name': 'starters',
+              'description': 'Appearances as starter',
+          },
+          {
+              '@type': 'PropertyValue',
+              'name': 'substitute_appearances',
+              'description': 'Appearances from bench',
+          },
+          {
+              '@type': 'PropertyValue',
+              'name': 'goals',
+              'description': 'Goals scored',
+          },
+          {
+              '@type': 'PropertyValue',
+              'name': 'assists',
+              'description': 'Assists provided',
+          },
+          {
+              '@type': 'PropertyValue',
+              'name': 'mvp_awards',
+              'description': 'MVP awards',
+          },
+          {
+              '@type': 'PropertyValue',
+              'name': 'yellow_cards',
+              'description': 'Yellow cards',
+          },
           {'@type': 'PropertyValue', 'name': 'red_cards', 'description': 'Red cards'},
-          {'@type': 'PropertyValue', 'name': 'goals_conceded', 'description': 'Goals conceded (goalkeepers)'},
-          {'@type': 'PropertyValue', 'name': 'clean_sheets', 'description': 'Clean sheets (goalkeepers)'},
+          {
+              '@type': 'PropertyValue',
+              'name': 'goals_conceded',
+              'description': 'Goals conceded (goalkeepers)',
+          },
+          {
+              '@type': 'PropertyValue',
+              'name': 'clean_sheets',
+              'description': 'Clean sheets (goalkeepers)',
+          },
       ],
   }
   schemas.append(dataset)
 
-  def _make_itemlist(name, description, rows, item_list_order='https://schema.org/Descending'):
+  def _make_itemlist(
+      name, description, rows, item_list_order='https://schema.org/Descending'
+  ):
     items = []
     for idx, (p, st) in enumerate(rows, 1):
       person_ref = {
@@ -863,95 +1116,168 @@ def build_stats_schemas():
   # Top scorers
   scorers = []
   for p in players_data:
-    if p.get('role') == 'staff': continue
+    if p.get('role') == 'staff':
+      continue
     st = stats_map.get(p.get('id'), {}) or {}
     g = safe_int(st.get('goals', 0))
     if g > 0:
       scorers.append((p, st))
-  scorers.sort(key=lambda x: -safe_int(stats_map.get(x[0].get('id'), {}).get('goals', 0)))
+  scorers.sort(
+      key=lambda x: -safe_int(
+          stats_map.get(x[0].get('id'), {}).get('goals', 0)
+      )
+  )
   if scorers:
-    schemas.append(_make_itemlist('Top Scorers', 'Yokohama Calcio top scorers ranked by goals scored.', scorers))
+    schemas.append(
+        _make_itemlist(
+            'Top Scorers',
+            'Yokohama Calcio top scorers ranked by goals scored.',
+            scorers,
+        )
+    )
 
   # Top assists
   assists = []
   for p in players_data:
-    if p.get('role') == 'staff': continue
+    if p.get('role') == 'staff':
+      continue
     st = stats_map.get(p.get('id'), {}) or {}
     a = safe_int(st.get('assists', 0))
     if a > 0:
       assists.append((p, st))
-  assists.sort(key=lambda x: -safe_int(stats_map.get(x[0].get('id'), {}).get('assists', 0)))
+  assists.sort(
+      key=lambda x: -safe_int(
+          stats_map.get(x[0].get('id'), {}).get('assists', 0)
+      )
+  )
   if assists:
-    schemas.append(_make_itemlist('Top Assists', 'Yokohama Calcio top assist providers.', assists))
+    schemas.append(
+        _make_itemlist(
+            'Top Assists',
+            'Yokohama Calcio top assist providers.',
+            assists,
+        )
+    )
 
   # Appearances
   apps = []
   for p in players_data:
-    if p.get('role') == 'staff': continue
+    if p.get('role') == 'staff':
+      continue
     st = stats_map.get(p.get('id'), {}) or {}
     caps = safe_int(st.get('caps', 0))
-    if caps <= 0: continue
+    if caps <= 0:
+      continue
     apps.append((p, st))
-  apps.sort(key=lambda x: (-safe_int(stats_map.get(x[0].get('id'), {}).get('caps', 0)), -safe_int(stats_map.get(x[0].get('id'), {}).get('starters', 0))))
+  apps.sort(
+      key=lambda x: (
+          -safe_int(stats_map.get(x[0].get('id'), {}).get('caps', 0)),
+          -safe_int(stats_map.get(x[0].get('id'), {}).get('starters', 0)),
+      )
+  )
   if apps:
-    schemas.append(_make_itemlist(
-        'Appearances Ranking',
-        'Yokohama Calcio appearances ranking. Sorted by total appearances descending, then by starts descending.',
-        apps,
-    ))
+    schemas.append(
+        _make_itemlist(
+            'Appearances Ranking',
+            'Yokohama Calcio appearances ranking. Sorted by total appearances'
+            ' descending, then by starts descending.',
+            apps,
+        )
+    )
 
   # MVP
   mvps = []
   for p in players_data:
-    if p.get('role') == 'staff': continue
+    if p.get('role') == 'staff':
+      continue
     st = stats_map.get(p.get('id'), {}) or {}
     m = safe_int(st.get('mvps', 0))
     if m > 0:
       mvps.append((p, st))
-  mvps.sort(key=lambda x: -safe_int(stats_map.get(x[0].get('id'), {}).get('mvps', 0)))
+  mvps.sort(
+      key=lambda x: -safe_int(
+          stats_map.get(x[0].get('id'), {}).get('mvps', 0)
+      )
+  )
   if mvps:
-    schemas.append(_make_itemlist('MVP Awards', 'Yokohama Calcio MVP award winners.', mvps))
+    schemas.append(
+        _make_itemlist(
+            'MVP Awards', 'Yokohama Calcio MVP award winners.', mvps
+        )
+    )
 
   # Goalkeepers
   gks = []
   for p in players_data:
-    if (p.get('role') or '').lower() != 'gk': continue
+    if (p.get('role') or '').lower() != 'gk':
+      continue
     st = stats_map.get(p.get('id'), {}) or {}
     caps = safe_int(st.get('caps', 0))
-    if caps <= 0: continue
+    if caps <= 0:
+      continue
     gks.append((p, st))
-  gks.sort(key=lambda x: safe_int(stats_map.get(x[0].get('id'), {}).get('goals_conceded', 0)) / max(1, safe_int(stats_map.get(x[0].get('id'), {}).get('caps', 1))))
+  gks.sort(
+      key=lambda x: safe_int(
+          stats_map.get(x[0].get('id'), {}).get('goals_conceded', 0)
+      )
+      / max(
+          1, safe_int(stats_map.get(x[0].get('id'), {}).get('caps', 1))
+      )
+  )
   if gks:
-    schemas.append(_make_itemlist(
-        'Goalkeeper Ranking',
-        'Yokohama Calcio goalkeepers ranked by average goals conceded per appearance (ascending).',
-        gks,
-        item_list_order='https://schema.org/Ascending',
-    ))
+    schemas.append(
+        _make_itemlist(
+            'Goalkeeper Ranking',
+            'Yokohama Calcio goalkeepers ranked by average goals conceded per'
+            ' appearance (ascending).',
+            gks,
+            item_list_order='https://schema.org/Ascending',
+        )
+    )
 
   # Yellows
   yellows = []
   for p in players_data:
-    if p.get('role') == 'staff': continue
+    if p.get('role') == 'staff':
+      continue
     st = stats_map.get(p.get('id'), {}) or {}
     y = safe_int(st.get('yellows', 0))
     if y > 0:
       yellows.append((p, st))
-  yellows.sort(key=lambda x: -safe_int(stats_map.get(x[0].get('id'), {}).get('yellows', 0)))
+  yellows.sort(
+      key=lambda x: -safe_int(
+          stats_map.get(x[0].get('id'), {}).get('yellows', 0)
+      )
+  )
   if yellows:
-    schemas.append(_make_itemlist('Yellow Cards', 'Yokohama Calcio players ranked by yellow cards.', yellows))
+    schemas.append(
+        _make_itemlist(
+            'Yellow Cards',
+            'Yokohama Calcio players ranked by yellow cards.',
+            yellows,
+        )
+    )
 
   # Reds
   reds = []
   for p in players_data:
-    if p.get('role') == 'staff': continue
+    if p.get('role') == 'staff':
+      continue
     st = stats_map.get(p.get('id'), {}) or {}
     r = safe_int(st.get('reds', 0))
     if r > 0:
       reds.append((p, st))
-  reds.sort(key=lambda x: -safe_int(stats_map.get(x[0].get('id'), {}).get('reds', 0)))
+  reds.sort(
+      key=lambda x: -safe_int(
+          stats_map.get(x[0].get('id'), {}).get('reds', 0)
+      )
+  )
   if reds:
-    schemas.append(_make_itemlist('Red Cards', 'Yokohama Calcio players ranked by red cards.', reds))
+    schemas.append(
+        _make_itemlist(
+            'Red Cards', 'Yokohama Calcio players ranked by red cards.', reds
+        )
+    )
 
   return schemas
 
@@ -961,20 +1287,27 @@ def build_stats_schemas():
 # ============================================================
 def inject_html_to_file(filename, upcoming_html, past_html):
   full_path = os.path.join(ROOT_DIR, filename)
-  if not os.path.exists(full_path): return
+  if not os.path.exists(full_path):
+    return
   try:
     with open(full_path, 'r', encoding='utf-8') as f:
       content = f.read()
     updated = False
     if upcoming_html and '<!-- UPCOMING_START -->' in content:
-      content = re.sub(r'(<!-- UPCOMING_START -->).*?(<!-- UPCOMING_END -->)',
-                       lambda m: f'{m.group(1)}\n{upcoming_html}\n{m.group(2)}',
-                       content, flags=re.DOTALL)
+      content = re.sub(
+          r'(<!-- UPCOMING_START -->).*?(<!-- UPCOMING_END -->)',
+          lambda m: f'{m.group(1)}\n{upcoming_html}\n{m.group(2)}',
+          content,
+          flags=re.DOTALL,
+      )
       updated = True
     if past_html and '<!-- PAST_START -->' in content:
-      content = re.sub(r'(<!-- PAST_START -->).*?(<!-- PAST_END -->)',
-                       lambda m: f'{m.group(1)}\n{past_html}\n{m.group(2)}',
-                       content, flags=re.DOTALL)
+      content = re.sub(
+          r'(<!-- PAST_START -->).*?(<!-- PAST_END -->)',
+          lambda m: f'{m.group(1)}\n{past_html}\n{m.group(2)}',
+          content,
+          flags=re.DOTALL,
+      )
       updated = True
     if updated:
       with open(full_path, 'w', encoding='utf-8') as f:
@@ -985,16 +1318,21 @@ def inject_html_to_file(filename, upcoming_html, past_html):
 
 
 def inject_players_html_to_file(filename, players_html):
-  if not players_html: return
+  if not players_html:
+    return
   full_path = os.path.join(ROOT_DIR, filename)
-  if not os.path.exists(full_path): return
+  if not os.path.exists(full_path):
+    return
   try:
     with open(full_path, 'r', encoding='utf-8') as f:
       content = f.read()
     if '<!-- PLAYERS_START -->' in content and '<!-- PLAYERS_END -->' in content:
-      content = re.sub(r'(<!-- PLAYERS_START -->).*?(<!-- PLAYERS_END -->)',
-                       lambda m: f'{m.group(1)}\n{players_html}\n{m.group(2)}',
-                       content, flags=re.DOTALL)
+      content = re.sub(
+          r'(<!-- PLAYERS_START -->).*?(<!-- PLAYERS_END -->)',
+          lambda m: f'{m.group(1)}\n{players_html}\n{m.group(2)}',
+          content,
+          flags=re.DOTALL,
+      )
       with open(full_path, 'w', encoding='utf-8') as f:
         f.write(content)
       print(f'✅ Card giocatori iniettate in {filename}')
@@ -1003,16 +1341,24 @@ def inject_players_html_to_file(filename, players_html):
 
 
 def inject_showcase_html_to_file(filename, showcase_html):
-  if not showcase_html: return
+  if not showcase_html:
+    return
   full_path = os.path.join(ROOT_DIR, filename)
-  if not os.path.exists(full_path): return
+  if not os.path.exists(full_path):
+    return
   try:
     with open(full_path, 'r', encoding='utf-8') as f:
       content = f.read()
-    if '<!-- SHOWCASE_START -->' in content and '<!-- SHOWCASE_END -->' in content:
-      content = re.sub(r'(<!-- SHOWCASE_START -->).*?(<!-- SHOWCASE_END -->)',
-                       lambda m: f'{m.group(1)}\n{showcase_html}\n{m.group(2)}',
-                       content, flags=re.DOTALL)
+    if (
+        '<!-- SHOWCASE_START -->' in content
+        and '<!-- SHOWCASE_END -->' in content
+    ):
+      content = re.sub(
+          r'(<!-- SHOWCASE_START -->).*?(<!-- SHOWCASE_END -->)',
+          lambda m: f'{m.group(1)}\n{showcase_html}\n{m.group(2)}',
+          content,
+          flags=re.DOTALL,
+      )
       with open(full_path, 'w', encoding='utf-8') as f:
         f.write(content)
       print(f'✅ Showcase statica iniettata in {filename}')
@@ -1022,19 +1368,27 @@ def inject_showcase_html_to_file(filename, showcase_html):
 
 def _inject_jsonld_blocks(filename, start_marker, end_marker, schemas, label):
   full_path = os.path.join(ROOT_DIR, filename)
-  if not os.path.exists(full_path) or not schemas: return
+  if not os.path.exists(full_path) or not schemas:
+    return
   try:
     with open(full_path, 'r', encoding='utf-8') as f:
       content = f.read()
 
-    blocks = ['<script type="application/ld+json">\n' +
-              json.dumps(s, ensure_ascii=False, indent=2) + '\n</script>'
-              for s in schemas]
+    blocks = [
+        '<script type="application/ld+json">\n'
+        + json.dumps(s, ensure_ascii=False, indent=2)
+        + '\n</script>'
+        for s in schemas
+    ]
     block_html = f'{start_marker}\n' + '\n'.join(blocks) + f'\n{end_marker}'
 
     if start_marker in content and end_marker in content:
-      content = re.sub(re.escape(start_marker) + r'.*?' + re.escape(end_marker),
-                       block_html, content, flags=re.DOTALL)
+      content = re.sub(
+          re.escape(start_marker) + r'.*?' + re.escape(end_marker),
+          block_html,
+          content,
+          flags=re.DOTALL,
+      )
       with open(full_path, 'w', encoding='utf-8') as f:
         f.write(content)
       print(f'✅ {label} iniettato in {filename}')
@@ -1043,21 +1397,33 @@ def _inject_jsonld_blocks(filename, start_marker, end_marker, schemas, label):
 
 
 def inject_schema_events(filename, schema_events):
-  _inject_jsonld_blocks(filename,
-                        '<!-- SCHEMA_EVENTS_START -->', '<!-- SCHEMA_EVENTS_END -->',
-                        schema_events, 'JSON-LD eventi')
+  _inject_jsonld_blocks(
+      filename,
+      '<!-- SCHEMA_EVENTS_START -->',
+      '<!-- SCHEMA_EVENTS_END -->',
+      schema_events,
+      'JSON-LD eventi',
+  )
 
 
 def inject_schema_players(filename, schemas):
-  _inject_jsonld_blocks(filename,
-                        '<!-- SCHEMA_PLAYERS_START -->', '<!-- SCHEMA_PLAYERS_END -->',
-                        schemas, 'Player JSON-LD')
+  _inject_jsonld_blocks(
+      filename,
+      '<!-- SCHEMA_PLAYERS_START -->',
+      '<!-- SCHEMA_PLAYERS_END -->',
+      schemas,
+      'Player JSON-LD',
+  )
 
 
 def inject_schema_stats(filename, schemas):
-  _inject_jsonld_blocks(filename,
-                        '<!-- SCHEMA_STATS_START -->', '<!-- SCHEMA_STATS_END -->',
-                        schemas, 'Stats JSON-LD')
+  _inject_jsonld_blocks(
+      filename,
+      '<!-- SCHEMA_STATS_START -->',
+      '<!-- SCHEMA_STATS_END -->',
+      schemas,
+      'Stats JSON-LD',
+  )
 
 
 # ============================================================
