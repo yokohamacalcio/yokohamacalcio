@@ -118,12 +118,14 @@
         /* --- RIDUZIONE TITOLI SU CELLULARE IN VERTICALE --- */
         @media (max-width: 600px) {
             .section-title { font-size: 1.4rem !important; }
-            .about-text-box h3, .mission-box h3, .recruitment-text-box h3, .shop-content h3, .contact-card-header h3, .faq-question { font-size: 1.1rem !important; }
+            .about-text-box h3, .mission-box h3, .recruitment-text-box h3, .shop-content h3, .contact-card-header h3 { font-size: 1.1rem !important; }
         }
 
-        /* --- HERO SECTION --- */
-        .hero-section { position: relative; min-height: 580px; display: flex; align-items: center; overflow: hidden; background: linear-gradient(90deg, rgba(5, 18, 30, 0.92) 0%, rgba(5, 18, 30, 0.75) 45%, rgba(5, 18, 30, 0.35) 100%), url('./immagini/gallery/foto1.jpeg') center center / cover no-repeat; color: #ffffff; }
-        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.5) 100%); pointer-events: none; }
+        /* --- HERO SECTION CON SLIDESHOW IN BACKGROUND --- */
+        .hero-section { position: relative; min-height: 580px; display: flex; align-items: center; overflow: hidden; color: #ffffff; }
+        .hero-bg-slide { position: absolute; inset: 0; background-size: cover; background-position: center; transition: opacity 1.2s ease-in-out; opacity: 0; z-index: 0; }
+        .hero-bg-slide.active { opacity: 1; }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.5) 100%), linear-gradient(90deg, rgba(5, 18, 30, 0.88) 0%, rgba(5, 18, 30, 0.72) 45%, rgba(5, 18, 30, 0.35) 100%); pointer-events: none; z-index: 1; }
         .hero-content-wrapper { position: relative; z-index: 2; width: min(1200px, 90%); margin: 0 auto; padding: 70px 0 80px 0; }
         .hero-kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #87ceeb; }
         .hero-kicker-line { width: 36px; height: 2px; background: #87ceeb; }
@@ -138,7 +140,7 @@
         .hero-btn-outline:hover { background: rgba(255, 255, 255, 0.25); border-color: #ffffff; transform: translateY(-2px); }
 
         @media (max-width: 768px) {
-            .hero-section { min-height: 500px; background-position: 60% center; }
+            .hero-section { min-height: 500px; }
             .hero-content-wrapper { width: 90%; padding: 45px 0 55px 0; }
             .hero-main-title { font-size: clamp(26px, 7.5vw, 42px); line-height: 1.2; }
             .hero-subtitle { font-size: 0.92rem; line-height: 1.6; margin-top: 14px; }
@@ -156,14 +158,11 @@
         .recruitment-btn { background: #87ceeb; color: #00224a !important; font-weight: 800; font-size: 0.98rem; padding: 14px 28px; border-radius: 30px; text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3); transition: all 0.2s ease; }
         .recruitment-btn:hover { background: #a0d8ef; transform: translateY(-2px); }
 
-        .mini-faq-container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
-        .faq-item { background: #ffffff; border-radius: 10px; border: 1px solid #e2e8f0; overflow: hidden; }
-        .faq-question { width: 100%; background: transparent; border: none; padding: 16px 20px; text-align: left; font-weight: 700; font-size: 0.95rem; color: #003c82; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s ease; }
-        .faq-question:hover { background: #f8fafc; }
-        .faq-question i { color: #87ceeb; transition: transform 0.2s ease; }
-        .faq-answer { padding: 0 20px 16px 20px; font-size: 0.88rem; color: #475569; line-height: 1.6; display: none; border-top: 1px dashed #f1f5f9; padding-top: 12px; }
-        .faq-item.active .faq-answer { display: block; }
-        .faq-item.active .faq-question i { transform: rotate(180deg); }
+        /* ====== PARTNER LOGOS AREA ====== */
+        .partner-logos-container { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px; max-width: 900px; margin: 30px auto 0; }
+        .partner-logo-item { display: inline-flex; align-items: center; justify-content: center; padding: 12px 20px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; transition: all 0.25s ease; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .partner-logo-item:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,60,130,0.12); border-color: #87ceeb; }
+        .partner-logo-item img { max-height: 45px; width: auto; object-fit: contain; }
 
         /* ====== MATCH CENTER ORIGINALE ====== */
         .match-badge-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
@@ -214,7 +213,6 @@
         .match-info-hero-bar { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 6px 14px; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 12px; border-radius: 8px; font-size: 0.78rem; margin-top: 8px; color: var(--dark-navy); font-weight: 600; }
         .next-match-hero .match-info-hero-bar { background: rgba(255, 255, 255, 0.08); border: none; color: #ffffff; }
         
-        /* Scheda partita giocata: 3 righe distinte */
         .match-past-box .match-info-hero-bar {
             display: flex !important;
             flex-direction: column !important;
@@ -345,7 +343,9 @@
   </nav>
 </header>
 
-<section class="hero-section">
+<section class="hero-section" id="heroSection">
+  <div class="hero-bg-slide active" style="background-image: url('./immagini/gallery/foto1.jpeg');"></div>
+  <div class="hero-bg-slide" id="heroBgNext"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content-wrapper">
     <div class="hero-kicker">
@@ -449,34 +449,22 @@
 <section class="section sponsors-section" id="sponsors">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-handshake"></i> <span data-i18n="sponsors.title">オフィシャルパートナー</span></h2>
+        
+        <!-- BANNER DI RECLUTAMENTO SPONSOR -->
         <div style="background: linear-gradient(135deg, #00224a 0%, #001229 100%); border-radius: 16px; padding: 35px 25px; border: 1px solid rgba(135,206,235,0.35); color: #ffffff; text-align: center; max-width: 850px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0, 34, 74, 0.2);">
             <div style="width: 60px; height: 60px; background: rgba(135,206,235,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; color: #87ceeb; font-size: 26px;"><i class="fas fa-handshake-angle"></i></div>
             <h3 style="font-size: 1.4rem; font-weight: 800; color: #87ceeb; margin-bottom: 12px;" data-i18n="sponsors.hero_title">Yokohama Calcioを応援しませんか？</h3>
             <p style="font-size: 0.95rem; color: #e2e8f0; line-height: 1.65; margin-bottom: 25px; max-width: 700px; margin-left: auto; margin-right: auto;" data-i18n="sponsors.hero_desc">当クラブでは、グラウンド手配や用具サポート、試合後のサードタイム（懇親会）等でご協力いただける横浜市内の飲食店・企業様・オフィシャルパートナーを募集しています。</p>
             <a href="contact.html?type=sponsor" class="google-form-btn" style="max-width: 320px; margin: 0 auto; background: #87ceeb; color: #00224a !important; font-weight: 800;"><i class="fas fa-paper-plane"></i> <span data-i18n="sponsors.hero_btn">パートナーシップについて問い合わせる</span></a>
         </div>
-    </div>
-</section>
 
-<section class="section" id="mini-faq" style="background: #f8fafc;">
-    <div class="container">
-        <h2 class="section-title"><i class="fas fa-question-circle"></i> <span data-i18n="minifaq.title">よくある質問（FAQ）</span></h2>
-        <div class="mini-faq-container">
-            <div class="faq-item">
-                <button class="faq-question"><span data-i18n="minifaq.q1">Q: 体験練習参加に必要な持ち物や費用はありますか？</span><i class="fas fa-chevron-down"></i></button>
-                <div class="faq-answer" data-i18n="minifaq.a1">動ける服装（サッカーウェア）、スパイクまたはトレーニングシューズ、飲料水をお持ちください。体験参加費は500円です。</div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-question"><span data-i18n="minifaq.q2">Q: 募集対象の年齢やサッカー経験の基準は？</span><i class="fas fa-chevron-down"></i></button>
-                <div class="faq-answer" data-i18n="minifaq.a2">18歳〜40歳程度のサッカー経験者が対象です。高校・大学部活出身者からブランクのある方まで、真剣かつ楽しくプレーできる方を募集しています。</div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-question"><span data-i18n="minifaq.q3">Q: 活動の場所や頻度はどのくらいですか？</span><i class="fas fa-chevron-down"></i></button>
-                <div class="faq-answer" data-i18n="minifaq.a3">主に土曜日・日曜日の午前または午後に、横浜市内および神奈川県内のグランド（新横浜公園、常盤公園、谷本公園など）で活動しています。</div>
-            </div>
-        </div>
-        <div style="text-align: center; margin-top: 25px;">
-            <a href="faq.html" class="google-form-btn" style="max-width: 260px; margin: 0 auto; background: transparent; border: 2px solid #003c82; color: #003c82;"><i class="fas fa-list-ul"></i> <span data-i18n="minifaq.btn">すべてのFAQを見る</span></a>
+        <!-- CONTENITORE LOGHI PARTNER (Pronto per futuri partner con link esterni) -->
+        <div class="partner-logos-container">
+            <!-- Esempio di utilizzo quando avrai partner:
+            <a href="https://sito-partner.com" target="_blank" rel="noopener noreferrer" class="partner-logo-item">
+                <img src="./immagini/partners/partner1.png" alt="Partner 1">
+            </a>
+            -->
         </div>
     </div>
 </section>
@@ -545,11 +533,6 @@
             "sponsors.hero_title": "Yokohama Calcioを応援しませんか？",
             "sponsors.hero_desc": "当クラブでは、グラウンド手配や用具サポート、試合後のサードタイム（懇親会）等でご協力いただける横浜市内の飲食店・企業様・オフィシャルパートナーを募集しています。",
             "sponsors.hero_btn": "パートナーシップについて問い合わせる",
-            "minifaq.title": "よくある質問（FAQ）",
-            "minifaq.q1": "Q: 体験練習参加に必要な持ち物や費用はありますか？", "minifaq.a1": "動ける服装（サッカーウェア）、スパイクまたはトレーニングシューズ、飲料水をお持ちください。体験参加費は500円です。",
-            "minifaq.q2": "Q: 募集対象の年齢やサッカー経験の基準は？", "minifaq.a2": "18歳〜40歳程度のサッカー経験者が対象です。",
-            "minifaq.q3": "Q: 活動の場所や頻度はどのくらいですか？", "minifaq.a3": "主に土曜日・日曜日の午前または午後に、横浜市内および神奈川県内のグランドで活動しています。",
-            "minifaq.btn": "すべてのFAQを見る",
             "gallery.title": "フォトギャラリー", "shop.title": "公式オンラインショップ",
             "shop.card_title": "Yokohama Calcio オフィシャルグッズ",
             "shop.card_desc": "Tシャツ、キャップ、キーホルダー、マフラータオルなどのオリジナルグッズを取り揃えています。",
@@ -587,11 +570,6 @@
             "sponsors.hero_title": "Sostieni il progetto Yokohama Calcio",
             "sponsors.hero_desc": "Siamo alla ricerca di partner e attività commerciali interessate a supportare la crescita della squadra.",
             "sponsors.hero_btn": "Richiedi informazioni per Partnership",
-            "minifaq.title": "Domande Frequenti (FAQ)",
-            "minifaq.q1": "Q: Cosa serve per la prima prova e quanto costa?", "minifaq.a1": "Porta abbigliamento sportivo, scarpe da calcio e acqua. Il costo della prova è di 500 yen.",
-            "minifaq.q2": "Q: Quali sono i requisiti di età e livello?", "minifaq.a2": "Cerchiamo giocatori dai 18 ai 40 anni con esperienza calcistica precedente.",
-            "minifaq.q3": "Q: Dove e quando vi allenate?", "minifaq.a3": "Ci alleniamo e giochiamo nei fine settimana nei campi di Yokohama e Kanagawa.",
-            "minifaq.btn": "Vedi tutte le FAQ",
             "gallery.title": "Galleria Fotografica", "shop.title": "Online Shop Ufficiale",
             "shop.card_title": "Merchandising Ufficiale Yokohama Calcio",
             "shop.card_desc": "Scopri t-shirt, cappellini, portachiavi e sciarpe per tifare la squadra.",
@@ -629,11 +607,6 @@
             "sponsors.hero_title": "Support Yokohama Calcio",
             "sponsors.hero_desc": "We are seeking official partners and sports supporters to join our journey.",
             "sponsors.hero_btn": "Inquire About Partnership",
-            "minifaq.title": "Frequently Asked Questions",
-            "minifaq.q1": "Q: What should I bring for a trial session and is there a fee?", "minifaq.a1": "Bring athletic wear, soccer cleats, and water. Trial session costs 500 yen.",
-            "minifaq.q2": "Q: What are the age and experience requirements?", "minifaq.a2": "We invite experienced players aged 18 to 40 who are dedicated to serious, enjoyable football.",
-            "minifaq.q3": "Q: Where and when do you train?", "minifaq.a3": "We play on weekends at major grounds across Yokohama and Kanagawa.",
-            "minifaq.btn": "View All FAQs",
             "gallery.title": "Photo Gallery", "shop.title": "Official Online Shop",
             "shop.card_title": "Yokohama Calcio Official Merchandise",
             "shop.card_desc": "Discover t-shirts, caps, keychains, and scarves to support the team.",
@@ -994,7 +967,6 @@
         else if (m.category === 'tournament') { catKey = 'badge.tournament'; catClass = 'badge-tournament'; }
         const catText = translations[lang][catKey] || m.type || '練習試合';
 
-        // Yokohama Calcio SEMPRE a sinistra
         const leftName = m.team1Name || 'Yokohama Calcio';
         const leftLogo = './immagini/logo.png?v=2';
         const leftClass = 'yokohama-logo';
@@ -1098,6 +1070,31 @@
         }
     }
 
+    function initHeroSlideshow() {
+        const heroImages = [
+            './immagini/gallery/foto1.jpeg',
+            './immagini/gallery/foto2.jpeg',
+            './immagini/gallery/foto3.jpeg',
+            './immagini/gallery/foto4.jpeg',
+            './immagini/gallery/foto5.jpeg'
+        ];
+        let currentIdx = 0;
+        const slide1 = document.querySelector('.hero-bg-slide.active');
+        const slide2 = document.getElementById('heroBgNext');
+        if (!slide1 || !slide2) return;
+
+        setInterval(() => {
+            currentIdx = (currentIdx + 1) % heroImages.length;
+            const nextImg = heroImages[currentIdx];
+            const activeSlide = document.querySelector('.hero-bg-slide.active');
+            const hiddenSlide = activeSlide === slide1 ? slide2 : slide1;
+
+            hiddenSlide.style.backgroundImage = `url('${nextImg}')`;
+            hiddenSlide.classList.add('active');
+            activeSlide.classList.remove('active');
+        }, 5000);
+    }
+
     function initCompactGallery() {
         const items = document.querySelectorAll('.gallery-compact-item');
         const lightbox = document.getElementById('lightboxModal');
@@ -1129,17 +1126,6 @@
             if (e.key === 'Escape') closeLightbox();
             if (e.key === 'ArrowLeft') openLightbox((currentIndex - 1 + items.length) % items.length);
             if (e.key === 'ArrowRight') openLightbox((currentIndex + 1) % items.length);
-        });
-    }
-
-    function initMiniFaqAccordion() {
-        document.querySelectorAll('.faq-question').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const item = btn.closest('.faq-item');
-                const isOpen = item.classList.contains('active');
-                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-                if (!isOpen) item.classList.add('active');
-            });
         });
     }
 
@@ -1179,9 +1165,9 @@
 
     window.addEventListener('DOMContentLoaded', () => {
         setLanguage(currentLang);
+        initHeroSlideshow();
         initPageData();
         initCompactGallery();
-        initMiniFaqAccordion();
         initDesktopDropdowns();
         const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
         const mobileNav = document.querySelector('.mobile-nav');
