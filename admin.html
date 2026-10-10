@@ -1055,7 +1055,6 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     .tab-btn i { font-size: 1rem; }
 }
 
-/* Fix tab scroll indicator on mobile */
 @media (max-width: 768px) {
     .admin-tabs {
         position: relative;
@@ -1171,9 +1170,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
     <div id="matchesTab" class="tab-content" role="tabpanel">
         <form id="matchForm" autocomplete="off">
 
-            <!-- ============================================================
-                 MATCH SELECTOR HERO
-                 ============================================================ -->
+            <!-- MATCH SELECTOR HERO -->
             <div class="match-selector-hero">
                 <div class="hero-label">
                     <i class="fas fa-search"></i> <span data-i18n="heroSelectorLabel">Seleziona Partita da Modificare</span>
@@ -1241,6 +1238,10 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                             <option value="official">Campionato (official)</option>
                             <option value="cup">Coppa (cup)</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="lblCompetition">Competizione (ID):</label>
+                        <select id="competitionSelect" class="form-control" required></select>
                     </div>
                     <div class="form-group">
                         <label data-i18n="lblType">Tipo (Etichetta):</label>
@@ -1673,7 +1674,7 @@ const I18N_DICT = {
         matchInfoHeading: "Informazioni Partita",
         lblMatchId: "ID Match:", btnLoad: "Carica",
         lblStatus: "Stato Partita:", optPast: "Finita", optUpcoming: "In programma",
-        lblDate: "Data:", lblTime: "Orario K.O.:", lblCategory: "Categoria:",
+        lblDate: "Data:", lblTime: "Orario K.O.:", lblCategory: "Categoria:", lblCompetition: "Competizione (ID):",
         lblType: "Tipo:", lblOpponent: "Avversario:", lblLocation: "Campo:",
         lblHomeAway: "Casa / Trasferta:", optHome: "Casa", optAway: "Trasferta",
         lblScore: "Risultato (es. 2 - 1, sempre nostri-loro):", matchEventsHeading: "Eventi & Prestazioni",
@@ -1730,7 +1731,7 @@ const I18N_DICT = {
         matchInfoHeading: "試合情報",
         lblMatchId: "試合ID:", btnLoad: "読込",
         lblStatus: "ステータス:", optPast: "終了", optUpcoming: "予定",
-        lblDate: "日付:", lblTime: "K.O.:", lblCategory: "カテゴリ:",
+        lblDate: "日付:", lblTime: "K.O.:", lblCategory: "カテゴリ:", lblCompetition: "大会・リーグ (ID):",
         lblType: "種別:", lblOpponent: "対戦相手:", lblLocation: "会場:",
         lblHomeAway: "ホーム/アウェイ:", optHome: "ホーム", optAway: "アウェイ",
         lblScore: "スコア（常に自-相手）:", matchEventsHeading: "イベント",
@@ -1786,7 +1787,7 @@ const I18N_DICT = {
         matchInfoHeading: "Match Information",
         lblMatchId: "Match ID:", btnLoad: "Load",
         lblStatus: "Status:", optPast: "Finished", optUpcoming: "Scheduled",
-        lblDate: "Date:", lblTime: "K.O.:", lblCategory: "Category:",
+        lblDate: "Date:", lblTime: "K.O.:", lblCategory: "Category:", lblCompetition: "Competition (ID):",
         lblType: "Type:", lblOpponent: "Opponent:", lblLocation: "Venue:",
         lblHomeAway: "Home/Away:", optHome: "Home", optAway: "Away",
         lblScore: "Score (e.g. 2 - 1, always us-them):", matchEventsHeading: "Events",
@@ -1909,6 +1910,7 @@ const State = {
     players: [],
     opponents: {},
     locations: {},
+    competitions: [],
     matches: [],
     trialists: [],
     statsData: {},
@@ -2095,12 +2097,52 @@ async function showConfirm(message, danger = false, customTitle = null) {
 }
 
 /* =========================================================
+   COMPETITIONS
+   ========================================================= */
+function renderCompetitionsSelect() {
+    const sel = $('competitionSelect');
+    if (!sel) return;
+
+    const currentVal = sel.value;
+    let comps = State.competitions || [];
+    if (!Array.isArray(comps)) comps = [];
+
+    if (comps.length === 0) {
+        sel.innerHTML = '<option value="friendly">Amichevoli (friendly)</option>';
+        return;
+    }
+
+    sel.innerHTML = comps.map(c => {
+        const id = c.id || 'friendly';
+        const nameObj = c.name || {};
+        const baseName = nameObj[State.lang] || nameObj.it || nameObj.ja || nameObj.en || id;
+        
+        let details = [];
+        if (c.division) details.push(State.lang === 'ja' ? `${c.division}部` : `Div. ${c.division}`);
+        if (c.block) details.push(State.lang === 'ja' ? `${c.block}ブロック` : `Blocco ${c.block}`);
+        if (c.season && c.season !== 'all') details.push(`(${c.season})`);
+
+        const detailStr = details.length > 0 ? ` ${details.join(' ')}` : '';
+        const label = `${baseName}${detailStr} [${id}]`;
+        
+        return `<option value="${escapeHtml(id)}">${escapeHtml(label)}</option>`;
+    }).join('');
+
+    if (currentVal && comps.some(c => c.id === currentVal)) {
+        sel.value = currentVal;
+    } else {
+        sel.value = comps[0]?.id || 'friendly';
+    }
+}
+
+/* =========================================================
    LANGUAGE & DARK MODE
    ========================================================= */
 function renderAllTables() {
     renderOpponentsSelectAndTable();
     renderLocationsSelectAndTable();
     renderPlayersTable();
+    renderCompetitionsSelect();
 }
 
 function setLanguage(lang) {
@@ -2270,12 +2312,13 @@ function logout() {
 async function initData() {
     setLanguage(State.lang);
     try {
-        const [oRes, lRes, pRes, mRes, sRes] = await Promise.allSettled([
+        const [oRes, lRes, pRes, mRes, sRes, cRes] = await Promise.allSettled([
             fetchJsonFile('opponents.json'),
             fetchJsonFile('locations.json'),
             fetchJsonFile('players.json'),
             fetchJsonFile('matches.json'),
-            fetchJsonFile('stats.json')
+            fetchJsonFile('stats.json'),
+            fetchJsonFile('competitions.json')
         ]);
 
         if (oRes.status === 'fulfilled' && oRes.value) State.opponents = oRes.value.content || {};
@@ -2284,6 +2327,16 @@ async function initData() {
         if (mRes.status === 'fulfilled' && mRes.value) State.matches = Array.isArray(mRes.value.content) ? mRes.value.content : [];
         if (sRes.status === 'fulfilled' && sRes.value && sRes.value.content && typeof sRes.value.content === 'object') {
             State.statsData = sRes.value.content.players || {};
+        }
+        if (cRes.status === 'fulfilled' && cRes.value) {
+            const content = cRes.value.content;
+            if (Array.isArray(content)) {
+                State.competitions = content;
+            } else if (content && Array.isArray(content.competitions)) {
+                State.competitions = content.competitions;
+            } else if (content && typeof content === 'object') {
+                State.competitions = Object.values(content);
+            }
         }
 
         if (State.statsData && Object.keys(State.statsData).length > 0) {
@@ -2310,6 +2363,7 @@ async function initData() {
         renderOpponentsSelectAndTable();
         renderLocationsSelectAndTable();
         renderPlayersTable();
+        renderCompetitionsSelect();
         renderPitchAndBench();
         updateAllPlayerDropdowns();
         renderTrialistsList();
@@ -3179,6 +3233,14 @@ async function loadMatchData(id, quiet = false) {
             updateAllPlayerDropdowns();
         }
     }
+    if (!State.competitions || State.competitions.length === 0) {
+        const cRes = await fetchJsonFile('competitions.json');
+        if (cRes && cRes.content) {
+            const content = cRes.content;
+            State.competitions = Array.isArray(content) ? content : (content.competitions || []);
+            renderCompetitionsSelect();
+        }
+    }
     if (!State.statsData || Object.keys(State.statsData).length === 0) {
         const sRes = await fetchJsonFile('stats.json');
         if (sRes && sRes.content && typeof sRes.content === 'object') {
@@ -3200,6 +3262,16 @@ async function loadMatchData(id, quiet = false) {
     $('matchTime').value = match.time || '11:00';
     $('matchCategory').value = match.category || 'friendly';
     $('matchType').value = match.type || '練習試合';
+
+    renderCompetitionsSelect();
+    if (match.competition_id) {
+        $('competitionSelect').value = match.competition_id;
+    } else {
+        const matchComp = State.competitions.find(c => c.category === match.category);
+        if (matchComp) $('competitionSelect').value = matchComp.id;
+        else $('competitionSelect').value = 'friendly';
+    }
+
     if (match.opponent_id) $('opponentSelect').value = match.opponent_id;
     if (match.location_id) $('locationSelect').value = match.location_id;
     $('isHome').value = String(match.isHome !== undefined ? match.isHome : true);
@@ -3440,6 +3512,7 @@ async function duplicateMatch() {
 
 function resetForm() {
     $('matchForm').reset();
+    renderCompetitionsSelect();
     clearStatContainers();
     $('statusMsg').innerHTML = '';
     State.trialists = [];
@@ -3535,6 +3608,7 @@ async function saveMatch(e) {
     const payload = {
         id: matchIdVal,
         category: $('matchCategory').value,
+        competition_id: $('competitionSelect').value || 'friendly',
         date: $('matchDate').value,
         time: $('matchTime').value || '11:00',
         status: $('matchStatus').value,
@@ -3876,7 +3950,7 @@ function collectFormData() {
     const data = {
         matchId: $('matchId').value, status: $('matchStatus').value,
         date: $('matchDate').value, time: $('matchTime').value,
-        category: $('matchCategory').value, type: $('matchType').value,
+        category: $('matchCategory').value, competition_id: $('competitionSelect').value, type: $('matchType').value,
         opponent_id: $('opponentSelect').value, location_id: $('locationSelect').value,
         isHome: $('isHome').value, score: $('matchScore').value,
         formation: $('formationSelect').value,
@@ -3934,6 +4008,8 @@ function restoreDraft() {
         $('matchDate').value = d.date || '';
         $('matchTime').value = d.time || '11:00';
         $('matchCategory').value = d.category || 'friendly';
+        renderCompetitionsSelect();
+        if (d.competition_id) $('competitionSelect').value = d.competition_id;
         $('matchType').value = d.type || '練習試合';
         if (d.opponent_id) $('opponentSelect').value = d.opponent_id;
         if (d.location_id) $('locationSelect').value = d.location_id;
@@ -4033,7 +4109,8 @@ async function exportJSON() {
         const all = {
             exported_at: new Date().toISOString(),
             matches: State.matches, players: State.players,
-            opponents: State.opponents, locations: State.locations
+            opponents: State.opponents, locations: State.locations,
+            competitions: State.competitions
         };
         const blob = new Blob([JSON.stringify(all, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
@@ -4079,6 +4156,11 @@ $('importFileInput').addEventListener('change', async (e) => {
             State.locations = data.locations;
             const { sha } = await ghGet('locations.json');
             await ghPut('locations.json', State.locations, sha, 'Admin: Import locations backup');
+        }
+        if (data.competitions) {
+            State.competitions = Array.isArray(data.competitions) ? data.competitions : Object.values(data.competitions);
+            const { sha } = await ghGet('competitions.json');
+            await ghPut('competitions.json', State.competitions, sha, 'Admin: Import competitions backup');
         }
         renderAllTables();
         renderPitchAndBench();
@@ -4163,6 +4245,12 @@ document.addEventListener('change', (e) => {
     if (el.id === 'matchSelector') {
         if (el.value) loadMatchFromSelector();
     }
+    if (el.id === 'competitionSelect') {
+        const selectedComp = State.competitions.find(c => c.id === el.value);
+        if (selectedComp && selectedComp.category) {
+            $('matchCategory').value = selectedComp.category;
+        }
+    }
     if (el.classList.contains('bench-subbed-in')) {
         const posSel = el.closest('.bench-sub-row').querySelector('.bench-pos-select');
         if (posSel) posSel.disabled = !el.checked;
@@ -4241,7 +4329,7 @@ window.addEventListener('DOMContentLoaded', () => {
     renderSurfaceDropdown();
     startAutosave();
     if (State.token) verifyAndLogin(State.token);
-    if (!$('matchDate').value) $('matchDate').value = new Date().toISOString().split('T')[0];
+    if (!$('matchDate').value)$('matchDate').value = new Date().toISOString().split('T')[0];
 });
 </script>
 </body>
