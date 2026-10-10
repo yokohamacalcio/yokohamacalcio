@@ -1895,16 +1895,15 @@
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
 
-        // Gestione visibilità campi Furigana in base alla lingua
         const kanaRow = document.getElementById('kanaFieldsRow');
         const kanaLast = document.getElementById('last_name_kana');
         const kanaFirst = document.getElementById('first_name_kana');
         if (lang === 'ja') {
-            if (kanaRow) kanaRow.style.display = 'grid'; // Stile originario della riga
+            if (kanaRow) kanaRow.style.display = 'grid';
             if (kanaLast) kanaLast.setAttribute('required', 'required');
             if (kanaFirst) kanaFirst.setAttribute('required', 'required');
         } else {
-            if (kanaRow) kanaRow.style.display = 'none'; // Nasconde i campi per IT e EN
+            if (kanaRow) kanaRow.style.display = 'none';
             if (kanaLast) { 
                 kanaLast.removeAttribute('required'); 
                 kanaLast.value = ''; 
@@ -1959,7 +1958,6 @@
         container.innerHTML = html;
         wrapper.style.display = 'block';
 
-        // Add listener to hide error when a checkbox is clicked
         container.querySelectorAll('input[type="checkbox"]').forEach(chk => {
             chk.addEventListener('change', () => {
                 const checkedSubs = container.querySelectorAll('input[type="checkbox"]:checked');
@@ -1969,7 +1967,6 @@
         });
     }
 
-    // GESTIONE VISIBILITA' SEZIONI
     function updateSectionVisibility() {
         const categorySelect = document.getElementById('category');
         const category = categorySelect ? categorySelect.value : '';
@@ -2015,7 +2012,6 @@
         const compName = document.getElementById('company_name');
         const sponType = document.getElementById('sponsor_type');
 
-        // Reset tutti
         [playerBirth, playerExpLevel, playerMacro, staffBirth, staffRole, matchTeamName, compName, sponType].forEach(el => {
             if(el) el.removeAttribute('required');
         });
@@ -2037,7 +2033,6 @@
         }
     }
 
-    // VALIDAZIONE KATAKANA
     function validateKanaInput(inputEl, errorEl) {
         const val = inputEl.value.trim();
         if (!val) {
@@ -2059,7 +2054,6 @@
         }
     }
 
-    // VALIDAZIONE EMAIL
     function validateEmailInput(inputEl, errorEl) {
         const val = inputEl.value.trim();
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -2076,8 +2070,8 @@
         }
     }
 
-    // VALIDAZIONE ETA'
-    function validateAge(inputEl, errorBannerEl, errorMsgEl) {
+    // Validazione Età: parametro checkMaxAge = true (giocatori), checkMaxAge = false (staff)
+    function validateAge(inputEl, errorBannerEl, errorMsgEl, checkMaxAge = true) {
         const val = inputEl.value;
         if (!val) {
             errorBannerEl.style.display = 'none';
@@ -2094,7 +2088,7 @@
             inputEl.classList.remove('is-valid');
             inputEl.classList.add('is-invalid');
             return false;
-        } else if (age > 40) {
+        } else if (checkMaxAge && age > 40) {
             const template = translations[currentLang]['form.age_error_over'];
             errorMsgEl.textContent = template.replace('{age}', age);
             errorBannerEl.style.display = 'flex';
@@ -2109,7 +2103,6 @@
         }
     }
 
-    // LIVE VALIDATION
     function initLiveValidation() {
         const liveValidationIds = [
             'last_name',
@@ -2140,14 +2133,14 @@
                 if (id === 'birth_date') {
                     const ageErr = document.getElementById('age_error_player');
                     const ageMsg = document.getElementById('age_error_player_msg');
-                    if (input.value) validateAge(input, ageErr, ageMsg);
+                    if (input.value) validateAge(input, ageErr, ageMsg, true);
                     else { ageErr.style.display = 'none'; input.classList.remove('is-valid', 'is-invalid'); }
                     return;
                 }
                 if (id === 'staff_birth_date') {
                     const ageErr = document.getElementById('age_error_staff');
                     const ageMsg = document.getElementById('age_error_staff_msg');
-                    if (input.value) validateAge(input, ageErr, ageMsg);
+                    if (input.value) validateAge(input, ageErr, ageMsg, false);
                     else { ageErr.style.display = 'none'; input.classList.remove('is-valid', 'is-invalid'); }
                     return;
                 }
@@ -2168,7 +2161,6 @@
         });
     }
 
-    // LOGICA CAMPO AMICHEVOLE PITCH
     function initPitchLogic() {
         const hasPitch = document.getElementById('has_pitch');
         const pitchName = document.getElementById('pitch_name');
@@ -2285,7 +2277,6 @@
         }
     }
 
-    // Evidenzia i campi invalidi di HTML5 custom
     function highlightInvalidFields(form) {
         const elements = form.querySelectorAll('input, select, textarea');
         elements.forEach(el => {
@@ -2420,7 +2411,7 @@
                 if (category === 'trial') {
                     const ageErr = document.getElementById('age_error_player');
                     const ageMsg = document.getElementById('age_error_player_msg');
-                    const isAgeValid = validateAge(playerBirth, ageErr, ageMsg);
+                    const isAgeValid = validateAge(playerBirth, ageErr, ageMsg, true);
                     if (!isAgeValid) { playerBirth.focus(); return false; }
 
                     const macro = macroSelect.value;
@@ -2439,7 +2430,7 @@
                 } else if (category === 'staff') {
                     const ageErr = document.getElementById('age_error_staff');
                     const ageMsg = document.getElementById('age_error_staff_msg');
-                    const isStaffAgeValid = validateAge(staffBirth, ageErr, ageMsg);
+                    const isStaffAgeValid = validateAge(staffBirth, ageErr, ageMsg, false);
                     if (!isStaffAgeValid) { staffBirth.focus(); return false; }
                 }
 
@@ -2492,7 +2483,7 @@
                     }
                 } catch (error) {
                     console.error("Errore invio Formspree:", error);
-                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di connessione.' : 'Connection error.'));
+                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di接続.' : 'Connection error.'));
                 } finally {
                     if (submitBtn) submitBtn.disabled = false;
                 }
