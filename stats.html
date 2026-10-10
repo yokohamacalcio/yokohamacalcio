@@ -543,7 +543,7 @@
                 </table>
             </div>
 
-            <!-- SEZIONE CLASSIFICA LEGA (Nascosta quando si seleziona Coppa/Amichevoli) -->
+            <!-- SEZIONE CLASSIFICA LEGA (Nascosta automaticamente per Coppa o Amichevoli) -->
             <div id="standingsSection">
                 <h3 class="ranking-title" style="margin-top: 35px;"><i class="fas fa-list-ol"></i> <span data-i18n="stats.standings">リーグ順位表</span></h3>
                 <div id="standingsContainer" class="ranking-card" style="text-align: center; padding: 30px;">
@@ -1140,7 +1140,7 @@
             }
         });
 
-        // NASCONDE IL BLOCCO CLASSIFICA QUANDO SI SELEZIONA COPPA O AMICHEVOLI
+        // NASCONDE AUTOMATICAMENTE IL BLOCCO CLASSIFICA QUANDO SI SELEZIONA COPPA O AMICHEVOLI
         const standingsSec = document.getElementById('standingsSection');
         if (standingsSec) {
             if (comp === 'cup' || comp === 'friendly') {
@@ -1152,7 +1152,7 @@
     }
 
     /* =========================================================
-       STATS CALCULATION & RENDER
+       STATS CALCULATION & RENDER (FUNZIONA CON matches.json)
        ========================================================= */
     function calculateAndRenderStats() {
         const selectEl = document.getElementById('seasonSelect');
@@ -1209,8 +1209,9 @@
 
         const addAppearance = (rawInput, isSub = false) => {
             if (!rawInput || rawInput === 'なし' || rawInput === 'Nessuno') return;
-            const cleanName = rawInput.trim();
+            const cleanName = typeof rawInput === 'string' ? rawInput.trim() : String(rawInput);
             if (!cleanName) return;
+
             const pObj = findPlayerObj(cleanName);
             const key = pObj ? (pObj.id || pObj.number || pObj.name_kanji) : cleanName;
 
@@ -1222,7 +1223,7 @@
             else appsMap[key].starters += 1;
         };
 
-        // CALCOLO DA matches.json
+        // ESECUZIONE CALCOLO PARTITE DA matches.json
         (rawMatchesData || []).forEach(m => {
             if (!m || m.status !== 'past') return;
 
@@ -1231,13 +1232,38 @@
                 return;
             }
 
-            const cat = m.category;
+            // Normalizzazione Categoria
+            const cat = m.category || 'friendly';
             let targetStats = stats.friendly;
             let matchCatNorm = 'friendly';
-            if (cat === 'league' || cat === 'official') { targetStats = stats.league; matchCatNorm = 'league'; }
-            else if (cat === 'cup') { targetStats = stats.cup; matchCatNorm = 'cup'; }
 
-            // Calcolo totale di squadra per la tabella
+            if (cat === 'league' || cat === 'official') {
+                targetStats = stats.league;
+                matchCatNorm = 'league';
+            } else if (cat === 'cup') {
+                targetStats = stats.cup;
+                matchCatNorm = 'cup';
+            }
+
+            // Verifica se il match corrisponde al filtro competizione selezionato
+            let isCompMatch = false;
+            if (selectedCompetition === 'all') {
+                isCompMatch = true;
+            } else if (m.competition_id) {
+                if (m.competition_id === selectedCompetition) {
+                    isCompMatch = true;
+                } else if (selectedCompetition === 'league' && (m.competition_id.includes('league') || matchCatNorm === 'league')) {
+                    isCompMatch = true;
+                } else if (selectedCompetition === 'cup' && (m.competition_id.includes('cup') || matchCatNorm === 'cup')) {
+                    isCompMatch = true;
+                } else if (selectedCompetition === 'friendly' && (m.competition_id === 'friendly' || matchCatNorm === 'friendly')) {
+                    isCompMatch = true;
+                }
+            } else {
+                isCompMatch = (matchCatNorm === selectedCompetition);
+            }
+
+            // 1. Calcolo Dati di Squadra Totali (Tabella di Rendimento)
             let matchGA = 0;
             const scoreText = m.score ? m.score.trim() : '';
             if (scoreText && scoreText.includes('-')) {
@@ -1256,20 +1282,31 @@
                 }
             }
 
-            // SELEZIONE COMPETIZIONE PER LE CLASSIFICHE INDIVIDUALI
-            if (selectedCompetition !== 'all' && matchCatNorm !== selectedCompetition) {
-                return;
-            }
+            // Se la partita non rientra nella competizione selezionata, salto la raccolta dei singoli
+            if (!isCompMatch) return;
 
-            // RACCOLTA PRESENZE PER LA COMPETIZIONE SELEZIONATA
-            if (m.starting_lineup && m.starting_lineup !== 'なし' && m.starting_lineup !== 'Nessuno') {
-                m.starting_lineup.split(/[,、]/).forEach(p => addAppearance(p, false));
+            // 2. RACCOLTA PRESENZE INDIVIDUALI (Supporta sia Array nativi che Stringhe)
+            let startersList = [];
+            if (Array.isArray(m.starters)) {
+                startersList = m.starters;
+            } else if (typeof m.starters_positions === 'object' && m.starters_positions !== null) {
+                startersList = Object.values(m.starters_positions);
+            } else if (m.starting_lineup && m.starting_lineup !== 'なし' && m.starting_lineup !== 'Nessuno') {
+                startersList = m.starting_lineup.split(/[,、]/);
             }
-            if (m.substitutes && m.substitutes !== 'なし' && m.substitutes !== 'Nessuno') {
-                m.substitutes.split(/[,、]/).forEach(p => addAppearance(p, true));
-            }
+            startersList.forEach(p => addAppearance(p, false));
 
-            // MARCATORI
+            let subsList = [];
+            if (Array.isArray(m.substitutes_in)) {
+                subsList = m.substitutes_in;
+            } else if (Array.isArray(m.bench_details)) {
+                subsList = m.bench_details.filter(b => b.subbed_in).map(b => b.player);
+            } else if (m.substitutes && m.substitutes !== 'なし' && m.substitutes !== 'Nessuno') {
+                subsList = m.substitutes.split(/[,、]/);
+            }
+            subsList.forEach(p => addAppearance(p, true));
+
+            // 3. MARCATORI
             if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
                 m.scorers.split(/[,、]/).forEach(entry => {
                     const text = entry.trim();
@@ -1277,7 +1314,7 @@
                 });
             }
 
-            // ASSIST
+            // 4. ASSIST
             if (m.assists && m.assists !== 'なし' && m.assists !== 'Nessuno') {
                 m.assists.split(/[,、]/).forEach(entry => {
                     const text = entry.trim();
@@ -1285,7 +1322,7 @@
                 });
             }
 
-            // PORTIERI
+            // 5. PORTIERI (Estrae sia la stringa "Nome(Gol)" che i gol subiti dal match)
             if (m.goalkeepers && m.goalkeepers.trim() !== '') {
                 m.goalkeepers.split(/[,、]/).forEach(entry => {
                     const clean = entry.trim();
@@ -1302,14 +1339,14 @@
                 });
             }
 
-            // MVP
+            // 6. MVP
             if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
                 m.mvp.split(/[,、]/).forEach(name => {
                     if (name.trim()) addStatCount(mvpMap, name.trim());
                 });
             }
 
-            // GIALLI
+            // 7. CARTELLINI GIALLI
             if (m.yellow_cards && m.yellow_cards !== 'なし' && m.yellow_cards !== 'Nessuno') {
                 m.yellow_cards.split(/[,、]/).forEach(name => {
                     if (name.trim()) {
@@ -1319,7 +1356,7 @@
                 });
             }
 
-            // ROSSI
+            // 8. CARTELLINI ROSSI
             if (m.red_cards && m.red_cards !== 'なし' && m.red_cards !== 'Nessuno') {
                 m.red_cards.split(/[,、]/).forEach(name => {
                     if (name.trim()) {
@@ -1329,16 +1366,6 @@
                 });
             }
         });
-
-        if (precomputedStats && precomputedStats.team_totals && rawMatchesData.length === 0) {
-            const tt = precomputedStats.team_totals;
-            stats.friendly.played = parseInt(tt.total_matches, 10) || 0;
-            stats.friendly.wins = parseInt(tt.wins, 10) || 0;
-            stats.friendly.draws = parseInt(tt.draws, 10) || 0;
-            stats.friendly.losses = parseInt(tt.losses, 10) || 0;
-            stats.friendly.gf = parseInt(tt.goals_for, 10) || 0;
-            stats.friendly.ga = parseInt(tt.goals_against, 10) || 0;
-        }
 
         const updateRow = (prefix, st) => {
             const el = (id) => document.getElementById(id);
@@ -1456,7 +1483,7 @@
                     const pos = cleanStr(item.pObj.position);
                     return r === 'gk' || pos.includes('gk');
                 }
-                return false;
+                return true; // Accetta anche portieri registrati solo nei tabellini
             }).map(item => {
                 const avg = item.played > 0 ? (item.count / item.played) : 0;
                 return { ...item, avg: parseFloat(avg.toFixed(2)) };
@@ -1529,21 +1556,6 @@
             const btnContainer = card ? card.querySelector('.btn-more-container') : null;
 
             let rows = Object.values(appsMap);
-
-            if (rows.length === 0 && rawMatchesData.length === 0 && precomputedStats && precomputedStats.players) {
-                rows = Object.values(precomputedStats.players)
-                    .filter(p => (parseInt(p.caps, 10) || 0) > 0)
-                    .map(p => {
-                        const playerObj = playersData.find(x => x.id === p.id) || null;
-                        return {
-                            pObj: playerObj,
-                            rawName: p.id,
-                            caps: parseInt(p.caps, 10) || 0,
-                            starters: parseInt(p.starters, 10) || 0,
-                            subs: parseInt(p.subs, 10) || 0
-                        };
-                    });
-            }
 
             rows.sort((a, b) => {
                 if (b.caps !== a.caps) return b.caps - a.caps;
