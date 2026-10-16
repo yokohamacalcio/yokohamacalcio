@@ -158,17 +158,31 @@
     renderCta();
 
     let inContact = false;
+    let inFooter = false;
+
     const check = () => {
-      const shouldShow = window.scrollY > 300 && !inContact;
+      // Attivazione insieme a torna su (> 300px di scroll)
+      const pastHeader = window.scrollY > 300;
+      const shouldShow = pastHeader && !inContact && !inFooter;
       ctaEl.classList.toggle('show', shouldShow);
     };
 
+    // Nasconde la CTA se la sezione contatti è visibile nello schermo
     const contact = document.getElementById('contact');
     if (contact && 'IntersectionObserver' in window) {
       new IntersectionObserver(es => {
         inContact = es[0].isIntersecting;
         check();
       }).observe(contact);
+    }
+
+    // Nasconde la CTA poco prima del footer (rootMargin anticipa la rilevazione di 80px)
+    const footer = document.querySelector('footer, .footer');
+    if (footer && 'IntersectionObserver' in window) {
+      new IntersectionObserver(es => {
+        inFooter = es[0].isIntersecting;
+        check();
+      }, { rootMargin: '0px 0px 80px 0px' }).observe(footer);
     }
 
     window.addEventListener('scroll', check, { passive: true });
