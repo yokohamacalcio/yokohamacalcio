@@ -11,6 +11,7 @@
     <meta name="author" content="Yokohama Calcio">
     <meta name="robots" content="index, follow">
 
+    <link rel="canonical" href="https://yokohamacalcio.com/contact.html" />
     <link rel="alternate" hreflang="ja" href="https://yokohamacalcio.com/contact.html" />
     <link rel="alternate" hreflang="it" href="https://yokohamacalcio.com/contact.html?lang=it" />
     <link rel="alternate" hreflang="en" href="https://yokohamacalcio.com/contact.html?lang=en" />
@@ -34,11 +35,10 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FOGLI DI STILE CSS -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="site-extras.css">
-
-    <script src="js/common.js"></script>
-    <script src="js/data.js"></script>
 
     <style>
         html, body {
@@ -400,6 +400,7 @@
             </div>
           </div>
           <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
+          <a href="contact.html?type=trial#training" data-i18n="nav.training">練習日程</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
           <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
           <a href="contact.html" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
@@ -432,6 +433,7 @@
         </div>
       </div>
       <a href="matches.html" class="mobile-link"><i class="fas fa-calendar-alt menu-icon"></i> <span data-i18n="nav.matches">試合日程・結果</span></a>
+      <a href="contact.html?type=trial#training" class="mobile-link"><i class="fas fa-running menu-icon"></i> <span data-i18n="nav.training">練習日程</span></a>
       <a href="index.html#shop" class="mobile-link"><i class="fas fa-shopping-bag menu-icon"></i> <span data-i18n="nav.shop">ショップ</span></a>
       <a href="index.html#sponsors" class="mobile-link"><i class="fas fa-handshake menu-icon"></i> <span data-i18n="nav.sponsors">パートナー</span></a>
       <a href="faq.html" class="mobile-link"><i class="fas fa-question-circle menu-icon"></i> <span data-i18n="nav.faq">よくある質問</span></a>
@@ -852,13 +854,21 @@
 <button id="scrollToTopBtn" aria-label="Torna in cima"><i class="fas fa-chevron-up"></i></button>
 <footer class="footer"><p>&copy; <span id="currentYear"></span> Yokohama Calcio. All Rights Reserved.</p></footer>
 
+<!-- INCLUSIONE SCRIPT JS -->
+<script src="js/common.js"></script>
 <script src="js/training.js"></script>
 
 <script>
-    YC.register({
+    const pageTitles = {
+        ja: "お問い合わせ | Contact Us | Yokohama Calcio",
+        it: "Contatti | Yokohama Calcio",
+        en: "Contact Us | Yokohama Calcio"
+    };
+
+    const translations = {
         ja: {
             "nav.home": "ホーム", "nav.about_group": "クラブ", "nav.team_group": "チーム・選手", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
-            "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー", "nav.faq": "よくある質問",
+            "nav.matches": "試合日程・結果", "nav.training": "練習日程", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー", "nav.faq": "よくある質問",
             "nav.shop": "ショップ", "nav.contact": "お問い合わせ", "btn.back_home": "ホームに戻る",
             
             "contact_page.title": "お問い合わせ",
@@ -953,7 +963,7 @@
         },
         it: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
-            "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.sponsors": "Partner", "nav.faq": "FAQ",
+            "nav.matches": "Partite & Risultati", "nav.training": "Allenamenti", "nav.gallery": "Galleria", "nav.sponsors": "Partner", "nav.faq": "FAQ",
             "nav.shop": "Shop", "nav.contact": "Contatti", "btn.back_home": "Torna alla Home",
 
             "contact_page.title": "Contatti",
@@ -1048,7 +1058,7 @@
         },
         en: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
-            "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.sponsors": "Partners", "nav.faq": "FAQ",
+            "nav.matches": "Matches & Results", "nav.training": "Training Schedule", "nav.gallery": "Gallery", "nav.sponsors": "Partners", "nav.faq": "FAQ",
             "nav.shop": "Shop", "nav.contact": "Contact Us", "btn.back_home": "Back to Home",
 
             "contact_page.title": "Contact Us",
@@ -1141,7 +1151,9 @@
             "privacy.sec4_text": "You may request access, correction, or deletion of your data at any time by contacting us at: yokohamacalcio@gmail.com.",
             "privacy.close_btn": "Close"
         }
-    });
+    };
+
+    let currentLang = (window.YC && window.YC.getInitialLang) ? window.YC.getInitialLang() : (localStorage.getItem('preferred_lang') || 'ja');
 
     const subPositionsData = {
         GK: [{ id: 'GK', ja: 'GK (ゴールキーパー)', it: 'Portiere', en: 'Goalkeeper' }],
@@ -1193,6 +1205,37 @@
         other: "[Yokohama Calcio] その他のお問い合わせ / Altra Richiesta"
     };
 
+    function setLanguage(lang) {
+        if (!translations[lang]) return;
+        currentLang = lang;
+        
+        if (window.YC && window.YC.setLanguage) {
+            window.YC.setLanguage(lang);
+        } else {
+            localStorage.setItem('preferred_lang', lang);
+            document.documentElement.lang = lang;
+        }
+        
+        if (pageTitles[lang]) {
+            document.title = pageTitles[lang];
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+            if (ogTitle) ogTitle.setAttribute('content', pageTitles[lang]);
+            if (twitterTitle) twitterTitle.setAttribute('content', pageTitles[lang]);
+        }
+
+        document.querySelectorAll('[data-i18n]').forEach(elem => {
+            const key = elem.getAttribute('data-i18n');
+            if (translations[lang][key]) elem.innerHTML = translations[lang][key];
+        });
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+
+        document.dispatchEvent(new CustomEvent('yc:langchange', { detail: lang }));
+    }
+
     function updateFormspreeHiddenFields() {
         const categorySelect = document.getElementById('category');
         const subjectInput = document.getElementById('formspree_subject');
@@ -1217,7 +1260,7 @@
         if (!dateInputEl || !calcAgeEl) return;
         const age = calculateAge(dateInputEl.value);
         if (age !== null && !isNaN(age)) {
-            const unit = YC.t('form.age_unit') || '歳';
+            const unit = (translations[currentLang] && translations[currentLang]['form.age_unit']) || '歳';
             calcAgeEl.value = `${age} ${unit}`;
         } else {
             calcAgeEl.value = '--';
@@ -1225,21 +1268,22 @@
     }
 
     function renderSubPositions() {
-        const macroPos = document.getElementById('macro_position').value;
+        const macroPosInput = document.getElementById('macro_position');
+        if (!macroPosInput) return;
+        const macroPos = macroPosInput.value;
         const wrapper = document.getElementById('subPositionWrapper');
         const container = document.getElementById('subPositionCheckboxes');
         
         if (!macroPos || !subPositionsData[macroPos]) {
-            wrapper.style.display = 'none';
-            container.innerHTML = '';
+            if (wrapper) wrapper.style.display = 'none';
+            if (container) container.innerHTML = '';
             return;
         }
 
         const list = subPositionsData[macroPos];
-        const curLang = YC.lang();
         let html = '';
         list.forEach(item => {
-            const labelText = item[curLang] || item['ja'];
+            const labelText = item[currentLang] || item['ja'];
             const checkedAttr = (macroPos === 'GK') ? 'checked' : '';
             html += `
                 <label class="simple-checkbox-label">
@@ -1248,16 +1292,18 @@
                 </label>
             `;
         });
-        container.innerHTML = html;
-        wrapper.style.display = 'block';
+        if (container) container.innerHTML = html;
+        if (wrapper) wrapper.style.display = 'block';
 
-        container.querySelectorAll('input[type="checkbox"]').forEach(chk => {
-            chk.addEventListener('change', () => {
-                const checkedSubs = container.querySelectorAll('input[type="checkbox"]:checked');
-                const subErr = document.getElementById('sub_pos_error');
-                if (subErr && checkedSubs.length > 0) subErr.style.display = 'none';
+        if (container) {
+            container.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+                chk.addEventListener('change', () => {
+                    const checkedSubs = container.querySelectorAll('input[type="checkbox"]:checked');
+                    const subErr = document.getElementById('sub_pos_error');
+                    if (subErr && checkedSubs.length > 0) subErr.style.display = 'none';
+                });
             });
-        });
+        }
     }
 
     function updateSectionVisibility() {
@@ -1275,10 +1321,10 @@
         }
 
         if (!category) {
-            dynamicFormContainer.style.display = 'none';
+            if (dynamicFormContainer) dynamicFormContainer.style.display = 'none';
             return;
         } else {
-            dynamicFormContainer.style.display = 'block';
+            if (dynamicFormContainer) dynamicFormContainer.style.display = 'block';
         }
 
         const playerWrapper = document.getElementById('trialFieldsWrapper');
@@ -1375,7 +1421,7 @@
     function validateAge(inputEl, errorBannerEl, errorMsgEl, checkMaxAge = true) {
         const val = inputEl.value;
         if (!val) {
-            errorBannerEl.style.display = 'none';
+            if (errorBannerEl) errorBannerEl.style.display = 'none';
             inputEl.classList.remove('is-valid', 'is-invalid');
             return true;
         }
@@ -1383,21 +1429,21 @@
         if (age === null) return true;
 
         if (age < 18) {
-            const template = YC.t('form.age_error_under');
-            errorMsgEl.textContent = template.replace('{age}', age);
-            errorBannerEl.style.display = 'flex';
+            const template = (translations[currentLang] && translations[currentLang]['form.age_error_under']) || '';
+            if (errorMsgEl) errorMsgEl.textContent = template.replace('{age}', age);
+            if (errorBannerEl) errorBannerEl.style.display = 'flex';
             inputEl.classList.remove('is-valid');
             inputEl.classList.add('is-invalid');
             return false;
         } else if (checkMaxAge && age > 40) {
-            const template = YC.t('form.age_error_over');
-            errorMsgEl.textContent = template.replace('{age}', age);
-            errorBannerEl.style.display = 'flex';
+            const template = (translations[currentLang] && translations[currentLang]['form.age_error_over']) || '';
+            if (errorMsgEl) errorMsgEl.textContent = template.replace('{age}', age);
+            if (errorBannerEl) errorBannerEl.style.display = 'flex';
             inputEl.classList.remove('is-valid');
             inputEl.classList.add('is-invalid');
             return false;
         } else {
-            errorBannerEl.style.display = 'none';
+            if (errorBannerEl) errorBannerEl.style.display = 'none';
             inputEl.classList.remove('is-invalid');
             inputEl.classList.add('is-valid');
             return true;
@@ -1417,7 +1463,7 @@
                     return;
                 }
                 if (id === 'last_name_kana' || id === 'first_name_kana') {
-                    if (YC.lang() === 'ja') {
+                    if (currentLang === 'ja') {
                         validateKanaInput(input, document.getElementById(id + '_error'));
                     }
                     return;
@@ -1426,14 +1472,14 @@
                     const ageErr = document.getElementById('age_error_player');
                     const ageMsg = document.getElementById('age_error_player_msg');
                     if (input.value) validateAge(input, ageErr, ageMsg, true);
-                    else { ageErr.style.display = 'none'; input.classList.remove('is-valid', 'is-invalid'); }
+                    else { if (ageErr) ageErr.style.display = 'none'; input.classList.remove('is-valid', 'is-invalid'); }
                     return;
                 }
                 if (id === 'staff_birth_date') {
                     const ageErr = document.getElementById('age_error_staff');
                     const ageMsg = document.getElementById('age_error_staff_msg');
                     if (input.value) validateAge(input, ageErr, ageMsg, false);
-                    else { ageErr.style.display = 'none'; input.classList.remove('is-valid', 'is-invalid'); }
+                    else { if (ageErr) ageErr.style.display = 'none'; input.classList.remove('is-valid', 'is-invalid'); }
                     return;
                 }
 
@@ -1491,7 +1537,7 @@
         if (datesParam) {
             const messageInput = document.getElementById('message');
             if (messageInput && !messageInput.value.includes(datesParam)) {
-                const datesLabel = YC.lang() === 'ja' ? '【体験希望日】' : (YC.lang() === 'it' ? '[Date prova selezionate]' : '[Selected trial dates]');
+                const datesLabel = currentLang === 'ja' ? '【体験希望日】' : (currentLang === 'it' ? '[Date prova selezionate]' : '[Selected trial dates]');
                 messageInput.value = `${datesLabel}\n${datesParam}\n\n` + messageInput.value;
             }
         }
@@ -1537,8 +1583,22 @@
         if (globalErr) globalErr.style.display = 'none';
     });
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const todayStr = YC.todayJST();
+    window.addEventListener('DOMContentLoaded', () => {
+        if (window.YC && window.YC.init) {
+            window.YC.init();
+        }
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = btn.getAttribute('data-lang');
+                if (lang) setLanguage(lang);
+            });
+        });
+
+        setLanguage(currentLang);
+
+        const todayStr = (window.YC && window.YC.todayJST) ? window.YC.todayJST() : new Date().toISOString().split('T')[0];
         const playerBirth = document.getElementById('birth_date');
         const staffBirth = document.getElementById('staff_birth_date');
         if (playerBirth) playerBirth.setAttribute('max', todayStr);
@@ -1604,28 +1664,30 @@
                 
                 const globalErrorBox = document.getElementById('global_form_error');
                 const globalErrorMsg = document.getElementById('global_form_error_msg');
-                globalErrorBox.style.display = 'none';
+                if (globalErrorBox) globalErrorBox.style.display = 'none';
 
-                const category = categorySelect.value;
+                const category = categorySelect ? categorySelect.value : '';
                 if (!category) {
-                    categorySelect.focus();
-                    categorySelect.classList.add('is-invalid');
+                    if (categorySelect) {
+                        categorySelect.focus();
+                        categorySelect.classList.add('is-invalid');
+                    }
                     return false;
                 }
 
                 if (!form.checkValidity()) {
                     highlightInvalidFields(form);
-                    globalErrorMsg.textContent = YC.t('form.error_general');
-                    globalErrorBox.style.display = 'flex';
+                    if (globalErrorMsg) globalErrorMsg.textContent = (translations[currentLang] && translations[currentLang]['form.error_general']) || '';
+                    if (globalErrorBox) globalErrorBox.style.display = 'flex';
                     const firstInvalid = form.querySelector('.is-invalid:not([disabled])');
                     if (firstInvalid) firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
                     return false;
                 }
 
                 const privacyCheckbox = document.getElementById('privacy_agree');
-                if (!privacyCheckbox.checked) {
-                    globalErrorMsg.textContent = YC.t('form.error_privacy');
-                    globalErrorBox.style.display = 'flex';
+                if (!privacyCheckbox || !privacyCheckbox.checked) {
+                    if (globalErrorMsg) globalErrorMsg.textContent = (translations[currentLang] && translations[currentLang]['form.error_privacy']) || '';
+                    if (globalErrorBox) globalErrorBox.style.display = 'flex';
                     return false;
                 }
 
@@ -1633,7 +1695,7 @@
                 const firstNameKana = document.getElementById('first_name_kana');
                 const emailInput = document.getElementById('email');
 
-                if (YC.lang() === 'ja') {
+                if (currentLang === 'ja') {
                     const isLastNameKanaValid = validateKanaInput(lastNameKana, document.getElementById('last_name_kana_error'));
                     const isFirstNameKanaValid = validateKanaInput(firstNameKana, document.getElementById('first_name_kana_error'));
                     if (!isLastNameKanaValid) { lastNameKana.focus(); return false; }
@@ -1649,17 +1711,17 @@
                     const isAgeValid = validateAge(playerBirth, ageErr, ageMsg, true);
                     if (!isAgeValid) { playerBirth.focus(); return false; }
 
-                    const macro = macroSelect.value;
+                    const macro = macroSelect ? macroSelect.value : '';
                     if (macro) {
                         const checkedSubs = document.querySelectorAll('input[name="sub_positions[]"]:checked');
                         const subErr = document.getElementById('sub_pos_error');
                         if (checkedSubs.length === 0) {
-                            subErr.style.display = 'flex';
-                            globalErrorMsg.textContent = YC.t('form.error_general');
-                            globalErrorBox.style.display = 'flex';
+                            if (subErr) subErr.style.display = 'flex';
+                            if (globalErrorMsg) globalErrorMsg.textContent = (translations[currentLang] && translations[currentLang]['form.error_general']) || '';
+                            if (globalErrorBox) globalErrorBox.style.display = 'flex';
                             return false;
                         } else {
-                            subErr.style.display = 'none';
+                            if (subErr) subErr.style.display = 'none';
                         }
                     }
                 } else if (category === 'staff') {
@@ -1713,11 +1775,11 @@
                         updateSectionVisibility();
                         updateFormspreeHiddenFields();
                     } else {
-                        alert(YC.lang() === 'ja' ? 'エラーが発生しました。もう一度お試しください。' : (YC.lang() === 'it' ? 'Errore durante l\'invio. Riprova.' : 'An error occurred. Please try again.'));
+                        alert(currentLang === 'ja' ? 'エラーが発生しました。もう一度お試しください。' : (currentLang === 'it' ? 'Errore durante l\'invio. Riprova.' : 'An error occurred. Please try again.'));
                     }
                 } catch (error) {
                     console.error("Errore invio Formspree:", error);
-                    alert(YC.lang() === 'ja' ? '通信エラーが発生しました。' : (YC.lang() === 'it' ? 'Errore di connessione.' : 'Connection error.'));
+                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di connessione.' : 'Connection error.'));
                 } finally {
                     if (submitBtn) submitBtn.disabled = false;
                 }
@@ -1741,14 +1803,6 @@
                     }
                 }).catch(err => { console.error("Errore copia:", err); });
             });
-        }
-    });
-
-    YC.boot({
-        title: {
-            ja: "お問い合わせ | Contact Us | Yokohama Calcio",
-            it: "Contatti | Yokohama Calcio",
-            en: "Contact Us | Yokohama Calcio"
         }
     });
 </script>
