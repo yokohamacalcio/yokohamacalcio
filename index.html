@@ -39,7 +39,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- FOGLI DI STILE CSS (nella cartella principale / root) -->
+    <!-- FOGLI DI STILE CSS -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="site-extras.css">
 
@@ -61,7 +61,6 @@
     <!-- SCHEMA_INDEX_END -->
 
     <style>
-        /* Stili della pagina Index */
         @media (max-width: 600px) {
             .section-title { font-size: 1.4rem !important; }
             .about-text-box h3, .mission-box h3, .recruitment-text-box h3, .shop-content h3, .contact-card-header h3 { font-size: 1.1rem !important; }
@@ -231,7 +230,8 @@
             </div>
           </div>
           <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
-          <a href="#training" data-i18n="nav.training">練習日程</a>
+          <!-- Il link nel menu ora punta al calendario in contact.html -->
+          <a href="contact.html?type=trial#training" data-i18n="nav.training">練習日程</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
           <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
           <a href="contact.html" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
@@ -264,7 +264,8 @@
         </div>
       </div>
       <a href="matches.html" class="mobile-link"><i class="fas fa-calendar-alt menu-icon"></i> <span data-i18n="nav.matches">試合日程・結果</span></a>
-      <a href="#training" class="mobile-link"><i class="fas fa-running menu-icon"></i> <span data-i18n="nav.training">練習日程</span></a>
+      <!-- Link Mobile verso il calendario in contact.html -->
+      <a href="contact.html?type=trial#training" class="mobile-link"><i class="fas fa-running menu-icon"></i> <span data-i18n="nav.training">練習日程</span></a>
       <a href="index.html#shop" class="mobile-link"><i class="fas fa-shopping-bag menu-icon"></i> <span data-i18n="nav.shop">ショップ</span></a>
       <a href="index.html#sponsors" class="mobile-link"><i class="fas fa-handshake menu-icon"></i> <span data-i18n="nav.sponsors">パートナー</span></a>
       <a href="faq.html" class="mobile-link"><i class="fas fa-question-circle menu-icon"></i> <span data-i18n="nav.faq">よくある質問</span></a>
@@ -323,15 +324,18 @@
                 </ul>
             </div>
         </div>
+
+        <!-- Banner Reclutamento con link diretto alla pagina Contatti/Calendario -->
         <div class="recruitment-banner">
             <div class="recruitment-content">
                 <div class="recruitment-text-box">
                     <h3><i class="fas fa-futbol"></i> <span data-i18n="recruit.banner_title">新メンバー募集中！(18〜40歳経験者)</span></h3>
                     <p data-i18n="recruit.banner_desc">組織的なイタリアンフットボールを体感しませんか？真剣に勝利を目指しながら、共に進化できる仲間を探しています。体験参加へのご参加をお待ちしています！</p>
                 </div>
-                <a href="contact.html?type=trial" class="recruitment-btn"><i class="fas fa-paper-plane"></i><span data-i18n="recruit.banner_btn">体験参加を申し込む</span></a>
+                <a href="contact.html?type=trial#training" class="recruitment-btn"><i class="fas fa-paper-plane"></i><span data-i18n="recruit.banner_btn">体験参加を申し込む</span></a>
             </div>
         </div>
+
         <div style="text-align: center; margin-top: 35px;">
             <a href="about.html" class="google-form-btn" style="max-width: 360px; margin: 0 auto; background: var(--dark-navy, #003c82); color: #ffffff;">
                 <i class="fas fa-book-open"></i> <span data-i18n="about.btn_more">クラブ紹介・歴史の詳細はこちら</span> <i class="fas fa-arrow-right"></i>
@@ -353,14 +357,6 @@
             </a>
         </div>
     </div>
-</section>
-
-<!-- CALENDARIO ALLENAMENTI (Alimentato dinamicamente da js/training.js) -->
-<section class="section" id="training">
-  <div class="container">
-    <h2 class="section-title"><i class="fas fa-running"></i> <span data-i18n="training.title">練習日程・体験参加</span></h2>
-    <div id="trainingRoot"></div>
-  </div>
 </section>
 
 <section class="section gallery-section" id="gallery">
@@ -437,10 +433,9 @@
 <button id="scrollToTopBtn" aria-label="Torna in cima"><i class="fas fa-chevron-up"></i></button>
 <footer class="footer"><p>&copy; <span id="currentYear"></span> Yokohama Calcio. All Rights Reserved.</p></footer>
 
-<!-- INCLUSIONE SCRIPT JS (Nella cartella js/) -->
+<!-- INCLUSIONE SCRIPT JS (training.js rimosso da index.html poichè sarà usato in contact.html) -->
 <script src="js/common.js"></script>
 <script src="js/ticker.js"></script>
-<script src="js/training.js"></script>
 
 <script>
     const pageTitles = {
@@ -479,7 +474,6 @@
             "results.detail": "詳細", "results.all_matches": "全試合日程・詳細はこちら",
             "results.no_next_match": "現在、次の試合日程を調整中です。対戦相手も募集しています！",
             "results.friendly_req_btn": "練習試合を申し込む",
-            "training.title": "練習日程・体験参加",
             "sponsors.title": "オフィシャルパートナー",
             "sponsors.hero_title": "Yokohama Calcioを応援しませんか？",
             "sponsors.hero_desc": "当クラブでは、グラウンド手配や用具サポート、試合後のサードタイム（懇親会）等でご協力いただける横浜市内の飲食店・企業様・オフィシャルパートナーを募集しています。",
@@ -519,7 +513,6 @@
             "results.detail": "Dettagli", "results.all_matches": "Vedi tutte le partite",
             "results.no_next_match": "Stiamo programmando le prossime partite. Cerchi una squadra per un'amichevole?",
             "results.friendly_req_btn": "Organizza un'amichevole",
-            "training.title": "Programma Allenamenti & Prove",
             "sponsors.title": "Partner Ufficiali",
             "sponsors.hero_title": "Sostieni il progetto Yokohama Calcio",
             "sponsors.hero_desc": "Siamo alla ricerca di partner e attività commerciali interessate a supportare la crescita della squadra.",
@@ -559,7 +552,6 @@
             "results.detail": "Details", "results.all_matches": "View All Matches",
             "results.no_next_match": "Next match date is being scheduled. Looking for a friendly match?",
             "results.friendly_req_btn": "Request Friendly Match",
-            "training.title": "Training & Trial Schedule",
             "sponsors.title": "Official Partners",
             "sponsors.hero_title": "Support Yokohama Calcio",
             "sponsors.hero_desc": "We are seeking official partners and sports supporters to join our journey.",
@@ -777,7 +769,6 @@
         if (!translations[lang]) return;
         currentLang = lang;
         
-        // Notifica il sistema comune e gli altri script (training.js e ticker.js)
         if (window.YC && window.YC.emitLang) {
             window.YC.emitLang(lang);
         } else {
@@ -1095,12 +1086,10 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-        // Inizializza i moduli base condivisi (Menu mobile, scroll to top, floating CTA, a11y)
         if (window.YC && window.YC.init) {
             window.YC.init();
         }
 
-        // Event listener per la selezione lingua (JP / IT / EN)
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
