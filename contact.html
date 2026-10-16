@@ -37,7 +37,6 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="site-extras.css">
 
-    <!-- JS FONDAMENTALI PER LAYOUT DITTO E DATI -->
     <script src="js/common.js"></script>
     <script src="js/data.js"></script>
 
@@ -71,16 +70,6 @@
             align-items: center;
             gap: 10px;
             margin: 0 0 8px;
-        }
-        .training-notice-pill {
-            background: rgba(135, 206, 235, 0.15);
-            border-left: 4px solid #003c82;
-            padding: 12px 16px;
-            border-radius: 6px;
-            font-size: 0.88rem;
-            color: #1e293b;
-            line-height: 1.6;
-            margin-bottom: 20px;
         }
 
         .contact-grid-container {
@@ -377,19 +366,7 @@
 </head>
 <body>
 
-<!-- MOUNT HEADER UNIFICATO DALLA LIBRERIA COMMON.JS -->
 <script>YC.mountHeader('contact');</script>
-
-<!-- STRISCIA NEWS SCORREVOLE (Alimentata da js/ticker.js) -->
-<div class="news-ticker-bar" id="newsTickerBar" hidden>
-    <div class="ticker-label">
-        <i class="fas fa-bullhorn"></i>
-        <span data-i18n="ticker.label">NEWS</span>
-    </div>
-    <div class="ticker-content-wrapper">
-        <div class="ticker-track" id="tickerTrack"></div>
-    </div>
-</div>
 
 <section class="section">
     <div class="container">
@@ -398,20 +375,12 @@
             体験練習参加、スタッフ応募、練習試合のお申し込み、パートナーシップに関するご質問など、お気軽にお問い合わせください。
         </p>
 
-        <!-- SEZIONE CALENDARIO ALLENAMENTI (Alimentata da js/training.js via trainings.json) -->
         <section class="training-contact-wrapper" id="training">
             <div class="training-contact-header">
                 <h3><i class="fas fa-calendar-check" style="color: #003c82;"></i> <span data-i18n="training.title">練習日程・体験参加スケジュール</span></h3>
                 <p style="margin: 5px 0 0; color: #64748b; font-size: 0.92rem;" data-i18n="training.desc">体験参加をご希望の方は、下記スケジュールをご確認のうえ、お問い合わせフォームよりお申し込みください。</p>
             </div>
 
-            <div class="training-notice-pill">
-                <i class="fas fa-user-lock" style="color: #003c82; margin-right: 6px;"></i>
-                <strong data-i18n="training.privacy_title">グラウンド非公開について:</strong> 
-                <span data-i18n="training.privacy_desc">参加者のプライバシー保護のため、グラウンドの正確な場所は体験参加のお申し込み確定後に個別にご案内いたします。</span>
-            </div>
-
-            <!-- Contenitore dinamico per trainings.json -->
             <div id="trainingRoot"></div>
         </section>
 
@@ -423,7 +392,6 @@
                     <input type="hidden" name="_subject" id="formspree_subject" value="[Yokohama Calcio] お問い合わせ / Nuovo Contatto">
                     <input type="text" name="_gotcha" style="display:none !important;" tabindex="-1" autocomplete="off">
 
-                    <!-- SELEZIONE INIZIALE (Sempre visibile) -->
                     <div class="form-group">
                         <label for="category">
                             <span data-i18n="form.category_label">お問い合わせ種別</span>
@@ -439,10 +407,8 @@
                         </select>
                     </div>
 
-                    <!-- BLOCCO DINAMICO: Nascosto finché non si sceglie una categoria -->
                     <div id="dynamicFormContainer" style="display: none;">
                         
-                        <!-- NOME (Comuni) -->
                         <div class="form-row-2">
                             <div class="form-group">
                                 <label for="last_name">
@@ -460,7 +426,6 @@
                             </div>
                         </div>
 
-                        <!-- FURIGANA KANA (Nascosto in IT/EN) -->
                         <div class="form-row-2" id="kanaFieldsRow">
                             <div class="form-group">
                                 <label for="last_name_kana">
@@ -480,7 +445,6 @@
                             </div>
                         </div>
 
-                        <!-- EMAIL -->
                         <div class="form-group">
                             <label for="email">
                                 <span data-i18n="form.email_label">メールアドレス</span>
@@ -490,7 +454,6 @@
                             <div id="email_error" class="error-banner"><i class="fas fa-exclamation-triangle"></i> <span data-i18n="form.email_error">有効なメールアドレスを入力してください。</span></div>
                         </div>
 
-                        <!-- SEZIONE: GIOCATORE (TRIAL) -->
                         <div id="trialFieldsWrapper" style="display: none;">
                             <div class="field-section-title"><i class="fas fa-running"></i> <span data-i18n="form.player_sec_title">選手情報</span></div>
                             
@@ -574,7 +537,6 @@
                             </div>
                         </div>
 
-                        <!-- SEZIONE: STAFF -->
                         <div id="staffFieldsWrapper" style="display: none;">
                             <div class="field-section-title"><i class="fas fa-user-tie"></i> <span data-i18n="form.staff_sec_title">スタッフ応募情報</span></div>
 
@@ -627,7 +589,6 @@
                             </div>
                         </div>
 
-                        <!-- SEZIONE: AMICHEVOLE (MATCH) -->
                         <div id="matchFieldsWrapper" style="display: none;">
                             <div class="field-section-title"><i class="fas fa-futbol"></i> <span data-i18n="form.match_sec_title">対戦チーム情報</span></div>
 
@@ -673,7 +634,6 @@
                             </div>
                         </div>
 
-                        <!-- SEZIONE: SPONSOR -->
                         <div id="sponsorFieldsWrapper" style="display: none;">
                             <div class="field-section-title"><i class="fas fa-building"></i> <span data-i18n="form.sponsor_sec_title">パートナー情報</span></div>
 
@@ -700,7 +660,6 @@
                             </div>
                         </div>
 
-                        <!-- MESSAGGIO LIBERO -->
                         <div class="form-group">
                             <label for="message">
                                 <span data-i18n="form.message_label">メッセージ内容</span>
@@ -709,7 +668,6 @@
                             <textarea id="message" name="message" class="form-control" placeholder="ご質問や詳細をご記入ください。" required></textarea>
                         </div>
 
-                        <!-- SPUNTA TRATTAMENTO DATI -->
                         <div class="privacy-box">
                             <label class="privacy-checkbox-label" for="privacy_agree">
                                 <input type="checkbox" id="privacy_agree" name="privacy_agree" required>
@@ -719,7 +677,6 @@
                             </label>
                         </div>
 
-                        <!-- ERRORE GLOBALE VALIDAZIONE -->
                         <div id="global_form_error" class="global-error-banner">
                             <i class="fas fa-exclamation-circle" style="font-size:1.2rem;"></i>
                             <span id="global_form_error_msg"></span>
@@ -730,11 +687,10 @@
                             <span data-i18n="form.submit_btn">送信する</span>
                         </button>
 
-                    </div> <!-- Fine dynamicFormContainer -->
+                    </div>
                 </form>
             </div>
 
-            <!-- CARD INFORMAZIONI E DIRECT MAIL -->
             <div class="contact-info-card">
                 
                 <div class="direct-email-box">
@@ -773,7 +729,6 @@
     </div>
 </section>
 
-<!-- MODAL DI CONFERMA INVIO CUSTOM -->
 <div class="confirm-modal-overlay" id="confirmModal">
     <div class="confirm-modal-card">
         <div class="confirm-modal-icon">
@@ -787,7 +742,6 @@
     </div>
 </div>
 
-<!-- MODAL INFORMATIVA PRIVACY -->
 <div class="privacy-modal-overlay" id="privacyModal">
     <div class="privacy-modal-card">
         <div class="privacy-modal-header">
@@ -825,24 +779,17 @@
     <i class="fas fa-check-circle"></i> <span data-i18n="info.toast_copied">メールアドレスをコピーしました！</span>
 </div>
 
-<!-- MOUNT FOOTER UNIFICATO DALLA LIBRERIA COMMON.JS -->
 <script>YC.mountFooter();</script>
 
-<!-- SCRIPT ACCESSORI PER COMPONENTI SPECIALE -->
-<script src="js/ticker.js"></script>
 <script src="js/training.js"></script>
 
 <script>
-    // 1. REGISTRAZIONE TRADUZIONI SPECIFICHE DELLA PAGINA CONTATTI
     YC.register({
         ja: {
-            "ticker.label": "NEWS",
             "contact_page.title": "お問い合わせ",
             "contact_page.intro": "体験練習参加、スタッフ応募、練習試合のお申し込み、パートナーシップに関するご質問など、お気軽にお問い合わせください。",
             "training.title": "練習日程・体験参加スケジュール",
             "training.desc": "体験参加をご希望の方は、下記スケジュールをご確認のうえ、お問い合わせフォームよりお申し込みください。",
-            "training.privacy_title": "グラウンド非公開について:",
-            "training.privacy_desc": "参加者のプライバシー保護のため、グラウンドの正確な場所は体験参加のお申し込み確定後に個別にご案内いたします。",
             "form.category_label": "お問い合わせ種別",
             "form.select_category": "選択してください（必須）",
             "form.required": "必須",
@@ -932,13 +879,10 @@
             "privacy.close_btn": "閉じる"
         },
         it: {
-            "ticker.label": "NEWS",
             "contact_page.title": "Contatti",
             "contact_page.intro": "Compila il modulo per un allenamento di prova, candidarti nello staff o per partnership e amichevoli.",
             "training.title": "Calendario Allenamenti & Prove",
             "training.desc": "Consulta le prossime sessioni di allenamento e invia la tua richiesta di prova.",
-            "training.privacy_title": "Struttura Riservata:",
-            "training.privacy_desc": "Per ragioni di privacy, l'indirizzo esatto del campo verrà comunicato privatamente via e-mail dopo la conferma della prova.",
             "form.category_label": "Tipo di Richiesta",
             "form.select_category": "Scegli un'opzione (Obbligatorio)",
             "form.required": "Obbligatorio",
@@ -1028,13 +972,10 @@
             "privacy.close_btn": "Chiudi"
         },
         en: {
-            "ticker.label": "NEWS",
             "contact_page.title": "Contact Us",
             "contact_page.intro": "Feel free to reach out for trial trainings, staff applications, friendly match requests, or partnerships.",
             "training.title": "Training & Trial Schedule",
             "training.desc": "Check upcoming training sessions below and submit your request through the form.",
-            "training.privacy_title": "Private Venue:",
-            "training.privacy_desc": "For privacy reasons, exact pitch details will be provided privately after trial confirmation.",
             "form.category_label": "Inquiry Type",
             "form.select_category": "Please select (Required)",
             "form.required": "Required",
@@ -1125,7 +1066,6 @@
         }
     });
 
-    // 2. STRUTTURA DEI SOTTO-RUOLI (POSIZIONI DETTAGLIATE)
     const subPositionsData = {
         GK: [{ id: 'GK', ja: 'GK (ゴールキーパー)', it: 'Portiere', en: 'Goalkeeper' }],
         DF: [
@@ -1144,7 +1084,6 @@
         ]
     };
 
-    // MAPPATURA ETICHETTE BILINGUI PER FORMSPREE
     const fieldBilingualLabels = {
         category: "お問い合わせ種別 / Tipo di Richiesta",
         last_name: "姓 / Cognome", first_name: "名 / Nome",
@@ -1471,7 +1410,6 @@
         });
     }
 
-    // LISTENER REATTIVO AL CAMBIO LINGUA DALLA LIBRERIA COMMON
     document.addEventListener('yc:langchange', (e) => {
         const lang = e.detail;
         const kanaRow = document.getElementById('kanaFieldsRow');
@@ -1503,7 +1441,6 @@
         if (globalErr) globalErr.style.display = 'none';
     });
 
-    // BOOTSTRAP PAGINA TRAMITE YC.boot
     document.addEventListener('DOMContentLoaded', () => {
         const todayStr = YC.todayJST();
         const playerBirth = document.getElementById('birth_date');
@@ -1538,7 +1475,6 @@
             staffBirth.addEventListener('input', () => updateAgeDisplay(staffBirth, calcAgeStaff));
         }
 
-        // MODAL PRIVACY & CONFERMA
         const privacyModal = document.getElementById('privacyModal');
         const openPrivacyModalBtn = document.getElementById('openPrivacyModal');
         const privacyModalCloseBtn = document.getElementById('privacyModalCloseBtn');
@@ -1565,7 +1501,6 @@
             }
         });
 
-        // SUBMIT FORMSPREE
         const form = document.getElementById('contactForm');
         if (form) {
             form.addEventListener('submit', async (e) => {
@@ -1697,7 +1632,6 @@
         updateSectionVisibility();
         updateFormspreeHiddenFields();
 
-        // COPIA EMAIL
         const copyEmailBtn = document.getElementById('copyEmailBtn');
         const emailText = document.getElementById('emailText');
         const copyToast = document.getElementById('copyToast');
@@ -1714,7 +1648,6 @@
         }
     });
 
-    // AVVIO FINALE DEL SITO
     YC.boot({
         title: {
             ja: "お問い合わせ | Contact Us | Yokohama Calcio",
