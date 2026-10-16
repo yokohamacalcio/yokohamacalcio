@@ -33,17 +33,34 @@
   }
   const md = d => String(d).slice(5).replace('-', '/');
 
+  function getNewsTitle(n, lang) {
+    if (!n) return '';
+    if (typeof n.title === 'object' && n.title !== null) {
+      return n.title[lang] || n.title.it || n.title.en || n.title.ja || '';
+    }
+    if (typeof n.title === 'string' && n.title) {
+      return n.title;
+    }
+    return n[lang] || n.ja || n.it || n.en || n.text || '';
+  }
+
   function buildItems(lang) {
     const today = YC.todayJST();
     const items = [];
 
     // 1) news manuali: visibili da "date" fino a "expires" (inclusa), le più recenti prima
     news
-      .filter(n => n && n.title && n.date && n.date <= today && (!n.expires || n.expires >= today))
+      .filter(n => {
+        if (!n || !n.date) return false;
+        const hasTitle = (n.title || n[lang] || n.ja || n.it || n.en || n.text);
+        return hasTitle && n.date <= today && (!n.expires || n.expires >= today);
+      })
       .sort((a, b) => b.date.localeCompare(a.date))
       .forEach(n => items.push({
-        date: n.date, type: TAGS[n.type] ? n.type : 'info', link: n.link || null,
-        text: n.title[lang] || n.title.it || n.title.en || n.title.ja || ''
+        date: n.date,
+        type: TAGS[n.type] ? n.type : 'info',
+        link: n.link || null,
+        text: getNewsTitle(n, lang)
       }));
 
     // 2) prossima partita (automatica)
@@ -55,7 +72,8 @@
         text: `${md(next.date)}${next.time ? ' ' + next.time : ''} · vs ${oppName(next, lang)}`
       });
     }
-    // 3) ultimo risultato (automatico). Il punteggio nel JSON è sempre "nostri-loro"
+
+    // 3) ultimo risultato (automatico)
     if (CFG.autoResult) {
       const last = matches.filter(m => m.status === 'past' && /\d/.test(m.score || ''))
         .sort((a, b) => b.date.localeCompare(a.date))[0];
@@ -111,7 +129,7 @@
     TRACK.appendChild(first);
     const w = first.getBoundingClientRect().width || 1;
     const wrapW = TRACK.parentElement.clientWidth || window.innerWidth;
-    // ogni metà della traccia deve riempire lo schermo, altrimenti si vedono buchi
+    
     const copies = Math.max(1, Math.ceil(wrapW / w));
     for (let i = 1; i < copies; i++) TRACK.appendChild(makeSet(items, lang, true));
     for (let i = 0; i < copies; i++) TRACK.appendChild(makeSet(items, lang, true));
