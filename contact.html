@@ -52,9 +52,10 @@
         .training-contact-wrapper {
             background: #ffffff;
             border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 6px 20px rgba(0, 34, 74, 0.06);
+            padding: 24px;
+            margin-top: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 18px rgba(0, 34, 74, 0.06);
             border: 1px solid #e2e8f0;
         }
 
@@ -361,11 +362,6 @@
             体験練習参加、スタッフ応募、練習試合のお申し込み、パートナーシップに関するご質問など、お気軽にお問い合わせください。
         </p>
 
-        <!-- Calendario nascosto di default: visibile solo se viene selezionato Prova ('trial') o Staff ('staff') -->
-        <section class="training-contact-wrapper" id="training" style="display: none;">
-            <div id="trainingRoot"></div>
-        </section>
-
         <div class="contact-grid-container">
             
             <div class="contact-form-card">
@@ -435,6 +431,11 @@
                             <input type="email" id="email" name="email" class="form-control" placeholder="example@email.com" required>
                             <div id="email_error" class="error-banner"><i class="fas fa-exclamation-triangle"></i> <span data-i18n="form.email_error">有効なメールアドレスを入力してください。</span></div>
                         </div>
+
+                        <!-- Calendario inserito DENTRO il form: si mostra solo per Prova (trial) e Staff (staff) -->
+                        <section class="training-contact-wrapper" id="training" style="display: none;">
+                            <div id="trainingRoot"></div>
+                        </section>
 
                         <div id="trialFieldsWrapper" style="display: none;">
                             <div class="field-section-title"><i class="fas fa-running"></i> <span data-i18n="form.player_sec_title">選手情報</span></div>
@@ -1165,20 +1166,21 @@
         const dynamicFormContainer = document.getElementById('dynamicFormContainer');
         const trainingWrapper = document.getElementById('training');
 
-        // Mostra il calendario SOLO se la categoria è "trial" (prova) oppure "staff"
+        if (!category) {
+            dynamicFormContainer.style.display = 'none';
+            if (trainingWrapper) trainingWrapper.style.display = 'none';
+            return;
+        } else {
+            dynamicFormContainer.style.display = 'block';
+        }
+
+        // Mostra il calendario SOLO per Prova ('trial') e Staff ('staff')
         if (trainingWrapper) {
             if (category === 'trial' || category === 'staff') {
                 trainingWrapper.style.display = 'block';
             } else {
                 trainingWrapper.style.display = 'none';
             }
-        }
-
-        if (!category) {
-            dynamicFormContainer.style.display = 'none';
-            return;
-        } else {
-            dynamicFormContainer.style.display = 'block';
         }
 
         const playerWrapper = document.getElementById('trialFieldsWrapper');
@@ -1388,7 +1390,7 @@
             }
         }
 
-        // Se sono presenti date trasmesse dal calendario, vengono precompilate nel campo Messaggio
+        // Se sono state inviate date dal calendario, vengono inserite nel campo Messaggio
         if (datesParam) {
             const messageInput = document.getElementById('message');
             if (messageInput && !messageInput.value.includes(datesParam)) {
@@ -1618,7 +1620,7 @@
                     }
                 } catch (error) {
                     console.error("Errore invio Formspree:", error);
-                    alert(YC.lang() === 'ja' ? '通信エラーが発生しました。' : (YC.lang() === 'it' ? 'Errore di接続.' : 'Connection error.'));
+                    alert(YC.lang() === 'ja' ? '通信エラーが発生しました。' : (YC.lang() === 'it' ? 'Errore di connessione.' : 'Connection error.'));
                 } finally {
                     if (submitBtn) submitBtn.disabled = false;
                 }
