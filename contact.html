@@ -361,7 +361,8 @@
             体験練習参加、スタッフ応募、練習試合のお申し込み、パートナーシップに関するご質問など、お気軽にお問い合わせください。
         </p>
 
-        <section class="training-contact-wrapper" id="training">
+        <!-- Calendario nascosto di default: visibile solo se viene selezionato Prova ('trial') o Staff ('staff') -->
+        <section class="training-contact-wrapper" id="training" style="display: none;">
             <div id="trainingRoot"></div>
         </section>
 
@@ -1162,6 +1163,16 @@
         const categorySelect = document.getElementById('category');
         const category = categorySelect ? categorySelect.value : '';
         const dynamicFormContainer = document.getElementById('dynamicFormContainer');
+        const trainingWrapper = document.getElementById('training');
+
+        // Mostra il calendario SOLO se la categoria è "trial" (prova) oppure "staff"
+        if (trainingWrapper) {
+            if (category === 'trial' || category === 'staff') {
+                trainingWrapper.style.display = 'block';
+            } else {
+                trainingWrapper.style.display = 'none';
+            }
+        }
 
         if (!category) {
             dynamicFormContainer.style.display = 'none';
@@ -1366,12 +1377,23 @@
     function handleUrlTypeParam() {
         const urlParams = new URLSearchParams(window.location.search);
         const typeParam = urlParams.get('type');
+        const datesParam = urlParams.get('dates');
         const categorySelect = document.getElementById('category');
+
         if (typeParam && categorySelect) {
             if (['trial', 'staff', 'match', 'sponsor', 'other'].includes(typeParam)) {
                 categorySelect.value = typeParam;
                 updateSectionVisibility();
                 updateFormspreeHiddenFields();
+            }
+        }
+
+        // Se sono presenti date trasmesse dal calendario, vengono precompilate nel campo Messaggio
+        if (datesParam) {
+            const messageInput = document.getElementById('message');
+            if (messageInput && !messageInput.value.includes(datesParam)) {
+                const datesLabel = YC.lang() === 'ja' ? '【体験希望日】' : (YC.lang() === 'it' ? '[Date prova selezionate]' : '[Selected trial dates]');
+                messageInput.value = `${datesLabel}\n${datesParam}\n\n` + messageInput.value;
             }
         }
     }
@@ -1596,7 +1618,7 @@
                     }
                 } catch (error) {
                     console.error("Errore invio Formspree:", error);
-                    alert(YC.lang() === 'ja' ? '通信エラーが発生しました。' : (YC.lang() === 'it' ? 'Errore di connessione.' : 'Connection error.'));
+                    alert(YC.lang() === 'ja' ? '通信エラーが発生しました。' : (YC.lang() === 'it' ? 'Errore di接続.' : 'Connection error.'));
                 } finally {
                     if (submitBtn) submitBtn.disabled = false;
                 }
