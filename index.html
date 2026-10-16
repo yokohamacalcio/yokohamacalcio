@@ -39,7 +39,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- FOGLI DI STILE CSS (Entrambi nella cartella principale / root) -->
+    <!-- FOGLI DI STILE CSS (nella cartella principale / root) -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="site-extras.css">
 
@@ -61,7 +61,7 @@
     <!-- SCHEMA_INDEX_END -->
 
     <style>
-        /* Stili specifici della pagina Index */
+        /* Stili della pagina Index */
         @media (max-width: 600px) {
             .section-title { font-size: 1.4rem !important; }
             .about-text-box h3, .mission-box h3, .recruitment-text-box h3, .shop-content h3, .contact-card-header h3 { font-size: 1.1rem !important; }
@@ -192,11 +192,11 @@
         <a href="https://youtube.com/@yokohamacalcio?si=NBPkZ0qFxFVrOIof" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
       </div>
       <div class="lang-switcher">
-        <button class="lang-btn active" data-action="set-lang" data-lang="ja">JP</button>
+        <button class="lang-btn active" data-lang="ja">JP</button>
         <span class="lang-divider">|</span>
-        <button class="lang-btn" data-action="set-lang" data-lang="it">IT</button>
+        <button class="lang-btn" data-lang="it">IT</button>
         <span class="lang-divider">|</span>
-        <button class="lang-btn" data-action="set-lang" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="en">EN</button>
       </div>
     </div>
   </div>
@@ -231,7 +231,7 @@
             </div>
           </div>
           <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
-          <a href="#training" data-i18n="nav.training">カレンダー</a>
+          <a href="#training" data-i18n="nav.training">練習日程</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
           <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
           <a href="contact.html" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
@@ -264,7 +264,7 @@
         </div>
       </div>
       <a href="matches.html" class="mobile-link"><i class="fas fa-calendar-alt menu-icon"></i> <span data-i18n="nav.matches">試合日程・結果</span></a>
-      <a href="#training" class="mobile-link"><i class="fas fa-running menu-icon"></i> <span data-i18n="nav.training">カレンダー</span></a>
+      <a href="#training" class="mobile-link"><i class="fas fa-running menu-icon"></i> <span data-i18n="nav.training">練習日程</span></a>
       <a href="index.html#shop" class="mobile-link"><i class="fas fa-shopping-bag menu-icon"></i> <span data-i18n="nav.shop">ショップ</span></a>
       <a href="index.html#sponsors" class="mobile-link"><i class="fas fa-handshake menu-icon"></i> <span data-i18n="nav.sponsors">パートナー</span></a>
       <a href="faq.html" class="mobile-link"><i class="fas fa-question-circle menu-icon"></i> <span data-i18n="nav.faq">よくある質問</span></a>
@@ -294,60 +294,14 @@
   </div>
 </section>
 
-<!-- STRISCIA NEWS SCORREVOLE (TICKER STYLE BORSA VALORI) -->
-<div class="news-ticker-bar" id="newsTickerBar">
+<!-- STRISCIA NEWS SCORREVOLE (Alimentata automaticamente da js/ticker.js) -->
+<div class="news-ticker-bar" id="newsTickerBar" hidden>
     <div class="ticker-label">
         <i class="fas fa-bullhorn"></i>
         <span data-i18n="ticker.label">NEWS</span>
     </div>
     <div class="ticker-content-wrapper">
-        <div class="ticker-track">
-            <!-- SET 1 -->
-            <a href="contact.html?type=trial" class="ticker-item">
-                <span class="ticker-date">2026.10.15</span>
-                <span class="ticker-tag" data-i18n="news.badge_league">リーグ参戦</span>
-                <span data-i18n="news.item1_title">2027年シーズン「神奈川県リーグ」＆「横浜市リーグ」ダブル参戦決定！</span>
-            </a>
-            <span class="ticker-divider"><i class="fas fa-circle"></i></span>
-
-            <a href="contact.html?type=trial" class="ticker-item">
-                <span class="ticker-date">2026.10.10</span>
-                <span class="ticker-tag badge-trial" data-i18n="news.badge_trial">メンバー募集</span>
-                <span data-i18n="news.item2_title">2027シーズンに向けた新入団選手・体験練習生を大募集！</span>
-            </a>
-            <span class="ticker-divider"><i class="fas fa-circle"></i></span>
-
-            <a href="matches.html" class="ticker-item">
-                <span class="ticker-date">2026.10.05</span>
-                <span class="ticker-tag badge-notice" data-i18n="news.badge_match">試合情報</span>
-                <span data-i18n="news.item3_title">10/31(土) La Masia Japanとの親善試合が決定！</span>
-            </a>
-            <span class="ticker-divider"><i class="fas fa-circle"></i></span>
-
-            <!-- SET 2 (Aria hidden per accessibilità) -->
-            <div class="ticker-set" aria-hidden="true" style="display: flex; align-items: center; gap: 30px;">
-                <a href="contact.html?type=trial" class="ticker-item" tabindex="-1">
-                    <span class="ticker-date">2026.10.15</span>
-                    <span class="ticker-tag" data-i18n="news.badge_league">リーグ参戦</span>
-                    <span data-i18n="news.item1_title">2027年シーズン「神奈川県リーグ」＆「横浜市リーグ」ダブル参戦決定！</span>
-                </a>
-                <span class="ticker-divider"><i class="fas fa-circle"></i></span>
-
-                <a href="contact.html?type=trial" class="ticker-item" tabindex="-1">
-                    <span class="ticker-date">2026.10.10</span>
-                    <span class="ticker-tag badge-trial" data-i18n="news.badge_trial">メンバー募集</span>
-                    <span data-i18n="news.item2_title">2027シーズンに向けた新入団選手・体験練習生を大募集！</span>
-                </a>
-                <span class="ticker-divider"><i class="fas fa-circle"></i></span>
-
-                <a href="matches.html" class="ticker-item" tabindex="-1">
-                    <span class="ticker-date">2026.10.05</span>
-                    <span class="ticker-tag badge-notice" data-i18n="news.badge_match">試合情報</span>
-                    <span data-i18n="news.item3_title">10/31(土) La Masia Japanとの親善試合が決定！</span>
-                </a>
-                <span class="ticker-divider"><i class="fas fa-circle"></i></span>
-            </div>
-        </div>
+        <div class="ticker-track" id="tickerTrack"></div>
     </div>
 </div>
 
@@ -386,7 +340,7 @@
     </div>
 </section>
 
-<!-- MATCH CENTER -->
+<!-- MATCH CENTER (Solo Partite Agonistiche e Risultati) -->
 <section class="section match-center-section" id="results">
     <div class="container">
         <h2 class="section-title"><i class="fas fa-trophy"></i> <span data-i18n="results.title">試合結果・日程</span></h2>
@@ -401,9 +355,10 @@
     </div>
 </section>
 
-<!-- ALLENAMENTI E CALENDARIO (Generato dinamicamente da js/training.js) -->
+<!-- CALENDARIO ALLENAMENTI (Alimentato dinamicamente da js/training.js) -->
 <section class="section" id="training">
   <div class="container">
+    <h2 class="section-title"><i class="fas fa-running"></i> <span data-i18n="training.title">練習日程・体験参加</span></h2>
     <div id="trainingRoot"></div>
   </div>
 </section>
@@ -502,19 +457,12 @@
     const translations = {
         ja: {
             "nav.home": "ホーム", "nav.about_group": "クラブ", "nav.team_group": "チーム・選手", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
-            "nav.matches": "試合日程・結果", "nav.training": "カレンダー", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー", "nav.faq": "よくある質問",
+            "nav.matches": "試合日程・結果", "nav.training": "練習日程", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー", "nav.faq": "よくある質問",
             "nav.shop": "ショップ", "nav.contact": "お問い合わせ", 
             "hero.title": "横浜に咲くイタリアの情熱", "hero.subtitle": "サッカーで心をつなぐ場所",
             "hero.btn_about": "クラブ紹介", "hero.btn_contact": "お問い合わせ",
             
             "ticker.label": "NEWS",
-            "news.badge_league": "リーグ参戦",
-            "news.badge_trial": "メンバー募集",
-            "news.badge_match": "試合情報",
-            "news.item1_title": "2027年シーズン「神奈川県リーグ」＆「横浜市リーグ」ダブル参戦決定！",
-            "news.item2_title": "2027シーズンに向けた新入団選手・体験練習生を大募集！",
-            "news.item3_title": "10/31(土) La Masia Japanとの親善試合が決定！",
-
             "about.title": "Yokohama Calcioとは",
             "about.subtitle": "横浜発、イタリアンスタイルの社会人サッカーチーム",
             "about.p1": "Yokohama Calcio（ヨコハマ・カルチョ）は、2025年に横浜で設立された社会人アマチュアサッカークラブです。",
@@ -531,6 +479,7 @@
             "results.detail": "詳細", "results.all_matches": "全試合日程・詳細はこちら",
             "results.no_next_match": "現在、次の試合日程を調整中です。対戦相手も募集しています！",
             "results.friendly_req_btn": "練習試合を申し込む",
+            "training.title": "練習日程・体験参加",
             "sponsors.title": "オフィシャルパートナー",
             "sponsors.hero_title": "Yokohama Calcioを応援しませんか？",
             "sponsors.hero_desc": "当クラブでは、グラウンド手配や用具サポート、試合後のサードタイム（懇親会）等でご協力いただける横浜市内の飲食店・企業様・オフィシャルパートナーを募集しています。",
@@ -549,19 +498,12 @@
         },
         it: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
-            "nav.matches": "Partite & Risultati", "nav.training": "Calendario", "nav.gallery": "Galleria", "nav.sponsors": "Partner", "nav.faq": "FAQ",
+            "nav.matches": "Partite & Risultati", "nav.training": "Allenamenti", "nav.gallery": "Galleria", "nav.sponsors": "Partner", "nav.faq": "FAQ",
             "nav.shop": "Shop", "nav.contact": "Contatti", 
             "hero.title": "La passione italiana nel cuore di Yokohama", "hero.subtitle": "Il calcio che unisce le persone",
             "hero.btn_about": "Chi Siamo", "hero.btn_contact": "Contattaci",
             
             "ticker.label": "NEWS",
-            "news.badge_league": "Campionato",
-            "news.badge_trial": "Selezione",
-            "news.badge_match": "Partite",
-            "news.item1_title": "Stagione 2027: Ufficiale l'iscrizione sia alla Kanagawa League che alla Yokohama League!",
-            "news.item2_title": "Aperte le selezioni e gli allenamenti di prova per la stagione 2027",
-            "news.item3_title": "Sabato 31/10: Amichevole confermata contro La Masia Japan!",
-
             "about.title": "Cos'è lo Yokohama Calcio", "about.subtitle": "Da Yokohama, una squadra dilettantistica in perfetto stile italiano",
             "about.p1": "Lo Yokohama Calcio è una squadra di calcio amatoriale fondata nel 2025 a Yokohama.",
             "about.p2": "Guidati dal principio “Crescita individuale, evoluzione della squadra”.",
@@ -577,6 +519,7 @@
             "results.detail": "Dettagli", "results.all_matches": "Vedi tutte le partite",
             "results.no_next_match": "Stiamo programmando le prossime partite. Cerchi una squadra per un'amichevole?",
             "results.friendly_req_btn": "Organizza un'amichevole",
+            "training.title": "Programma Allenamenti & Prove",
             "sponsors.title": "Partner Ufficiali",
             "sponsors.hero_title": "Sostieni il progetto Yokohama Calcio",
             "sponsors.hero_desc": "Siamo alla ricerca di partner e attività commerciali interessate a supportare la crescita della squadra.",
@@ -595,19 +538,12 @@
         },
         en: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
-            "nav.matches": "Matches & Results", "nav.training": "Calendar", "nav.gallery": "Gallery", "nav.sponsors": "Partners", "nav.faq": "FAQ",
+            "nav.matches": "Matches & Results", "nav.training": "Training Schedule", "nav.gallery": "Gallery", "nav.sponsors": "Partners", "nav.faq": "FAQ",
             "nav.shop": "Shop", "nav.contact": "Contact Us", 
             "hero.title": "Italian Football Passion in Yokohama", "hero.subtitle": "Where Football Connects People",
             "hero.btn_about": "About Club", "hero.btn_contact": "Contact Us",
             
             "ticker.label": "NEWS",
-            "news.badge_league": "League",
-            "news.badge_trial": "Recruitment",
-            "news.badge_match": "Matches",
-            "news.item1_title": "2027 Season: Officially Entering Both Kanagawa & Yokohama Leagues!",
-            "news.item2_title": "Recruitment Open for New Players & Trial Trainings for 2027 Season",
-            "news.item3_title": "Sat Oct 31: Friendly Match Confirmed vs La Masia Japan!",
-
             "about.title": "About Yokohama Calcio", "about.subtitle": "Italian-style Amateur Football Club in Yokohama",
             "about.p1": "Yokohama Calcio is an amateur football club founded in 2025 in Yokohama.",
             "about.p2": "Guided by the philosophy “Individual Growth, Team Evolution”.",
@@ -623,6 +559,7 @@
             "results.detail": "Details", "results.all_matches": "View All Matches",
             "results.no_next_match": "Next match date is being scheduled. Looking for a friendly match?",
             "results.friendly_req_btn": "Request Friendly Match",
+            "training.title": "Training & Trial Schedule",
             "sponsors.title": "Official Partners",
             "sponsors.hero_title": "Support Yokohama Calcio",
             "sponsors.hero_desc": "We are seeking official partners and sports supporters to join our journey.",
@@ -839,6 +776,8 @@
     function setLanguage(lang) {
         if (!translations[lang]) return;
         currentLang = lang;
+        
+        // Notifica il sistema comune e gli altri script (training.js e ticker.js)
         if (window.YC && window.YC.emitLang) {
             window.YC.emitLang(lang);
         } else {
@@ -853,11 +792,16 @@
             if (ogTitle) ogTitle.setAttribute('content', pageTitles[lang]);
             if (twitterTitle) twitterTitle.setAttribute('content', pageTitles[lang]);
         }
+
         document.querySelectorAll('[data-i18n]').forEach(elem => {
             const key = elem.getAttribute('data-i18n');
             if (translations[lang][key]) elem.innerHTML = translations[lang][key];
         });
-        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-lang') === lang));
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+
         if (cachedMatches.length > 0) renderMatchCenter(cachedMatches);
     }
 
@@ -1151,10 +1095,20 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-        // Inizializza le utility di common.js (Menu mobile, scroll to top, floating CTA, ARIA labels)
+        // Inizializza i moduli base condivisi (Menu mobile, scroll to top, floating CTA, a11y)
         if (window.YC && window.YC.init) {
             window.YC.init();
         }
+
+        // Event listener per la selezione lingua (JP / IT / EN)
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = btn.getAttribute('data-lang');
+                if (lang) setLanguage(lang);
+            });
+        });
+
         setLanguage(currentLang);
         initHeroSlideshow();
         initPageData();
