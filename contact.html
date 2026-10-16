@@ -245,7 +245,7 @@
             transition: all 0.2s ease;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
             position: relative;
             user-select: none;
         }
@@ -275,23 +275,21 @@
             color: #003c82;
         }
         .trial-date-card .date-time-venue {
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             color: #475569;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 6px;
         }
-        .trial-date-badge {
-            font-size: 0.68rem;
+        .venue-map-link {
+            color: #003c82;
+            text-decoration: underline;
             font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 4px;
-            background: #003c82;
-            color: #ffffff;
-            display: inline-block;
-            margin-top: 2px;
-            align-self: flex-start;
+            transition: color 0.2s ease;
+        }
+        .venue-map-link:hover {
+            color: #87ceeb;
         }
 
         .privacy-box {
@@ -1196,7 +1194,7 @@
             "form.staff_role_trainer": "Trainer / Physio",
             "form.staff_role_kit": "Kit / Equipment Manager",
             "form.staff_role_media": "Media / Photographer",
-            "form.match_sec_title": "Opponent Team Information",
+            "match_sec_title": "Opponent Team Information",
             "form.match_team_name_label": "Team Name",
             "form.match_league_label": "League / Division",
             "form.match_1st_kit_label": "1st Kit",
@@ -1387,6 +1385,11 @@
             const valueStr = `${item.date} (${locName}) ${item.time || ''}`.trim();
             const isSelected = selectedTrialDates.includes(valueStr);
 
+            let venueHtml = `<span>${locName}</span>`;
+            if (item.url) {
+                venueHtml = `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="venue-map-link" onclick="event.stopPropagation();">${locName} <i class="fas fa-external-link-alt" style="font-size:0.7rem; margin-left:2px;"></i></a>`;
+            }
+
             html += `
                 <div class="trial-date-card ${isSelected ? 'selected' : ''}" data-value="${valueStr}">
                     <div class="date-header">
@@ -1397,9 +1400,8 @@
                         <i class="far fa-clock"></i> <span>${item.time || 'TBD'}</span>
                     </div>
                     <div class="date-time-venue">
-                        <i class="fas fa-map-marker-alt"></i> <span>${locName}</span>
+                        <i class="fas fa-map-marker-alt"></i> ${venueHtml}
                     </div>
-                    <span class="trial-date-badge">${item.type || 'ALLENAMENTO'}</span>
                 </div>
             `;
         });
@@ -1902,7 +1904,7 @@
                 const isEmailValid = validateEmailInput(emailInput, document.getElementById('email_error'));
                 if (!isEmailValid) { emailInput.focus(); return false; }
                 
-                // CONTROLprototype/CHECK OBBLIGATORIETÀ DATE PROVINO (Sia Giocatori che Staff)
+                // CHECK OBBLIGATORIETÀ DATE PROVINO (Sia Giocatori che Staff)
                 if (category === 'trial' || category === 'staff') {
                     const errorTrialDates = document.getElementById('trial_dates_error');
                     if (selectedTrialDates.length === 0) {
@@ -1990,7 +1992,7 @@
                     }
                 } catch (error) {
                     console.error("Errore invio Formspree:", error);
-                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di connessione.' : 'Connection error.'));
+                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di接続.' : 'Connection error.'));
                 } finally {
                     if (submitBtn) submitBtn.disabled = false;
                 }
