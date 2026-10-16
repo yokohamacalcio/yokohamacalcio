@@ -1,4 +1,4 @@
-/* js/training.js — Sezione "Allenamenti e calendario" con sola griglia mensile interattiva.
+/* js/training.js — Sezione "Allenamenti e calendario" con griglia mensile interattiva, dettagli evento e selezione fino a 3 date prova.
    Dati: trainings.json, matches.json, locations.json, opponents.json.
    Richiede common.js e site-extras.css */
 (function () {
@@ -25,7 +25,12 @@
       ],
       prevMonth: '前月', nextMonth: '次月',
       showAll: 'すべての予定を表示',
-      selectedDatePrefix: '選択した日:'
+      selectedDatePrefix: '選択した日:',
+      selectTrialDate: '体験希望日に選ぶ',
+      selectedTrialDatesTitle: '選択中の体験希望日 (最大3日)',
+      maxDatesReached: '体験希望日は最大3日まで選択できます。',
+      proceedToContact: '選んだ日程で体験を申し込む',
+      clearDates: '選択をリセット'
     },
     it: {
       training: 'Allenamento', match: 'Partita', trialOk: 'Prova aperta',
@@ -43,7 +48,12 @@
       ],
       prevMonth: 'Mese prec.', nextMonth: 'Mese succ.',
       showAll: 'Mostra tutti gli eventi',
-      selectedDatePrefix: 'Data selezionata:'
+      selectedDatePrefix: 'Data selezionata:',
+      selectTrialDate: 'Seleziona per la prova',
+      selectedTrialDatesTitle: 'Date di prova selezionate (max 3)',
+      maxDatesReached: 'Puoi selezionare un massimo di 3 date per la prova.',
+      proceedToContact: 'Procedi con la richiesta per le date scelte',
+      clearDates: 'Resetta selezioni'
     },
     en: {
       training: 'Training', match: 'Match', trialOk: 'Trial welcome',
@@ -61,7 +71,12 @@
       ],
       prevMonth: 'Prev month', nextMonth: 'Next month',
       showAll: 'Show all events',
-      selectedDatePrefix: 'Selected date:'
+      selectedDatePrefix: 'Selected date:',
+      selectTrialDate: 'Select for trial',
+      selectedTrialDatesTitle: 'Selected trial dates (max 3)',
+      maxDatesReached: 'You can select up to 3 dates for trials.',
+      proceedToContact: 'Proceed with selected dates',
+      clearDates: 'Reset selections'
     }
   };
 
@@ -77,6 +92,7 @@
   let viewYear = todayObj.getUTCFullYear();
   let viewMonth = todayObj.getUTCMonth();
   let selectedDateStr = null;
+  let selectedTrialDates = []; // Array per memorizzare fino a 3 date scelta
 
   function h(tag, cls, text) {
     const e = document.createElement(tag);
@@ -169,6 +185,7 @@
       let cellCls = 'yc-cal-cell';
       if (dateKey === todayStr) cellCls += ' is-today';
       if (dateKey === selectedDateStr) cellCls += ' is-selected';
+      if (selectedTrialDates.includes(dateKey)) cellCls += ' is-trial-picked';
 
       const dayEvents = eventsByDate[dateKey] || [];
       if (dayEvents.length > 0) cellCls += ' has-event';
@@ -204,14 +221,139 @@
     return container;
   }
 
+  function renderSelectedDateDetails(events, lang) {
+    if (!selectedDateStr) return null;
+    const L = I[lang];
+    const dayEvents = events.filter(e => e.date === selectedDateStr);
+
+    const wrapper = h('div', 'yc-cal-details-box');
+    const header = h('div', 'yc-cal-details-header');
+    header.appendChild(h('h4', null, `${L.selectedDatePrefix} ${selectedDateStr}`));
+    wrapper.appendChild(header);
+
+    if (dayEvents.length === 0) {
+      wrapper.appendChild(h('p', 'yc-cal-empty-msg', L.emptyDate));
+      return wrapper;
+    }
+
+    const list = h('div', 'yc-cal-details-list');
+    dayEvents.forEach(ev => {
+      const card = h('div', `yc-cal-event-card ${ev.kind}`);
+      
+      const badgeContainer = h('div', 'cal-badges');
+      const kindBadge = h('span', 'cal-kind', ev.kind === 'training' ? L.training : L.match);
+      badgeContainer.appendChild(kindBadge);
+      if (ev.trial) {
+        badgeContainer.appendChild(h('span', 'cal-trial', L.trialOk));
+      }
+      card.appendChild(badgeContainer);
+
+      const titleText = ev.title || (ev.opp ? (opponents[ev.opp]?.name || 'Match vs Opponent') : L.training);
+      card.appendChild(h('div', 'cal-title', titleText));
+
+      if (ev.time) {
+        const meta = h('div', 'cal-meta');
+        meta.append(icon('fa-clock'), document.createTextNode(` ${ev.time}${ev.end ? ' - ' + ev.end : ''}`));
+        if (ev.loc && locations[ev.loc]) {
+          const locObj = locations[ev.loc];
+          const locSpan = h('span');
+          locSpan.append(icon('fa-map-marker-alt'), document.createTextNode(` ${locObj.name || ev.loc}`));
+          meta.appendChild(locSpan);
+        }
+        card.appendChild(meta);
+      }
+
+      if (ev.note) {
+        card.appendChild(h('p', 'cal-note', ev.note));
+      }
+
+      // Pulsante per selezionare la data per la prova (max 3)
+      const selectBtn = h('button', 'yc-cal-select-date-btn');
+      const isAlreadyPicked = selectedTrialDates.includes(ev.date);
+      selectBtn.innerHTML = `<i class="fas ${isAlreadyPicked ? 'fa-check-circle' : 'fa-plus-circle'}"></i> ${isAlreadyPicked ? (lang === 'ja' ? '選択済み' : (lang === 'it' ? 'Data selezionata' : 'Selected')) : L.selectTrialDate}`;
+      
+      if (isAlreadyPicked) {
+        selectBtn.classList.add('picked');
+      }
+
+      selectBtn.addEventListener('click', () => {
+        if (selectedTrialDates.includes(ev.date)) {
+          selectedTrialDates = selectedTrialDates.filter(d => d !== ev.date);
+        } else {
+          if (selectedTrialDates.length >= 3) {
+            alert(L.maxDatesReached);
+            return;
+          }
+          selectedTrialDates.push(ev.date);
+        }
+        render();
+      });
+
+      card.appendChild(selectBtn);
+      list.appendChild(card);
+    });
+
+    wrapper.appendChild(list);
+    return wrapper;
+  }
+
+  function renderTrialSelectionBar(lang) {
+    if (selectedTrialDates.length === 0) return null;
+    const L = I[lang];
+    const bar = h('div', 'yc-trial-selection-bar');
+
+    const title = h('div', 'yc-trial-bar-title');
+    title.innerHTML = `<i class="fas fa-clipboard-check"></i> <strong>${L.selectedTrialDatesTitle}</strong>`;
+    bar.appendChild(title);
+
+    const badges = h('div', 'yc-trial-badges');
+    selectedTrialDates.forEach((d, idx) => {
+      const badge = h('span', 'yc-trial-badge', `${idx + 1}. ${d}`);
+      const removeBtn = h('button', 'yc-trial-remove-btn');
+      removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+      removeBtn.addEventListener('click', () => {
+        selectedTrialDates = selectedTrialDates.filter(item => item !== d);
+        render();
+      });
+      badge.appendChild(removeBtn);
+      badges.appendChild(badge);
+    });
+    bar.appendChild(badges);
+
+    const actions = h('div', 'yc-trial-bar-actions');
+    const cta = h('a', 'recruitment-btn', L.proceedToContact);
+    cta.href = `contact.html?type=trial&dates=${encodeURIComponent(selectedTrialDates.join(','))}`;
+    cta.prepend(icon('fa-paper-plane'));
+    actions.appendChild(cta);
+
+    const resetBtn = h('button', 'yc-trial-reset-btn', L.clearDates);
+    resetBtn.addEventListener('click', () => {
+      selectedTrialDates = [];
+      render();
+    });
+    actions.appendChild(resetBtn);
+
+    bar.appendChild(actions);
+    return bar;
+  }
+
   function render() {
     const lang = YC.lang();
     const L = I[lang] || I.ja;
     ROOT.textContent = '';
 
-    // Renderizza solo il widget calendario mensile
     const allEvents = getAllEvents();
+    
+    // Griglia Calendario
     ROOT.appendChild(renderCalendarWidget(allEvents, lang));
+
+    // Dettagli data selezionata
+    const detailsBox = renderSelectedDateDetails(allEvents, lang);
+    if (detailsBox) ROOT.appendChild(detailsBox);
+
+    // Barra fluttuante / riepilogo delle date prova scelte (fino a 3)
+    const trialBar = renderTrialSelectionBar(lang);
+    if (trialBar) ROOT.appendChild(trialBar);
 
     // Abbonamento Calendario (.ics)
     const feed = location.host + '/calendar.ics';
