@@ -1,4 +1,4 @@
-/* js/training.js — Sezione "Allenamenti e calendario" con griglia mensile interattiva, dettagli evento e selezione fino a 3 date prova.
+/* js/training.js — Sezione "Allenamenti e calendario" con griglia mensile, dettagli completi e selezione fino a 3 date prova.
    Dati: trainings.json, matches.json, locations.json, opponents.json.
    Richiede common.js e site-extras.css */
 (function () {
@@ -92,7 +92,7 @@
   let viewYear = todayObj.getUTCFullYear();
   let viewMonth = todayObj.getUTCMonth();
   let selectedDateStr = null;
-  let selectedTrialDates = []; // Array per memorizzare fino a 3 date scelta
+  let selectedTrialDates = [];
 
   function h(tag, cls, text) {
     const e = document.createElement(tag);
@@ -106,12 +106,33 @@
     const ev = [];
     trainings.forEach(t => {
       if (!t || !t.date) return;
-      ev.push({ kind: 'training', id: t.id || t.date, date: t.date, time: t.time || '', end: t.end || '',
-        loc: t.location_id, trial: !!t.trial_open, note: t.note, title: t.title });
+      ev.push({ 
+        kind: 'training', 
+        id: t.id || t.date, 
+        date: t.date, 
+        time: t.time || '', 
+        end: t.end || '',
+        loc: t.location_id, 
+        trial: !!t.trial_open, 
+        note: t.note || t.description || '', 
+        title: t.title || t.name || '' 
+      });
     });
     matches.forEach(m => {
       if (m.status !== 'upcoming' || !m.date) return;
-      ev.push({ kind: 'match', id: m.id, date: m.date, time: m.time || '', end: '', loc: m.location_id, opp: m.opponent_id });
+      const oppObj = opponents[m.opponent_id] || {};
+      const oppName = oppObj.name || m.opponent_name || 'Vs Opponent';
+      ev.push({ 
+        kind: 'match', 
+        id: m.id, 
+        date: m.date, 
+        time: m.time || '', 
+        end: m.end || '', 
+        loc: m.location_id, 
+        opp: m.opponent_id,
+        title: `vs ${oppName}`,
+        note: m.note || m.description || ''
+      });
     });
     ev.sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
     return ev;
@@ -179,218 +200,4 @@
 
     for (let day = 1; day <= daysInMonth; day++) {
       const mStr = String(viewMonth + 1).padStart(2, '0');
-      const dStr = String(day).padStart(2, '0');
-      const dateKey = `${viewYear}-${mStr}-${dStr}`;
-
-      let cellCls = 'yc-cal-cell';
-      if (dateKey === todayStr) cellCls += ' is-today';
-      if (dateKey === selectedDateStr) cellCls += ' is-selected';
-      if (selectedTrialDates.includes(dateKey)) cellCls += ' is-trial-picked';
-
-      const dayEvents = eventsByDate[dateKey] || [];
-      if (dayEvents.length > 0) cellCls += ' has-event';
-
-      const cell = h('div', cellCls);
-      cell.appendChild(h('span', 'yc-cal-num', String(day)));
-
-      if (dayEvents.length > 0) {
-        const dots = h('div', 'yc-cal-dots');
-        dayEvents.forEach(ev => {
-          dots.appendChild(h('span', 'yc-cal-dot yc-cal-dot-' + ev.kind));
-        });
-        cell.appendChild(dots);
-      }
-
-      cell.addEventListener('click', () => {
-        selectedDateStr = (selectedDateStr === dateKey) ? null : dateKey;
-        render();
-      });
-
-      grid.appendChild(cell);
-    }
-
-    const totalCells = startDow + daysInMonth;
-    const nextPadding = (7 - (totalCells % 7)) % 7;
-    for (let n = 1; n <= nextPadding; n++) {
-      const cell = h('div', 'yc-cal-cell is-other');
-      cell.appendChild(h('span', 'yc-cal-num', String(n)));
-      grid.appendChild(cell);
-    }
-
-    container.appendChild(grid);
-    return container;
-  }
-
-  function renderSelectedDateDetails(events, lang) {
-    if (!selectedDateStr) return null;
-    const L = I[lang];
-    const dayEvents = events.filter(e => e.date === selectedDateStr);
-
-    const wrapper = h('div', 'yc-cal-details-box');
-    const header = h('div', 'yc-cal-details-header');
-    header.appendChild(h('h4', null, `${L.selectedDatePrefix} ${selectedDateStr}`));
-    wrapper.appendChild(header);
-
-    if (dayEvents.length === 0) {
-      wrapper.appendChild(h('p', 'yc-cal-empty-msg', L.emptyDate));
-      return wrapper;
-    }
-
-    const list = h('div', 'yc-cal-details-list');
-    dayEvents.forEach(ev => {
-      const card = h('div', `yc-cal-event-card ${ev.kind}`);
-      
-      const badgeContainer = h('div', 'cal-badges');
-      const kindBadge = h('span', 'cal-kind', ev.kind === 'training' ? L.training : L.match);
-      badgeContainer.appendChild(kindBadge);
-      if (ev.trial) {
-        badgeContainer.appendChild(h('span', 'cal-trial', L.trialOk));
-      }
-      card.appendChild(badgeContainer);
-
-      const titleText = ev.title || (ev.opp ? (opponents[ev.opp]?.name || 'Match vs Opponent') : L.training);
-      card.appendChild(h('div', 'cal-title', titleText));
-
-      if (ev.time) {
-        const meta = h('div', 'cal-meta');
-        meta.append(icon('fa-clock'), document.createTextNode(` ${ev.time}${ev.end ? ' - ' + ev.end : ''}`));
-        if (ev.loc && locations[ev.loc]) {
-          const locObj = locations[ev.loc];
-          const locSpan = h('span');
-          locSpan.append(icon('fa-map-marker-alt'), document.createTextNode(` ${locObj.name || ev.loc}`));
-          meta.appendChild(locSpan);
-        }
-        card.appendChild(meta);
-      }
-
-      if (ev.note) {
-        card.appendChild(h('p', 'cal-note', ev.note));
-      }
-
-      // Pulsante per selezionare la data per la prova (max 3)
-      const selectBtn = h('button', 'yc-cal-select-date-btn');
-      const isAlreadyPicked = selectedTrialDates.includes(ev.date);
-      selectBtn.innerHTML = `<i class="fas ${isAlreadyPicked ? 'fa-check-circle' : 'fa-plus-circle'}"></i> ${isAlreadyPicked ? (lang === 'ja' ? '選択済み' : (lang === 'it' ? 'Data selezionata' : 'Selected')) : L.selectTrialDate}`;
-      
-      if (isAlreadyPicked) {
-        selectBtn.classList.add('picked');
-      }
-
-      selectBtn.addEventListener('click', () => {
-        if (selectedTrialDates.includes(ev.date)) {
-          selectedTrialDates = selectedTrialDates.filter(d => d !== ev.date);
-        } else {
-          if (selectedTrialDates.length >= 3) {
-            alert(L.maxDatesReached);
-            return;
-          }
-          selectedTrialDates.push(ev.date);
-        }
-        render();
-      });
-
-      card.appendChild(selectBtn);
-      list.appendChild(card);
-    });
-
-    wrapper.appendChild(list);
-    return wrapper;
-  }
-
-  function renderTrialSelectionBar(lang) {
-    if (selectedTrialDates.length === 0) return null;
-    const L = I[lang];
-    const bar = h('div', 'yc-trial-selection-bar');
-
-    const title = h('div', 'yc-trial-bar-title');
-    title.innerHTML = `<i class="fas fa-clipboard-check"></i> <strong>${L.selectedTrialDatesTitle}</strong>`;
-    bar.appendChild(title);
-
-    const badges = h('div', 'yc-trial-badges');
-    selectedTrialDates.forEach((d, idx) => {
-      const badge = h('span', 'yc-trial-badge', `${idx + 1}. ${d}`);
-      const removeBtn = h('button', 'yc-trial-remove-btn');
-      removeBtn.innerHTML = '<i class="fas fa-times"></i>';
-      removeBtn.addEventListener('click', () => {
-        selectedTrialDates = selectedTrialDates.filter(item => item !== d);
-        render();
-      });
-      badge.appendChild(removeBtn);
-      badges.appendChild(badge);
-    });
-    bar.appendChild(badges);
-
-    const actions = h('div', 'yc-trial-bar-actions');
-    const cta = h('a', 'recruitment-btn', L.proceedToContact);
-    cta.href = `contact.html?type=trial&dates=${encodeURIComponent(selectedTrialDates.join(','))}`;
-    cta.prepend(icon('fa-paper-plane'));
-    actions.appendChild(cta);
-
-    const resetBtn = h('button', 'yc-trial-reset-btn', L.clearDates);
-    resetBtn.addEventListener('click', () => {
-      selectedTrialDates = [];
-      render();
-    });
-    actions.appendChild(resetBtn);
-
-    bar.appendChild(actions);
-    return bar;
-  }
-
-  function render() {
-    const lang = YC.lang();
-    const L = I[lang] || I.ja;
-    ROOT.textContent = '';
-
-    const allEvents = getAllEvents();
-    
-    // Griglia Calendario
-    ROOT.appendChild(renderCalendarWidget(allEvents, lang));
-
-    // Dettagli data selezionata
-    const detailsBox = renderSelectedDateDetails(allEvents, lang);
-    if (detailsBox) ROOT.appendChild(detailsBox);
-
-    // Barra fluttuante / riepilogo delle date prova scelte (fino a 3)
-    const trialBar = renderTrialSelectionBar(lang);
-    if (trialBar) ROOT.appendChild(trialBar);
-
-    // Abbonamento Calendario (.ics)
-    const feed = location.host + '/calendar.ics';
-    const sub = h('div', 'cal-sub');
-    sub.appendChild(h('span', 'cal-sub-label', L.subAll));
-    const a1 = h('a', 'cal-sub-link', L.subApple); a1.href = 'webcal://' + feed;
-    const a2 = h('a', 'cal-sub-link', L.subGoogle);
-    a2.href = 'https://calendar.google.com/calendar/r?cid=' + encodeURIComponent('webcal://' + feed);
-    a2.target = '_blank'; a2.rel = 'noopener noreferrer';
-    sub.append(a1, a2);
-    ROOT.appendChild(sub);
-
-    // Box Informativo Prova
-    const info = h('div', 'cal-info');
-    info.appendChild(h('h3', null, L.infoTitle));
-    const ul = h('ul');
-    L.info.forEach(t => ul.appendChild(h('li', null, t)));
-    info.appendChild(ul);
-    const cta = h('a', 'recruitment-btn', L.apply);
-    cta.href = 'contact.html?type=trial';
-    cta.prepend(icon('fa-paper-plane'));
-    info.appendChild(cta);
-    ROOT.appendChild(info);
-  }
-
-  Promise.all([
-    YC.fetchJson('trainings.json', []),
-    YC.fetchJson('matches.json', []),
-    YC.fetchJson('locations.json', {}),
-    YC.fetchJson('opponents.json', {})
-  ]).then(([t, m, l, o]) => {
-    trainings = Array.isArray(t) ? t : [];
-    matches = Array.isArray(m) ? m : [];
-    locations = l && typeof l === 'object' ? l : {};
-    opponents = o && typeof o === 'object' ? o : {};
-    render();
-  });
-
-  document.addEventListener('yc:langchange', render);
-})();
+      const dStr = String(day).padStart(
