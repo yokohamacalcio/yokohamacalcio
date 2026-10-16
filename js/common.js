@@ -148,10 +148,11 @@
   const CTA = { ja: '体験参加を申し込む', it: 'Prenota una prova', en: 'Book a trial' };
   let ctaEl = null;
   function renderCta() { if (ctaEl) ctaEl.querySelector('span').textContent = CTA[state.lang] || CTA.ja; }
+
   function initCta() {
     if (/\/contact(\.html)?\/?$/.test(location.pathname)) return;
     ctaEl = document.createElement('a');
-    ctaEl.className = 'floating-cta';
+    ctaEl.className = 'floating-cta is-hidden';
     ctaEl.href = 'contact.html?type=trial';
     ctaEl.innerHTML = '<i class="fas fa-paper-plane" aria-hidden="true"></i><span></span>';
     document.body.appendChild(ctaEl);
@@ -161,13 +162,11 @@
     let inFooter = false;
 
     const check = () => {
-      // Attivazione insieme a torna su (> 300px di scroll)
-      const pastHeader = window.scrollY > 300;
-      const shouldShow = pastHeader && !inContact && !inFooter;
-      ctaEl.classList.toggle('show', shouldShow);
+      // Nasconde (.is-hidden) se siamo nei primi 300px di scroll, oppure se siamo nei contatti o vicino al footer
+      const shouldHide = (window.scrollY <= 300) || inContact || inFooter;
+      ctaEl.classList.toggle('is-hidden', shouldHide);
     };
 
-    // Nasconde la CTA se la sezione contatti è visibile nello schermo
     const contact = document.getElementById('contact');
     if (contact && 'IntersectionObserver' in window) {
       new IntersectionObserver(es => {
@@ -176,7 +175,6 @@
       }).observe(contact);
     }
 
-    // Nasconde la CTA poco prima del footer (rootMargin anticipa la rilevazione di 80px)
     const footer = document.querySelector('footer, .footer');
     if (footer && 'IntersectionObserver' in window) {
       new IntersectionObserver(es => {
