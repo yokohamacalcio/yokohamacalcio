@@ -352,7 +352,95 @@
 </head>
 <body>
 
-<script>YC.mountHeader('contact');</script>
+<header class="header">
+  <div class="top-bar">
+    <div class="container top-bar-container">
+      <div class="top-bar-social">
+        <a href="https://x.com/yokohamacalcio" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://instagram.com/yokohamacalcio" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://youtube.com/@yokohamacalcio?si=NBPkZ0qFxFVrOIof" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      </div>
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="ja">JP</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="it">IT</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-header-bar">
+    <div class="container header-container">
+      <div class="logo-title">
+        <a href="index.html"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio" class="logo"></a>
+        <a href="index.html" class="brand-name"><span>YOKOHAMA</span><span class="brand-sub">CALCIO</span></a>
+      </div>
+      <div class="desktop-nav-wrapper">
+        <nav class="main-nav">
+          <div class="nav-item dropdown">
+            <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
+              <span data-i18n="nav.about_group">クラブ</span> 
+              <i class="fas fa-chevron-down nav-arrow"></i>
+            </span>
+            <div class="dropdown-menu">
+              <a href="about.html" data-i18n="nav.about">チーム紹介</a>
+              <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
+              <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
+            </div>
+          </div>
+          <div class="nav-item dropdown">
+            <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
+              <span data-i18n="nav.team_group">チーム・選手</span> 
+              <i class="fas fa-chevron-down nav-arrow"></i>
+            </span>
+            <div class="dropdown-menu">
+              <a href="players.html" data-i18n="nav.players">選手紹介</a>
+              <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
+            </div>
+          </div>
+          <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
+          <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
+          <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
+          <a href="contact.html" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
+        </nav>
+      </div>
+      <button class="mobile-menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+    </div>
+  </div>
+
+  <nav class="mobile-nav hidden">
+    <div class="mobile-nav-content">
+      <div class="mobile-nav-header">
+        <div class="logo-title" style="margin: 0;"><span class="brand-name">YOKOHAMA <span class="brand-sub">CALCIO</span></span></div>
+        <button class="mobile-nav-close" aria-label="Chiudi"><i class="fas fa-times"></i></button>
+      </div>
+      <a href="index.html" class="mobile-link"><i class="fas fa-home menu-icon"></i> <span data-i18n="nav.home">ホーム</span></a>
+      <div class="mobile-dropdown-group">
+        <button class="mobile-dropdown-toggle">
+          <div class="mobile-dropdown-toggle-left">
+            <i class="fas fa-shield-alt menu-icon"></i>
+            <span data-i18n="nav.team_group">チーム・選手</span>
+          </div>
+          <i class="fas fa-chevron-down mobile-arrow" style="color: #87ceeb;"></i>
+        </button>
+        <div class="mobile-submenu hidden">
+          <a href="about.html" class="mobile-link sub" data-i18n="nav.about">チーム紹介</a>
+          <a href="players.html" class="mobile-link sub" data-i18n="nav.players">選手紹介</a>
+          <a href="stats.html" class="mobile-link sub" data-i18n="nav.stats">成績・スタッツ</a>
+          <a href="index.html#gallery" class="mobile-link sub" data-i18n="nav.gallery">ギャラリー</a>
+        </div>
+      </div>
+      <a href="matches.html" class="mobile-link"><i class="fas fa-calendar-alt menu-icon"></i> <span data-i18n="nav.matches">試合日程・結果</span></a>
+      <a href="index.html#shop" class="mobile-link"><i class="fas fa-shopping-bag menu-icon"></i> <span data-i18n="nav.shop">ショップ</span></a>
+      <a href="index.html#sponsors" class="mobile-link"><i class="fas fa-handshake menu-icon"></i> <span data-i18n="nav.sponsors">パートナー</span></a>
+      <a href="faq.html" class="mobile-link"><i class="fas fa-question-circle menu-icon"></i> <span data-i18n="nav.faq">よくある質問</span></a>
+      <div class="mobile-cta-wrapper">
+        <a href="contact.html" class="mobile-cta-btn"><i class="fas fa-paper-plane"></i> <span data-i18n="nav.contact">お問い合わせ</span></a>
+      </div>
+    </div>
+  </nav>
+</header>
 
 <section class="section">
     <div class="container">
@@ -761,13 +849,18 @@
     <i class="fas fa-check-circle"></i> <span data-i18n="info.toast_copied">メールアドレスをコピーしました！</span>
 </div>
 
-<script>YC.mountFooter();</script>
+<button id="scrollToTopBtn" aria-label="Torna in cima"><i class="fas fa-chevron-up"></i></button>
+<footer class="footer"><p>&copy; <span id="currentYear"></span> Yokohama Calcio. All Rights Reserved.</p></footer>
 
 <script src="js/training.js"></script>
 
 <script>
     YC.register({
         ja: {
+            "nav.home": "ホーム", "nav.about_group": "クラブ", "nav.team_group": "チーム・選手", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
+            "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー", "nav.faq": "よくある質問",
+            "nav.shop": "ショップ", "nav.contact": "お問い合わせ", "btn.back_home": "ホームに戻る",
+            
             "contact_page.title": "お問い合わせ",
             "contact_page.intro": "体験練習参加、スタッフ応募、練習試合のお申し込み、パートナーシップに関するご質問など、お気軽にお問い合わせください。",
             "form.category_label": "お問い合わせ種別",
@@ -859,6 +952,10 @@
             "privacy.close_btn": "閉じる"
         },
         it: {
+            "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
+            "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.sponsors": "Partner", "nav.faq": "FAQ",
+            "nav.shop": "Shop", "nav.contact": "Contatti", "btn.back_home": "Torna alla Home",
+
             "contact_page.title": "Contatti",
             "contact_page.intro": "Compila il modulo per un allenamento di prova, candidarti nello staff o per partnership e amichevoli.",
             "form.category_label": "Tipo di Richiesta",
@@ -950,6 +1047,10 @@
             "privacy.close_btn": "Chiudi"
         },
         en: {
+            "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
+            "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.sponsors": "Partners", "nav.faq": "FAQ",
+            "nav.shop": "Shop", "nav.contact": "Contact Us", "btn.back_home": "Back to Home",
+
             "contact_page.title": "Contact Us",
             "contact_page.intro": "Feel free to reach out for trial trainings, staff applications, friendly match requests, or partnerships.",
             "form.category_label": "Inquiry Type",
@@ -1165,7 +1266,6 @@
         const dynamicFormContainer = document.getElementById('dynamicFormContainer');
         const trainingWrapper = document.getElementById('training');
 
-        // Mostra il calendario SOLO se la categoria è "trial" (prova) oppure "staff"
         if (trainingWrapper) {
             if (category === 'trial' || category === 'staff') {
                 trainingWrapper.style.display = 'block';
@@ -1388,7 +1488,6 @@
             }
         }
 
-        // Se sono presenti date trasmesse dal calendario, vengono precompilate nel campo Messaggio
         if (datesParam) {
             const messageInput = document.getElementById('message');
             if (messageInput && !messageInput.value.includes(datesParam)) {
@@ -1618,7 +1717,7 @@
                     }
                 } catch (error) {
                     console.error("Errore invio Formspree:", error);
-                    alert(YC.lang() === 'ja' ? '通信エラーが発生しました。' : (YC.lang() === 'it' ? 'Errore di接続.' : 'Connection error.'));
+                    alert(YC.lang() === 'ja' ? '通信エラーが発生しました。' : (YC.lang() === 'it' ? 'Errore di connessione.' : 'Connection error.'));
                 } finally {
                     if (submitBtn) submitBtn.disabled = false;
                 }
