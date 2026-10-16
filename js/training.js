@@ -6,6 +6,42 @@
   const ROOT = document.getElementById('trainingRoot');
   if (!ROOT || !window.YC) return;
 
+  // Inietta gli stili per garantire la visibilità del pulsante di selezione data
+  if (!document.getElementById('yc-training-custom-styles')) {
+    const styleEl = document.createElement('style');
+    styleEl.id = 'yc-training-custom-styles';
+    styleEl.textContent = `
+      .yc-cal-select-date-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        margin-top: 12px !important;
+        padding: 9px 18px !important;
+        background-color: #003c82 !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 8px !important;
+        font-weight: 700 !important;
+        font-size: 0.88rem !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        box-shadow: 0 2px 6px rgba(0, 60, 130, 0.2) !important;
+        width: auto !important;
+      }
+      .yc-cal-select-date-btn:hover {
+        background-color: #00224a !important;
+        transform: translateY(-1px) !important;
+      }
+      .yc-cal-select-date-btn.picked {
+        background-color: #10b981 !important;
+        color: #ffffff !important;
+        box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3) !important;
+      }
+    `;
+    document.head.appendChild(styleEl);
+  }
+
   const LOCALE = { ja: 'ja-JP', it: 'it-IT', en: 'en-US' };
 
   const I = {
@@ -102,7 +138,17 @@
   }
   function icon(name) { const i = h('i', 'fas ' + name); i.setAttribute('aria-hidden', 'true'); return i; }
 
-  function getAllEvents() {
+  // Helper per estrarre stringhe da oggetti multilingua
+  function str(val, lang) {
+    if (!val) return '';
+    if (typeof val === 'string') return val;
+    if (typeof val === 'object') {
+      return val[lang] || val.ja || val.it || val.en || '';
+    }
+    return String(val);
+  }
+
+  function getAllEvents(lang) {
     const ev = [];
     trainings.forEach(t => {
       if (!t || !t.date) return;
@@ -114,14 +160,14 @@
         end: t.end || '',
         loc: t.location_id, 
         trial: !!t.trial_open, 
-        note: t.note || t.description || '', 
-        title: t.title || t.name || '' 
+        note: str(t.note || t.description, lang), 
+        title: str(t.title || t.name, lang) 
       });
     });
     matches.forEach(m => {
       if (m.status !== 'upcoming' || !m.date) return;
       const oppObj = opponents[m.opponent_id] || {};
-      const oppName = oppObj.name || m.opponent_name || 'Vs Opponent';
+      const oppName = str(oppObj.name || m.opponent_name, lang) || 'Opponent';
       ev.push({ 
         kind: 'match', 
         id: m.id, 
@@ -131,7 +177,7 @@
         loc: m.location_id, 
         opp: m.opponent_id,
         title: `vs ${oppName}`,
-        note: m.note || m.description || ''
+        note: str(m.note || m.description, lang)
       });
     });
     ev.sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
@@ -277,21 +323,20 @@
         meta.append(icon('fa-clock'), document.createTextNode(` ${ev.time}${ev.end ? ' - ' + ev.end : ''}`));
       }
       
-      // Mostra la location SOLO per le partite e non per gli allenamenti
       if (ev.kind === 'match' && ev.loc && locations[ev.loc]) {
         const locObj = locations[ev.loc];
+        const locName = str(locObj.name, lang) || ev.loc;
         const locSpan = h('span');
-        const locIcon = icon('fa-map-marker-alt');
-        locSpan.appendChild(locIcon);
+        locSpan.appendChild(icon('fa-map-marker-alt'));
         
         if (locObj.url) {
-          const locLink = h('a', null, ` ${locObj.name || ev.loc}`);
+          const locLink = h('a', null, ` ${locName}`);
           locLink.href = locObj.url;
           locLink.target = '_blank';
           locLink.rel = 'noopener noreferrer';
           locSpan.appendChild(locLink);
         } else {
-          locSpan.appendChild(document.createTextNode(` ${locObj.name || ev.loc}`));
+          locSpan.appendChild(document.createTextNode(` ${locName}`));
         }
         meta.appendChild(locSpan);
       }
@@ -376,7 +421,7 @@
     const L = I[lang] || I.ja;
     ROOT.textContent = '';
 
-    const allEvents = getAllEvents();
+    const allEvents = getAllEvents(lang);
     
     ROOT.appendChild(renderCalendarWidget(allEvents, lang));
 
