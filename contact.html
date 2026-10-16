@@ -49,15 +49,6 @@
         }
         *, *::before, *::after { box-sizing: border-box; }
 
-        .training-contact-wrapper {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 6px 20px rgba(0, 34, 74, 0.06);
-            border: 1px solid #e2e8f0;
-        }
-
         .contact-grid-container {
             display: grid;
             grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
@@ -238,6 +229,71 @@
             accent-color: #003c82; width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; cursor: pointer;
         }
 
+        /* Trial Dates Picker Styling */
+        .trial-dates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .trial-date-card {
+            border: 2px solid #cbd5e1;
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 12px 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            position: relative;
+            user-select: none;
+        }
+        .trial-date-card:hover {
+            border-color: #87ceeb;
+            background: #f0f9ff;
+        }
+        .trial-date-card.selected {
+            border-color: #003c82;
+            background: #e0f2fe;
+            box-shadow: 0 2px 8px rgba(0, 60, 130, 0.15);
+        }
+        .trial-date-card .date-header {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #00224a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .trial-date-card .date-check-icon {
+            color: #cbd5e1;
+            font-size: 1rem;
+            transition: color 0.2s ease;
+        }
+        .trial-date-card.selected .date-check-icon {
+            color: #003c82;
+        }
+        .trial-date-card .date-time-venue {
+            font-size: 0.78rem;
+            color: #475569;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .trial-date-badge {
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #003c82;
+            color: #ffffff;
+            display: inline-block;
+            margin-top: 2px;
+            align-self: flex-start;
+        }
+
         .privacy-box {
             background: #f8fafc; border: 1px solid #cbd5e1; padding: 14px; border-radius: 8px; margin-top: 15px; margin-bottom: 10px;
         }
@@ -341,6 +397,7 @@
             .form-row-date-age { gap: 8px; }
             .privacy-modal-card { max-height: 90vh; }
             .privacy-modal-body { padding: 16px; font-size: 0.86rem; }
+            .trial-dates-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 600px) {
@@ -400,7 +457,6 @@
             </div>
           </div>
           <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
-          <a href="contact.html?type=trial#training" data-i18n="nav.training">練習日程</a>
           <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
           <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
           <a href="contact.html" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
@@ -433,7 +489,6 @@
         </div>
       </div>
       <a href="matches.html" class="mobile-link"><i class="fas fa-calendar-alt menu-icon"></i> <span data-i18n="nav.matches">試合日程・結果</span></a>
-      <a href="contact.html?type=trial#training" class="mobile-link"><i class="fas fa-running menu-icon"></i> <span data-i18n="nav.training">練習日程</span></a>
       <a href="index.html#shop" class="mobile-link"><i class="fas fa-shopping-bag menu-icon"></i> <span data-i18n="nav.shop">ショップ</span></a>
       <a href="index.html#sponsors" class="mobile-link"><i class="fas fa-handshake menu-icon"></i> <span data-i18n="nav.sponsors">パートナー</span></a>
       <a href="faq.html" class="mobile-link"><i class="fas fa-question-circle menu-icon"></i> <span data-i18n="nav.faq">よくある質問</span></a>
@@ -450,11 +505,6 @@
         <p style="text-align: center; color: #64748b; margin-bottom: 35px; font-size: 0.98rem;" data-i18n="contact_page.intro">
             体験練習参加、スタッフ応募、練習試合のお申し込み、パートナーシップに関するご質問など、お気軽にお問い合わせください。
         </p>
-
-        <!-- Calendario nascosto di default: visibile solo se viene selezionato Prova ('trial') o Staff ('staff') -->
-        <section class="training-contact-wrapper" id="training" style="display: none;">
-            <div id="trainingRoot"></div>
-        </section>
 
         <div class="contact-grid-container">
             
@@ -524,6 +574,29 @@
                             </label>
                             <input type="email" id="email" name="email" class="form-control" placeholder="example@email.com" required>
                             <div id="email_error" class="error-banner"><i class="fas fa-exclamation-triangle"></i> <span data-i18n="form.email_error">有効なメールアドレスを入力してください。</span></div>
+                        </div>
+
+                        <!-- SEZIONE DATE PROVINO (Sia Giocatori che Staff) -->
+                        <div id="trialDatesWrapper" class="form-group" style="display: none;">
+                            <div class="field-section-title"><i class="fas fa-calendar-check"></i> <span data-i18n="form.trial_dates_sec_title">体験参加希望日の選択</span></div>
+                            <label>
+                                <span data-i18n="form.trial_dates_label">体験希望日（1〜3つ選択）</span>
+                                <span class="required-tag" data-i18n="form.required">必須</span>
+                            </label>
+                            <div class="field-hint" data-i18n="form.trial_dates_hint">※以下から参加希望の練習日程を1〜3つ選択してください</div>
+                            
+                            <div id="trialDatesContainer" class="trial-dates-grid"></div>
+
+                            <!-- CAMPI REALI PER FORMSPREE -->
+                            <input type="hidden" name="trial_date_1" id="trial_date_1">
+                            <input type="hidden" name="trial_date_2" id="trial_date_2">
+                            <input type="hidden" name="trial_date_3" id="trial_date_3">
+                            <input type="hidden" name="trial_dates_summary" id="trial_dates_summary">
+
+                            <div id="trial_dates_error" class="error-banner">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span data-i18n="form.trial_dates_error">希望日を少なくとも1つ選択してください。</span>
+                            </div>
                         </div>
 
                         <div id="trialFieldsWrapper" style="display: none;">
@@ -856,7 +929,6 @@
 
 <!-- INCLUSIONE SCRIPT JS -->
 <script src="js/common.js"></script>
-<script src="js/training.js"></script>
 
 <script>
     const pageTitles = {
@@ -868,7 +940,7 @@
     const translations = {
         ja: {
             "nav.home": "ホーム", "nav.about_group": "クラブ", "nav.team_group": "チーム・選手", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
-            "nav.matches": "試合日程・結果", "nav.training": "練習日程", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー", "nav.faq": "よくある質問",
+            "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー", "nav.faq": "よくある質問",
             "nav.shop": "ショップ", "nav.contact": "お問い合わせ", "btn.back_home": "ホームに戻る",
             
             "contact_page.title": "お問い合わせ",
@@ -888,6 +960,11 @@
             "form.kana_error": "全角カタカナで入力してください。",
             "form.email_label": "メールアドレス",
             "form.email_error": "有効なメールアドレスを入力してください。",
+            "form.trial_dates_sec_title": "体験参加希望日の選択",
+            "form.trial_dates_label": "体験希望日（1〜3つ選択）",
+            "form.trial_dates_hint": "※以下から参加希望の練習日程を1〜3つ選択してください（必須）",
+            "form.trial_dates_error": "希望日を少なくとも1つ選択してください。",
+            "form.no_trainings": "現在選択可能な練習日程はありません。メッセージ欄にご希望日時をご記入ください。",
             "form.player_sec_title": "選手情報",
             "form.birth_date_label": "生年月日",
             "form.birth_date_hint": "※年齢は自動計算されます",
@@ -963,7 +1040,7 @@
         },
         it: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
-            "nav.matches": "Partite & Risultati", "nav.training": "Allenamenti", "nav.gallery": "Galleria", "nav.sponsors": "Partner", "nav.faq": "FAQ",
+            "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.sponsors": "Partner", "nav.faq": "FAQ",
             "nav.shop": "Shop", "nav.contact": "Contatti", "btn.back_home": "Torna alla Home",
 
             "contact_page.title": "Contatti",
@@ -983,6 +1060,11 @@
             "form.kana_error": "Inserisci il testo in Katakana.",
             "form.email_label": "Indirizzo Email",
             "form.email_error": "Inserisci un indirizzo email valido.",
+            "form.trial_dates_sec_title": "Selezione Date Provino",
+            "form.trial_dates_label": "Date desiderate (Scegli da 1 a 3 date)",
+            "form.trial_dates_hint": "※ Seleziona da 1 a 3 date disponibili tra quelle proposte (Obbligatorio)",
+            "form.trial_dates_error": "Seleziona almeno una data per il provino.",
+            "form.no_trainings": "Nessun allenamento disponibile al momento. Indica le tue disponibilità nel messaggio.",
             "form.player_sec_title": "Info Giocatore",
             "form.birth_date_label": "Data di Nascita",
             "form.birth_date_hint": "※ Età calcolata in automatico",
@@ -1058,7 +1140,7 @@
         },
         en: {
             "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
-            "nav.matches": "Matches & Results", "nav.training": "Training Schedule", "nav.gallery": "Gallery", "nav.sponsors": "Partners", "nav.faq": "FAQ",
+            "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.sponsors": "Partners", "nav.faq": "FAQ",
             "nav.shop": "Shop", "nav.contact": "Contact Us", "btn.back_home": "Back to Home",
 
             "contact_page.title": "Contact Us",
@@ -1078,6 +1160,11 @@
             "form.kana_error": "Please enter in Katakana.",
             "form.email_label": "Email Address",
             "form.email_error": "Please enter a valid email address.",
+            "form.trial_dates_sec_title": "Select Trial Dates",
+            "form.trial_dates_label": "Trial Dates (Select 1 to 3 dates)",
+            "form.trial_dates_hint": "※ Select 1 to 3 available training dates below (Required)",
+            "form.trial_dates_error": "Please select at least one date for the trial.",
+            "form.no_trainings": "No available training dates at the moment. Please specify your availability in the message field.",
             "form.player_sec_title": "Player Details",
             "form.birth_date_label": "Date of Birth",
             "form.birth_date_hint": "※ Age calculated automatically",
@@ -1154,6 +1241,9 @@
     };
 
     let currentLang = (window.YC && window.YC.getInitialLang) ? window.YC.getInitialLang() : (localStorage.getItem('preferred_lang') || 'ja');
+    let availableTrainings = [];
+    let locationsData = {};
+    let selectedTrialDates = [];
 
     const subPositionsData = {
         GK: [{ id: 'GK', ja: 'GK (ゴールキーパー)', it: 'Portiere', en: 'Goalkeeper' }],
@@ -1179,6 +1269,10 @@
         last_name_kana: "セイ (フリガナ) / Cognome Kana", first_name_kana: "メイ (フリガナ) / Nome Kana",
         email: "メールアドレス / Email", birth_date: "生年月日 / Data di Nascita",
         calc_age_player: "年齢 / Età", calc_age_staff: "年齢 / Età",
+        trial_date_1: "体験希望日 1 / Data Provino 1",
+        trial_date_2: "体験希望日 2 / Data Provino 2",
+        trial_date_3: "体験希望日 3 / Data Provino 3",
+        trial_dates_summary: "体験希望日一覧 / Riepilogo Date Provini",
         experience_level: "競技レベル / Livello Esperienza", experience_details: "サッカー歴・前所属 / Esperienza Precedente",
         macro_position: "希望ポジション / Ruolo Principale", "sub_positions[]": "詳細役割 / Ruoli Specifici Giocatore",
         staff_birth_date: "生年月日 / Data di Nascita Staff", staff_role: "希望スタッフ役職 / Ruolo Staff Richiesto", staff_experience: "指導歴・スポーツ経歴 / Esperienza Staff",
@@ -1233,7 +1327,120 @@
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
 
+        renderTrialDatesUI();
         document.dispatchEvent(new CustomEvent('yc:langchange', { detail: lang }));
+    }
+
+    async function loadCalendarData() {
+        try {
+            const [tResp, lResp] = await Promise.allSettled([
+                fetch('trainings.json'),
+                fetch('locations.json')
+            ]);
+            
+            if (lResp.status === 'fulfilled' && lResp.value.ok) {
+                locationsData = await lResp.value.json();
+            }
+
+            if (tResp.status === 'fulfilled' && tResp.value.ok) {
+                const rawTrainings = await tResp.value.json();
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                availableTrainings = rawTrainings.filter(t => {
+                    if (!t.date) return false;
+                    const cleanDate = t.date.trim().replace(/\./g, '-');
+                    const d = new Date(cleanDate);
+                    return !isNaN(d.getTime()) && d >= today;
+                }).sort((a, b) => new Date(a.date.replace(/\./g, '-')) - new Date(b.date.replace(/\./g, '-')));
+            }
+
+            renderTrialDatesUI();
+        } catch (e) {
+            console.error("Errore caricamento dati calendario:", e);
+        }
+    }
+
+    function renderTrialDatesUI() {
+        const container = document.getElementById('trialDatesContainer');
+        if (!container) return;
+
+        if (availableTrainings.length === 0) {
+            container.innerHTML = `<div style="grid-column: 1/-1; padding: 15px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; color: #64748b; font-size: 0.88rem; text-align: center;">${translations[currentLang]['form.no_trainings']}</div>`;
+            return;
+        }
+
+        let html = '';
+        availableTrainings.forEach(item => {
+            const cleanDate = item.date.trim().replace(/\./g, '-');
+            const d = new Date(cleanDate);
+            const formattedDate = new Intl.DateTimeFormat(currentLang === 'ja' ? 'ja-JP' : (currentLang === 'it' ? 'it-IT' : 'en-US'), {
+                month: 'short', day: 'numeric', weekday: 'short'
+            }).format(d);
+
+            let locName = item.venue || item.location_id || '';
+            if (item.location_id && locationsData[item.location_id]) {
+                const locObj = locationsData[item.location_id];
+                locName = locObj[currentLang] || locObj['ja'] || locName;
+            }
+
+            const valueStr = `${item.date} (${locName}) ${item.time || ''}`.trim();
+            const isSelected = selectedTrialDates.includes(valueStr);
+
+            html += `
+                <div class="trial-date-card ${isSelected ? 'selected' : ''}" data-value="${valueStr}">
+                    <div class="date-header">
+                        <span>${formattedDate}</span>
+                        <i class="fas ${isSelected ? 'fa-check-circle' : 'fa-circle'} date-check-icon"></i>
+                    </div>
+                    <div class="date-time-venue">
+                        <i class="far fa-clock"></i> <span>${item.time || 'TBD'}</span>
+                    </div>
+                    <div class="date-time-venue">
+                        <i class="fas fa-map-marker-alt"></i> <span>${locName}</span>
+                    </div>
+                    <span class="trial-date-badge">${item.type || 'ALLENAMENTO'}</span>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+
+        container.querySelectorAll('.trial-date-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const val = card.getAttribute('data-value');
+                if (selectedTrialDates.includes(val)) {
+                    selectedTrialDates = selectedTrialDates.filter(v => v !== val);
+                } else {
+                    if (selectedTrialDates.length >= 3) {
+                        alert(currentLang === 'ja' ? '選択できる希望日は最大3つまでです。' : (currentLang === 'it' ? 'Puoi selezionare al massimo 3 date.' : 'You can select up to 3 dates.'));
+                        return;
+                    }
+                    selectedTrialDates.push(val);
+                }
+                updateTrialDatesInputs();
+                renderTrialDatesUI();
+            });
+        });
+    }
+
+    function updateTrialDatesInputs() {
+        const input1 = document.getElementById('trial_date_1');
+        const input2 = document.getElementById('trial_date_2');
+        const input3 = document.getElementById('trial_date_3');
+        const summaryInput = document.getElementById('trial_dates_summary');
+        const errorBanner = document.getElementById('trial_dates_error');
+
+        if (input1) input1.value = selectedTrialDates[0] || '';
+        if (input2) input2.value = selectedTrialDates[1] || '';
+        if (input3) input3.value = selectedTrialDates[2] || '';
+        if (summaryInput) summaryInput.value = selectedTrialDates.join(' | ');
+
+        if (errorBanner) {
+            if (selectedTrialDates.length > 0) {
+                errorBanner.style.display = 'none';
+            }
+        }
     }
 
     function updateFormspreeHiddenFields() {
@@ -1310,21 +1517,19 @@
         const categorySelect = document.getElementById('category');
         const category = categorySelect ? categorySelect.value : '';
         const dynamicFormContainer = document.getElementById('dynamicFormContainer');
-        const trainingWrapper = document.getElementById('training');
-
-        if (trainingWrapper) {
-            if (category === 'trial' || category === 'staff') {
-                trainingWrapper.style.display = 'block';
-            } else {
-                trainingWrapper.style.display = 'none';
-            }
-        }
+        const trialDatesWrapper = document.getElementById('trialDatesWrapper');
 
         if (!category) {
             if (dynamicFormContainer) dynamicFormContainer.style.display = 'none';
             return;
         } else {
             if (dynamicFormContainer) dynamicFormContainer.style.display = 'block';
+        }
+
+        if (category === 'trial' || category === 'staff') {
+            if (trialDatesWrapper) trialDatesWrapper.style.display = 'block';
+        } else {
+            if (trialDatesWrapper) trialDatesWrapper.style.display = 'none';
         }
 
         const playerWrapper = document.getElementById('trialFieldsWrapper');
@@ -1523,7 +1728,6 @@
     function handleUrlTypeParam() {
         const urlParams = new URLSearchParams(window.location.search);
         const typeParam = urlParams.get('type');
-        const datesParam = urlParams.get('dates');
         const categorySelect = document.getElementById('category');
 
         if (typeParam && categorySelect) {
@@ -1531,14 +1735,6 @@
                 categorySelect.value = typeParam;
                 updateSectionVisibility();
                 updateFormspreeHiddenFields();
-            }
-        }
-
-        if (datesParam) {
-            const messageInput = document.getElementById('message');
-            if (messageInput && !messageInput.value.includes(datesParam)) {
-                const datesLabel = currentLang === 'ja' ? '【体験希望日】' : (currentLang === 'it' ? '[Date prova selezionate]' : '[Selected trial dates]');
-                messageInput.value = `${datesLabel}\n${datesParam}\n\n` + messageInput.value;
             }
         }
     }
@@ -1597,6 +1793,7 @@
         });
 
         setLanguage(currentLang);
+        loadCalendarData();
 
         const todayStr = (window.YC && window.YC.todayJST) ? window.YC.todayJST() : new Date().toISOString().split('T')[0];
         const playerBirth = document.getElementById('birth_date');
@@ -1705,6 +1902,18 @@
                 const isEmailValid = validateEmailInput(emailInput, document.getElementById('email_error'));
                 if (!isEmailValid) { emailInput.focus(); return false; }
                 
+                // CONTROLprototype/CHECK OBBLIGATORIETÀ DATE PROVINO (Sia Giocatori che Staff)
+                if (category === 'trial' || category === 'staff') {
+                    const errorTrialDates = document.getElementById('trial_dates_error');
+                    if (selectedTrialDates.length === 0) {
+                        if (errorTrialDates) errorTrialDates.style.display = 'flex';
+                        if (globalErrorMsg) globalErrorMsg.textContent = (translations[currentLang] && translations[currentLang]['form.error_general']) || '';
+                        if (globalErrorBox) globalErrorBox.style.display = 'flex';
+                        errorTrialDates.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        return false;
+                    }
+                }
+
                 if (category === 'trial') {
                     const ageErr = document.getElementById('age_error_player');
                     const ageMsg = document.getElementById('age_error_player_msg');
@@ -1769,6 +1978,8 @@
                     if (response.ok) {
                         if (confirmModal) confirmModal.classList.add('show');
                         form.reset();
+                        selectedTrialDates = [];
+                        updateTrialDatesInputs();
                         document.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-valid', 'is-invalid'));
                         if (calcAgePlayer) calcAgePlayer.value = '--';
                         if (calcAgeStaff) calcAgeStaff.value = '--';
