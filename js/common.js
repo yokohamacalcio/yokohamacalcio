@@ -156,11 +156,24 @@
     ctaEl.innerHTML = '<i class="fas fa-paper-plane" aria-hidden="true"></i><span></span>';
     document.body.appendChild(ctaEl);
     renderCta();
-    // nascondi il pulsante quando la sezione contatti è già visibile
+
+    let inContact = false;
+    const check = () => {
+      const shouldShow = window.scrollY > 300 && !inContact;
+      ctaEl.classList.toggle('show', shouldShow);
+    };
+
     const contact = document.getElementById('contact');
     if (contact && 'IntersectionObserver' in window) {
-      new IntersectionObserver(es => ctaEl.classList.toggle('is-hidden', es[0].isIntersecting)).observe(contact);
+      new IntersectionObserver(es => {
+        inContact = es[0].isIntersecting;
+        check();
+      }).observe(contact);
     }
+
+    window.addEventListener('scroll', check, { passive: true });
+    window.addEventListener('load', check);
+    check();
   }
 
   /** Inizializza tutto ciò che è identico su ogni pagina. */
