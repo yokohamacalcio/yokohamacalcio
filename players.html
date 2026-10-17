@@ -33,53 +33,72 @@
 <script src="js/data.js"></script>
 
 <style>
-/* --- carta giocatore (fronte/retro) --- */
+/* --- Carta Giocatore (Fronte/Retro 3D Fix iOS) --- */
 .role-group { margin: 34px 0; }
 .role-title { font-size: 1.35rem; color: var(--dark-navy); border-bottom: 3px solid var(--primary-sky); padding-bottom: 8px; margin-bottom: 22px; display: flex; align-items: center; gap: 10px; font-family: var(--font-brand); letter-spacing: 1px; }
 .role-title small { font-family: var(--font-main); font-size: .8rem; color: #64748b; font-weight: 700; }
 .players-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 260px)); gap: 22px; justify-content: center; }
-.player-card { perspective: 1000px; height: 440px; cursor: pointer; background: none; border: 0; box-shadow: none; max-width: none; transition: transform .3s; }
+
+.player-card { perspective: 1000px; -webkit-perspective: 1000px; height: 440px; cursor: pointer; background: none; border: 0; box-shadow: none; max-width: none; transition: transform .3s; }
 .player-card:hover { transform: translateY(-4px); }
 .player-card:focus-visible { outline: 3px solid var(--primary-sky); outline-offset: 3px; border-radius: 12px; }
-.player-card-inner { position: relative; width: 100%; height: 100%; transition: transform .6s cubic-bezier(.4,0,.2,1); transform-style: preserve-3d; }
-.player-card.is-flipped .player-card-inner { transform: rotateY(180deg); }
-.player-card-front, .player-card-back { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,.07); }
-.player-card-back { transform: rotateY(180deg); background: #fafafa; }
+
+.player-card-inner { position: relative; width: 100%; height: 100%; transition: transform .6s cubic-bezier(.4,0,.2,1); transform-style: preserve-3d; -webkit-transform-style: preserve-3d; }
+.player-card.is-flipped .player-card-inner { transform: rotateY(180deg); -webkit-transform: rotateY(180deg); }
+
+.player-card-front, .player-card-back { 
+  position: absolute; inset: 0; 
+  backface-visibility: hidden !important; 
+  -webkit-backface-visibility: hidden !important; 
+  display: flex; flex-direction: column; border-radius: 12px; overflow: hidden; 
+  border: 1px solid #e2e8f0; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,.07); 
+  transform: translateZ(0); -webkit-transform: translateZ(0);
+}
+.player-card-back { transform: rotateY(180deg) translateZ(0); -webkit-transform: rotateY(180deg) translateZ(0); background: #fafafa; }
+
 .player-body-jersey { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #12A0D7, #0d7aa5); position: relative; overflow: hidden; box-shadow: inset 0 0 20px rgba(0,0,0,.12); }
 .player-body-jersey::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(255,255,255,.05), rgba(255,255,255,.05) 2px, transparent 2px, transparent 6px); }
 .player-body-jersey.jersey-gk { background: linear-gradient(135deg, #FFD500, #E59400); }
 .jersey-surname-large { font-family: 'Oswald', sans-serif; font-size: 2.1rem; font-weight: 700; color: #fff; letter-spacing: 2px; text-transform: uppercase; position: absolute; top: 18px; left: 50%; transform: translateX(-50%); width: 90%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: -1.5px -1.5px 0 #00224a, 1.5px -1.5px 0 #00224a, -1.5px 1.5px 0 #00224a, 1.5px 1.5px 0 #00224a; }
 .jersey-number-large { font-family: 'Bebas Neue', sans-serif; font-size: 8rem; color: #fff; line-height: 1; z-index: 1; text-shadow: -2px -2px 0 #00224a, 2px -2px 0 #00224a, -2px 2px 0 #00224a, 2px 2px 0 #00224a, 0 3px 8px rgba(0,0,0,.4); }
 .jersey-gk .jersey-surname-large, .jersey-gk .jersey-number-large { color: #000; text-shadow: -1.5px -1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff; }
+
 .captain-fascia { position: absolute; top: 18px; right: -32px; width: 125px; transform: rotate(45deg); background: linear-gradient(135deg, #FFD700, #F59E0B); color: #00224a; font-weight: 900; font-size: .68rem; text-align: center; padding: 4px 0; box-shadow: 0 3px 8px rgba(0,0,0,.3); z-index: 4; letter-spacing: 1px; }
 .captain-fascia.vc-fascia { background: linear-gradient(135deg, #F1F5F9, #94A3B8); }
+
 .player-name-block-front, .player-back-name-block { text-align: center; padding: 6px 8px; background: #fff; border-top: 1px solid #f1f5f9; }
 .player-back-name-block { border: 0; border-bottom: 1px solid #e2e8f0; background: #fafafa; }
 .player-name-kanji { font-size: 1rem; font-weight: 800; color: var(--dark-navy); }
 .player-name-romaji { font-size: .75rem; color: #64748b; font-weight: 600; }
+
 .player-flip-indicator { background: #f1f5f9; color: var(--dark-navy); font-size: .7rem; font-weight: 700; padding: 6px 8px; display: flex; justify-content: center; gap: 6px; border-top: 1px solid #e2e8f0; }
 .player-card:hover .player-flip-indicator { background: var(--dark-navy); color: #fff; }
+
+/* Statistiche sul retro */
 .player-details-inner { padding: 4px 10px; flex: 1; display: flex; flex-direction: column; justify-content: space-evenly; }
 .player-detail-row { display: flex; justify-content: space-between; align-items: center; color: #475569; padding: 2px 0; border-bottom: 1px dashed #e2e8f0; font-size: .72rem; white-space: nowrap; gap: 4px; }
-.player-detail-row span { overflow: hidden; text-overflow: ellipsis; }
+.player-detail-row .stat-label { display: flex; align-items: center; gap: 6px; overflow: hidden; text-overflow: ellipsis; }
+.player-detail-row .stat-label i { width: 14px; text-align: center; color: var(--dark-navy); font-size: .75rem; flex-shrink: 0; }
 .player-detail-row strong { margin-left: auto; font-size: .72rem; white-space: nowrap; flex-shrink: 0; }
 .player-detail-row:last-child { border-bottom: 0; }
 .sub-stat-detail { font-size: .65rem; color: #64748b; margin-left: 2px; }
+
 .role-badge-back { display: inline-flex; align-items: center; gap: 4px; padding: 0 6px; border-radius: 6px; color: #fff; font-size: .68rem; font-weight: 700; }
 .role-badge-gk { background: #FFD500; color: #000; } .role-badge-df { background: #0284c7; } .role-badge-mf { background: #12A0D7; } .role-badge-fw { background: #dc2626; }
 .stats-highlight { font-weight: 700; color: var(--dark-navy); }
+
 .card-actions { display: flex; gap: 6px; padding: 4px 10px 6px; }
 .card-actions button { flex: 1; border: 0; border-radius: 8px; padding: 7px 6px; font: inherit; font-size: .7rem; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: .4px; background: linear-gradient(135deg, #003c82, #00224a); color: #fff; }
 .card-actions button.share { background: #e0f2fe; color: #075985; }
 .card-actions button i { color: #87ceeb; } .card-actions button.share i { color: #0284c7; }
 .no-results { text-align: center; color: #64748b; padding: 40px 10px; font-weight: 600; }
 
-/* --- Toast copia link (nascosto di default) --- */
+/* Toast Copia Link */
 .toast-copy { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: #00224a; color: #fff; padding: 10px 20px; border-radius: 999px; font-size: .85rem; font-weight: 700; box-shadow: 0 8px 24px rgba(0,0,0,.3); border: 1px solid rgba(135,206,235,.4); display: flex; align-items: center; gap: 8px; opacity: 0; visibility: hidden; transition: all .25s ease; z-index: 10000; pointer-events: none; }
 .toast-copy.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
 .toast-copy i { color: #34d399; }
 
-/* --- heatmap --- */
+/* --- Heatmap Modale & Grafica Campo --- */
 .heatmap-modal { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 16px; opacity: 0; visibility: hidden; transition: opacity .25s; }
 .heatmap-modal.show { opacity: 1; visibility: visible; }
 .heatmap-modal-backdrop { position: absolute; inset: 0; background: rgba(0,10,25,.85); backdrop-filter: blur(6px); }
@@ -87,12 +106,31 @@
 .hm-head { display: flex; justify-content: space-between; gap: 12px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
 .hm-head b { color: var(--dark-navy); font-size: 1.05rem; display: block; } .hm-head small { color: #64748b; font-weight: 600; }
 .hm-close { background: rgba(0,60,130,.08); border: 1px solid #e2e8f0; color: var(--dark-navy); width: 34px; height: 34px; border-radius: 50%; cursor: pointer; flex-shrink: 0; }
-.heatmap-field { position: relative; width: 100%; max-width: 320px; aspect-ratio: 3/4; margin: 0 auto; background: linear-gradient(180deg, #16a34a, #15803d 50%, #16a34a); border-radius: 10px; box-shadow: inset 0 0 40px rgba(0,0,0,.35); overflow: hidden; }
-.heatmap-field::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: rgba(255,255,255,.45); }
-.heatmap-dot { position: absolute; transform: translate(-50%, -50%); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .52rem; font-weight: 800; color: rgba(255,255,255,.55); background: rgba(15,23,42,.3); border: 1.5px dashed rgba(255,255,255,.3); }
+
+/* Campo da calcio realistico */
+.heatmap-field { 
+  position: relative; width: 100%; max-width: 300px; aspect-ratio: 3/4; margin: 0 auto; 
+  background: linear-gradient(180deg, #15803d 0%, #16a34a 100%); 
+  border-radius: 10px; border: 2px solid rgba(255,255,255,.85); 
+  box-shadow: inset 0 0 25px rgba(0,0,0,.4); overflow: hidden; 
+}
+/* Linea di metà campo e cerchio centrale */
+.heatmap-field::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: rgba(255,255,255,.85); transform: translateY(-50%); }
+.heatmap-field::after { content: ''; position: absolute; top: 50%; left: 50%; width: 28%; aspect-ratio: 1; border: 2px solid rgba(255,255,255,.85); border-radius: 50%; transform: translate(-50%, -50%); }
+/* Aree di rigore */
+.hm-area-top, .hm-area-bottom { position: absolute; left: 20%; right: 20%; height: 18%; border: 2px solid rgba(255,255,255,.85); pointer-events: none; z-index: 1; }
+.hm-area-top { top: 0; border-top: none; }
+.hm-area-bottom { bottom: 0; border-bottom: none; }
+/* Aree piccole (porta) */
+.hm-area-top::before, .hm-area-bottom::before { content: ''; position: absolute; left: 22%; right: 22%; height: 35%; border: 2px solid rgba(255,255,255,.85); }
+.hm-area-top::before { top: 0; border-top: none; }
+.hm-area-bottom::before { bottom: 0; border-bottom: none; }
+
+.heatmap-dot { position: absolute; transform: translate(-50%, -50%); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .52rem; font-weight: 800; color: rgba(255,255,255,.55); background: rgba(15,23,42,.35); border: 1.5px dashed rgba(255,255,255,.4); z-index: 2; }
 .heatmap-dot.on { border-style: solid; color: #fff; box-shadow: 0 0 0 2px rgba(255,255,255,.4), 0 2px 8px rgba(0,0,0,.35); }
 .heatmap-dot[data-i="1"] { background: #fde68a; color: #78350f; } .heatmap-dot[data-i="2"] { background: #fbbf24; color: #78350f; } .heatmap-dot[data-i="3"] { background: #f97316; } .heatmap-dot[data-i="4"] { background: #dc2626; }
 .hm-legend { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: .72rem; color: #475569; font-weight: 600; background: #f8fafc; border-radius: 8px; padding: 8px 10px; }
+
 @media (max-width: 600px) { .player-card { height: 435px; } .players-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); } }
 </style>
 </head>
@@ -120,7 +158,10 @@
   <div class="heatmap-modal-backdrop" data-close></div>
   <div class="heatmap-modal-content" role="dialog" aria-modal="true">
     <div class="hm-head"><div><b id="hmName"></b><small id="hmSub"></small></div><button class="hm-close" id="hmClose" type="button" aria-label="Close"><i class="fas fa-times"></i></button></div>
-    <div class="heatmap-field" id="hmField"></div>
+    <div class="heatmap-field" id="hmField">
+      <div class="hm-area-top"></div>
+      <div class="hm-area-bottom"></div>
+    </div>
     <div class="hm-legend"><span data-i18n="p.hm_legend"></span> <span>1–20%</span> <span>21–40%</span> <span>41–60%</span> <span>&gt;60%</span></div>
   </div>
 </div>
@@ -138,7 +179,7 @@ YC.boot({ title: { ja: '選手名鑑・メンバー一覧 | Yokohama Calcio', it
 const JA_PREF = { hokkaido:'北海道', aomori:'青森県', iwate:'岩手県', miyagi:'宮城県', akita:'秋田県', yamagata:'山形県', fukushima:'福島県', ibaraki:'茨城県', tochigi:'栃木県', gunma:'群馬県', saitama:'埼玉県', chiba:'千葉県', tokyo:'東京都', kanagawa:'神奈川県', niigata:'新潟県', toyama:'富山県', ishikawa:'石川県', fukui:'福井県', yamanashi:'山梨県', nagano:'長野県', gifu:'岐阜県', shizuoka:'静岡県', aichi:'愛知県', mie:'三重県', shiga:'滋賀県', kyoto:'京都府', osaka:'大阪府', hyogo:'兵庫県', nara:'奈良県', wakayama:'和歌山県', tottori:'鳥取県', shimane:'島根県', okayama:'岡山県', hiroshima:'広島県', yamaguchi:'山口県', tokushima:'徳島県', kagawa:'香川県', ehime:'愛媛県', kochi:'高知県', fukuoka:'福岡県', saga:'佐賀県', nagasaki:'長崎県', kumamoto:'熊本県', oita:'大分県', miyazaki:'宮崎県', kagoshima:'鹿児島県', okinawa:'沖縄県' };
 const FOREIGN = { italy: { ja: 'イタリア', it: 'Italia', en: 'Italy' }, mexico: { ja: 'メキシコ', it: 'Messico', en: 'Mexico' } };
 const ROLES = ['gk', 'df', 'mf', 'fw'];
-const ROLE_ICON = { gk: 'fa-hands', df: 'fa-shield-alt', mf: 'fa-running', fw: 'fa-bullseye' };
+const ROLE_ICON = { gk: 'fa-hands-launch', df: 'fa-shield-alt', mf: 'fa-running', fw: 'fa-bullseye' };
 const POS = { GK:[50,92], LB:[16,78], CB:[50,82], RB:[84,78], LWB:[16,64], DM:[50,64], RWB:[84,64], LM:[16,46], CM:[50,46], RM:[84,46], LW:[16,28], AM:[50,28], RW:[84,28], ST:[50,16] };
 const ALIAS = { SB:'RB', SH:'RM', FW:'ST', CF:'ST', CAM:'AM', 'AM-L':'LW', 'AM-R':'RW', 'AM-C':'AM' };
 
@@ -191,30 +232,47 @@ function renderKpi() {
     `<div class="kpi"><b style="font-size:1.05rem;line-height:2.1rem">${counts}</b><span>${YC.t('p.hm_sub') === '' ? '' : 'GK · DF · MF · FW'}</span></div>`;
 }
 
-function row(label, html) { return `<div class="player-detail-row"><span>${label}</span> ${html}</div>`; }
+function row(iconClass, label, html) { 
+  return `<div class="player-detail-row"><span class="stat-label"><i class="${iconClass}"></i>${label}</span> ${html}</div>`; 
+}
+
 function card(p) {
   const lang = L(), st = stat(p), gk = p.role === 'gk', age = ageOf(p);
   const fascia = p.leadership_role === 'captain' ? '<div class="captain-fascia">CAPTAIN</div>' : p.leadership_role === 'vice_captain' ? '<div class="captain-fascia vc-fascia">VICE CAPT.</div>' : '';
-  const kanji = p.name_kanji || '-', sub = lang === 'ja' ? (p.name_kana || p.name_romaji || '') : (p.name_romaji || p.name_kana || '');
+  
+  // Titoli & Sottotitoli Nomi
+  const mainName = YC.data.playerName(p, lang) || p.name_kanji || '-';
+  const subName = lang === 'ja' ? (p.name_kana || p.name_romaji || '') : (p.name_kanji || p.name_kana || '');
+
   const n = k => st[k] || 0;
   const t = YC.t;
-  let rows = row(t('p.role'), `<span class="role-badge-back role-badge-${p.role}"><i class="fas ${ROLE_ICON[p.role]}"></i> <strong>${esc(p.position || '-')}</strong></span>`) +
-    row(t('p.hometown'), `<strong>${esc(hometown(p.hometown, lang))}</strong>`) +
-    row(t('p.age'), `<strong>${age == null ? '-' : age + ' ' + t('p.years')}</strong>`) +
-    row(t('p.caps'), `<strong class="stats-highlight">${n('caps')}<span class="sub-stat-detail">(${n('starters')}/${n('subs')})</span></strong>`);
-  rows += gk ? row(t('p.conceded'), `<strong class="stats-highlight">${n('goals_conceded')}</strong>`) + row(t('p.clean'), `<strong class="stats-highlight">${n('clean_sheets')}</strong>`)
-             : row(t('p.goals'), `<strong class="stats-highlight">${n('goals')}</strong>`) + row(t('p.assists'), `<strong class="stats-highlight">${n('assists')}</strong>`);
-  rows += row('<i class="fas fa-star" style="color:#f59e0b"></i> MVP:', `<strong class="stats-highlight">${n('mvps')}</strong>`) + row(t('p.yellows'), `<strong class="stats-highlight">${n('yellows')}</strong>`) + row(t('p.reds'), `<strong class="stats-highlight">${n('reds')}</strong>`);
+
+  let rows = row('fas fa-user-tag', t('p.role'), `<span class="role-badge-back role-badge-${p.role}">${esc(p.position || '-')}</span>`) +
+    row('fas fa-map-marker-alt', t('p.hometown'), `<strong>${esc(hometown(p.hometown, lang))}</strong>`) +
+    row('fas fa-birthday-cake', t('p.age'), `<strong>${age == null ? '-' : age + ' ' + t('p.years')}</strong>`) +
+    row('fas fa-tshirt', t('p.caps'), `<strong class="stats-highlight">${n('caps')}<span class="sub-stat-detail">(${n('starters')}/${n('subs')})</span></strong>`);
+
+  rows += gk 
+    ? row('fas fa-shield-virus', t('p.conceded'), `<strong class="stats-highlight">${n('goals_conceded')}</strong>`) + 
+      row('fas fa-shield-alt', t('p.clean'), `<strong class="stats-highlight">${n('clean_sheets')}</strong>`)
+    : row('fas fa-futbol', t('p.goals'), `<strong class="stats-highlight">${n('goals')}</strong>`) + 
+      row('fas fa-hands-helping', t('p.assists'), `<strong class="stats-highlight">${n('assists')}</strong>`);
+
+  rows += row('fas fa-star" style="color:#f59e0b', 'MVP:', `<strong class="stats-highlight">${n('mvps')}</strong>`) + 
+    row('fas fa-square" style="color:#facc15', t('p.yellows'), `<strong class="stats-highlight">${n('yellows')}</strong>`) + 
+    row('fas fa-square" style="color:#ef4444', t('p.reds'), `<strong class="stats-highlight">${n('reds')}</strong>`);
+
   const hasPos = st.positions_played && Object.keys(st.positions_played).length;
-  return `<div class="player-card" id="${esc(p.id)}" data-id="${esc(p.id)}" tabindex="0" role="button" aria-label="${esc(kanji)}">
+
+  return `<div class="player-card" id="${esc(p.id)}" data-id="${esc(p.id)}" tabindex="0" role="button" aria-label="${esc(mainName)}">
   <div class="player-card-inner">
     <div class="player-card-front">
       <div class="player-body-jersey ${gk ? 'jersey-gk' : ''}">${fascia}<div class="jersey-surname-large">${esc(surname(p, P))}</div><div class="jersey-number-large">${p.number ?? '-'}</div></div>
-      <div class="player-name-block-front"><div class="player-name-kanji">${esc(YC.data.playerName(p, lang) || kanji)}</div><div class="player-name-romaji">${esc(sub)}</div></div>
+      <div class="player-name-block-front"><div class="player-name-kanji">${esc(mainName)}</div><div class="player-name-romaji">${esc(subName)}</div></div>
       <div class="player-flip-indicator"><i class="fas fa-rotate"></i> ${t('p.flip')}</div>
     </div>
     <div class="player-card-back">
-      <div class="player-back-name-block"><div class="player-name-kanji">${esc(YC.data.playerName(p, lang) || kanji)}</div><div class="player-name-romaji">${esc(sub)}</div></div>
+      <div class="player-back-name-block"><div class="player-name-kanji">${esc(mainName)}</div><div class="player-name-romaji">${esc(subName)}</div></div>
       <div class="player-details-inner">${rows}</div>
       <div class="card-actions">${hasPos ? `<button type="button" data-heat="${esc(p.id)}"><i class="fas fa-map-location-dot"></i> ${t('p.heat')}</button>` : ''}<button type="button" class="share" data-share="${esc(p.id)}"><i class="fas fa-share-nodes"></i> ${t('p.share')}</button></div>
       <div class="player-flip-indicator"><i class="fas fa-rotate"></i> ${t('p.back')}</div>
@@ -232,31 +290,38 @@ function render() {
     if (ui.role !== 'all' && ui.role !== r) return;
     const list = P.filter(p => p.role === r && matches(p)).sort(sortFn);
     if (!list.length) return;
-    html += `<section class="role-group"><h2 class="role-title"><i class="fas ${ROLE_ICON[r]}"></i> ${t('p.sec_' + r)} <small>(${list.length})</small></h2><div class="players-grid">${list.map(card).join('')}</div></section>`;
+    html += `<section class="role-group"><h2 class="role-title"><i class="fas ${ROLE_ICON[r] || 'fa-user'}"></i> ${t('p.sec_' + r)} <small>(${list.length})</small></h2><div class="players-grid">${list.map(card).join('')}</div></section>`;
   });
   root.innerHTML = html || `<p class="no-results">${t('p.none')}</p>`;
 }
 
-/* --- interazioni --- */
+/* --- Interazioni --- */
 function toast() { const el = document.getElementById('copyToast'); el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 2500); }
+
 async function share(id) {
   const url = location.origin + location.pathname + '#' + id;
   const p = P.find(x => x.id === id);
   if (navigator.share) { try { await navigator.share({ title: 'Yokohama Calcio – ' + YC.data.playerName(p, L()), url }); return; } catch (_) { return; } }
   try { await navigator.clipboard.writeText(url); toast(); } catch (_) { prompt('URL', url); }
 }
+
 function heat(id) {
   const p = P.find(x => x.id === id), pos = (stat(p).positions_played) || {};
   const total = Object.values(pos).reduce((a, b) => a + b, 0), norm = {};
   Object.entries(pos).forEach(([k, v]) => { const u = k.toUpperCase().replace(/-[LRC]$/, ''); const c = POS[u] ? u : (ALIAS[k.toUpperCase()] || ALIAS[u]); if (c) norm[c] = (norm[c] || 0) + v; });
   document.getElementById('hmName').textContent = '#' + (p.number ?? '') + ' ' + YC.data.playerName(p, L());
   document.getElementById('hmSub').textContent = YC.t('p.hm_sub') + ' · ' + total + ' ' + YC.t('p.apps');
-  document.getElementById('hmField').innerHTML = Object.entries(POS).map(([tag, [x, y]]) => {
+  
+  const dotsHtml = Object.entries(POS).map(([tag, [x, y]]) => {
     const c = norm[tag] || 0, pc = total ? c / total * 100 : 0, lv = pc > 60 ? 4 : pc > 40 ? 3 : pc > 20 ? 2 : pc > 0 ? 1 : 0;
     return `<div class="heatmap-dot ${c ? 'on' : ''}" data-i="${lv}" style="left:${x}%;top:${y}%" title="${tag} ${c}/${total}">${tag}</div>`;
   }).join('');
+  
+  document.getElementById('hmField').innerHTML = '<div class="hm-area-top"></div><div class="hm-area-bottom"></div>' + dotsHtml;
+
   const m = document.getElementById('heatmapModal'); m.classList.add('show'); m.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden';
 }
+
 function closeHeat() { const m = document.getElementById('heatmapModal'); m.classList.remove('show'); m.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
 
 document.addEventListener('click', e => {
@@ -266,10 +331,12 @@ document.addEventListener('click', e => {
   const rp = e.target.closest('[data-role]'); if (rp) { ui.role = rp.dataset.role; render(); return; }
   const c = e.target.closest('.player-card'); if (c) c.classList.toggle('is-flipped');
 });
+
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeHeat();
   if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('player-card')) { e.preventDefault(); e.target.classList.toggle('is-flipped'); }
 });
+
 document.getElementById('q').addEventListener('input', e => { ui.q = e.target.value; render(); });
 document.getElementById('sort').addEventListener('change', e => { ui.sort = e.target.value; render(); });
 
@@ -278,11 +345,13 @@ function openHash() {
   const el = document.getElementById(id); if (!el) return;
   setTimeout(() => { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.classList.add('is-flipped'); }, 250);
 }
+
 YC.data.load(['players', 'stats']).then(d => {
   P = (d.players || []).filter(p => p.role !== 'staff' && ROLES.includes(p.role));
   S = (d.stats && d.stats.players) || {};
   ready = true; render(); openHash();
 });
+
 document.addEventListener('yc:langchange', () => ready && render());
 window.addEventListener('hashchange', openHash);
 </script>
