@@ -36,9 +36,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- FOGLI DI STILE CSS -->
+    <!-- FOGLI DI STILE CSS & JS CONDIVISO -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="site-extras.css">
+    <script src="js/common.js"></script>
 
     <style>
         html, body {
@@ -345,11 +346,6 @@
         }
         .submit-btn:hover { background: #002b5c; transform: translateY(-1px); }
 
-        .toast-copy {
-            position: fixed; bottom: 20px; right: 20px; background: #10b981; color: #ffffff; padding: 12px 20px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 10000; display: flex; align-items: center; gap: 8px; opacity: 0; transform: translateY(20px); transition: all 0.3s ease; pointer-events: none; max-width: calc(100vw - 40px);
-        }
-        .toast-copy.show { opacity: 1; transform: translateY(0); }
-
         .confirm-modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 10, 25, 0.7); backdrop-filter: blur(5px); z-index: 10001; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
         }
@@ -399,7 +395,6 @@
         }
 
         @media (max-width: 600px) {
-            .section-title { font-size: 1.45rem !important; text-align: center !important; }
             .contact-form-card { padding: 20px 16px; }
             .contact-grid-container { padding: 0; }
         }
@@ -407,103 +402,19 @@
 </head>
 <body>
 
-<header class="header">
-  <div class="top-bar">
-    <div class="container top-bar-container">
-      <div class="top-bar-social">
-        <a href="https://x.com/yokohamacalcio" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-        <a href="https://instagram.com/yokohamacalcio" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://youtube.com/@yokohamacalcio?si=NBPkZ0qFxFVrOIof" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-      </div>
-      <div class="lang-switcher">
-        <button class="lang-btn active" data-lang="ja">JP</button>
-        <span class="lang-divider">|</span>
-        <button class="lang-btn" data-lang="it">IT</button>
-        <span class="lang-divider">|</span>
-        <button class="lang-btn" data-lang="en">EN</button>
-      </div>
-    </div>
-  </div>
+<script>YC.mountHeader('contact')</script>
 
-  <div class="main-header-bar">
-    <div class="container header-container">
-      <div class="logo-title">
-        <a href="index.html"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio" class="logo"></a>
-        <a href="index.html" class="brand-name"><span>YOKOHAMA</span><span class="brand-sub">CALCIO</span></a>
-      </div>
-      <div class="desktop-nav-wrapper">
-        <nav class="main-nav">
-          <div class="nav-item dropdown">
-            <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
-              <span data-i18n="nav.about_group">クラブ</span> 
-              <i class="fas fa-chevron-down nav-arrow"></i>
-            </span>
-            <div class="dropdown-menu">
-              <a href="about.html" data-i18n="nav.about">チーム紹介</a>
-              <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
-              <a href="faq.html" data-i18n="nav.faq">よくある質問</a>
-            </div>
-          </div>
-          <div class="nav-item dropdown">
-            <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
-              <span data-i18n="nav.team_group">チーム・選手</span> 
-              <i class="fas fa-chevron-down nav-arrow"></i>
-            </span>
-            <div class="dropdown-menu">
-              <a href="players.html" data-i18n="nav.players">選手紹介</a>
-              <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
-            </div>
-          </div>
-          <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
-          <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
-          <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
-          <a href="contact.html" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
-        </nav>
-      </div>
-      <button class="mobile-menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
-    </div>
-  </div>
-
-  <nav class="mobile-nav hidden">
-    <div class="mobile-nav-content">
-      <div class="mobile-nav-header">
-        <div class="logo-title" style="margin: 0;"><span class="brand-name">YOKOHAMA <span class="brand-sub">CALCIO</span></span></div>
-        <button class="mobile-nav-close" aria-label="Chiudi"><i class="fas fa-times"></i></button>
-      </div>
-      <a href="index.html" class="mobile-link"><i class="fas fa-home menu-icon"></i> <span data-i18n="nav.home">ホーム</span></a>
-      <div class="mobile-dropdown-group">
-        <button class="mobile-dropdown-toggle">
-          <div class="mobile-dropdown-toggle-left">
-            <i class="fas fa-shield-alt menu-icon"></i>
-            <span data-i18n="nav.team_group">チーム・選手</span>
-          </div>
-          <i class="fas fa-chevron-down mobile-arrow" style="color: #87ceeb;"></i>
-        </button>
-        <div class="mobile-submenu hidden">
-          <a href="about.html" class="mobile-link sub" data-i18n="nav.about">チーム紹介</a>
-          <a href="players.html" class="mobile-link sub" data-i18n="nav.players">選手紹介</a>
-          <a href="stats.html" class="mobile-link sub" data-i18n="nav.stats">成績・スタッツ</a>
-          <a href="index.html#gallery" class="mobile-link sub" data-i18n="nav.gallery">ギャラリー</a>
-        </div>
-      </div>
-      <a href="matches.html" class="mobile-link"><i class="fas fa-calendar-alt menu-icon"></i> <span data-i18n="nav.matches">試合日程・結果</span></a>
-      <a href="index.html#shop" class="mobile-link"><i class="fas fa-shopping-bag menu-icon"></i> <span data-i18n="nav.shop">ショップ</span></a>
-      <a href="index.html#sponsors" class="mobile-link"><i class="fas fa-handshake menu-icon"></i> <span data-i18n="nav.sponsors">パートナー</span></a>
-      <a href="faq.html" class="mobile-link"><i class="fas fa-question-circle menu-icon"></i> <span data-i18n="nav.faq">よくある質問</span></a>
-      <div class="mobile-cta-wrapper">
-        <a href="contact.html" class="mobile-cta-btn"><i class="fas fa-paper-plane"></i> <span data-i18n="nav.contact">お問い合わせ</span></a>
-      </div>
-    </div>
-  </nav>
-</header>
-
-<section class="section">
+<section class="page-hero">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-envelope"></i> <span data-i18n="contact_page.title">お問い合わせ</span></h2>
-        <p style="text-align: center; color: #64748b; margin-bottom: 35px; font-size: 0.98rem;" data-i18n="contact_page.intro">
+        <h1><i class="fas fa-envelope"></i> <span data-i18n="contact_page.title">お問い合わせ</span></h1>
+        <p data-i18n="contact_page.intro">
             体験練習参加、スタッフ応募、練習試合のお申し込み、パートナーシップに関するご質問など、お気軽にお問い合わせください。
         </p>
+    </div>
+</section>
 
+<main class="section">
+    <div class="container">
         <div class="contact-grid-container">
             
             <div class="contact-form-card">
@@ -574,7 +485,7 @@
                             <div id="email_error" class="error-banner"><i class="fas fa-exclamation-triangle"></i> <span data-i18n="form.email_error">有効なメールアドレスを入力してください。</span></div>
                         </div>
 
-                        <!-- SEZIONE DATE PROVINO (Sia Giocatori che Staff) -->
+                        <!-- SEZIONE DATE PROVINO -->
                         <div id="trialDatesWrapper" class="form-group" style="display: none;">
                             <div class="field-section-title"><i class="fas fa-calendar-check"></i> <span data-i18n="form.trial_dates_sec_title">体験参加希望日の選択</span></div>
                             <label>
@@ -835,7 +746,6 @@
             </div>
 
             <div class="contact-info-card">
-                
                 <div class="direct-email-box">
                     <h4><i class="fas fa-envelope-open-text"></i> <span data-i18n="info.direct_title">直接メールで連絡</span></h4>
                     <p data-i18n="info.direct_desc">お使いのメールソフトから直接ご連絡いただく場合は、以下のアドレス宛にお送りください。</p>
@@ -859,18 +769,17 @@
                         携帯電話のメールアドレスをご利用の場合、ドメイン指定受信設定（@gmail.com）をご確認ください。
                     </p>
                 </div>
-
             </div>
 
         </div>
 
         <div class="back-home-wrapper" style="text-align: center; margin-top: 50px;">
-            <a href="index.html" class="google-form-btn back-btn" style="display: inline-flex; justify-content: center; align-items: center; max-width: 250px; margin: 0 auto; gap: 8px;">
+            <a href="index.html" class="pill" style="display: inline-flex; justify-content: center; align-items: center; max-width: 250px; margin: 0 auto; gap: 8px; text-decoration: none;">
                 <i class="fas fa-arrow-left"></i> <span data-i18n="btn.back_home">ホームに戻る</span>
             </a>
         </div>
     </div>
-</section>
+</main>
 
 <div class="confirm-modal-overlay" id="confirmModal">
     <div class="confirm-modal-card">
@@ -922,1102 +831,1048 @@
     <i class="fas fa-check-circle"></i> <span data-i18n="info.toast_copied">メールアドレスをコピーしました！</span>
 </div>
 
-<button id="scrollToTopBtn" aria-label="Torna in cima"><i class="fas fa-chevron-up"></i></button>
-<footer class="footer"><p>&copy; <span id="currentYear"></span> Yokohama Calcio. All Rights Reserved.</p></footer>
-
-<!-- INCLUSIONE SCRIPT JS -->
-<script src="js/common.js"></script>
+<script>YC.mountFooter()</script>
 
 <script>
-    const pageTitles = {
+YC.register({
+    ja: {
+        "contact_page.title": "お問い合わせ",
+        "contact_page.intro": "体験練習参加、スタッフ応募、練習試合のお申し込み、パートナーシップに関するご質問など、お気軽にお問い合わせください。",
+        "form.category_label": "お問い合わせ種別",
+        "form.select_category": "選択してください（必須）",
+        "form.required": "必須",
+        "form.opt_trial": "体験練習・選手入部希望",
+        "form.opt_staff": "スタッフ応募（マネージャー・コーチ等）",
+        "form.opt_match": "練習試合・対戦のお申し込み",
+        "form.opt_sponsor": "パートナー・協賛のご相談",
+        "form.opt_other": "その他のお問い合わせ",
+        "form.last_name_label": "姓",
+        "form.first_name_label": "名",
+        "form.last_name_kana_label": "セイ (フリガナ)",
+        "form.first_name_kana_label": "メイ (フリガナ)",
+        "form.kana_error": "全角カタカナで入力してください。",
+        "form.email_label": "メールアドレス",
+        "form.email_error": "有効なメールアドレスを入力してください。",
+        "form.trial_dates_sec_title": "体験参加希望日の選択",
+        "form.trial_dates_label": "体験希望日（1〜3つ選択）",
+        "form.trial_dates_hint": "※以下から参加希望の練習日程を1〜3つ選択してください（必須）",
+        "form.trial_dates_error": "希望日を少なくとも1つ選択してください。",
+        "form.no_trainings": "現在選択可能な練習日程はありません。メッセージ欄にご希望日時をご記入ください。",
+        "form.player_sec_title": "選手情報",
+        "form.birth_date_label": "生年月日",
+        "form.birth_date_hint": "※年齢は自動計算されます",
+        "form.calculated_age_label": "年齢",
+        "form.age_unit": "歳",
+        "form.age_error_under": "申し訳ありません。18歳未満の方はご参加いただけません。（現在の年齢: {age}歳）",
+        "form.age_error_over": "申し訳ありません。対象年齢は40歳までとなっております。（現在の年齢: {age}歳）",
+        "form.exp_level_label": "競技レベル・最高実績",
+        "form.exp_univ": "大学・都県社会人リーグ",
+        "form.exp_hs": "高校サッカー部強豪・全国",
+        "form.exp_youth": "ユース・クラブチーム",
+        "form.exp_gen_hs": "一般高校サッカー部",
+        "form.exp_enjoy": "競技系フットサル・エンジョイ",
+        "form.exp_details_label": "サッカー歴・前所属チーム",
+        "form.macro_pos_label": "希望ポジション（メイン）",
+        "form.pos_gk": "GK (ゴールキーパー)",
+        "form.pos_df": "DF (ディフェンダー)",
+        "form.pos_mf": "MF (ミッドフィルダー)",
+        "form.pos_fw": "FW (フォワード)",
+        "form.sub_pos_label": "詳細役割（複数選択可）",
+        "form.sub_pos_hint": "※該当するものをすべて選択",
+        "form.sub_pos_error": "少なくとも1つを選択してください。",
+        "form.select_option": "選択してください",
+        "form.staff_sec_title": "スタッフ応募情報",
+        "form.staff_role_label": "希望スタッフ役職",
+        "form.staff_exp_label": "指導歴・スポーツ関連経歴",
+        "form.staff_role_coach": "アシスタントコーチ",
+        "form.staff_role_manager": "チームマネージャー / 運営",
+        "form.staff_role_trainer": "トレーナー / フィジカル",
+        "form.staff_role_kit": "用具管理・エキップメント",
+        "form.staff_role_media": "広報・メディア・アナリスト",
+        "form.match_sec_title": "対戦チーム情報",
+        "form.match_team_name_label": "チーム名",
+        "form.match_league_label": "所属リーグ・カテゴリー",
+        "form.match_1st_kit_label": "1stユニフォーム",
+        "form.match_2nd_kit_label": "2ndユニフォーム",
+        "form.has_pitch_label": "グラウンド確保済み (既に予約済みのグラウンドがある)",
+        "form.pitch_name_label": "グラウンド名・場所",
+        "form.sponsor_sec_title": "パートナー情報",
+        "form.company_label": "会社名・団体名",
+        "form.sponsor_type_label": "ご検討のパートナーシップ種類",
+        "form.opt_sponsor_fin": "資金スポンサー (ユニフォーム掲出等)",
+        "form.opt_sponsor_tech": "サプライヤー (物品・ウェア提供)",
+        "form.opt_sponsor_supply": "サービス提供・施設利用支援",
+        "form.opt_sponsor_other": "その他・企画協賛",
+        "form.message_label": "メッセージ内容",
+        "form.privacy_prefix": "個人情報の取り扱い（",
+        "form.privacy_link": "プライバシーポリシー",
+        "form.privacy_suffix": "）に同意する",
+        "form.submit_btn": "送信する",
+        "form.error_general": "必須項目が正しく入力されていません。赤枠の項目を確認してください。",
+        "form.error_privacy": "プライバシーポリシーへの同意（チェック）が必要です。",
+        "info.direct_title": "直接メールで連絡",
+        "info.direct_desc": "お使いのメールソフトから直接ご連絡いただく場合は、以下のアドレス宛にお送りください。",
+        "info.copy_btn": "メールアドレスをコピー",
+        "info.toast_copied": "メールアドレスをコピーしました！",
+        "info.notice_title": "ご案内とお願い",
+        "info.notice_p1": "通常、お問い合わせをいただいてから24〜48時間以内に担当者よりご返信いたします。",
+        "info.notice_p2": "携帯電話のメールアドレスをご利用の場合、返信メールが届くよう設定をご確認ください。",
+        "modal.title": "送信が完了しました",
+        "modal.text": "お問い合わせありがとうございます。メッセージを受け付けました。<br>担当者より通常24〜48時間以内にご連絡いたします。",
+        "modal.btn": "OK",
+        "privacy.title": "プライバシーポリシー",
+        "privacy.sec1_title": "1. 個人情報の収集目的",
+        "privacy.sec1_text": "横浜カルチョ（Yokohama Calcio）は、体験練習への参加申し込み、スタッフ応募、対戦相手の募集、およびクラブに関するお問い合わせに対応する目的でのみ、氏名、メールアドレス、生年月日、サッカー経歴等の個人情報を収集いたします。",
+        "privacy.sec2_title": "2. 個人情報の管理と安全保護",
+        "privacy.sec2_text": "収集した個人情報は適切な安全対策を講じて管理し、不正アクセス、紛失、改ざん、漏洩などの防止に努めます。",
+        "privacy.sec3_title": "3. 第三者への開示・提供の禁止",
+        "privacy.sec3_text": "当クラブは、法令に基づく場合やご本人の同意がある場合を除き、収集した個人情報を第三者に開示・提供することは一切ありません。",
+        "privacy.sec4_title": "4. ご本人の権利（照会・修正・削除）",
+        "privacy.sec4_text": "ご提供いただいた個人情報の確認、修正、または削除をご希望の場合は、当クラブのお問い合わせ窓口（yokohamacalcio@gmail.com）までご連絡ください。速やかに対応いたします。",
+        "privacy.close_btn": "閉じる"
+    },
+    it: {
+        "contact_page.title": "Contatti",
+        "contact_page.intro": "Compila il modulo per un allenamento di prova, candidarti nello staff o per partnership e amichevoli.",
+        "form.category_label": "Tipo di Richiesta",
+        "form.select_category": "Scegli un'opzione (Obbligatorio)",
+        "form.required": "Obbligatorio",
+        "form.opt_trial": "Prova / Giocatore",
+        "form.opt_staff": "Candidatura Staff (Allenatore, Dirigente...)",
+        "form.opt_match": "Richiesta Partita Amichevole",
+        "form.opt_sponsor": "Sponsorship & Partner",
+        "form.opt_other": "Altra Richiesta",
+        "form.last_name_label": "Cognome",
+        "form.first_name_label": "Nome",
+        "form.last_name_kana_label": "Cognome (Furigana)",
+        "form.first_name_kana_label": "Nome (Furigana)",
+        "form.kana_error": "Inserisci il testo in Katakana.",
+        "form.email_label": "Indirizzo Email",
+        "form.email_error": "Inserisci un indirizzo email valido.",
+        "form.trial_dates_sec_title": "Selezione Date Provino",
+        "form.trial_dates_label": "Date desiderate (Scegli da 1 a 3 date)",
+        "form.trial_dates_hint": "※ Seleziona da 1 a 3 date disponibili tra quelle proposte (Obbligatorio)",
+        "form.trial_dates_error": "Seleziona almeno una data per il provino.",
+        "form.no_trainings": "Nessun allenamento disponibile al momento. Indica le tue disponibilità nel messaggio.",
+        "form.player_sec_title": "Info Giocatore",
+        "form.birth_date_label": "Data di Nascita",
+        "form.birth_date_hint": "※ Età calcolata in automatico",
+        "form.calculated_age_label": "Età",
+        "form.age_unit": "anni",
+        "form.age_error_under": "Spiacenti, l'età minima per partecipare è 18 anni (Calcolata: {age} anni).",
+        "form.age_error_over": "Spiacenti, l'età massima consentita è 40 anni (Calcolata: {age} anni).",
+        "form.exp_level_label": "Livello di Esperienza",
+        "form.exp_univ": "Università / Categorie Regionali",
+        "form.exp_hs": "Superiori livello agonistico / Tornei nazionali",
+        "form.exp_youth": "Settore Giovanile / Club",
+        "form.exp_gen_hs": "Esperienza scolastica / Calcio amatoriale",
+        "form.exp_enjoy": "Futsal / Tornei amatoriali",
+        "form.exp_details_label": "Esperienza / Squadre precedenti",
+        "form.macro_pos_label": "Ruolo Principale",
+        "form.pos_gk": "Portiere (GK)",
+        "form.pos_df": "Difensore (DF)",
+        "form.pos_mf": "Centrocampista (MF)",
+        "form.pos_fw": "Attaccante (FW)",
+        "form.sub_pos_label": "Dettaglio Ruolo (multiplo)",
+        "form.sub_pos_hint": "※ Seleziona una o più opzioni",
+        "form.sub_pos_error": "Seleziona almeno un'opzione.",
+        "form.select_option": "Seleziona",
+        "form.staff_sec_title": "Info Candidato Staff",
+        "form.staff_role_label": "Ruolo Staff Desiderato",
+        "form.staff_exp_label": "Esperienza / Qualifiche",
+        "form.staff_role_coach": "Allenatore / Vice Allenatore",
+        "form.staff_role_manager": "Dirigente / Team Manager",
+        "form.staff_role_trainer": "Preparatore / Fisioterapista",
+        "form.staff_role_kit": "Magazziniere / Materiale",
+        "form.staff_role_media": "Social Media / Foto / Video",
+        "form.match_sec_title": "Info Squadra Avversaria",
+        "form.match_team_name_label": "Nome Squadra",
+        "form.match_league_label": "Campionato / Categoria",
+        "form.match_1st_kit_label": "Divisa 1st",
+        "form.match_2nd_kit_label": "Divisa 2nd",
+        "form.has_pitch_label": "Abbiamo già un campo prenotato",
+        "form.pitch_name_label": "Nome e Luogo del campo",
+        "form.sponsor_sec_title": "Info Partner",
+        "form.company_label": "Nome Azienda o Ente",
+        "form.sponsor_type_label": "Tipo di Partnership richiesta",
+        "form.opt_sponsor_fin": "Sponsor Finanziario (Es. Logo maglia)",
+        "form.opt_sponsor_tech": "Sponsor Tecnico (Fornitura materiale)",
+        "form.opt_sponsor_supply": "Servizi (Uso strutture, agevolazioni)",
+        "form.opt_sponsor_other": "Altra tipologia di collaborazione",
+        "form.message_label": "Messaggio",
+        "form.privacy_prefix": "Acconsento al trattamento dei dati (",
+        "form.privacy_link": "Informativa Privacy",
+        "form.privacy_suffix": ")",
+        "form.submit_btn": "Invia Messaggio",
+        "form.error_general": "Compila tutti i campi obbligatori correttamente (vedi riquadri rossi).",
+        "form.error_privacy": "Devi accettare l'Informativa sulla Privacy per proseguire.",
+        "info.direct_title": "Email Diretta",
+        "info.direct_desc": "Se preferisci scriverci direttamente dal tuo programma di posta, utilizza l'indirizzo sottostante:",
+        "info.copy_btn": "Copia Indirizzo Email",
+        "info.toast_copied": "Indirizzo email copiato!",
+        "info.notice_title": "Informazioni utili",
+        "info.notice_p1": "Rispondiamo solitamente a tutti i messaggi entro 24-48 ore.",
+        "info.notice_p2": "Assicurati di controllare la cartella Spam se non ricevi nostra risposta.",
+        "modal.title": "Messaggio Inviato!",
+        "modal.text": "Grazie per averci contattato. Abbiamo ricevuto la tua richiesta.<br>Un nostro responsabile ti risponderà entro 24-48 ore.",
+        "modal.btn": "OK",
+        "privacy.title": "Informativa sulla Privacy",
+        "privacy.sec1_title": "1. Finalità della raccolta dati",
+        "privacy.sec1_text": "Yokohama Calcio raccoglie i dati personali (nome, email, data di nascita, esperienza) esclusivamente per gestire richieste di prova, candidature staff, amichevoli e comunicazioni.",
+        "privacy.sec2_title": "2. Sicurezza dei dati",
+        "privacy.sec2_text": "I dati sono custoditi con adeguate misure di sicurezza per prevenirne perdita, modifica o diffusione non autorizzata.",
+        "privacy.sec3_title": "3. Divieto di cessione a terzi",
+        "privacy.sec3_text": "Il club non cederà mai i tuoi dati a terzi, salvo esplicita autorizzazione o adempimenti legali.",
+        "privacy.sec4_title": "4. Diritti dell'interessato",
+        "privacy.sec4_text": "Puoi richiedere la cancellazione o rettifica dei tuoi dati scrivendo a: yokohamacalcio@gmail.com.",
+        "privacy.close_btn": "Chiudi"
+    },
+    en: {
+        "contact_page.title": "Contact Us",
+        "contact_page.intro": "Feel free to reach out for trial trainings, staff applications, friendly match requests, or partnerships.",
+        "form.category_label": "Inquiry Type",
+        "form.select_category": "Please select (Required)",
+        "form.required": "Required",
+        "form.opt_trial": "Player Trial",
+        "form.opt_staff": "Staff Application (Manager, Coach...)",
+        "form.opt_match": "Friendly Match Request",
+        "form.opt_sponsor": "Sponsorship & Partnership",
+        "form.opt_other": "General Inquiry",
+        "form.last_name_label": "Last Name",
+        "form.first_name_label": "First Name",
+        "form.last_name_kana_label": "Last Name (Furigana)",
+        "form.first_name_kana_label": "First Name (Furigana)",
+        "form.kana_error": "Please enter in Katakana.",
+        "form.email_label": "Email Address",
+        "form.email_error": "Please enter a valid email address.",
+        "form.trial_dates_sec_title": "Select Trial Dates",
+        "form.trial_dates_label": "Trial Dates (Select 1 to 3 dates)",
+        "form.trial_dates_hint": "※ Select 1 to 3 available training dates below (Required)",
+        "form.trial_dates_error": "Please select at least one date for the trial.",
+        "form.no_trainings": "No available training dates at the moment. Please specify your availability in the message field.",
+        "form.player_sec_title": "Player Details",
+        "form.birth_date_label": "Date of Birth",
+        "form.birth_date_hint": "※ Age calculated automatically",
+        "form.calculated_age_label": "Age",
+        "form.age_unit": "yrs",
+        "form.age_error_under": "Sorry, minimum age is 18 (Calculated: {age}).",
+        "form.age_error_over": "Sorry, maximum age is 40 (Calculated: {age}).",
+        "form.exp_level_label": "Experience Level",
+        "form.exp_univ": "University / Regional Leagues",
+        "form.exp_hs": "High School Competitive / Nationals",
+        "form.exp_youth": "Youth Academy / Club Teams",
+        "form.exp_gen_hs": "General High School / Amateur",
+        "form.exp_enjoy": "Futsal / Casual League",
+        "form.exp_details_label": "Football Experience / Prev. Teams",
+        "form.macro_pos_label": "Main Position",
+        "form.pos_gk": "Goalkeeper (GK)",
+        "form.pos_df": "Defender (DF)",
+        "form.pos_mf": "Midfielder (MF)",
+        "form.pos_fw": "Forward (FW)",
+        "form.sub_pos_label": "Specific Roles (Multiple)",
+        "form.sub_pos_hint": "※ Select all that apply",
+        "form.sub_pos_error": "Please select at least one option.",
+        "form.select_option": "Please select",
+        "form.staff_sec_title": "Staff Application Details",
+        "form.staff_role_label": "Desired Staff Role",
+        "form.staff_exp_label": "Background / Qualifications",
+        "form.staff_role_coach": "Coach / Assistant Coach",
+        "form.staff_role_manager": "Team Manager / Admin",
+        "form.staff_role_trainer": "Trainer / Physio",
+        "form.staff_role_kit": "Kit / Equipment Manager",
+        "form.staff_role_media": "Media / Photographer",
+        "form.match_sec_title": "Opponent Team Information",
+        "form.match_team_name_label": "Team Name",
+        "form.match_league_label": "League / Division",
+        "form.match_1st_kit_label": "1st Kit",
+        "form.match_2nd_kit_label": "2nd Kit",
+        "form.has_pitch_label": "We already have a booked pitch",
+        "form.pitch_name_label": "Pitch Name & Location",
+        "form.sponsor_sec_title": "Partnership Info",
+        "form.company_label": "Company / Organization Name",
+        "form.sponsor_type_label": "Partnership Type",
+        "form.opt_sponsor_fin": "Financial Sponsor (Kit Logo, etc.)",
+        "form.opt_sponsor_tech": "Technical Supplier (Gear/Apparel)",
+        "form.opt_sponsor_supply": "Service & Facility Support",
+        "form.opt_sponsor_other": "Other Collaboration",
+        "form.message_label": "Message",
+        "form.privacy_prefix": "I agree to the processing of personal data (",
+        "form.privacy_link": "Privacy Policy",
+        "form.privacy_suffix": ")",
+        "form.submit_btn": "Send Message",
+        "form.error_general": "Please fill in all required fields correctly (highlighted in red).",
+        "form.error_privacy": "You must agree to the Privacy Policy to proceed.",
+        "info.direct_title": "Direct Email",
+        "info.direct_desc": "If you prefer writing directly from your mail client, please use the address below:",
+        "info.copy_btn": "Copy Email Address",
+        "info.toast_copied": "Email address copied!",
+        "info.notice_title": "Notice",
+        "info.notice_p1": "We usually respond to all inquiries within 24 to 48 hours.",
+        "info.notice_p2": "Please check your spam folder if you do not receive our reply.",
+        "modal.title": "Message Sent!",
+        "modal.text": "Thank you for reaching out. We have received your message.<br>We will respond to you within 24-48 hours.",
+        "modal.btn": "OK",
+        "privacy.title": "Privacy Policy",
+        "privacy.sec1_title": "1. Purpose of Data Collection",
+        "privacy.sec1_text": "Yokohama Calcio collects personal information strictly for processing trial applications, staff candidacies, match organization, and communications.",
+        "privacy.sec2_title": "2. Data Security & Protection",
+        "privacy.sec2_text": "Collected data is stored securely using technical measures to prevent unauthorized access or disclosure.",
+        "privacy.sec3_title": "3. No Third-Party Disclosure",
+        "privacy.sec3_text": "The club will never share your personal data with third parties without explicit consent.",
+        "privacy.sec4_title": "4. Your Rights",
+        "privacy.sec4_text": "You may request access, correction, or deletion of your data at any time by contacting us at: yokohamacalcio@gmail.com.",
+        "privacy.close_btn": "Close"
+    }
+});
+
+YC.boot({
+    title: {
         ja: "お問い合わせ | Contact Us | Yokohama Calcio",
         it: "Contatti | Yokohama Calcio",
         en: "Contact Us | Yokohama Calcio"
-    };
+    }
+});
 
-    const translations = {
-        ja: {
-            "nav.home": "ホーム", "nav.about_group": "クラブ", "nav.team_group": "チーム・選手", "nav.about": "チーム紹介", "nav.players": "選手紹介", "nav.stats": "成績・スタッツ",
-            "nav.matches": "試合日程・結果", "nav.gallery": "ギャラリー", "nav.sponsors": "パートナー", "nav.faq": "よくある質問",
-            "nav.shop": "ショップ", "nav.contact": "お問い合わせ", "btn.back_home": "ホームに戻る",
-            
-            "contact_page.title": "お問い合わせ",
-            "contact_page.intro": "体験練習参加、スタッフ応募、練習試合のお申し込み、パートナーシップに関するご質問など、お気軽にお問い合わせください。",
-            "form.category_label": "お問い合わせ種別",
-            "form.select_category": "選択してください（必須）",
-            "form.required": "必須",
-            "form.opt_trial": "体験練習・選手入部希望",
-            "form.opt_staff": "スタッフ応募（マネージャー・コーチ等）",
-            "form.opt_match": "練習試合・対戦のお申し込み",
-            "form.opt_sponsor": "パートナー・協賛のご相談",
-            "form.opt_other": "その他のお問い合わせ",
-            "form.last_name_label": "姓",
-            "form.first_name_label": "名",
-            "form.last_name_kana_label": "セイ (フリガナ)",
-            "form.first_name_kana_label": "メイ (フリガナ)",
-            "form.kana_error": "全角カタカナで入力してください。",
-            "form.email_label": "メールアドレス",
-            "form.email_error": "有効なメールアドレスを入力してください。",
-            "form.trial_dates_sec_title": "体験参加希望日の選択",
-            "form.trial_dates_label": "体験希望日（1〜3つ選択）",
-            "form.trial_dates_hint": "※以下から参加希望の練習日程を1〜3つ選択してください（必須）",
-            "form.trial_dates_error": "希望日を少なくとも1つ選択してください。",
-            "form.no_trainings": "現在選択可能な練習日程はありません。メッセージ欄にご希望日時をご記入ください。",
-            "form.player_sec_title": "選手情報",
-            "form.birth_date_label": "生年月日",
-            "form.birth_date_hint": "※年齢は自動計算されます",
-            "form.calculated_age_label": "年齢",
-            "form.age_unit": "歳",
-            "form.age_error_under": "申し訳ありません。18歳未満の方はご参加いただけません。（現在の年齢: {age}歳）",
-            "form.age_error_over": "申し訳ありません。対象年齢は40歳までとなっております。（現在の年齢: {age}歳）",
-            "form.exp_level_label": "競技レベル・最高実績",
-            "form.exp_univ": "大学・都県社会人リーグ",
-            "form.exp_hs": "高校サッカー部強豪・全国",
-            "form.exp_youth": "ユース・クラブチーム",
-            "form.exp_gen_hs": "一般高校サッカー部",
-            "form.exp_enjoy": "競技系フットサル・エンジョイ",
-            "form.exp_details_label": "サッカー歴・前所属チーム",
-            "form.macro_pos_label": "希望ポジション（メイン）",
-            "form.pos_gk": "GK (ゴールキーパー)",
-            "form.pos_df": "DF (ディフェンダー)",
-            "form.pos_mf": "MF (ミッドフィルダー)",
-            "form.pos_fw": "FW (フォワード)",
-            "form.sub_pos_label": "詳細役割（複数選択可）",
-            "form.sub_pos_hint": "※該当するものをすべて選択",
-            "form.sub_pos_error": "少なくとも1つを選択してください。",
-            "form.select_option": "選択してください",
-            "form.staff_sec_title": "スタッフ応募情報",
-            "form.staff_role_label": "希望スタッフ役職",
-            "form.staff_exp_label": "指導歴・スポーツ関連経歴",
-            "form.staff_role_coach": "アシスタントコーチ",
-            "form.staff_role_manager": "チームマネージャー / 運営",
-            "form.staff_role_trainer": "トレーナー / フィジカル",
-            "form.staff_role_kit": "用具管理・エキップメント",
-            "form.staff_role_media": "広報・メディア・アナリスト",
-            "form.match_sec_title": "対戦チーム情報",
-            "form.match_team_name_label": "チーム名",
-            "form.match_league_label": "所属リーグ・カテゴリー",
-            "form.match_1st_kit_label": "1stユニフォーム",
-            "form.match_2nd_kit_label": "2ndユニフォーム",
-            "form.has_pitch_label": "グラウンド確保済み (既に予約済みのグラウンドがある)",
-            "form.pitch_name_label": "グラウンド名・場所",
-            "form.sponsor_sec_title": "パートナー情報",
-            "form.company_label": "会社名・団体名",
-            "form.sponsor_type_label": "ご検討のパートナーシップ種類",
-            "form.opt_sponsor_fin": "資金スポンサー (ユニフォーム掲出等)",
-            "form.opt_sponsor_tech": "サプライヤー (物品・ウェア提供)",
-            "form.opt_sponsor_supply": "サービス提供・施設利用支援",
-            "form.opt_sponsor_other": "その他・企画協賛",
-            "form.message_label": "メッセージ内容",
-            "form.privacy_prefix": "個人情報の取り扱い（",
-            "form.privacy_link": "プライバシーポリシー",
-            "form.privacy_suffix": "）に同意する",
-            "form.submit_btn": "送信する",
-            "form.error_general": "必須項目が正しく入力されていません。赤枠の項目を確認してください。",
-            "form.error_privacy": "プライバシーポリシーへの同意（チェック）が必要です。",
-            "info.direct_title": "直接メールで連絡",
-            "info.direct_desc": "お使いのメールソフトから直接ご連絡いただく場合は、以下のアドレス宛にお送りください。",
-            "info.copy_btn": "メールアドレスをコピー",
-            "info.toast_copied": "メールアドレスをコピーしました！",
-            "info.notice_title": "ご案内とお願い",
-            "info.notice_p1": "通常、お問い合わせをいただいてから24〜48時間以内に担当者よりご返信いたします。",
-            "info.notice_p2": "携帯電話のメールアドレスをご利用の場合、返信メールが届くよう設定をご確認ください。",
-            "modal.title": "送信が完了しました",
-            "modal.text": "お問い合わせありがとうございます。メッセージを受け付けました。<br>担当者より通常24〜48時間以内にご連絡いたします。",
-            "modal.btn": "OK",
-            "privacy.title": "プライバシーポリシー",
-            "privacy.sec1_title": "1. 個人情報の収集目的",
-            "privacy.sec1_text": "横浜カルチョ（Yokohama Calcio）は、体験練習への参加申し込み、スタッフ応募、対戦相手の募集、およびクラブに関するお問い合わせに対応する目的でのみ、氏名、メールアドレス、生年月日、サッカー経歴等の個人情報を収集いたします。",
-            "privacy.sec2_title": "2. 個人情報の管理と安全保護",
-            "privacy.sec2_text": "収集した個人情報は適切な安全対策を講じて管理し、不正アクセス、紛失、改ざん、漏洩などの防止に努めます。",
-            "privacy.sec3_title": "3. 第三者への開示・提供の禁止",
-            "privacy.sec3_text": "当クラブは、法令に基づく場合やご本人の同意がある場合を除き、収集した個人情報を第三者に開示・提供することは一切ありません。",
-            "privacy.sec4_title": "4. ご本人の権利（照会・修正・削除）",
-            "privacy.sec4_text": "ご提供いただいた個人情報の確認、修正、または削除をご希望の場合は、当クラブのお問い合わせ窓口（yokohamacalcio@gmail.com）までご連絡ください。速やかに対応いたします。",
-            "privacy.close_btn": "閉じる"
-        },
-        it: {
-            "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "SQUADRA", "nav.about": "Chi Siamo", "nav.players": "Giocatori", "nav.stats": "Statistiche",
-            "nav.matches": "Partite & Risultati", "nav.gallery": "Galleria", "nav.sponsors": "Partner", "nav.faq": "FAQ",
-            "nav.shop": "Shop", "nav.contact": "Contatti", "btn.back_home": "Torna alla Home",
+let availableTrainings = [];
+let locationsData = {};
+let selectedTrialDates = [];
 
-            "contact_page.title": "Contatti",
-            "contact_page.intro": "Compila il modulo per un allenamento di prova, candidarti nello staff o per partnership e amichevoli.",
-            "form.category_label": "Tipo di Richiesta",
-            "form.select_category": "Scegli un'opzione (Obbligatorio)",
-            "form.required": "Obbligatorio",
-            "form.opt_trial": "Prova / Giocatore",
-            "form.opt_staff": "Candidatura Staff (Allenatore, Dirigente...)",
-            "form.opt_match": "Richiesta Partita Amichevole",
-            "form.opt_sponsor": "Sponsorship & Partner",
-            "form.opt_other": "Altra Richiesta",
-            "form.last_name_label": "Cognome",
-            "form.first_name_label": "Nome",
-            "form.last_name_kana_label": "Cognome (Furigana)",
-            "form.first_name_kana_label": "Nome (Furigana)",
-            "form.kana_error": "Inserisci il testo in Katakana.",
-            "form.email_label": "Indirizzo Email",
-            "form.email_error": "Inserisci un indirizzo email valido.",
-            "form.trial_dates_sec_title": "Selezione Date Provino",
-            "form.trial_dates_label": "Date desiderate (Scegli da 1 a 3 date)",
-            "form.trial_dates_hint": "※ Seleziona da 1 a 3 date disponibili tra quelle proposte (Obbligatorio)",
-            "form.trial_dates_error": "Seleziona almeno una data per il provino.",
-            "form.no_trainings": "Nessun allenamento disponibile al momento. Indica le tue disponibilità nel messaggio.",
-            "form.player_sec_title": "Info Giocatore",
-            "form.birth_date_label": "Data di Nascita",
-            "form.birth_date_hint": "※ Età calcolata in automatico",
-            "form.calculated_age_label": "Età",
-            "form.age_unit": "anni",
-            "form.age_error_under": "Spiacenti, l'età minima per partecipare è 18 anni (Calcolata: {age} anni).",
-            "form.age_error_over": "Spiacenti, l'età massima consentita è 40 anni (Calcolata: {age} anni).",
-            "form.exp_level_label": "Livello di Esperienza",
-            "form.exp_univ": "Università / Categorie Regionali",
-            "form.exp_hs": "Superiori livello agonistico / Tornei nazionali",
-            "form.exp_youth": "Settore Giovanile / Club",
-            "form.exp_gen_hs": "Esperienza scolastica / Calcio amatoriale",
-            "form.exp_enjoy": "Futsal / Tornei amatoriali",
-            "form.exp_details_label": "Esperienza / Squadre precedenti",
-            "form.macro_pos_label": "Ruolo Principale",
-            "form.pos_gk": "Portiere (GK)",
-            "form.pos_df": "Difensore (DF)",
-            "form.pos_mf": "Centrocampista (MF)",
-            "form.pos_fw": "Attaccante (FW)",
-            "form.sub_pos_label": "Dettaglio Ruolo (multiplo)",
-            "form.sub_pos_hint": "※ Seleziona una o più opzioni",
-            "form.sub_pos_error": "Seleziona almeno un'opzione.",
-            "form.select_option": "Seleziona",
-            "form.staff_sec_title": "Info Candidato Staff",
-            "form.staff_role_label": "Ruolo Staff Desiderato",
-            "form.staff_exp_label": "Esperienza / Qualifiche",
-            "form.staff_role_coach": "Allenatore / Vice Allenatore",
-            "form.staff_role_manager": "Dirigente / Team Manager",
-            "form.staff_role_trainer": "Preparatore / Fisioterapista",
-            "form.staff_role_kit": "Magazziniere / Materiale",
-            "form.staff_role_media": "Social Media / Foto / Video",
-            "form.match_sec_title": "Info Squadra Avversaria",
-            "form.match_team_name_label": "Nome Squadra",
-            "form.match_league_label": "Campionato / Categoria",
-            "form.match_1st_kit_label": "Divisa 1st",
-            "form.match_2nd_kit_label": "Divisa 2nd",
-            "form.has_pitch_label": "Abbiamo già un campo prenotato",
-            "form.pitch_name_label": "Nome e Luogo del campo",
-            "form.sponsor_sec_title": "Info Partner",
-            "form.company_label": "Nome Azienda o Ente",
-            "form.sponsor_type_label": "Tipo di Partnership richiesta",
-            "form.opt_sponsor_fin": "Sponsor Finanziario (Es. Logo maglia)",
-            "form.opt_sponsor_tech": "Sponsor Tecnico (Fornitura materiale)",
-            "form.opt_sponsor_supply": "Servizi (Uso strutture, agevolazioni)",
-            "form.opt_sponsor_other": "Altra tipologia di collaborazione",
-            "form.message_label": "Messaggio",
-            "form.privacy_prefix": "Acconsento al trattamento dei dati (",
-            "form.privacy_link": "Informativa Privacy",
-            "form.privacy_suffix": ")",
-            "form.submit_btn": "Invia Messaggio",
-            "form.error_general": "Compila tutti i campi obbligatori correttamente (vedi riquadri rossi).",
-            "form.error_privacy": "Devi accettare l'Informativa sulla Privacy per proseguire.",
-            "info.direct_title": "Email Diretta",
-            "info.direct_desc": "Se preferisci scriverci direttamente dal tuo programma di posta, utilizza l'indirizzo sottostante:",
-            "info.copy_btn": "Copia Indirizzo Email",
-            "info.toast_copied": "Indirizzo email copiato!",
-            "info.notice_title": "Informazioni utili",
-            "info.notice_p1": "Rispondiamo solitamente a tutti i messaggi entro 24-48 ore.",
-            "info.notice_p2": "Assicurati di controllare la cartella Spam se non ricevi nostra risposta.",
-            "modal.title": "Messaggio Inviato!",
-            "modal.text": "Grazie per averci contattato. Abbiamo ricevuto la tua richiesta.<br>Un nostro responsabile ti risponderà entro 24-48 ore.",
-            "modal.btn": "OK",
-            "privacy.title": "Informativa sulla Privacy",
-            "privacy.sec1_title": "1. Finalità della raccolta dati",
-            "privacy.sec1_text": "Yokohama Calcio raccoglie i dati personali (nome, email, data di nascita, esperienza) esclusivamente per gestire richieste di prova, candidature staff, amichevoli e comunicazioni.",
-            "privacy.sec2_title": "2. Sicurezza dei dati",
-            "privacy.sec2_text": "I dati sono custoditi con adeguate misure di sicurezza per prevenirne perdita, modifica o diffusione non autorizzata.",
-            "privacy.sec3_title": "3. Divieto di cessione a terzi",
-            "privacy.sec3_text": "Il club non cederà mai i tuoi dati a terzi, salvo esplicita autorizzazione o adempimenti legali.",
-            "privacy.sec4_title": "4. Diritti dell'interessato",
-            "privacy.sec4_text": "Puoi richiedere la cancellazione o rettifica dei tuoi dati scrivendo a: yokohamacalcio@gmail.com.",
-            "privacy.close_btn": "Chiudi"
-        },
-        en: {
-            "nav.home": "Home", "nav.about_group": "CLUB", "nav.team_group": "TEAM", "nav.about": "About Us", "nav.players": "Players", "nav.stats": "Stats",
-            "nav.matches": "Matches & Results", "nav.gallery": "Gallery", "nav.sponsors": "Partners", "nav.faq": "FAQ",
-            "nav.shop": "Shop", "nav.contact": "Contact Us", "btn.back_home": "Back to Home",
+const subPositionsData = {
+    GK: [{ id: 'GK', ja: 'GK (ゴールキーパー)', it: 'Portiere', en: 'Goalkeeper' }],
+    DF: [
+        { id: 'CB', ja: 'CB (センターバック)', it: 'Difensore Centrale', en: 'Center Back' },
+        { id: 'SB', ja: 'SB / WB (サイドバック・ウイングバック)', it: 'Terzino / Esterno', en: 'Fullback / Wingback' }
+    ],
+    MF: [
+        { id: 'DM', ja: 'DM (ボランチ・アンカー)', it: 'Mediano / Regista', en: 'Defensive Midfielder' },
+        { id: 'CM', ja: 'CM (インサイドハーフ)', it: 'Mezzala / Centrale', en: 'Central Midfielder' },
+        { id: 'SH', ja: 'SH (サイドハーフ)', it: 'Esterno di Centrocampo', en: 'Wide Midfielder' }
+    ],
+    FW: [
+        { id: 'ST', ja: 'ST / SW (セカンドトップ・シャドー)', it: 'Seconda Punta / Trequartista', en: 'Second Striker / CAM' },
+        { id: 'CF', ja: 'CF (センターフォワード)', it: 'Centravanti / Punta Centrale', en: 'Center Forward / Striker' },
+        { id: 'WG', ja: 'WG (ウイング)', it: 'Ala d\'attacco', en: 'Winger' }
+    ]
+};
 
-            "contact_page.title": "Contact Us",
-            "contact_page.intro": "Feel free to reach out for trial trainings, staff applications, friendly match requests, or partnerships.",
-            "form.category_label": "Inquiry Type",
-            "form.select_category": "Please select (Required)",
-            "form.required": "Required",
-            "form.opt_trial": "Player Trial",
-            "form.opt_staff": "Staff Application (Manager, Coach...)",
-            "form.opt_match": "Friendly Match Request",
-            "form.opt_sponsor": "Sponsorship & Partnership",
-            "form.opt_other": "General Inquiry",
-            "form.last_name_label": "Last Name",
-            "form.first_name_label": "First Name",
-            "form.last_name_kana_label": "Last Name (Furigana)",
-            "form.first_name_kana_label": "First Name (Furigana)",
-            "form.kana_error": "Please enter in Katakana.",
-            "form.email_label": "Email Address",
-            "form.email_error": "Please enter a valid email address.",
-            "form.trial_dates_sec_title": "Select Trial Dates",
-            "form.trial_dates_label": "Trial Dates (Select 1 to 3 dates)",
-            "form.trial_dates_hint": "※ Select 1 to 3 available training dates below (Required)",
-            "form.trial_dates_error": "Please select at least one date for the trial.",
-            "form.no_trainings": "No available training dates at the moment. Please specify your availability in the message field.",
-            "form.player_sec_title": "Player Details",
-            "form.birth_date_label": "Date of Birth",
-            "form.birth_date_hint": "※ Age calculated automatically",
-            "form.calculated_age_label": "Age",
-            "form.age_unit": "yrs",
-            "form.age_error_under": "Sorry, minimum age is 18 (Calculated: {age}).",
-            "form.age_error_over": "Sorry, maximum age is 40 (Calculated: {age}).",
-            "form.exp_level_label": "Experience Level",
-            "form.exp_univ": "University / Regional Leagues",
-            "form.exp_hs": "High School Competitive / Nationals",
-            "form.exp_youth": "Youth Academy / Club Teams",
-            "form.exp_gen_hs": "General High School / Amateur",
-            "form.exp_enjoy": "Futsal / Casual League",
-            "form.exp_details_label": "Football Experience / Prev. Teams",
-            "form.macro_pos_label": "Main Position",
-            "form.pos_gk": "Goalkeeper (GK)",
-            "form.pos_df": "Defender (DF)",
-            "form.pos_mf": "Midfielder (MF)",
-            "form.pos_fw": "Forward (FW)",
-            "form.sub_pos_label": "Specific Roles (Multiple)",
-            "form.sub_pos_hint": "※ Select all that apply",
-            "form.sub_pos_error": "Please select at least one option.",
-            "form.select_option": "Please select",
-            "form.staff_sec_title": "Staff Application Details",
-            "form.staff_role_label": "Desired Staff Role",
-            "form.staff_exp_label": "Background / Qualifications",
-            "form.staff_role_coach": "Coach / Assistant Coach",
-            "form.staff_role_manager": "Team Manager / Admin",
-            "form.staff_role_trainer": "Trainer / Physio",
-            "form.staff_role_kit": "Kit / Equipment Manager",
-            "form.staff_role_media": "Media / Photographer",
-            "match_sec_title": "Opponent Team Information",
-            "form.match_team_name_label": "Team Name",
-            "form.match_league_label": "League / Division",
-            "form.match_1st_kit_label": "1st Kit",
-            "form.match_2nd_kit_label": "2nd Kit",
-            "form.has_pitch_label": "We already have a booked pitch",
-            "form.pitch_name_label": "Pitch Name & Location",
-            "form.sponsor_sec_title": "Partnership Info",
-            "form.company_label": "Company / Organization Name",
-            "form.sponsor_type_label": "Partnership Type",
-            "form.opt_sponsor_fin": "Financial Sponsor (Kit Logo, etc.)",
-            "form.opt_sponsor_tech": "Technical Supplier (Gear/Apparel)",
-            "form.opt_sponsor_supply": "Service & Facility Support",
-            "form.opt_sponsor_other": "Other Collaboration",
-            "form.message_label": "Message",
-            "form.privacy_prefix": "I agree to the processing of personal data (",
-            "form.privacy_link": "Privacy Policy",
-            "form.privacy_suffix": ")",
-            "form.submit_btn": "Send Message",
-            "form.error_general": "Please fill in all required fields correctly (highlighted in red).",
-            "form.error_privacy": "You must agree to the Privacy Policy to proceed.",
-            "info.direct_title": "Direct Email",
-            "info.direct_desc": "If you prefer writing directly from your mail client, please use the address below:",
-            "info.copy_btn": "Copy Email Address",
-            "info.toast_copied": "Email address copied!",
-            "info.notice_title": "Notice",
-            "info.notice_p1": "We usually respond to all inquiries within 24 to 48 hours.",
-            "info.notice_p2": "Please check your spam folder if you do not receive our reply.",
-            "modal.title": "Message Sent!",
-            "modal.text": "Thank you for reaching out. We have received your message.<br>We will respond to you within 24-48 hours.",
-            "modal.btn": "OK",
-            "privacy.title": "Privacy Policy",
-            "privacy.sec1_title": "1. Purpose of Data Collection",
-            "privacy.sec1_text": "Yokohama Calcio collects personal information strictly for processing trial applications, staff candidacies, match organization, and communications.",
-            "privacy.sec2_title": "2. Data Security & Protection",
-            "privacy.sec2_text": "Collected data is stored securely using technical measures to prevent unauthorized access or disclosure.",
-            "privacy.sec3_title": "3. No Third-Party Disclosure",
-            "privacy.sec3_text": "The club will never share your personal data with third parties without explicit consent.",
-            "privacy.sec4_title": "4. Your Rights",
-            "privacy.sec4_text": "You may request access, correction, or deletion of your data at any time by contacting us at: yokohamacalcio@gmail.com.",
-            "privacy.close_btn": "Close"
-        }
-    };
+const fieldBilingualLabels = {
+    category: "お問い合わせ種別 / Tipo di Richiesta",
+    last_name: "姓 / Cognome", first_name: "名 / Nome",
+    last_name_kana: "セイ (フリガナ) / Cognome Kana", first_name_kana: "メイ (フリガナ) / Nome Kana",
+    email: "メールアドレス / Email", birth_date: "生年月日 / Data di Nascita",
+    calc_age_player: "年齢 / Età", calc_age_staff: "年齢 / Età",
+    trial_date_1: "体験希望日 1 / Data Provino 1",
+    trial_date_2: "体験希望日 2 / Data Provino 2",
+    trial_date_3: "体験希望日 3 / Data Provino 3",
+    trial_dates_summary: "体験希望日一覧 / Riepilogo Date Provini",
+    experience_level: "競技レベル / Livello Esperienza", experience_details: "サッカー歴・前所属 / Esperienza Precedente",
+    macro_position: "希望ポジション / Ruolo Principale", "sub_positions[]": "詳細役割 / Ruoli Specifici Giocatore",
+    staff_birth_date: "生年月日 / Data di Nascita Staff", staff_role: "希望スタッフ役職 / Ruolo Staff Richiesto", staff_experience: "指導歴・スポーツ経歴 / Esperienza Staff",
+    match_team_name: "対戦チーム名 / Nome Squadra Avversaria", match_league: "所属リーグ / Campionato", match_1st_kit: "1stユニフォーム / Divisa 1st", match_2nd_kit: "2ndユニフォーム / Divisa 2nd", has_pitch: "グラウンド確保状況 / Campo Prenotato", pitch_name: "グラウンド名 / Nome Campo",
+    company_name: "会社名・団体名 / Nome Azienda", sponsor_type: "パートナーシップ種類 / Tipo Partnership",
+    message: "メッセージ内容 / Messaggio", privacy_agree: "プライバシーポリシー同意 / Consenso Privacy"
+};
 
-    let currentLang = (window.YC && window.YC.getInitialLang) ? window.YC.getInitialLang() : (localStorage.getItem('preferred_lang') || 'ja');
-    let availableTrainings = [];
-    let locationsData = {};
-    let selectedTrialDates = [];
+const valueBilingualMap = {
+    trial: "体験練習・選手入部希望 / Prova Giocatore", staff: "スタッフ応募 / Candidatura Staff", match: "練習試合のお申し込み / Richiesta Partita", sponsor: "パートナー・協賛のご相談 / Sponsorship & Partner", other: "その他のお問い合わせ / Altra Richiesta",
+    university: "大学体育会・都県社会人リーグ経験 / Università - Campionati Regionali", highschool_strong: "高校サッカー部強豪・全国大会経験 / Superiori Agonistico - Tornei Nazionali", youth_club: "ユース・クラブチーム出身 / Settore Giovanile - Club", highschool_general: "一般高校サッカー部経験 / Calcio Scolastico - Amatoriale", futsal_enjoy: "競技系フットサル・エンジョイ経験 / Futsal - Tornei Amatoriali",
+    GK: "GK (Goalkeeper / Portiere)", DF: "DF (Defender / Difensore)", MF: "MF (Midfielder / Centrocampista)", FW: "FW (Forward / Attaccante)",
+    CB: "CB (Center Back / Difensore Centrale)", SB: "SB / WB (Side Back / Terzino)", DM: "DM (Defensive Mid / Mediano)", CM: "CM (Central Mid / Mezzala)", SH: "SH (Side Mid / Esterno)", ST: "ST (Second Striker / Seconda Punta)", CF: "CF (Center Forward / Centravanti)", WG: "WG (Winger / Ala)",
+    assistant_coach: "アシスタントコーチ / Vice Allenatore", team_manager: "チームマネージャー / Team Manager", trainer: "トレーナー / Fisioterapista", kit_manager: "用具管理 / Magazziniere", media_analyst: "広報・アナリスト / Media & Analyst",
+    financial: "資金スポンサー / Sponsor Finanziario", technical: "サプライヤー / Fornitore Tecnico", services: "サービス提供・施設利用 / Servizi e Strutture", other_partner: "その他・企画協賛 / Altra Collaborazione",
+    on: "はい (Sì) / Accetto"
+};
 
-    const subPositionsData = {
-        GK: [{ id: 'GK', ja: 'GK (ゴールキーパー)', it: 'Portiere', en: 'Goalkeeper' }],
-        DF: [
-            { id: 'CB', ja: 'CB (センターバック)', it: 'Difensore Centrale', en: 'Center Back' },
-            { id: 'SB', ja: 'SB / WB (サイドバック・ウイングバック)', it: 'Terzino / Esterno', en: 'Fullback / Wingback' }
-        ],
-        MF: [
-            { id: 'DM', ja: 'DM (ボランチ・アンカー)', it: 'Mediano / Regista', en: 'Defensive Midfielder' },
-            { id: 'CM', ja: 'CM (インサイドハーフ)', it: 'Mezzala / Centrale', en: 'Central Midfielder' },
-            { id: 'SH', ja: 'SH (サイドハーフ)', it: 'Esterno di Centrocampo', en: 'Wide Midfielder' }
-        ],
-        FW: [
-            { id: 'ST', ja: 'ST / SW (セカンドトップ・シャドー)', it: 'Seconda Punta / Trequartista', en: 'Second Striker / CAM' },
-            { id: 'CF', ja: 'CF (センターフォワード)', it: 'Centravanti / Punta Centrale', en: 'Center Forward / Striker' },
-            { id: 'WG', ja: 'WG (ウイング)', it: 'Ala d\'attacco', en: 'Winger' }
-        ]
-    };
+const categorySubjects = {
+    trial: "[Yokohama Calcio] 体験練習・選手入部希望 / Richiesta Prova Giocatore",
+    staff: "[Yokohama Calcio] スタッフ応募 / Candidatura Staff",
+    match: "[Yokohama Calcio] 練習試合のお申し込み / Richiesta Partita Amichevole",
+    sponsor: "[Yokohama Calcio] パートナー・協賛のご相談 / Sponsorship & Partner",
+    other: "[Yokohama Calcio] その他のお問い合わせ / Altra Richiesta"
+};
 
-    const fieldBilingualLabels = {
-        category: "お問い合わせ種別 / Tipo di Richiesta",
-        last_name: "姓 / Cognome", first_name: "名 / Nome",
-        last_name_kana: "セイ (フリガナ) / Cognome Kana", first_name_kana: "メイ (フリガナ) / Nome Kana",
-        email: "メールアドレス / Email", birth_date: "生年月日 / Data di Nascita",
-        calc_age_player: "年齢 / Età", calc_age_staff: "年齢 / Età",
-        trial_date_1: "体験希望日 1 / Data Provino 1",
-        trial_date_2: "体験希望日 2 / Data Provino 2",
-        trial_date_3: "体験希望日 3 / Data Provino 3",
-        trial_dates_summary: "体験希望日一覧 / Riepilogo Date Provini",
-        experience_level: "競技レベル / Livello Esperienza", experience_details: "サッカー歴・前所属 / Esperienza Precedente",
-        macro_position: "希望ポジション / Ruolo Principale", "sub_positions[]": "詳細役割 / Ruoli Specifici Giocatore",
-        staff_birth_date: "生年月日 / Data di Nascita Staff", staff_role: "希望スタッフ役職 / Ruolo Staff Richiesto", staff_experience: "指導歴・スポーツ経歴 / Esperienza Staff",
-        match_team_name: "対戦チーム名 / Nome Squadra Avversaria", match_league: "所属リーグ / Campionato", match_1st_kit: "1stユニフォーム / Divisa 1st", match_2nd_kit: "2ndユニフォーム / Divisa 2nd", has_pitch: "グラウンド確保状況 / Campo Prenotato", pitch_name: "グラウンド名 / Nome Campo",
-        company_name: "会社名・団体名 / Nome Azienda", sponsor_type: "パートナーシップ種類 / Tipo Partnership",
-        message: "メッセージ内容 / Messaggio", privacy_agree: "プライバシーポリシー同意 / Consenso Privacy"
-    };
-
-    const valueBilingualMap = {
-        trial: "体験練習・選手入部希望 / Prova Giocatore", staff: "スタッフ応募 / Candidatura Staff", match: "練習試合のお申し込み / Richiesta Partita", sponsor: "パートナー・協賛のご相談 / Sponsorship & Partner", other: "その他のお問い合わせ / Altra Richiesta",
-        university: "大学体育会・都県社会人リーグ経験 / Università - Campionati Regionali", highschool_strong: "高校サッカー部強豪・全国大会経験 / Superiori Agonistico - Tornei Nazionali", youth_club: "ユース・クラブチーム出身 / Settore Giovanile - Club", highschool_general: "一般高校サッカー部経験 / Calcio Scolastico - Amatoriale", futsal_enjoy: "競技系フットサル・エンジョイ経験 / Futsal - Tornei Amatoriali",
-        GK: "GK (Goalkeeper / Portiere)", DF: "DF (Defender / Difensore)", MF: "MF (Midfielder / Centrocampista)", FW: "FW (Forward / Attaccante)",
-        CB: "CB (Center Back / Difensore Centrale)", SB: "SB / WB (Side Back / Terzino)", DM: "DM (Defensive Mid / Mediano)", CM: "CM (Central Mid / Mezzala)", SH: "SH (Side Mid / Esterno)", ST: "ST (Second Striker / Seconda Punta)", CF: "CF (Center Forward / Centravanti)", WG: "WG (Winger / Ala)",
-        assistant_coach: "アシスタントコーチ / Vice Allenatore", team_manager: "チームマネージャー / Team Manager", trainer: "トレーナー / Fisioterapista", kit_manager: "用具管理 / Magazziniere", media_analyst: "広報・アナリスト / Media & Analyst",
-        financial: "資金スポンサー / Sponsor Finanziario", technical: "サプライヤー / Fornitore Tecnico", services: "サービス提供・施設利用 / Servizi e Strutture", other_partner: "その他・企画協賛 / Altra Collaborazione",
-        on: "はい (Sì) / Accetto"
-    };
-
-    const categorySubjects = {
-        trial: "[Yokohama Calcio] 体験練習・選手入部希望 / Richiesta Prova Giocatore",
-        staff: "[Yokohama Calcio] スタッフ応募 / Candidatura Staff",
-        match: "[Yokohama Calcio] 練習試合のお申し込み / Richiesta Partita Amichevole",
-        sponsor: "[Yokohama Calcio] パートナー・協賛のご相談 / Sponsorship & Partner",
-        other: "[Yokohama Calcio] その他のお問い合わせ / Altra Richiesta"
-    };
-
-    function setLanguage(lang) {
-        if (!translations[lang]) return;
-        currentLang = lang;
+async function loadCalendarData() {
+    try {
+        const [tResp, lResp] = await Promise.allSettled([
+            fetch('trainings.json'),
+            fetch('locations.json')
+        ]);
         
-        if (window.YC && window.YC.setLanguage) {
-            window.YC.setLanguage(lang);
-        } else {
-            localStorage.setItem('preferred_lang', lang);
-            document.documentElement.lang = lang;
-        }
-        
-        if (pageTitles[lang]) {
-            document.title = pageTitles[lang];
-            const ogTitle = document.querySelector('meta[property="og:title"]');
-            const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-            if (ogTitle) ogTitle.setAttribute('content', pageTitles[lang]);
-            if (twitterTitle) twitterTitle.setAttribute('content', pageTitles[lang]);
+        if (lResp.status === 'fulfilled' && lResp.value.ok) {
+            locationsData = await lResp.value.json();
         }
 
-        document.querySelectorAll('[data-i18n]').forEach(elem => {
-            const key = elem.getAttribute('data-i18n');
-            if (translations[lang][key]) elem.innerHTML = translations[lang][key];
-        });
+        if (tResp.status === 'fulfilled' && tResp.value.ok) {
+            const rawTrainings = await tResp.value.json();
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
 
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-        });
+            availableTrainings = rawTrainings.filter(t => {
+                if (!t.date) return false;
+                const cleanDate = t.date.trim().replace(/\./g, '-');
+                const d = new Date(cleanDate);
+                return !isNaN(d.getTime()) && d >= today;
+            }).sort((a, b) => new Date(a.date.replace(/\./g, '-')) - new Date(b.date.replace(/\./g, '-')));
+        }
 
         renderTrialDatesUI();
-        document.dispatchEvent(new CustomEvent('yc:langchange', { detail: lang }));
+    } catch (e) {
+        console.error("Errore caricamento dati calendario:", e);
+    }
+}
+
+function renderTrialDatesUI() {
+    const container = document.getElementById('trialDatesContainer');
+    if (!container) return;
+
+    const lang = YC.lang();
+
+    if (availableTrainings.length === 0) {
+        container.innerHTML = `<div style="grid-column: 1/-1; padding: 15px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; color: #64748b; font-size: 0.88rem; text-align: center;">${YC.t('form.no_trainings')}</div>`;
+        return;
     }
 
-    async function loadCalendarData() {
-        try {
-            const [tResp, lResp] = await Promise.allSettled([
-                fetch('trainings.json'),
-                fetch('locations.json')
-            ]);
-            
-            if (lResp.status === 'fulfilled' && lResp.value.ok) {
-                locationsData = await lResp.value.json();
-            }
+    let html = '';
+    availableTrainings.forEach(item => {
+        const cleanDate = item.date.trim().replace(/\./g, '-');
+        const d = new Date(cleanDate);
+        const formattedDate = new Intl.DateTimeFormat(lang === 'ja' ? 'ja-JP' : (lang === 'it' ? 'it-IT' : 'en-US'), {
+            month: 'short', day: 'numeric', weekday: 'short'
+        }).format(d);
 
-            if (tResp.status === 'fulfilled' && tResp.value.ok) {
-                const rawTrainings = await tResp.value.json();
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-
-                availableTrainings = rawTrainings.filter(t => {
-                    if (!t.date) return false;
-                    const cleanDate = t.date.trim().replace(/\./g, '-');
-                    const d = new Date(cleanDate);
-                    return !isNaN(d.getTime()) && d >= today;
-                }).sort((a, b) => new Date(a.date.replace(/\./g, '-')) - new Date(b.date.replace(/\./g, '-')));
-            }
-
-            renderTrialDatesUI();
-        } catch (e) {
-            console.error("Errore caricamento dati calendario:", e);
-        }
-    }
-
-    function renderTrialDatesUI() {
-        const container = document.getElementById('trialDatesContainer');
-        if (!container) return;
-
-        if (availableTrainings.length === 0) {
-            container.innerHTML = `<div style="grid-column: 1/-1; padding: 15px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; color: #64748b; font-size: 0.88rem; text-align: center;">${translations[currentLang]['form.no_trainings']}</div>`;
-            return;
+        let locName = item.venue || item.location_id || '';
+        if (item.location_id && locationsData[item.location_id]) {
+            const locObj = locationsData[item.location_id];
+            locName = locObj[lang] || locObj['ja'] || locName;
         }
 
-        let html = '';
-        availableTrainings.forEach(item => {
-            const cleanDate = item.date.trim().replace(/\./g, '-');
-            const d = new Date(cleanDate);
-            const formattedDate = new Intl.DateTimeFormat(currentLang === 'ja' ? 'ja-JP' : (currentLang === 'it' ? 'it-IT' : 'en-US'), {
-                month: 'short', day: 'numeric', weekday: 'short'
-            }).format(d);
+        const valueStr = `${item.date} (${locName}) ${item.time || ''}`.trim();
+        const isSelected = selectedTrialDates.includes(valueStr);
 
-            let locName = item.venue || item.location_id || '';
-            if (item.location_id && locationsData[item.location_id]) {
-                const locObj = locationsData[item.location_id];
-                locName = locObj[currentLang] || locObj['ja'] || locName;
-            }
+        let venueHtml = `<span>${locName}</span>`;
+        if (item.url) {
+            venueHtml = `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="venue-map-link" onclick="event.stopPropagation();">${locName} <i class="fas fa-external-link-alt" style="font-size:0.7rem; margin-left:2px;"></i></a>`;
+        }
 
-            const valueStr = `${item.date} (${locName}) ${item.time || ''}`.trim();
-            const isSelected = selectedTrialDates.includes(valueStr);
-
-            let venueHtml = `<span>${locName}</span>`;
-            if (item.url) {
-                venueHtml = `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="venue-map-link" onclick="event.stopPropagation();">${locName} <i class="fas fa-external-link-alt" style="font-size:0.7rem; margin-left:2px;"></i></a>`;
-            }
-
-            html += `
-                <div class="trial-date-card ${isSelected ? 'selected' : ''}" data-value="${valueStr}">
-                    <div class="date-header">
-                        <span>${formattedDate}</span>
-                        <i class="fas ${isSelected ? 'fa-check-circle' : 'fa-circle'} date-check-icon"></i>
-                    </div>
-                    <div class="date-time-venue">
-                        <i class="far fa-clock"></i> <span>${item.time || 'TBD'}</span>
-                    </div>
-                    <div class="date-time-venue">
-                        <i class="fas fa-map-marker-alt"></i> ${venueHtml}
-                    </div>
+        html += `
+            <div class="trial-date-card ${isSelected ? 'selected' : ''}" data-value="${valueStr}">
+                <div class="date-header">
+                    <span>${formattedDate}</span>
+                    <i class="fas ${isSelected ? 'fa-check-circle' : 'fa-circle'} date-check-icon"></i>
                 </div>
-            `;
-        });
+                <div class="date-time-venue">
+                    <i class="far fa-clock"></i> <span>${item.time || 'TBD'}</span>
+                </div>
+                <div class="date-time-venue">
+                    <i class="fas fa-map-marker-alt"></i> ${venueHtml}
+                </div>
+            </div>
+        `;
+    });
 
-        container.innerHTML = html;
+    container.innerHTML = html;
 
-        container.querySelectorAll('.trial-date-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const val = card.getAttribute('data-value');
-                if (selectedTrialDates.includes(val)) {
-                    selectedTrialDates = selectedTrialDates.filter(v => v !== val);
-                } else {
-                    if (selectedTrialDates.length >= 3) {
-                        alert(currentLang === 'ja' ? '選択できる希望日は最大3つまでです。' : (currentLang === 'it' ? 'Puoi selezionare al massimo 3 date.' : 'You can select up to 3 dates.'));
-                        return;
-                    }
-                    selectedTrialDates.push(val);
+    container.querySelectorAll('.trial-date-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const val = card.getAttribute('data-value');
+            if (selectedTrialDates.includes(val)) {
+                selectedTrialDates = selectedTrialDates.filter(v => v !== val);
+            } else {
+                if (selectedTrialDates.length >= 3) {
+                    const l = YC.lang();
+                    alert(l === 'ja' ? '選択できる希望日は最大3つまでです。' : (l === 'it' ? 'Puoi selezionare al massimo 3 date.' : 'You can select up to 3 dates.'));
+                    return;
                 }
-                updateTrialDatesInputs();
-                renderTrialDatesUI();
-            });
-        });
-    }
-
-    function updateTrialDatesInputs() {
-        const input1 = document.getElementById('trial_date_1');
-        const input2 = document.getElementById('trial_date_2');
-        const input3 = document.getElementById('trial_date_3');
-        const summaryInput = document.getElementById('trial_dates_summary');
-        const errorBanner = document.getElementById('trial_dates_error');
-
-        if (input1) input1.value = selectedTrialDates[0] || '';
-        if (input2) input2.value = selectedTrialDates[1] || '';
-        if (input3) input3.value = selectedTrialDates[2] || '';
-        if (summaryInput) summaryInput.value = selectedTrialDates.join(' | ');
-
-        if (errorBanner) {
-            if (selectedTrialDates.length > 0) {
-                errorBanner.style.display = 'none';
+                selectedTrialDates.push(val);
             }
-        }
-    }
-
-    function updateFormspreeHiddenFields() {
-        const categorySelect = document.getElementById('category');
-        const subjectInput = document.getElementById('formspree_subject');
-        if (categorySelect && subjectInput) {
-            const selectedCat = categorySelect.value;
-            subjectInput.value = categorySubjects[selectedCat] || "[Yokohama Calcio] お問い合わせ / Nuovo Contatto";
-        }
-    }
-
-    function calculateAge(birthDateStr) {
-        if (!birthDateStr) return null;
-        const birthDate = new Date(birthDateStr);
-        if (isNaN(birthDate.getTime())) return null;
-        const today = new Date();
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
-        return age;
-    }
-
-    function updateAgeDisplay(dateInputEl, calcAgeEl) {
-        if (!dateInputEl || !calcAgeEl) return;
-        const age = calculateAge(dateInputEl.value);
-        if (age !== null && !isNaN(age)) {
-            const unit = (translations[currentLang] && translations[currentLang]['form.age_unit']) || '歳';
-            calcAgeEl.value = `${age} ${unit}`;
-        } else {
-            calcAgeEl.value = '--';
-        }
-    }
-
-    function renderSubPositions() {
-        const macroPosInput = document.getElementById('macro_position');
-        if (!macroPosInput) return;
-        const macroPos = macroPosInput.value;
-        const wrapper = document.getElementById('subPositionWrapper');
-        const container = document.getElementById('subPositionCheckboxes');
-        
-        if (!macroPos || !subPositionsData[macroPos]) {
-            if (wrapper) wrapper.style.display = 'none';
-            if (container) container.innerHTML = '';
-            return;
-        }
-
-        const list = subPositionsData[macroPos];
-        let html = '';
-        list.forEach(item => {
-            const labelText = item[currentLang] || item['ja'];
-            const checkedAttr = (macroPos === 'GK') ? 'checked' : '';
-            html += `
-                <label class="simple-checkbox-label">
-                    <input type="checkbox" name="sub_positions[]" value="${item.id}" ${checkedAttr}>
-                    <span>${labelText}</span>
-                </label>
-            `;
+            updateTrialDatesInputs();
+            renderTrialDatesUI();
         });
-        if (container) container.innerHTML = html;
-        if (wrapper) wrapper.style.display = 'block';
+    });
+}
 
-        if (container) {
-            container.querySelectorAll('input[type="checkbox"]').forEach(chk => {
-                chk.addEventListener('change', () => {
-                    const checkedSubs = container.querySelectorAll('input[type="checkbox"]:checked');
-                    const subErr = document.getElementById('sub_pos_error');
-                    if (subErr && checkedSubs.length > 0) subErr.style.display = 'none';
-                });
-            });
+function updateTrialDatesInputs() {
+    const input1 = document.getElementById('trial_date_1');
+    const input2 = document.getElementById('trial_date_2');
+    const input3 = document.getElementById('trial_date_3');
+    const summaryInput = document.getElementById('trial_dates_summary');
+    const errorBanner = document.getElementById('trial_dates_error');
+
+    if (input1) input1.value = selectedTrialDates[0] || '';
+    if (input2) input2.value = selectedTrialDates[1] || '';
+    if (input3) input3.value = selectedTrialDates[2] || '';
+    if (summaryInput) summaryInput.value = selectedTrialDates.join(' | ');
+
+    if (errorBanner) {
+        if (selectedTrialDates.length > 0) {
+            errorBanner.style.display = 'none';
         }
     }
+}
 
-    function updateSectionVisibility() {
-        const categorySelect = document.getElementById('category');
-        const category = categorySelect ? categorySelect.value : '';
-        const dynamicFormContainer = document.getElementById('dynamicFormContainer');
-        const trialDatesWrapper = document.getElementById('trialDatesWrapper');
+function updateFormspreeHiddenFields() {
+    const categorySelect = document.getElementById('category');
+    const subjectInput = document.getElementById('formspree_subject');
+    if (categorySelect && subjectInput) {
+        const selectedCat = categorySelect.value;
+        subjectInput.value = categorySubjects[selectedCat] || "[Yokohama Calcio] お問い合わせ / Nuovo Contatto";
+    }
+}
 
-        if (!category) {
-            if (dynamicFormContainer) dynamicFormContainer.style.display = 'none';
-            return;
-        } else {
-            if (dynamicFormContainer) dynamicFormContainer.style.display = 'block';
-        }
+function calculateAge(birthDateStr) {
+    if (!birthDateStr) return null;
+    const birthDate = new Date(birthDateStr);
+    if (isNaN(birthDate.getTime())) return null;
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
+    return age;
+}
 
-        if (category === 'trial' || category === 'staff') {
-            if (trialDatesWrapper) trialDatesWrapper.style.display = 'block';
-        } else {
-            if (trialDatesWrapper) trialDatesWrapper.style.display = 'none';
-        }
+function updateAgeDisplay(dateInputEl, calcAgeEl) {
+    if (!dateInputEl || !calcAgeEl) return;
+    const age = calculateAge(dateInputEl.value);
+    if (age !== null && !isNaN(age)) {
+        const unit = YC.t('form.age_unit') || '歳';
+        calcAgeEl.value = `${age} ${unit}`;
+    } else {
+        calcAgeEl.value = '--';
+    }
+}
 
-        const playerWrapper = document.getElementById('trialFieldsWrapper');
-        const staffWrapper = document.getElementById('staffFieldsWrapper');
-        const matchWrapper = document.getElementById('matchFieldsWrapper');
-        const sponsorWrapper = document.getElementById('sponsorFieldsWrapper');
-
-        function toggleWrapperInputs(wrapper, enable) {
-            if (!wrapper) return;
-            wrapper.style.display = enable ? 'block' : 'none';
-            const inputs = wrapper.querySelectorAll('input, select, textarea');
-            inputs.forEach(input => {
-                if (enable) {
-                    input.removeAttribute('disabled');
-                } else {
-                    input.setAttribute('disabled', 'disabled');
-                    input.classList.remove('is-valid', 'is-invalid');
-                }
-            });
-        }
-
-        toggleWrapperInputs(playerWrapper, category === 'trial');
-        toggleWrapperInputs(staffWrapper, category === 'staff');
-        toggleWrapperInputs(matchWrapper, category === 'match');
-        toggleWrapperInputs(sponsorWrapper, category === 'sponsor');
-
-        const playerBirth = document.getElementById('birth_date');
-        const playerExpLevel = document.getElementById('experience_level');
-        const playerMacro = document.getElementById('macro_position');
-        const staffBirth = document.getElementById('staff_birth_date');
-        const staffRole = document.getElementById('staff_role');
-        const matchTeamName = document.getElementById('match_team_name');
-        const compName = document.getElementById('company_name');
-        const sponType = document.getElementById('sponsor_type');
-
-        [playerBirth, playerExpLevel, playerMacro, staffBirth, staffRole, matchTeamName, compName, sponType].forEach(el => {
-            if(el) el.removeAttribute('required');
-        });
-
-        if (category === 'trial') {
-            if (playerBirth) playerBirth.setAttribute('required', 'required');
-            if (playerExpLevel) playerExpLevel.setAttribute('required', 'required');
-            if (playerMacro) playerMacro.setAttribute('required', 'required');
-        } else if (category === 'staff') {
-            if (staffBirth) staffBirth.setAttribute('required', 'required');
-            if (staffRole) staffRole.setAttribute('required', 'required');
-        } else if (category === 'match') {
-            if (matchTeamName) matchTeamName.setAttribute('required', 'required');
-            const hasPitch = document.getElementById('has_pitch');
-            if(hasPitch) hasPitch.dispatchEvent(new Event('change'));
-        } else if (category === 'sponsor') {
-            if (compName) compName.setAttribute('required', 'required');
-            if (sponType) sponType.setAttribute('required', 'required');
-        }
+function renderSubPositions() {
+    const macroPosInput = document.getElementById('macro_position');
+    if (!macroPosInput) return;
+    const macroPos = macroPosInput.value;
+    const wrapper = document.getElementById('subPositionWrapper');
+    const container = document.getElementById('subPositionCheckboxes');
+    
+    if (!macroPos || !subPositionsData[macroPos]) {
+        if (wrapper) wrapper.style.display = 'none';
+        if (container) container.innerHTML = '';
+        return;
     }
 
-    function validateKanaInput(inputEl, errorEl) {
-        const val = inputEl.value.trim();
-        if (!val) {
-            if (errorEl) errorEl.style.display = 'none';
-            inputEl.classList.remove('is-valid', 'is-invalid');
-            return false;
-        }
-        const kanaRegex = /^[\u30A0-\u30FF\u30FC\s]+$/;
-        if (kanaRegex.test(val)) {
-            if (errorEl) errorEl.style.display = 'none';
-            inputEl.classList.remove('is-invalid');
-            inputEl.classList.add('is-valid');
-            return true;
-        } else {
-            if (errorEl) errorEl.style.display = 'flex';
-            inputEl.classList.remove('is-valid');
-            inputEl.classList.add('is-invalid');
-            return false;
-        }
-    }
+    const lang = YC.lang();
+    const list = subPositionsData[macroPos];
+    let html = '';
+    list.forEach(item => {
+        const labelText = item[lang] || item['ja'];
+        const checkedAttr = (macroPos === 'GK') ? 'checked' : '';
+        html += `
+            <label class="simple-checkbox-label">
+                <input type="checkbox" name="sub_positions[]" value="${item.id}" ${checkedAttr}>
+                <span>${labelText}</span>
+            </label>
+        `;
+    });
+    if (container) container.innerHTML = html;
+    if (wrapper) wrapper.style.display = 'block';
 
-    function validateEmailInput(inputEl, errorEl) {
-        const val = inputEl.value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (emailRegex.test(val)) {
-            if (errorEl) errorEl.style.display = 'none';
-            inputEl.classList.remove('is-invalid');
-            inputEl.classList.add('is-valid');
-            return true;
-        } else {
-            if (errorEl) errorEl.style.display = 'flex';
-            inputEl.classList.remove('is-valid');
-            inputEl.classList.add('is-invalid');
-            return false;
-        }
-    }
-
-    function validateAge(inputEl, errorBannerEl, errorMsgEl, checkMaxAge = true) {
-        const val = inputEl.value;
-        if (!val) {
-            if (errorBannerEl) errorBannerEl.style.display = 'none';
-            inputEl.classList.remove('is-valid', 'is-invalid');
-            return true;
-        }
-        const age = calculateAge(val);
-        if (age === null) return true;
-
-        if (age < 18) {
-            const template = (translations[currentLang] && translations[currentLang]['form.age_error_under']) || '';
-            if (errorMsgEl) errorMsgEl.textContent = template.replace('{age}', age);
-            if (errorBannerEl) errorBannerEl.style.display = 'flex';
-            inputEl.classList.remove('is-valid');
-            inputEl.classList.add('is-invalid');
-            return false;
-        } else if (checkMaxAge && age > 40) {
-            const template = (translations[currentLang] && translations[currentLang]['form.age_error_over']) || '';
-            if (errorMsgEl) errorMsgEl.textContent = template.replace('{age}', age);
-            if (errorBannerEl) errorBannerEl.style.display = 'flex';
-            inputEl.classList.remove('is-valid');
-            inputEl.classList.add('is-invalid');
-            return false;
-        } else {
-            if (errorBannerEl) errorBannerEl.style.display = 'none';
-            inputEl.classList.remove('is-invalid');
-            inputEl.classList.add('is-valid');
-            return true;
-        }
-    }
-
-    function initLiveValidation() {
-        const liveValidationIds = ['last_name', 'first_name', 'last_name_kana', 'first_name_kana', 'birth_date', 'staff_birth_date', 'email', 'message'];
-
-        liveValidationIds.forEach(id => {
-            const input = document.getElementById(id);
-            if (!input) return;
-
-            const validateInput = () => {
-                if (id === 'email') {
-                    validateEmailInput(input, document.getElementById('email_error'));
-                    return;
-                }
-                if (id === 'last_name_kana' || id === 'first_name_kana') {
-                    if (currentLang === 'ja') {
-                        validateKanaInput(input, document.getElementById(id + '_error'));
-                    }
-                    return;
-                }
-                if (id === 'birth_date') {
-                    const ageErr = document.getElementById('age_error_player');
-                    const ageMsg = document.getElementById('age_error_player_msg');
-                    if (input.value) validateAge(input, ageErr, ageMsg, true);
-                    else { if (ageErr) ageErr.style.display = 'none'; input.classList.remove('is-valid', 'is-invalid'); }
-                    return;
-                }
-                if (id === 'staff_birth_date') {
-                    const ageErr = document.getElementById('age_error_staff');
-                    const ageMsg = document.getElementById('age_error_staff_msg');
-                    if (input.value) validateAge(input, ageErr, ageMsg, false);
-                    else { if (ageErr) ageErr.style.display = 'none'; input.classList.remove('is-valid', 'is-invalid'); }
-                    return;
-                }
-
-                if (input.value.trim() !== '') {
-                    input.classList.remove('is-invalid');
-                    input.classList.add('is-valid');
-                } else {
-                    input.classList.remove('is-valid');
-                    input.classList.add('is-invalid');
-                }
-            };
-
-            input.addEventListener('blur', validateInput);
-            input.addEventListener('input', () => {
-                if (input.classList.contains('is-invalid') || input.value.trim() !== '') validateInput();
+    if (container) {
+        container.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+            chk.addEventListener('change', () => {
+                const checkedSubs = container.querySelectorAll('input[type="checkbox"]:checked');
+                const subErr = document.getElementById('sub_pos_error');
+                if (subErr && checkedSubs.length > 0) subErr.style.display = 'none';
             });
         });
     }
+}
 
-    function initPitchLogic() {
+function updateSectionVisibility() {
+    const categorySelect = document.getElementById('category');
+    const category = categorySelect ? categorySelect.value : '';
+    const dynamicFormContainer = document.getElementById('dynamicFormContainer');
+    const trialDatesWrapper = document.getElementById('trialDatesWrapper');
+
+    if (!category) {
+        if (dynamicFormContainer) dynamicFormContainer.style.display = 'none';
+        return;
+    } else {
+        if (dynamicFormContainer) dynamicFormContainer.style.display = 'block';
+    }
+
+    if (category === 'trial' || category === 'staff') {
+        if (trialDatesWrapper) trialDatesWrapper.style.display = 'block';
+    } else {
+        if (trialDatesWrapper) trialDatesWrapper.style.display = 'none';
+    }
+
+    const playerWrapper = document.getElementById('trialFieldsWrapper');
+    const staffWrapper = document.getElementById('staffFieldsWrapper');
+    const matchWrapper = document.getElementById('matchFieldsWrapper');
+    const sponsorWrapper = document.getElementById('sponsorFieldsWrapper');
+
+    function toggleWrapperInputs(wrapper, enable) {
+        if (!wrapper) return;
+        wrapper.style.display = enable ? 'block' : 'none';
+        const inputs = wrapper.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            if (enable) {
+                input.removeAttribute('disabled');
+            } else {
+                input.setAttribute('disabled', 'disabled');
+                input.classList.remove('is-valid', 'is-invalid');
+            }
+        });
+    }
+
+    toggleWrapperInputs(playerWrapper, category === 'trial');
+    toggleWrapperInputs(staffWrapper, category === 'staff');
+    toggleWrapperInputs(matchWrapper, category === 'match');
+    toggleWrapperInputs(sponsorWrapper, category === 'sponsor');
+
+    const playerBirth = document.getElementById('birth_date');
+    const playerExpLevel = document.getElementById('experience_level');
+    const playerMacro = document.getElementById('macro_position');
+    const staffBirth = document.getElementById('staff_birth_date');
+    const staffRole = document.getElementById('staff_role');
+    const matchTeamName = document.getElementById('match_team_name');
+    const compName = document.getElementById('company_name');
+    const sponType = document.getElementById('sponsor_type');
+
+    [playerBirth, playerExpLevel, playerMacro, staffBirth, staffRole, matchTeamName, compName, sponType].forEach(el => {
+        if(el) el.removeAttribute('required');
+    });
+
+    if (category === 'trial') {
+        if (playerBirth) playerBirth.setAttribute('required', 'required');
+        if (playerExpLevel) playerExpLevel.setAttribute('required', 'required');
+        if (playerMacro) playerMacro.setAttribute('required', 'required');
+    } else if (category === 'staff') {
+        if (staffBirth) staffBirth.setAttribute('required', 'required');
+        if (staffRole) staffRole.setAttribute('required', 'required');
+    } else if (category === 'match') {
+        if (matchTeamName) matchTeamName.setAttribute('required', 'required');
         const hasPitch = document.getElementById('has_pitch');
-        const pitchName = document.getElementById('pitch_name');
-        const wrapper = document.getElementById('pitchNameWrapper');
-
-        if(hasPitch && pitchName && wrapper) {
-            hasPitch.addEventListener('change', () => {
-                if (hasPitch.checked) {
-                    wrapper.style.display = 'block';
-                    pitchName.setAttribute('required', 'required');
-                    pitchName.removeAttribute('disabled');
-                } else {
-                    wrapper.style.display = 'none';
-                    pitchName.removeAttribute('required');
-                    pitchName.setAttribute('disabled', 'disabled');
-                    pitchName.classList.remove('is-invalid', 'is-valid');
-                }
-            });
-        }
+        if(hasPitch) hasPitch.dispatchEvent(new Event('change'));
+    } else if (category === 'sponsor') {
+        if (compName) compName.setAttribute('required', 'required');
+        if (sponType) sponType.setAttribute('required', 'required');
     }
+}
 
-    function handleUrlTypeParam() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const typeParam = urlParams.get('type');
-        const categorySelect = document.getElementById('category');
+function validateKanaInput(inputEl, errorEl) {
+    const val = inputEl.value.trim();
+    if (!val) {
+        if (errorEl) errorEl.style.display = 'none';
+        inputEl.classList.remove('is-valid', 'is-invalid');
+        return false;
+    }
+    const kanaRegex = /^[\u30A0-\u30FF\u30FC\s]+$/;
+    if (kanaRegex.test(val)) {
+        if (errorEl) errorEl.style.display = 'none';
+        inputEl.classList.remove('is-invalid');
+        inputEl.classList.add('is-valid');
+        return true;
+    } else {
+        if (errorEl) errorEl.style.display = 'flex';
+        inputEl.classList.remove('is-valid');
+        inputEl.classList.add('is-invalid');
+        return false;
+    }
+}
 
-        if (typeParam && categorySelect) {
-            if (['trial', 'staff', 'match', 'sponsor', 'other'].includes(typeParam)) {
-                categorySelect.value = typeParam;
-                updateSectionVisibility();
-                updateFormspreeHiddenFields();
+function validateEmailInput(inputEl, errorEl) {
+    const val = inputEl.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailRegex.test(val)) {
+        if (errorEl) errorEl.style.display = 'none';
+        inputEl.classList.remove('is-invalid');
+        inputEl.classList.add('is-valid');
+        return true;
+    } else {
+        if (errorEl) errorEl.style.display = 'flex';
+        inputEl.classList.remove('is-valid');
+        inputEl.classList.add('is-invalid');
+        return false;
+    }
+}
+
+function validateAge(inputEl, errorBannerEl, errorMsgEl, checkMaxAge = true) {
+    const val = inputEl.value;
+    if (!val) {
+        if (errorBannerEl) errorBannerEl.style.display = 'none';
+        inputEl.classList.remove('is-valid', 'is-invalid');
+        return true;
+    }
+    const age = calculateAge(val);
+    if (age === null) return true;
+
+    if (age < 18) {
+        const template = YC.t('form.age_error_under') || '';
+        if (errorMsgEl) errorMsgEl.textContent = template.replace('{age}', age);
+        if (errorBannerEl) errorBannerEl.style.display = 'flex';
+        inputEl.classList.remove('is-valid');
+        inputEl.classList.add('is-invalid');
+        return false;
+    } else if (checkMaxAge && age > 40) {
+        const template = YC.t('form.age_error_over') || '';
+        if (errorMsgEl) errorMsgEl.textContent = template.replace('{age}', age);
+        if (errorBannerEl) errorBannerEl.style.display = 'flex';
+        inputEl.classList.remove('is-valid');
+        inputEl.classList.add('is-invalid');
+        return false;
+    } else {
+        if (errorBannerEl) errorBannerEl.style.display = 'none';
+        inputEl.classList.remove('is-invalid');
+        inputEl.classList.add('is-valid');
+        return true;
+    }
+}
+
+function initLiveValidation() {
+    const liveValidationIds = ['last_name', 'first_name', 'last_name_kana', 'first_name_kana', 'birth_date', 'staff_birth_date', 'email', 'message'];
+
+    liveValidationIds.forEach(id => {
+        const input = document.getElementById(id);
+        if (!input) return;
+
+        const validateInput = () => {
+            if (id === 'email') {
+                validateEmailInput(input, document.getElementById('email_error'));
+                return;
             }
-        }
-    }
+            if (id === 'last_name_kana' || id === 'first_name_kana') {
+                if (YC.lang() === 'ja') {
+                    validateKanaInput(input, document.getElementById(id + '_error'));
+                }
+                return;
+            }
+            if (id === 'birth_date') {
+                const ageErr = document.getElementById('age_error_player');
+                const ageMsg = document.getElementById('age_error_player_msg');
+                if (input.value) validateAge(input, ageErr, ageMsg, true);
+                else { if (ageErr) ageErr.style.display = 'none'; input.classList.remove('is-valid', 'is-invalid'); }
+                return;
+            }
+            if (id === 'staff_birth_date') {
+                const ageErr = document.getElementById('age_error_staff');
+                const ageMsg = document.getElementById('age_error_staff_msg');
+                if (input.value) validateAge(input, ageErr, ageMsg, false);
+                else { if (ageErr) ageErr.style.display = 'none'; input.classList.remove('is-valid', 'is-invalid'); }
+                return;
+            }
 
-    function highlightInvalidFields(form) {
-        const elements = form.querySelectorAll('input, select, textarea');
-        elements.forEach(el => {
-            if (!el.disabled && !el.checkValidity()) {
-                el.classList.add('is-invalid');
+            if (input.value.trim() !== '') {
+                input.classList.remove('is-invalid');
+                input.classList.add('is-valid');
+            } else {
+                input.classList.remove('is-valid');
+                input.classList.add('is-invalid');
+            }
+        };
+
+        input.addEventListener('blur', validateInput);
+        input.addEventListener('input', () => {
+            if (input.classList.contains('is-invalid') || input.value.trim() !== '') validateInput();
+        });
+    });
+}
+
+function initPitchLogic() {
+    const hasPitch = document.getElementById('has_pitch');
+    const pitchName = document.getElementById('pitch_name');
+    const wrapper = document.getElementById('pitchNameWrapper');
+
+    if(hasPitch && pitchName && wrapper) {
+        hasPitch.addEventListener('change', () => {
+            if (hasPitch.checked) {
+                wrapper.style.display = 'block';
+                pitchName.setAttribute('required', 'required');
+                pitchName.removeAttribute('disabled');
+            } else {
+                wrapper.style.display = 'none';
+                pitchName.removeAttribute('required');
+                pitchName.setAttribute('disabled', 'disabled');
+                pitchName.classList.remove('is-invalid', 'is-valid');
             }
         });
     }
+}
 
-    document.addEventListener('yc:langchange', (e) => {
-        const lang = e.detail;
-        const kanaRow = document.getElementById('kanaFieldsRow');
-        const kanaLast = document.getElementById('last_name_kana');
-        const kanaFirst = document.getElementById('first_name_kana');
+function handleUrlTypeParam() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const typeParam = urlParams.get('type');
+    const categorySelect = document.getElementById('category');
 
-        if (lang === 'ja') {
-            if (kanaRow) kanaRow.style.display = 'grid';
-            if (kanaLast) kanaLast.setAttribute('required', 'required');
-            if (kanaFirst) kanaFirst.setAttribute('required', 'required');
-        } else {
-            if (kanaRow) kanaRow.style.display = 'none';
-            if (kanaLast) { kanaLast.removeAttribute('required'); kanaLast.value = ''; kanaLast.classList.remove('is-invalid', 'is-valid'); }
-            if (kanaFirst) { kanaFirst.removeAttribute('required'); kanaFirst.value = ''; kanaFirst.classList.remove('is-invalid', 'is-valid'); }
+    if (typeParam && categorySelect) {
+        if (['trial', 'staff', 'match', 'sponsor', 'other'].includes(typeParam)) {
+            categorySelect.value = typeParam;
+            updateSectionVisibility();
+            updateFormspreeHiddenFields();
         }
+    }
+}
 
-        renderSubPositions();
-        updateFormspreeHiddenFields();
+function highlightInvalidFields(form) {
+    const elements = form.querySelectorAll('input, select, textarea');
+    elements.forEach(el => {
+        if (!el.disabled && !el.checkValidity()) {
+            el.classList.add('is-invalid');
+        }
+    });
+}
 
-        const playerBirth = document.getElementById('birth_date');
-        const calcAgePlayer = document.getElementById('calc_age_player');
-        if (playerBirth) updateAgeDisplay(playerBirth, calcAgePlayer);
+document.addEventListener('yc:langchange', (e) => {
+    const lang = e.detail;
+    const kanaRow = document.getElementById('kanaFieldsRow');
+    const kanaLast = document.getElementById('last_name_kana');
+    const kanaFirst = document.getElementById('first_name_kana');
 
-        const staffBirth = document.getElementById('staff_birth_date');
-        const calcAgeStaff = document.getElementById('calc_age_staff');
-        if (staffBirth) updateAgeDisplay(staffBirth, calcAgeStaff);
+    if (lang === 'ja') {
+        if (kanaRow) kanaRow.style.display = 'grid';
+        if (kanaLast) kanaLast.setAttribute('required', 'required');
+        if (kanaFirst) kanaFirst.setAttribute('required', 'required');
+    } else {
+        if (kanaRow) kanaRow.style.display = 'none';
+        if (kanaLast) { kanaLast.removeAttribute('required'); kanaLast.value = ''; kanaLast.classList.remove('is-invalid', 'is-valid'); }
+        if (kanaFirst) { kanaFirst.removeAttribute('required'); kanaFirst.value = ''; kanaFirst.classList.remove('is-invalid', 'is-valid'); }
+    }
 
-        const globalErr = document.getElementById('global_form_error');
-        if (globalErr) globalErr.style.display = 'none';
+    renderSubPositions();
+    renderTrialDatesUI();
+    updateFormspreeHiddenFields();
+
+    const playerBirth = document.getElementById('birth_date');
+    const calcAgePlayer = document.getElementById('calc_age_player');
+    if (playerBirth) updateAgeDisplay(playerBirth, calcAgePlayer);
+
+    const staffBirth = document.getElementById('staff_birth_date');
+    const calcAgeStaff = document.getElementById('calc_age_staff');
+    if (staffBirth) updateAgeDisplay(staffBirth, calcAgeStaff);
+
+    const globalErr = document.getElementById('global_form_error');
+    if (globalErr) globalErr.style.display = 'none';
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+    loadCalendarData();
+
+    const todayStr = YC.todayJST ? YC.todayJST() : new Date().toISOString().split('T')[0];
+    const playerBirth = document.getElementById('birth_date');
+    const staffBirth = document.getElementById('staff_birth_date');
+    if (playerBirth) playerBirth.setAttribute('max', todayStr);
+    if (staffBirth) staffBirth.setAttribute('max', todayStr);
+
+    initLiveValidation();
+    initPitchLogic();
+
+    const categorySelect = document.getElementById('category');
+    if (categorySelect) {
+        categorySelect.addEventListener('change', () => {
+            updateSectionVisibility();
+            updateFormspreeHiddenFields();
+            categorySelect.classList.remove('is-invalid');
+        });
+    }
+
+    const macroSelect = document.getElementById('macro_position');
+    if (macroSelect) macroSelect.addEventListener('change', renderSubPositions);
+
+    const calcAgePlayer = document.getElementById('calc_age_player');
+    if (playerBirth) {
+        playerBirth.addEventListener('change', () => updateAgeDisplay(playerBirth, calcAgePlayer));
+        playerBirth.addEventListener('input', () => updateAgeDisplay(playerBirth, calcAgePlayer));
+    }
+
+    const calcAgeStaff = document.getElementById('calc_age_staff');
+    if (staffBirth) {
+        staffBirth.addEventListener('change', () => updateAgeDisplay(staffBirth, calcAgeStaff));
+        staffBirth.addEventListener('input', () => updateAgeDisplay(staffBirth, calcAgeStaff));
+    }
+
+    const privacyModal = document.getElementById('privacyModal');
+    const openPrivacyModalBtn = document.getElementById('openPrivacyModal');
+    const privacyModalCloseBtn = document.getElementById('privacyModalCloseBtn');
+    const privacyModalOkBtn = document.getElementById('privacyModalOkBtn');
+    function openPrivacy() { if (privacyModal) privacyModal.classList.add('show'); }
+    function closePrivacy() { if (privacyModal) privacyModal.classList.remove('show'); }
+
+    if (openPrivacyModalBtn) openPrivacyModalBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openPrivacy(); });
+    if (privacyModalCloseBtn) privacyModalCloseBtn.addEventListener('click', closePrivacy);
+    if (privacyModalOkBtn) privacyModalOkBtn.addEventListener('click', closePrivacy);
+    if (privacyModal) privacyModal.addEventListener('click', (e) => { if (e.target === privacyModal) closePrivacy(); });
+
+    const confirmModal = document.getElementById('confirmModal');
+    const confirmModalCloseBtn = document.getElementById('confirmModalCloseBtn');
+    if (confirmModalCloseBtn && confirmModal) {
+        confirmModalCloseBtn.addEventListener('click', () => confirmModal.classList.remove('show'));
+        confirmModal.addEventListener('click', (e) => { if (e.target === confirmModal) confirmModal.classList.remove('show'); });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (privacyModal && privacyModal.classList.contains('show')) closePrivacy();
+            if (confirmModal && confirmModal.classList.contains('show')) confirmModal.classList.remove('show');
+        }
     });
 
-    window.addEventListener('DOMContentLoaded', () => {
-        if (window.YC && window.YC.init) {
-            window.YC.init();
-        }
+    const form = document.getElementById('contactForm');
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const globalErrorBox = document.getElementById('global_form_error');
+            const globalErrorMsg = document.getElementById('global_form_error_msg');
+            if (globalErrorBox) globalErrorBox.style.display = 'none';
 
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const lang = btn.getAttribute('data-lang');
-                if (lang) setLanguage(lang);
-            });
-        });
-
-        setLanguage(currentLang);
-        loadCalendarData();
-
-        const todayStr = (window.YC && window.YC.todayJST) ? window.YC.todayJST() : new Date().toISOString().split('T')[0];
-        const playerBirth = document.getElementById('birth_date');
-        const staffBirth = document.getElementById('staff_birth_date');
-        if (playerBirth) playerBirth.setAttribute('max', todayStr);
-        if (staffBirth) staffBirth.setAttribute('max', todayStr);
-
-        initLiveValidation();
-        initPitchLogic();
-
-        const categorySelect = document.getElementById('category');
-        if (categorySelect) {
-            categorySelect.addEventListener('change', () => {
-                updateSectionVisibility();
-                updateFormspreeHiddenFields();
-                categorySelect.classList.remove('is-invalid');
-            });
-        }
-
-        const macroSelect = document.getElementById('macro_position');
-        if (macroSelect) macroSelect.addEventListener('change', renderSubPositions);
-
-        const calcAgePlayer = document.getElementById('calc_age_player');
-        if (playerBirth) {
-            playerBirth.addEventListener('change', () => updateAgeDisplay(playerBirth, calcAgePlayer));
-            playerBirth.addEventListener('input', () => updateAgeDisplay(playerBirth, calcAgePlayer));
-        }
-
-        const calcAgeStaff = document.getElementById('calc_age_staff');
-        if (staffBirth) {
-            staffBirth.addEventListener('change', () => updateAgeDisplay(staffBirth, calcAgeStaff));
-            staffBirth.addEventListener('input', () => updateAgeDisplay(staffBirth, calcAgeStaff));
-        }
-
-        const privacyModal = document.getElementById('privacyModal');
-        const openPrivacyModalBtn = document.getElementById('openPrivacyModal');
-        const privacyModalCloseBtn = document.getElementById('privacyModalCloseBtn');
-        const privacyModalOkBtn = document.getElementById('privacyModalOkBtn');
-        function openPrivacy() { if (privacyModal) privacyModal.classList.add('show'); }
-        function closePrivacy() { if (privacyModal) privacyModal.classList.remove('show'); }
-
-        if (openPrivacyModalBtn) openPrivacyModalBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openPrivacy(); });
-        if (privacyModalCloseBtn) privacyModalCloseBtn.addEventListener('click', closePrivacy);
-        if (privacyModalOkBtn) privacyModalOkBtn.addEventListener('click', closePrivacy);
-        if (privacyModal) privacyModal.addEventListener('click', (e) => { if (e.target === privacyModal) closePrivacy(); });
-
-        const confirmModal = document.getElementById('confirmModal');
-        const confirmModalCloseBtn = document.getElementById('confirmModalCloseBtn');
-        if (confirmModalCloseBtn && confirmModal) {
-            confirmModalCloseBtn.addEventListener('click', () => confirmModal.classList.remove('show'));
-            confirmModal.addEventListener('click', (e) => { if (e.target === confirmModal) confirmModal.classList.remove('show'); });
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (privacyModal && privacyModal.classList.contains('show')) closePrivacy();
-                if (confirmModal && confirmModal.classList.contains('show')) confirmModal.classList.remove('show');
+            const category = categorySelect ? categorySelect.value : '';
+            if (!category) {
+                if (categorySelect) {
+                    categorySelect.focus();
+                    categorySelect.classList.add('is-invalid');
+                }
+                return false;
             }
-        });
 
-        const form = document.getElementById('contactForm');
-        if (form) {
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const globalErrorBox = document.getElementById('global_form_error');
-                const globalErrorMsg = document.getElementById('global_form_error_msg');
-                if (globalErrorBox) globalErrorBox.style.display = 'none';
+            if (!form.checkValidity()) {
+                highlightInvalidFields(form);
+                if (globalErrorMsg) globalErrorMsg.textContent = YC.t('form.error_general') || '';
+                if (globalErrorBox) globalErrorBox.style.display = 'flex';
+                const firstInvalid = form.querySelector('.is-invalid:not([disabled])');
+                if (firstInvalid) firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+                return false;
+            }
 
-                const category = categorySelect ? categorySelect.value : '';
-                if (!category) {
-                    if (categorySelect) {
-                        categorySelect.focus();
-                        categorySelect.classList.add('is-invalid');
-                    }
-                    return false;
-                }
+            const privacyCheckbox = document.getElementById('privacy_agree');
+            if (!privacyCheckbox || !privacyCheckbox.checked) {
+                if (globalErrorMsg) globalErrorMsg.textContent = YC.t('form.error_privacy') || '';
+                if (globalErrorBox) globalErrorBox.style.display = 'flex';
+                return false;
+            }
 
-                if (!form.checkValidity()) {
-                    highlightInvalidFields(form);
-                    if (globalErrorMsg) globalErrorMsg.textContent = (translations[currentLang] && translations[currentLang]['form.error_general']) || '';
+            const lastNameKana = document.getElementById('last_name_kana');
+            const firstNameKana = document.getElementById('first_name_kana');
+            const emailInput = document.getElementById('email');
+
+            if (YC.lang() === 'ja') {
+                const isLastNameKanaValid = validateKanaInput(lastNameKana, document.getElementById('last_name_kana_error'));
+                const isFirstNameKanaValid = validateKanaInput(firstNameKana, document.getElementById('first_name_kana_error'));
+                if (!isLastNameKanaValid) { lastNameKana.focus(); return false; }
+                if (!isFirstNameKanaValid) { firstNameKana.focus(); return false; }
+            }
+
+            const isEmailValid = validateEmailInput(emailInput, document.getElementById('email_error'));
+            if (!isEmailValid) { emailInput.focus(); return false; }
+            
+            if (category === 'trial' || category === 'staff') {
+                const errorTrialDates = document.getElementById('trial_dates_error');
+                if (selectedTrialDates.length === 0) {
+                    if (errorTrialDates) errorTrialDates.style.display = 'flex';
+                    if (globalErrorMsg) globalErrorMsg.textContent = YC.t('form.error_general') || '';
                     if (globalErrorBox) globalErrorBox.style.display = 'flex';
-                    const firstInvalid = form.querySelector('.is-invalid:not([disabled])');
-                    if (firstInvalid) firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+                    errorTrialDates.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     return false;
                 }
+            }
 
-                const privacyCheckbox = document.getElementById('privacy_agree');
-                if (!privacyCheckbox || !privacyCheckbox.checked) {
-                    if (globalErrorMsg) globalErrorMsg.textContent = (translations[currentLang] && translations[currentLang]['form.error_privacy']) || '';
-                    if (globalErrorBox) globalErrorBox.style.display = 'flex';
-                    return false;
-                }
+            if (category === 'trial') {
+                const ageErr = document.getElementById('age_error_player');
+                const ageMsg = document.getElementById('age_error_player_msg');
+                const isAgeValid = validateAge(playerBirth, ageErr, ageMsg, true);
+                if (!isAgeValid) { playerBirth.focus(); return false; }
 
-                const lastNameKana = document.getElementById('last_name_kana');
-                const firstNameKana = document.getElementById('first_name_kana');
-                const emailInput = document.getElementById('email');
-
-                if (currentLang === 'ja') {
-                    const isLastNameKanaValid = validateKanaInput(lastNameKana, document.getElementById('last_name_kana_error'));
-                    const isFirstNameKanaValid = validateKanaInput(firstNameKana, document.getElementById('first_name_kana_error'));
-                    if (!isLastNameKanaValid) { lastNameKana.focus(); return false; }
-                    if (!isFirstNameKanaValid) { firstNameKana.focus(); return false; }
-                }
-
-                const isEmailValid = validateEmailInput(emailInput, document.getElementById('email_error'));
-                if (!isEmailValid) { emailInput.focus(); return false; }
-                
-                // CHECK OBBLIGATORIETÀ DATE PROVINO (Sia Giocatori che Staff)
-                if (category === 'trial' || category === 'staff') {
-                    const errorTrialDates = document.getElementById('trial_dates_error');
-                    if (selectedTrialDates.length === 0) {
-                        if (errorTrialDates) errorTrialDates.style.display = 'flex';
-                        if (globalErrorMsg) globalErrorMsg.textContent = (translations[currentLang] && translations[currentLang]['form.error_general']) || '';
+                const macro = macroSelect ? macroSelect.value : '';
+                if (macro) {
+                    const checkedSubs = document.querySelectorAll('input[name="sub_positions[]"]:checked');
+                    const subErr = document.getElementById('sub_pos_error');
+                    if (checkedSubs.length === 0) {
+                        if (subErr) subErr.style.display = 'flex';
+                        if (globalErrorMsg) globalErrorMsg.textContent = YC.t('form.error_general') || '';
                         if (globalErrorBox) globalErrorBox.style.display = 'flex';
-                        errorTrialDates.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         return false;
-                    }
-                }
-
-                if (category === 'trial') {
-                    const ageErr = document.getElementById('age_error_player');
-                    const ageMsg = document.getElementById('age_error_player_msg');
-                    const isAgeValid = validateAge(playerBirth, ageErr, ageMsg, true);
-                    if (!isAgeValid) { playerBirth.focus(); return false; }
-
-                    const macro = macroSelect ? macroSelect.value : '';
-                    if (macro) {
-                        const checkedSubs = document.querySelectorAll('input[name="sub_positions[]"]:checked');
-                        const subErr = document.getElementById('sub_pos_error');
-                        if (checkedSubs.length === 0) {
-                            if (subErr) subErr.style.display = 'flex';
-                            if (globalErrorMsg) globalErrorMsg.textContent = (translations[currentLang] && translations[currentLang]['form.error_general']) || '';
-                            if (globalErrorBox) globalErrorBox.style.display = 'flex';
-                            return false;
-                        } else {
-                            if (subErr) subErr.style.display = 'none';
-                        }
-                    }
-                } else if (category === 'staff') {
-                    const ageErr = document.getElementById('age_error_staff');
-                    const ageMsg = document.getElementById('age_error_staff_msg');
-                    const isStaffAgeValid = validateAge(staffBirth, ageErr, ageMsg, false);
-                    if (!isStaffAgeValid) { staffBirth.focus(); return false; }
-                }
-
-                updateFormspreeHiddenFields();
-
-                const rawFormData = new FormData(form);
-                const payloadData = new FormData();
-
-                if (rawFormData.get('_subject')) payloadData.append('_subject', rawFormData.get('_subject'));
-                if (rawFormData.get('_gotcha')) payloadData.append('_gotcha', rawFormData.get('_gotcha'));
-                if (rawFormData.get('email')) payloadData.append('_replyto', rawFormData.get('email'));
-
-                for (let [key, value] of rawFormData.entries()) {
-                    if (key.startsWith('_')) continue;
-                    const trimmedVal = typeof value === 'string' ? value.trim() : value;
-                    if (!trimmedVal || trimmedVal === '--') continue;
-
-                    const bilingualKey = fieldBilingualLabels[key] || key;
-                    const bilingualVal = valueBilingualMap[trimmedVal] || trimmedVal;
-                    payloadData.append(bilingualKey, bilingualVal);
-                }
-
-                if (category === 'trial' && calcAgePlayer && calcAgePlayer.value && calcAgePlayer.value !== '--') {
-                    payloadData.append("年齢 / Età", calcAgePlayer.value);
-                } else if (category === 'staff' && calcAgeStaff && calcAgeStaff.value && calcAgeStaff.value !== '--') {
-                    payloadData.append("年齢 / Età", calcAgeStaff.value);
-                }
-
-                const submitBtn = document.getElementById('submitBtn');
-                if (submitBtn) submitBtn.disabled = true;
-
-                try {
-                    const response = await fetch(form.action, {
-                        method: form.method,
-                        body: payloadData,
-                        headers: { 'Accept': 'application/json' }
-                    });
-
-                    if (response.ok) {
-                        if (confirmModal) confirmModal.classList.add('show');
-                        form.reset();
-                        selectedTrialDates = [];
-                        updateTrialDatesInputs();
-                        document.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-valid', 'is-invalid'));
-                        if (calcAgePlayer) calcAgePlayer.value = '--';
-                        if (calcAgeStaff) calcAgeStaff.value = '--';
-                        updateSectionVisibility();
-                        updateFormspreeHiddenFields();
                     } else {
-                        alert(currentLang === 'ja' ? 'エラーが発生しました。もう一度お試しください。' : (currentLang === 'it' ? 'Errore durante l\'invio. Riprova.' : 'An error occurred. Please try again.'));
+                        if (subErr) subErr.style.display = 'none';
                     }
-                } catch (error) {
-                    console.error("Errore invio Formspree:", error);
-                    alert(currentLang === 'ja' ? '通信エラーが発生しました。' : (currentLang === 'it' ? 'Errore di接続.' : 'Connection error.'));
-                } finally {
-                    if (submitBtn) submitBtn.disabled = false;
                 }
-            });
-        }
+            } else if (category === 'staff') {
+                const ageErr = document.getElementById('age_error_staff');
+                const ageMsg = document.getElementById('age_error_staff_msg');
+                const isStaffAgeValid = validateAge(staffBirth, ageErr, ageMsg, false);
+                if (!isStaffAgeValid) { staffBirth.focus(); return false; }
+            }
 
-        handleUrlTypeParam();
-        updateSectionVisibility();
-        updateFormspreeHiddenFields();
+            updateFormspreeHiddenFields();
 
-        const copyEmailBtn = document.getElementById('copyEmailBtn');
-        const emailText = document.getElementById('emailText');
-        const copyToast = document.getElementById('copyToast');
-        if (copyEmailBtn && emailText) {
-            copyEmailBtn.addEventListener('click', () => {
-                const textToCopy = emailText.textContent.trim();
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    if (copyToast) {
-                        copyToast.classList.add('show');
-                        setTimeout(() => copyToast.classList.remove('show'), 3000);
-                    }
-                }).catch(err => { console.error("Errore copia:", err); });
-            });
-        }
-    });
+            const rawFormData = new FormData(form);
+            const payloadData = new FormData();
+
+            if (rawFormData.get('_subject')) payloadData.append('_subject', rawFormData.get('_subject'));
+            if (rawFormData.get('_gotcha')) payloadData.append('_gotcha', rawFormData.get('_gotcha'));
+            if (rawFormData.get('email')) payloadData.append('_replyto', rawFormData.get('email'));
+
+            for (let [key, value] of rawFormData.entries()) {
+                if (key.startsWith('_')) continue;
+                const trimmedVal = typeof value === 'string' ? value.trim() : value;
+                if (!trimmedVal || trimmedVal === '--') continue;
+
+                const bilingualKey = fieldBilingualLabels[key] || key;
+                const bilingualVal = valueBilingualMap[trimmedVal] || trimmedVal;
+                payloadData.append(bilingualKey, bilingualVal);
+            }
+
+            if (category === 'trial' && calcAgePlayer && calcAgePlayer.value && calcAgePlayer.value !== '--') {
+                payloadData.append("年齢 / Età", calcAgePlayer.value);
+            } else if (category === 'staff' && calcAgeStaff && calcAgeStaff.value && calcAgeStaff.value !== '--') {
+                payloadData.append("年齢 / Età", calcAgeStaff.value);
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            if (submitBtn) submitBtn.disabled = true;
+
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: payloadData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    if (confirmModal) confirmModal.classList.add('show');
+                    form.reset();
+                    selectedTrialDates = [];
+                    updateTrialDatesInputs();
+                    document.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-valid', 'is-invalid'));
+                    if (calcAgePlayer) calcAgePlayer.value = '--';
+                    if (calcAgeStaff) calcAgeStaff.value = '--';
+                    updateSectionVisibility();
+                    updateFormspreeHiddenFields();
+                } else {
+                    const l = YC.lang();
+                    alert(l === 'ja' ? 'エラーが発生しました。もう一度お試しください。' : (l === 'it' ? 'Errore durante l\'invio. Riprova.' : 'An error occurred. Please try again.'));
+                }
+            } catch (error) {
+                console.error("Errore invio Formspree:", error);
+                const l = YC.lang();
+                alert(l === 'ja' ? '通信エラーが発生しました。' : (l === 'it' ? 'Errore di connessione.' : 'Connection error.'));
+            } finally {
+                if (submitBtn) submitBtn.disabled = false;
+            }
+        });
+    }
+
+    handleUrlTypeParam();
+    updateSectionVisibility();
+    updateFormspreeHiddenFields();
+
+    const copyEmailBtn = document.getElementById('copyEmailBtn');
+    const emailText = document.getElementById('emailText');
+    const copyToast = document.getElementById('copyToast');
+    if (copyEmailBtn && emailText) {
+        copyEmailBtn.addEventListener('click', () => {
+            const textToCopy = emailText.textContent.trim();
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                if (copyToast) {
+                    copyToast.classList.add('show');
+                    setTimeout(() => copyToast.classList.remove('show'), 3000);
+                }
+            }).catch(err => { console.error("Errore copia:", err); });
+        });
+    }
+});
 </script>
 </body>
 </html>
