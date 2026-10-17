@@ -1,606 +1,191 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>よくある質問 (FAQ) | Yokohama Calcio</title>
-    <meta name="description" content="Yokohama Calcio（ヨコハマ・カルチョ）に関するよくある質問（FAQ）一覧です。活動日程、費用、体験参加、スケジュール確定時期などについてまとめています。">
-    <meta name="keywords" content="Yokohama Calcio, よくある質問, FAQ, 横浜 サッカーチーム, 活動日程">
-    <meta name="author" content="Yokohama Calcio">
-    <meta name="robots" content="index, follow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>よくある質問 (FAQ) | Yokohama Calcio</title>
+<meta name="description" content="Yokohama Calcio（ヨコハマ・カルチョ）に関するよくある質問（FAQ）一覧です。活動日程、費用、体験参加、スケジュール確定時期などについてまとめています。">
+<meta name="keywords" content="Yokohama Calcio, よくある質問, FAQ, 横浜 サッカーチーム, 活動日程">
+<meta name="author" content="Yokohama Calcio">
+<meta name="robots" content="index, follow">
 
-    <link rel="icon" href="./immagini/logo.png?v=2" type="image/png">
-    <link rel="apple-touch-icon" href="./immagini/logo.png?v=2">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<link rel="canonical" href="https://yokohamacalcio.com/faq.html">
+<link rel="alternate" hreflang="ja" href="https://yokohamacalcio.com/faq.html">
+<link rel="alternate" hreflang="it" href="https://yokohamacalcio.com/faq.html?lang=it">
+<link rel="alternate" hreflang="en" href="https://yokohamacalcio.com/faq.html?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://yokohamacalcio.com/faq.html">
 
-    <style>
-        /* --- STILE OVERLAY MENU MOBILE SCURO COMPATTO CON ICONE ALLINEATE --- */
-        .mobile-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 10, 25, 0.75);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 15px;
-            box-sizing: border-box;
-        }
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yokohamacalcio.com/faq.html">
+<meta property="og:title" content="よくある質問 (FAQ) | Yokohama Calcio">
+<meta property="og:description" content="Yokohama Calcioに関するよくある質問とその回答一覧。">
+<meta property="og:image" content="https://yokohamacalcio.com/immagini/logo.png?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="よくある質問 (FAQ) | Yokohama Calcio">
+<meta name="twitter:description" content="Yokohama Calcioに関するよくある質問とその回答一覧。">
+<meta name="twitter:image" content="https://yokohamacalcio.com/immagini/logo.png?v=2">
 
-        .mobile-nav.hidden {
-            display: none !important;
-        }
+<link rel="icon" href="./immagini/logo.png?v=2" type="image/png">
+<link rel="apple-touch-icon" href="./immagini/logo.png?v=2">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="site-extras.css">
+<script src="js/common.js"></script>
 
-        .mobile-nav-content {
-            background: linear-gradient(145deg, #00224a 0%, #001229 100%);
-            color: #ffffff;
-            width: 100%;
-            max-width: 380px;
-            max-height: 85vh;
-            overflow-y: auto;
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid rgba(135, 206, 235, 0.25);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
-            margin-top: 10px;
-        }
+<style>
+/* --- STILI ACCORDION FAQ --- */
+.faq-accordion-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
 
-        .mobile-nav-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 12px;
-            margin-bottom: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-        }
+.faq-category-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--dark-navy, #003c82);
+    margin: 30px 0 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 8px;
+}
 
-        .mobile-nav-header .brand-name {
-            color: #ffffff;
-            font-size: 1.15rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
+.faq-category-title i {
+    color: var(--primary-sky, #12A0D7);
+}
 
-        .mobile-nav-header .brand-sub {
-            color: #87ceeb;
-        }
+.faq-item {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 60, 130, 0.04);
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
 
-        .mobile-nav-close {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 1.1rem;
-            color: #ffffff;
-            cursor: pointer;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
+.faq-item.active {
+    border-color: var(--primary-sky, #87ceeb);
+    box-shadow: 0 6px 18px rgba(0, 60, 130, 0.08);
+}
 
-        .mobile-nav-close:active {
-            background: #87ceeb;
-            color: #00224a;
-        }
+.faq-question {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 18px 20px;
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: var(--dark-navy, #003c82);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    gap: 12px;
+    font-family: inherit;
+}
 
-        .mobile-link {
-            color: #ffffff !important;
-            font-size: 0.95rem;
-            font-weight: 600;
-            padding: 10px 12px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            transition: background 0.2s ease;
-        }
+.faq-icon {
+    color: var(--primary-sky, #12A0D7);
+    transition: transform 0.3s ease;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
 
-        .mobile-link:hover, .mobile-link:active {
-            background: rgba(255, 255, 255, 0.08);
-        }
+.faq-item.active .faq-icon {
+    transform: rotate(180deg);
+}
 
-        .mobile-nav .menu-icon {
-            width: 24px !important;
-            min-width: 24px !important;
-            text-align: center !important;
-            color: #87ceeb !important;
-            font-size: 1.05rem !important;
-            display: inline-block !important;
-            flex-shrink: 0 !important;
-        }
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
+    background: #fafafa;
+    border-top: 1px dashed transparent;
+}
 
-        .mobile-dropdown-toggle {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: #ffffff !important;
-            font-size: 0.95rem;
-            font-weight: 600;
-            padding: 10px 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 8px;
-            cursor: pointer;
-            box-sizing: border-box;
-        }
+.faq-item.active .faq-answer {
+    max-height: 500px;
+    padding: 14px 20px 18px 20px;
+    border-top-color: #e2e8f0;
+}
 
-        .mobile-dropdown-toggle-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+.faq-answer p {
+    margin: 0;
+    color: #475569;
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
 
-        .mobile-submenu {
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: 8px;
-            padding: 4px 0 4px 10px;
-            margin: 4px 0 8px 8px;
-            border-left: 2px solid #87ceeb;
-        }
+.contact-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    text-align: center;
+    margin: 40px auto 0;
+}
 
-        .mobile-submenu .mobile-link.sub {
-            font-size: 0.88rem;
-            padding: 8px 10px;
-            color: #e2e8f0 !important;
-        }
+.contact-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
 
-        .mobile-cta-wrapper {
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-        }
+.contact-icon {
+    font-size: 1.4rem;
+    color: var(--primary-sky, #12A0D7);
+}
 
-        .mobile-cta-btn {
-            background: #87ceeb;
-            color: #00224a !important;
-            font-weight: 800;
-            text-align: center;
-            padding: 10px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-decoration: none;
-        }
+.contact-header h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--dark-navy, #003c82);
+    margin: 0;
+}
 
-        /* =====================================================
-           PERFETTO ALLINEAMENTO MENU DESKTOP & FLUIDITÀ RESPONSIVE
-           ===================================================== */
-        .desktop-nav-wrapper {
-            display: flex;
-            align-items: center;
-        }
-        .main-nav {
-            display: flex !important;
-            align-items: center !important;
-            gap: 16px;
-            white-space: nowrap;
-        }
-        .main-nav .nav-item {
-            position: relative !important;
-            display: inline-flex;
-            align-items: center;
-        }
-        
-        .main-nav > a,
-        .main-nav .dropdown-toggle {
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 5px !important;
-            padding: 8px 10px !important;
-            font-family: inherit !important;
-            font-size: 0.92rem !important;
-            font-weight: 700 !important;
-            color: var(--dark-navy, #003c82) !important;
-            text-decoration: none !important;
-            border: none !important;
-            background: transparent !important;
-            cursor: pointer !important;
-            user-select: none !important;
-            line-height: 1.2 !important;
-            transition: color 0.2s ease, opacity 0.2s ease !important;
-            box-sizing: border-box !important;
-            margin: 0 !important;
-        }
+.contact-desc {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 20px;
+}
 
-        .main-nav > a:hover,
-        .main-nav .dropdown-toggle:hover {
-            color: var(--primary-sky, #87ceeb) !important;
-        }
-
-        .main-nav .nav-cta-btn {
-            background: var(--dark-navy, #003c82) !important;
-            color: #ffffff !important;
-            padding: 8px 16px !important;
-            border-radius: 20px !important;
-            font-weight: 800 !important;
-        }
-        .main-nav .nav-cta-btn:hover {
-            background: var(--primary-sky, #87ceeb) !important;
-            color: var(--dark-navy, #003c82) !important;
-        }
-
-        .main-nav .dropdown-menu {
-            display: none;
-            position: absolute !important;
-            top: 100% !important;
-            left: 0 !important;
-            z-index: 1000 !important;
-            min-width: 190px;
-            background: #ffffff;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            border-radius: 8px;
-            padding: 8px 0;
-            margin-top: 2px;
-            white-space: nowrap;
-        }
-
-        .main-nav .dropdown-menu a {
-            display: block !important;
-            padding: 10px 16px !important;
-            color: var(--dark-navy, #003c82) !important;
-            text-decoration: none !important;
-            font-size: 0.88rem !important;
-            font-weight: 600 !important;
-            transition: background 0.2s ease, color 0.2s ease !important;
-            text-align: left !important;
-        }
-
-        .main-nav .dropdown-menu a:hover {
-            background-color: #f1f5f9 !important;
-            color: var(--primary-sky, #87ceeb) !important;
-        }
-
-        .nav-item.dropdown:hover > .dropdown-menu,
-        .nav-item.dropdown.open > .dropdown-menu {
-            display: block !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-            transform: translateY(0) !important;
-        }
-        .nav-item.dropdown:hover > .dropdown-toggle .nav-arrow,
-        .nav-item.dropdown.open > .dropdown-toggle .nav-arrow {
-            transform: rotate(180deg);
-        }
-
-        /* SCHERMI MEDI DESKTOP (1025px - 1200px) */
-        @media (min-width: 1025px) and (max-width: 1200px) {
-            .main-nav {
-                gap: 8px !important;
-            }
-            .main-nav > a,
-            .main-nav .dropdown-toggle {
-                padding: 6px 6px !important;
-                font-size: 0.85rem !important;
-            }
-            .main-nav .nav-cta-btn {
-                padding: 6px 12px !important;
-                font-size: 0.85rem !important;
-            }
-        }
-
-        /* MENU MOBILE PER SCHERMI VERTICALI (PORTRAIT) <= 900px */
-        @media (max-width: 900px) and (orientation: portrait) {
-            .desktop-nav-wrapper {
-                display: none !important;
-            }
-            .mobile-menu-toggle {
-                display: flex !important;
-            }
-        }
-
-        /* MENU ESTESO COMPATTO PER SMARTPHONE IN ORIZZONTALE (LANDSCAPE) */
-        @media (orientation: landscape) and (max-height: 500px) {
-            .desktop-nav-wrapper {
-                display: flex !important;
-            }
-            .mobile-menu-toggle {
-                display: none !important;
-            }
-            .main-nav {
-                gap: 4px !important;
-            }
-            .main-nav > a,
-            .main-nav .dropdown-toggle {
-                padding: 4px 5px !important;
-                font-size: 0.78rem !important;
-            }
-            .main-nav .nav-cta-btn {
-                padding: 5px 10px !important;
-                font-size: 0.75rem !important;
-            }
-            .logo-title img {
-                height: 30px !important;
-            }
-            .brand-name {
-                font-size: 0.95rem !important;
-            }
-        }
-
-        /* --- STILI ACCORDION FAQ --- */
-        .faq-accordion-wrapper {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .faq-category-title {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--dark-navy, #003c82);
-            margin: 30px 0 10px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 8px;
-        }
-
-        .faq-category-title i {
-            color: var(--primary-sky, #12A0D7);
-        }
-
-        .faq-item {
-            background: #ffffff;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 12px rgba(0, 60, 130, 0.04);
-            overflow: hidden;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .faq-item.active {
-            border-color: var(--primary-sky, #87ceeb);
-            box-shadow: 0 6px 18px rgba(0, 60, 130, 0.08);
-        }
-
-        .faq-question {
-            width: 100%;
-            background: transparent;
-            border: none;
-            padding: 18px 20px;
-            font-weight: 700;
-            font-size: 0.98rem;
-            color: var(--dark-navy, #003c82);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-align: left;
-            gap: 12px;
-        }
-
-        .faq-icon {
-            color: var(--primary-sky, #12A0D7);
-            transition: transform 0.3s ease;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-        }
-
-        .faq-item.active .faq-icon {
-            transform: rotate(180deg);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
-            background: #fafafa;
-            border-top: 1px dashed transparent;
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-            padding: 14px 20px 18px 20px;
-            border-top-color: #e2e8f0;
-        }
-
-        .faq-answer p {
-            margin: 0;
-            color: #475569;
-            font-size: 0.92rem;
-            line-height: 1.6;
-        }
-
-        .contact-card {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 24px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            text-align: center;
-            margin: 40px auto 0;
-        }
-
-        .contact-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-
-        .contact-icon {
-            font-size: 1.4rem;
-            color: var(--primary-sky, #12A0D7);
-        }
-
-        .contact-header h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--dark-navy, #003c82);
-            margin: 0;
-        }
-
-        .contact-desc {
-            font-size: 0.9rem;
-            color: #64748b;
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 600px) {
-            .section-title {
-                font-size: 1.45rem !important;
-                line-height: 1.3 !important;
-                justify-content: center !important;
-                text-align: center !important;
-            }
-            .faq-category-title {
-                font-size: 1.1rem !important;
-                line-height: 1.3 !important;
-            }
-            .faq-question {
-                padding: 14px 16px !important;
-                font-size: 0.9rem !important;
-            }
-            .faq-answer p {
-                font-size: 0.85rem !important;
-            }
-        }
-    </style>
+@media (max-width: 600px) {
+    .faq-category-title {
+        font-size: 1.1rem !important;
+        line-height: 1.3 !important;
+    }
+    .faq-question {
+        padding: 14px 16px !important;
+        font-size: 0.9rem !important;
+    }
+    .faq-answer p {
+        font-size: 0.85rem !important;
+    }
+}
+</style>
 </head>
 <body>
 
-<header class="header">
-  <div class="top-bar">
-    <div class="container top-bar-container">
-      <div class="top-bar-social">
-        <a href="https://x.com/yokohamacalcio" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-        <a href="https://instagram.com/yokohamacalcio" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://youtube.com/@yokohamacalcio?si=NBPkZ0qFxFVrOIof" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-      </div>
-      <div class="lang-switcher">
-        <button class="lang-btn active" data-lang="ja">JP</button>
-        <span class="lang-divider">|</span>
-        <button class="lang-btn" data-lang="it">IT</button>
-        <span class="lang-divider">|</span>
-        <button class="lang-btn" data-lang="en">EN</button>
-      </div>
-    </div>
+<script>YC.mountHeader('faq')</script>
+
+<section class="page-hero">
+  <div class="container">
+    <h1><i class="fas fa-question-circle"></i> <span data-i18n="faq.title">よくある質問</span></h1>
+    <p data-i18n="faq.intro">Yokohama Calcioに関してよくいただく質問とその回答をまとめています。</p>
   </div>
+</section>
 
-  <div class="main-header-bar">
-    <div class="container header-container">
-      <div class="logo-title">
-        <a href="index.html">
-          <img src="./immagini/logo.png?v=2" alt="Yokohama Calcio" class="logo">
-        </a>
-        <a href="index.html" class="brand-name">
-          <span>YOKOHAMA</span>
-          <span class="brand-sub">CALCIO</span>
-        </a>
-      </div>
-
-      <div class="desktop-nav-wrapper">
-        <nav class="main-nav">
-          <div class="nav-item dropdown">
-            <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false" style="color: var(--primary-sky);">
-              <span data-i18n="nav.about_group">クラブ</span> 
-              <i class="fas fa-chevron-down nav-arrow"></i>
-            </span>
-            <div class="dropdown-menu">
-              <a href="about.html" data-i18n="nav.about">チーム紹介</a>
-              <a href="index.html#gallery" data-i18n="nav.gallery">ギャラリー</a>
-              <a href="faq.html" style="color: var(--primary-sky); font-weight: 700;" data-i18n="nav.faq">よくある質問</a>
-            </div>
-          </div>
-
-          <div class="nav-item dropdown">
-            <span class="dropdown-toggle" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
-              <span data-i18n="nav.team_group">チーム・選手</span> 
-              <i class="fas fa-chevron-down nav-arrow"></i>
-            </span>
-            <div class="dropdown-menu">
-              <a href="players.html" data-i18n="nav.players">選手紹介</a>
-              <a href="stats.html" data-i18n="nav.stats">成績・スタッツ</a>
-            </div>
-          </div>
-
-          <a href="matches.html" data-i18n="nav.matches">試合日程・結果</a>
-          <a href="index.html#shop" data-i18n="nav.shop">ショップ</a>
-          <a href="index.html#sponsors" data-i18n="nav.sponsors">パートナー</a>
-          <a href="contact.html" class="nav-cta-btn" data-i18n="nav.contact">お問い合わせ</a>
-        </nav>
-      </div>
-
-      <button class="mobile-menu-toggle" aria-label="Menu">
-        <i class="fas fa-bars"></i>
-      </button>
-    </div>
-  </div>
-
-  <nav class="mobile-nav hidden">
-    <div class="mobile-nav-content">
-      <div class="mobile-nav-header">
-        <div class="logo-title" style="margin: 0;">
-          <span class="brand-name">YOKOHAMA <span class="brand-sub">CALCIO</span></span>
-        </div>
-        <button class="mobile-nav-close" aria-label="Chiudi"><i class="fas fa-times"></i></button>
-      </div>
-
-      <a href="index.html" class="mobile-link">
-        <i class="fas fa-home menu-icon"></i> <span data-i18n="nav.home">ホーム</span>
-      </a>
-
-      <div class="mobile-dropdown-group">
-        <button class="mobile-dropdown-toggle">
-          <div class="mobile-dropdown-toggle-left">
-            <i class="fas fa-shield-alt menu-icon"></i>
-            <span data-i18n="nav.team_group">チーム・選手</span>
-          </div>
-          <i class="fas fa-chevron-down mobile-arrow" style="color: #87ceeb;"></i>
-        </button>
-        <div class="mobile-submenu hidden">
-          <a href="about.html" class="mobile-link sub" data-i18n="nav.about">チーム紹介</a>
-          <a href="players.html" class="mobile-link sub" data-i18n="nav.players">選手紹介</a>
-          <a href="stats.html" class="mobile-link sub" data-i18n="nav.stats">成績・スタッツ</a>
-          <a href="index.html#gallery" class="mobile-link sub" data-i18n="nav.gallery">ギャラリー</a>
-        </div>
-      </div>
-
-      <a href="matches.html" class="mobile-link">
-        <i class="fas fa-calendar-alt menu-icon"></i> <span data-i18n="nav.matches">試合日程・結果</span>
-      </a>
-      <a href="index.html#shop" class="mobile-link">
-        <i class="fas fa-shopping-bag menu-icon"></i> <span data-i18n="nav.shop">ショップ</span>
-      </a>
-      <a href="index.html#sponsors" class="mobile-link">
-        <i class="fas fa-handshake menu-icon"></i> <span data-i18n="nav.sponsors">パートナー</span>
-      </a>
-      <a href="faq.html" class="mobile-link" style="color: #87ceeb !important; font-weight: 800;">
-        <i class="fas fa-question-circle menu-icon"></i> <span data-i18n="nav.faq">よくある質問</span>
-      </a>
-
-      <div class="mobile-cta-wrapper">
-        <a href="contact.html" class="mobile-cta-btn">
-          <i class="fas fa-paper-plane"></i> <span data-i18n="nav.contact">お問い合わせ</span>
-        </a>
-      </div>
-    </div>
-  </nav>
-</header>
-
-<section class="section faq-page-section">
+<main class="section faq-page-section" style="padding-top: 20px;">
     <div class="container">
-        <h2 class="section-title"><i class="fas fa-question-circle"></i> <span data-i18n="faq.title">よくある質問</span></h2>
-        <p class="faq-intro" data-i18n="faq.intro" style="text-align: center; color: #64748b; margin-bottom: 30px;">Yokohama Calcioに関してよくいただく質問とその回答をまとめています。</p>
-
         <div class="faq-accordion-wrapper">
             
             <!-- CATEGORIA 1: JOINING & TRIAL -->
@@ -767,7 +352,7 @@
 
         </div>
 
-        <div class="contact-card" style="margin-top: 50px; max-width: 800px;">
+        <div class="contact-card" style="max-width: 800px;">
             <div class="contact-header">
                 <i class="fas fa-paper-plane contact-icon"></i>
                 <h3 data-i18n="faq.other_questions">解決しない質問やその他のお問い合わせ</h3>
@@ -786,405 +371,172 @@
             </a>
         </div>
     </div>
-</section>
+</main>
 
-<button id="scrollToTopBtn" aria-label="Torna in cima"><i class="fas fa-chevron-up"></i></button>
-
-<footer class="footer">
-    <p>&copy; <span id="currentYear"></span> Yokohama Calcio. All Rights Reserved.</p>
-</footer>
+<script>YC.mountFooter()</script>
 
 <script>
-    const pageTitles = {
-        ja: "よくある質問 (FAQ) | Yokohama Calcio",
-        it: "Domande Frequenti (FAQ) | Yokohama Calcio",
-        en: "Frequently Asked Questions (FAQ) | Yokohama Calcio"
-    };
+YC.register({
+  ja: {
+    "faq.title": "よくある質問",
+    "faq.intro": "Yokohama Calcioに関してよくいただく質問とその回答をまとめています。",
+    "faq.cat_join": "チーム加入・体験について",
+    "faq.q1": "初心者やブランクがある人でも参加できますか？",
+    "faq.a1": "完全な初心者（未経験者）の募集は行っておりませんが、過去にサッカー経験がありブランクがある方は大歓迎です！なお、募集対象年齢は18歳〜40歳となっております。",
+    "faq.q2": "体験参加（練習体験）は可能ですか？費用や条件はありますか？",
+    "faq.a2": "はい、入部前に3回の体験参加（必須）をお願いしております。体験参加費は1回につき500円です。チームの雰囲気やレベルを確認していただくための期間となります。",
+    "faq.q3": "参加頻度の条件やルールはありますか？",
+    "faq.q3_ans": "チームの連携や活動維持のため、月に2回以上の参加をお願いしております。",
+    "faq.q10": "仕事などの都合で毎週参加できない場合でも大丈夫ですか？",
+    "faq.a10": "はい、問題ありません。月2回以上の参加を目安とし、事前に出欠連絡（出欠管理ツールを使用）を出していただければ個人のスケジュールに合わせて活動いただけます。",
+    "faq.q9": "テクニカルスタッフやマネージャーの募集はしていますか？",
+    "faq.a9": "はい、大歓迎です！マッチアナリスト（データ分析）やフィジカル・GKコーチなどのテクニカルスタッフ、チーム運営を支えるマネージャーを幅広く募集しています。",
 
-    let currentLang = localStorage.getItem('preferred_lang') || 'ja';
+    "faq.cat_schedule": "活動日程・場所・試合について",
+    "faq.q4": "主な活動場所はどこですか？",
+    "faq.a4": "固定の専用グラウンドはありません。主に横浜市内の公共グラウンド（市営グラウンド等）や、学校のグラウンド・施設をお借りして活動しています。",
+    "faq.q5": "活動の頻度や日時はいつですか？",
+    "faq.a5": "主に日曜日をメインに活動しておりますが、土曜日に活動を行うこともあります。",
+    "faq.q16": "翌月のスケジュールはいつ頃確定しますか？急なイベントが発生することはありますか？",
+    "faq.a16": "翌月の練習・試合スケジュールは、グラウンド抽選や対戦相手との調整を経て毎月25日以降に確定・発表されます。<br>なお、グラウンドのキャンセルの空き枠獲得や急遽決まる練習試合などにより、直前・短期間の通知でイベントが追加される場合もありますのでご了承ください。",
+    "faq.q12": "どのような試合や大会に参加していますか？",
+    "faq.a12": "主に横浜市周辺のチームとの対外試合（練習試合）を中心に活動しています。また、時期に応じて地域カップ戦やワンデイ大会等にも積極的に参加しています。",
+    "faq.q13": "雨天の場合は活動中止になりますか？",
+    "faq.a13": "雨天やグラウンド状態が不良の場合は中止となります。中止の判断は、活動開始の2〜3時間前までにチーム内の連絡ツール（LINE / 連絡アプリ）にて通知します。",
 
-    const translations = {
-        ja: {
-            "nav.home": "ホーム",
-            "nav.about_group": "クラブ",
-            "nav.team_group": "チーム・選手",
-            "nav.about": "チーム紹介",
-            "nav.players": "選手紹介",
-            "nav.stats": "成績・スタッツ",
-            "nav.matches": "試合日程・結果",
-            "nav.gallery": "ギャラリー",
-            "nav.shop": "ショップ",
-            "nav.sponsors": "パートナー",
-            "nav.faq": "よくある質問",
-            "nav.contact": "お問い合わせ",
-            "faq.title": "よくある質問",
-            "faq.intro": "Yokohama Calcioに関してよくいただく質問とその回答をまとめています。",
-            "faq.cat_join": "チーム加入・体験について",
-            "faq.q1": "初心者やブランクがある人でも参加できますか？",
-            "faq.a1": "完全な初心者（未経験者）の募集は行っておりませんが、過去にサッカー経験がありブランクがある方は大歓迎です！なお、募集対象年齢は18歳〜40歳となっております。",
-            "faq.q2": "体験参加（練習体験）は可能ですか？費用や条件はありますか？",
-            "faq.a2": "はい、入部前に3回の体験参加（必須）をお願いしております。体験参加費は1回につき500円です。チームの雰囲気やレベルを確認していただくための期間となります。",
-            "faq.q3": "参加頻度の条件やルールはありますか？",
-            "faq.q3_ans": "チームの連携や活動維持のため、月に2回以上の参加をお願いしております。",
-            "faq.q10": "仕事などの都合で毎週参加できない場合でも大丈夫ですか？",
-            "faq.a10": "はい、問題ありません。月2回以上の参加を目安とし、事前に出欠連絡（出欠管理ツールを使用）を出していただければ個人のスケジュールに合わせて活動いただけます。",
-            "faq.q9": "テクニカルスタッフやマネージャーの募集はしていますか？",
-            "faq.a9": "はい、大歓迎です！マッチアナリスト（データ分析）やフィジカル・GKコーチなどのテクニカルスタッフ、チーム運営を支えるマネージャーを幅広く募集しています。",
-            
-            "faq.cat_schedule": "活動日程・場所・試合について",
-            "faq.q4": "主な活動場所はどこですか？",
-            "faq.a4": "固定の専用グラウンドはありません。主に横浜市内の公共グラウンド（市営グラウンド等）や、学校のグラウンド・施設をお借りして活動しています。",
-            "faq.q5": "活動の頻度や日時はいつですか？",
-            "faq.a5": "主に日曜日をメインに活動しておりますが、土曜日に活動を行うこともあります。",
-            "faq.q16": "翌月のスケジュールはいつ頃確定しますか？急なイベントが発生することはありますか？",
-            "faq.a16": "翌月の練習・試合スケジュールは、グラウンド抽選や対戦相手との調整を経て毎月25日以降に確定・発表されます。<br>なお、グラウンドのキャンセルの空き枠獲得や急遽決まる練習試合などにより、直前・短期間の通知でイベントが追加される場合もありますのでご了承ください。",
-            "faq.q12": "どのような試合や大会に参加していますか？",
-            "faq.a12": "主に横浜市周辺のチームとの対外試合（練習試合）を中心に活動しています。また、時期に応じて地域カップ戦やワンデイ大会等にも積極的に参加しています。",
-            "faq.q13": "雨天の場合は活動中止になりますか？",
-            "faq.a13": "雨天やグラウンド状態が不良の場合は中止となります。中止の判断は、活動開始の2〜3時間前までにチーム内の連絡ツール（LINE / 連絡アプリ）にて通知します。",
+    "faq.cat_fees": "費用・用具について",
+    "faq.q6": "会費や入部時の初期費用はいくらですか？",
+    "faq.a6": "月額会費は2,000円です（毎月20日に翌月分をお支払いいただきます）。<br>なお、入部初月のみ月額会費（2,000円）に加えて、運営費2,000円およびスポーツ保険料2,000円（合計6,000円）をお支払いいただきます。",
+    "faq.q7": "ユニフォームの購入は必須ですか？価格はいくらですか？",
+    "faq.a7": "はい、正式加入時にユニフォームの購入は必須となります。ホーム・アウェイ・練習着の3点セット（フルキット）で18,000円です。",
+    "faq.q11": "体験参加の際、何を持参すればよいですか？",
+    "faq.a11": "動きやすいサッカーウェア（運動着）、サッカーシューズ（またはトレシュー）、すね当て（シンガード）、飲料水、体験参加費（500円）をご持参ください。",
 
-            "faq.cat_fees": "費用・用具について",
-            "faq.q6": "会費や入部時の初期費用はいくらですか？",
-            "faq.a6": "月額会費は2,000円です（毎月20日に翌月分をお支払いいただきます）。<br>なお、入部初月のみ月額会費（2,000円）に加えて、運営費2,000円およびスポーツ保険料2,000円（合計6,000円）をお支払いいただきます。",
-            "faq.q7": "ユニフォームの購入は必須ですか？価格はいくらですか？",
-            "faq.a7": "はい、正式加入時にユニフォームの購入は必須となります。ホーム・アウェイ・練習着の3点セット（フルキット）で18,000円です。",
-            "faq.q11": "体験参加の際、何を持参すればよいですか？",
-            "faq.a11": "動きやすいサッカーウェア（運動着）、サッカーシューズ（またはトレシュー）、すね当て（シンガード）、飲料水、体験参加費（500円）をご持参ください。",
+    "faq.cat_media": "観戦・メディア・その他",
+    "faq.q14": "試合の観戦や応援に行っても大丈夫ですか？",
+    "faq.a14": "もちろんです！ご家族やご友人、ファンの方々の観戦は大歓迎です。ぜひ会場にお越しいただき、チームへの熱いご声援をお願いします。",
+    "faq.q15": "試合の写真や動画はSNS等に公開されますか？",
+    "faq.a15": "はい、活動の様子は広報のため公式SNS（Instagram、X、YouTube）に写真やハイライト動画を掲載する場合があります。顔出しNG等がある場合は事前にご相談いただけます。",
 
-            "faq.cat_media": "観戦・メディア・その他",
-            "faq.q14": "試合の観戦や応援に行っても大丈夫ですか？",
-            "faq.a14": "もちろんです！ご家族やご友人、ファンの方々の観戦は大歓迎です。ぜひ会場にお越しいただき、チームへの熱いご声援をお願いします。",
-            "faq.q15": "試合の写真や動画はSNS等に公開されますか？",
-            "faq.a15": "はい、活動の様子は広報のため公式SNS（Instagram、X、YouTube）に写真やハイライト動画を掲載する場合があります。顔出しNG等がある場合は事前にご相談いただけます。",
+    "faq.other_questions": "解決しない質問やその他のお問い合わせ",
+    "faq.other_desc": "上記以外にご質問や不明な点がございましたら、お気軽にお問い合わせフォームよりご連絡ください。",
+    "faq.btn_contact": "お問い合わせはこちら",
+    "btn.back_home": "ホームに戻る"
+  },
+  it: {
+    "faq.title": "Domande Frequenti (FAQ)",
+    "faq.intro": "Ecco le risposte alle domande più frequenti riguardo lo Yokohama Calcio.",
+    "faq.cat_join": "Unirsi alla Squadra & Prove",
+    "faq.q1": "Posso partecipare se sono un principiante o non gioco da tempo?",
+    "faq.a1": "Non reclutiamo principianti assoluti, ma chi ha già esperienza di calcio ed è fermo da tempo è il benvenuto! L'età richiesta è compresa tra 18 e 40 anni.",
+    "faq.q2": "È possibile fare una prova? Quali sono i costi e le condizioni?",
+    "faq.a2": "Sì, richiediamo obbligatoriamente 3 allenamenti di prova prima dell'iscrizione. Il costo è di 500 yen a prova per valutare il livello e l'ambiente di squadra.",
+    "faq.q3": "Ci sono regole o requisiti sulla frequenza di partecipazione?",
+    "faq.q3_ans": "Per garantire l'affiatamento e la continuità del gruppo, richiediamo di partecipare ad almeno 2 sessioni al mese.",
+    "faq.q10": "Posso partecipare anche se non riesco a garantire la presenza ogni settimana?",
+    "faq.a10": "Sì, nessun problema! L'importante è rispettare il requisito di almeno 2 presenze al mese e confermare la disponibilità in anticipo tramite l'app di gestione presenze.",
+    "faq.q9": "Cercate ruoli tecnici (Match Analyst, Preparatori) o Manager?",
+    "faq.a9": "Sì, assolutamente! Siamo aperti a figure tecniche come Match Analyst, preparatori atletici/dei portieri e manager di campo o per la gestione del club.",
 
-            "faq.other_questions": "解決しない質問やその他のお問い合わせ",
-            "faq.other_desc": "上記以外にご質問や不明な点がございましたら、お気軽にお問い合わせフォームよりご連絡ください。",
-            "faq.btn_contact": "お問い合わせはこちら",
-            "btn.back_home": "ホームに戻る"
-        },
-        it: {
-            "nav.home": "Home",
-            "nav.about_group": "CLUB",
-            "nav.team_group": "SQUADRA",
-            "nav.about": "Chi Siamo",
-            "nav.players": "Giocatori",
-            "nav.stats": "Statistiche",
-            "nav.matches": "Partite & Risultati",
-            "nav.gallery": "Galleria",
-            "nav.shop": "Shop",
-            "nav.sponsors": "Partner",
-            "nav.faq": "FAQ",
-            "nav.contact": "Contatti",
-            "faq.title": "Domande Frequenti (FAQ)",
-            "faq.intro": "Ecco le risposte alle domande più frequenti riguardo lo Yokohama Calcio.",
-            "faq.cat_join": "Unirsi alla Squadra & Prove",
-            "faq.q1": "Posso partecipare se sono un principiante o non gioco da tempo?",
-            "faq.a1": "Non reclutiamo principianti assoluti, ma chi ha già esperienza di calcio ed è fermo da tempo è il benvenuto! L'età richiesta è compresa tra 18 e 40 anni.",
-            "faq.q2": "È possibile fare una prova? Quali sono i costi e le condizioni?",
-            "faq.a2": "Sì, richiediamo obbligatoriamente 3 allenamenti di prova prima dell'iscrizione. Il costo è di 500 yen a prova per valutare il livello e l'ambiente di squadra.",
-            "faq.q3": "Ci sono regole o requisiti sulla frequenza di partecipazione?",
-            "faq.q3_ans": "Per garantire l'affiatamento e la continuità del gruppo, richiediamo di partecipare ad almeno 2 sessioni al mese.",
-            "faq.q10": "Posso partecipare anche se non riesco a garantire la presenza ogni settimana?",
-            "faq.a10": "Sì, nessun problema! L'importante è rispettare il requisito di almeno 2 presenze al mese e confermare la disponibilità in anticipo tramite l'app di gestione presenze.",
-            "faq.q9": "Cercate ruoli tecnici (Match Analyst, Preparatori) o Manager?",
-            "faq.a9": "Sì, assolutamente! Siamo aperti a figure tecniche come Match Analyst, preparatori atletici/dei portieri e manager di campo o per la gestione del club.",
+    "faq.cat_schedule": "Orari, Campi & Partite",
+    "faq.q4": "Dove vi allenate e giocate di solito?",
+    "faq.a4": "Non abbiamo un campo fisso. Giochiamo principalmente nei campi pubblici della città di Yokohama e strutture scolastiche/sportive locali.",
+    "faq.q5": "Quali sono i giorni e gli orari delle attività?",
+    "faq.a5": "Ci alleniamo e giochiamo principalmente la domenica, con occasionali sessioni o amichevoli il sabato.",
+    "faq.q16": "Quando viene definito il calendario mensile? Ci sono eventi organizzati con scarso preavviso?",
+    "faq.a16": "Il calendario delle attività del mese successivo viene definito e comunicato a partire dal 25 di ogni mese, a seguito delle assegnazioni dei campi.<br>Tuttavia, in caso di prenotazioni straordinarie di campi o amichevoli concordate all'ultimo, potrebbero essere aggiunti eventi anche con breve preavviso.",
+    "faq.q12": "Che tipo di partite e tornei disputate?",
+    "faq.a12": "Organizziamo regolarmente amichevoli con altre squadre dell'area di Yokohama e partecipiamo a tornei locali o coppe amatoriali durante la stagione.",
+    "faq.q13": "Cosa succede in caso di pioggia o maltempo?",
+    "faq.a13": "In caso di pioggia o campo impraticabile l'attività viene annullata. La decisione viene comunicata nei gruppi interni della squadra 2-3 ore prima dell'inizio.",
 
-            "faq.cat_schedule": "Orari, Campi & Partite",
-            "faq.q4": "Dove vi allenate e giocate di solito?",
-            "faq.a4": "Non abbiamo un campo fisso. Giochiamo principalmente nei campi pubblici della città di Yokohama e strutture scolastiche/sportive locali.",
-            "faq.q5": "Quali sono i giorni e gli orari delle attività?",
-            "faq.a5": "Ci alleniamo e giochiamo principalmente la domenica, con occasionali sessioni o amichevoli il sabato.",
-            "faq.q16": "Quando viene definito il calendario mensile? Ci sono eventi organizzati con scarso preavviso?",
-            "faq.a16": "Il calendario delle attività del mese successivo viene definito e comunicato a partire dal 25 di ogni mese, a seguito delle assegnazioni dei campi.<br>Tuttavia, in caso di prenotazioni straordinarie di campi o amichevoli concordate all'ultimo, potrebbero essere aggiunti eventi anche con breve preavviso.",
-            "faq.q12": "Che tipo di partite e tornei disputate?",
-            "faq.a12": "Organizziamo regolarmente amichevoli con altre squadre dell'area di Yokohama e partecipiamo a tornei locali o coppe amatoriali durante la stagione.",
-            "faq.q13": "Cosa succede in caso di pioggia o maltempo?",
-            "faq.a13": "In caso di pioggia o campo impraticabile l'attività viene annullata. La decisione viene comunicata nei gruppi interni della squadra 2-3 ore prima dell'inizio.",
+    "faq.cat_fees": "Quote & Equipaggiamento",
+    "faq.q6": "A quanto ammonta la quota mensile e la quota di iscrizione?",
+    "faq.a6": "La quota mensile è di 2.000 yen (da versare il 20 di ogni mese per il mese successivo).<br>Solo per il primo mese di iscrizione, alla quota mensile si aggiungono 2.000 yen di gestione e 2.000 yen per l'assicurazione sportiva (Totale 6.000 yen).",
+    "faq.q7": "L'acquisto del kit/divisa è obbligatorio? Quanto costa?",
+    "faq.a7": "Sì, l'acquisto del kit ufficiale è obbligatorio al momento dell'iscrizione. Il set completo da 3 pezzi (Prima maglia, Seconda maglia, Kit allenamento) costa 18.000 yen.",
+    "faq.q11": "Cosa devo portare per il mio primo allenamento di prova?",
+    "faq.a11": "Porta con te abbigliamento sportivo, scarpe da calcio (o calcetto/turf), parastinchi (shin guards), una bottiglia d'acqua e la quota di prova di 500 yen.",
 
-            "faq.cat_fees": "Quote & Equipaggiamento",
-            "faq.q6": "A quanto ammonta la quota mensile e la quota di iscrizione?",
-            "faq.a6": "La quota mensile è di 2.000 yen (da versare il 20 di ogni mese per il mese successivo).<br>Solo per il primo mese di iscrizione, alla quota mensile si aggiungono 2.000 yen di gestione e 2.000 yen per l'assicurazione sportiva (Totale 6.000 yen).",
-            "faq.q7": "L'acquisto del kit/divisa è obbligatorio? Quanto costa?",
-            "faq.a7": "Sì, l'acquisto del kit ufficiale è obbligatorio al momento dell'iscrizione. Il set completo da 3 pezzi (Prima maglia, Seconda maglia, Kit allenamento) costa 18.000 yen.",
-            "faq.q11": "Cosa devo portare per il mio primo allenamento di prova?",
-            "faq.a11": "Porta con te abbigliamento sportivo, scarpe da calcio (o calcetto/turf), parastinchi (shin guards), una bottiglia d'acqua e la quota di prova di 500 yen.",
+    "faq.cat_media": "Spettatori, Media & Privacy",
+    "faq.q14": "È possibile venire a vedere le partite come spettatore?",
+    "faq.a14": "Certamente! Familiari, amici e tifosi sono sempre i benvenuti a bordo campo per sostenere la squadra.",
+    "faq.q15": "Le foto e i video delle partite vengono pubblicati sui social?",
+    "faq.a15": "Sì, pubblichiamo foto e sintesi video sui nostri canali ufficiali (Instagram, X, YouTube). Chi ha specifiche esigenze di privacy può segnalarcelo preventivamente.",
 
-            "faq.cat_media": "Spettatori, Media & Privacy",
-            "faq.q14": "È possibile venire a vedere le partite come spettatore?",
-            "faq.a14": "Certamente! Familiari, amici e tifosi sono sempre i benvenuti a bordo campo per sostenere la squadra.",
-            "faq.q15": "Le foto e i video delle partite vengono pubblicati sui social?",
-            "faq.a15": "Sì, pubblichiamo foto e sintesi video sui nostri canali ufficiali (Instagram, X, YouTube). Chi ha specifiche esigenze di privacy può segnalarcelo preventivamente.",
+    "faq.other_questions": "Hai altre domande non presenti in elenco?",
+    "faq.other_desc": "Per qualsiasi altro dubbio o richiesta specifica, non esitare a contattarci compilando il nostro modulo.",
+    "faq.btn_contact": "Invia un Messaggio",
+    "btn.back_home": "Torna alla Home"
+  },
+  en: {
+    "faq.title": "Frequently Asked Questions",
+    "faq.intro": "Find answers to the most common questions about Yokohama Calcio.",
+    "faq.cat_join": "Joining & Trial Sessions",
+    "faq.q1": "Can I join if I am a beginner or haven't played in a while?",
+    "faq.a1": "We do not recruit complete beginners, but players with past football experience returning from a break are very welcome! Target age is 18 to 40 years old.",
+    "faq.q2": "Is a trial session available? What are the costs and conditions?",
+    "faq.a2": "Yes, we require 3 trial sessions (mandatory) before joining. The trial fee is 500 yen per session so you can evaluate the team atmosphere and level.",
+    "faq.q3": "Are there requirements regarding attendance frequency?",
+    "faq.q3_ans": "To maintain team cohesion and activity, we ask members to attend at least twice a month.",
+    "faq.q10": "Can I join if I cannot guarantee attendance every week?",
+    "faq.a10": "Yes, absolutely! As long as you meet the minimum requirement of twice a month and update your availability in advance, you can participate according to your schedule.",
+    "faq.q9": "Are you recruiting Technical Staff (Match Analyst, Coaches) or Managers?",
+    "faq.a9": "Yes, absolutely! We are open to technical roles such as Match Analysts, fitness/GK coaches, as well as team managers.",
 
-            "faq.other_questions": "Hai altre domande non presenti in elenco?",
-            "faq.other_desc": "Per qualsiasi altro dubbio o richiesta specifica, non esitare a contattarci compilando il nostro modulo.",
-            "faq.btn_contact": "Invia un Messaggio",
-            "btn.back_home": "Torna alla Home"
-        },
-        en: {
-            "nav.home": "Home",
-            "nav.about_group": "CLUB",
-            "nav.team_group": "TEAM",
-            "nav.about": "About Us",
-            "nav.players": "Players",
-            "nav.stats": "Stats",
-            "nav.matches": "Matches & Results",
-            "nav.gallery": "Gallery",
-            "nav.shop": "Shop",
-            "nav.sponsors": "Partners",
-            "nav.faq": "FAQ",
-            "nav.contact": "Contact Us",
-            "faq.title": "Frequently Asked Questions",
-            "faq.intro": "Find answers to the most common questions about Yokohama Calcio.",
-            "faq.cat_join": "Joining & Trial Sessions",
-            "faq.q1": "Can I join if I am a beginner or haven't played in a while?",
-            "faq.a1": "We do not recruit complete beginners, but players with past football experience returning from a break are very welcome! Target age is 18 to 40 years old.",
-            "faq.q2": "Is a trial session available? What are the costs and conditions?",
-            "faq.a2": "Yes, we require 3 trial sessions (mandatory) before joining. The trial fee is 500 yen per session so you can evaluate the team atmosphere and level.",
-            "faq.q3": "Are there requirements regarding attendance frequency?",
-            "faq.q3_ans": "To maintain team cohesion and activity, we ask members to attend at least twice a month.",
-            "faq.q10": "Can I join if I cannot guarantee attendance every week?",
-            "faq.a10": "Yes, absolutely! As long as you meet the minimum requirement of twice a month and update your availability in advance, you can participate according to your schedule.",
-            "faq.q9": "Are you recruiting Technical Staff (Match Analyst, Coaches) or Managers?",
-            "faq.a9": "Yes, absolutely! We are open to technical roles such as Match Analysts, fitness/GK coaches, as well as team managers.",
+    "faq.cat_schedule": "Schedule, Locations & Matches",
+    "faq.q4": "Where do you usually practice and play?",
+    "faq.a4": "We do not have a dedicated home field. We mainly use public grounds and school facilities within Yokohama City.",
+    "faq.q5": "When do activities take place?",
+    "faq.a5": "Our activities are mainly scheduled on Sundays, with occasional sessions on Saturdays.",
+    "faq.q16": "When is the monthly schedule confirmed? Are there short-notice events?",
+    "faq.a16": "The upcoming month's training and match schedule is finalized and published from the 25th of each month.<br>Please note that occasional short-notice events may be added due to last-minute field openings or newly arranged friendly matches.",
+    "faq.q12": "What kind of matches or tournaments do you participate in?",
+    "faq.a12": "We regularly organize friendly matches against local teams in Yokohama and enter regional amateur tournaments and cup games during the season.",
+    "faq.q13": "What happens in case of rain or bad weather?",
+    "faq.a13": "Activities are canceled in case of heavy rain or unplayable field conditions. Cancellations are communicated via our team app 2–3 hours before start time.",
 
-            "faq.cat_schedule": "Schedule, Locations & Matches",
-            "faq.q4": "Where do you usually practice and play?",
-            "faq.a4": "We do not have a dedicated home field. We mainly use public grounds and school facilities within Yokohama City.",
-            "faq.q5": "When do activities take place?",
-            "faq.a5": "Our activities are mainly scheduled on Sundays, with occasional sessions on Saturdays.",
-            "faq.q16": "When is the monthly schedule confirmed? Are there short-notice events?",
-            "faq.a16": "The upcoming month's training and match schedule is finalized and published from the 25th of each month.<br>Please note that occasional short-notice events may be added due to last-minute field openings or newly arranged friendly matches.",
-            "faq.q12": "What kind of matches or tournaments do you participate in?",
-            "faq.a12": "We regularly organize friendly matches against local teams in Yokohama and enter regional amateur tournaments and cup games during the season.",
-            "faq.q13": "What happens in case of rain or bad weather?",
-            "faq.a13": "Activities are canceled in case of heavy rain or unplayable field conditions. Cancellations are communicated via our team app 2–3 hours before start time.",
+    "faq.cat_fees": "Fees & Equipment",
+    "faq.q6": "How much is the monthly fee and initial registration fee?",
+    "faq.a6": "The monthly membership fee is 2,000 yen (paid on the 20th for the upcoming month).<br>For the first month only, a 2,000 yen management fee and 2,000 yen sports insurance fee are added (Total 6,000 yen).",
+    "faq.q7": "Is buying the uniform mandatory? How much does it cost?",
+    "faq.a7": "Yes, purchasing the uniform kit is required upon joining. The full 3-piece set (Home, Away, Training) costs 18,000 yen.",
+    "faq.q11": "What should I bring to my first trial session?",
+    "faq.a11": "Please bring sportswear, football boots (or turf shoes), shin guards, drinking water, and the 500 yen trial fee.",
 
-            "faq.cat_fees": "Fees & Equipment",
-            "faq.q6": "How much is the monthly fee and initial registration fee?",
-            "faq.a6": "The monthly membership fee is 2,000 yen (paid on the 20th for the upcoming month).<br>For the first month only, a 2,000 yen management fee and 2,000 yen sports insurance fee are added (Total 6,000 yen).",
-            "faq.q7": "Is buying the uniform mandatory? How much does it cost?",
-            "faq.a7": "Yes, purchasing the uniform kit is required upon joining. The full 3-piece set (Home, Away, Training) costs 18,000 yen.",
-            "faq.q11": "What should I bring to my first trial session?",
-            "faq.a11": "Please bring sportswear, football boots (or turf shoes), shin guards, drinking water, and the 500 yen trial fee.",
+    "faq.cat_media": "Spectators, Media & Privacy",
+    "faq.q14": "Can spectators or supporters come to watch the matches?",
+    "faq.a14": "Absolutely! Friends, family, and supporters are always welcome on the sidelines to cheer for the team.",
+    "faq.q15": "Are match photos and videos posted on social media?",
+    "faq.a15": "Yes, photos and video highlights are published on our official social media (Instagram, X, YouTube). Please inform us in advance if you have privacy preferences.",
 
-            "faq.cat_media": "Spectators, Media & Privacy",
-            "faq.q14": "Can spectators or supporters come to watch the matches?",
-            "faq.a14": "Absolutely! Friends, family, and supporters are always welcome on the sidelines to cheer for the team.",
-            "faq.q15": "Are match photos and videos posted on social media?",
-            "faq.a15": "Yes, photos and video highlights are published on our official social media (Instagram, X, YouTube). Please inform us in advance if you have privacy preferences.",
+    "faq.other_questions": "Have a question not answered here?",
+    "faq.other_desc": "If you have any other questions, feel free to reach out to us via our contact form.",
+    "faq.btn_contact": "Contact Us Here",
+    "btn.back_home": "Back to Home"
+  }
+});
 
-            "faq.other_questions": "Have a question not answered here?",
-            "faq.other_desc": "If you have any other questions, feel free to reach out to us via our contact form.",
-            "faq.btn_contact": "Contact Us Here",
-            "btn.back_home": "Back to Home"
-        }
-    };
+YC.boot({
+  title: {
+    ja: "よくある質問 (FAQ) | Yokohama Calcio",
+    it: "Domande Frequenti (FAQ) | Yokohama Calcio",
+    en: "Frequently Asked Questions (FAQ) | Yokohama Calcio"
+  }
+});
 
-    function setLanguage(lang) {
-        if (!translations[lang]) return;
-        currentLang = lang;
-        localStorage.setItem('preferred_lang', lang);
-
-        if (pageTitles[lang]) {
-            document.title = pageTitles[lang];
-            const ogTitle = document.querySelector('meta[property="og:title"]');
-            const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-            if (ogTitle) ogTitle.setAttribute('content', pageTitles[lang]);
-            if (twitterTitle) twitterTitle.setAttribute('content', pageTitles[lang]);
-        }
-
-        document.querySelectorAll('[data-i18n]').forEach(elem => {
-            const key = elem.getAttribute('data-i18n');
-            const translation = translations[lang][key];
-
-            if (translation) {
-                if (translation.includes('<br>')) {
-                    elem.innerHTML = translation;
-                } else {
-                    elem.textContent = translation;
-                }
-            }
-        });
-
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-        });
+// ACCORDION FAQ (TOGGLE APERTO/CHIUSO)
+document.addEventListener('click', e => {
+  const questionBtn = e.target.closest('.faq-question');
+  if (questionBtn) {
+    const item = questionBtn.closest('.faq-item');
+    const isActive = item.classList.contains('active');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+    if (!isActive) {
+      item.classList.add('active');
     }
-
-    function initDesktopDropdowns() {
-        const dropdownItems = document.querySelectorAll('.main-nav .nav-item.dropdown');
-
-        dropdownItems.forEach(item => {
-            const toggle = item.querySelector('.dropdown-toggle');
-            if (!toggle) return;
-
-            toggle.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-
-                dropdownItems.forEach(d => {
-                    if (d !== item) {
-                        d.classList.remove('open');
-                        const t = d.querySelector('.dropdown-toggle');
-                        if (t) t.setAttribute('aria-expanded', 'false');
-                    }
-                });
-
-                const willOpen = !item.classList.contains('open');
-                item.classList.toggle('open', willOpen);
-                toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-            });
-
-            item.addEventListener('mouseleave', () => {
-                item.classList.remove('open');
-                toggle.setAttribute('aria-expanded', 'false');
-            });
-
-            toggle.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggle.click();
-                }
-                if (e.key === 'Escape') {
-                    item.classList.remove('open');
-                    toggle.setAttribute('aria-expanded', 'false');
-                }
-            });
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.main-nav .nav-item.dropdown')) {
-                dropdownItems.forEach(d => {
-                    d.classList.remove('open');
-                    const t = d.querySelector('.dropdown-toggle');
-                    if (t) t.setAttribute('aria-expanded', 'false');
-                });
-            }
-        });
-
-        document.querySelectorAll('.main-nav .dropdown-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                dropdownItems.forEach(d => {
-                    d.classList.remove('open');
-                    const t = d.querySelector('.dropdown-toggle');
-                    if (t) t.setAttribute('aria-expanded', 'false');
-                });
-            });
-        });
-    }
-
-    function initMobileMenu() {
-        const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
-        const mobileNav = document.querySelector('.mobile-nav');
-        const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
-        const mobileSubmenu = document.querySelector('.mobile-submenu');
-        const mobileCloseBtn = document.querySelector('.mobile-nav-close');
-
-        function closeMobileMenu() {
-            if (mobileNav) {
-                mobileNav.classList.add('hidden');
-                if (mobileMenuBtn) {
-                    const icon = mobileMenuBtn.querySelector('i');
-                    if (icon) {
-                        icon.classList.add('fa-bars');
-                        icon.classList.remove('fa-times');
-                    }
-                }
-            }
-        }
-
-        if (mobileMenuBtn && mobileNav) {
-            mobileMenuBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isHidden = mobileNav.classList.contains('hidden');
-                if (isHidden) {
-                    mobileNav.classList.remove('hidden');
-                    const icon = mobileMenuBtn.querySelector('i');
-                    if (icon) {
-                        icon.classList.remove('fa-bars');
-                        icon.classList.add('fa-times');
-                    }
-                } else {
-                    closeMobileMenu();
-                }
-            });
-
-            if (mobileDropdownToggle && mobileSubmenu) {
-                mobileDropdownToggle.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    mobileSubmenu.classList.toggle('hidden');
-                    const arrow = mobileDropdownToggle.querySelector('.mobile-arrow');
-                    if (arrow) {
-                        arrow.classList.toggle('fa-chevron-down');
-                        arrow.classList.toggle('fa-chevron-up');
-                    }
-                });
-            }
-
-            document.querySelectorAll('.mobile-link, .mobile-cta-btn').forEach(link => {
-                link.addEventListener('click', closeMobileMenu);
-            });
-
-            if (mobileCloseBtn) {
-                mobileCloseBtn.addEventListener('click', closeMobileMenu);
-            }
-
-            mobileNav.addEventListener('click', (e) => {
-                if (!e.target.closest('.mobile-nav-content') && !mobileMenuBtn.contains(e.target)) {
-                    closeMobileMenu();
-                }
-            });
-        }
-    }
-
-    // ACCORDION FAQ (TOGGLE APERTO/CHIUSO)
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-        const questionBtn = item.querySelector('.faq-question');
-        if (questionBtn) {
-            questionBtn.addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-                faqItems.forEach(i => i.classList.remove('active'));
-                if (!isActive) {
-                    item.classList.add('active');
-                }
-            });
-        }
-    });
-
-    // SCROLL TO TOP BUTTON
-    const topBtn = document.getElementById('scrollToTopBtn');
-    if (topBtn) {
-        const checkScroll = () => {
-            if (window.scrollY > 300) {
-                topBtn.classList.add('show');
-            } else {
-                topBtn.classList.remove('show');
-            }
-        };
-        window.addEventListener('scroll', checkScroll);
-        window.addEventListener('load', checkScroll);
-        topBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        const yearSpan = document.getElementById('currentYear');
-        if (yearSpan) {
-            yearSpan.textContent = new Date().getFullYear();
-        }
-
-        initDesktopDropdowns();
-        initMobileMenu();
-        setLanguage(currentLang);
-
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                setLanguage(btn.getAttribute('data-lang'));
-            });
-        });
-    });
+  }
+});
 </script>
 </body>
 </html>
