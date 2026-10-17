@@ -1,10 +1,4 @@
-/* js/common.js — nucleo condiviso (header, footer, lingua, menu, CTA).
-   USO in ogni pagina:
-     <head>   <script src="js/common.js"></script>
-     <body>   <script>YC.mountHeader('matches')</script>   ... contenuto ...
-              <script>YC.mountFooter()</script>
-     fine     <script> YC.register({ja:{},it:{},en:{}}); YC.boot({title:{ja:'',it:'',en:''}}); </script>
-   Le pagine ascoltano l'evento 'yc:langchange' per ridisegnare le parti dinamiche. */
+/* js/common.js — nucleo condiviso (header, footer, lingua, menu, CTA). */
 (function (global) {
   'use strict';
   const LANGS = ['ja', 'it', 'en'];
@@ -15,9 +9,9 @@
 
   /* ---------- traduzioni del layout condiviso ---------- */
   const SHARED = {
-    ja: { 'nav.home': 'ホーム', 'nav.about_group': 'クラブ', 'nav.team_group': 'チーム・選手', 'nav.about': 'チーム紹介', 'nav.players': '選手紹介', 'nav.stats': '成績・スタッツ', 'nav.matches': '試合日程・結果', 'nav.training': '練習日程', 'nav.gallery': 'ギャラリー', 'nav.faq': 'よくある質問', 'nav.shop': 'ショップ', 'nav.sponsors': 'パートナー', 'nav.contact': 'お問い合わせ', 'btn.back_home': 'ホームに戻る', 'cta.trial': '体験参加を申し込む', 'nav.join': '入団・体験', 'nav.cta': '体験参加', 'nav.contact_short': 'お問い合わせ', 'footer.tagline': '横浜に咲くイタリアの情熱。サッカーで心をつなぐ場所。', 'footer.privacy': 'プライバシー' },
-    it: { 'nav.home': 'Home', 'nav.about_group': 'CLUB', 'nav.team_group': 'SQUADRA', 'nav.about': 'Chi Siamo', 'nav.players': 'Giocatori', 'nav.stats': 'Statistiche', 'nav.matches': 'Partite & Risultati', 'nav.training': 'Allenamenti', 'nav.gallery': 'Galleria', 'nav.faq': 'FAQ', 'nav.shop': 'Shop', 'nav.sponsors': 'Partner', 'nav.contact': 'Contatti', 'btn.back_home': 'Torna alla Home', 'cta.trial': 'Prenota una prova', 'nav.join': 'Unisciti a noi', 'nav.cta': 'Prenota una prova', 'nav.contact_short': 'Contatti', 'footer.tagline': 'La passione italiana nel cuore di Yokohama. Il calcio che unisce le persone.', 'footer.privacy': 'Privacy' },
-    en: { 'nav.home': 'Home', 'nav.about_group': 'CLUB', 'nav.team_group': 'TEAM', 'nav.about': 'About Us', 'nav.players': 'Players', 'nav.stats': 'Stats', 'nav.matches': 'Matches & Results', 'nav.training': 'Training', 'nav.gallery': 'Gallery', 'nav.faq': 'FAQ', 'nav.shop': 'Shop', 'nav.sponsors': 'Partners', 'nav.contact': 'Contact Us', 'btn.back_home': 'Back to Home', 'cta.trial': 'Book a trial', 'nav.join': 'Join Us', 'nav.cta': 'Book a trial', 'nav.contact_short': 'Contact', 'footer.tagline': 'Italian football passion in Yokohama. Where football connects people.', 'footer.privacy': 'Privacy' }
+    ja: { 'nav.home': 'ホーム', 'nav.about_group': 'クラブ', 'nav.team_group': 'チーム・選手', 'nav.about': 'チーム紹介', 'nav.players': '選手紹介', 'nav.stats': '成績・スタッツ', 'nav.matches': '試合日程・結果', 'nav.gallery': 'ギャラリー', 'nav.faq': 'よくある質問', 'nav.shop': 'ショップ', 'nav.sponsors': 'パートナー', 'nav.contact': 'お問い合わせ', 'btn.back_home': 'ホームに戻る', 'cta.trial': '体験参加を申し込む', 'nav.join': '入団・体験', 'nav.cta': '体験参加', 'nav.contact_short': 'お問い合わせ', 'footer.tagline': '横浜に咲くイタリアの情熱。サッカーで心をつなぐ場所。', 'footer.privacy': 'プライバシー' },
+    it: { 'nav.home': 'Home', 'nav.about_group': 'CLUB', 'nav.team_group': 'SQUADRA', 'nav.about': 'Chi Siamo', 'nav.players': 'Giocatori', 'nav.stats': 'Statistiche', 'nav.matches': 'Partite & Risultati', 'nav.gallery': 'Galleria', 'nav.faq': 'FAQ', 'nav.shop': 'Shop', 'nav.sponsors': 'Partner', 'nav.contact': 'Contatti', 'btn.back_home': 'Torna alla Home', 'cta.trial': 'Prenota una prova', 'nav.join': 'Unisciti a noi', 'nav.cta': 'Prenota una prova', 'nav.contact_short': 'Contatti', 'footer.tagline': 'La passione italiana nel cuore di Yokohama. Il calcio che unisce le persone.', 'footer.privacy': 'Privacy' },
+    en: { 'nav.home': 'Home', 'nav.about_group': 'CLUB', 'nav.team_group': 'TEAM', 'nav.about': 'About Us', 'nav.players': 'Players', 'nav.stats': 'Stats', 'nav.matches': 'Matches & Results', 'nav.gallery': 'Gallery', 'nav.faq': 'FAQ', 'nav.shop': 'Shop', 'nav.sponsors': 'Partners', 'nav.contact': 'Contact Us', 'btn.back_home': 'Back to Home', 'cta.trial': 'Book a trial', 'nav.join': 'Join Us', 'nav.cta': 'Book a trial', 'nav.contact_short': 'Contact', 'footer.tagline': 'Italian football passion in Yokohama. Where football connects people.', 'footer.privacy': 'Privacy' }
   };
   const ARIA = {
     ja: { menu: 'メニュー', close: '閉じる', top: 'ページ上部へ', prev: '前へ', next: '次へ' },
@@ -25,7 +19,6 @@
     en: { menu: 'Menu', close: 'Close', top: 'Back to top', prev: 'Previous', next: 'Next' }
   };
 
-  /* ---------- lingua ---------- */
   function initialLang() {
     const q = new URLSearchParams(location.search).get('lang');
     if (LANGS.includes(q)) { store('preferred_lang', q); return q; }
@@ -77,8 +70,8 @@
     } catch (_) { return fallback; }
   }
 
-  /* ---------- header + footer (fonte unica) ---------- */
-  const TRIAL = 'contact.html?type=trial#training';
+  /* ---------- header + footer ---------- */
+  const TRIAL = 'contact.html?type=trial';
   function headerHtml(active) {
     const on = k => (active === k ? ' active' : '');
     const grp = ks => (ks.includes(active) ? ' active' : '');
@@ -112,8 +105,8 @@
       </div>
       ${item('matches.html', 'nav.matches', 'matches')}
       <div class="nav-item dropdown">
-        <span class="dropdown-toggle${grp(['training', 'faq', 'contact'])}" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false"><span data-i18n="nav.join"></span> <i class="fas fa-chevron-down nav-arrow"></i></span>
-        <div class="dropdown-menu">${item(TRIAL, 'nav.training', 'training')}${item('faq.html', 'nav.faq', 'faq')}${item('contact.html', 'nav.contact_short', 'contact')}</div>
+        <span class="dropdown-toggle${grp(['faq', 'contact'])}" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false"><span data-i18n="nav.join"></span> <i class="fas fa-chevron-down nav-arrow"></i></span>
+        <div class="dropdown-menu">${item('faq.html', 'nav.faq', 'faq')}${item('contact.html', 'nav.contact_short', 'contact')}</div>
       </div>
       <a href="index.html#shop" data-i18n="nav.shop"></a>
       <a href="${TRIAL}" class="nav-cta-btn" data-i18n="nav.cta"></a>
@@ -137,7 +130,7 @@
     <a href="matches.html" class="mobile-link${on('matches')}"><i class="fas fa-calendar-alt menu-icon"></i> <span data-i18n="nav.matches"></span></a>
     <div class="mobile-dropdown-group">
       <button class="mobile-dropdown-toggle"><div class="mobile-dropdown-toggle-left"><i class="fas fa-running menu-icon"></i><span data-i18n="nav.join"></span></div><i class="fas fa-chevron-down mobile-arrow" style="color:#87ceeb"></i></button>
-      <div class="mobile-submenu hidden"><a href="${TRIAL}" class="mobile-link sub${on('training')}" data-i18n="nav.training"></a><a href="faq.html" class="mobile-link sub${on('faq')}" data-i18n="nav.faq"></a><a href="contact.html" class="mobile-link sub${on('contact')}" data-i18n="nav.contact_short"></a></div>
+      <div class="mobile-submenu hidden"><a href="faq.html" class="mobile-link sub${on('faq')}" data-i18n="nav.faq"></a><a href="contact.html" class="mobile-link sub${on('contact')}" data-i18n="nav.contact_short"></a></div>
     </div>
     <a href="index.html#shop" class="mobile-link"><i class="fas fa-shopping-bag menu-icon"></i> <span data-i18n="nav.shop"></span></a>
     <div class="mobile-cta-wrapper"><a href="${TRIAL}" class="mobile-cta-btn"><i class="fas fa-paper-plane"></i> <span data-i18n="nav.cta"></span></a></div>
@@ -157,7 +150,7 @@
   </div>
   <div class="footer-col"><h4 data-i18n="nav.about_group"></h4><a href="about.html" data-i18n="nav.about"></a><a href="index.html#gallery" data-i18n="nav.gallery"></a><a href="index.html#sponsors" data-i18n="nav.sponsors"></a><a href="index.html#shop" data-i18n="nav.shop"></a></div>
   <div class="footer-col"><h4 data-i18n="nav.team_group"></h4><a href="players.html" data-i18n="nav.players"></a><a href="stats.html" data-i18n="nav.stats"></a><a href="matches.html" data-i18n="nav.matches"></a></div>
-  <div class="footer-col"><h4 data-i18n="nav.join"></h4><a href="${TRIAL}" data-i18n="nav.training"></a><a href="faq.html" data-i18n="nav.faq"></a><a href="contact.html" data-i18n="nav.contact_short"></a></div>
+  <div class="footer-col"><h4 data-i18n="nav.join"></h4><a href="faq.html" data-i18n="nav.faq"></a><a href="contact.html" data-i18n="nav.contact_short"></a><a href="privacy.html" data-i18n="footer.privacy"></a></div>
 </div><p class="footer-copy">&copy; <span id="currentYear"></span> Yokohama Calcio. All Rights Reserved.</p></footer>`;
 
   function insert(html) {
@@ -230,7 +223,6 @@
     check();
   }
 
-  /** Da chiamare UNA volta a fine pagina, dopo register(). */
   function boot(cfg) {
     state.cfg = cfg || {};
     const run = () => {
@@ -242,7 +234,6 @@
     document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', run) : run();
   }
 
-  /* ---- compatibilità con le pagine scritte per la vecchia API ---- */
   function emitLang(l) { if (!LANGS.includes(l)) return; state.lang = l; store('preferred_lang', l); document.documentElement.lang = l; localizeAria(); renderCta(); document.dispatchEvent(new CustomEvent('yc:langchange', { detail: l })); }
   function legacyInit() { initMenus(); initScrollTop(); initCta(); const y = document.getElementById('currentYear'); if (y) y.textContent = new Date().getFullYear(); }
 
