@@ -182,9 +182,33 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 .goal-bar .gf { background: #12A0D7; } .goal-bar .ga { background: #f87171; }
 .lineup-wrap { display: grid; grid-template-columns: minmax(0, 360px) 1fr; gap: 24px; align-items: start; }
 @media (max-width: 800px) { .lineup-wrap { grid-template-columns: 1fr; } }
-.lineup-pitch { position: relative; aspect-ratio: 3 / 4; border-radius: 12px; background: linear-gradient(180deg, #16a34a, #15803d 50%, #16a34a); box-shadow: inset 0 0 40px rgba(0,0,0,.35); overflow: hidden; width: 100%; max-width: 360px; margin: 0 auto; }
-.lineup-pitch::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: rgba(255,255,255,.45); }
-.lineup-pitch::after { content: ''; position: absolute; top: 50%; left: 50%; width: 26%; aspect-ratio: 1; border: 2px solid rgba(255,255,255,.45); border-radius: 50%; transform: translate(-50%, -50%); }
+
+/* ---------- CAMPO DA CALCIO (linee via SVG background) ---------- */
+.lineup-pitch {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, .35);
+
+  /* Sfondo erba + linee del campo in SVG (unica fonte di verità) */
+  background-color: #2ca25f !important;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 400' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.72)' stroke-width='2' vector-effect='non-scaling-stroke'%3E%3Crect x='10' y='10' width='280' height='380'/%3E%3Cline x1='10' y1='200' x2='290' y2='200'/%3E%3Ccircle cx='150' cy='200' r='40'/%3E%3Ccircle cx='150' cy='200' r='2.5' fill='rgba(255,255,255,0.72)'/%3E%3Crect x='65' y='10' width='170' height='60'/%3E%3Crect x='110' y='10' width='80' height='25'/%3E%3Cpath d='M 125 70 A 25 22 0 0 1 175 70'/%3E%3Crect x='65' y='330' width='170' height='60'/%3E%3Crect x='110' y='365' width='80' height='25'/%3E%3Cpath d='M 125 330 A 25 22 0 0 0 175 330'/%3E%3C/g%3E%3C/svg%3E") !important;
+  background-size: 100% 100% !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Disattiva eventuali pseudo-elementi ereditati (evita conflitti) */
+.lineup-pitch::before,
+.lineup-pitch::after {
+  content: none !important;
+  display: none !important;
+}
+
 .lineup-chip { position: absolute; transform: translate(-50%, -50%); text-align: center; width: 64px; z-index: 2; }
 .lineup-chip .num { width: 34px; height: 34px; margin: 0 auto 2px; border-radius: 50%; background: #fff; color: var(--dark-navy, #003c82); font-weight: 800; font-size: .85rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,.4); }
 .lineup-chip .nm { font-size: .64rem; font-weight: 800; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.8); line-height: 1.1; }
