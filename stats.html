@@ -63,7 +63,7 @@
 .stats-section-title i { color: var(--primary-sky); }
 
 /* ==========================================================================
-   CAMPO DA CALCIO TACCO / FORMATION PITCH
+   CAMPO DA CALCIO HD
    ========================================================================== */
 .lineup-wrap {
     display: flex;
@@ -83,7 +83,7 @@
     border-radius: 16px;
     overflow: hidden;
     background: 
-        radial-gradient(circle at center, rgba(255,255,255,0.12) 0%, rgba(0,0,0,0.4) 100%),
+        radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.4) 100%),
         repeating-linear-gradient(
             0deg,
             #238b45 0px,
@@ -101,11 +101,15 @@
 .lineup-pitch::before {
     content: '';
     position: absolute;
-    inset: 12px;
-    border: 2px solid rgba(255, 255, 255, 0.85);
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    border: 2px solid #ffffff;
     border-radius: 4px;
     pointer-events: none;
     box-sizing: border-box;
+    z-index: 1;
 }
 
 .lineup-pitch::after {
@@ -115,15 +119,24 @@
     left: 12px;
     right: 12px;
     height: 2px;
-    background: rgba(255, 255, 255, 0.85);
+    background: #ffffff;
     transform: translateY(-50%);
     pointer-events: none;
+    z-index: 1;
 }
 
 .pitch-overlay {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
+    z-index: 1;
+}
+
+.pitch-overlay div {
+    box-sizing: border-box;
 }
 
 .pitch-center-circle {
@@ -132,7 +145,7 @@
     left: 50%;
     width: 90px;
     height: 90px;
-    border: 2px solid rgba(255, 255, 255, 0.85);
+    border: 2px solid #ffffff;
     border-radius: 50%;
     transform: translate(-50%, -50%);
 }
@@ -143,7 +156,7 @@
     left: 50%;
     width: 6px;
     height: 6px;
-    background: rgba(255, 255, 255, 0.95);
+    background: #ffffff;
     border-radius: 50%;
     transform: translate(-50%, -50%);
 }
@@ -154,7 +167,7 @@
     left: 50%;
     width: 52%;
     height: 16%;
-    border: 2px solid rgba(255, 255, 255, 0.85);
+    border: 2px solid #ffffff;
     border-top: none;
     transform: translateX(-50%);
 }
@@ -165,7 +178,7 @@
     left: 50%;
     width: 26%;
     height: 6%;
-    border: 2px solid rgba(255, 255, 255, 0.85);
+    border: 2px solid #ffffff;
     border-top: none;
     transform: translateX(-50%);
 }
@@ -176,7 +189,7 @@
     left: 50%;
     width: 60px;
     height: 28px;
-    border: 2px solid rgba(255, 255, 255, 0.85);
+    border: 2px solid #ffffff;
     border-top: none;
     border-radius: 0 0 60px 60px;
     transform: translateX(-50%);
@@ -188,7 +201,7 @@
     left: 50%;
     width: 52%;
     height: 16%;
-    border: 2px solid rgba(255, 255, 255, 0.85);
+    border: 2px solid #ffffff;
     border-bottom: none;
     transform: translateX(-50%);
 }
@@ -199,7 +212,7 @@
     left: 50%;
     width: 26%;
     height: 6%;
-    border: 2px solid rgba(255, 255, 255, 0.85);
+    border: 2px solid #ffffff;
     border-bottom: none;
     transform: translateX(-50%);
 }
@@ -210,7 +223,7 @@
     left: 50%;
     width: 60px;
     height: 28px;
-    border: 2px solid rgba(255, 255, 255, 0.85);
+    border: 2px solid #ffffff;
     border-bottom: none;
     border-radius: 60px 60px 0 0;
     transform: translateX(-50%);
