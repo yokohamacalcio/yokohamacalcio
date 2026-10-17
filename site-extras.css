@@ -186,7 +186,7 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 .lineup-wrap { display: grid; grid-template-columns: minmax(0, 360px) 1fr; gap: 24px; align-items: start; }
 @media (max-width: 800px) { .lineup-wrap { grid-template-columns: 1fr; } }
 
-/* CAMPO DA CALCIO HD — linee SVG perfettamente codificate per tutti i browser */
+/* CAMPO DA CALCIO HD — Linee SVG bianche nitide in primo piano e lunette corrette */
 .lineup-pitch {
   position: relative;
   width: 100%;
@@ -201,11 +201,11 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 
   background-color: #238b45 !important;
   background-image:
-    /* Layer 1: shading radiale (semi-trasparente) */
-    radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.35) 100%),
-    /* Layer 2: linee del campo in SVG (codificato con charset=utf-8) */
-    url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 400' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.85)' stroke-width='2.5'%3E%3Crect x='12' y='12' width='276' height='376' rx='4'/%3E%3Cline x1='12' y1='200' x2='288' y2='200'/%3E%3Ccircle cx='150' cy='200' r='42'/%3E%3Ccircle cx='150' cy='200' r='3' fill='rgba(255,255,255,0.85)'/%3E%3Crect x='65' y='12' width='170' height='60'/%3E%3Crect x='110' y='12' width='80' height='24'/%3E%3Cpath d='M 125 72 A 25 22 0 0 1 175 72'/%3E%3Crect x='65' y='328' width='170' height='60'/%3E%3Crect x='110' y='364' width='80' height='24'/%3E%3Cpath d='M 125 328 A 25 22 0 0 0 175 328'/%3E%3C/g%3E%3C/svg%3E"),
-    /* Layer 3: erba a strisce */
+    /* Layer 1 (PRIMO PIANO): Linee bianche nitide SVG con lunette orientate correttamente */
+    url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 400' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='12' y='12' width='276' height='376' rx='4'/%3E%3Cline x1='12' y1='200' x2='288' y2='200'/%3E%3Ccircle cx='150' cy='200' r='42'/%3E%3Ccircle cx='150' cy='200' r='3' fill='%23ffffff'/%3E%3Crect x='65' y='12' width='170' height='60'/%3E%3Crect x='110' y='12' width='80' height='24'/%3E%3Cpath d='M 125 72 A 25 22 0 0 0 175 72'/%3E%3Crect x='65' y='328' width='170' height='60'/%3E%3Crect x='110' y='364' width='80' height='24'/%3E%3Cpath d='M 125 328 A 25 22 0 0 1 175 328'/%3E%3C/g%3E%3C/svg%3E"),
+    /* Layer 2 (INTERMEDIO): Shading radiale d'ombra per tridimensionalità */
+    radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, rgba(0,0,0,0.3) 100%),
+    /* Layer 3 (SFONDO): Erba a strisce orizzontali */
     repeating-linear-gradient(0deg, #238b45 0px, #238b45 32px, #2ca25f 32px, #2ca25f 64px) !important;
   background-size: 100% 100%, 100% 100%, 100% 100% !important;
   background-position: center !important;
