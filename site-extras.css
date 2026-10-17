@@ -2,7 +2,9 @@
    site-extras.css — da includere DOPO style.css in tutte le pagine.
    1. Menu (prima copiato inline in ogni pagina)   2. Ticker news
    3. Pulsante fisso "prova"   4. Calendario / allenamenti
-   5. Accessibilità (reduced motion) e varie
+   5. Accessibilità (reduced motion) e varie   6. Footer professionale
+   7. Intestazione pagina + KPI   8. Forma recente + Formazione tipo
+   9. Toast notifiche (copia link)
    ===================================================================== */
 
 /* ---------- 1. MENU MOBILE (overlay scuro) ---------- */
@@ -198,3 +200,33 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 .panel h3 { color: var(--dark-navy, #003c82); font-size: 1.1rem; font-weight: 800; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
 .panel h3 i { color: var(--primary-sky, #12A0D7); }
 .table-scroll { overflow-x: auto; }
+
+/* ---------- 9. TOAST NOTIFICHE (copia link) ---------- */
+.toast-copy {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--dark-navy, #00224a);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: .85rem;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(0,0,0,.3);
+  border: 1px solid rgba(135,206,235,.4);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
+  z-index: 10000;
+  pointer-events: none;
+}
+.toast-copy.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.toast-copy i { color: #34d399; }
