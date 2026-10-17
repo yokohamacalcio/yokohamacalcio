@@ -205,12 +205,21 @@ let P = [], S = {}, ui = { q: '', sort: 'number', role: 'all' }, ready = false;
 const L = () => YC.lang();
 const esc = YC.escapeHtml;
 
+// Helper universale per individuare capitano / vice capitano da qualsiasi chiave JSON
+function getLeadershipRole(p) {
+  const r = (p.leadership_role || p.leadership || '').toString().toLowerCase();
+  if (r === 'captain' || r === 'c' || p.captain === true || p.is_captain === true) return 'captain';
+  if (r.includes('vice') || r === 'vc' || p.vice_captain === true || p.is_vice_captain === true) return 'vice_captain';
+  return '';
+}
+
 function hometown(code, lang) {
   const c = String(code || '').toLowerCase().trim();
   if (FOREIGN[c]) return FOREIGN[c][lang];
   if (JA_PREF[c]) { if (lang === 'ja') return JA_PREF[c]; const n = c[0].toUpperCase() + c.slice(1); return c === 'tokyo' ? n : (lang === 'it' ? 'Pref. di ' + n : n + ' Pref.'); }
   return code && code !== '-' ? code : '-';
 }
+
 function surname(p, all) {
   const raw = p.name_romaji || p.name_kanji || ''; const parts = raw.trim().split(/\s+/);
   const pre = ['di', 'de', 'da', 'del', 'della', 'van', 'von', 'san', 'st.'];
@@ -218,6 +227,7 @@ function surname(p, all) {
   const dup = all.filter(x => { const r = (x.name_romaji || x.name_kanji || '').trim().split(/\s+/); return (r[0] || '').toUpperCase() === base || (r[0] + ' ' + r[1]).toUpperCase() === base; }).length > 1;
   return dup && parts.length > 1 ? base + ' ' + parts[parts.length - 1][0].toUpperCase() + '.' : base;
 }
+
 const stat = p => S[p.id] || {};
 const ageOf = p => YC.data.age(p.birth_date);
 
@@ -231,6 +241,7 @@ function sortFn(a, b) {
     default: return (a.number ?? 9999) - (b.number ?? 9999);
   }
 }
+
 function matches(p) {
   if (!ui.q) return true;
   const q = YC.cleanStr(ui.q);
@@ -242,12 +253,12 @@ function renderKpi() {
   const avg = ages.length ? (ages.reduce((x, y) => x + y, 0) / ages.length).toFixed(1) : '-';
   const nat = new Set(P.map(p => FOREIGN[String(p.hometown).toLowerCase()] ? String(p.hometown).toLowerCase() : 'japan')).size;
   const goals = P.reduce((s, p) => s + (stat(p).goals || 0), 0);
-  const cap = P.find(p => p.leadership_role === 'captain');
+  const cap = P.find(p => getLeadershipRole(p) === 'captain');
   const k = (v, key) => `<div class="kpi"><b>${esc(v)}</b><span>${YC.t(key)}</span></div>`;
   const counts = ROLES.map(r => `${r.toUpperCase()} ${P.filter(p => p.role === r).length}`).join(' · ');
   document.getElementById('squadKpi').innerHTML = k(P.length, 'p.k_total') + k(avg, 'p.k_age') + k(nat, 'p.k_nat') + k(goals, 'p.k_goals') +
     `<div class="kpi"><b style="font-size:1.25rem">${esc(cap ? YC.data.playerName(cap, L()) : '-')}</b><span>${YC.t('p.k_captain')}</span></div>` +
-    `<div class="kpi"><b style="font-size:1.05rem;line-height:2.1rem">${counts}</b><span>${YC.t('p.hm_sub') === '' ? '' : 'GK · DF · MF · FW'}</span></div>`;
+    `<div class="kpi"><b style="font-size:1.05rem;line-height:2.1rem">${counts}</b><span>GK · DF · MF · FW</span></div>`;
 }
 
 function row(iconClass, label, html) { 
@@ -256,11 +267,31 @@ function row(iconClass, label, html) {
 
 function card(p) {
   const lang = L(), st = stat(p), gk = p.role === 'gk', age = ageOf(p);
-  const fascia = p.leadership_role === 'captain' ? '<div class="captain-fascia">CAPTAIN</div>' : p.leadership_role === 'vice_captain' ? '<div class="captain-fascia vc-fascia">VICE CAPT.</div>' : '';
   
-  // Titoli & Sottotitoli Nomi
-  const mainName = YC.data.playerName(p, lang) || p.name_kanji || '-';
-  const subName = lang === 'ja' ? (p.name_kana || p.name_romaji || '') : (p.name_kanji || p.name_kana || '');
+  // Fascia Capitano / Vice Capitano
+  const lRole = getLeadershipRole(p);
+  const fascia = lRole === 'captain' 
+    ? '<div class="captain-fascia">CAPTAIN</div>' 
+    : lRole === 'vice_captain' 
+      ? '<div class="captain-fascia vc-fascia">VICE CAPT.</div>' 
+      : '';
+  
+  // Riconoscimento Giocatore Straniero (senza kanji o con cittadinanza estera)
+  const isForeign = !p.name_kanji || FOREIGN[String(p.hometown).toLowerCase()] || !/[\u3040-\u30ff\u4e00-\u9faf]/.test(p.name_kanji);
+
+  let mainName = '', subName = '';
+  if (lang === 'ja') {
+    if (isForeign) {
+      mainName = p.name_romaji || p.name_kana || '-';
+      subName = p.name_kana || '';
+    } else {
+      mainName = p.name_kanji || p.name_romaji || '-';
+      subName = p.name_kana || p.name_romaji || '';
+    }
+  } else {
+    mainName = p.name_romaji || p.name_kanji || '-';
+    subName = isForeign ? (p.name_kana || '') : (p.name_kanji || p.name_kana || '');
+  }
 
   const n = k => st[k] || 0;
   const t = YC.t;
