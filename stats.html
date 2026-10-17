@@ -63,172 +63,8 @@
 .stats-section-title i { color: var(--primary-sky); }
 
 /* ==========================================================================
-   CAMPO DA CALCIO HD
+   CHIP GIOCATORI (le linee del campo sono in site-extras.css via SVG background)
    ========================================================================== */
-.lineup-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    align-items: flex-start;
-    justify-content: center;
-    margin-top: 15px;
-}
-
-.lineup-pitch {
-    position: relative;
-    width: 100%;
-    max-width: 380px;
-    height: 520px;
-    margin: 0 auto;
-    border-radius: 16px;
-    overflow: hidden;
-    background: 
-        radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.4) 100%),
-        repeating-linear-gradient(
-            0deg,
-            #238b45 0px,
-            #238b45 35px,
-            #2ca25f 35px,
-            #2ca25f 70px
-        );
-    border: 4px solid #ffffff;
-    box-shadow: 
-        0 12px 32px rgba(0, 38, 74, 0.25),
-        inset 0 0 45px rgba(0, 0, 0, 0.45);
-    box-sizing: border-box;
-}
-
-.lineup-pitch::before {
-    content: '';
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    border: 2px solid #ffffff;
-    border-radius: 4px;
-    pointer-events: none;
-    box-sizing: border-box;
-    z-index: 1;
-}
-
-.lineup-pitch::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 12px;
-    right: 12px;
-    height: 2px;
-    background: #ffffff;
-    transform: translateY(-50%);
-    pointer-events: none;
-    z-index: 1;
-}
-
-.pitch-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.pitch-overlay div {
-    box-sizing: border-box;
-}
-
-.pitch-center-circle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 90px;
-    height: 90px;
-    border: 2px solid #ffffff;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.pitch-center-dot {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 6px;
-    height: 6px;
-    background: #ffffff;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.pitch-area-top {
-    position: absolute;
-    top: 12px;
-    left: 50%;
-    width: 52%;
-    height: 16%;
-    border: 2px solid #ffffff;
-    border-top: none;
-    transform: translateX(-50%);
-}
-
-.pitch-goal-top {
-    position: absolute;
-    top: 12px;
-    left: 50%;
-    width: 26%;
-    height: 6%;
-    border: 2px solid #ffffff;
-    border-top: none;
-    transform: translateX(-50%);
-}
-
-.pitch-arc-top {
-    position: absolute;
-    top: calc(12px + 16%);
-    left: 50%;
-    width: 60px;
-    height: 28px;
-    border: 2px solid #ffffff;
-    border-top: none;
-    border-radius: 0 0 60px 60px;
-    transform: translateX(-50%);
-}
-
-.pitch-area-bottom {
-    position: absolute;
-    bottom: 12px;
-    left: 50%;
-    width: 52%;
-    height: 16%;
-    border: 2px solid #ffffff;
-    border-bottom: none;
-    transform: translateX(-50%);
-}
-
-.pitch-goal-bottom {
-    position: absolute;
-    bottom: 12px;
-    left: 50%;
-    width: 26%;
-    height: 6%;
-    border: 2px solid #ffffff;
-    border-bottom: none;
-    transform: translateX(-50%);
-}
-
-.pitch-arc-bottom {
-    position: absolute;
-    bottom: calc(12px + 16%);
-    left: 50%;
-    width: 60px;
-    height: 28px;
-    border: 2px solid #ffffff;
-    border-bottom: none;
-    border-radius: 60px 60px 0 0;
-    transform: translateX(-50%);
-}
-
 .lineup-chip {
     position: absolute;
     transform: translate(-50%, -50%);
@@ -463,24 +299,24 @@ function renderLineup(list) {
   const box = document.getElementById('lineupBox');
   const withLineup = list.filter(m => m.formation && m.starters_positions && FORMATIONS[m.formation]);
   if (!withLineup.length) { box.innerHTML = `<p class="empty">${t('s.no_lineup')}</p>`; return; }
-  
-  const cnt = {}; 
+
+  const cnt = {};
   withLineup.forEach(m => { cnt[m.formation] = (cnt[m.formation] || 0) + 1; });
   const formation = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a])[0];
   const used = withLineup.filter(m => m.formation === formation);
   const slots = FORMATIONS[formation], tally2 = {};
-  
-  used.forEach(m => Object.entries(m.starters_positions).forEach(([slot, name]) => { 
-    const w = who(name); 
-    ((tally2[slot] = tally2[slot] || {})[w.key] = tally2[slot][w.key] || { w, n: 0 }).n++; 
+
+  used.forEach(m => Object.entries(m.starters_positions).forEach(([slot, name]) => {
+    const w = who(name);
+    ((tally2[slot] = tally2[slot] || {})[w.key] = tally2[slot][w.key] || { w, n: 0 }).n++;
   }));
-  
+
   const taken = new Set(), pick = {};
   Object.keys(slots).forEach(slot => {
     const cands = Object.values(tally2[slot] || {}).sort((a, b) => b.n - a.n).filter(c => !taken.has(c.w.key));
     if (cands[0]) { pick[slot] = cands[0]; taken.add(cands[0].w.key); }
   });
-  
+
   const chips = Object.entries(slots).map(([slot, [x, y]]) => {
     const c = pick[slot];
     if (!c) return `<div class="lineup-chip empty" style="left:${x}%;top:${y}%"><div class="num">?</div><div class="nm">${slot}</div></div>`;
@@ -489,29 +325,16 @@ function renderLineup(list) {
     return `<div class="lineup-chip" style="left:${x}%;top:${y}%" title="${esc(nm)} · ${c.n}/${used.length}"><div class="num">${p && p.number != null ? p.number : '·'}</div><div class="nm">${esc(short)}</div></div>`;
   }).join('');
 
-  const overlayHtml = `
-    <div class="pitch-overlay">
-      <div class="pitch-center-circle"></div>
-      <div class="pitch-center-dot"></div>
-      <div class="pitch-area-top"></div>
-      <div class="pitch-goal-top"></div>
-      <div class="pitch-arc-top"></div>
-      <div class="pitch-area-bottom"></div>
-      <div class="pitch-goal-bottom"></div>
-      <div class="pitch-arc-bottom"></div>
-    </div>
-  `;
-
-  const list2 = Object.entries(slots).map(([slot]) => { 
-    const c = pick[slot]; 
-    if (!c) return ''; 
-    const p = c.w.p; 
-    return `<tr><td class="left"><b>${slot}</b></td><td class="left">${esc(p ? D().playerName(p, YC.lang()) : c.w.raw)}</td><td class="num">${c.n}/${used.length}</td></tr>`; 
+  const list2 = Object.entries(slots).map(([slot]) => {
+    const c = pick[slot];
+    if (!c) return '';
+    const p = c.w.p;
+    return `<tr><td class="left"><b>${slot}</b></td><td class="left">${esc(p ? D().playerName(p, YC.lang()) : c.w.raw)}</td><td class="num">${c.n}/${used.length}</td></tr>`;
   }).join('');
 
   box.innerHTML = `<div class="lineup-wrap">
     <div>
-      <div class="lineup-pitch">${overlayHtml}${chips}</div>
+      <div class="lineup-pitch">${chips}</div>
     </div>
     <div>
       <table class="mini-table">
