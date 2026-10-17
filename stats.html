@@ -61,6 +61,220 @@
 .sub-title { font-size: .95rem; font-weight: 800; color: var(--dark-navy); margin: 22px 0 10px; }
 .stats-section-title { font-family: var(--font-brand); font-size: 1.7rem; color: var(--dark-navy); border-bottom: 3px solid var(--dark-navy); padding-bottom: 8px; margin: 40px 0 22px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px; }
 .stats-section-title i { color: var(--primary-sky); }
+
+/* ==========================================================================
+   CAMPO DA CALCIO TACCO / FORMATION PITCH
+   ========================================================================== */
+.lineup-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.lineup-pitch {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    height: 520px;
+    margin: 0 auto;
+    border-radius: 16px;
+    overflow: hidden;
+    background: 
+        radial-gradient(circle at center, rgba(255,255,255,0.12) 0%, rgba(0,0,0,0.4) 100%),
+        repeating-linear-gradient(
+            0deg,
+            #238b45 0px,
+            #238b45 35px,
+            #2ca25f 35px,
+            #2ca25f 70px
+        );
+    border: 4px solid #ffffff;
+    box-shadow: 
+        0 12px 32px rgba(0, 38, 74, 0.25),
+        inset 0 0 45px rgba(0, 0, 0, 0.45);
+    box-sizing: border-box;
+}
+
+.lineup-pitch::before {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    border-radius: 4px;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+.lineup-pitch::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    right: 12px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.85);
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.pitch-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.pitch-center-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 90px;
+    height: 90px;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.pitch-center-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.pitch-area-top {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    width: 52%;
+    height: 16%;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    border-top: none;
+    transform: translateX(-50%);
+}
+
+.pitch-goal-top {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    width: 26%;
+    height: 6%;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    border-top: none;
+    transform: translateX(-50%);
+}
+
+.pitch-arc-top {
+    position: absolute;
+    top: calc(12px + 16%);
+    left: 50%;
+    width: 60px;
+    height: 28px;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    border-top: none;
+    border-radius: 0 0 60px 60px;
+    transform: translateX(-50%);
+}
+
+.pitch-area-bottom {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    width: 52%;
+    height: 16%;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    border-bottom: none;
+    transform: translateX(-50%);
+}
+
+.pitch-goal-bottom {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    width: 26%;
+    height: 6%;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    border-bottom: none;
+    transform: translateX(-50%);
+}
+
+.pitch-arc-bottom {
+    position: absolute;
+    bottom: calc(12px + 16%);
+    left: 50%;
+    width: 60px;
+    height: 28px;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    border-bottom: none;
+    border-radius: 60px 60px 0 0;
+    transform: translateX(-50%);
+}
+
+.lineup-chip {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+    z-index: 2;
+}
+
+.lineup-chip:hover {
+    transform: translate(-50%, -55%) scale(1.15);
+    z-index: 10;
+}
+
+.lineup-chip .num {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00224a 0%, #003c82 100%);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #87ceeb;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+    font-family: var(--font-brand, 'Bebas Neue', sans-serif);
+}
+
+.lineup-chip .nm {
+    margin-top: 3px;
+    padding: 2px 8px;
+    background: rgba(0, 18, 41, 0.88);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    border-radius: 10px;
+    white-space: nowrap;
+    border: 1px solid rgba(135, 206, 235, 0.4);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.lineup-chip.empty .num {
+    background: rgba(255, 255, 255, 0.25);
+    border: 2px dashed rgba(255, 255, 255, 0.7);
+    color: #ffffff;
+}
+
+.lineup-chip.empty .nm {
+    background: rgba(0, 0, 0, 0.5);
+    color: #cbd5e1;
+}
+
 @media (max-width: 600px) { .stats-table th, .stats-table td { padding: 8px 4px; font-size: .76rem; } }
 </style>
 </head>
@@ -237,16 +451,24 @@ function renderLineup(list) {
   const box = document.getElementById('lineupBox');
   const withLineup = list.filter(m => m.formation && m.starters_positions && FORMATIONS[m.formation]);
   if (!withLineup.length) { box.innerHTML = `<p class="empty">${t('s.no_lineup')}</p>`; return; }
-  const cnt = {}; withLineup.forEach(m => { cnt[m.formation] = (cnt[m.formation] || 0) + 1; });
+  
+  const cnt = {}; 
+  withLineup.forEach(m => { cnt[m.formation] = (cnt[m.formation] || 0) + 1; });
   const formation = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a])[0];
   const used = withLineup.filter(m => m.formation === formation);
   const slots = FORMATIONS[formation], tally2 = {};
-  used.forEach(m => Object.entries(m.starters_positions).forEach(([slot, name]) => { const w = who(name); ((tally2[slot] = tally2[slot] || {})[w.key] = tally2[slot][w.key] || { w, n: 0 }).n++; }));
+  
+  used.forEach(m => Object.entries(m.starters_positions).forEach(([slot, name]) => { 
+    const w = who(name); 
+    ((tally2[slot] = tally2[slot] || {})[w.key] = tally2[slot][w.key] || { w, n: 0 }).n++; 
+  }));
+  
   const taken = new Set(), pick = {};
-  Object.keys(slots).forEach(slot => {   // assegnazione: prima i titolari più fissi
+  Object.keys(slots).forEach(slot => {
     const cands = Object.values(tally2[slot] || {}).sort((a, b) => b.n - a.n).filter(c => !taken.has(c.w.key));
     if (cands[0]) { pick[slot] = cands[0]; taken.add(cands[0].w.key); }
   });
+  
   const chips = Object.entries(slots).map(([slot, [x, y]]) => {
     const c = pick[slot];
     if (!c) return `<div class="lineup-chip empty" style="left:${x}%;top:${y}%"><div class="num">?</div><div class="nm">${slot}</div></div>`;
@@ -254,8 +476,41 @@ function renderLineup(list) {
     const short = String(nm).split(/\s+/)[0];
     return `<div class="lineup-chip" style="left:${x}%;top:${y}%" title="${esc(nm)} · ${c.n}/${used.length}"><div class="num">${p && p.number != null ? p.number : '·'}</div><div class="nm">${esc(short)}</div></div>`;
   }).join('');
-  const list2 = Object.entries(slots).map(([slot]) => { const c = pick[slot]; if (!c) return ''; const p = c.w.p; return `<tr><td class="left"><b>${slot}</b></td><td class="left">${esc(p ? D().playerName(p, YC.lang()) : c.w.raw)}</td><td class="num">${c.n}/${used.length}</td></tr>`; }).join('');
-  box.innerHTML = `<div class="lineup-wrap"><div><div class="lineup-pitch">${chips}</div></div><div><table class="mini-table"><thead><tr><th>#</th><th>${t('s.th_cat') === '' ? '' : ''}</th><th class="num">${t('s.k_played')}</th></tr></thead><tbody>${list2}</tbody></table><p class="lineup-note">${t('s.lineup_note').replace('{n}', used.length).replace('{f}', formation)}</p></div></div>`;
+
+  const overlayHtml = `
+    <div class="pitch-overlay">
+      <div class="pitch-center-circle"></div>
+      <div class="pitch-center-dot"></div>
+      <div class="pitch-area-top"></div>
+      <div class="pitch-goal-top"></div>
+      <div class="pitch-arc-top"></div>
+      <div class="pitch-area-bottom"></div>
+      <div class="pitch-goal-bottom"></div>
+      <div class="pitch-arc-bottom"></div>
+    </div>
+  `;
+
+  const list2 = Object.entries(slots).map(([slot]) => { 
+    const c = pick[slot]; 
+    if (!c) return ''; 
+    const p = c.w.p; 
+    return `<tr><td class="left"><b>${slot}</b></td><td class="left">${esc(p ? D().playerName(p, YC.lang()) : c.w.raw)}</td><td class="num">${c.n}/${used.length}</td></tr>`; 
+  }).join('');
+
+  box.innerHTML = `<div class="lineup-wrap">
+    <div>
+      <div class="lineup-pitch">${overlayHtml}${chips}</div>
+    </div>
+    <div>
+      <table class="mini-table">
+        <thead>
+          <tr><th>#</th><th>${t('s.th_cat') === '' ? '' : ''}</th><th class="num">${t('s.k_played')}</th></tr>
+        </thead>
+        <tbody>${list2}</tbody>
+      </table>
+      <p class="lineup-note">${t('s.lineup_note').replace('{n}', used.length).replace('{f}', formation)}</p>
+    </div>
+  </div>`;
 }
 
 function renderH2H(list) {
