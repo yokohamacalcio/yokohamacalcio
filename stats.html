@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>成績・スタッツ (Statistics) | Yokohama Calcio</title>
-<meta name="description" content="Yokohama Calcioのチーム戦績・直近5試合の調子・ベスト布陣・個人スタッツ（得点王、アシスト王、MVP、カード、GK成績）とリーグ順位表。Official team statistics and player rankings.">
+<meta name="description" content="Yokohama Calcioのチーム戦績・直近5試合の調子・個人スタッツ（得点王、アシスト王、MVP、カード、GK成績）とリーグ順位表。Official team statistics and player rankings.">
 <meta name="keywords" content="Yokohama Calcio, 戦績, スタッツ, 順位表, 横浜 サッカーチーム, 得点王, Yokohama Calcio Stats, Football Statistics Yokohama">
 <meta name="author" content="Yokohama Calcio">
 <meta name="robots" content="index, follow">
@@ -62,68 +62,6 @@
 .stats-section-title { font-family: var(--font-brand); font-size: 1.7rem; color: var(--dark-navy); border-bottom: 3px solid var(--dark-navy); padding-bottom: 8px; margin: 40px 0 22px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px; }
 .stats-section-title i { color: var(--primary-sky); }
 
-/* ==========================================================================
-   CHIP GIOCATORI (le linee del campo sono in site-extras.css via SVG background)
-   ========================================================================== */
-.lineup-chip {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
-    z-index: 2;
-}
-
-.lineup-chip:hover {
-    transform: translate(-50%, -55%) scale(1.15);
-    z-index: 10;
-}
-
-.lineup-chip .num {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #87ceeb 0%, #12a0d7 100%);
-    color: #00224a;
-    font-weight: 800;
-    font-size: 0.88rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #ffffff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
-    font-family: var(--font-brand, 'Bebas Neue', sans-serif);
-}
-
-.lineup-chip .nm {
-    margin-top: 3px;
-    padding: 2px 8px;
-    background: rgba(0, 18, 41, 0.88);
-    color: #ffffff;
-    font-size: 0.72rem;
-    font-weight: 700;
-    border-radius: 10px;
-    white-space: nowrap;
-    border: 1px solid rgba(135, 206, 235, 0.4);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-}
-
-.lineup-chip.empty .num {
-    background: rgba(255, 255, 255, 0.25);
-    border: 2px dashed rgba(255, 255, 255, 0.7);
-    color: #ffffff;
-}
-
-.lineup-chip.empty .nm {
-    background: rgba(0, 0, 0, 0.5);
-    color: #cbd5e1;
-}
-
 @media (max-width: 600px) { .stats-table th, .stats-table td { padding: 8px 4px; font-size: .76rem; } }
 </style>
 </head>
@@ -156,12 +94,7 @@
 
   <div class="panel" id="standingsPanel"><h3><i class="fas fa-list-ol"></i> <span data-i18n="s.standings"></span></h3><div id="standingsBox"></div></div>
 
-  <div class="panel"><h3><i class="fas fa-chess-board"></i> <span data-i18n="s.lineup"></span></h3><div id="lineupBox"></div></div>
-
-  <div class="grid-2" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;">
-    <div class="panel"><h3><i class="fas fa-user-friends"></i> <span data-i18n="s.h2h"></span></h3><div class="table-scroll" id="h2hBox"></div></div>
-    <div class="panel"><h3><i class="fas fa-sitemap"></i> <span data-i18n="s.byformation"></span></h3><div class="table-scroll" id="formationBox"></div></div>
-  </div>
+  <div class="panel"><h3><i class="fas fa-user-friends"></i> <span data-i18n="s.h2h"></span></h3><div class="table-scroll" id="h2hBox"></div></div>
 
   <h2 class="stats-section-title"><i class="fas fa-users"></i> <span data-i18n="s.sec_personal"></span></h2>
   <div class="stats-grid" id="rankings"></div>
@@ -170,21 +103,12 @@
 <script>YC.mountFooter()</script>
 <script>
 YC.register({
-  ja: { 's.title': 'チーム・個人戦績', 's.intro': '試合結果から自動集計した成績です。', 's.season': 'シーズン:', 's.all_seasons': '全期間', 's.comp_all': '全大会', 's.comp_league': 'リーグ戦', 's.comp_cup': 'カップ戦', 's.comp_friendly': '練習試合', 's.sec_team': 'チーム戦績', 's.sec_personal': '個人スタッツ', 's.form': '直近5試合の調子', 's.record': '勝敗・得失点', 's.discipline': '規律・カード', 's.standings': 'リーグ順位表', 's.no_standings': 'このシーズンの順位表はありません。', 's.lineup': 'ベスト布陣（最多起用）', 's.lineup_note': '{n}試合の先発データ（{f}）をもとに、各ポジションで最も起用された選手を表示しています。', 's.no_lineup': '先発メンバーのデータがありません。', 's.h2h': '対戦相手別成績', 's.byformation': 'フォーメーション別成績', 's.k_played': '試合数', 's.k_wdl': '勝-分-負', 's.k_goals': '得点-失点', 's.k_winrate': '勝率', 's.k_clean': 'クリーンシート', 's.th_cat': '区分', 's.th_p': '試合', 's.th_w': '勝', 's.th_d': '分', 's.th_l': '負', 's.th_gf': '得点', 's.th_ga': '失点', 's.th_win': '勝率', 's.th_y': '警告', 's.th_r': '退場', 's.th_avg': '平均/試合', 's.th_opp': '相手', 's.th_form': '布陣', 's.row_league': 'リーグ戦', 's.row_cup': 'カップ戦', 's.row_friendly': '練習試合', 's.row_total': '通算', 's.no_data': 'データなし', 's.last5': '直近の試合', 's.r_apps': '出場数', 's.r_apps_hint': '(カッコ内は途中出場)', 's.r_goals': '得点王', 's.r_assists': 'アシスト王', 's.r_gk': 'GK 失点・成績', 's.r_mvp': 'MVP賞', 's.r_yellow': '警告', 's.r_red': '退場', 's.u_goals': '点', 's.u_assists': '本', 's.u_mvp': '回', 's.u_cards': '枚', 's.u_conceded': '失点', 's.u_matches': '試合', 's.avg': '平均', 's.trial': '練習生', 's.more': 'もっと見る', 's.less': '閉じる', 's.pos': '順位', 's.team': 'チーム', 's.pts': '勝点', 's.gd': '得失差' },
-  it: { 's.title': 'Statistiche Squadra & Singoli', 's.intro': 'Dati calcolati automaticamente dai risultati delle partite.', 's.season': 'Stagione:', 's.all_seasons': 'Tutte', 's.comp_all': 'Tutte', 's.comp_league': 'Campionato', 's.comp_cup': 'Coppa', 's.comp_friendly': 'Amichevoli', 's.sec_team': 'Squadra', 's.sec_personal': 'Statistiche personali', 's.form': 'Stato di forma (ultime 5)', 's.record': 'Risultati e gol', 's.discipline': 'Disciplina', 's.standings': 'Classifica campionato', 's.no_standings': 'Nessuna classifica per questa stagione.', 's.lineup': 'Formazione tipo (più utilizzati)', 's.lineup_note': 'Basata su {n} partite con modulo {f}: per ogni ruolo il giocatore più schierato.', 's.no_lineup': 'Nessun dato sui titolari.', 's.h2h': 'Scontri diretti', 's.byformation': 'Rendimento per modulo', 's.k_played': 'Partite', 's.k_wdl': 'V-N-P', 's.k_goals': 'Gol fatti-subiti', 's.k_winrate': '% vittorie', 's.k_clean': 'Porta inviolata', 's.th_cat': 'Categoria', 's.th_p': 'G', 's.th_w': 'V', 's.th_d': 'N', 's.th_l': 'P', 's.th_gf': 'GF', 's.th_ga': 'GS', 's.th_win': '% V', 's.th_y': 'Gialli', 's.th_r': 'Rossi', 's.th_avg': 'Media/G', 's.th_opp': 'Avversario', 's.th_form': 'Modulo', 's.row_league': 'Campionato', 's.row_cup': 'Coppa', 's.row_friendly': 'Amichevoli', 's.row_total': 'Totale', 's.no_data': 'Nessun dato', 's.last5': 'Ultime partite', 's.r_apps': 'Presenze', 's.r_apps_hint': '(tra parentesi: da subentrato)', 's.r_goals': 'Capocannoniere', 's.r_assists': 'Assistman', 's.r_gk': 'Portieri', 's.r_mvp': 'MVP', 's.r_yellow': 'Ammonizioni', 's.r_red': 'Espulsioni', 's.u_goals': 'gol', 's.u_assists': 'assist', 's.u_mvp': 'volte', 's.u_cards': 'cart.', 's.u_conceded': 'GS', 's.u_matches': 'pres.', 's.avg': 'Media', 's.trial': 'In prova', 's.more': 'Mostra tutti', 's.less': 'Mostra meno', 's.pos': 'Pos', 's.team': 'Squadra', 's.pts': 'Pt', 's.gd': 'DR' },
-  en: { 's.title': 'Team & Player Stats', 's.intro': 'Figures calculated automatically from match results.', 's.season': 'Season:', 's.all_seasons': 'All time', 's.comp_all': 'All', 's.comp_league': 'League', 's.comp_cup': 'Cup', 's.comp_friendly': 'Friendlies', 's.sec_team': 'Team', 's.sec_personal': 'Individual stats', 's.form': 'Recent form (last 5)', 's.record': 'Results & goals', 's.discipline': 'Discipline', 's.standings': 'League table', 's.no_standings': 'No league table for this season.', 's.lineup': 'Typical XI (most used)', 's.lineup_note': 'Based on {n} matches in a {f}: the most-used player in each slot.', 's.no_lineup': 'No starting-lineup data.', 's.h2h': 'Head to head', 's.byformation': 'Results by formation', 's.k_played': 'Played', 's.k_wdl': 'W-D-L', 's.k_goals': 'Goals for-against', 's.k_winrate': 'Win %', 's.k_clean': 'Clean sheets', 's.th_cat': 'Category', 's.th_p': 'P', 's.th_w': 'W', 's.th_d': 'D', 's.th_l': 'L', 's.th_gf': 'GF', 's.th_ga': 'GA', 's.th_win': 'Win %', 's.th_y': 'Yellows', 's.th_r': 'Reds', 's.th_avg': 'Avg/P', 's.th_opp': 'Opponent', 's.th_form': 'Formation', 's.row_league': 'League', 's.row_cup': 'Cup', 's.row_friendly': 'Friendly', 's.row_total': 'Total', 's.no_data': 'No data', 's.last5': 'Recent matches', 's.r_apps': 'Appearances', 's.r_apps_hint': '(in brackets: as substitute)', 's.r_goals': 'Top scorers', 's.r_assists': 'Top assists', 's.r_gk': 'Goalkeepers', 's.r_mvp': 'MVP awards', 's.r_yellow': 'Yellow cards', 's.r_red': 'Red cards', 's.u_goals': 'goals', 's.u_assists': 'assists', 's.u_mvp': 'times', 's.u_cards': 'cards', 's.u_conceded': 'GA', 's.u_matches': 'apps', 's.avg': 'Avg', 's.trial': 'Trial', 's.more': 'Show all', 's.less': 'Show less', 's.pos': 'Pos', 's.team': 'Team', 's.pts': 'Pts', 's.gd': 'GD' }
+  ja: { 's.title': 'チーム・個人戦績', 's.intro': '試合結果から自動集計した成績です。', 's.season': 'シーズン:', 's.all_seasons': '全期間', 's.comp_all': '全大会', 's.comp_league': 'リーグ戦', 's.comp_cup': 'カップ戦', 's.comp_friendly': '練習試合', 's.sec_team': 'チーム戦績', 's.sec_personal': '個人スタッツ', 's.form': '直近5試合の調子', 's.record': '勝敗・得失点', 's.discipline': '規律・カード', 's.standings': 'リーグ順位表', 's.no_standings': 'このシーズンの順位表はありません。', 's.h2h': '対戦相手別成績', 's.k_played': '試合数', 's.k_wdl': '勝-分-負', 's.k_goals': '得点-失点', 's.k_winrate': '勝率', 's.k_clean': 'クリーンシート', 's.th_cat': '区分', 's.th_p': '試合', 's.th_w': '勝', 's.th_d': '分', 's.th_l': '負', 's.th_gf': '得点', 's.th_ga': '失点', 's.th_win': '勝率', 's.th_y': '警告', 's.th_r': '退場', 's.th_avg': '平均/試合', 's.th_opp': '相手', 's.row_league': 'リーグ戦', 's.row_cup': 'カップ戦', 's.row_friendly': '練習試合', 's.row_total': '通算', 's.no_data': 'データなし', 's.last5': '直近の試合', 's.r_apps': '出場数', 's.r_apps_hint': '(カッコ内は途中出場)', 's.r_goals': '得点王', 's.r_assists': 'アシスト王', 's.r_gk': 'GK 失点・成績', 's.r_mvp': 'MVP賞', 's.r_yellow': '警告', 's.r_red': '退場', 's.u_goals': '点', 's.u_assists': '本', 's.u_mvp': '回', 's.u_cards': '枚', 's.u_conceded': '失点', 's.u_matches': '試合', 's.avg': '平均', 's.trial': '練習生', 's.more': 'もっと見る', 's.less': '閉じる', 's.pos': '順位', 's.team': 'チーム', 's.pts': '勝点', 's.gd': '得失差' },
+  it: { 's.title': 'Statistiche Squadra & Singoli', 's.intro': 'Dati calcolati automaticamente dai risultati delle partite.', 's.season': 'Stagione:', 's.all_seasons': 'Tutte', 's.comp_all': 'Tutte', 's.comp_league': 'Campionato', 's.comp_cup': 'Coppa', 's.comp_friendly': 'Amichevoli', 's.sec_team': 'Squadra', 's.sec_personal': 'Statistiche personali', 's.form': 'Stato di forma (ultime 5)', 's.record': 'Risultati e gol', 's.discipline': 'Disciplina', 's.standings': 'Classifica campionato', 's.no_standings': 'Nessuna classifica per questa stagione.', 's.h2h': 'Scontri diretti', 's.k_played': 'Partite', 's.k_wdl': 'V-N-P', 's.k_goals': 'Gol fatti-subiti', 's.k_winrate': '% vittorie', 's.k_clean': 'Porta inviolata', 's.th_cat': 'Categoria', 's.th_p': 'G', 's.th_w': 'V', 's.th_d': 'N', 's.th_l': 'P', 's.th_gf': 'GF', 's.th_ga': 'GS', 's.th_win': '% V', 's.th_y': 'Gialli', 's.th_r': 'Rossi', 's.th_avg': 'Media/G', 's.th_opp': 'Avversario', 's.row_league': 'Campionato', 's.row_cup': 'Coppa', 's.row_friendly': 'Amichevoli', 's.row_total': 'Totale', 's.no_data': 'Nessun dato', 's.last5': 'Ultime partite', 's.r_apps': 'Presenze', 's.r_apps_hint': '(tra parentesi: da subentrato)', 's.r_goals': 'Capocannoniere', 's.r_assists': 'Assistman', 's.r_gk': 'Portieri', 's.r_mvp': 'MVP', 's.r_yellow': 'Ammonizioni', 's.r_red': 'Espulsioni', 's.u_goals': 'gol', 's.u_assists': 'assist', 's.u_mvp': 'volte', 's.u_cards': 'cart.', 's.u_conceded': 'GS', 's.u_matches': 'pres.', 's.avg': 'Media', 's.trial': 'In prova', 's.more': 'Mostra tutti', 's.less': 'Mostra meno', 's.pos': 'Pos', 's.team': 'Squadra', 's.pts': 'Pt', 's.gd': 'DR' },
+  en: { 's.title': 'Team & Player Stats', 's.intro': 'Figures calculated automatically from match results.', 's.season': 'Season:', 's.all_seasons': 'All time', 's.comp_all': 'All', 's.comp_league': 'League', 's.comp_cup': 'Cup', 's.comp_friendly': 'Friendlies', 's.sec_team': 'Team', 's.sec_personal': 'Individual stats', 's.form': 'Recent form (last 5)', 's.record': 'Results & goals', 's.discipline': 'Discipline', 's.standings': 'League table', 's.no_standings': 'No league table for this season.', 's.h2h': 'Head to head', 's.k_played': 'Played', 's.k_wdl': 'W-D-L', 's.k_goals': 'Goals for-against', 's.k_winrate': 'Win %', 's.k_clean': 'Clean sheets', 's.th_cat': 'Category', 's.th_p': 'P', 's.th_w': 'W', 's.th_d': 'D', 's.th_l': 'L', 's.th_gf': 'GF', 's.th_ga': 'GA', 's.th_win': 'Win %', 's.th_y': 'Yellows', 's.th_r': 'Reds', 's.th_avg': 'Avg/P', 's.th_opp': 'Opponent', 's.row_league': 'League', 's.row_cup': 'Cup', 's.row_friendly': 'Friendly', 's.row_total': 'Total', 's.no_data': 'No data', 's.last5': 'Recent matches', 's.r_apps': 'Appearances', 's.r_apps_hint': '(in brackets: as substitute)', 's.r_goals': 'Top scorers', 's.r_assists': 'Top assists', 's.r_gk': 'Goalkeepers', 's.r_mvp': 'MVP awards', 's.r_yellow': 'Yellow cards', 's.r_red': 'Red cards', 's.u_goals': 'goals', 's.u_assists': 'assists', 's.u_mvp': 'times', 's.u_cards': 'cards', 's.u_conceded': 'GA', 's.u_matches': 'apps', 's.avg': 'Avg', 's.trial': 'Trial', 's.more': 'Show all', 's.less': 'Show less', 's.pos': 'Pos', 's.team': 'Team', 's.pts': 'Pts', 's.gd': 'GD' }
 });
 YC.boot({ title: { ja: '成績・スタッツ (Statistics) | Yokohama Calcio', it: 'Statistiche & Rendimento | Yokohama Calcio', en: 'Team & Player Statistics | Yokohama Calcio' } });
 
-const FORMATIONS = {
-  '4-4-2': { GK:[50,92], LB:[15,75], 'CB-L':[38,78], 'CB-R':[62,78], RB:[85,75], LM:[12,52], 'CM-L':[38,55], 'CM-R':[62,55], RM:[88,52], 'FW-L':[35,22], 'FW-R':[65,22] },
-  '4-3-3': { GK:[50,92], LB:[15,75], 'CB-L':[38,78], 'CB-R':[62,78], RB:[85,75], DM:[50,60], 'CM-L':[28,52], 'CM-R':[72,52], LW:[20,25], ST:[50,18], RW:[80,25] },
-  '4-2-3-1': { GK:[50,92], LB:[15,75], 'CB-L':[38,78], 'CB-R':[62,78], RB:[85,75], 'DM-L':[35,62], 'DM-R':[65,62], 'AM-L':[20,42], 'AM-C':[50,42], 'AM-R':[80,42], ST:[50,18] },
-  '3-5-2': { GK:[50,92], 'CB-L':[25,78], 'CB-C':[50,80], 'CB-R':[75,78], LWB:[10,55], 'CM-L':[32,55], 'CM-C':[50,58], 'CM-R':[68,55], RWB:[90,55], 'FW-L':[35,22], 'FW-R':[65,22] },
-  '3-4-3': { GK:[50,92], 'CB-L':[25,78], 'CB-C':[50,80], 'CB-R':[75,78], LM:[12,55], 'CM-L':[38,55], 'CM-R':[62,55], RM:[88,55], LW:[20,25], ST:[50,18], RW:[80,25] },
-  '5-3-2': { GK:[50,92], LWB:[8,72], 'CB-L':[28,78], 'CB-C':[50,80], 'CB-R':[72,78], RWB:[92,72], 'CM-L':[28,52], 'CM-C':[50,55], 'CM-R':[72,52], 'FW-L':[35,22], 'FW-R':[65,22] },
-  '4-1-4-1': { GK:[50,92], LB:[15,75], 'CB-L':[38,78], 'CB-R':[62,78], RB:[85,75], DM:[50,62], LM:[12,45], 'CM-L':[38,48], 'CM-R':[62,48], RM:[88,45], ST:[50,18] }
-};
 const esc = YC.escapeHtml, t = k => YC.t(k), D = () => YC.data;
 let M = [], P = [], OPP = {}, STAND = {}, ready = false;
 let ui = { season: String(YC.todayJST().slice(0, 4)), comp: 'all' };
@@ -295,70 +219,11 @@ function renderStandings() {
     rows.map((x, i) => `<tr class="${/yokohama\s*calcio|ヨコハマ・?カルチョ/i.test(x.team) ? 'hl' : ''}"><td><b>${i + 1}</b></td><td class="left">${esc(x.team)}</td><td>${x.played}</td><td>${x.wins}</td><td>${x.draws}</td><td>${x.losses}</td><td>${x.gf}</td><td>${x.ga}</td><td>${x.gd > 0 ? '+' + x.gd : x.gd}</td><td><b>${x.pts}</b></td></tr>`).join('') + '</tbody></table></div>';
 }
 
-function renderLineup(list) {
-  const box = document.getElementById('lineupBox');
-  const withLineup = list.filter(m => m.formation && m.starters_positions && FORMATIONS[m.formation]);
-  if (!withLineup.length) { box.innerHTML = `<p class="empty">${t('s.no_lineup')}</p>`; return; }
-
-  const cnt = {};
-  withLineup.forEach(m => { cnt[m.formation] = (cnt[m.formation] || 0) + 1; });
-  const formation = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a])[0];
-  const used = withLineup.filter(m => m.formation === formation);
-  const slots = FORMATIONS[formation], tally2 = {};
-
-  used.forEach(m => Object.entries(m.starters_positions).forEach(([slot, name]) => {
-    const w = who(name);
-    ((tally2[slot] = tally2[slot] || {})[w.key] = tally2[slot][w.key] || { w, n: 0 }).n++;
-  }));
-
-  const taken = new Set(), pick = {};
-  Object.keys(slots).forEach(slot => {
-    const cands = Object.values(tally2[slot] || {}).sort((a, b) => b.n - a.n).filter(c => !taken.has(c.w.key));
-    if (cands[0]) { pick[slot] = cands[0]; taken.add(cands[0].w.key); }
-  });
-
-  const chips = Object.entries(slots).map(([slot, [x, y]]) => {
-    const c = pick[slot];
-    if (!c) return `<div class="lineup-chip empty" style="left:${x}%;top:${y}%"><div class="num">?</div><div class="nm">${slot}</div></div>`;
-    const p = c.w.p, nm = p ? D().playerName(p, YC.lang()) : c.w.raw;
-    const short = String(nm).split(/\s+/)[0];
-    return `<div class="lineup-chip" style="left:${x}%;top:${y}%" title="${esc(nm)} · ${c.n}/${used.length}"><div class="num">${p && p.number != null ? p.number : '·'}</div><div class="nm">${esc(short)}</div></div>`;
-  }).join('');
-
-  const list2 = Object.entries(slots).map(([slot]) => {
-    const c = pick[slot];
-    if (!c) return '';
-    const p = c.w.p;
-    return `<tr><td class="left"><b>${slot}</b></td><td class="left">${esc(p ? D().playerName(p, YC.lang()) : c.w.raw)}</td><td class="num">${c.n}/${used.length}</td></tr>`;
-  }).join('');
-
-  box.innerHTML = `<div class="lineup-wrap">
-    <div>
-      <div class="lineup-pitch">${chips}</div>
-    </div>
-    <div>
-      <table class="mini-table">
-        <thead>
-          <tr><th>#</th><th>${t('s.th_cat') === '' ? '' : ''}</th><th class="num">${t('s.k_played')}</th></tr>
-        </thead>
-        <tbody>${list2}</tbody>
-      </table>
-      <p class="lineup-note">${t('s.lineup_note').replace('{n}', used.length).replace('{f}', formation)}</p>
-    </div>
-  </div>`;
-}
-
 function renderH2H(list) {
   const g = {};
   list.forEach(m => { const s = D().scoreParts(m); if (s.ours == null) return; const r = g[m.opponent_id] || (g[m.opponent_id] = { m, p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 }); r.p++; r.gf += s.ours; r.ga += s.theirs; s.ours > s.theirs ? r.w++ : s.ours === s.theirs ? r.d++ : r.l++; });
   const rows = Object.values(g).sort((a, b) => b.p - a.p || b.w - a.w);
   document.getElementById('h2hBox').innerHTML = rows.length ? `<table class="mini-table"><thead><tr><th>${t('s.th_opp')}</th><th class="num">${t('s.th_p')}</th><th class="num">${t('s.th_w')}-${t('s.th_d')}-${t('s.th_l')}</th><th class="num">${t('s.th_gf')}-${t('s.th_ga')}</th></tr></thead><tbody>${rows.map(r => `<tr><td>${esc(D().oppInfo(r.m, YC.lang(), OPP).name)}</td><td class="num">${r.p}</td><td class="num">${r.w}-${r.d}-${r.l}</td><td class="num">${r.gf}-${r.ga}</td></tr>`).join('')}</tbody></table>` : `<p class="empty">${t('s.no_data')}</p>`;
-}
-function renderByFormation(list) {
-  const g = {};
-  list.forEach(m => { if (!m.formation) return; (g[m.formation] = g[m.formation] || []).push(m); });
-  const rows = Object.entries(g).map(([f, l]) => [f, tally(l)]).sort((a, b) => b[1].p - a[1].p);
-  document.getElementById('formationBox').innerHTML = rows.length ? `<table class="mini-table"><thead><tr><th>${t('s.th_form')}</th><th class="num">${t('s.th_p')}</th><th class="num">${t('s.th_w')}-${t('s.th_d')}-${t('s.th_l')}</th><th class="num">${t('s.th_gf')}-${t('s.th_ga')}</th></tr></thead><tbody>${rows.map(([f, r]) => `<tr><td><b>${esc(f)}</b></td><td class="num">${r.p}</td><td class="num">${r.w}-${r.d}-${r.l}</td><td class="num">${r.gf}-${r.ga}</td></tr>`).join('')}</tbody></table>` : `<p class="empty">${t('s.no_data')}</p>`;
 }
 
 function renderRankings(list) {
@@ -381,10 +246,11 @@ function renderControls() {
   document.getElementById('season').innerHTML = `<option value="all" ${ui.season === 'all' ? 'selected' : ''}>${t('s.all_seasons')}</option>` + years.map(y => `<option value="${y}" ${ui.season === y ? 'selected' : ''}>${y}</option>`).join('');
   document.getElementById('compPills').innerHTML = ['all', 'league', 'cup', 'friendly'].map(c => `<button type="button" class="pill ${ui.comp === c ? 'active' : ''}" data-comp="${c}">${t('s.comp_' + c)}</button>`).join('');
 }
+
 function render() {
   const sm = seasonMatches(), cm = compMatches();
   renderControls(); renderKpis(cm); renderForm(cm); renderRecord(sm, cm); renderStandings();
-  renderLineup(cm); renderH2H(cm); renderByFormation(cm); renderRankings(cm);
+  renderH2H(cm); renderRankings(cm);
 }
 
 document.addEventListener('click', e => {
