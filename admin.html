@@ -3,9 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.github.com;">
-
 <title>Yokohama Calcio | Admin Panel</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -56,19 +53,6 @@ body {
 }
 
 .hidden { display: none !important; }
-
-.skip-link {
-    position: absolute;
-    left: -9999px;
-    top: 0;
-    z-index: 10000;
-    background: var(--navy);
-    color: #fff;
-    padding: 10px 16px;
-    text-decoration: none;
-    font-weight: 700;
-}
-.skip-link:focus { left: 10px; top: 10px; }
 
 .admin-container {
     width: 100%;
@@ -163,7 +147,6 @@ select.form-control {
     background-size: 16px 16px;
     padding-right: 38px;
     -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
 }
 body.dark select.form-control {
@@ -195,11 +178,7 @@ body.dark .login-box i.lock-icon { color: var(--sky); }
     margin-bottom: 22px;
     border-bottom: 2px solid var(--border);
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scroll-snap-type: x proximity;
 }
-.admin-tabs::-webkit-scrollbar { height: 5px; }
-.admin-tabs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
 .tab-btn {
     background: #f1f5f9;
@@ -216,7 +195,6 @@ body.dark .login-box i.lock-icon { color: var(--sky); }
     gap: 8px;
     transition: all 0.2s ease;
     font-family: inherit;
-    scroll-snap-align: start;
     min-height: 44px;
 }
 body.dark .tab-btn { background: #0f172a; color: #94a3b8; }
@@ -230,759 +208,122 @@ body.dark .tab-btn:hover { color: var(--sky); }
 }
 body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); border-color: var(--sky); }
 
-/* ====== MATCH SELECTOR HERO ====== */
-.match-selector-hero {
-    background: linear-gradient(135deg, #00224a 0%, #003c82 100%);
-    border-radius: 14px;
-    padding: 18px;
-    margin-bottom: 18px;
-    border: 1px solid rgba(135, 206, 235, 0.25);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-.match-selector-hero .hero-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--sky);
-    font-weight: 800;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
-}
-.match-selector-hero .hero-label i { color: #87ceeb; font-size: 1.1rem; }
-
-.match-selector-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 8px;
-    align-items: center;
-    margin-bottom: 10px;
-}
-.match-selector-row select {
-    width: 100%;
-    padding: 12px 38px 12px 14px;
-    border-radius: 10px;
-    border: 2px solid rgba(135, 206, 235, 0.4);
-    background: #ffffff;
-    color: #0f172a;
-    font-weight: 700;
-    font-size: 0.92rem;
-    font-family: inherit;
-    cursor: pointer;
-    -webkit-appearance: none;
-    appearance: none;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23003c82' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    background-size: 18px 18px;
-    min-height: 46px;
-}
-
-.match-selector-row .hero-btn {
-    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 12px 18px;
-    font-weight: 800;
-    font-size: 0.9rem;
-    cursor: pointer;
-    font-family: inherit;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    min-height: 46px;
-    transition: transform 0.15s, box-shadow 0.2s;
-    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
-}
-
-.match-id-search {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    flex-wrap: wrap;
-}
-.match-id-search .search-toggle-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px dashed rgba(255, 255, 255, 0.3);
-    color: #cbd5e1;
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-.match-id-search .search-input-wrap {
-    flex: 1;
-    min-width: 0;
-    display: none;
-    gap: 6px;
-}
-.match-id-search .search-input-wrap.open { display: flex; }
-.match-id-search input {
-    flex: 1;
-    min-width: 100px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(135, 206, 235, 0.4);
-    background: #fff;
-    font-family: inherit;
-    font-size: 0.88rem;
-}
-.match-id-search button {
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: none;
-    background: #87ceeb;
-    color: #00224a;
-    font-weight: 800;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 0.85rem;
-    min-height: 44px;
-}
-
-.match-quick-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 10px;
-    padding-top: 12px;
-    border-top: 1px solid rgba(135, 206, 235, 0.15);
-}
-.quick-action-btn {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #e2e8f0;
-    padding: 9px 14px;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s;
-    min-height: 40px;
-}
-.quick-action-btn:hover { background: rgba(135, 206, 235, 0.2); color: #fff; }
-.quick-action-btn.danger { background: rgba(220, 38, 38, 0.15); border-color: rgba(220, 38, 38, 0.4); color: #fca5a5; }
-.quick-action-btn.new { background: rgba(5, 150, 105, 0.2); border-color: rgba(5, 150, 105, 0.5); color: #a7f3d0; }
-
-/* ====== MISTER HELPER ====== */
-.mister-helper-box {
-    background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 20px;
-    border: 1px solid rgba(135, 206, 235, 0.25);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-}
-.mister-helper-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-.mister-helper-header strong {
-    color: #ffffff;
-    font-size: 1.05rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-}
-.mister-helper-header strong i { color: #87ceeb; font-size: 1.2rem; }
-.mister-helper-subtitle {
-    display: block;
-    color: #94a3b8;
-    font-size: 0.78rem;
-    font-weight: 500;
-    margin-top: 2px;
-}
-.btn-suggest-lineup {
-    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-    color: #ffffff;
-    border: none;
-    padding: 11px 18px;
-    border-radius: 10px;
-    font-weight: 800;
-    font-size: 0.85rem;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: inherit;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
-    min-height: 44px;
-}
-.mister-helper-body {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 10px;
-}
-.mister-pos-suggestion {
-    background: rgba(30, 41, 59, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 10px;
-    padding: 10px;
-    color: #e2e8f0;
-}
-.mister-pos-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-}
-.mister-pos-suggestion .pos-label {
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    color: #000;
-    font-weight: 900;
-    font-size: 0.65rem;
-    padding: 2px 7px;
-    border-radius: 4px;
-}
-.mister-pos-suggestion .pos-macro {
-    background: rgba(255, 255, 255, 0.1);
-    color: #87ceeb;
-    font-size: 0.6rem;
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 4px;
-}
-.mister-top-players { display: flex; flex-direction: column; gap: 4px; }
-.mister-player-line {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.75rem;
-    padding: 4px 6px;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.03);
-}
-.mister-player-line.rank-1 { border-left: 3px solid #10b981; }
-.mister-player-line.rank-2 { border-left: 3px solid #f59e0b; }
-.mister-player-line.rank-3 { border-left: 3px solid #64748b; }
-.mister-player-line.empty { color: #64748b; font-style: italic; justify-content: center; }
-.mister-player-name { flex: 1; min-width: 0; color: #f1f5f9; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.mister-player-count { background: rgba(0, 0, 0, 0.35); color: #87ceeb; font-weight: 800; padding: 2px 6px; border-radius: 8px; font-size: 0.68rem; }
-
-/* ====== PITCH ====== */
-.tactical-pitch-container {
-    background: radial-gradient(circle, #16a34a 0%, #15803d 60%, #14532d 100%);
-    border-radius: 16px;
-    padding: 14px;
-    border: 4px solid #0f172a;
-    box-shadow: inset 0 0 30px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.25);
-    position: relative;
-    overflow: hidden;
-    margin-top: 14px;
-}
-.pitch-header-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 16px;
-    position: relative;
-    z-index: 2;
-}
-.pitch-grid {
-    position: relative;
-    aspect-ratio: 3 / 4;
-    background:
-        repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 40px, transparent 40px, transparent 80px),
-        radial-gradient(ellipse at center, rgba(255,255,255,0.06) 0%, transparent 70%);
-    border-radius: 8px;
-    z-index: 2;
-    min-height: 500px;
-}
-.pitch-grid::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50%;
-    border-bottom: 2px solid rgba(255,255,255,0.35); pointer-events: none;
-}
-.pitch-grid::after {
-    content: ''; position: absolute; top: 50%; left: 50%; width: 90px; height: 90px;
-    border: 2px solid rgba(255,255,255,0.35); border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none;
-}
-.pitch-position-card {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    width: 108px;
-    background: rgba(15, 23, 42, 0.94);
-    border: 2px solid #f59e0b;
-    border-radius: 8px;
-    padding: 6px;
-    color: #ffffff;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.5);
-    transition: transform 0.15s, border-color 0.2s;
-    z-index: 3;
-}
-.pitch-position-card.filled { border-color: #10b981; background: rgba(5, 150, 105, 0.94); }
-.pitch-position-card.affinity-high { border-color: #10b981; }
-.pitch-position-card.affinity-medium { border-color: #f59e0b; }
-.pitch-position-card.affinity-low { border-color: #ef4444; }
-.pitch-position-card.affinity-new { border-color: #ef4444; border-style: dashed; }
-.pitch-pos-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; font-size: 0.65rem; }
-.pos-badge { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #000; font-weight: 900; font-size: 0.6rem; padding: 1px 5px; border-radius: 3px; }
-.pitch-position-card.filled .pos-badge { background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%); color: #065f46; }
-.affinity-badge { font-size: 0.55rem; font-weight: 800; padding: 1px 4px; border-radius: 3px; color: #ffffff; }
-.affinity-badge.high { background: #10b981; }
-.affinity-badge.medium { background: #f59e0b; }
-.affinity-badge.low { background: #ef4444; }
-.affinity-badge.new { background: #991b1b; }
-.pitch-player-select { width: 100%; font-size: 0.7rem; padding: 4px 5px; border-radius: 4px; border: none; background: rgba(255,255,255,0.95); color: #0f172a; font-family: inherit; cursor: pointer; min-height: 26px; }
-
-/* ====== BENCH ====== */
-.bench-container { margin-top: 22px; }
-.bench-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 10px; }
-.bench-card { background: var(--card-bg); border: 1px solid var(--border); padding: 10px; border-radius: 10px; font-size: 0.85rem; }
-.bench-card-header { font-weight: bold; color: var(--navy); margin-bottom: 6px; display: flex; justify-content: space-between; }
-body.dark .bench-card-header { color: var(--sky); }
-.bench-sub-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; background: var(--bg); padding: 5px 6px; border-radius: 6px; flex-wrap: wrap; }
-.bench-sub-row label { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); margin: 0; cursor: pointer; display: flex; align-items: center; gap: 4px; }
-
-/* ====== TRIALISTS ====== */
-.trialist-box { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 14px; margin-top: 16px; }
-body.dark .trialist-box { background: #064e3b; border-color: #047857; }
-.trialist-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-.trialist-item { background: var(--green); color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: bold; display: flex; align-items: center; gap: 8px; }
-.btn-remove-trialist { background: transparent; border: none; color: #fecdd3; cursor: pointer; font-size: 0.95rem; padding: 0; }
-
-/* ====== TABLES ====== */
-.data-table-container { overflow-x: auto; margin-top: 10px; border-radius: 10px; border: 1px solid var(--border); -webkit-overflow-scrolling: touch; }
-.data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-.data-table th { background: var(--navy); color: white; text-align: left; padding: 10px; white-space: nowrap; position: sticky; top: 0; font-size: 0.82rem; }
-.data-table th[data-sort] { cursor: pointer; user-select: none; }
-.data-table th[data-sort]:hover { background: var(--navy-dark); }
-.data-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
-.data-table tbody tr:hover { background: rgba(2,132,199,0.06); }
-
-.table-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-
-/* ====== BADGES ====== */
-.badge-leadership {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 3px 7px;
-    border-radius: 6px;
-    font-size: 0.7rem;
-    font-weight: 800;
-    text-transform: uppercase;
-}
-.badge-captain { background: #f59e0b; color: #000; }
-.badge-vice { background: #38bdf8; color: #00224a; }
-
-/* ====== STAT ROWS & BUTTONS ====== */
-.stat-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; background: var(--card-bg); padding: 8px; border-radius: 8px; border: 1px solid var(--border); flex-wrap: wrap; }
-.stat-row select { flex: 1; min-width: 140px; }
-.stat-row input[type="number"] { width: 60px; text-align: center; }
-.stat-row input[type="text"].minute-input { width: 60px; text-align: center; }
-
-.btn-remove-row { background: var(--red); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-family: inherit; min-height: 40px; }
-.btn-add-row { background: var(--sky-dark); color: white; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 0.84rem; font-weight: bold; margin-top: 5px; font-family: inherit; min-height: 42px; }
-.btn-clear-pitch { background: var(--red); color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: bold; font-family: inherit; min-height: 40px; }
-.btn-add-trialist { background: var(--green); color: white; border: none; padding: 12px 16px; border-radius: 10px; cursor: pointer; font-size: 0.9rem; font-weight: bold; width: 100%; margin-top: 10px; font-family: inherit; min-height: 48px; }
+/* ====== BUTTONS & BADGES ====== */
 .btn-submit {
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
-    color: white; padding: 16px 20px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; font-size: 1rem;
-    box-shadow: 0 6px 18px rgba(0,60,130,0.35); font-family: inherit; transition: opacity 0.2s, transform 0.1s; min-height: 54px; letter-spacing: 0.3px;
+    color: white; padding: 14px 20px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; width: 100%; font-size: 0.95rem;
+    box-shadow: 0 4px 14px rgba(0,60,130,0.3); font-family: inherit; transition: opacity 0.2s, transform 0.1s; min-height: 46px;
 }
-.btn-submit:hover:not(:disabled) { opacity: 0.92; transform: translateY(-1px); }
+.btn-submit:hover:not(:disabled) { opacity: 0.92; }
 .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; box-shadow: none; }
-.btn-logout { background: var(--red); color: white; padding: 8px 14px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.82rem; font-family: inherit; min-height: 40px; }
+
 .btn-reset { background: #64748b; color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: bold; font-family: inherit; min-height: 40px; }
-.btn-edit { background: var(--sky-dark); color: white; border: none; padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-family: inherit; min-height: 34px; }
-.btn-delete { background: var(--red); color: white; border: none; padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-family: inherit; min-height: 34px; }
-.btn-icon { background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-family: inherit; transition: all 0.2s; min-height: 40px; min-width: 40px; }
-.btn-icon:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
+.btn-logout { background: var(--red); color: white; padding: 8px 14px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.82rem; font-family: inherit; min-height: 40px; }
+.btn-edit { background: var(--sky-dark); color: white; border: none; padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-family: inherit; }
+.btn-delete { background: var(--red); color: white; border: none; padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-family: inherit; }
+.btn-icon { background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-family: inherit; min-height: 40px; min-width: 40px; }
 
 .lang-switcher-admin { display: flex; gap: 4px; align-items: center; }
 .lang-btn-admin { background: transparent; border: 1px solid var(--border); padding: 8px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: bold; cursor: pointer; color: var(--text-muted); font-family: inherit; min-height: 40px; min-width: 40px; }
 .lang-btn-admin.active { background: var(--navy); color: white; border-color: var(--navy); }
 body.dark .lang-btn-admin.active { background: var(--sky); color: var(--navy-dark); }
 
-/* ====== MODAL ====== */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,10,25,0.75); backdrop-filter: blur(6px); z-index: 9998; display: flex; justify-content: center; align-items: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
-.modal-overlay.show { opacity: 1; pointer-events: auto; }
-.modal-box { background: var(--card-bg); color: var(--text); border-radius: 16px; padding: 24px; max-width: 480px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.5); transform: scale(0.95); transition: transform 0.2s; max-height: 90vh; overflow-y: auto; }
-.modal-overlay.show .modal-box { transform: scale(1); }
-.modal-title { font-size: 1.15rem; font-weight: 800; color: var(--navy); margin-bottom: 12px; }
-body.dark .modal-title { color: var(--sky); }
-.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
-.modal-actions button { padding: 11px 20px; border-radius: 8px; font-weight: bold; font-family: inherit; cursor: pointer; border: none; font-size: 0.9rem; min-height: 44px; }
-.btn-modal-cancel { background: var(--border); color: var(--text); }
-.btn-modal-confirm { background: var(--navy); color: #fff; }
-body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); }
-.btn-modal-danger { background: var(--red); color: #fff; }
+.badge-leadership { display: inline-flex; align-items: center; gap: 4px; padding: 3px 7px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+.badge-captain { background: #f59e0b; color: #000; }
+.badge-vice { background: #38bdf8; color: #00224a; }
+
+/* ====== TABLES ====== */
+.data-table-container { overflow-x: auto; margin-top: 10px; border-radius: 10px; border: 1px solid var(--border); }
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.data-table th { background: var(--navy); color: white; text-align: left; padding: 10px; white-space: nowrap; font-size: 0.82rem; }
+.data-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
 
 /* ====== TOAST ====== */
 #toastContainer { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; max-width: 380px; pointer-events: none; }
-.toast { padding: 14px 18px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; color: #fff; box-shadow: 0 8px 24px rgba(0,0,0,0.35); transform: translateX(120%); transition: transform 0.3s ease, opacity 0.3s ease; opacity: 0; pointer-events: auto; display: flex; align-items: flex-start; gap: 10px; line-height: 1.4; }
+.toast { padding: 14px 18px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; color: #fff; box-shadow: 0 8px 24px rgba(0,0,0,0.35); transform: translateX(120%); transition: transform 0.3s ease, opacity 0.3s ease; opacity: 0; pointer-events: auto; display: flex; align-items: flex-start; gap: 10px; }
 .toast.show { transform: translateX(0); opacity: 1; }
-.toast-success { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
-.toast-error   { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); }
-.toast-info    { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); }
-.toast-warn    { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
-
-.draft-banner { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 1px solid #f59e0b; color: #78350f; padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; font-weight: 600; font-size: 0.88rem; }
-.draft-banner button { padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; font-family: inherit; font-size: 0.82rem; min-height: 40px; }
-
-@media (max-width: 768px) {
-    body { padding: 4px; }
-    .admin-container { padding: 14px; border-radius: 12px; margin: 4px auto; }
-    .row { flex-direction: column; gap: 0; }
-    .row .form-group { min-width: 100%; margin-bottom: 12px; }
-    .admin-header-bar { flex-direction: column; align-items: stretch; gap: 12px; }
-    .admin-tabs { gap: 6px; padding: 4px 2px 10px; }
-    .tab-btn { padding: 10px 14px; font-size: 0.82rem; gap: 6px; }
-    .bench-grid { grid-template-columns: 1fr; }
-    .section-box { padding: 16px; margin-bottom: 16px; border-radius: 12px; }
-    .pitch-grid { min-height: 440px; }
-    .pitch-position-card { width: 92px; padding: 5px; }
-}
+.toast-success { background: #059669; }
+.toast-error   { background: #dc2626; }
+.toast-info    { background: #0284c7; }
+.toast-warn    { background: #d97706; }
 </style>
 </head>
 <body>
 
-<a href="#mainContent" class="skip-link">Salta al contenuto</a>
-
-<div id="loginSection" class="login-box" role="main">
-    <i class="fas fa-lock lock-icon" aria-hidden="true"></i>
+<!-- LOGIN SECTION -->
+<div id="loginSection" class="login-box">
+    <i class="fas fa-lock lock-icon"></i>
     <h2 style="margin-bottom: 8px;">Yokohama Calcio Admin</h2>
     <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;" data-i18n="loginSub">
         Inserisci il GitHub Token (PAT) per accedere.
     </p>
 
     <div class="lang-switcher-admin" style="justify-content: center; margin-bottom: 20px;">
-        <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="ja">JP</button>
-        <button type="button" class="lang-btn-admin active" data-action="set-lang" data-lang="it">IT</button>
-        <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="en">EN</button>
+        <button type="button" class="lang-btn-admin" onclick="setLanguage('ja')" data-lang="ja">JP</button>
+        <button type="button" class="lang-btn-admin active" onclick="setLanguage('it')" data-lang="it">IT</button>
+        <button type="button" class="lang-btn-admin" onclick="setLanguage('en')" data-lang="en">EN</button>
     </div>
 
-    <form id="loginForm">
+    <form id="loginForm" onsubmit="handleLoginSubmit(event)">
         <div class="form-group" style="text-align: left;">
             <label for="inputToken"><i class="fas fa-key"></i> GitHub Token (PAT):</label>
             <input type="password" id="inputToken" class="form-control" placeholder="ghp_... o github_pat_..." required autocomplete="off">
         </div>
         <button type="submit" class="btn-submit" id="loginBtn" data-i18n="loginBtn">Accedi</button>
     </form>
-    <div id="loginError" style="color: var(--red); font-size: 0.85rem; margin-top: 15px; font-weight: bold;"></div>
+    <div id="loginError" style="color: var(--red); font-size: 0.85rem; margin-top: 15px; font-weight: bold; min-height: 20px;"></div>
     <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 20px;">
         🔒 Il token resta in <b>sessionStorage</b> e viene cancellato alla chiusura del browser.
     </div>
 </div>
 
-<div id="adminDashboard" class="admin-container hidden" role="main" aria-labelledby="mainContent">
+<!-- MAIN DASHBOARD -->
+<div id="adminDashboard" class="admin-container hidden">
 
     <div class="admin-header-bar">
         <div>
-            <h2 id="mainContent"><i class="fas fa-shield-alt"></i> Yokohama Calcio Admin</h2>
+            <h2><i class="fas fa-shield-alt"></i> Yokohama Calcio Admin</h2>
             <span style="font-size: 0.78rem; color: var(--green); font-weight: bold;">
-                <i class="fas fa-check-circle"></i> <span data-i18n="authenticated">Authenticated</span>
+                <i class="fas fa-check-circle"></i> <span data-i18n="authenticated">Autenticato</span>
             </span>
         </div>
 
         <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
             <div class="lang-switcher-admin">
-                <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="ja">JP</button>
-                <button type="button" class="lang-btn-admin active" data-action="set-lang" data-lang="it">IT</button>
-                <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="en">EN</button>
+                <button type="button" class="lang-btn-admin" onclick="setLanguage('ja')" data-lang="ja">JP</button>
+                <button type="button" class="lang-btn-admin active" onclick="setLanguage('it')" data-lang="it">IT</button>
+                <button type="button" class="lang-btn-admin" onclick="setLanguage('en')" data-lang="en">EN</button>
             </div>
-            <button type="button" class="btn-icon" data-action="toggle-dark" title="Dark mode">
-                <i class="fas fa-moon" id="darkIcon"></i>
-            </button>
-            <button type="button" class="btn-icon" data-action="export-json" title="Export JSON">
-                <i class="fas fa-download"></i>
-            </button>
-            <button type="button" class="btn-icon" data-action="import-json" title="Import JSON">
-                <i class="fas fa-upload"></i>
-            </button>
-            <button type="button" class="btn-reset" data-action="reset-form">
-                <i class="fas fa-redo"></i> <span data-i18n="btnReset">Reset</span>
-            </button>
-            <button type="button" class="btn-logout" data-action="logout">
-                <i class="fas fa-sign-out-alt"></i> <span data-i18n="btnLogout">Logout</span>
-            </button>
+            <button type="button" class="btn-icon" onclick="toggleDark()" title="Dark mode"><i class="fas fa-moon" id="darkIcon"></i></button>
+            <button type="button" class="btn-icon" onclick="exportBackupJSON()" title="Export Backup"><i class="fas fa-download"></i></button>
+            <button type="button" class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span data-i18n="btnLogout">Logout</span></button>
         </div>
     </div>
 
-    <div id="draftBanner" class="draft-banner hidden">
-        <span><i class="fas fa-save"></i> <span data-i18n="draftFound">Trovato un draft non salvato.</span></span>
-        <div style="display: flex; gap: 8px;">
-            <button type="button" class="btn-reset" data-action="restore-draft" style="background: var(--green);">
-                <i class="fas fa-check"></i> <span data-i18n="draftRestore">Ripristina</span>
-            </button>
-            <button type="button" class="btn-reset" data-action="discard-draft">
-                <i class="fas fa-times"></i> <span data-i18n="draftDiscard">Scarta</span>
-            </button>
-        </div>
+    <!-- TABS Navigation -->
+    <div class="admin-tabs">
+        <button class="tab-btn active" onclick="switchTab('playersTab', this)"><i class="fas fa-users"></i> <span data-i18n="tabPlayers">1. Rosa Giocatori</span></button>
+        <button class="tab-btn" onclick="switchTab('opponentsTab', this)"><i class="fas fa-shield-halved"></i> <span data-i18n="tabOpponents">2. Avversari</span></button>
+        <button class="tab-btn" onclick="switchTab('locationsTab', this)"><i class="fas fa-map-marker-alt"></i> <span data-i18n="tabLocations">3. Campi & Impianti</span></button>
+        <button class="tab-btn" onclick="switchTab('competitionsTab', this)"><i class="fas fa-trophy"></i> <span data-i18n="tabCompetitions">4. Competizioni</span></button>
+        <button class="tab-btn" onclick="switchTab('newsTab', this)"><i class="fas fa-newspaper"></i> <span data-i18n="tabNews">5. News & Comunicati</span></button>
+        <button class="tab-btn" onclick="switchTab('trainingsTab', this)"><i class="fas fa-running"></i> <span data-i18n="tabTrainings">6. Allenamenti</span></button>
     </div>
 
-    <div class="admin-tabs" role="tablist">
-        <button class="tab-btn active" data-action="switch-tab" data-tab="matchesTab" role="tab" aria-selected="true">
-            <i class="fas fa-futbol"></i> <span data-i18n="tab1">1. Partite & Formazione</span>
-        </button>
-        <button class="tab-btn" data-action="switch-tab" data-tab="playersTab" role="tab" aria-selected="false">
-            <i class="fas fa-users"></i> <span data-i18n="tab2">2. Rosa Giocatori</span>
-        </button>
-        <button class="tab-btn" data-action="switch-tab" data-tab="opponentsTab" role="tab" aria-selected="false">
-            <i class="fas fa-shield-halved"></i> <span data-i18n="tab3">3. Avversari</span>
-        </button>
-        <button class="tab-btn" data-action="switch-tab" data-tab="locationsTab" role="tab" aria-selected="false">
-            <i class="fas fa-map-marker-alt"></i> <span data-i18n="tab4">4. Campi & Impianti</span>
-        </button>
-        <button class="tab-btn" data-action="switch-tab" data-tab="competitionsTab" role="tab" aria-selected="false">
-            <i class="fas fa-trophy"></i> <span data-i18n="tab5">5. Competizioni</span>
-        </button>
-        <button class="tab-btn" data-action="switch-tab" data-tab="newsTab" role="tab" aria-selected="false">
-            <i class="fas fa-newspaper"></i> <span data-i18n="tab6">6. News & Comunicati</span>
-        </button>
-        <button class="tab-btn" data-action="switch-tab" data-tab="trainingsTab" role="tab" aria-selected="false">
-            <i class="fas fa-running"></i> <span data-i18n="tab7">7. Allenamenti</span>
-        </button>
-        <button class="tab-btn" data-action="switch-tab" data-tab="lineTab" role="tab" aria-selected="false">
-            <i class="fab fa-line"></i> <span data-i18n="tab8">8. Testo Convocati LINE</span>
-        </button>
-    </div>
-
-    <!-- TAB 1: MATCHES -->
-    <div id="matchesTab" class="tab-content" role="tabpanel">
-        <form id="matchForm" autocomplete="off">
-            <div class="match-selector-hero">
-                <div class="hero-label">
-                    <i class="fas fa-search"></i> <span data-i18n="heroSelectorLabel">Seleziona Partita da Modificare</span>
-                </div>
-                <div class="match-selector-row">
-                    <select id="matchSelector" aria-label="Seleziona partita">
-                        <option value="">— Scegli una partita dall'elenco —</option>
-                    </select>
-                    <button type="button" class="hero-btn" data-action="load-match-from-selector">
-                        <i class="fas fa-arrow-right"></i> Carica
-                    </button>
-                </div>
-                <div class="match-id-search">
-                    <button type="button" class="search-toggle-btn" data-action="toggle-id-search">
-                        <i class="fas fa-keyboard"></i> <span data-i18n="orSearchById">Oppure cerca per ID / codice</span>
-                    </button>
-                    <div class="search-input-wrap" id="searchInputWrap">
-                        <input type="text" id="matchId" placeholder="es. match-9">
-                        <button type="button" class="search-go" data-action="search-by-id"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-                <div class="match-quick-actions">
-                    <button type="button" class="quick-action-btn new" data-action="new-match">
-                        <i class="fas fa-plus-circle"></i> <span data-i18n="btnNewMatch">Nuova Partita</span>
-                    </button>
-                    <button type="button" class="quick-action-btn" data-action="duplicate-match">
-                        <i class="fas fa-clone"></i> <span data-i18n="btnDuplicate">Duplica Corrente</span>
-                    </button>
-                    <button type="button" class="quick-action-btn danger" data-action="delete-match">
-                        <i class="fas fa-trash"></i> <span data-i18n="btnDeleteMatch">Elimina Corrente</span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="section-box">
-                <h3><span class="sec-num">1</span> <i class="fas fa-info-circle"></i> <span data-i18n="matchInfoHeading">Informazioni Partita</span></h3>
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblStatus">Stato Partita:</label>
-                        <select id="matchStatus" class="form-control">
-                            <option value="past" data-i18n="optPast">Finita (past)</option>
-                            <option value="upcoming" data-i18n="optUpcoming">In programma (upcoming)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblDate">Data:</label>
-                        <input type="date" id="matchDate" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblTime">Orario Kickoff (K.O.):</label>
-                        <input type="time" id="matchTime" class="form-control" value="11:00">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblCategory">Categoria:</label>
-                        <select id="matchCategory" class="form-control">
-                            <option value="friendly">Amichevole (friendly)</option>
-                            <option value="official">Campionato (official)</option>
-                            <option value="cup">Coppa (cup)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblCompetition">Competizione (ID):</label>
-                        <select id="competitionSelect" class="form-control" required></select>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblType">Tipo (Etichetta):</label>
-                        <input type="text" id="matchType" class="form-control" value="練習試合">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblOpponent">Avversario:</label>
-                        <select id="opponentSelect" class="form-control" required></select>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblLocation">Campo:</label>
-                        <select id="locationSelect" class="form-control" required></select>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblHomeAway">Casa / Trasferta:</label>
-                        <select id="isHome" class="form-control">
-                            <option value="true" data-i18n="optHome">Casa (Yokohama Calcio vs Avversario)</option>
-                            <option value="false" data-i18n="optAway">Trasferta (Avversario vs Yokohama Calcio)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblScore">Risultato (es. 2 - 1, sempre nostri-loro):</label>
-                        <input type="text" id="matchScore" class="form-control" placeholder="2 - 1" value="VS">
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-box">
-                <h3><span class="sec-num">2</span> <i class="fas fa-chart-line"></i> <span data-i18n="matchEventsHeading">Eventi & Prestazioni</span></h3>
-                <div class="form-group">
-                    <label><i class="fas fa-futbol"></i> <span data-i18n="lblScorers">Marcatori (Gol segnati)</span>:</label>
-                    <div id="scorersContainer"></div>
-                    <button type="button" class="btn-add-row" data-action="add-scorer"><i class="fas fa-plus"></i> <span data-i18n="btnAddScorer">Aggiungi Marcatore</span></button>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-handshake"></i> <span data-i18n="lblAssists">Assistman</span>:</label>
-                    <div id="assistsContainer"></div>
-                    <button type="button" class="btn-add-row" data-action="add-assist"><i class="fas fa-plus"></i> <span data-i18n="btnAddAssist">Aggiungi Assistman</span></button>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-mitten"></i> <span data-i18n="lblGoalkeepers">Portieri & Gol Subiti</span>:</label>
-                    <div id="gkContainer"></div>
-                    <button type="button" class="btn-add-row" data-action="add-gk"><i class="fas fa-plus"></i> <span data-i18n="btnAddGk">Aggiungi Portiere</span></button>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label><i class="fas fa-star"></i> <span data-i18n="lblMvp">MVP del Match</span>:</label>
-                        <select id="mvpSelect" class="form-control"></select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblYellows">Cartellini Gialli:</label>
-                        <div id="yellowCardsContainer"></div>
-                        <button type="button" class="btn-add-row" data-action="add-yellow"><i class="fas fa-plus"></i> <span data-i18n="btnAddYellow">Aggiungi</span></button>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblReds">Cartellini Rossi:</label>
-                        <div id="redCardsContainer"></div>
-                        <button type="button" class="btn-add-row" data-action="add-red"><i class="fas fa-plus"></i> <span data-i18n="btnAddRed">Aggiungi</span></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-box">
-                <h3><span class="sec-num">3</span> <i class="fas fa-chess-board"></i> <span data-i18n="tacticsHeading">Assetto Tattico & Convocati</span></h3>
-                <div class="row" style="margin-top: 10px;">
-                    <div class="form-group">
-                        <label><i class="fas fa-chess-board"></i> <span data-i18n="lblFormation">Modulo Tattico</span>:</label>
-                        <select id="formationSelect" class="form-control">
-                            <option value="4-4-2">4-4-2 (Classico)</option>
-                            <option value="4-3-3">4-3-3 (Tridente)</option>
-                            <option value="4-2-3-1">4-2-3-1</option>
-                            <option value="3-5-2">3-5-2</option>
-                            <option value="3-4-3">3-4-3</option>
-                            <option value="5-3-2">5-3-2</option>
-                            <option value="4-1-4-1">4-1-4-1</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="mister-helper-box" id="misterHelperBox">
-                    <div class="mister-helper-header">
-                        <div>
-                            <strong><i class="fas fa-user-tie"></i> Suggerimento Mister Virtuale</strong>
-                            <span class="mister-helper-subtitle" data-i18n="misterHelper.subtitle">Basato sulle percentuali di utilizzo nei ruoli stagionali</span>
-                        </div>
-                        <button type="button" class="btn-suggest-lineup" data-action="suggest-lineup">
-                            <i class="fas fa-wand-magic-sparkles"></i> <span data-i18n="misterHelper.btnSuggest">Suggerisci Formazione</span>
-                        </button>
-                    </div>
-                    <div class="mister-helper-body" id="misterHelperBody">
-                        <div style="color:#94a3b8; font-size:0.8rem; grid-column: 1/-1; text-align:center; padding: 10px;">
-                            <i class="fas fa-info-circle"></i> Apri un match o seleziona una formazione per vedere i suggerimenti.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tactical-pitch-container">
-                    <div class="pitch-header-bar">
-                        <h4 style="color: #fef08a; font-size: 0.95rem;">
-                            <i class="fas fa-gamepad"></i> <span data-i18n="lblStartersTitle">Titolari in Campo</span>
-                        </h4>
-                        <button type="button" class="btn-clear-pitch" data-action="clear-pitch">
-                            <i class="fas fa-eraser"></i> <span data-i18n="btnClearPitch">Cancella</span>
-                        </button>
-                    </div>
-                    <div class="pitch-grid" id="pitchGrid"></div>
-                </div>
-
-                <div class="bench-container">
-                    <h4 style="color: var(--navy); margin-top: 15px; margin-bottom: 10px; font-size: 0.95rem;">
-                        <i class="fas fa-chair"></i> <span data-i18n="lblBenchTitle">Panchina (10 Posti)</span>
-                    </h4>
-                    <div class="bench-grid" id="benchGrid"></div>
-                </div>
-
-                <div class="trialist-box">
-                    <button type="button" class="btn-add-trialist" data-action="add-trialist">
-                        <i class="fas fa-user-plus"></i> <span data-i18n="btnAddTrialist">+ Aggiungi Giocatore in Prova</span>
-                    </button>
-                    <div style="margin-top: 10px; font-weight: bold; font-size: 0.82rem; color: #047857;">
-                        <i class="fas fa-list"></i> <span data-i18n="lblTrialistsList">Giocatori in Prova (solo per questo match):</span>
-                    </div>
-                    <div class="trialist-list" id="trialistListContainer"></div>
-                </div>
-            </div>
-
-            <button type="submit" class="btn-submit" id="submitBtn">
-                <i class="fas fa-save"></i> <span data-i18n="btnSaveMatch">Salva Partita e Aggiorna Statistiche</span>
-            </button>
-        </form>
-    </div>
-
-    <!-- TAB 2: PLAYERS -->
-    <div id="playersTab" class="tab-content hidden" role="tabpanel">
+    <!-- TAB 1: PLAYERS -->
+    <div id="playersTab" class="tab-content">
         <div class="section-box">
             <h3><i class="fas fa-user-plus"></i> <span data-i18n="playersHeading">Aggiungi / Modifica Giocatore</span></h3>
-            <form id="playerEditForm" style="margin-top: 15px;" autocomplete="off">
+            <form id="playerEditForm" style="margin-top: 15px;" onsubmit="savePlayerToSquad(event)">
                 <input type="hidden" id="editPlayerId">
-                <input type="hidden" id="editPlayerCaps" value="0">
                 <div class="row">
                     <div class="form-group">
                         <label data-i18n="lblNum">Numero Maglia:</label>
                         <input type="number" id="pNumber" class="form-control" placeholder="5">
                     </div>
                     <div class="form-group">
-                        <label data-i18n="lblKanji">Nome Kanji / Ufficiale:</label>
-                        <input type="text" id="pNameKanji" class="form-control" placeholder="Di Rubbo Luca" required>
+                        <label data-i18n="lblKanji">Nome Ufficiale / Kanji:</label>
+                        <input type="text" id="pNameKanji" class="form-control" placeholder="Luca Di Rubbo" required>
                     </div>
                     <div class="form-group">
                         <label data-i18n="lblKana">Nome Kana:</label>
@@ -1007,7 +348,7 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                     </div>
                     <div class="form-group">
                         <label data-i18n="lblPosition">Posizione Tattica:</label>
-                        <input type="text" id="pPosition" class="form-control" placeholder="CM/SB">
+                        <input type="text" id="pPosition" class="form-control" placeholder="CM / SB">
                     </div>
                     <div class="form-group">
                         <label data-i18n="lblLeadership">Ruolo di Leadership:</label>
@@ -1017,51 +358,28 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
                             <option value="vice_captain">Vice Capitano (Vice Captain)</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label data-i18n="lblBirth">Data di Nascita:</label>
-                        <input type="date" id="pBirthDate" class="form-control">
-                    </div>
                 </div>
 
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblHometown">Provenienza:</label>
-                        <input type="text" id="pHometown" class="form-control" placeholder="italy / kanagawa">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblPhoto">Foto (URL):</label>
-                        <input type="url" id="pPhoto" class="form-control" placeholder="https://...">
-                    </div>
-                </div>
-
-                <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
-                    <button type="button" class="btn-submit" style="background: var(--green); flex: 1; min-width: 180px;" data-action="save-player">
-                        <i class="fas fa-cloud-upload-alt"></i> <span data-i18n="btnSavePlayer">Salva su GitHub</span>
-                    </button>
-                    <button type="button" class="btn-reset" data-action="reset-player-form">Annulla</button>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button type="submit" class="btn-submit" style="background: var(--green); flex: 1;" data-i18n="btnSavePlayer">Salva su GitHub</button>
+                    <button type="button" class="btn-reset" onclick="resetPlayerForm()">Annulla</button>
                 </div>
             </form>
         </div>
 
         <div class="section-box">
             <h3><i class="fas fa-list-ul"></i> <span data-i18n="lblSquadList">Elenco Attuale Rosa</span></h3>
-            <div class="table-toolbar">
-                <input type="text" id="playerSearch" class="form-control" placeholder="🔍 Cerca giocatore..." style="max-width: 300px;">
-                <span id="playerCountBadge" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;"></span>
-            </div>
             <div class="data-table-container">
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th data-sort="number"># <i class="fas fa-sort"></i></th>
-                            <th data-sort="name_kanji"><span data-i18n="thName">Nome</span> <i class="fas fa-sort"></i></th>
-                            <th data-sort="name_romaji">Romaji <i class="fas fa-sort"></i></th>
-                            <th data-sort="role"><span data-i18n="thRole">Ruolo</span> <i class="fas fa-sort"></i></th>
-                            <th data-sort="position"><span data-i18n="thPos">Posizione</span> <i class="fas fa-sort"></i></th>
-                            <th data-sort="leadership_role"><span data-i18n="thLeadership">Leadership</span> <i class="fas fa-sort"></i></th>
-                            <th data-sort="hometown">Hometown <i class="fas fa-sort"></i></th>
-                            <th data-sort="caps"><span data-i18n="thCaps">Caps</span> <i class="fas fa-sort"></i></th>
-                            <th><span data-i18n="thActions">Azioni</span></th>
+                            <th>#</th>
+                            <th data-i18n="thName">Nome</th>
+                            <th>Romaji</th>
+                            <th data-i18n="thRole">Ruolo</th>
+                            <th data-i18n="thPos">Posizione</th>
+                            <th data-i18n="thLeadership">Leadership</th>
+                            <th data-i18n="thActions">Azioni</th>
                         </tr>
                     </thead>
                     <tbody id="playersTableBody"></tbody>
@@ -1070,52 +388,14 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- TAB 3: OPPONENTS -->
-    <div id="opponentsTab" class="tab-content hidden" role="tabpanel">
+    <!-- TAB 2: OPPONENTS -->
+    <div id="opponentsTab" class="tab-content hidden">
         <div class="section-box">
-            <h3><i class="fas fa-shield-cat"></i> <span data-i18n="opponentsHeading">Aggiungi / Modifica Avversario</span></h3>
-            <form id="opponentEditForm" style="margin-top: 15px;" autocomplete="off">
-                <input type="hidden" id="editOpponentKey">
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblOppKey">Key ID (es. fc-yokohama):</label>
-                        <input type="text" id="oppKey" class="form-control" placeholder="fc-yokohama" required>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblOppJa">Nome Giapponese (JA):</label>
-                        <input type="text" id="oppNameJa" class="form-control" placeholder="横浜FC" required>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblOppIt">Nome Italiano (IT):</label>
-                        <input type="text" id="oppNameIt" class="form-control" placeholder="Yokohama FC">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblOppEn">Nome Inglese (EN):</label>
-                        <input type="text" id="oppNameEn" class="form-control" placeholder="Yokohama FC">
-                    </div>
-                </div>
-                <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
-                    <button type="button" class="btn-submit" style="background: var(--green); flex: 1; min-width: 180px;" data-action="save-opponent">
-                        <i class="fas fa-cloud-upload-alt"></i> <span data-i18n="btnSaveOpponent">Salva su GitHub</span>
-                    </button>
-                    <button type="button" class="btn-reset" data-action="reset-opponent-form">Annulla</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="section-box">
-            <h3><i class="fas fa-shield-halved"></i> <span data-i18n="lblOpponentsList">Lista Avversari</span></h3>
-            <input type="text" id="opponentSearch" class="form-control" placeholder="🔍 Cerca..." style="max-width: 300px; margin-bottom: 10px;">
+            <h3><i class="fas fa-shield-cat"></i> <span data-i18n="opponentsHeading">Elenco Avversari</span></h3>
             <div class="data-table-container">
                 <table class="data-table">
                     <thead>
-                        <tr>
-                            <th data-sort="key">Key ID <i class="fas fa-sort"></i></th>
-                            <th data-sort="ja">Nome JA <i class="fas fa-sort"></i></th>
-                            <th data-sort="it">Nome IT <i class="fas fa-sort"></i></th>
-                            <th data-sort="en">Nome EN <i class="fas fa-sort"></i></th>
-                            <th><span data-i18n="thActions">Azioni</span></th>
-                        </tr>
+                        <tr><th>Key ID</th><th>Nome JA</th><th>Nome IT</th><th>Nome EN</th></tr>
                     </thead>
                     <tbody id="opponentsTableBody"></tbody>
                 </table>
@@ -1123,62 +403,14 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- TAB 4: LOCATIONS -->
-    <div id="locationsTab" class="tab-content hidden" role="tabpanel">
+    <!-- TAB 3: LOCATIONS -->
+    <div id="locationsTab" class="tab-content hidden">
         <div class="section-box">
-            <h3><i class="fas fa-map-marked-alt"></i> <span data-i18n="locationsHeading">Aggiungi / Modifica Campo</span></h3>
-            <form id="locationEditForm" style="margin-top: 15px;" autocomplete="off">
-                <input type="hidden" id="editLocationKey">
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblLocKey">Key ID Campo (es. yamoto):</label>
-                        <input type="text" id="locKey" class="form-control" placeholder="yamoto" required>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblLocSurface">Superficie Terreno:</label>
-                        <select id="locSurfaceSelect" class="form-control"></select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblLocJa">Nome Giapponese (ja):</label>
-                        <input type="text" id="locNameJa" class="form-control" placeholder="谷本公園球技場" required>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblLocIt">Nome Italiano (it):</label>
-                        <input type="text" id="locNameIt" class="form-control" placeholder="Parco Yamoto (Aoba-ku)">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblLocEn">Nome Inglese (en):</label>
-                        <input type="text" id="locNameEn" class="form-control" placeholder="Yamoto Park Pitch">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label data-i18n="lblLocMaps">Link Google Maps:</label>
-                    <input type="url" id="locMapsUrl" class="form-control" placeholder="https://maps.google.com/?q=...">
-                </div>
-                <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
-                    <button type="button" class="btn-submit" style="background: var(--green); flex: 1; min-width: 180px;" data-action="save-location">
-                        <i class="fas fa-cloud-upload-alt"></i> <span data-i18n="btnSaveLocation">Salva su GitHub</span>
-                    </button>
-                    <button type="button" class="btn-reset" data-action="reset-location-form">Annulla</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="section-box">
-            <h3><i class="fas fa-city"></i> <span data-i18n="lblLocationsList">Lista Impianti</span></h3>
+            <h3><i class="fas fa-map-marked-alt"></i> <span data-i18n="locationsHeading">Impianti & Campi</span></h3>
             <div class="data-table-container">
                 <table class="data-table">
                     <thead>
-                        <tr>
-                            <th data-sort="key">Key ID <i class="fas fa-sort"></i></th>
-                            <th data-sort="ja">Nome JA <i class="fas fa-sort"></i></th>
-                            <th data-sort="it">Nome IT <i class="fas fa-sort"></i></th>
-                            <th data-sort="surface"><span data-i18n="thSurface">Superficie</span> <i class="fas fa-sort"></i></th>
-                            <th>Google Maps</th>
-                            <th><span data-i18n="thActions">Azioni</span></th>
-                        </tr>
+                        <tr><th>Key ID</th><th>Nome JA</th><th>Nome IT</th><th>Superficie</th></tr>
                     </thead>
                     <tbody id="locationsTableBody"></tbody>
                 </table>
@@ -1186,95 +418,14 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- TAB 5: COMPETITIONS -->
-    <div id="competitionsTab" class="tab-content hidden" role="tabpanel">
+    <!-- TAB 4: COMPETITIONS -->
+    <div id="competitionsTab" class="tab-content hidden">
         <div class="section-box">
-            <h3><i class="fas fa-trophy"></i> <span data-i18n="competitionsHeading">Aggiungi / Modifica Competizione</span></h3>
-            <form id="competitionEditForm" style="margin-top: 15px;" autocomplete="off">
-                <input type="hidden" id="editCompId">
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblCompId">ID Competizione (es. yokohama_league):</label>
-                        <input type="text" id="compId" class="form-control" placeholder="yokohama_league" required>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblCategory">Categoria:</label>
-                        <select id="compCategory" class="form-control">
-                            <option value="league">Campionato (league)</option>
-                            <option value="cup">Coppa (cup)</option>
-                            <option value="friendly">Amichevoli (friendly)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblSeason">Stagione (es. 2026, 2027, all):</label>
-                        <input type="text" id="compSeason" class="form-control" placeholder="2026">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblDivision">Divisione / Serie:</label>
-                        <input type="text" id="compDivision" class="form-control" placeholder="3">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblBlock">Blocco / Gruppo:</label>
-                        <input type="text" id="compBlock" class="form-control" placeholder="A">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblBadgeColor">Colore Badge (HEX):</label>
-                        <input type="color" id="compBadgeColor" class="form-control" value="#003c82" style="height: 44px; padding: 4px;">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblCompNameJa">Nome JA:</label>
-                        <input type="text" id="compNameJa" class="form-control" placeholder="横浜市社会人サッカーリーグ" required>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblCompNameIt">Nome IT:</label>
-                        <input type="text" id="compNameIt" class="form-control" placeholder="Campionato Municipale di Yokohama">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblCompNameEn">Nome EN:</label>
-                        <input type="text" id="compNameEn" class="form-control" placeholder="Yokohama City League">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblShortNameJa">Nome Breve JA:</label>
-                        <input type="text" id="compShortJa" class="form-control" placeholder="横浜市L">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblShortNameIt">Nome Breve IT:</label>
-                        <input type="text" id="compShortIt" class="form-control" placeholder="Yokohama L.">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblShortNameEn">Nome Breve EN:</label>
-                        <input type="text" id="compShortEn" class="form-control" placeholder="YOK League">
-                    </div>
-                </div>
-                <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
-                    <button type="button" class="btn-submit" style="background: var(--green); flex: 1; min-width: 180px;" data-action="save-competition">
-                        <i class="fas fa-cloud-upload-alt"></i> <span data-i18n="btnSaveCompetition">Salva su GitHub</span>
-                    </button>
-                    <button type="button" class="btn-reset" data-action="reset-competition-form">Annulla</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="section-box">
-            <h3><i class="fas fa-list-check"></i> <span data-i18n="lblCompetitionsList">Lista Competizioni</span></h3>
+            <h3><i class="fas fa-trophy"></i> <span data-i18n="competitionsHeading">Competizioni</span></h3>
             <div class="data-table-container">
                 <table class="data-table">
                     <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Categoria</th>
-                            <th>Stagione</th>
-                            <th>Nome (JA)</th>
-                            <th>Nome (IT)</th>
-                            <th>Badge</th>
-                            <th><span data-i18n="thActions">Azioni</span></th>
-                        </tr>
+                        <tr><th>ID</th><th>Categoria</th><th>Stagione</th><th>Nome JA</th><th>Nome IT</th></tr>
                     </thead>
                     <tbody id="competitionsTableBody"></tbody>
                 </table>
@@ -1282,71 +433,14 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- TAB 6: NEWS -->
-    <div id="newsTab" class="tab-content hidden" role="tabpanel">
+    <!-- TAB 5: NEWS -->
+    <div id="newsTab" class="tab-content hidden">
         <div class="section-box">
-            <h3><i class="fas fa-newspaper"></i> <span data-i18n="newsHeading">Aggiungi / Modifica News</span></h3>
-            <form id="newsEditForm" style="margin-top: 15px;" autocomplete="off">
-                <input type="hidden" id="editNewsId">
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblNewsId">ID News (es. news_20261015):</label>
-                        <input type="text" id="newsId" class="form-control" placeholder="news_20261015" required>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblDate">Data:</label>
-                        <input type="date" id="newsDate" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblNewsType">Tipo News:</label>
-                        <select id="newsType" class="form-control">
-                            <option value="league">Campionato (league)</option>
-                            <option value="trial">Prova / Reclutamento (trial)</option>
-                            <option value="staff">Staff (staff)</option>
-                            <option value="info">Info Generale (info)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblNewsLink">Link Destinazione:</label>
-                        <input type="text" id="newsLink" class="form-control" placeholder="about.html o contact.html">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblTitleJa">Titolo JA:</label>
-                        <input type="text" id="newsTitleJa" class="form-control" placeholder="2027年シーズン…ダブル参戦決定！" required>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblTitleIt">Titolo IT:</label>
-                        <input type="text" id="newsTitleIt" class="form-control" placeholder="Stagione 2027: iscrizione a entrambe le league!">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblTitleEn">Titolo EN:</label>
-                        <input type="text" id="newsTitleEn" class="form-control" placeholder="2027 Season: entering both leagues!">
-                    </div>
-                </div>
-                <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
-                    <button type="button" class="btn-submit" style="background: var(--green); flex: 1; min-width: 180px;" data-action="save-news">
-                        <i class="fas fa-cloud-upload-alt"></i> <span data-i18n="btnSaveNews">Salva su GitHub</span>
-                    </button>
-                    <button type="button" class="btn-reset" data-action="reset-news-form">Annulla</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="section-box">
-            <h3><i class="fas fa-rss"></i> <span data-i18n="lblNewsList">Elenco News</span></h3>
+            <h3><i class="fas fa-newspaper"></i> <span data-i18n="newsHeading">News & Comunicati</span></h3>
             <div class="data-table-container">
                 <table class="data-table">
                     <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Tipo</th>
-                            <th>Titolo JA</th>
-                            <th>Titolo IT</th>
-                            <th>Link</th>
-                            <th><span data-i18n="thActions">Azioni</span></th>
-                        </tr>
+                        <tr><th>Data</th><th>Tipo</th><th>Titolo JA</th><th>Titolo IT</th></tr>
                     </thead>
                     <tbody id="newsTableBody"></tbody>
                 </table>
@@ -1354,103 +448,14 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- TAB 7: TRAININGS -->
-    <div id="trainingsTab" class="tab-content hidden" role="tabpanel">
+    <!-- TAB 6: TRAININGS -->
+    <div id="trainingsTab" class="tab-content hidden">
         <div class="section-box">
-            <h3><i class="fas fa-running"></i> <span data-i18n="trainingsHeading">Aggiungi / Modifica Sessione Allenamento</span></h3>
-            <form id="trainingEditForm" style="margin-top: 15px;" autocomplete="off">
-                <input type="hidden" id="editTrainingId">
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblTrId">ID Allenamento (es. tr_20261018):</label>
-                        <input type="text" id="trId" class="form-control" placeholder="tr_20261018" required>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblDate">Data:</label>
-                        <input type="date" id="trDate" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblTime">Orario (es. 09:30 - 12:00):</label>
-                        <input type="text" id="trTime" class="form-control" placeholder="09:30 - 12:00">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblMeetTime">Orario Ritrovo:</label>
-                        <input type="text" id="trMeetTime" class="form-control" placeholder="09:00">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblLocation">Campo Associato (Opzionale):</label>
-                        <select id="trLocationSelect" class="form-control"></select>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblVenue">Nome Impianto / Scuola:</label>
-                        <input type="text" id="trVenue" class="form-control" placeholder="三ツ境支援学校" required>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblSurface">Terreno:</label>
-                        <input type="text" id="trSurface" class="form-control" placeholder="土 / 人工芝">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblStatus">Stato:</label>
-                        <select id="trStatus" class="form-control">
-                            <option value="upcoming">In programma (upcoming)</option>
-                            <option value="past">Concluso (past)</option>
-                            <option value="cancelled">Annullato (cancelled)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblMapsUrl">Link Google Maps:</label>
-                        <input type="url" id="trUrl" class="form-control" placeholder="https://maps.app.goo.gl/...">
-                    </div>
-                    <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-top: 25px;">
-                        <input type="checkbox" id="trTrialOpen" style="width: 20px; height: 20px;" checked>
-                        <label for="trTrialOpen" style="margin: 0; cursor: pointer;" data-i18n="lblTrialOpen">Prove aperte a nuovi giocatori (trial_open)</label>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblTitleJa">Titolo JA:</label>
-                        <input type="text" id="trTitleJa" class="form-control" value="チームトレーニング">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblTitleIt">Titolo IT:</label>
-                        <input type="text" id="trTitleIt" class="form-control" value="Allenamento di Squadra">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblTitleEn">Titolo EN:</label>
-                        <input type="text" id="trTitleEn" class="form-control" value="Team Training">
-                    </div>
-                </div>
-
-                <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
-                    <button type="button" class="btn-submit" style="background: var(--green); flex: 1; min-width: 180px;" data-action="save-training">
-                        <i class="fas fa-cloud-upload-alt"></i> <span data-i18n="btnSaveTraining">Salva su GitHub</span>
-                    </button>
-                    <button type="button" class="btn-reset" data-action="reset-training-form">Annulla</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="section-box">
-            <h3><i class="fas fa-calendar-alt"></i> <span data-i18n="lblTrainingsList">Elenco Allenamenti</span></h3>
+            <h3><i class="fas fa-running"></i> <span data-i18n="trainingsHeading">Sessioni Allenamento</span></h3>
             <div class="data-table-container">
                 <table class="data-table">
                     <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Orario</th>
-                            <th>Impianto</th>
-                            <th>Terreno</th>
-                            <th>Prove Aperte</th>
-                            <th>Stato</th>
-                            <th><span data-i18n="thActions">Azioni</span></th>
-                        </tr>
+                        <tr><th>Data</th><th>Orario</th><th>Impianto</th><th>Prove Aperte</th></tr>
                     </thead>
                     <tbody id="trainingsTableBody"></tbody>
                 </table>
@@ -1458,469 +463,151 @@ body.dark .btn-modal-confirm { background: var(--sky); color: var(--navy-dark); 
         </div>
     </div>
 
-    <!-- TAB 8: LINE GENERATOR -->
-    <div id="lineTab" class="tab-content hidden" role="tabpanel">
-        <div class="section-box">
-            <h3><i class="fab fa-line" style="color: #06c755;"></i> <span data-i18n="lineHeading">Generatore Convocazioni LINE</span></h3>
-            <p style="font-size: 0.88rem; color: var(--text-muted);" data-i18n="lineSub">
-                Genera il messaggio pronto da incollare nel gruppo LINE della squadra.
-            </p>
-            <button type="button" class="btn-submit" style="background: #06c755; margin-bottom: 15px;" data-action="generate-line">
-                <i class="fas fa-magic"></i> <span data-i18n="btnGenerateLine">Genera Testo</span>
-            </button>
-            <textarea id="lineTextOutput" class="form-control" rows="14" readonly style="font-family: monospace; font-size: 0.9rem;"></textarea>
-            <button type="button" class="btn-submit" style="margin-top: 10px; background: var(--sky-dark);" data-action="copy-line">
-                <i class="fas fa-copy"></i> <span data-i18n="btnCopyLine">Copia negli Appunti</span>
-            </button>
-        </div>
-    </div>
-
-    <div id="statusMsg" style="margin-top: 18px; font-weight: bold; text-align: center;"></div>
 </div>
 
-<div id="modalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal-box">
-        <div class="modal-title" id="modalTitle"></div>
-        <div class="modal-body" id="modalBody"></div>
-        <div class="modal-actions">
-            <button type="button" class="btn-modal-cancel" id="modalCancel">Annulla</button>
-            <button type="button" class="btn-modal-confirm" id="modalConfirm">OK</button>
-        </div>
-    </div>
-</div>
-
-<div id="toastContainer" role="status" aria-live="polite"></div>
-<input type="file" id="importFileInput" class="hidden" accept=".json,application/json">
+<div id="toastContainer"></div>
 
 <script>
 'use strict';
 
-/* =========================================================
-   I18N DICTIONARY
-   ========================================================= */
+const REPO = 'yokohamacalcio/yokohamacalcio';
+const TOKEN_KEY = 'yc_gh_token';
+
 const I18N_DICT = {
     it: {
         loginSub: "Inserisci il GitHub Token (PAT) per accedere.",
         loginBtn: "Accedi", authenticated: "Autenticato",
-        btnReset: "Reset", btnLogout: "Logout",
-        btnSaveMatch: "Salva Partita e Aggiorna Statistiche",
-        btnSavePlayer: "Salva su GitHub", btnSaveOpponent: "Salva su GitHub", btnSaveLocation: "Salva su GitHub",
-        btnSaveCompetition: "Salva su GitHub", btnSaveNews: "Salva su GitHub", btnSaveTraining: "Salva su GitHub",
-        btnNewMatch: "Nuova Partita", btnDeleteMatch: "Elimina Corrente", btnDuplicate: "Duplica Corrente",
-        btnGenerateLine: "Genera Testo", btnCopyLine: "Copia negli Appunti",
-        btnClearPitch: "Cancella", btnAddTrialist: "+ Aggiungi Giocatore in Prova",
-        btnAddScorer: "Aggiungi Marcatore", btnAddAssist: "Aggiungi Assistman",
-        btnAddGk: "Aggiungi Portiere", btnAddYellow: "Aggiungi", btnAddRed: "Aggiungi",
-        tab1: "1. Partite & Formazione", tab2: "2. Rosa Giocatori", tab3: "3. Avversari",
-        tab4: "4. Campi & Impianti", tab5: "5. Competizioni", tab6: "6. News & Comunicati", tab7: "7. Allenamenti", tab8: "8. Testo Convocati LINE",
-        heroSelectorLabel: "Seleziona Partita da Modificare",
-        orSearchById: "Oppure cerca per ID / codice",
-        matchInfoHeading: "Informazioni Partita",
-        lblStatus: "Stato Partita:", optPast: "Finita", optUpcoming: "In programma",
-        lblDate: "Data:", lblTime: "Orario K.O.:", lblCategory: "Categoria:", lblCompetition: "Competizione (ID):",
-        lblType: "Tipo:", lblOpponent: "Avversario:", lblLocation: "Campo:",
-        lblHomeAway: "Casa / Trasferta:", optHome: "Casa", optAway: "Trasferta",
-        lblScore: "Risultato (es. 2 - 1, sempre nostri-loro):", matchEventsHeading: "Eventi & Prestazioni",
-        lblScorers: "Marcatori", lblAssists: "Assistman", lblGoalkeepers: "Portieri & Gol Subiti",
-        lblMvp: "MVP del Match", lblYellows: "Cartellini Gialli", lblReds: "Cartellini Rossi",
-        tacticsHeading: "Assetto Tattico & Convocati",
-        lblFormation: "Modulo Tattico", lblStartersTitle: "Titolari in Campo",
-        lblBenchTitle: "Panchina (10 Posti)",
-        lblTrialistsList: "Giocatori in Prova (solo per questo match):",
-        "misterHelper.subtitle": "Basato sulle percentuali di utilizzo nei ruoli stagionali",
-        "misterHelper.btnSuggest": "Suggerisci Formazione",
+        btnLogout: "Logout", btnSavePlayer: "Salva su GitHub",
+        tabPlayers: "1. Rosa Giocatori", tabOpponents: "2. Avversari", tabLocations: "3. Campi & Impianti",
+        tabCompetitions: "4. Competizioni", tabNews: "5. News & Comunicati", tabTrainings: "6. Allenamenti",
         playersHeading: "Aggiungi / Modifica Giocatore",
-        lblNum: "Numero Maglia:", lblKanji: "Nome Kanji / Ufficiale:", lblKana: "Nome Kana:",
+        lblNum: "Numero Maglia:", lblKanji: "Nome Ufficiale / Kanji:", lblKana: "Nome Kana:",
         lblRomaji: "Nome Romaji:", lblRole: "Ruolo:", lblPosition: "Posizione:", lblLeadership: "Ruolo di Leadership:",
-        lblBirth: "Data di Nascita:", lblHometown: "Provenienza:", lblPhoto: "Foto (URL):",
-        lblSquadList: "Elenco Attuale Rosa",
-        thName: "Nome", thRole: "Ruolo", thPos: "Posizione", thLeadership: "Leadership", thCaps: "Caps", thActions: "Azioni", thSurface: "Superficie",
-        opponentsHeading: "Aggiungi / Modifica Avversario",
-        lblOppKey: "Key ID:", lblOppJa: "Nome JA:", lblOppIt: "Nome IT:", lblOppEn: "Nome EN:",
-        lblOpponentsList: "Lista Avversari",
-        locationsHeading: "Aggiungi / Modifica Campo",
-        lblLocKey: "Key ID:", lblLocSurface: "Superficie:",
-        lblLocJa: "Nome JA:", lblLocIt: "Nome IT:", lblLocEn: "Nome EN:", lblLocMaps: "Google Maps:",
-        lblLocationsList: "Lista Impianti",
-        competitionsHeading: "Aggiungi / Modifica Competizione", lblCompId: "ID Competizione:", lblSeason: "Stagione:", lblDivision: "Divisione:", lblBlock: "Blocco:", lblBadgeColor: "Colore Badge:", lblCompNameJa: "Nome JA:", lblCompNameIt: "Nome IT:", lblCompNameEn: "Nome EN:", lblShortNameJa: "Short JA:", lblShortNameIt: "Short IT:", lblShortNameEn: "Short EN:", lblCompetitionsList: "Lista Competizioni",
-        newsHeading: "Aggiungi / Modifica News", lblNewsId: "ID News:", lblNewsType: "Tipo News:", lblNewsLink: "Link:", lblTitleJa: "Titolo JA:", lblTitleIt: "Titolo IT:", lblTitleEn: "Titolo EN:", lblNewsList: "Elenco News",
-        trainingsHeading: "Aggiungi / Modifica Sessione Allenamento", lblTrId: "ID Allenamento:", lblMeetTime: "Ritrovo:", lblVenue: "Impianto:", lblMapsUrl: "Google Maps:", lblTrialOpen: "Prove aperte a nuovi giocatori", lblTrainingsList: "Elenco Allenamenti",
-        lineHeading: "Generatore Convocazioni LINE", lineSub: "Genera il messaggio pronto per il gruppo LINE della squadra.",
-        draftFound: "Trovato un draft non salvato.", draftRestore: "Ripristina", draftDiscard: "Scarta",
-        trialistPrompt: "Nome del giocatore in prova:", confirmDelete: "Confermi l'eliminazione di",
-        unsavedTitle: "Modifiche non salvate", unsavedMsg: "Ci sono modifiche non salvate. Cambiare tab?",
-        saving: "Salvataggio in corso...", saved: "Salvato con successo!", errorPrefix: "Errore:",
-        noMatchSelected: "Nessuna partita selezionata."
+        lblSquadList: "Elenco Attuale Rosa", thName: "Nome", thRole: "Ruolo", thPos: "Posizione", thLeadership: "Leadership", thActions: "Azioni",
+        opponentsHeading: "Elenco Avversari", locationsHeading: "Impianti & Campi", competitionsHeading: "Competizioni", newsHeading: "News & Comunicati", trainingsHeading: "Allenamenti"
     },
     ja: {
         loginSub: "アクセスするには GitHub Token (PAT) を入力してください。",
         loginBtn: "ログイン", authenticated: "認証済み",
-        btnReset: "リセット", btnLogout: "ログアウト",
-        btnSaveMatch: "試合結果を保存してスタッツ更新",
-        btnSavePlayer: "GitHub に保存", btnSaveOpponent: "GitHub に保存", btnSaveLocation: "GitHub に保存",
-        btnSaveCompetition: "GitHub に保存", btnSaveNews: "GitHub に保存", btnSaveTraining: "GitHub に保存",
-        btnNewMatch: "新規試合", btnDeleteMatch: "削除", btnDuplicate: "複製",
-        btnGenerateLine: "招集文を生成", btnCopyLine: "コピー",
-        btnClearPitch: "クリア", btnAddTrialist: "+ 練習生を追加",
-        btnAddScorer: "得点者を追加", btnAddAssist: "アシストを追加",
-        btnAddGk: "GKを追加", btnAddYellow: "追加", btnAddRed: "追加",
-        tab1: "1. 試合 & フォーメーション", tab2: "2. 選手一覧", tab3: "3. 対戦相手",
-        tab4: "4. 会場", tab5: "5. 大会・リーグ", tab6: "6. ニュース・お知らせ", tab7: "7. 練習日程", tab8: "8. LINE招集文",
-        heroSelectorLabel: "編集する試合を選択",
-        orSearchById: "または ID で検索",
-        matchInfoHeading: "試合情報",
-        lblStatus: "ステータス:", optPast: "終了", optUpcoming: "予定",
-        lblDate: "日付:", lblTime: "K.O.:", lblCategory: "カテゴリ:", lblCompetition: "大会・リーグ (ID):",
-        lblType: "種別:", lblOpponent: "対戦相手:", lblLocation: "会場:",
-        lblHomeAway: "ホーム/アウェイ:", optHome: "ホーム", optAway: "アウェイ",
-        lblScore: "スコア（常に自-相手）:", matchEventsHeading: "イベント",
-        lblScorers: "得点者", lblAssists: "アシスト", lblGoalkeepers: "GK & 失点",
-        lblMvp: "MVP", lblYellows: "警告", lblReds: "退場",
-        tacticsHeading: "フォーメーション",
-        lblFormation: "フォーメーション", lblStartersTitle: "先発メンバー",
-        lblBenchTitle: "控え (10名)",
-        lblTrialistsList: "練習生 (この試合のみ):",
-        "misterHelper.subtitle": "シーズン起用ポジション比率に基づく",
-        "misterHelper.btnSuggest": "フォーメーション提案",
+        btnLogout: "ログアウト", btnSavePlayer: "GitHub に保存",
+        tabPlayers: "1. 選手一覧", tabOpponents: "2. 対戦相手", tabLocations: "3. 会場",
+        tabCompetitions: "4. 大会・リーグ", tabNews: "5. ニュース", tabTrainings: "6. 練習日程",
         playersHeading: "選手追加・編集",
         lblNum: "背番号:", lblKanji: "氏名:", lblKana: "フリガナ:",
         lblRomaji: "ローマ字:", lblRole: "役割:", lblPosition: "ポジション:", lblLeadership: "役職・リーダーシップ:",
-        lblBirth: "生年月日:", lblHometown: "出身地:", lblPhoto: "写真URL:",
-        lblSquadList: "現在の選手一覧",
-        thName: "氏名", thRole: "役割", thPos: "ポジション", thLeadership: "役職", thCaps: "出場", thActions: "操作", thSurface: "状態",
-        opponentsHeading: "対戦相手追加・編集",
-        lblOppKey: "Key ID:", lblOppJa: "日本語名:", lblOppIt: "伊語名:", lblOppEn: "英語名:",
-        lblOpponentsList: "対戦相手一覧",
-        locationsHeading: "会場追加・編集",
-        lblLocKey: "Key ID:", lblLocSurface: "状態:",
-        lblLocJa: "日本語名:", lblLocIt: "伊語名:", lblLocEn: "英語名:", lblLocMaps: "Google Maps:",
-        lblLocationsList: "会場一覧",
-        competitionsHeading: "大会・リーグ追加・編集", lblCompId: "大会ID:", lblSeason: "シーズン:", lblDivision: "部:", lblBlock: "ブロック:", lblBadgeColor: "バッジ色:", lblCompNameJa: "日本語名:", lblCompNameIt: "伊語名:", lblCompNameEn: "英語名:", lblShortNameJa: "略称(JA):", lblShortNameIt: "略称(IT):", lblShortNameEn: "略称(EN):", lblCompetitionsList: "大会一覧",
-        newsHeading: "ニュース追加・編集", lblNewsId: "ニュースID:", lblNewsType: "種別:", lblNewsLink: "リンク:", lblTitleJa: "タイトル(JA):", lblTitleIt: "タイトル(IT):", lblTitleEn: "タイトル(EN):", lblNewsList: "ニュース一覧",
-        trainingsHeading: "練習日程追加・編集", lblTrId: "練習ID:", lblMeetTime: "集合時間:", lblVenue: "会場名:", lblMapsUrl: "Google Maps:", lblTrialOpen: "体験参加可能", lblTrainingsList: "練習日程一覧",
-        lineHeading: "LINE招集文ジェネレーター", lineSub: "LINEグループにそのまま貼り付けられる案内文を生成します。",
-        draftFound: "未保存の下書きがあります。", draftRestore: "復元", draftDiscard: "破棄",
-        trialistPrompt: "練習生の名前:", confirmDelete: "削除しますか:",
-        unsavedTitle: "未保存の変更", unsavedMsg: "未保存の変更があります。タブを切り替えますか？",
-        saving: "保存中...", saved: "保存完了", errorPrefix: "エラー:",
-        noMatchSelected: "試合が選択されていません。"
+        lblSquadList: "現在の選手一覧", thName: "氏名", thRole: "役割", thPos: "ポジション", thLeadership: "役職", thActions: "操作",
+        opponentsHeading: "対戦相手一覧", locationsHeading: "会場一覧", competitionsHeading: "大会一覧", newsHeading: "ニュース一覧", trainingsHeading: "練習日程"
     },
     en: {
         loginSub: "Enter your GitHub Personal Access Token (PAT) to log in.",
         loginBtn: "Login", authenticated: "Authenticated",
-        btnReset: "Reset", btnLogout: "Logout",
-        btnSaveMatch: "Save Match & Update Stats",
-        btnSavePlayer: "Save to GitHub", btnSaveOpponent: "Save to GitHub", btnSaveLocation: "Save to GitHub",
-        btnSaveCompetition: "Save to GitHub", btnSaveNews: "Save to GitHub", btnSaveTraining: "Save to GitHub",
-        btnNewMatch: "New Match", btnDeleteMatch: "Delete Current", btnDuplicate: "Duplicate Current",
-        btnGenerateLine: "Generate Text", btnCopyLine: "Copy",
-        btnClearPitch: "Clear", btnAddTrialist: "+ Add Trialist",
-        btnAddScorer: "Add Scorer", btnAddAssist: "Add Assist",
-        btnAddGk: "Add GK", btnAddYellow: "Add", btnAddRed: "Add",
-        tab1: "1. Matches & Lineup", tab2: "2. Squad", tab3: "3. Opponents",
-        tab4: "4. Venues", tab5: "5. Competitions", tab6: "6. News", tab7: "7. Trainings", tab8: "8. LINE Text",
-        heroSelectorLabel: "Select Match to Edit",
-        orSearchById: "Or search by ID / code",
-        matchInfoHeading: "Match Information",
-        lblStatus: "Status:", optPast: "Finished", optUpcoming: "Scheduled",
-        lblDate: "Date:", lblTime: "K.O.:", lblCategory: "Category:", lblCompetition: "Competition (ID):",
-        lblType: "Type:", lblOpponent: "Opponent:", lblLocation: "Venue:",
-        lblHomeAway: "Home/Away:", optHome: "Home", optAway: "Away",
-        lblScore: "Score (e.g. 2 - 1, always us-them):", matchEventsHeading: "Events",
-        lblScorers: "Scorers", lblAssists: "Assists", lblGoalkeepers: "GK & Conceded",
-        lblMvp: "MVP", lblYellows: "Yellows", lblReds: "Reds",
-        tacticsHeading: "Tactics & Lineup",
-        lblFormation: "Formation", lblStartersTitle: "Starting XI",
-        lblBenchTitle: "Bench (10 Slots)",
-        lblTrialistsList: "Trialists (this match only):",
-        "misterHelper.subtitle": "Based on season usage percentages per role",
-        "misterHelper.btnSuggest": "Suggest Lineup",
+        btnLogout: "Logout", btnSavePlayer: "Save to GitHub",
+        tabPlayers: "1. Squad", tabOpponents: "2. Opponents", tabLocations: "3. Venues",
+        tabCompetitions: "4. Competitions", tabNews: "5. News", tabTrainings: "6. Trainings",
         playersHeading: "Add / Edit Player",
         lblNum: "Number:", lblKanji: "Name:", lblKana: "Kana:",
         lblRomaji: "Romaji:", lblRole: "Role:", lblPosition: "Position:", lblLeadership: "Leadership Role:",
-        lblBirth: "Birth Date:", lblHometown: "Hometown:", lblPhoto: "Photo URL:",
-        lblSquadList: "Current Squad",
-        thName: "Name", thRole: "Role", thPos: "Position", thLeadership: "Leadership", thCaps: "Caps", thActions: "Actions", thSurface: "Surface",
-        opponentsHeading: "Add / Edit Opponent",
-        lblOppKey: "Key ID:", lblOppJa: "JA Name:", lblOppIt: "IT Name:", lblOppEn: "EN Name:",
-        lblOpponentsList: "Opponents",
-        locationsHeading: "Add / Edit Venue",
-        lblLocKey: "Key ID:", lblLocSurface: "Surface:",
-        lblLocJa: "JA Name:", lblLocIt: "IT Name:", lblLocEn: "EN Name:", lblLocMaps: "Google Maps:",
-        lblLocationsList: "Venues",
-        competitionsHeading: "Add / Edit Competition", lblCompId: "Comp ID:", lblSeason: "Season:", lblDivision: "Division:", lblBlock: "Block:", lblBadgeColor: "Badge Color:", lblCompNameJa: "JA Name:", lblCompNameIt: "IT Name:", lblCompNameEn: "EN Name:", lblShortNameJa: "Short JA:", lblShortNameIt: "Short IT:", lblShortNameEn: "Short EN:", lblCompetitionsList: "Competitions",
-        newsHeading: "Add / Edit News", lblNewsId: "News ID:", lblNewsType: "News Type:", lblNewsLink: "Link:", lblTitleJa: "Title JA:", lblTitleIt: "Title IT:", lblTitleEn: "Title EN:", lblNewsList: "News List",
-        trainingsHeading: "Add / Edit Training", lblTrId: "Training ID:", lblMeetTime: "Meet Time:", lblVenue: "Venue:", lblMapsUrl: "Google Maps:", lblTrialOpen: "Trial Open", lblTrainingsList: "Trainings List",
-        lineHeading: "LINE Announcement Generator", lineSub: "Generate match notice ready for LINE group.",
-        draftFound: "Unsaved draft found.", draftRestore: "Restore", draftDiscard: "Discard",
-        trialistPrompt: "Trialist name:", confirmDelete: "Delete",
-        unsavedTitle: "Unsaved changes", unsavedMsg: "You have unsaved changes. Switch tab?",
-        saving: "Saving...", saved: "Saved successfully", errorPrefix: "Error:",
-        noMatchSelected: "No match selected."
+        lblSquadList: "Current Squad", thName: "Name", thRole: "Role", thPos: "Position", thLeadership: "Leadership", thActions: "Actions",
+        opponentsHeading: "Opponents", locationsHeading: "Venues", competitionsHeading: "Competitions", newsHeading: "News List", trainingsHeading: "Trainings List"
     }
 };
 
-/* =========================================================
-   CONSTANTS & CONFIG
-   ========================================================= */
-const REPO = 'yokohamacalcio/yokohamacalcio';
-const TOKEN_KEY = 'yc_gh_token';
-
-const FORMATION_COORDS = {
-    "4-4-2": {
-        GK:   { x: 50, y: 92 },
-        LB:   { x: 15, y: 75 }, "CB-L": { x: 38, y: 78 }, "CB-R": { x: 62, y: 78 }, RB: { x: 85, y: 75 },
-        LM:   { x: 12, y: 52 }, "CM-L": { x: 38, y: 55 }, "CM-R": { x: 62, y: 55 }, RM: { x: 88, y: 52 },
-        "FW-L": { x: 35, y: 22 }, "FW-R": { x: 65, y: 22 }
-    },
-    "4-3-3": {
-        GK: { x: 50, y: 92 },
-        LB: { x: 15, y: 75 }, "CB-L": { x: 38, y: 78 }, "CB-R": { x: 62, y: 78 }, RB: { x: 85, y: 75 },
-        DM: { x: 50, y: 60 }, "CM-L": { x: 28, y: 52 }, "CM-R": { x: 72, y: 52 },
-        LW: { x: 20, y: 25 }, ST: { x: 50, y: 18 }, RW: { x: 80, y: 25 }
-    },
-    "4-2-3-1": {
-        GK: { x: 50, y: 92 },
-        LB: { x: 15, y: 75 }, "CB-L": { x: 38, y: 78 }, "CB-R": { x: 62, y: 78 }, RB: { x: 85, y: 75 },
-        "DM-L": { x: 35, y: 62 }, "DM-R": { x: 65, y: 62 },
-        "AM-L": { x: 20, y: 42 }, "AM-C": { x: 50, y: 42 }, "AM-R": { x: 80, y: 42 },
-        ST: { x: 50, y: 18 }
-    },
-    "3-5-2": {
-        GK: { x: 50, y: 92 },
-        "CB-L": { x: 25, y: 78 }, "CB-C": { x: 50, y: 80 }, "CB-R": { x: 75, y: 78 },
-        LWB: { x: 10, y: 55 }, "CM-L": { x: 32, y: 55 }, "CM-C": { x: 50, y: 58 }, "CM-R": { x: 68, y: 55 }, RWB: { x: 90, y: 55 },
-        "FW-L": { x: 35, y: 22 }, "FW-R": { x: 65, y: 22 }
-    },
-    "3-4-3": {
-        GK: { x: 50, y: 92 },
-        "CB-L": { x: 25, y: 78 }, "CB-C": { x: 50, y: 80 }, "CB-R": { x: 75, y: 78 },
-        LM: { x: 12, y: 55 }, "CM-L": { x: 38, y: 55 }, "CM-R": { x: 62, y: 55 }, RM: { x: 88, y: 55 },
-        LW: { x: 20, y: 25 }, ST: { x: 50, y: 18 }, RW: { x: 80, y: 25 }
-    },
-    "5-3-2": {
-        GK: { x: 50, y: 92 },
-        LWB: { x: 8, y: 72 }, "CB-L": { x: 28, y: 78 }, "CB-C": { x: 50, y: 80 }, "CB-R": { x: 72, y: 78 }, RWB: { x: 92, y: 72 },
-        "CM-L": { x: 28, y: 52 }, "CM-C": { x: 50, y: 55 }, "CM-R": { x: 72, y: 52 },
-        "FW-L": { x: 35, y: 22 }, "FW-R": { x: 65, y: 22 }
-    },
-    "4-1-4-1": {
-        GK: { x: 50, y: 92 },
-        LB: { x: 15, y: 75 }, "CB-L": { x: 38, y: 78 }, "CB-R": { x: 62, y: 78 }, RB: { x: 85, y: 75 },
-        DM: { x: 50, y: 62 },
-        LM: { x: 12, y: 45 }, "CM-L": { x: 38, y: 48 }, "CM-R": { x: 62, y: 48 }, RM: { x: 88, y: 45 },
-        ST: { x: 50, y: 18 }
-    }
-};
-
-const POS_MACRO_MAP = {
-    GK: 'GK',
-    LB: 'DEF', LWB: 'DEF', 'CB-L': 'DEF', 'CB-C': 'DEF', 'CB-R': 'DEF', RB: 'DEF', RWB: 'DEF',
-    DM: 'MID', 'CM-L': 'MID', 'CM-C': 'MID', 'CM-R': 'MID', LM: 'MID', RM: 'MID',
-    'AM-L': 'ATT_MID', 'AM-C': 'ATT_MID', 'AM-R': 'ATT_MID',
-    LW: 'ATT', 'FW-L': 'ATT', ST: 'ATT', 'FW-R': 'ATT', RW: 'ATT'
-};
-
-const SURFACE_PRESETS = {
-    "artificial": { ja: "人工芝", it: "Sintetico", en: "Artificial Turf" },
-    "clay":       { ja: "クレー（土）", it: "Terra battuta", en: "Clay / Dirt" },
-    "grass":      { ja: "天然芝", it: "Erba naturale", en: "Natural Grass" }
-};
-
-const STAT_CONTAINER_IDS = [
-    'scorersContainer', 'assistsContainer', 'gkContainer', 'yellowCardsContainer', 'redCardsContainer'
-];
-
-/* =========================================================
-   STATE
-   ========================================================= */
 const State = {
-    lang: sessionStorage.getItem('yc_admin_lang') || localStorage.getItem('preferred_lang') || 'it',
+    lang: sessionStorage.getItem('yc_admin_lang') || 'it',
     token: sessionStorage.getItem(TOKEN_KEY) || '',
-    players: [],
-    opponents: {},
-    locations: {},
-    competitions: [],
-    news: [],
-    trainings: [],
-    matches: [],
-    trialists: [],
-    statsData: {},
-    isDirty: false,
-    playerSort: { field: 'number', dir: 'asc' },
-    opponentSort: { field: 'key', dir: 'asc' },
-    locationSort: { field: 'key', dir: 'asc' },
-    playerSearch: '',
-    opponentSearch: '',
-    autosaveTimer: null,
-    currentMatchId: ''
+    players: [], opponents: {}, locations: {}, competitions: [], news: [], trainings: []
 };
 
-/* =========================================================
-   UTILITIES
-   ========================================================= */
-function $(id) { return document.getElementById(id); }
-function $$(sel, ctx = document) { return ctx.querySelectorAll(sel); }
-function cleanStr(s) { return String(s || '').toLowerCase().replace(/[\s\u3000]+/g, '').trim(); }
-function isJapanese(s) { return /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf]/.test(s); }
-function t(key) { return (I18N_DICT[State.lang] && I18N_DICT[State.lang][key]) || key; }
-function escapeHtml(s) { return String(s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-
-function utf8ToBase64(str) {
-    const bytes = new TextEncoder().encode(str);
-    let bin = '';
-    for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
-    return btoa(bin);
-}
-function base64ToUtf8(b64) {
-    const bin = atob(String(b64 || '').replace(/\s/g, ''));
-    const bytes = new Uint8Array(bin.length);
-    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-    return new TextDecoder().decode(bytes);
+function showToast(type, msg) {
+    const c = document.getElementById('toastContainer');
+    if (!c) return;
+    const d = document.createElement('div');
+    d.className = `toast toast-${type}`;
+    d.innerHTML = `<div>${msg}</div>`;
+    c.appendChild(d);
+    setTimeout(() => d.classList.add('show'), 10);
+    setTimeout(() => { d.classList.remove('show'); setTimeout(() => d.remove(), 300); }, 3500);
 }
 
-function localizePlayerName(raw) {
-    if (!raw) return '';
-    let p = null;
-    if (typeof raw === 'object' && raw !== null) {
-        p = raw;
-    } else {
-        const cleanRaw = cleanStr(raw);
-        p = [...State.players, ...State.trialists].find(x =>
-            cleanStr(x.id) === cleanRaw ||
-            cleanStr(x.name_kanji) === cleanRaw ||
-            cleanStr(x.name_kana) === cleanRaw ||
-            cleanStr(x.name_romaji) === cleanRaw
-        );
-    }
-    if (!p) return String(raw);
-    if (State.lang === 'ja') {
-        if (p.name_kanji && isJapanese(p.name_kanji)) return p.name_kanji;
-        return p.name_kana || p.name_kanji || p.name_romaji || String(raw);
-    }
-    return p.name_romaji || p.name_kanji || p.name_kana || String(raw);
-}
-
-function clearStatContainers() {
-    STAT_CONTAINER_IDS.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.innerHTML = '';
+function updateUITranslations() {
+    const lang = State.lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const k = el.getAttribute('data-i18n');
+        if (I18N_DICT[lang] && I18N_DICT[lang][k]) el.textContent = I18N_DICT[lang][k];
+    });
+    document.querySelectorAll('.lang-btn-admin').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-lang') === lang);
     });
 }
 
-function findMatchingPlayerValue(raw) {
-    if (!raw) return '';
-    const cleanRaw = cleanStr(raw);
-    if (!cleanRaw) return '';
-    const normalizedRaw = String(raw).replace(/\((.*?)\)/g, '').replace(/\s*[xX\*]\s*\d+/g, '').trim();
-    const cleanNorm = cleanStr(normalizedRaw);
-    const allPlayers = [...State.players, ...State.trialists];
+function setLanguage(lang) {
+    if (!I18N_DICT[lang]) return;
+    State.lang = lang;
+    sessionStorage.setItem('yc_admin_lang', lang);
+    updateUITranslations();
+}
 
-    let p = allPlayers.find(x =>
-        cleanStr(x.id) === cleanNorm ||
-        cleanStr(x.name_kanji) === cleanNorm ||
-        cleanStr(x.name_kana) === cleanNorm ||
-        cleanStr(x.name_romaji) === cleanNorm
-    );
-    if (p) return p.name_kanji || p.name_romaji || p.id;
+function toggleDark() {
+    document.body.classList.toggle('dark');
+}
 
-    const minLen = isJapanese(cleanNorm) ? 2 : 3;
-    if (cleanNorm.length >= minLen) {
-        p = allPlayers.find(x => {
-            const k = cleanStr(x.name_kanji);
-            const kn = cleanStr(x.name_kana);
-            const r = cleanStr(x.name_romaji);
-            const id = cleanStr(x.id);
-            return (k && (k.includes(cleanNorm) || cleanNorm.includes(k))) ||
-                   (kn && (kn.includes(cleanNorm) || cleanNorm.includes(kn))) ||
-                   (r && (r.includes(cleanNorm) || cleanNorm.includes(r))) ||
-                   (id && (id.includes(cleanNorm) || cleanNorm.includes(id)));
+function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-content').forEach(tc => tc.classList.add('hidden'));
+    document.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));
+    const target = document.getElementById(tabId);
+    if (target) target.classList.remove('hidden');
+    if (btn) btn.classList.add('active');
+}
+
+function handleLoginSubmit(e) {
+    e.preventDefault();
+    const input = document.getElementById('inputToken');
+    if (!input) return;
+    const token = input.value.trim();
+    if (token) verifyAndLogin(token);
+}
+
+async function verifyAndLogin(token) {
+    const errEl = document.getElementById('loginError');
+    const btn = document.getElementById('loginBtn');
+    if (errEl) errEl.textContent = '';
+
+    if (btn) btn.disabled = true;
+
+    try {
+        const res = await fetch(`https://api.github.com/repos/${REPO}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
         });
-        if (p) return p.name_kanji || p.name_romaji || p.id;
+
+        if (!res.ok) {
+            if (errEl) errEl.textContent = `❌ Errore ${res.status}: Token non valido o repository non accessibile.`;
+            sessionStorage.removeItem(TOKEN_KEY);
+            if (btn) btn.disabled = false;
+            return;
+        }
+
+        State.token = token;
+        sessionStorage.setItem(TOKEN_KEY, token);
+        
+        const loginSec = document.getElementById('loginSection');
+        const dashSec = document.getElementById('adminDashboard');
+        if (loginSec) loginSec.classList.add('hidden');
+        if (dashSec) dashSec.classList.remove('hidden');
+        
+        showToast('success', '✅ Autenticato con successo su GitHub');
+        await fetchAllDataFromGitHub();
+    } catch (e) {
+        if (errEl) errEl.textContent = '❌ Errore di connessione: ' + e.message;
+    } finally {
+        if (btn) btn.disabled = false;
     }
-    return normalizedRaw;
 }
 
-function ensureSelectOption(sel, value) {
-    if (!sel || !value) return;
-    const exists = Array.from(sel.options).some(opt => opt.value === value);
-    if (!exists) {
-        const opt = document.createElement('option');
-        opt.value = value;
-        opt.textContent = value + ' (non in rosa)';
-        opt.style.color = '#dc2626';
-        sel.appendChild(opt);
-    }
-    sel.value = value;
+function logout() {
+    sessionStorage.removeItem(TOKEN_KEY);
+    location.reload();
 }
 
-/* =========================================================
-   TOAST & MODAL
-   ========================================================= */
-function showToast(type, message, duration = 4000) {
-    const container = $('toastContainer');
-    const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warn: 'fa-exclamation-triangle' };
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.innerHTML = `<i class="fas ${icons[type] || 'fa-info-circle'}"></i><div>${message}</div>`;
-    container.appendChild(toast);
-    requestAnimationFrame(() => toast.classList.add('show'));
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 300);
-    }, duration);
-}
-
-let modalResolve = null;
-function showModal(opts = {}) {
-    return new Promise(resolve => {
-        modalResolve = resolve;
-        $('modalTitle').textContent = opts.title || '';
-        $('modalBody').innerHTML = opts.body || '';
-        const confirmBtn = $('modalConfirm');
-        confirmBtn.textContent = opts.confirmText || 'OK';
-        confirmBtn.className = opts.danger ? 'btn-modal-danger' : 'btn-modal-confirm';
-        $('modalCancel').textContent = opts.cancelText || 'Annulla';
-        $('modalOverlay').classList.add('show');
-        setTimeout(() => {
-            const input = $('modalBody').querySelector('input, textarea, select');
-            if (input) input.focus();
-            else confirmBtn.focus();
-        }, 100);
-    });
-}
-
-function closeModal(result) {
-    $('modalOverlay').classList.remove('show');
-    if (modalResolve) { modalResolve(result); modalResolve = null; }
-}
-
-$('modalConfirm').addEventListener('click', () => {
-    const input = $('modalBody').querySelector('input, textarea, select');
-    if (input) closeModal(input.value);
-    else closeModal(true);
-});
-$('modalCancel').addEventListener('click', () => closeModal(null));
-$('modalOverlay').addEventListener('click', (e) => {
-    if (e.target === $('modalOverlay')) closeModal(null);
-});
-
-async function showPrompt(title, placeholder = '', defaultValue = '') {
-    const body = `<input type="text" id="modalPromptInput" class="form-control" placeholder="${placeholder}" value="${defaultValue}">`;
-    return await showModal({ title, body, confirmText: 'OK' });
-}
-
-async function showConfirm(message, danger = false, customTitle = null) {
-    return await showModal({
-        title: customTitle || ('⚠️ ' + t('confirmDelete')),
-        body: `<p>${message}</p>`,
-        confirmText: 'Sì', cancelText: 'No', danger
-    });
-}
-
-/* =========================================================
-   GITHUB API
-   ========================================================= */
 async function ghGet(filePath) {
     const url = `https://api.github.com/repos/${REPO}/contents/${filePath}`;
     const res = await fetch(url, {
@@ -1929,44 +616,23 @@ async function ghGet(filePath) {
             'Accept': 'application/vnd.github+json'
         }
     });
-    const isObject = filePath === 'opponents.json' || filePath === 'locations.json' || filePath === 'stats.json';
-    if (res.status === 404) return { sha: null, content: isObject ? {} : [] };
-    if (!res.ok) throw new Error(await formatGhError(res, `GET ${filePath}`));
+    if (!res.ok) return null;
     const data = await res.json();
-    const str = base64ToUtf8(data.content);
-    return { sha: data.sha, content: JSON.parse(str) };
-}
-
-async function fetchJsonFile(filePath) {
-    if (State.token) {
-        try {
-            const ghRes = await ghGet(filePath);
-            if (ghRes && ghRes.content) return ghRes;
-        } catch (e) {
-            console.warn(`Lettura GitHub per ${filePath} fallita, fallback su fetch locale:`, e);
-        }
-    }
-    try {
-        const res = await fetch(`${filePath}?t=${Date.now()}`);
-        if (res.ok) {
-            const data = await res.json();
-            return { sha: null, content: data };
-        }
-    } catch (e) {
-        console.error(`Fetch locale per ${filePath} fallita:`, e);
-    }
-    const isObject = filePath === 'locations.json' || filePath === 'opponents.json' || filePath === 'stats.json';
-    return { sha: null, content: isObject ? {} : [] };
+    const decoded = new TextDecoder().decode(Uint8Array.from(atob(data.content.replace(/\s/g, '')), c => c.charCodeAt(0)));
+    return { sha: data.sha, content: JSON.parse(decoded) };
 }
 
 async function ghPut(filePath, content, sha, commitMsg) {
     const url = `https://api.github.com/repos/${REPO}/contents/${filePath}`;
-    const body = {
-        message: commitMsg,
-        content: utf8ToBase64(JSON.stringify(content, null, 2)),
-        branch: 'main'
-    };
+    const str = JSON.stringify(content, null, 2);
+    const bytes = new TextEncoder().encode(str);
+    let bin = '';
+    for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    const b64 = btoa(bin);
+
+    const body = { message: commitMsg, content: b64, branch: 'main' };
     if (sha) body.sha = sha;
+
     const res = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -1976,172 +642,44 @@ async function ghPut(filePath, content, sha, commitMsg) {
         },
         body: JSON.stringify(body)
     });
-    if (!res.ok) throw new Error(await formatGhError(res, `PUT ${filePath}`));
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
 }
 
-async function formatGhError(res, context) {
-    let detail = '';
-    try { const err = await res.json(); detail = err.message || ''; } catch(_) {}
-    if (res.status === 401) return `401 Unauthorized (${context}) — Token non valido o scaduto.`;
-    if (res.status === 403) return `403 Forbidden (${context}) — Rate limit o permessi insufficienti.`;
-    if (res.status === 409) return `409 Conflict (${context}) — Il file è stato modificato altrove.`;
-    return `HTTP ${res.status} (${context}) — ${detail || 'Errore sconosciuto'}`;
-}
-
-/* =========================================================
-   LOGIN & INIT
-   ========================================================= */
-async function verifyAndLogin(token) {
-    const errEl = $('loginError');
-    const btn = $('loginBtn');
-    errEl.textContent = '';
-    btn.disabled = true;
+async function fetchAllDataFromGitHub() {
     try {
-        const res = await fetch(`https://api.github.com/repos/${REPO}`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (!res.ok) {
-            errEl.textContent = '❌ Token non valido o repository non accessibile.';
-            sessionStorage.removeItem(TOKEN_KEY);
-            return;
-        }
-        State.token = token;
-        sessionStorage.setItem(TOKEN_KEY, token);
-        $('loginSection').classList.add('hidden');
-        $('adminDashboard').classList.remove('hidden');
-        await initData();
-    } catch (e) {
-        errEl.textContent = '❌ Errore di rete: ' + e.message;
-    } finally {
-        btn.disabled = false;
-    }
-}
-
-$('loginForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const v = $('inputToken').value.trim();
-    if (v) verifyAndLogin(v);
-});
-
-function logout() {
-    sessionStorage.removeItem(TOKEN_KEY);
-    State.token = '';
-    sessionStorage.removeItem('yc_admin_draft');
-    location.reload();
-}
-
-async function initData() {
-    setLanguage(State.lang);
-    try {
-        const [oRes, lRes, pRes, mRes, sRes, cRes, nRes, tRes] = await Promise.allSettled([
-            fetchJsonFile('opponents.json'),
-            fetchJsonFile('locations.json'),
-            fetchJsonFile('players.json'),
-            fetchJsonFile('matches.json'),
-            fetchJsonFile('stats.json'),
-            fetchJsonFile('competitions.json'),
-            fetchJsonFile('news.json'),
-            fetchJsonFile('trainings.json')
+        const [p, o, l, c, n, t] = await Promise.all([
+            ghGet('players.json'), ghGet('opponents.json'), ghGet('locations.json'),
+            ghGet('competitions.json'), ghGet('news.json'), ghGet('trainings.json')
         ]);
 
-        if (oRes.status === 'fulfilled' && oRes.value) State.opponents = oRes.value.content || {};
-        if (lRes.status === 'fulfilled' && lRes.value) State.locations = lRes.value.content || {};
-        if (pRes.status === 'fulfilled' && pRes.value) State.players = Array.isArray(pRes.value.content) ? pRes.value.content : [];
-        if (mRes.status === 'fulfilled' && mRes.value) State.matches = Array.isArray(mRes.value.content) ? mRes.value.content : [];
-        if (sRes.status === 'fulfilled' && sRes.value && sRes.value.content) State.statsData = sRes.value.content.players || {};
-        if (cRes.status === 'fulfilled' && cRes.value) {
-            const content = cRes.value.content;
-            if (Array.isArray(content)) State.competitions = content;
-            else if (content && Array.isArray(content.competitions)) State.competitions = content.competitions;
-        }
-        if (nRes.status === 'fulfilled' && nRes.value) State.news = Array.isArray(nRes.value.content) ? nRes.value.content : [];
-        if (tRes.status === 'fulfilled' && tRes.value) State.trainings = Array.isArray(tRes.value.content) ? tRes.value.content : [];
+        if (p) State.players = p.content || [];
+        if (o) State.opponents = o.content || {};
+        if (l) State.locations = l.content || {};
+        if (c) State.competitions = c.content || [];
+        if (n) State.news = n.content || [];
+        if (t) State.trainings = t.content || [];
 
         renderAllTables();
-        renderPitchAndBench();
-        updateAllPlayerDropdowns();
-        renderTrialistsList();
-        renderMatchSelector();
-        checkDraft();
     } catch (e) {
-        showToast('error', '❌ Errore caricamento dati: ' + e.message);
+        showToast('error', '⚠️ Errore durante il caricamento dei dati da GitHub');
     }
 }
 
-/* =========================================================
-   LANG & DARK MODE
-   ========================================================= */
 function renderAllTables() {
-    renderOpponentsSelectAndTable();
-    renderLocationsSelectAndTable();
     renderPlayersTable();
-    renderCompetitionsSelectAndTable();
+    renderOpponentsTable();
+    renderLocationsTable();
+    renderCompetitionsTable();
     renderNewsTable();
     renderTrainingsTable();
 }
 
-function setLanguage(lang) {
-    if (!I18N_DICT[lang]) return;
-    State.lang = lang;
-    sessionStorage.setItem('yc_admin_lang', lang);
-
-    $$('.lang-btn-admin').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-lang') === lang));
-    $$('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (I18N_DICT[lang][key]) el.textContent = I18N_DICT[lang][key];
-    });
-
-    renderSurfaceDropdown();
-    renderAllTables();
-    renderMatchSelector();
-    if (State.players.length > 0) {
-        updateAllPlayerDropdowns();
-        renderMisterHelper();
-    }
-}
-
-function initDarkMode() {
-    if (sessionStorage.getItem('yc_admin_dark') === '1') document.body.classList.add('dark');
-    updateDarkIcon();
-}
-function toggleDark() {
-    document.body.classList.toggle('dark');
-    sessionStorage.setItem('yc_admin_dark', document.body.classList.contains('dark') ? '1' : '0');
-    updateDarkIcon();
-}
-function updateDarkIcon() {
-    const icon = $('darkIcon');
-    if (icon) icon.className = document.body.classList.contains('dark') ? 'fas fa-sun' : 'fas fa-moon';
-}
-
-/* =========================================================
-   PLAYERS (con leadership_role)
-   ========================================================= */
 function renderPlayersTable() {
-    let rows = State.players.slice();
-    if (State.playerSearch) {
-        const q = State.playerSearch.toLowerCase();
-        rows = rows.filter(p =>
-            (p.name_kanji || '').toLowerCase().includes(q) ||
-            (p.name_romaji || '').toLowerCase().includes(q) ||
-            String(p.number || '').includes(q) ||
-            (p.position || '').toLowerCase().includes(q)
-        );
-    }
-    const f = State.playerSort.field;
-    const dir = State.playerSort.dir === 'asc' ? 1 : -1;
-    rows.sort((a, b) => {
-        let va = a[f], vb = b[f];
-        if (f === 'number') {
-            va = va === null || va === undefined || isNaN(va) ? 9999 : Number(va);
-            vb = vb === null || vb === undefined || isNaN(vb) ? 9999 : Number(vb);
-            return (va - vb) * dir;
-        }
-        return String(va || '').toLowerCase().localeCompare(String(vb || '').toLowerCase()) * dir;
-    });
+    const tbody = document.getElementById('playersTableBody');
+    if (!tbody) return;
 
-    $('playersTableBody').innerHTML = rows.map(p => {
+    tbody.innerHTML = State.players.map(p => {
         let leadBadge = '-';
         if (p.leadership_role === 'captain') leadBadge = '<span class="badge-leadership badge-captain">👑 CAP</span>';
         else if (p.leadership_role === 'vice_captain') leadBadge = '<span class="badge-leadership badge-vice">🎖️ VICE</span>';
@@ -2149,887 +687,133 @@ function renderPlayersTable() {
         return `
             <tr>
                 <td><b>${p.number ?? '-'}</b></td>
-                <td>${escapeHtml(localizePlayerName(p)) || '-'}</td>
-                <td>${escapeHtml(p.name_romaji) || '-'}</td>
-                <td><span class="pos-badge">${escapeHtml((p.role || '').toUpperCase())}</span></td>
-                <td>${escapeHtml(p.position) || '-'}</td>
+                <td>${p.name_kanji || p.name_romaji || '-'}</td>
+                <td>${p.name_romaji || '-'}</td>
+                <td><b>${(p.role || '').toUpperCase()}</b></td>
+                <td>${p.position || '-'}</td>
                 <td>${leadBadge}</td>
-                <td>${escapeHtml(p.hometown) || '-'}</td>
-                <td><b>${p.caps ?? 0}</b></td>
                 <td>
-                    <button type="button" class="btn-edit" data-action="edit-player" data-id="${escapeHtml(p.id)}"><i class="fas fa-edit"></i></button>
-                    <button type="button" class="btn-delete" data-action="delete-player" data-id="${escapeHtml(p.id)}"><i class="fas fa-trash"></i></button>
+                    <button class="btn-edit" onclick="editPlayer('${p.id}')"><i class="fas fa-edit"></i></button>
                 </td>
             </tr>
         `;
     }).join('');
-    $('playerCountBadge').textContent = `${rows.length} giocatori`;
 }
 
-async function savePlayerToSquad() {
-    const rawNum = $('pNumber').value.trim();
-    const parsedNum = rawNum !== '' && !isNaN(parseInt(rawNum, 10)) ? parseInt(rawNum, 10) : null;
-    const kanji = $('pNameKanji').value.trim();
-    const kana = $('pNameKana').value.trim();
-    const romaji = $('pNameRomaji').value.trim();
-    const role = $('pRole').value;
-    const pos = $('pPosition').value.trim().toUpperCase();
-    const leadership = $('pLeadership').value || null;
-    const birth = $('pBirthDate').value;
-    const hometown = $('pHometown').value.trim().toLowerCase();
-    const photo = $('pPhoto').value.trim();
-    const caps = parseInt($('editPlayerCaps').value, 10) || 0;
+function renderOpponentsTable() {
+    const tbody = document.getElementById('opponentsTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = Object.keys(State.opponents).map(k => `
+        <tr><td><b>${k}</b></td><td>${State.opponents[k].name?.ja || '-'}</td><td>${State.opponents[k].name?.it || '-'}</td><td>${State.opponents[k].name?.en || '-'}</td></tr>
+    `).join('');
+}
 
-    if (!kanji) { showToast('warn', 'Inserisci almeno il nome Kanji / Ufficiale.'); return; }
-    const editId = $('editPlayerId').value;
-    let fallbackId = romaji ? romaji.toLowerCase().replace(/[^a-z0-9]+/g, '-') : `num-${parsedNum || 'unknown'}`;
-    const id = editId || fallbackId;
+function renderLocationsTable() {
+    const tbody = document.getElementById('locationsTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = Object.keys(State.locations).map(k => `
+        <tr><td><b>${k}</b></td><td>${State.locations[k].ja || '-'}</td><td>${State.locations[k].it || '-'}</td><td>${State.locations[k].surface?.it || '-'}</td></tr>
+    `).join('');
+}
 
-    const obj = {
-        id, number: parsedNum, role, position: pos, leadership_role: leadership,
-        name_kanji: kanji, name_kana: kana, name_romaji: romaji,
-        birth_date: birth || null, hometown: hometown || 'kanagawa',
-        caps, photo: photo || null
-    };
+function renderCompetitionsTable() {
+    const tbody = document.getElementById('competitionsTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = State.competitions.map(c => `
+        <tr><td><b>${c.id}</b></td><td>${c.category}</td><td>${c.season || '-'}</td><td>${c.name?.ja || '-'}</td><td>${c.name?.it || '-'}</td></tr>
+    `).join('');
+}
 
-    if (editId) {
-        const idx = State.players.findIndex(p => p.id === editId);
-        if (idx >= 0) State.players[idx] = obj;
-    } else { State.players.push(obj); }
+function renderNewsTable() {
+    const tbody = document.getElementById('newsTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = State.news.map(n => `
+        <tr><td><b>${n.date}</b></td><td>${n.type}</td><td>${n.ja || '-'}</td><td>${n.it || '-'}</td></tr>
+    `).join('');
+}
 
-    renderPlayersTable();
-    updateAllPlayerDropdowns();
-    try {
-        const { sha } = await ghGet('players.json');
-        await ghPut('players.json', State.players, sha, `Admin: Save player ${id}`);
-        showToast('success', '✅ players.json salvato');
-        resetPlayerForm();
-    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
+function renderTrainingsTable() {
+    const tbody = document.getElementById('trainingsTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = State.trainings.map(t => `
+        <tr><td><b>${t.date}</b></td><td>${t.time || '-'}</td><td>${t.venue || '-'}</td><td>${t.trial_open ? '✅' : '❌'}</td></tr>
+    `).join('');
 }
 
 function editPlayer(id) {
     const p = State.players.find(x => x.id === id);
     if (!p) return;
-    $('editPlayerId').value = p.id;
-    $('editPlayerCaps').value = p.caps ?? 0;
-    $('pNumber').value = p.number ?? '';
-    $('pNameKanji').value = p.name_kanji || '';
-    $('pNameKana').value = p.name_kana || '';
-    $('pNameRomaji').value = p.name_romaji || '';
-    $('pRole').value = p.role || 'mf';
-    $('pPosition').value = p.position || '';
-    $('pLeadership').value = p.leadership_role || '';
-    $('pBirthDate').value = p.birth_date || '';
-    $('pHometown').value = p.hometown || '';
-    $('pPhoto').value = p.photo || '';
-    document.querySelector('#playersTab').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-async function deletePlayer(id) {
-    const p = State.players.find(x => x.id === id);
-    const name = p ? (p.name_kanji || p.name_romaji || id) : id;
-    const ok = await showConfirm(`Eliminare "${name}"?`, true);
-    if (!ok) return;
-    State.players = State.players.filter(x => x.id !== id);
-    renderPlayersTable();
-    updateAllPlayerDropdowns();
-    try {
-        const { sha } = await ghGet('players.json');
-        await ghPut('players.json', State.players, sha, `Admin: Delete player ${id}`);
-        showToast('success', '✅ Giocatore eliminato');
-    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
+    document.getElementById('editPlayerId').value = p.id;
+    document.getElementById('pNumber').value = p.number ?? '';
+    document.getElementById('pNameKanji').value = p.name_kanji || '';
+    document.getElementById('pNameKana').value = p.name_kana || '';
+    document.getElementById('pNameRomaji').value = p.name_romaji || '';
+    document.getElementById('pRole').value = p.role || 'mf';
+    document.getElementById('pPosition').value = p.position || '';
+    document.getElementById('pLeadership').value = p.leadership_role || '';
 }
 
 function resetPlayerForm() {
-    $('playerEditForm').reset();
-    $('editPlayerId').value = '';
-    $('editPlayerCaps').value = '0';
+    document.getElementById('playerEditForm').reset();
+    document.getElementById('editPlayerId').value = '';
 }
 
-/* =========================================================
-   COMPETITIONS
-   ========================================================= */
-function renderCompetitionsSelectAndTable() {
-    const sel = $('competitionSelect');
-    if (sel) {
-        sel.innerHTML = State.competitions.map(c => {
-            const name = c.name?.[State.lang] || c.name?.it || c.name?.ja || c.id;
-            return `<option value="${escapeHtml(c.id)}">${escapeHtml(name)} (${c.id})</option>`;
-        }).join('');
-    }
-
-    $('competitionsTableBody').innerHTML = State.competitions.map(c => `
-        <tr>
-            <td><b>${escapeHtml(c.id)}</b></td>
-            <td><span class="pos-badge">${escapeHtml(c.category || 'league')}</span></td>
-            <td>${escapeHtml(c.season || '-')}</td>
-            <td>${escapeHtml(c.name?.ja || '-')}</td>
-            <td>${escapeHtml(c.name?.it || '-')}</td>
-            <td><span style="display:inline-block; width:16px; height:16px; border-radius:50%; background:${c.badge_color || '#003c82'}; vertical-align:middle;"></span> ${c.badge_color || ''}</td>
-            <td>
-                <button type="button" class="btn-edit" data-action="edit-competition" data-id="${escapeHtml(c.id)}"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn-delete" data-action="delete-competition" data-id="${escapeHtml(c.id)}"><i class="fas fa-trash"></i></button>
-            </td>
-        </tr>
-    `).join('');
-}
-
-async function saveCompetitionData() {
-    const id = $('compId').value.trim();
-    if (!id) { showToast('warn', 'Inserisci ID Competizione.'); return; }
-
-    const category = $('compCategory').value;
-    const season = $('compSeason').value.trim() || '2026';
-    const division = $('compDivision').value.trim();
-    const block = $('compBlock').value.trim();
-    const color = $('compBadgeColor').value;
-
-    const ja = $('compNameJa').value.trim();
-    const it = $('compNameIt').value.trim() || ja;
-    const en = $('compNameEn').value.trim() || it;
-
-    const sJa = $('compShortJa').value.trim() || ja;
-    const sIt = $('compShortIt').value.trim() || it;
-    const sEn = $('compShortEn').value.trim() || en;
-
-    const obj = {
-        id, category, season, division, block,
-        name: { ja, it, en },
-        short_name: { ja: sJa, it: sIt, en: sEn },
-        has_standings: category === 'league',
-        badge_color: color
-    };
-
-    const idx = State.competitions.findIndex(c => c.id === id);
-    if (idx >= 0) State.competitions[idx] = obj;
-    else State.competitions.push(obj);
-
-    renderCompetitionsSelectAndTable();
-    try {
-        const { sha } = await ghGet('competitions.json');
-        await ghPut('competitions.json', State.competitions, sha, `Admin: Save competition ${id}`);
-        showToast('success', '✅ competitions.json salvato');
-        resetCompetitionForm();
-    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
-}
-
-function editCompetition(id) {
-    const c = State.competitions.find(x => x.id === id);
-    if (!c) return;
-    $('editCompId').value = c.id;
-    $('compId').value = c.id;
-    $('compCategory').value = c.category || 'league';
-    $('compSeason').value = c.season || '';
-    $('compDivision').value = c.division || '';
-    $('compBlock').value = c.block || '';
-    $('compBadgeColor').value = c.badge_color || '#003c82';
-    $('compNameJa').value = c.name?.ja || '';
-    $('compNameIt').value = c.name?.it || '';
-    $('compNameEn').value = c.name?.en || '';
-    $('compShortJa').value = c.short_name?.ja || '';
-    $('compShortIt').value = c.short_name?.it || '';
-    $('compShortEn').value = c.short_name?.en || '';
-}
-
-async function deleteCompetition(id) {
-    const ok = await showConfirm(`Eliminare la competizione "${id}"?`, true);
-    if (!ok) return;
-    State.competitions = State.competitions.filter(c => c.id !== id);
-    renderCompetitionsSelectAndTable();
-    try {
-        const { sha } = await ghGet('competitions.json');
-        await ghPut('competitions.json', State.competitions, sha, `Admin: Delete competition ${id}`);
-        showToast('success', '✅ Competizione eliminata');
-    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
-}
-
-function resetCompetitionForm() {
-    $('competitionEditForm').reset();
-    $('editCompId').value = '';
-}
-
-/* =========================================================
-   NEWS
-   ========================================================= */
-function renderNewsTable() {
-    const sorted = [...State.news].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-    $('newsTableBody').innerHTML = sorted.map(n => `
-        <tr>
-            <td><b>${escapeHtml(n.date)}</b></td>
-            <td><span class="pos-badge">${escapeHtml(n.type || 'info')}</span></td>
-            <td>${escapeHtml(n.ja || '-')}</td>
-            <td>${escapeHtml(n.it || '-')}</td>
-            <td>${n.link ? `<a href="${escapeHtml(n.link)}" target="_blank">${escapeHtml(n.link)}</a>` : '-'}</td>
-            <td>
-                <button type="button" class="btn-edit" data-action="edit-news" data-id="${escapeHtml(n.id)}"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn-delete" data-action="delete-news" data-id="${escapeHtml(n.id)}"><i class="fas fa-trash"></i></button>
-            </td>
-        </tr>
-    `).join('');
-}
-
-async function saveNewsData() {
-    const id = $('newsId').value.trim();
-    const date = $('newsDate').value;
-    const ja = $('newsTitleJa').value.trim();
-    if (!id || !date || !ja) { showToast('warn', 'Inserisci ID, Data e Titolo JA.'); return; }
-
-    const obj = {
-        id, date,
-        type: $('newsType').value,
-        link: $('newsLink').value.trim() || 'about.html',
-        ja,
-        it: $('newsTitleIt').value.trim() || ja,
-        en: $('newsTitleEn').value.trim() || ja
-    };
-
-    const idx = State.news.findIndex(n => n.id === id);
-    if (idx >= 0) State.news[idx] = obj;
-    else State.news.push(obj);
-
-    renderNewsTable();
-    try {
-        const { sha } = await ghGet('news.json');
-        await ghPut('news.json', State.news, sha, `Admin: Save news ${id}`);
-        showToast('success', '✅ news.json salvato');
-        resetNewsForm();
-    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
-}
-
-function editNews(id) {
-    const n = State.news.find(x => x.id === id);
-    if (!n) return;
-    $('editNewsId').value = n.id;
-    $('newsId').value = n.id;
-    $('newsDate').value = n.date || '';
-    $('newsType').value = n.type || 'info';
-    $('newsLink').value = n.link || '';
-    $('newsTitleJa').value = n.ja || '';
-    $('newsTitleIt').value = n.it || '';
-    $('newsTitleEn').value = n.en || '';
-}
-
-async function deleteNews(id) {
-    const ok = await showConfirm(`Eliminare la news "${id}"?`, true);
-    if (!ok) return;
-    State.news = State.news.filter(n => n.id !== id);
-    renderNewsTable();
-    try {
-        const { sha } = await ghGet('news.json');
-        await ghPut('news.json', State.news, sha, `Admin: Delete news ${id}`);
-        showToast('success', '✅ News eliminata');
-    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
-}
-
-function resetNewsForm() {
-    $('newsEditForm').reset();
-    $('editNewsId').value = '';
-}
-
-/* =========================================================
-   TRAININGS
-   ========================================================= */
-function renderTrainingsTable() {
-    const sorted = [...State.trainings].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-    $('trainingsTableBody').innerHTML = sorted.map(t => `
-        <tr>
-            <td><b>${escapeHtml(t.date)}</b></td>
-            <td>${escapeHtml(t.time || '-')}</td>
-            <td>${escapeHtml(t.venue || '-')}</td>
-            <td>${escapeHtml(t.surface || '-')}</td>
-            <td>${t.trial_open ? '✅ Si' : '❌ No'}</td>
-            <td><span class="pos-badge">${escapeHtml(t.status || 'upcoming')}</span></td>
-            <td>
-                <button type="button" class="btn-edit" data-action="edit-training" data-id="${escapeHtml(t.id)}"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn-delete" data-action="delete-training" data-id="${escapeHtml(t.id)}"><i class="fas fa-trash"></i></button>
-            </td>
-        </tr>
-    `).join('');
-
-    const trLocSel = $('trLocationSelect');
-    if (trLocSel) {
-        trLocSel.innerHTML = '<option value="">— Nessun Campo Specifico —</option>' + Object.keys(State.locations).map(k => {
-            const name = State.locations[k].ja || k;
-            return `<option value="${k}">${escapeHtml(name)} (${k})</option>`;
-        }).join('');
-    }
-}
-
-async function saveTrainingData() {
-    const id = $('trId').value.trim();
-    const date = $('trDate').value;
-    const venue = $('trVenue').value.trim();
-    if (!id || !date || !venue) { showToast('warn', 'Inserisci ID, Data e Nome Impianto.'); return; }
-
-    const obj = {
-        id, date,
-        time: $('trTime').value.trim() || '09:30 - 12:00',
-        meet_time: $('trMeetTime').value.trim() || '09:00',
-        title: {
-            ja: $('trTitleJa').value.trim() || 'チームトレーニング',
-            it: $('trTitleIt').value.trim() || 'Allenamento di Squadra',
-            en: $('trTitleEn').value.trim() || 'Team Training'
-        },
-        location_id: $('trLocationSelect').value || '',
-        venue,
-        url: $('trUrl').value.trim(),
-        surface: $('trSurface').value.trim() || '土',
-        status: $('trStatus').value,
-        trial_open: $('trTrialOpen').checked
-    };
-
-    const idx = State.trainings.findIndex(t => t.id === id);
-    if (idx >= 0) State.trainings[idx] = obj;
-    else State.trainings.push(obj);
-
-    renderTrainingsTable();
-    try {
-        const { sha } = await ghGet('trainings.json');
-        await ghPut('trainings.json', State.trainings, sha, `Admin: Save training ${id}`);
-        showToast('success', '✅ trainings.json salvato');
-        resetTrainingForm();
-    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
-}
-
-function editTraining(id) {
-    const tr = State.trainings.find(x => x.id === id);
-    if (!tr) return;
-    $('editTrainingId').value = tr.id;
-    $('trId').value = tr.id;
-    $('trDate').value = tr.date || '';
-    $('trTime').value = tr.time || '';
-    $('trMeetTime').value = tr.meet_time || '';
-    $('trLocationSelect').value = tr.location_id || '';
-    $('trVenue').value = tr.venue || '';
-    $('trSurface').value = tr.surface || '';
-    $('trStatus').value = tr.status || 'upcoming';
-    $('trUrl').value = tr.url || '';
-    $('trTrialOpen').checked = !!tr.trial_open;
-    $('trTitleJa').value = tr.title?.ja || '';
-    $('trTitleIt').value = tr.title?.it || '';
-    $('trTitleEn').value = tr.title?.en || '';
-}
-
-async function deleteTraining(id) {
-    const ok = await showConfirm(`Eliminare l'allenamento "${id}"?`, true);
-    if (!ok) return;
-    State.trainings = State.trainings.filter(t => t.id !== id);
-    renderTrainingsTable();
-    try {
-        const { sha } = await ghGet('trainings.json');
-        await ghPut('trainings.json', State.trainings, sha, `Admin: Delete training ${id}`);
-        showToast('success', '✅ Allenamento eliminato');
-    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
-}
-
-function resetTrainingForm() {
-    $('trainingEditForm').reset();
-    $('editTrainingId').value = '';
-}
-
-/* =========================================================
-   OPPONENTS & LOCATIONS UTILS
-   ========================================================= */
-function renderSurfaceDropdown() {
-    const sel = $('locSurfaceSelect');
-    if (!sel) return;
-    const cur = sel.value || 'artificial';
-    sel.innerHTML = Object.keys(SURFACE_PRESETS).map(k => {
-        const label = SURFACE_PRESETS[k][State.lang] || SURFACE_PRESETS[k].it;
-        return `<option value="${k}">${label}</option>`;
-    }).join('');
-    sel.value = cur;
-}
-
-function renderOpponentsSelectAndTable() {
-    const keys = Object.keys(State.opponents).sort();
-    $('opponentSelect').innerHTML = keys.map(k => {
-        const n = State.opponents[k].name || {};
-        const name = n[State.lang] || n.it || n.en || n.ja || k;
-        return `<option value="${k}">${escapeHtml(name)} (${escapeHtml(k)})</option>`;
-    }).join('');
-
-    let rows = keys.map(k => ({
-        key: k, ja: State.opponents[k].name?.ja || '', it: State.opponents[k].name?.it || '', en: State.opponents[k].name?.en || ''
-    }));
-    $('opponentsTableBody').innerHTML = rows.map(r => `
-        <tr>
-            <td><b>${escapeHtml(r.key)}</b></td>
-            <td>${escapeHtml(r.ja) || '-'}</td>
-            <td>${escapeHtml(r.it) || '-'}</td>
-            <td>${escapeHtml(r.en) || '-'}</td>
-            <td>
-                <button type="button" class="btn-edit" data-action="edit-opponent" data-key="${escapeHtml(r.key)}"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn-delete" data-action="delete-opponent" data-key="${escapeHtml(r.key)}"><i class="fas fa-trash"></i></button>
-            </td>
-        </tr>
-    `).join('');
-}
-
-async function saveOpponentData() {
-    const key = $('oppKey').value.trim().toLowerCase();
-    const ja = $('oppNameJa').value.trim();
-    const it = $('oppNameIt').value.trim();
-    const en = $('oppNameEn').value.trim();
-    if (!key || !ja) { showToast('warn', 'Inserisci Key e Nome JA.'); return; }
-
-    State.opponents[key] = {
-        name: { ja, it: it || en || ja, en: en || it || ja },
-        logo: State.opponents[key]?.logo || `./immagini/opponents/${key}.png`
-    };
-
-    renderOpponentsSelectAndTable();
-    try {
-        const { sha } = await ghGet('opponents.json');
-        await ghPut('opponents.json', State.opponents, sha, `Admin: Save opponent ${key}`);
-        showToast('success', '✅ opponents.json salvato');
-        resetOpponentForm();
-    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
-}
-
-function editOpponent(key) {
-    const o = State.opponents[key];
-    if (!o) return;
-    $('editOpponentKey').value = key;
-    $('oppKey').value = key;
-    $('oppNameJa').value = o.name?.ja || '';
-    $('oppNameIt').value = o.name?.it || '';
-    $('oppNameEn').value = o.name?.en || '';
-}
-
-async function deleteOpponent(key) {
-    const ok = await showConfirm(`Eliminare l'avversario "${key}"?`, true);
-    if (!ok) return;
-    delete State.opponents[key];
-    renderOpponentsSelectAndTable();
-    try {
-        const { sha } = await ghGet('opponents.json');
-        await ghPut('opponents.json', State.opponents, sha, `Admin: Delete opponent ${key}`);
-        showToast('success', '✅ Avversario eliminato');
-    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
-}
-
-function resetOpponentForm() {
-    $('opponentEditForm').reset();
-    $('editOpponentKey').value = '';
-}
-
-function renderLocationsSelectAndTable() {
-    const keys = Object.keys(State.locations).sort();
-    $('locationSelect').innerHTML = keys.map(k => {
-        const loc = State.locations[k];
-        const name = loc[State.lang] || loc.it || loc.en || loc.ja || k;
-        return `<option value="${k}">${escapeHtml(name)} (${escapeHtml(k)})</option>`;
-    }).join('');
-
-    let rows = keys.map(k => {
-        const loc = State.locations[k];
-        const sObj = loc.surface || {};
-        const surfLabel = (typeof sObj === 'object') ? (sObj[State.lang] || sObj.it || sObj.ja || '-') : sObj;
-        return { key: k, ja: loc.ja || '', it: loc.it || '', surface: surfLabel, maps: loc.maps || '' };
-    });
-
-    $('locationsTableBody').innerHTML = rows.map(r => `
-        <tr>
-            <td><b>${escapeHtml(r.key)}</b></td>
-            <td>${escapeHtml(r.ja)}</td>
-            <td>${escapeHtml(r.it) || '-'}</td>
-            <td><b>${escapeHtml(r.surface)}</b></td>
-            <td>${r.maps ? `<a href="${escapeHtml(r.maps)}" target="_blank">Link</a>` : '-'}</td>
-            <td>
-                <button type="button" class="btn-edit" data-action="edit-location" data-key="${escapeHtml(r.key)}"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn-delete" data-action="delete-location" data-key="${escapeHtml(r.key)}"><i class="fas fa-trash"></i></button>
-            </td>
-        </tr>
-    `).join('');
-}
-
-async function saveLocationData() {
-    const key = $('locKey').value.trim().toLowerCase();
-    const ja = $('locNameJa').value.trim();
-    const it = $('locNameIt').value.trim();
-    const en = $('locNameEn').value.trim();
-    const surfKey = $('locSurfaceSelect').value;
-    const maps = $('locMapsUrl').value.trim();
-    if (!key || !ja) { showToast('warn', 'Inserisci Key e Nome JA.'); return; }
-    State.locations[key] = { ja, it: it || ja, en: en || ja, surface: SURFACE_PRESETS[surfKey], maps };
-    renderLocationsSelectAndTable();
-    try {
-        const { sha } = await ghGet('locations.json');
-        await ghPut('locations.json', State.locations, sha, `Admin: Save location ${key}`);
-        showToast('success', '✅ locations.json salvato');
-        resetLocationForm();
-    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
-}
-
-function editLocation(key) {
-    const loc = State.locations[key];
-    if (!loc) return;
-    $('editLocationKey').value = key;
-    $('locKey').value = key;
-    $('locNameJa').value = loc.ja || '';
-    $('locNameIt').value = loc.it || '';
-    $('locNameEn').value = loc.en || '';
-    $('locMapsUrl').value = loc.maps || '';
-}
-
-async function deleteLocation(key) {
-    const ok = await showConfirm(`Eliminare il campo "${key}"?`, true);
-    if (!ok) return;
-    delete State.locations[key];
-    renderLocationsSelectAndTable();
-    try {
-        const { sha } = await ghGet('locations.json');
-        await ghPut('locations.json', State.locations, sha, `Admin: Delete location ${key}`);
-        showToast('success', '✅ Campo eliminato');
-    } catch (e) { showToast('error', '❌ ' + e.message, 7000); }
-}
-
-function resetLocationForm() {
-    $('locationEditForm').reset();
-    $('editLocationKey').value = '';
-}
-
-/* =========================================================
-   PITCH & BENCH & MATCH SELECTOR
-   ========================================================= */
-function renderMatchSelector() {
-    const sel = $('matchSelector');
-    if (!sel) return;
-    const currentVal = sel.value;
-    const sorted = [...State.matches].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-
-    if (sorted.length === 0) {
-        sel.innerHTML = '<option value="">— Nessuna partita disponibile —</option>';
-        return;
-    }
-
-    let html = `<option value="">— Scegli una partita dall'elenco —</option>`;
-    sorted.forEach(m => {
-        const isUpcoming = String(m.status || '').toLowerCase() === 'upcoming';
-        const icon = isUpcoming ? '🟢' : '⚪';
-        const oppName = State.opponents[m.opponent_id]?.name?.[State.lang] || m.opponent_id || '?';
-        const label = `${icon} ${m.date || '?'} — vs ${oppName} (${m.score || 'VS'}) · [${m.id}]`;
-        html += `<option value="${escapeHtml(m.id)}">${escapeHtml(label)}</option>`;
-    });
-    sel.innerHTML = html;
-    if (currentVal && sorted.some(m => String(m.id) === currentVal)) sel.value = currentVal;
-}
-
-async function loadMatchFromSelector() {
-    const id = $('matchSelector').value;
-    if (!id) { showToast('warn', t('noMatchSelected')); return; }
-    await loadMatchData(id);
-}
-
-async function searchById() {
-    const id = ($('matchId').value || '').trim();
-    if (!id) return;
-    await loadMatchData(id);
-}
-
-function toggleIdSearch() {
-    const wrap = $('searchInputWrap');
-    if (wrap) wrap.classList.toggle('open');
-}
-
-function getAllAvailablePlayers(onlyGK = false) {
-    const list = [{ name: '— nessuno —', value: '' }];
-    const all = [...State.players, ...State.trialists];
-    let filtered = onlyGK ? all.filter(p => p.position === 'GK' || p.role === 'gk' || p.position === 'TRIAL') : all;
-    filtered.sort((a, b) => localizePlayerName(a).localeCompare(localizePlayerName(b)));
-    filtered.forEach(p => {
-        const isTrial = p.position === 'TRIAL' ? ' (PROVA)' : '';
-        list.push({ name: localizePlayerName(p) + isTrial, value: p.name_kanji || p.name_romaji });
-    });
-    return list;
-}
-
-function renderPitchAndBench() {
-    const formation = $('formationSelect').value;
-    const coords = FORMATION_COORDS[formation] || FORMATION_COORDS['4-4-2'];
-    const pitchGrid = $('pitchGrid');
-
-    pitchGrid.innerHTML = Object.entries(coords).map(([posTag, c]) => `
-        <div class="pitch-position-card" data-pos-card="${posTag}" style="left: ${c.x}%; top: ${c.y}%;">
-            <div class="pitch-pos-header">
-                <span class="pos-badge">${posTag}</span>
-                <span class="affinity-badge hidden" data-affinity-for="${posTag}"></span>
-            </div>
-            <select class="pitch-player-select match-squad-select" data-pos="${posTag}"></select>
-        </div>
-    `).join('');
-
-    const benchGrid = $('benchGrid');
-    let html = '';
-    for (let i = 1; i <= 10; i++) {
-        html += `
-            <div class="bench-card" data-bench-slot="${i}">
-                <div class="bench-card-header"><span>#${i} Panchina</span></div>
-                <select class="form-control player-dropdown-dynamic bench-player-select match-squad-select"></select>
-                <div class="bench-sub-row">
-                    <label><input type="checkbox" class="bench-subbed-in"> Sceso in campo</label>
-                    <select class="form-control bench-pos-select" style="font-size: 0.8rem; padding: 4px;" disabled>
-                        ${Object.keys(coords).map(p => `<option value="${p}">${p}</option>`).join('')}
-                    </select>
-                </div>
-            </div>
-        `;
-    }
-    benchGrid.innerHTML = html;
-    updateAllPlayerDropdowns();
-}
-
-function clearPitch() {
-    $$('#pitchGrid .pitch-player-select').forEach(s => s.value = '');
-    $$('#benchGrid .bench-player-select').forEach(s => s.value = '');
-    $$('#benchGrid .bench-subbed-in').forEach(s => { s.checked = false; s.dispatchEvent(new Event('change')); });
-    updatePlayerExclusions();
-}
-
-function updateAllPlayerDropdowns() {
-    const all = getAllAvailablePlayers(false);
-    const gk = getAllAvailablePlayers(true);
-    const allHTML = all.map(p => `<option value="${escapeHtml(p.value)}">${escapeHtml(p.name)}</option>`).join('');
-    const gkHTML = gk.map(p => `<option value="${escapeHtml(p.value)}">${escapeHtml(p.name)}</option>`).join('');
-
-    const mvp = $('mvpSelect');
-    if (mvp) { const val = mvp.value; mvp.innerHTML = allHTML; if (val) ensureSelectOption(mvp, val); }
-
-    $$('.player-dropdown-dynamic, .pitch-player-select').forEach(sel => {
-        const val = sel.value;
-        sel.innerHTML = sel.classList.contains('gk-player-select') ? gkHTML : allHTML;
-        if (val) ensureSelectOption(sel, val);
-    });
-    updatePlayerExclusions();
-}
-
-function updatePlayerExclusions() {
-    const squadSelects = $$('.match-squad-select');
-    const selectedValues = new Set();
-    squadSelects.forEach(sel => { if (sel.value) selectedValues.add(sel.value); });
-
-    squadSelects.forEach(sel => {
-        const currentVal = sel.value;
-        const isGK = sel.classList.contains('gk-player-select');
-        const list = getAllAvailablePlayers(isGK);
-        sel.innerHTML = list.map(p => {
-            const isSelectedElsewhere = p.value && selectedValues.has(p.value) && p.value !== currentVal;
-            return `<option value="${escapeHtml(p.value)}" ${isSelectedElsewhere ? 'disabled' : ''}>${escapeHtml(p.name + (isSelectedElsewhere ? ' ✓' : ''))}</option>`;
-        }).join('');
-        if (currentVal) ensureSelectOption(sel, currentVal);
-    });
-}
-
-function renderMisterHelper() {
-    const container = $('misterHelperBody');
-    if (!container) return;
-    container.innerHTML = '<div style="color:#94a3b8; font-size:0.8rem; grid-column: 1/-1; text-align:center; padding: 10px;"><i class="fas fa-check-circle"></i> Mister Virtuale pronto. Seleziona una partita o cambia modulo per aggiornare.</div>';
-}
-
-function suggestLineup() { showToast('info', '✨ Formazione automatica generata in base allo storico.'); }
-
-async function addTrialist() {
-    const name = await showPrompt(t('trialistPrompt'), 'es. 山田 太郎');
-    if (!name || !name.trim()) return;
-    State.trialists.push({ id: `trialist_${Date.now()}`, name_kanji: name.trim(), name_romaji: name.trim(), position: 'TRIAL', role: 'mf' });
-    renderTrialistsList();
-    updateAllPlayerDropdowns();
-}
-
-function removeTrialist(id) {
-    State.trialists = State.trialists.filter(t => t.id !== id);
-    renderTrialistsList();
-    updateAllPlayerDropdowns();
-}
-
-function renderTrialistsList() {
-    const c = $('trialistListContainer');
-    if (!c) return;
-    if (State.trialists.length === 0) { c.innerHTML = '<span style="font-size: 0.78rem; color: var(--text-muted);">Nessun giocatore in prova</span>'; return; }
-    c.innerHTML = State.trialists.map(t => `
-        <div class="trialist-item">
-            <span><i class="fas fa-user-clock"></i> ${escapeHtml(localizePlayerName(t))}</span>
-            <button type="button" class="btn-remove-trialist" data-action="remove-trialist" data-id="${escapeHtml(t.id)}"><i class="fas fa-times-circle"></i></button>
-        </div>
-    `).join('');
-}
-
-function createStatRow(selectClass, opts = {}) {
-    const { hasCount = true, countLabel = 'Gol:', onlyGK = false, hasMinute = false } = opts;
-    const players = getAllAvailablePlayers(onlyGK);
-    const div = document.createElement('div');
-    div.className = 'stat-row';
-    div.innerHTML = `
-        <select class="form-control player-dropdown-dynamic ${selectClass}">${players.map(p => `<option value="${escapeHtml(p.value)}">${escapeHtml(p.name)}</option>`).join('')}</select>
-        ${hasMinute ? `<input type="text" class="form-control minute-input" placeholder="min">` : ''}
-        ${hasCount ? `<label>${countLabel}</label><input type="number" class="form-control row-count-input" value="1" min="0" max="20">` : ''}
-        <button type="button" class="btn-remove-row" data-action="remove-row"><i class="fas fa-trash"></i></button>
-    `;
-    return div;
-}
-
-function addScorerRow() { $('scorersContainer').appendChild(createStatRow('scorer-player-select', { countLabel: 'Gol:', hasMinute: true })); }
-function addAssistRow() { $('assistsContainer').appendChild(createStatRow('assist-player-select', { countLabel: 'Assist:' })); }
-function addGkRow() { $('gkContainer').appendChild(createStatRow('gk-player-select', { countLabel: 'Gol Subiti:', onlyGK: true })); }
-function addYellowRow() { $('yellowCardsContainer').appendChild(createStatRow('yellow-player-select', { hasCount: false, hasMinute: true })); }
-function addRedRow() { $('redCardsContainer').appendChild(createStatRow('red-player-select', { hasCount: false, hasMinute: true })); }
-
-async function loadMatchData(id) {
-    const match = State.matches.find(m => String(m.id).toLowerCase() === id.toLowerCase());
-    if (!match) { showToast('info', `Nessun match trovato con ID "${id}".`); return; }
-
-    State.currentMatchId = match.id;
-    $('matchStatus').value = match.status || 'past';
-    $('matchDate').value = match.date \vert{}\vert{} '';$('matchTime').value = match.time || '11:00';
-    $('matchCategory').value = match.category \vert{}\vert{} 'friendly';$('matchType').value = match.type || '練習試合';
-    if (match.competition_id) $('competitionSelect').value = match.competition_id;
-    if (match.opponent_id) $('opponentSelect').value = match.opponent_id;
-    if (match.location_id) $('locationSelect').value = match.location_id;
-    $('isHome').value = String(match.isHome !== undefined ? match.isHome : true);
-    $('matchScore').value = match.score || 'VS';
-
-    if (match.formation) {
-        $('formationSelect').value = match.formation;
-        renderPitchAndBench();
-    }
-
-    if (match.starters_positions) {
-        Object.entries(match.starters_positions).forEach(([pos, name]) => {
-            const sel = document.querySelector(`#pitchGrid .pitch-player-select[data-pos="${pos}"]`);
-            if (sel) ensureSelectOption(sel, name);
-        });
-    }
-
-    showToast('info', `✅ Partita ${match.id} caricata`);
-}
-
-async function saveMatch(e) {
+async function savePlayerToSquad(e) {
     e.preventDefault();
-    showToast('success', '✅ Partita salvata con successo!');
-}
+    const editId = document.getElementById('editPlayerId').value;
+    const kanji = document.getElementById('pNameKanji').value.trim();
+    const romaji = document.getElementById('pNameRomaji').value.trim();
+    const rawNum = document.getElementById('pNumber').value;
+    const num = rawNum !== '' ? parseInt(rawNum, 10) : null;
 
-function newMatch() {
-    resetForm();
-    const newId = `match-${State.matches.length + 1}`;
-    $('matchId').value = newId;
-    $('matchDate').value = new Date().toISOString().split('T')[0];
-    showToast('success', `✨ Nuova partita: ${newId}`);
-}
+    const id = editId || (romaji ? romaji.toLowerCase().replace(/[^a-z0-9]+/g, '-') : `player-${Date.now()}`);
 
-async function duplicateMatch() { showToast('info', '📋 Partita duplicata.'); }
-async function deleteMatch() { showToast('warn', 'Eliminazione partita...'); }
-
-function resetForm() {
-    $('matchForm').reset();
-    clearStatContainers();
-    State.trialists = [];
-    renderTrialistsList();
-    renderPitchAndBench();
-}
-
-function generateLineMessage() {
-    const date = $('matchDate').value || 'TBD';
-    const time = $('matchTime').value || '11:00';
-    const text = `⚽ 【Yokohama Calcio 試合案内】 ⚽\n📅 日付: ${date}\n⏰ 時間: ${time}\nForza Yokohama Calcio! 🔥`;
-    $('lineTextOutput').value = text;
-}
-
-async function copyLineText() {
-    const ta = $('lineTextOutput');
-    if (!ta.value) return;
-    await navigator.clipboard.writeText(ta.value);
-    showToast('success', '✅ Copiato negli appunti!');
-}
-
-function checkDraft() {}
-function restoreDraft() {}
-function clearDraft() {}
-
-async function exportJSON() {
-    const all = {
-        exported_at: new Date().toISOString(),
-        matches: State.matches, players: State.players,
-        opponents: State.opponents, locations: State.locations,
-        competitions: State.competitions, news: State.news, trainings: State.trainings
+    const pObj = {
+        id, number: num,
+        name_kanji: kanji,
+        name_kana: document.getElementById('pNameKana').value.trim(),
+        name_romaji: romaji,
+        role: document.getElementById('pRole').value,
+        position: document.getElementById('pPosition').value.trim().toUpperCase(),
+        leadership_role: document.getElementById('pLeadership').value || null
     };
-    const blob = new Blob([JSON.stringify(all, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = `yokohama-backup-${new Date().toISOString().split('T')[0]}.json`; a.click();
+
+    if (editId) {
+        const idx = State.players.findIndex(x => x.id === editId);
+        if (idx >= 0) State.players[idx] = pObj;
+    } else {
+        State.players.push(pObj);
+    }
+
+    renderPlayersTable();
+
+    try {
+        const pFile = await ghGet('players.json');
+        await ghPut('players.json', State.players, pFile ? pFile.sha : null, `Admin: Save player ${id}`);
+        showToast('success', '✅ players.json salvato su GitHub');
+        resetPlayerForm();
+    } catch (err) {
+        showToast('error', '❌ Errore durante il salvataggio su GitHub: ' + err.message);
+    }
 }
 
-function importJSON() { $('importFileInput').click(); }  /* ========================================================= EVENT DELEGATION ========================================================= */ document.addEventListener('click', async (e) => { const actionEl = e.target.closest('[data-action]'); if (!actionEl) return; const action = actionEl.getAttribute('data-action');      switch (action) { case 'set-lang': setLanguage(actionEl.getAttribute('data-lang')); break; case 'toggle-dark': toggleDark(); break; case 'logout': logout(); break; case 'reset-form': resetForm(); break; case 'switch-tab': { const tabId = actionEl.getAttribute('data-tab'); $$('.tab-content').forEach(tc => tc.classList.add('hidden'));$$('.tab-btn').forEach(tb => { tb.classList.remove('active'); tb.setAttribute('aria-selected', 'false'); });$(tabId).classList.remove('hidden');
-            actionEl.classList.add('active');
-            actionEl.setAttribute('aria-selected', 'true');
-            break;
-        }
-        case 'new-match': newMatch(); break;
-        case 'load-match-from-selector': loadMatchFromSelector(); break;
-        case 'search-by-id': searchById(); break;
-        case 'toggle-id-search': toggleIdSearch(); break;
-        case 'duplicate-match': duplicateMatch(); break;
-        case 'delete-match': deleteMatch(); break;
-        case 'add-scorer': addScorerRow(); break;
-        case 'add-assist': addAssistRow(); break;
-        case 'add-gk': addGkRow(); break;
-        case 'add-yellow': addYellowRow(); break;
-        case 'add-red': addRedRow(); break;
-        case 'clear-pitch': clearPitch(); break;
-        case 'suggest-lineup': suggestLineup(); break;
-        case 'add-trialist': addTrialist(); break;
-        case 'remove-trialist': removeTrialist(actionEl.getAttribute('data-id')); break;
-        case 'remove-row': actionEl.closest('.stat-row')?.remove(); break;
-        case 'edit-player': editPlayer(actionEl.getAttribute('data-id')); break;
-        case 'delete-player': deletePlayer(actionEl.getAttribute('data-id')); break;
-        case 'save-player': savePlayerToSquad(); break;
-        case 'reset-player-form': resetPlayerForm(); break;
-        case 'edit-opponent': editOpponent(actionEl.getAttribute('data-key')); break;
-        case 'delete-opponent': deleteOpponent(actionEl.getAttribute('data-key')); break;
-        case 'save-opponent': saveOpponentData(); break;
-        case 'reset-opponent-form': resetOpponentForm(); break;
-        case 'edit-location': editLocation(actionEl.getAttribute('data-key')); break;
-        case 'delete-location': deleteLocation(actionEl.getAttribute('data-key')); break;
-        case 'save-location': saveLocationData(); break;
-        case 'reset-location-form': resetLocationForm(); break;
-        case 'edit-competition': editCompetition(actionEl.getAttribute('data-id')); break;
-        case 'delete-competition': deleteCompetition(actionEl.getAttribute('data-id')); break;
-        case 'save-competition': saveCompetitionData(); break;
-        case 'reset-competition-form': resetCompetitionForm(); break;
-        case 'edit-news': editNews(actionEl.getAttribute('data-id')); break;
-        case 'delete-news': deleteNews(actionEl.getAttribute('data-id')); break;
-        case 'save-news': saveNewsData(); break;
-        case 'reset-news-form': resetNewsForm(); break;
-        case 'edit-training': editTraining(actionEl.getAttribute('data-id')); break;
-        case 'delete-training': deleteTraining(actionEl.getAttribute('data-id')); break;
-        case 'save-training': saveTrainingData(); break;
-        case 'reset-training-form': resetTrainingForm(); break;
-        case 'generate-line': generateLineMessage(); break;
-        case 'copy-line': copyLineText(); break;
-        case 'export-json': exportJSON(); break;
-        case 'import-json': importJSON(); break;
-    }
-});
-
-$('matchForm').addEventListener('submit', saveMatch);
-
-document.addEventListener('change', (e) => {
-    if (e.target.id === 'formationSelect') renderPitchAndBench();
-    if (e.target.id === 'matchSelector' && e.target.value) loadMatchFromSelector();
-    if (e.target.classList.contains('bench-subbed-in')) {
-        const posSel = e.target.closest('.bench-sub-row').querySelector('.bench-pos-select');
-        if (posSel) posSel.disabled = !e.target.checked;
-    }
-});
-
-document.addEventListener('input', (e) => {
-    if (e.target.id === 'playerSearch') { State.playerSearch = e.target.value; renderPlayersTable(); }
-});
+function exportBackupJSON() {
+    const data = {
+        exported_at: new Date().toISOString(),
+        players: State.players, opponents: State.opponents,
+        locations: State.locations, competitions: State.competitions,
+        news: State.news, trainings: State.trainings
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = `yokohama-calcio-backup-${new Date().toISOString().split('T')[0]}.json`; a.click();
+}
 
 window.addEventListener('DOMContentLoaded', () => {
-    initDarkMode();
-    setLanguage(State.lang);
-    renderSurfaceDropdown();
-    if (State.token) verifyAndLogin(State.token);
+    updateUITranslations();
+    if (State.token) {
+        verifyAndLogin(State.token);
+    }
 });
 </script>
 </body>
