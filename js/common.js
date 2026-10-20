@@ -9,9 +9,9 @@
 
   /* ---------- traduzioni del layout condiviso ---------- */
   const SHARED = {
-    ja: { 'nav.home': 'ホーム', 'nav.about_group': 'クラブ', 'nav.team_group': 'チーム・選手', 'nav.about': 'チーム紹介', 'nav.players': '選手紹介', 'nav.stats': '成績・スタッツ', 'nav.matches': '試合日程・結果', 'nav.gallery': 'ギャラリー', 'nav.faq': 'よくある質問', 'nav.shop': 'ショップ', 'nav.sponsors': 'パートナー', 'nav.contact': 'お問い合わせ', 'btn.back_home': 'ホームに戻る', 'cta.trial': '体験参加を申し込む', 'nav.join': '入団・体験', 'nav.cta': '体験参加', 'nav.contact_short': 'お問い合わせ', 'footer.tagline': '横浜に咲くイタリアの情熱。サッカーで心をつなぐ場所。', 'footer.privacy': 'プライバシー' },
-    it: { 'nav.home': 'Home', 'nav.about_group': 'CLUB', 'nav.team_group': 'SQUADRA', 'nav.about': 'Chi Siamo', 'nav.players': 'Giocatori', 'nav.stats': 'Statistiche', 'nav.matches': 'Partite & Risultati', 'nav.gallery': 'Galleria', 'nav.faq': 'FAQ', 'nav.shop': 'Shop', 'nav.sponsors': 'Partner', 'nav.contact': 'Contatti', 'btn.back_home': 'Torna alla Home', 'cta.trial': 'Prenota una prova', 'nav.join': 'Unisciti a noi', 'nav.cta': 'Prenota una prova', 'nav.contact_short': 'Contatti', 'footer.tagline': 'La passione italiana nel cuore di Yokohama. Il calcio che unisce le persone.', 'footer.privacy': 'Privacy' },
-    en: { 'nav.home': 'Home', 'nav.about_group': 'CLUB', 'nav.team_group': 'TEAM', 'nav.about': 'About Us', 'nav.players': 'Players', 'nav.stats': 'Stats', 'nav.matches': 'Matches & Results', 'nav.gallery': 'Gallery', 'nav.faq': 'FAQ', 'nav.shop': 'Shop', 'nav.sponsors': 'Partners', 'nav.contact': 'Contact Us', 'btn.back_home': 'Back to Home', 'cta.trial': 'Book a trial', 'nav.join': 'Join Us', 'nav.cta': 'Book a trial', 'nav.contact_short': 'Contact', 'footer.tagline': 'Italian football passion in Yokohama. Where football connects people.', 'footer.privacy': 'Privacy' }
+    ja: { 'nav.home': 'ホーム', 'nav.about_group': 'クラブ', 'nav.team_group': 'チーム・選手', 'nav.about': 'チーム紹介', 'nav.players': '選手紹介', 'nav.stats': '成績・スタッツ', 'nav.matches': '試合日程・結果', 'nav.gallery': 'ギャラリー', 'nav.faq': 'よくある質問', 'nav.shop': 'ショップ', 'nav.sponsors': 'パートナー', 'nav.contact': 'お問い合わせ', 'btn.back_home': 'ホームに戻る', 'cta.trial': '体験参加を申し込む', 'nav.join': '入団・体験', 'nav.cta': 'お問い合わせ', 'nav.contact_short': 'お問い合わせ', 'footer.tagline': '横浜に咲くイタリアの情熱。サッカーで心をつなぐ場所。', 'footer.privacy': 'プライバシー' },
+    it: { 'nav.home': 'Home', 'nav.about_group': 'CLUB', 'nav.team_group': 'SQUADRA', 'nav.about': 'Chi Siamo', 'nav.players': 'Giocatori', 'nav.stats': 'Statistiche', 'nav.matches': 'Partite & Risultati', 'nav.gallery': 'Galleria', 'nav.faq': 'FAQ', 'nav.shop': 'Shop', 'nav.sponsors': 'Partner', 'nav.contact': 'Contatti', 'btn.back_home': 'Torna alla Home', 'cta.trial': 'Prenota una prova', 'nav.join': 'Unisciti a noi', 'nav.cta': 'Contatti', 'nav.contact_short': 'Contatti', 'footer.tagline': 'La passione italiana nel cuore di Yokohama. Il calcio che unisce le persone.', 'footer.privacy': 'Privacy' },
+    en: { 'nav.home': 'Home', 'nav.about_group': 'CLUB', 'nav.team_group': 'TEAM', 'nav.about': 'About Us', 'nav.players': 'Players', 'nav.stats': 'Stats', 'nav.matches': 'Matches & Results', 'nav.gallery': 'Gallery', 'nav.faq': 'FAQ', 'nav.shop': 'Shop', 'nav.sponsors': 'Partners', 'nav.contact': 'Contact Us', 'btn.back_home': 'Back to Home', 'cta.trial': 'Book a trial', 'nav.join': 'Join Us', 'nav.cta': 'Contact', 'nav.contact_short': 'Contact', 'footer.tagline': 'Italian football passion in Yokohama. Where football connects people.', 'footer.privacy': 'Privacy' }
   };
   const ARIA = {
     ja: { menu: 'メニュー', close: '閉じる', top: 'ページ上部へ', prev: '前へ', next: '次へ' },
@@ -71,6 +71,7 @@
   }
 
   /* ---------- header + footer ---------- */
+  const CONTACT = 'contact.html';
   const TRIAL = 'contact.html?type=trial';
   function headerHtml(active) {
     const on = k => (active === k ? ' active' : '');
@@ -109,7 +110,7 @@
         <div class="dropdown-menu">${item('faq.html', 'nav.faq', 'faq')}${item('contact.html', 'nav.contact_short', 'contact')}</div>
       </div>
       <a href="index.html#shop" data-i18n="nav.shop"></a>
-      <a href="${TRIAL}" class="nav-cta-btn" data-i18n="nav.cta"></a>
+      <a href="${CONTACT}" class="nav-cta-btn" data-i18n="nav.cta"></a>
     </nav></div>
     <button class="mobile-menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
   </div></div>
@@ -133,7 +134,7 @@
       <div class="mobile-submenu hidden"><a href="faq.html" class="mobile-link sub${on('faq')}" data-i18n="nav.faq"></a><a href="contact.html" class="mobile-link sub${on('contact')}" data-i18n="nav.contact_short"></a></div>
     </div>
     <a href="index.html#shop" class="mobile-link"><i class="fas fa-shopping-bag menu-icon"></i> <span data-i18n="nav.shop"></span></a>
-    <div class="mobile-cta-wrapper"><a href="${TRIAL}" class="mobile-cta-btn"><i class="fas fa-paper-plane"></i> <span data-i18n="nav.cta"></span></a></div>
+    <div class="mobile-cta-wrapper"><a href="${CONTACT}" class="mobile-cta-btn"><i class="fas fa-envelope"></i> <span data-i18n="nav.cta"></span></a></div>
   </div></nav>
 </header>`;
   }
