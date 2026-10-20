@@ -3,818 +3,217 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.github.com; base-uri 'none'; form-action 'none';">
 <title>Yokohama Calcio | Admin Panel</title>
-
+<link rel="icon" href="./immagini/logo.png?v=2" type="image/png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-*, *::before, *::after { box-sizing: border-box; }
-
-:root {
-    --navy: #003c82;
-    --navy-dark: #00224a;
-    --sky: #87ceeb;
-    --sky-dark: #0284c7;
-    --green: #059669;
-    --red: #dc2626;
-    --amber: #d97706;
-    --text: #0f172a;
-    --text-muted: #64748b;
-    --border: #cbd5e1;
-    --bg: #f8fafc;
-    --white: #ffffff;
-    --body-bg: #0b1329;
-    --card-bg: #ffffff;
-    --input-bg: #ffffff;
-    --input-border: #cbd5e1;
-}
-
-body.dark {
-    --text: #e2e8f0;
-    --text-muted: #94a3b8;
-    --border: #334155;
-    --bg: #1e293b;
-    --white: #0f172a;
-    --body-bg: #020617;
-    --card-bg: #1e293b;
-    --input-bg: #0f172a;
-    --input-border: #334155;
-}
-
-body {
-    font-family: 'Montserrat', sans-serif;
-    background: var(--body-bg);
-    color: var(--text);
-    margin: 0;
-    padding: 12px;
-    transition: background 0.3s, color 0.3s;
-    -webkit-text-size-adjust: 100%;
-}
-
-.hidden { display: none !important; }
-
-.admin-container {
-    width: 100%;
-    max-width: 1240px;
-    margin: 10px auto;
-    padding: 24px;
-    background: var(--card-bg);
-    border-radius: 18px;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.35);
-}
-
-.admin-header-bar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 14px;
-    border-bottom: 2px solid var(--border);
-    padding-bottom: 16px;
-    margin-bottom: 18px;
-}
-
-h2, h3, h4 { color: var(--navy); margin: 0; font-weight: 800; }
-body.dark h2, body.dark h3, body.dark h4 { color: var(--sky); }
-
-.section-box {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    padding: 22px;
-    border-radius: 14px;
-    margin-bottom: 22px;
-    position: relative;
-}
-
-.section-box h3 {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.05rem;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--border);
-    margin-bottom: 16px;
-}
-
-.section-box h3 .sec-num {
-    background: var(--navy);
-    color: #fff;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.82rem;
-    flex-shrink: 0;
-}
-body.dark .section-box h3 .sec-num { background: var(--sky); color: var(--navy-dark); }
-
-.form-group { margin-bottom: 14px; }
-.form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 6px;
-    color: var(--navy);
-    font-size: 0.88rem;
-}
-body.dark .form-group label { color: var(--sky); }
-
-.form-control {
-    width: 100%;
-    padding: 11px 12px;
-    border: 1px solid var(--input-border);
-    border-radius: 8px;
-    font-size: 0.92rem;
-    background: var(--input-bg);
-    color: var(--text);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    font-family: inherit;
-    min-height: 44px;
-}
-.form-control:focus {
-    outline: none;
-    border-color: var(--sky-dark);
-    box-shadow: 0 0 0 3px rgba(2,132,199,0.15);
-}
-
-select.form-control {
-    cursor: pointer;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23003c82' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 16px 16px;
-    padding-right: 38px;
-    -webkit-appearance: none;
-    appearance: none;
-}
-body.dark select.form-control {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2387ceeb' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
-}
-
-.row { display: flex; gap: 12px; flex-wrap: wrap; }
-.row .form-group { flex: 1; min-width: 200px; }
-
-/* ====== LOGIN ====== */
-.login-box {
-    max-width: 440px;
-    margin: 60px auto;
-    padding: 32px;
-    background: var(--card-bg);
-    border-radius: 18px;
-    box-shadow: 0 10px 35px rgba(0,0,0,0.3);
-    text-align: center;
-}
-.login-box i.lock-icon { font-size: 3.5rem; color: var(--navy); margin-bottom: 15px; }
-body.dark .login-box i.lock-icon { color: var(--sky); }
-
-/* ====== TABS ====== */
-.admin-tabs {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    padding: 4px 4px 12px;
-    margin-bottom: 22px;
-    border-bottom: 2px solid var(--border);
-    -webkit-overflow-scrolling: touch;
-}
-
-.tab-btn {
-    background: #f1f5f9;
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    padding: 12px 16px;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 0.85rem;
-    cursor: pointer;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s ease;
-    font-family: inherit;
-    min-height: 44px;
-}
-body.dark .tab-btn { background: #0f172a; color: #94a3b8; }
-.tab-btn:hover { background: var(--bg); color: var(--navy); }
-body.dark .tab-btn:hover { color: var(--sky); }
-.tab-btn.active {
-    background: var(--navy);
-    color: #ffffff;
-    border-color: var(--navy);
-    box-shadow: 0 4px 12px rgba(0,60,130,0.25);
-}
-body.dark .tab-btn.active { background: var(--sky); color: var(--navy-dark); border-color: var(--sky); }
-
-/* ====== BUTTONS & BADGES ====== */
-.btn-submit {
-    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
-    color: white; padding: 14px 20px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; width: 100%; font-size: 0.95rem;
-    box-shadow: 0 4px 14px rgba(0,60,130,0.3); font-family: inherit; transition: opacity 0.2s, transform 0.1s; min-height: 46px;
-}
-.btn-submit:hover:not(:disabled) { opacity: 0.92; }
-.btn-submit:disabled { background: #94a3b8; cursor: not-allowed; box-shadow: none; }
-
-.btn-reset { background: #64748b; color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; font-weight: bold; font-family: inherit; min-height: 40px; }
-.btn-logout { background: var(--red); color: white; padding: 8px 14px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.82rem; font-family: inherit; min-height: 40px; }
-.btn-edit { background: var(--sky-dark); color: white; border: none; padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-family: inherit; }
-.btn-delete { background: var(--red); color: white; border: none; padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-family: inherit; }
-.btn-icon { background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-family: inherit; min-height: 40px; min-width: 40px; }
-
-.lang-switcher-admin { display: flex; gap: 4px; align-items: center; }
-.lang-btn-admin { background: transparent; border: 1px solid var(--border); padding: 8px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: bold; cursor: pointer; color: var(--text-muted); font-family: inherit; min-height: 40px; min-width: 40px; }
-.lang-btn-admin.active { background: var(--navy); color: white; border-color: var(--navy); }
-body.dark .lang-btn-admin.active { background: var(--sky); color: var(--navy-dark); }
-
-.badge-leadership { display: inline-flex; align-items: center; gap: 4px; padding: 3px 7px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
-.badge-captain { background: #f59e0b; color: #000; }
-.badge-vice { background: #38bdf8; color: #00224a; }
-
-/* ====== TABLES ====== */
-.data-table-container { overflow-x: auto; margin-top: 10px; border-radius: 10px; border: 1px solid var(--border); }
-.data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-.data-table th { background: var(--navy); color: white; text-align: left; padding: 10px; white-space: nowrap; font-size: 0.82rem; }
-.data-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
-
-/* ====== TOAST ====== */
-#toastContainer { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; max-width: 380px; pointer-events: none; }
-.toast { padding: 14px 18px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; color: #fff; box-shadow: 0 8px 24px rgba(0,0,0,0.35); transform: translateX(120%); transition: transform 0.3s ease, opacity 0.3s ease; opacity: 0; pointer-events: auto; display: flex; align-items: flex-start; gap: 10px; }
-.toast.show { transform: translateX(0); opacity: 1; }
-.toast-success { background: #059669; }
-.toast-error   { background: #dc2626; }
-.toast-info    { background: #0284c7; }
-.toast-warn    { background: #d97706; }
-</style>
+<link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
+<a href="#mainContent" class="skip-link">Skip to content</a>
 
-<!-- LOGIN SECTION -->
-<div id="loginSection" class="login-box">
-    <i class="fas fa-lock lock-icon"></i>
-    <h2 style="margin-bottom: 8px;">Yokohama Calcio Admin</h2>
-    <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;" data-i18n="loginSub">
-        Inserisci il GitHub Token (PAT) per accedere.
-    </p>
-
-    <div class="lang-switcher-admin" style="justify-content: center; margin-bottom: 20px;">
-        <button type="button" class="lang-btn-admin" onclick="setLanguage('ja')" data-lang="ja">JP</button>
-        <button type="button" class="lang-btn-admin active" onclick="setLanguage('it')" data-lang="it">IT</button>
-        <button type="button" class="lang-btn-admin" onclick="setLanguage('en')" data-lang="en">EN</button>
+<!-- LOGIN -->
+<div id="loginSection" class="login-box" role="main">
+  <i class="fas fa-lock lock-icon" aria-hidden="true"></i>
+  <h2 style="margin-bottom:8px">Yokohama Calcio Admin</h2>
+  <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:20px" data-i18n="loginSub"></p>
+  <div class="lang-switcher-admin" style="justify-content:center;margin-bottom:20px">
+    <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="ja">JP</button>
+    <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="it">IT</button>
+    <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="en">EN</button>
+  </div>
+  <form id="loginForm">
+    <div class="form-group" style="text-align:left">
+      <label for="inputToken"><i class="fas fa-key"></i> GitHub Token (PAT)</label>
+      <input type="password" id="inputToken" class="form-control" placeholder="ghp_… / github_pat_…" required autocomplete="off">
     </div>
+    <button type="submit" class="btn-submit" id="loginBtn" data-i18n="loginBtn"></button>
+  </form>
+  <div id="loginError" style="color:var(--red);font-size:.85rem;margin-top:15px;font-weight:700;min-height:20px"></div>
+  <div style="font-size:.72rem;color:var(--text-muted);margin-top:16px">🔒 Token → <b>sessionStorage</b> (cancellato alla chiusura del browser).</div>
+</div>
 
-    <form id="loginForm" onsubmit="handleLoginSubmit(event)">
-        <div class="form-group" style="text-align: left;">
-            <label for="inputToken"><i class="fas fa-key"></i> GitHub Token (PAT):</label>
-            <input type="password" id="inputToken" class="form-control" placeholder="ghp_... o github_pat_..." required autocomplete="off">
+<!-- DASHBOARD -->
+<div id="adminDashboard" class="admin-container hidden" role="main">
+  <div class="admin-header-bar">
+    <div>
+      <h2 id="mainContent"><i class="fas fa-shield-alt"></i> Yokohama Calcio Admin</h2>
+      <span style="font-size:.78rem;color:var(--green);font-weight:700"><i class="fas fa-check-circle"></i> <span data-i18n="authenticated"></span></span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <div class="lang-switcher-admin">
+        <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="ja">JP</button>
+        <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="it">IT</button>
+        <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="en">EN</button>
+      </div>
+      <button type="button" class="btn-icon" data-action="toggle-dark" title="Dark mode"><i class="fas fa-moon" id="darkIcon"></i></button>
+      <button type="button" class="btn-icon" data-action="export-backup" title="Backup"><i class="fas fa-download"></i></button>
+      <button type="button" class="btn-logout" data-action="logout"><i class="fas fa-sign-out-alt"></i> <span data-i18n="logout"></span></button>
+    </div>
+  </div>
+
+  <div id="draftBanner" class="draft-banner hidden">
+    <span><i class="fas fa-save"></i> <span data-i18n="draftFound"></span></span>
+    <div style="display:flex;gap:8px">
+      <button type="button" class="btn-reset" style="background:var(--green)" data-action="restore-draft"><i class="fas fa-check"></i> <span data-i18n="draftRestore"></span></button>
+      <button type="button" class="btn-reset" data-action="discard-draft"><i class="fas fa-times"></i> <span data-i18n="draftDiscard"></span></button>
+    </div>
+  </div>
+
+  <div class="admin-tabs" role="tablist">
+    <button class="tab-btn active" data-action="switch-tab" data-tab="tab-matches" role="tab" aria-selected="true"><i class="fas fa-futbol"></i> <span data-i18n="tMatches"></span></button>
+    <button class="tab-btn" data-action="switch-tab" data-tab="tab-players" role="tab" aria-selected="false"><i class="fas fa-users"></i> <span data-i18n="tPlayers"></span></button>
+    <button class="tab-btn" data-action="switch-tab" data-tab="tab-opponents" role="tab" aria-selected="false"><i class="fas fa-shield-halved"></i> <span data-i18n="tOpponents"></span></button>
+    <button class="tab-btn" data-action="switch-tab" data-tab="tab-locations" role="tab" aria-selected="false"><i class="fas fa-map-marker-alt"></i> <span data-i18n="tLocations"></span></button>
+    <button class="tab-btn" data-action="switch-tab" data-tab="tab-competitions" role="tab" aria-selected="false"><i class="fas fa-trophy"></i> <span data-i18n="tCompetitions"></span></button>
+    <button class="tab-btn" data-action="switch-tab" data-tab="tab-news" role="tab" aria-selected="false"><i class="fas fa-newspaper"></i> <span data-i18n="tNews"></span></button>
+    <button class="tab-btn" data-action="switch-tab" data-tab="tab-trainings" role="tab" aria-selected="false"><i class="fas fa-running"></i> <span data-i18n="tTrainings"></span></button>
+    <button class="tab-btn" data-action="switch-tab" data-tab="tab-line" role="tab" aria-selected="false"><i class="fab fa-line"></i> <span data-i18n="tLine"></span></button>
+    <button class="tab-btn" data-action="switch-tab" data-tab="tab-json" role="tab" aria-selected="false"><i class="fas fa-screwdriver-wrench"></i> <span data-i18n="tJson"></span></button>
+  </div>
+
+  <!-- 1. PARTITE -->
+  <div id="tab-matches" class="tab-content" role="tabpanel">
+    <form id="matchForm" autocomplete="off">
+      <div class="match-selector-hero">
+        <div class="hero-label"><i class="fas fa-search"></i> <span data-i18n="m.selectLabel"></span></div>
+        <div class="match-selector-row">
+          <select id="matchSelector" aria-label="Match"><option value=""></option></select>
+          <button type="button" class="hero-btn" data-action="load-match-selector"><i class="fas fa-arrow-right"></i> <span data-i18n="m.load"></span></button>
         </div>
-        <button type="submit" class="btn-submit" id="loginBtn" data-i18n="loginBtn">Accedi</button>
+        <div class="match-id-search">
+          <button type="button" class="search-toggle-btn" data-action="toggle-id-search"><i class="fas fa-keyboard"></i> <span data-i18n="m.byId"></span></button>
+          <div class="search-input-wrap" id="searchInputWrap">
+            <input type="text" id="matchId" placeholder="match-9">
+            <button type="button" data-action="search-by-id"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+        <div class="match-quick-actions">
+          <button type="button" class="quick-action-btn new" data-action="new-match"><i class="fas fa-plus-circle"></i> <span data-i18n="m.new"></span></button>
+          <button type="button" class="quick-action-btn" data-action="duplicate-match"><i class="fas fa-clone"></i> <span data-i18n="m.dup"></span></button>
+          <button type="button" class="quick-action-btn danger" data-action="delete-match"><i class="fas fa-trash"></i> <span data-i18n="m.del"></span></button>
+        </div>
+      </div>
+
+      <div class="section-box">
+        <h3><span class="sec-num">1</span> <i class="fas fa-info-circle"></i> <span data-i18n="m.info"></span></h3>
+        <div class="row">
+          <div class="form-group"><label data-i18n="m.status"></label><select id="matchStatus" class="form-control"><option value="past" data-i18n="m.past"></option><option value="upcoming" data-i18n="m.upcoming"></option></select></div>
+          <div class="form-group"><label data-i18n="lDate"></label><input type="date" id="matchDate" class="form-control" required></div>
+          <div class="form-group"><label data-i18n="m.time"></label><input type="time" id="matchTime" class="form-control" value="11:00"></div>
+        </div>
+        <div class="row">
+          <div class="form-group"><label data-i18n="lCategory"></label><select id="matchCategory" class="form-control"><option value="friendly" data-i18n="cFriendly"></option><option value="league" data-i18n="cLeague"></option><option value="cup" data-i18n="cCup"></option></select></div>
+          <div class="form-group"><label data-i18n="m.competition"></label><select id="competitionSelect" class="form-control" required></select></div>
+          <div class="form-group"><label data-i18n="m.typeLabel"></label><input type="text" id="matchType" class="form-control" value="練習試合"></div>
+        </div>
+        <div class="row">
+          <div class="form-group"><label data-i18n="m.opponent"></label><select id="opponentSelect" class="form-control" required></select></div>
+          <div class="form-group"><label data-i18n="m.venue"></label><select id="locationSelect" class="form-control" required></select></div>
+        </div>
+        <div class="row">
+          <div class="form-group"><label data-i18n="m.homeAway"></label><select id="isHome" class="form-control"><option value="true" data-i18n="m.home"></option><option value="false" data-i18n="m.away"></option></select></div>
+          <div class="form-group"><label data-i18n="m.score"></label><input type="text" id="matchScore" class="form-control" placeholder="2 - 1" value="VS"></div>
+        </div>
+      </div>
+
+      <div class="section-box">
+        <h3><span class="sec-num">2</span> <i class="fas fa-chart-line"></i> <span data-i18n="m.events"></span></h3>
+        <div class="form-group"><label><i class="fas fa-futbol"></i> <span data-i18n="m.scorers"></span></label><div id="scorersContainer"></div><button type="button" class="btn-add-row" data-action="add-scorer"><i class="fas fa-plus"></i> <span data-i18n="m.add"></span></button></div>
+        <div class="form-group"><label><i class="fas fa-handshake"></i> <span data-i18n="m.assists"></span></label><div id="assistsContainer"></div><button type="button" class="btn-add-row" data-action="add-assist"><i class="fas fa-plus"></i> <span data-i18n="m.add"></span></button></div>
+        <div class="form-group"><label><i class="fas fa-mitten"></i> <span data-i18n="m.gks"></span></label><div id="gkContainer"></div><button type="button" class="btn-add-row" data-action="add-gk"><i class="fas fa-plus"></i> <span data-i18n="m.add"></span></button></div>
+        <div class="row"><div class="form-group"><label><i class="fas fa-star"></i> MVP</label><select id="mvpSelect" class="form-control"></select></div></div>
+        <div class="row">
+          <div class="form-group"><label data-i18n="m.yellows"></label><div id="yellowCardsContainer"></div><button type="button" class="btn-add-row" data-action="add-yellow"><i class="fas fa-plus"></i> <span data-i18n="m.add"></span></button></div>
+          <div class="form-group"><label data-i18n="m.reds"></label><div id="redCardsContainer"></div><button type="button" class="btn-add-row" data-action="add-red"><i class="fas fa-plus"></i> <span data-i18n="m.add"></span></button></div>
+        </div>
+      </div>
+
+      <div class="section-box">
+        <h3><span class="sec-num">3</span> <i class="fas fa-chess-board"></i> <span data-i18n="m.tactics"></span></h3>
+        <div class="row"><div class="form-group"><label><i class="fas fa-chess-board"></i> <span data-i18n="m.formation"></span></label>
+          <select id="formationSelect" class="form-control"><option value="4-4-2">4-4-2</option><option value="4-3-3">4-3-3</option><option value="4-2-3-1">4-2-3-1</option><option value="3-5-2">3-5-2</option><option value="3-4-3">3-4-3</option><option value="5-3-2">5-3-2</option><option value="4-1-4-1">4-1-4-1</option></select></div></div>
+        <div class="mister-helper-box">
+          <div class="mister-helper-header"><div><strong><i class="fas fa-user-tie"></i> <span data-i18n="m.mister"></span></strong><span class="mister-helper-subtitle" data-i18n="m.misterSub"></span></div>
+            <button type="button" class="btn-suggest-lineup" data-action="suggest-lineup"><i class="fas fa-wand-magic-sparkles"></i> <span data-i18n="m.suggest"></span></button></div>
+          <div class="mister-helper-body" id="misterHelperBody"></div>
+        </div>
+        <div class="tactical-pitch-container">
+          <div class="pitch-header-bar"><h4 style="color:#fef08a;font-size:.95rem"><i class="fas fa-gamepad"></i> <span data-i18n="m.starters"></span></h4>
+            <button type="button" class="btn-clear-pitch" data-action="clear-pitch"><i class="fas fa-eraser"></i> <span data-i18n="m.clear"></span></button></div>
+          <div class="pitch-grid" id="pitchGrid"></div>
+        </div>
+        <h4 style="margin:18px 0 10px;font-size:.95rem"><i class="fas fa-chair"></i> <span data-i18n="m.bench"></span></h4>
+        <div class="bench-grid" id="benchGrid"></div>
+        <div class="trialist-box">
+          <button type="button" class="btn-add-trialist" data-action="add-trialist"><i class="fas fa-user-plus"></i> <span data-i18n="m.addTrialist"></span></button>
+          <div style="margin-top:10px;font-weight:700;font-size:.82rem;color:#047857"><i class="fas fa-list"></i> <span data-i18n="m.trialists"></span></div>
+          <div class="trialist-list" id="trialistListContainer"></div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submitBtn"><i class="fas fa-save"></i> <span data-i18n="m.saveMatch"></span></button>
+      <div id="statusMsg" style="margin-top:16px;font-weight:700;text-align:center"></div>
     </form>
-    <div id="loginError" style="color: var(--red); font-size: 0.85rem; margin-top: 15px; font-weight: bold; min-height: 20px;"></div>
-    <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 20px;">
-        🔒 Il token resta in <b>sessionStorage</b> e viene cancellato alla chiusura del browser.
+  </div>
+
+  <!-- 2-7: generati da admin-core.js -->
+  <div id="tab-players" class="tab-content hidden" role="tabpanel"></div>
+  <div id="tab-opponents" class="tab-content hidden" role="tabpanel"></div>
+  <div id="tab-locations" class="tab-content hidden" role="tabpanel"></div>
+  <div id="tab-competitions" class="tab-content hidden" role="tabpanel"></div>
+  <div id="tab-news" class="tab-content hidden" role="tabpanel"></div>
+  <div id="tab-trainings" class="tab-content hidden" role="tabpanel"></div>
+
+  <!-- 8. LINE -->
+  <div id="tab-line" class="tab-content hidden" role="tabpanel">
+    <div class="section-box">
+      <h3><i class="fab fa-line" style="color:#06c755"></i> <span data-i18n="m.lineTitle"></span></h3>
+      <p class="muted" data-i18n="m.lineSub"></p>
+      <button type="button" class="btn-submit" style="background:#06c755;margin:10px 0 15px" data-action="generate-line"><i class="fas fa-magic"></i> <span data-i18n="m.lineGen"></span></button>
+      <textarea id="lineTextOutput" class="form-control" rows="14" readonly></textarea>
+      <button type="button" class="btn-submit" style="margin-top:10px;background:var(--sky-dark)" data-action="copy-line"><i class="fas fa-copy"></i> <span data-i18n="m.lineCopy"></span></button>
     </div>
+  </div>
+
+  <!-- 9. JSON / STRUMENTI -->
+  <div id="tab-json" class="tab-content hidden" role="tabpanel">
+    <div class="tools-grid">
+      <div class="section-box">
+        <h3><i class="fas fa-rotate"></i> <span data-i18n="recalcTitle"></span></h3>
+        <p class="muted">matches.json → stats.json + caps in players.json (1 commit)</p>
+        <button type="button" class="btn-submit" data-action="recalc"><i class="fas fa-calculator"></i> <span data-i18n="recalcBtn"></span></button>
+      </div>
+      <div class="section-box">
+        <h3><i class="fas fa-box-archive"></i> <span data-i18n="backup"></span></h3>
+        <div class="btn-row"><button type="button" class="btn-submit" data-action="export-backup"><i class="fas fa-download"></i> <span data-i18n="exportBtn"></span></button>
+        <button type="button" class="btn-submit" style="background:var(--amber)" data-action="import-backup"><i class="fas fa-upload"></i> <span data-i18n="importBtn"></span></button></div>
+      </div>
+    </div>
+    <div class="section-box">
+      <h3><i class="fas fa-code"></i> JSON</h3>
+      <p class="muted" data-i18n="jsonWarn"></p>
+      <div class="row">
+        <div class="form-group"><label for="jsonFile" data-i18n="jsonFile"></label>
+          <select id="jsonFile" class="form-control"><option value="matches">matches.json</option><option value="players">players.json</option><option value="opponents">opponents.json</option><option value="locations">locations.json</option><option value="competitions">competitions.json</option><option value="news">news.json</option><option value="trainings">trainings.json</option><option value="standings">standings.json</option><option value="stats">stats.json (auto)</option></select></div>
+      </div>
+      <div class="btn-row" style="margin:0 0 10px"><button type="button" class="btn-reset" data-action="json-load"><i class="fas fa-folder-open"></i> <span data-i18n="jsonLoad"></span></button><button type="button" class="btn-reset" data-action="json-validate"><i class="fas fa-check"></i> <span data-i18n="jsonValidate"></span></button><span id="jsonMsg" style="font-weight:700;align-self:center"></span></div>
+      <textarea id="jsonArea" class="form-control" rows="18" spellcheck="false"></textarea>
+      <div class="btn-row"><button type="button" class="btn-submit green" data-action="json-save"><i class="fas fa-cloud-upload-alt"></i> <span data-i18n="jsonSave"></span></button></div>
+    </div>
+  </div>
 </div>
 
-<!-- MAIN DASHBOARD -->
-<div id="adminDashboard" class="admin-container hidden">
-
-    <div class="admin-header-bar">
-        <div>
-            <h2><i class="fas fa-shield-alt"></i> Yokohama Calcio Admin</h2>
-            <span style="font-size: 0.78rem; color: var(--green); font-weight: bold;">
-                <i class="fas fa-check-circle"></i> <span data-i18n="authenticated">Autenticato</span>
-            </span>
-        </div>
-
-        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-            <div class="lang-switcher-admin">
-                <button type="button" class="lang-btn-admin" onclick="setLanguage('ja')" data-lang="ja">JP</button>
-                <button type="button" class="lang-btn-admin active" onclick="setLanguage('it')" data-lang="it">IT</button>
-                <button type="button" class="lang-btn-admin" onclick="setLanguage('en')" data-lang="en">EN</button>
-            </div>
-            <button type="button" class="btn-icon" onclick="toggleDark()" title="Dark mode"><i class="fas fa-moon" id="darkIcon"></i></button>
-            <button type="button" class="btn-icon" onclick="exportBackupJSON()" title="Export Backup"><i class="fas fa-download"></i></button>
-            <button type="button" class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span data-i18n="btnLogout">Logout</span></button>
-        </div>
-    </div>
-
-    <!-- TABS Navigation -->
-    <div class="admin-tabs">
-        <button class="tab-btn active" onclick="switchTab('playersTab', this)"><i class="fas fa-users"></i> <span data-i18n="tabPlayers">1. Rosa Giocatori</span></button>
-        <button class="tab-btn" onclick="switchTab('opponentsTab', this)"><i class="fas fa-shield-halved"></i> <span data-i18n="tabOpponents">2. Avversari</span></button>
-        <button class="tab-btn" onclick="switchTab('locationsTab', this)"><i class="fas fa-map-marker-alt"></i> <span data-i18n="tabLocations">3. Campi & Impianti</span></button>
-        <button class="tab-btn" onclick="switchTab('competitionsTab', this)"><i class="fas fa-trophy"></i> <span data-i18n="tabCompetitions">4. Competizioni</span></button>
-        <button class="tab-btn" onclick="switchTab('newsTab', this)"><i class="fas fa-newspaper"></i> <span data-i18n="tabNews">5. News & Comunicati</span></button>
-        <button class="tab-btn" onclick="switchTab('trainingsTab', this)"><i class="fas fa-running"></i> <span data-i18n="tabTrainings">6. Allenamenti</span></button>
-    </div>
-
-    <!-- TAB 1: PLAYERS -->
-    <div id="playersTab" class="tab-content">
-        <div class="section-box">
-            <h3><i class="fas fa-user-plus"></i> <span data-i18n="playersHeading">Aggiungi / Modifica Giocatore</span></h3>
-            <form id="playerEditForm" style="margin-top: 15px;" onsubmit="savePlayerToSquad(event)">
-                <input type="hidden" id="editPlayerId">
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblNum">Numero Maglia:</label>
-                        <input type="number" id="pNumber" class="form-control" placeholder="5">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblKanji">Nome Ufficiale / Kanji:</label>
-                        <input type="text" id="pNameKanji" class="form-control" placeholder="Luca Di Rubbo" required>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblKana">Nome Kana:</label>
-                        <input type="text" id="pNameKana" class="form-control" placeholder="ディルッボ ルカ">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblRomaji">Nome Romaji:</label>
-                        <input type="text" id="pNameRomaji" class="form-control" placeholder="Di Rubbo Luca">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group">
-                        <label data-i18n="lblRole">Ruolo:</label>
-                        <select id="pRole" class="form-control">
-                            <option value="gk">gk (Portiere)</option>
-                            <option value="df">df (Difensore)</option>
-                            <option value="mf">mf (Centrocampista)</option>
-                            <option value="fw">fw (Attaccante)</option>
-                            <option value="staff">staff (Staff / Tecnico)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblPosition">Posizione Tattica:</label>
-                        <input type="text" id="pPosition" class="form-control" placeholder="CM / SB">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblLeadership">Ruolo di Leadership:</label>
-                        <select id="pLeadership" class="form-control">
-                            <option value="">Nessuno (-)</option>
-                            <option value="captain">Capitano (Captain)</option>
-                            <option value="vice_captain">Vice Capitano (Vice Captain)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <button type="submit" class="btn-submit" style="background: var(--green); flex: 1;" data-i18n="btnSavePlayer">Salva su GitHub</button>
-                    <button type="button" class="btn-reset" onclick="resetPlayerForm()">Annulla</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="section-box">
-            <h3><i class="fas fa-list-ul"></i> <span data-i18n="lblSquadList">Elenco Attuale Rosa</span></h3>
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th data-i18n="thName">Nome</th>
-                            <th>Romaji</th>
-                            <th data-i18n="thRole">Ruolo</th>
-                            <th data-i18n="thPos">Posizione</th>
-                            <th data-i18n="thLeadership">Leadership</th>
-                            <th data-i18n="thActions">Azioni</th>
-                        </tr>
-                    </thead>
-                    <tbody id="playersTableBody"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB 2: OPPONENTS -->
-    <div id="opponentsTab" class="tab-content hidden">
-        <div class="section-box">
-            <h3><i class="fas fa-shield-cat"></i> <span data-i18n="opponentsHeading">Elenco Avversari</span></h3>
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead>
-                        <tr><th>Key ID</th><th>Nome JA</th><th>Nome IT</th><th>Nome EN</th></tr>
-                    </thead>
-                    <tbody id="opponentsTableBody"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB 3: LOCATIONS -->
-    <div id="locationsTab" class="tab-content hidden">
-        <div class="section-box">
-            <h3><i class="fas fa-map-marked-alt"></i> <span data-i18n="locationsHeading">Impianti & Campi</span></h3>
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead>
-                        <tr><th>Key ID</th><th>Nome JA</th><th>Nome IT</th><th>Superficie</th></tr>
-                    </thead>
-                    <tbody id="locationsTableBody"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB 4: COMPETITIONS -->
-    <div id="competitionsTab" class="tab-content hidden">
-        <div class="section-box">
-            <h3><i class="fas fa-trophy"></i> <span data-i18n="competitionsHeading">Competizioni</span></h3>
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead>
-                        <tr><th>ID</th><th>Categoria</th><th>Stagione</th><th>Nome JA</th><th>Nome IT</th></tr>
-                    </thead>
-                    <tbody id="competitionsTableBody"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB 5: NEWS -->
-    <div id="newsTab" class="tab-content hidden">
-        <div class="section-box">
-            <h3><i class="fas fa-newspaper"></i> <span data-i18n="newsHeading">News & Comunicati</span></h3>
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead>
-                        <tr><th>Data</th><th>Tipo</th><th>Titolo JA</th><th>Titolo IT</th></tr>
-                    </thead>
-                    <tbody id="newsTableBody"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB 6: TRAININGS -->
-    <div id="trainingsTab" class="tab-content hidden">
-        <div class="section-box">
-            <h3><i class="fas fa-running"></i> <span data-i18n="trainingsHeading">Sessioni Allenamento</span></h3>
-            <div class="data-table-container">
-                <table class="data-table">
-                    <thead>
-                        <tr><th>Data</th><th>Orario</th><th>Impianto</th><th>Prove Aperte</th></tr>
-                    </thead>
-                    <tbody id="trainingsTableBody"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
+<div id="modalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box"><div class="modal-title" id="modalTitle"></div><div id="modalBody"></div>
+    <div class="modal-actions"><button type="button" class="btn-modal-cancel" id="modalCancel"></button><button type="button" class="btn-modal-confirm" id="modalConfirm">OK</button></div></div>
 </div>
+<div id="toastContainer" role="status" aria-live="polite"></div>
+<input type="file" id="importFile" class="hidden" accept=".json,application/json">
 
-<div id="toastContainer"></div>
-
-<script>
-'use strict';
-
-const REPO = 'yokohamacalcio/yokohamacalcio';
-const TOKEN_KEY = 'yc_gh_token';
-
-const I18N_DICT = {
-    it: {
-        loginSub: "Inserisci il GitHub Token (PAT) per accedere.",
-        loginBtn: "Accedi", authenticated: "Autenticato",
-        btnLogout: "Logout", btnSavePlayer: "Salva su GitHub",
-        tabPlayers: "1. Rosa Giocatori", tabOpponents: "2. Avversari", tabLocations: "3. Campi & Impianti",
-        tabCompetitions: "4. Competizioni", tabNews: "5. News & Comunicati", tabTrainings: "6. Allenamenti",
-        playersHeading: "Aggiungi / Modifica Giocatore",
-        lblNum: "Numero Maglia:", lblKanji: "Nome Ufficiale / Kanji:", lblKana: "Nome Kana:",
-        lblRomaji: "Nome Romaji:", lblRole: "Ruolo:", lblPosition: "Posizione:", lblLeadership: "Ruolo di Leadership:",
-        lblSquadList: "Elenco Attuale Rosa", thName: "Nome", thRole: "Ruolo", thPos: "Posizione", thLeadership: "Leadership", thActions: "Azioni",
-        opponentsHeading: "Elenco Avversari", locationsHeading: "Impianti & Campi", competitionsHeading: "Competizioni", newsHeading: "News & Comunicati", trainingsHeading: "Allenamenti"
-    },
-    ja: {
-        loginSub: "アクセスするには GitHub Token (PAT) を入力してください。",
-        loginBtn: "ログイン", authenticated: "認証済み",
-        btnLogout: "ログアウト", btnSavePlayer: "GitHub に保存",
-        tabPlayers: "1. 選手一覧", tabOpponents: "2. 対戦相手", tabLocations: "3. 会場",
-        tabCompetitions: "4. 大会・リーグ", tabNews: "5. ニュース", tabTrainings: "6. 練習日程",
-        playersHeading: "選手追加・編集",
-        lblNum: "背番号:", lblKanji: "氏名:", lblKana: "フリガナ:",
-        lblRomaji: "ローマ字:", lblRole: "役割:", lblPosition: "ポジション:", lblLeadership: "役職・リーダーシップ:",
-        lblSquadList: "現在の選手一覧", thName: "氏名", thRole: "役割", thPos: "ポジション", thLeadership: "役職", thActions: "操作",
-        opponentsHeading: "対戦相手一覧", locationsHeading: "会場一覧", competitionsHeading: "大会一覧", newsHeading: "ニュース一覧", trainingsHeading: "練習日程"
-    },
-    en: {
-        loginSub: "Enter your GitHub Personal Access Token (PAT) to log in.",
-        loginBtn: "Login", authenticated: "Authenticated",
-        btnLogout: "Logout", btnSavePlayer: "Save to GitHub",
-        tabPlayers: "1. Squad", tabOpponents: "2. Opponents", tabLocations: "3. Venues",
-        tabCompetitions: "4. Competitions", tabNews: "5. News", tabTrainings: "6. Trainings",
-        playersHeading: "Add / Edit Player",
-        lblNum: "Number:", lblKanji: "Name:", lblKana: "Kana:",
-        lblRomaji: "Romaji:", lblRole: "Role:", lblPosition: "Position:", lblLeadership: "Leadership Role:",
-        lblSquadList: "Current Squad", thName: "Name", thRole: "Role", thPos: "Position", thLeadership: "Leadership", thActions: "Actions",
-        opponentsHeading: "Opponents", locationsHeading: "Venues", competitionsHeading: "Competitions", newsHeading: "News List", trainingsHeading: "Trainings List"
-    }
-};
-
-const State = {
-    lang: sessionStorage.getItem('yc_admin_lang') || 'it',
-    token: sessionStorage.getItem(TOKEN_KEY) || '',
-    players: [], opponents: {}, locations: {}, competitions: [], news: [], trainings: []
-};
-
-function showToast(type, msg) {
-    const c = document.getElementById('toastContainer');
-    if (!c) return;
-    const d = document.createElement('div');
-    d.className = `toast toast-${type}`;
-    d.innerHTML = `<div>${msg}</div>`;
-    c.appendChild(d);
-    setTimeout(() => d.classList.add('show'), 10);
-    setTimeout(() => { d.classList.remove('show'); setTimeout(() => d.remove(), 300); }, 3500);
-}
-
-function updateUITranslations() {
-    const lang = State.lang;
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const k = el.getAttribute('data-i18n');
-        if (I18N_DICT[lang] && I18N_DICT[lang][k]) el.textContent = I18N_DICT[lang][k];
-    });
-    document.querySelectorAll('.lang-btn-admin').forEach(b => {
-        b.classList.toggle('active', b.getAttribute('data-lang') === lang);
-    });
-}
-
-function setLanguage(lang) {
-    if (!I18N_DICT[lang]) return;
-    State.lang = lang;
-    sessionStorage.setItem('yc_admin_lang', lang);
-    updateUITranslations();
-}
-
-function toggleDark() {
-    document.body.classList.toggle('dark');
-}
-
-function switchTab(tabId, btn) {
-    document.querySelectorAll('.tab-content').forEach(tc => tc.classList.add('hidden'));
-    document.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));
-    const target = document.getElementById(tabId);
-    if (target) target.classList.remove('hidden');
-    if (btn) btn.classList.add('active');
-}
-
-function handleLoginSubmit(e) {
-    e.preventDefault();
-    const input = document.getElementById('inputToken');
-    if (!input) return;
-    const token = input.value.trim();
-    if (token) verifyAndLogin(token);
-}
-
-async function verifyAndLogin(token) {
-    const errEl = document.getElementById('loginError');
-    const btn = document.getElementById('loginBtn');
-    if (errEl) errEl.textContent = '';
-
-    if (btn) btn.disabled = true;
-
-    try {
-        const res = await fetch(`https://api.github.com/repos/${REPO}`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-
-        if (!res.ok) {
-            if (errEl) errEl.textContent = `❌ Errore ${res.status}: Token non valido o repository non accessibile.`;
-            sessionStorage.removeItem(TOKEN_KEY);
-            if (btn) btn.disabled = false;
-            return;
-        }
-
-        State.token = token;
-        sessionStorage.setItem(TOKEN_KEY, token);
-        
-        const loginSec = document.getElementById('loginSection');
-        const dashSec = document.getElementById('adminDashboard');
-        if (loginSec) loginSec.classList.add('hidden');
-        if (dashSec) dashSec.classList.remove('hidden');
-        
-        showToast('success', '✅ Autenticato con successo su GitHub');
-        await fetchAllDataFromGitHub();
-    } catch (e) {
-        if (errEl) errEl.textContent = '❌ Errore di connessione: ' + e.message;
-    } finally {
-        if (btn) btn.disabled = false;
-    }
-}
-
-function logout() {
-    sessionStorage.removeItem(TOKEN_KEY);
-    location.reload();
-}
-
-async function ghGet(filePath) {
-    const url = `https://api.github.com/repos/${REPO}/contents/${filePath}`;
-    const res = await fetch(url, {
-        headers: {
-            'Authorization': `Bearer ${State.token}`,
-            'Accept': 'application/vnd.github+json'
-        }
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    const decoded = new TextDecoder().decode(Uint8Array.from(atob(data.content.replace(/\s/g, '')), c => c.charCodeAt(0)));
-    return { sha: data.sha, content: JSON.parse(decoded) };
-}
-
-async function ghPut(filePath, content, sha, commitMsg) {
-    const url = `https://api.github.com/repos/${REPO}/contents/${filePath}`;
-    const str = JSON.stringify(content, null, 2);
-    const bytes = new TextEncoder().encode(str);
-    let bin = '';
-    for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
-    const b64 = btoa(bin);
-
-    const body = { message: commitMsg, content: b64, branch: 'main' };
-    if (sha) body.sha = sha;
-
-    const res = await fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Authorization': `Bearer ${State.token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/vnd.github+json'
-        },
-        body: JSON.stringify(body)
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.json();
-}
-
-async function fetchAllDataFromGitHub() {
-    try {
-        const [p, o, l, c, n, t] = await Promise.all([
-            ghGet('players.json'), ghGet('opponents.json'), ghGet('locations.json'),
-            ghGet('competitions.json'), ghGet('news.json'), ghGet('trainings.json')
-        ]);
-
-        if (p) State.players = p.content || [];
-        if (o) State.opponents = o.content || {};
-        if (l) State.locations = l.content || {};
-        if (c) State.competitions = c.content || [];
-        if (n) State.news = n.content || [];
-        if (t) State.trainings = t.content || [];
-
-        renderAllTables();
-    } catch (e) {
-        showToast('error', '⚠️ Errore durante il caricamento dei dati da GitHub');
-    }
-}
-
-function renderAllTables() {
-    renderPlayersTable();
-    renderOpponentsTable();
-    renderLocationsTable();
-    renderCompetitionsTable();
-    renderNewsTable();
-    renderTrainingsTable();
-}
-
-function renderPlayersTable() {
-    const tbody = document.getElementById('playersTableBody');
-    if (!tbody) return;
-
-    tbody.innerHTML = State.players.map(p => {
-        let leadBadge = '-';
-        if (p.leadership_role === 'captain') leadBadge = '<span class="badge-leadership badge-captain">👑 CAP</span>';
-        else if (p.leadership_role === 'vice_captain') leadBadge = '<span class="badge-leadership badge-vice">🎖️ VICE</span>';
-
-        return `
-            <tr>
-                <td><b>${p.number ?? '-'}</b></td>
-                <td>${p.name_kanji || p.name_romaji || '-'}</td>
-                <td>${p.name_romaji || '-'}</td>
-                <td><b>${(p.role || '').toUpperCase()}</b></td>
-                <td>${p.position || '-'}</td>
-                <td>${leadBadge}</td>
-                <td>
-                    <button class="btn-edit" onclick="editPlayer('${p.id}')"><i class="fas fa-edit"></i></button>
-                </td>
-            </tr>
-        `;
-    }).join('');
-}
-
-function renderOpponentsTable() {
-    const tbody = document.getElementById('opponentsTableBody');
-    if (!tbody) return;
-    tbody.innerHTML = Object.keys(State.opponents).map(k => `
-        <tr><td><b>${k}</b></td><td>${State.opponents[k].name?.ja || '-'}</td><td>${State.opponents[k].name?.it || '-'}</td><td>${State.opponents[k].name?.en || '-'}</td></tr>
-    `).join('');
-}
-
-function renderLocationsTable() {
-    const tbody = document.getElementById('locationsTableBody');
-    if (!tbody) return;
-    tbody.innerHTML = Object.keys(State.locations).map(k => `
-        <tr><td><b>${k}</b></td><td>${State.locations[k].ja || '-'}</td><td>${State.locations[k].it || '-'}</td><td>${State.locations[k].surface?.it || '-'}</td></tr>
-    `).join('');
-}
-
-function renderCompetitionsTable() {
-    const tbody = document.getElementById('competitionsTableBody');
-    if (!tbody) return;
-    tbody.innerHTML = State.competitions.map(c => `
-        <tr><td><b>${c.id}</b></td><td>${c.category}</td><td>${c.season || '-'}</td><td>${c.name?.ja || '-'}</td><td>${c.name?.it || '-'}</td></tr>
-    `).join('');
-}
-
-function renderNewsTable() {
-    const tbody = document.getElementById('newsTableBody');
-    if (!tbody) return;
-    tbody.innerHTML = State.news.map(n => `
-        <tr><td><b>${n.date}</b></td><td>${n.type}</td><td>${n.ja || '-'}</td><td>${n.it || '-'}</td></tr>
-    `).join('');
-}
-
-function renderTrainingsTable() {
-    const tbody = document.getElementById('trainingsTableBody');
-    if (!tbody) return;
-    tbody.innerHTML = State.trainings.map(t => `
-        <tr><td><b>${t.date}</b></td><td>${t.time || '-'}</td><td>${t.venue || '-'}</td><td>${t.trial_open ? '✅' : '❌'}</td></tr>
-    `).join('');
-}
-
-function editPlayer(id) {
-    const p = State.players.find(x => x.id === id);
-    if (!p) return;
-    document.getElementById('editPlayerId').value = p.id;
-    document.getElementById('pNumber').value = p.number ?? '';
-    document.getElementById('pNameKanji').value = p.name_kanji || '';
-    document.getElementById('pNameKana').value = p.name_kana || '';
-    document.getElementById('pNameRomaji').value = p.name_romaji || '';
-    document.getElementById('pRole').value = p.role || 'mf';
-    document.getElementById('pPosition').value = p.position || '';
-    document.getElementById('pLeadership').value = p.leadership_role || '';
-}
-
-function resetPlayerForm() {
-    document.getElementById('playerEditForm').reset();
-    document.getElementById('editPlayerId').value = '';
-}
-
-async function savePlayerToSquad(e) {
-    e.preventDefault();
-    const editId = document.getElementById('editPlayerId').value;
-    const kanji = document.getElementById('pNameKanji').value.trim();
-    const romaji = document.getElementById('pNameRomaji').value.trim();
-    const rawNum = document.getElementById('pNumber').value;
-    const num = rawNum !== '' ? parseInt(rawNum, 10) : null;
-
-    const id = editId || (romaji ? romaji.toLowerCase().replace(/[^a-z0-9]+/g, '-') : `player-${Date.now()}`);
-
-    const pObj = {
-        id, number: num,
-        name_kanji: kanji,
-        name_kana: document.getElementById('pNameKana').value.trim(),
-        name_romaji: romaji,
-        role: document.getElementById('pRole').value,
-        position: document.getElementById('pPosition').value.trim().toUpperCase(),
-        leadership_role: document.getElementById('pLeadership').value || null
-    };
-
-    if (editId) {
-        const idx = State.players.findIndex(x => x.id === editId);
-        if (idx >= 0) State.players[idx] = pObj;
-    } else {
-        State.players.push(pObj);
-    }
-
-    renderPlayersTable();
-
-    try {
-        const pFile = await ghGet('players.json');
-        await ghPut('players.json', State.players, pFile ? pFile.sha : null, `Admin: Save player ${id}`);
-        showToast('success', '✅ players.json salvato su GitHub');
-        resetPlayerForm();
-    } catch (err) {
-        showToast('error', '❌ Errore durante il salvataggio su GitHub: ' + err.message);
-    }
-}
-
-function exportBackupJSON() {
-    const data = {
-        exported_at: new Date().toISOString(),
-        players: State.players, opponents: State.opponents,
-        locations: State.locations, competitions: State.competitions,
-        news: State.news, trainings: State.trainings
-    };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = `yokohama-calcio-backup-${new Date().toISOString().split('T')[0]}.json`; a.click();
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-    updateUITranslations();
-    if (State.token) {
-        verifyAndLogin(State.token);
-    }
-});
-</script>
+<script src="js/admin-core.js"></script>
+<script src="js/admin-matches.js"></script>
 </body>
 </html>
