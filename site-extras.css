@@ -4,7 +4,7 @@
    3. Pulsante fisso "prova"   4. Calendario / allenamenti
    5. Accessibilità (reduced motion) e varie   6. Footer professionale
    7. Intestazione pagina + KPI   8. Forma recente + Formazione tipo (Campo HD)
-   9. Toast notifiche (copia link)
+   9. Toast notifiche (copia link)   10. Sponsor & Partner gerarchizzati
    ===================================================================== */
 
 /* ---------- 1. MENU MOBILE (overlay scuro) ---------- */
@@ -263,3 +263,43 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
   transform: translateX(-50%) translateY(0);
 }
 .toast-copy i { color: #34d399; }
+
+/* ---------- 10. SPONSOR & PARTNER GERARCHIZZATI ---------- */
+.sponsors-wrapper { display: flex; flex-direction: column; gap: 28px; max-width: 900px; margin: 0 auto; }
+
+.sponsor-tier-block { text-align: center; }
+.sponsor-tier-title { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: var(--dark-navy, #003c82); margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; opacity: 0.8; }
+
+/* Tier 1: Main Partner (In attesa/Slot aperto) */
+.tier-main-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+.main-partner-placeholder { background: #fff; border: 2px dashed rgba(135,206,235,0.7); border-radius: 14px; padding: 20px; text-align: center; background: linear-gradient(135deg, #ffffff 0%, #f4f9fd 100%); }
+.main-partner-badge { background: var(--dark-navy, #003c82); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 3px 10px; border-radius: 15px; text-transform: uppercase; display: inline-block; margin-bottom: 8px; }
+.main-partner-title { font-size: 0.95rem; font-weight: 700; color: #64748b; margin-bottom: 4px; }
+.main-partner-sub { font-size: 0.8rem; color: #94a3b8; }
+
+/* Tier 2: Official Partner (CarCar Japan) */
+.tier-official-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+.official-partner-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 20px 18px; text-align: center; box-shadow: 0 4px 14px rgba(0,60,130,0.04); transition: transform .2s ease, box-shadow .2s ease; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
+.official-partner-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,60,130,0.09); }
+.official-partner-badge { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-size: 0.68rem; font-weight: 800; padding: 3px 10px; border-radius: 15px; margin-bottom: 12px; display: inline-block; }
+.official-logo-box { height: 50px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+.official-logo-box img { max-height: 100%; max-width: 160px; object-fit: contain; }
+.official-partner-name { font-size: 1.05rem; font-weight: 800; color: var(--dark-navy, #003c82); margin-bottom: 4px; }
+.official-partner-desc { font-size: 0.82rem; color: #64748b; line-height: 1.4; margin-bottom: 12px; }
+.official-partner-link { font-size: 0.78rem; font-weight: 700; color: #003c82; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
+.official-partner-link:hover { text-decoration: underline; }
+
+/* Tier 3: Supporter / Technical Partner */
+.tier-tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.tech-partner-card { background: #fff; border: 1px solid #f1f5f9; border-radius: 10px; padding: 12px; text-align: center; font-size: 0.8rem; font-weight: 700; color: #64748b; }
+
+/* CTA Compatta Mono-riga per nuovi partner */
+.sponsor-cta-strip { background: linear-gradient(135deg, #00224a 0%, #001229 100%); border-radius: 12px; padding: 14px 22px; color: #fff; border: 1px solid rgba(135,206,235,0.3); display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: 10px; box-shadow: 0 4px 15px rgba(0,34,74,0.15); }
+.sponsor-cta-text { font-size: 0.88rem; font-weight: 600; color: #e2e8f0; display: flex; align-items: center; gap: 10px; margin: 0; }
+.sponsor-cta-btn { background: #87ceeb; color: #00224a !important; font-size: 0.82rem; font-weight: 800; padding: 8px 18px; border-radius: 20px; text-decoration: none; white-space: nowrap; transition: background .2s ease; display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.sponsor-cta-btn:hover { background: #a0d8ef; }
+
+@media (max-width: 650px) {
+  .sponsor-cta-strip { flex-direction: column; text-align: center; justify-content: center; padding: 16px 14px; }
+  .sponsor-cta-text { flex-direction: column; gap: 4px; }
+}
