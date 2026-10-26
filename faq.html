@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>よくある質問 (FAQ) | Yokohama Calcio</title>
-<meta name="description" content="Yokohama Calcio（ヨコハマ・カルチョ）に関するよくある質問（FAQ）一覧です。活動日程、費用、体験参加、スケジュール確定時期などについてまとめています。">
-<meta name="keywords" content="Yokohama Calcio, よくある質問, FAQ, 横浜 サッカーチーム, 活動日程">
+<meta name="description" content="Yokohama Calcio（ヨコハマ・カルチョ）に関するよくある質問（FAQ）一覧です。活動日程、費用、体験参加、スケジュール確定時期、マネージャー・スタッフの仕事内容などについてまとめています。">
+<meta name="keywords" content="Yokohama Calcio, よくある質問, FAQ, 横浜 サッカーチーム, 活動日程, チームマネージャー, スタッフ募集">
 <meta name="author" content="Yokohama Calcio">
 <meta name="robots" content="index, follow">
 
@@ -35,141 +35,33 @@
 
 <style>
 /* --- STILI ACCORDION FAQ --- */
-.faq-accordion-wrapper {
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+.faq-accordion-wrapper { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.faq-category-title { font-size: 1.2rem; font-weight: 800; color: var(--dark-navy, #003c82); margin: 30px 0 10px 0; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; scroll-margin-top: 90px; }
+.faq-category-title i { color: var(--primary-sky, #12A0D7); }
+.faq-item { background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0, 60, 130, 0.04); overflow: hidden; transition: border-color 0.2s ease, box-shadow 0.2s ease; scroll-margin-top: 100px; }
+.faq-item.active { border-color: var(--primary-sky, #87ceeb); box-shadow: 0 6px 18px rgba(0, 60, 130, 0.08); }
+.faq-question { width: 100%; background: transparent; border: none; padding: 18px 20px; font-weight: 700; font-size: 0.98rem; color: var(--dark-navy, #003c82); cursor: pointer; display: flex; justify-content: space-between; align-items: center; text-align: left; gap: 12px; font-family: inherit; }
+.faq-icon { color: var(--primary-sky, #12A0D7); transition: transform 0.3s ease; font-size: 0.9rem; flex-shrink: 0; }
+.faq-item.active .faq-icon { transform: rotate(180deg); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), padding 0.3s ease; background: #fafafa; border-top: 1px dashed transparent; }
+.faq-item.active .faq-answer { max-height: 900px; padding: 14px 20px 18px 20px; border-top-color: #e2e8f0; }
+.faq-answer p, .faq-answer .faq-ans { margin: 0; color: #475569; font-size: 0.92rem; line-height: 1.6; }
+.faq-answer ul { margin: 0; padding-left: 20px; } .faq-answer li { margin-bottom: 5px; }
+.faq-answer a { color: var(--dark-navy, #003c82); font-weight: 700; text-underline-offset: 2px; }
 
-.faq-category-title {
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: var(--dark-navy, #003c82);
-    margin: 30px 0 10px 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    border-bottom: 2px solid #e2e8f0;
-    padding-bottom: 8px;
-}
+/* sezione manager / staff evidenziata */
+.faq-category-title.staff { background: linear-gradient(90deg, #e0f2fe, transparent); padding: 10px 14px; border: 0; border-left: 4px solid var(--primary-sky, #12A0D7); border-radius: 0 10px 10px 0; }
 
-.faq-category-title i {
-    color: var(--primary-sky, #12A0D7);
-}
-
-.faq-item {
-    background: #ffffff;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 12px rgba(0, 60, 130, 0.04);
-    overflow: hidden;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.faq-item.active {
-    border-color: var(--primary-sky, #87ceeb);
-    box-shadow: 0 6px 18px rgba(0, 60, 130, 0.08);
-}
-
-.faq-question {
-    width: 100%;
-    background: transparent;
-    border: none;
-    padding: 18px 20px;
-    font-weight: 700;
-    font-size: 0.98rem;
-    color: var(--dark-navy, #003c82);
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: left;
-    gap: 12px;
-    font-family: inherit;
-}
-
-.faq-icon {
-    color: var(--primary-sky, #12A0D7);
-    transition: transform 0.3s ease;
-    font-size: 0.9rem;
-    flex-shrink: 0;
-}
-
-.faq-item.active .faq-icon {
-    transform: rotate(180deg);
-}
-
-.faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
-    background: #fafafa;
-    border-top: 1px dashed transparent;
-}
-
-.faq-item.active .faq-answer {
-    max-height: 500px;
-    padding: 14px 20px 18px 20px;
-    border-top-color: #e2e8f0;
-}
-
-.faq-answer p {
-    margin: 0;
-    color: #475569;
-    font-size: 0.92rem;
-    line-height: 1.6;
-}
-
-.contact-card {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 24px;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    text-align: center;
-    margin: 40px auto 0;
-}
-
-.contact-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 12px;
-}
-
-.contact-icon {
-    font-size: 1.4rem;
-    color: var(--primary-sky, #12A0D7);
-}
-
-.contact-header h3 {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--dark-navy, #003c82);
-    margin: 0;
-}
-
-.contact-desc {
-    font-size: 0.9rem;
-    color: #64748b;
-    margin-bottom: 20px;
-}
+.contact-card { background: #ffffff; border-radius: 12px; padding: 24px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center; margin: 40px auto 0; }
+.contact-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; }
+.contact-icon { font-size: 1.4rem; color: var(--primary-sky, #12A0D7); }
+.contact-header h3 { font-size: 1.15rem; font-weight: 700; color: var(--dark-navy, #003c82); margin: 0; }
+.contact-desc { font-size: 0.9rem; color: #64748b; margin-bottom: 20px; }
 
 @media (max-width: 600px) {
-    .faq-category-title {
-        font-size: 1.1rem !important;
-        line-height: 1.3 !important;
-    }
-    .faq-question {
-        padding: 14px 16px !important;
-        font-size: 0.9rem !important;
-    }
-    .faq-answer p {
-        font-size: 0.85rem !important;
-    }
+  .faq-category-title { font-size: 1.1rem !important; line-height: 1.3 !important; }
+  .faq-question { padding: 14px 16px !important; font-size: 0.9rem !important; }
+  .faq-answer p, .faq-answer .faq-ans { font-size: 0.85rem !important; }
 }
 </style>
 </head>
@@ -187,167 +79,135 @@
 <main class="section faq-page-section" style="padding-top: 20px;">
     <div class="container">
         <div class="faq-accordion-wrapper">
-            
+
             <!-- CATEGORIA 1: JOINING & TRIAL -->
-            <h3 class="faq-category-title"><i class="fas fa-users"></i> <span data-i18n="faq.cat_join">チーム加入・体験について</span></h3>
+            <h3 class="faq-category-title" id="cat-join"><i class="fas fa-users"></i> <span data-i18n="faq.cat_join">チーム加入・体験について</span></h3>
 
             <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="faq.q1">初心者やブランクがある人でも参加できますか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p data-i18n="faq.a1">完全な初心者（未経験者）の募集は行っておりませんが、過去にサッカー経験がありブランクがある方は大歓迎です！なお、募集対象年齢は18歳〜40歳となっております。</p>
-                </div>
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.q1">初心者やブランクがある人でも参加できますか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><p data-i18n="faq.a1">完全な初心者（未経験者）の募集は行っておりませんが、過去にサッカー経験がありブランクがある方は大歓迎です！なお、募集対象年齢は18歳〜40歳となっております。</p></div>
             </div>
 
             <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="faq.q2">体験参加（練習体験）は可能ですか？費用や条件はありますか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p data-i18n="faq.a2">はい、入部前に3回の体験参加（必須）をお願いしております。体験参加費は1回につき500円です。チームの雰囲気やレベルを確認していただくための期間となります。</p>
-                </div>
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.q2">体験参加（練習体験）は可能ですか？費用や条件はありますか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><p data-i18n="faq.a2">はい、入部前に3回の体験参加（必須）をお願いしております。体験参加費は1回につき500円です。チームの雰囲気やレベルを確認していただくための期間となります。</p></div>
             </div>
 
             <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="faq.q3">参加頻度の条件やルールはありますか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p data-i18n="faq.q3_ans">チームの連携や活動維持のため、月に2回以上の参加をお願いしております。</p>
-                </div>
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.q3">参加頻度の条件やルールはありますか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><p data-i18n="faq.q3_ans">チームの連携や活動維持のため、月に2回以上の参加をお願いしております。</p></div>
             </div>
 
             <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="faq.q10">仕事などの都合で毎週参加できない場合でも大丈夫ですか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p data-i18n="faq.a10">はい、問題ありません。月2回以上の参加を目安とし、事前に出欠連絡（出欠管理ツールを使用）を出していただければ個人のスケジュールに合わせて活動いただけます。</p>
-                </div>
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.q10">仕事などの都合で毎週参加できない場合でも大丈夫ですか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><p data-i18n="faq.a10">はい、問題ありません。月2回以上の参加を目安とし、事前に出欠連絡（出欠管理ツールを使用）を出していただければ個人のスケジュールに合わせて活動いただけます。</p></div>
+            </div>
+
+            <div class="faq-item" id="staff-recruiting">
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.q9">テクニカルスタッフやマネージャーの募集はしていますか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><p data-i18n="faq.a9">はい、大歓迎です！マッチアナリスト（データ分析）やフィジカル・GKコーチなどのテクニカルスタッフ、チーム運営を支えるマネージャーを幅広く募集しています。</p></div>
+            </div>
+
+            <!-- CATEGORIA 2 (NUOVA): MANAGER & STAFF -->
+            <h3 class="faq-category-title staff" id="cat-staff"><i class="fas fa-clipboard-list"></i> <span data-i18n="faq.cat_staff">マネージャー・スタッフの仕事</span></h3>
+
+            <div class="faq-item" id="m1">
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.m1_q">チームマネージャーはどんな役割ですか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><div class="faq-ans" data-i18n="faq.m1_a">選手がプレーに集中できるよう、ピッチの外でチーム運営を支えるスタッフです。練習・試合の準備、連絡調整、記録、広報などを担当します。サッカーの経験は必要ありません。</div></div>
+            </div>
+
+            <div class="faq-item" id="m2">
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.m2_q">練習・試合の前には、どんな仕事がありますか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><div class="faq-ans" data-i18n="faq.m2_a"><ul><li>練習日程・会場・集合時間の確認と共有</li><li>出欠管理ツールでの出欠の取りまとめ</li><li>対戦相手・会場との連絡調整</li><li>ボール、ビブス、救急用品などの用具の準備</li></ul></div></div>
+            </div>
+
+            <div class="faq-item" id="m3">
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.m3_q">試合当日、マネージャーは何をしますか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><div class="faq-ans" data-i18n="faq.m3_a"><ul><li>対戦チームの受け入れと当日の進行確認</li><li>メンバー表の最終確認</li><li>得点者・アシスト・カード・交代などの記録</li><li>写真・動画の撮影（SNS用）と用具の管理</li></ul></div></div>
+            </div>
+
+            <div class="faq-item" id="m4">
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.m4_q">試合後の仕事は何ですか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><div class="faq-ans" data-i18n="faq.m4_a"><ul><li>結果・得点者などの記録を共有し、サイトの成績に反映</li><li>対戦相手へのお礼の連絡</li><li>写真やレポートのSNS投稿</li><li>用具の片付けと、試合後の懇親会（サードタイム）の調整</li></ul></div></div>
+            </div>
+
+            <div class="faq-item" id="m5">
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.m5_q">連絡や広報の仕事について教えてください。</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><div class="faq-ans" data-i18n="faq.m5_a">招集のお知らせや日程連絡はチーム内の連絡ツール（LINE / 連絡アプリ）で行い、公式SNS（Instagram・X・YouTube）でクラブの活動を発信します。お問い合わせフォームへの返信（通常24〜48時間以内）も大切な仕事です。</div></div>
+            </div>
+
+            <div class="faq-item" id="m6">
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.m6_q">会費や運営面の管理も担当しますか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><div class="faq-ans" data-i18n="faq.m6_a">体験参加費や月会費の集金・記録、経費の把握など、運営面のサポートも含まれます。クラブの責任者と一緒に進めるため、一人で抱え込む必要はありません。</div></div>
+            </div>
+
+            <div class="faq-item" id="m7">
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.m7_q">経験や年齢の条件、必要な時間はどのくらいですか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><div class="faq-ans" data-i18n="faq.m7_a">サッカー経験は不要で、応募は18歳以上が対象です。関わり方は希望とご都合に合わせて相談します。お問い合わせフォームに、やってみたい内容をご記入ください。</div></div>
+            </div>
+
+            <div class="faq-item" id="m8">
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.m8_q">マネージャー（スタッフ）に応募するには？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><div class="faq-ans" data-i18n="faq.m8_a"><a href="contact.html?type=staff#training">お問い合わせフォーム</a>で「スタッフ応募」を選び、希望の役職と、お会いしたい練習日（1〜3日）を選択してください。通常24〜48時間以内にご連絡します。</div></div>
+            </div>
+
+            <!-- CATEGORIA 3: SCHEDULE & LOCATION -->
+            <h3 class="faq-category-title" id="cat-schedule"><i class="fas fa-map-marker-alt"></i> <span data-i18n="faq.cat_schedule">活動日程・場所・試合について</span></h3>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.q4">主な活動場所はどこですか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><p data-i18n="faq.a4">固定の専用グラウンドはありません。主に横浜市内の公共グラウンド（市営グラウンド等）や、学校のグラウンド・施設をお借りして活動しています。</p></div>
             </div>
 
             <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="faq.q9">テクニカルスタッフやマネージャーの募集はしていますか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p data-i18n="faq.a9">はい、大歓迎です！マッチアナリスト（データ分析）やフィジカル・GKコーチなどのテクニカルスタッフ、チーム運営を支えるマネージャーを幅広く募集しています。</p>
-                </div>
-            </div>
-
-            <!-- CATEGORIA 2: SCHEDULE & LOCATION -->
-            <h3 class="faq-category-title"><i class="fas fa-map-marker-alt"></i> <span data-i18n="faq.cat_schedule">活動日程・場所・試合について</span></h3>
-
-            <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="faq.q4">主な活動場所はどこですか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p data-i18n="faq.a4">固定の専用グラウンドはありません。主に横浜市内の公共グラウンド（市営グラウンド等）や、学校のグラウンド・施設をお借りして活動しています。</p>
-                </div>
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.q5">活動の頻度や日時はいつですか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><p data-i18n="faq.a5">主に日曜日をメインに活動しておりますが、土曜日に活動を行うこともあります。</p></div>
             </div>
 
             <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="faq.q5">活動の頻度や日時はいつですか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p data-i18n="faq.a5">主に日曜日をメインに活動しておりますが、土曜日に活動を行うこともあります。</p>
-                </div>
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.q16">翌月のスケジュールはいつ頃確定しますか？急なイベントが発生することはありますか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><p data-i18n="faq.a16">翌月の練習・試合スケジュールは、グラウンド抽選や対戦相手との調整を経て毎月25日以降に確定・発表されます。<br>なお、グラウンドのキャンセルの空き枠獲得や急遽決まる練習試合などにより、直前・短期間の通知でイベントが追加される場合もありますのでご了承ください。</p></div>
             </div>
 
             <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="faq.q16">翌月のスケジュールはいつ頃確定しますか？急なイベントが発生することはありますか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p data-i18n="faq.a16">翌月の練習・試合スケジュールは、グラウンド抽選や対戦相手との調整を経て毎月25日以降に確定・発表されます。<br>なお、グラウンドのキャンセルの空き枠獲得や急遽決まる練習試合などにより、直前・短期間の通知でイベントが追加される場合もありますのでご了承ください。</p>
-                </div>
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.q12">どのような試合や大会に参加していますか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><p data-i18n="faq.a12">主に横浜市周辺のチームとの対外試合（練習試合）を中心に活動しています。また、時期に応じて地域カップ戦やワンデイ大会等にも積極的に参加しています。</p></div>
             </div>
 
             <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="faq.q12">どのような試合や大会に参加していますか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p data-i18n="faq.a12">主に横浜市周辺のチームとの対外試合（練習試合）を中心に活動しています。また、時期に応じて地域カップ戦やワンデイ大会等にも積極的に参加しています。</p>
-                </div>
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.q13">雨天の場合は活動中止になりますか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><p data-i18n="faq.a13">雨天やグラウンド状態が不良の場合は中止となります。中止の判断は、活動開始の2〜3時間前までにチーム内の連絡ツール（LINE / 連絡アプリ）にて通知します。</p></div>
+            </div>
+
+            <!-- CATEGORIA 4: FEES & EQUIPMENT -->
+            <h3 class="faq-category-title" id="cat-fees"><i class="fas fa-coins"></i> <span data-i18n="faq.cat_fees">費用・用具について</span></h3>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.q6">会費や入部時の初期費用はいくらですか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><p data-i18n="faq.a6">月額会費は2,000円です（毎月20日に翌月分をお支払いいただきます）。<br>なお、入部初月のみ月額会費（2,000円）に加えて、運営費2,000円およびスポーツ保険料2,000円（合計6,000円）をお支払いいただきます。</p></div>
             </div>
 
             <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="faq.q13">雨天の場合は活動中止になりますか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p data-i18n="faq.a13">雨天やグラウンド状態が不良の場合は中止となります。中止の判断は、活動開始の2〜3時間前までにチーム内の連絡ツール（LINE / 連絡アプリ）にて通知します。</p>
-                </div>
-            </div>
-
-            <!-- CATEGORIA 3: FEES & EQUIPMENT -->
-            <h3 class="faq-category-title"><i class="fas fa-coins"></i> <span data-i18n="faq.cat_fees">費用・用具について</span></h3>
-
-            <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="faq.q6">会費や入部時の初期費用はいくらですか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p data-i18n="faq.a6">月額会費は2,000円です（毎月20日に翌月分をお支払いいただきます）。<br>なお、入部初月のみ月額会費（2,000円）に加えて、運営費2,000円およびスポーツ保険料2,000円（合計6,000円）をお支払いいただきます。</p>
-                </div>
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.q7">ユニフォームの購入は必須ですか？価格はいくらですか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><p data-i18n="faq.a7">はい、正式加入時にユニフォームの購入は必須となります。ホーム・アウェイ・練習着の3点セット（フルキット）で18,000円です。</p></div>
             </div>
 
             <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="faq.q7">ユニフォームの購入は必須ですか？価格はいくらですか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p data-i18n="faq.a7">はい、正式加入時にユニフォームの購入は必須となります。ホーム・アウェイ・練習着の3点セット（フルキット）で18,000円です。</p>
-                </div>
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.q11">体験参加の際、何を持参すればよいですか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><p data-i18n="faq.a11">動きやすいサッカーウェア（運動着）、サッカーシューズ（またはトレシュー）、すね当て（シンガード）、飲料水、体験参加費（500円）をご持参ください。</p></div>
+            </div>
+
+            <!-- CATEGORIA 5: SPECTATORS & MEDIA -->
+            <h3 class="faq-category-title" id="cat-media"><i class="fas fa-camera"></i> <span data-i18n="faq.cat_media">観戦・メディア・その他</span></h3>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.q14">試合の観戦や応援に行っても大丈夫ですか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><p data-i18n="faq.a14">もちろんです！ご家族やご友人、ファンの方々の観戦は大歓迎です。ぜひ会場にお越しいただき、チームへの熱いご声援をお願いします。</p></div>
             </div>
 
             <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="faq.q11">体験参加の際、何を持参すればよいですか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p data-i18n="faq.a11">動きやすいサッカーウェア（運動着）、サッカーシューズ（またはトレシュー）、すね当て（シンガード）、飲料水、体験参加費（500円）をご持参ください。</p>
-                </div>
-            </div>
-
-            <!-- CATEGORIA 4: SPECTATORS & MEDIA -->
-            <h3 class="faq-category-title"><i class="fas fa-camera"></i> <span data-i18n="faq.cat_media">観戦・メディア・その他</span></h3>
-
-            <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="faq.q14">試合の観戦や応援に行っても大丈夫ですか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p data-i18n="faq.a14">もちろんです！ご家族やご友人、ファンの方々の観戦は大歓迎です。ぜひ会場にお越しいただき、チームへの熱いご声援をお願いします。</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <button class="faq-question">
-                    <span data-i18n="faq.q15">試合の写真や動画はSNS等に公開されますか？</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <p data-i18n="faq.a15">はい、活動の様子は広報のため公式SNS（Instagram、X、YouTube）に写真やハイライト動画を掲載する場合があります。顔出しNG等がある場合は事前にご相談いただけます。</p>
-                </div>
+                <button class="faq-question" aria-expanded="false"><span data-i18n="faq.q15">試合の写真や動画はSNS等に公開されますか？</span><i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer"><p data-i18n="faq.a15">はい、活動の様子は広報のため公式SNS（Instagram、X、YouTube）に写真やハイライト動画を掲載する場合があります。顔出しNG等がある場合は事前にご相談いただけます。</p></div>
             </div>
 
         </div>
@@ -357,9 +217,7 @@
                 <i class="fas fa-paper-plane contact-icon"></i>
                 <h3 data-i18n="faq.other_questions">解決しない質問やその他のお問い合わせ</h3>
             </div>
-            <p class="contact-desc" data-i18n="faq.other_desc">
-                上記以外にご質問や不明な点がございましたら、お気軽にお問い合わせフォームよりご連絡ください。
-            </p>
+            <p class="contact-desc" data-i18n="faq.other_desc">上記以外にご質問や不明な点がございましたら、お気軽にお問い合わせフォームよりご連絡ください。</p>
             <a href="contact.html" class="google-form-btn" style="display: inline-flex; justify-content: center; align-items: center; max-width: 320px; margin: 0 auto; gap: 8px;">
                 <i class="fas fa-envelope"></i> <span data-i18n="faq.btn_contact">お問い合わせはこちら</span>
             </a>
@@ -385,6 +243,24 @@ YC.register({
     "faq.a10": "はい、問題ありません。月2回以上の参加を目安とし、事前に出欠連絡（出欠管理ツールを使用）を出していただければ個人のスケジュールに合わせて活動いただけます。",
     "faq.q9": "テクニカルスタッフやマネージャーの募集はしていますか？",
     "faq.a9": "はい、大歓迎です！マッチアナリスト（データ分析）やフィジカル・GKコーチなどのテクニカルスタッフ、チーム運営を支えるマネージャーを幅広く募集しています。",
+
+    "faq.cat_staff": "マネージャー・スタッフの仕事",
+    "faq.m1_q": "チームマネージャーはどんな役割ですか？",
+    "faq.m1_a": "選手がプレーに集中できるよう、ピッチの外でチーム運営を支えるスタッフです。練習・試合の準備、連絡調整、記録、広報などを担当します。サッカーの経験は必要ありません。",
+    "faq.m2_q": "練習・試合の前には、どんな仕事がありますか？",
+    "faq.m2_a": "<ul><li>練習日程・会場・集合時間の確認と共有</li><li>出欠管理ツールでの出欠の取りまとめ</li><li>対戦相手・会場との連絡調整</li><li>ボール、ビブス、救急用品などの用具の準備</li></ul>",
+    "faq.m3_q": "試合当日、マネージャーは何をしますか？",
+    "faq.m3_a": "<ul><li>対戦チームの受け入れと当日の進行確認</li><li>メンバー表の最終確認</li><li>得点者・アシスト・カード・交代などの記録</li><li>写真・動画の撮影（SNS用）と用具の管理</li></ul>",
+    "faq.m4_q": "試合後の仕事は何ですか？",
+    "faq.m4_a": "<ul><li>結果・得点者などの記録を共有し、サイトの成績に反映</li><li>対戦相手へのお礼の連絡</li><li>写真やレポートのSNS投稿</li><li>用具の片付けと、試合後の懇親会（サードタイム）の調整</li></ul>",
+    "faq.m5_q": "連絡や広報の仕事について教えてください。",
+    "faq.m5_a": "招集のお知らせや日程連絡はチーム内の連絡ツール（LINE / 連絡アプリ）で行い、公式SNS（Instagram・X・YouTube）でクラブの活動を発信します。お問い合わせフォームへの返信（通常24〜48時間以内）も大切な仕事です。",
+    "faq.m6_q": "会費や運営面の管理も担当しますか？",
+    "faq.m6_a": "体験参加費や月会費の集金・記録、経費の把握など、運営面のサポートも含まれます。クラブの責任者と一緒に進めるため、一人で抱え込む必要はありません。",
+    "faq.m7_q": "経験や年齢の条件、必要な時間はどのくらいですか？",
+    "faq.m7_a": "サッカー経験は不要で、応募は18歳以上が対象です。関わり方は希望とご都合に合わせて相談します。お問い合わせフォームに、やってみたい内容をご記入ください。",
+    "faq.m8_q": "マネージャー（スタッフ）に応募するには？",
+    "faq.m8_a": "<a href=\"contact.html?type=staff#training\">お問い合わせフォーム</a>で「スタッフ応募」を選び、希望の役職と、お会いしたい練習日（1〜3日）を選択してください。通常24〜48時間以内にご連絡します。",
 
     "faq.cat_schedule": "活動日程・場所・試合について",
     "faq.q4": "主な活動場所はどこですか？",
@@ -431,6 +307,24 @@ YC.register({
     "faq.q9": "Cercate ruoli tecnici (Match Analyst, Preparatori) o Manager?",
     "faq.a9": "Sì, assolutamente! Siamo aperti a figure tecniche come Match Analyst, preparatori atletici/dei portieri e manager di campo o per la gestione del club.",
 
+    "faq.cat_staff": "Manager e Staff: cosa si fa",
+    "faq.m1_q": "Che ruolo ha il manager del club?",
+    "faq.m1_a": "È lo staff che permette ai giocatori di concentrarsi sul gioco: si occupa di ciò che avviene fuori dal campo, dalla preparazione di allenamenti e partite alle comunicazioni, alla raccolta dei dati e alla promozione. Non serve aver giocato a calcio.",
+    "faq.m2_q": "Quali compiti ci sono prima di allenamenti e partite?",
+    "faq.m2_a": "<ul><li>Verificare e condividere date, campo e orario di ritrovo</li><li>Raccogliere le presenze tramite l'app di gestione presenze</li><li>Tenere i contatti con avversari e campo per le partite</li><li>Preparare palloni, pettorine e materiale di primo soccorso</li></ul>",
+    "faq.m3_q": "Cosa fa il manager il giorno della partita?",
+    "faq.m3_a": "<ul><li>Accogliere la squadra avversaria e seguire lo svolgimento della giornata</li><li>Verificare la lista dei convocati</li><li>Annotare marcatori, assist, cartellini e sostituzioni</li><li>Scattare foto e video per i social e gestire il materiale</li></ul>",
+    "faq.m4_q": "E dopo la partita?",
+    "faq.m4_a": "<ul><li>Condividere risultato e marcatori così da aggiornare le statistiche del sito</li><li>Ringraziare la squadra avversaria</li><li>Pubblicare foto e resoconto sui social</li><li>Riordinare il materiale e organizzare il terzo tempo</li></ul>",
+    "faq.m5_q": "Come funzionano comunicazione e social?",
+    "faq.m5_a": "Convocazioni e avvisi passano dagli strumenti di comunicazione interni (LINE / app), mentre i canali ufficiali (Instagram, X, YouTube) raccontano la vita del club. Rispondere ai messaggi del modulo contatti (di norma entro 24–48 ore) fa parte del lavoro.",
+    "faq.m6_q": "Il manager segue anche quote e amministrazione?",
+    "faq.m6_a": "Sì, in affiancamento al responsabile del club: raccolta e registro delle quote di prova e mensili, controllo delle spese. Non si lavora mai da soli.",
+    "faq.m7_q": "Servono esperienza, un'età minima e quanto tempo richiede?",
+    "faq.m7_a": "Non serve esperienza di calcio e l'età minima è 18 anni. L'impegno si concorda in base alla tua disponibilità: nel modulo indica cosa ti piacerebbe fare.",
+    "faq.m8_q": "Come mi candido come manager o staff?",
+    "faq.m8_a": "Dal <a href=\"contact.html?type=staff#training\">modulo contatti</a> scegli «Candidatura Staff», indica il ruolo desiderato e da 1 a 3 date di allenamento in cui conoscerci. Rispondiamo di norma entro 24–48 ore.",
+
     "faq.cat_schedule": "Orari, Campi & Partite",
     "faq.q4": "Dove vi allenate e giocate di solito?",
     "faq.a4": "Non abbiamo un campo fisso. Giochiamo principalmente nei campi pubblici della città di Yokohama e strutture scolastiche/sportive locali.",
@@ -476,6 +370,24 @@ YC.register({
     "faq.q9": "Are you recruiting Technical Staff (Match Analyst, Coaches) or Managers?",
     "faq.a9": "Yes, absolutely! We are open to technical roles such as Match Analysts, fitness/GK coaches, as well as team managers.",
 
+    "faq.cat_staff": "Manager & Staff Duties",
+    "faq.m1_q": "What does the club's team manager do?",
+    "faq.m1_a": "The manager is the staff member who lets players focus on the game by running everything off the pitch: preparing sessions and matches, communication, record-keeping and promotion. No football experience is needed.",
+    "faq.m2_q": "What tasks come before training sessions and matches?",
+    "faq.m2_a": "<ul><li>Checking and sharing dates, venue and meet-up time</li><li>Collecting attendance through the attendance tool</li><li>Coordinating with opponents and the venue for matches</li><li>Preparing balls, bibs and first-aid supplies</li></ul>",
+    "faq.m3_q": "What does the manager do on match day?",
+    "faq.m3_a": "<ul><li>Welcoming the opposing team and keeping the day on schedule</li><li>Double-checking the squad list</li><li>Recording scorers, assists, cards and substitutions</li><li>Taking photos and video for social media and looking after equipment</li></ul>",
+    "faq.m4_q": "What happens after the match?",
+    "faq.m4_a": "<ul><li>Sharing the result and scorers so the website stats can be updated</li><li>Thanking the opposing team</li><li>Posting photos and a short report on social media</li><li>Packing up equipment and organising the post-match get-together</li></ul>",
+    "faq.m5_q": "What about communication and social media?",
+    "faq.m5_a": "Squad announcements and schedule updates go through the team's communication tools (LINE / app), while the official channels (Instagram, X, YouTube) show the club's activities. Replying to contact-form messages (usually within 24–48 hours) is also part of the job.",
+    "faq.m6_q": "Does the manager also handle fees and administration?",
+    "faq.m6_a": "Yes, alongside the club lead: collecting and recording trial and monthly fees and keeping track of expenses. You are never working alone.",
+    "faq.m7_q": "What experience, age and time commitment are needed?",
+    "faq.m7_a": "No football experience is required and applicants must be 18 or older. The level of involvement is agreed around your availability, so tell us in the form what you would like to do.",
+    "faq.m8_q": "How do I apply as a manager or staff member?",
+    "faq.m8_a": "In the <a href=\"contact.html?type=staff#training\">contact form</a> choose “Staff application”, pick your preferred role and 1 to 3 training dates to meet us. We usually reply within 24–48 hours.",
+
     "faq.cat_schedule": "Schedule, Locations & Matches",
     "faq.q4": "Where do you usually practice and play?",
     "faq.a4": "We do not have a dedicated home field. We mainly use public grounds and school facilities within Yokohama City.",
@@ -516,18 +428,40 @@ YC.boot({
   }
 });
 
-// ACCORDION FAQ (TOGGLE APERTO/CHIUSO)
+/* ACCORDION: un elemento aperto alla volta, con aria-expanded */
+function openItem(item, on) {
+  item.classList.toggle('active', on);
+  const b = item.querySelector('.faq-question'); if (b) b.setAttribute('aria-expanded', on ? 'true' : 'false');
+}
 document.addEventListener('click', e => {
-  const questionBtn = e.target.closest('.faq-question');
-  if (questionBtn) {
-    const item = questionBtn.closest('.faq-item');
-    const isActive = item.classList.contains('active');
-    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-    if (!isActive) {
-      item.classList.add('active');
-    }
-  }
+  const btn = e.target.closest('.faq-question'); if (!btn) return;
+  const item = btn.closest('.faq-item'), was = item.classList.contains('active');
+  document.querySelectorAll('.faq-item').forEach(i => openItem(i, false));
+  if (!was) openItem(item, true);
 });
+
+/* link diretti: faq.html#m1 apre la domanda; faq.html#cat-staff scorre alla sezione */
+function goHash() {
+  const id = decodeURIComponent(location.hash.slice(1)); if (!id) return;
+  const el = document.getElementById(id); if (!el) return;
+  if (el.classList.contains('faq-item')) { document.querySelectorAll('.faq-item').forEach(i => openItem(i, false)); openItem(el, true); }
+  setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: el.classList.contains('faq-item') ? 'center' : 'start' }), 120);
+}
+window.addEventListener('hashchange', goHash);
+
+/* dati strutturati FAQPage generati dal testo visibile, nella lingua attiva */
+function renderLd() {
+  const items = [...document.querySelectorAll('.faq-item')].map(it => ({
+    '@type': 'Question',
+    name: it.querySelector('.faq-question span').textContent.trim(),
+    acceptedAnswer: { '@type': 'Answer', text: it.querySelector('.faq-answer').innerHTML.trim() }
+  }));
+  let el = document.getElementById('faqLd');
+  if (!el) { el = document.createElement('script'); el.type = 'application/ld+json'; el.id = 'faqLd'; document.head.appendChild(el); }
+  el.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: YC.lang(), mainEntity: items });
+}
+let first = true;
+document.addEventListener('yc:langchange', () => { renderLd(); if (first) { first = false; goHash(); } });
 </script>
 </body>
 </html>
