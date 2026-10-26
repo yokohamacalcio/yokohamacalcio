@@ -117,21 +117,43 @@
     font-size: 0.85rem;
 }
 
-.privacy-card a {
+.privacy-card a:not(.recruitment-btn) {
     color: var(--primary-sky, #12A0D7);
     font-weight: 700;
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
-.privacy-card a:hover {
+.privacy-card a:not(.recruitment-btn):hover {
     color: var(--dark-navy, #003c82);
     text-decoration: underline;
 }
 
 .privacy-contact-btn-wrap {
-    margin-top: 16px;
+    margin-top: 18px;
     text-align: center;
+}
+
+.privacy-contact-btn-wrap .recruitment-btn {
+    background: #87ceeb;
+    color: #00224a !important;
+    font-weight: 800;
+    padding: 12px 26px;
+    border-radius: 30px;
+    text-decoration: none;
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    max-width: 300px;
+    margin: 0 auto;
+    box-shadow: 0 4px 15px rgba(135,206,235,.35);
+    transition: all .25s ease;
+}
+
+.privacy-contact-btn-wrap .recruitment-btn:hover {
+    background: #a0d8ef;
+    transform: translateY(-2px);
 }
 
 @media (max-width: 600px) {
@@ -207,8 +229,8 @@
                     <span data-i18n="privacy.s5_text2">よりご連絡ください。</span>
                 </p>
                 <div class="privacy-contact-btn-wrap">
-                    <a href="contact.html" class="google-form-btn" style="display: inline-flex; justify-content: center; align-items: center; max-width: 280px; margin: 10px auto 0; gap: 8px;">
-                        <i class="fas fa-envelope"></i> <span data-i18n="privacy.btn_contact">お問い合わせはこちら</span>
+                    <a href="contact.html" class="recruitment-btn">
+                        <i class="fas fa-paper-plane"></i> <span data-i18n="privacy.btn_contact">お問い合わせはこちら</span>
                     </a>
                 </div>
             </div>
