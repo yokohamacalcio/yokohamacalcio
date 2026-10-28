@@ -146,6 +146,64 @@
 .cal-dropdown-menu.show { display: block; }
 .cal-dropdown-menu button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 10px 14px; background: transparent; border: 0; color: #fff; font: inherit; font-size: .78rem; font-weight: 600; text-align: left; cursor: pointer; }
 .cal-dropdown-menu button:hover { background: rgba(135,206,235,.2); color: #87ceeb; }
+
+/* ---- Vetrina partner ---- */
+.partners-wrap { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 26px; }
+.tier-title { font-size: .78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: var(--dark-navy, #003c82); display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px; opacity: .85; }
+.tier-title .tier-count { font-size: .7rem; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 999px; }
+
+/* Main Partner: slot in evidenza, senza logo sulla maglia */
+.main-slot-card { position: relative; background: #fff; border: 2px solid var(--primary-sky, #87ceeb); border-radius: 18px; padding: 26px 22px; text-align: center; overflow: hidden; box-shadow: 0 10px 28px rgba(0,60,130,.10); }
+.main-slot-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #f59e0b, #87ceeb, #003c82); }
+.main-slot-card.is-open { border-style: dashed; background: linear-gradient(135deg, #ffffff 0%, #f4f9fd 100%); }
+.main-slot-badge { display: inline-flex; align-items: center; gap: 6px; background: #003c82; color: #fff; font-size: .7rem; font-weight: 800; padding: 4px 12px; border-radius: 999px; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 14px; }
+.main-slot-title { font-size: 1.15rem; font-weight: 800; color: var(--dark-navy, #003c82); margin-bottom: 6px; }
+.main-slot-sub { font-size: .88rem; color: #64748b; line-height: 1.6; max-width: 560px; margin: 0 auto 16px; }
+.main-slot-perks { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 0; margin: 0 0 18px; }
+.main-slot-perks li { font-size: .78rem; font-weight: 700; color: #0369a1; background: #e0f2fe; padding: 6px 12px; border-radius: 999px; }
+.main-slot-perks li i { margin-right: 4px; }
+.main-slot-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--dark-navy, #003c82); color: #fff !important; font-weight: 800; font-size: .9rem; padding: 12px 24px; border-radius: 30px; text-decoration: none; box-shadow: 0 4px 14px rgba(0,60,130,.25); transition: transform .2s ease, background .2s ease; }
+.main-slot-cta:hover { background: #002b5c; transform: translateY(-2px); }
+
+/* Official Partner */
+.official-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+.official-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 22px 18px 18px; text-align: center; box-shadow: 0 4px 14px rgba(0,60,130,.05); display: flex; flex-direction: column; align-items: center; transition: transform .2s ease, box-shadow .2s ease; }
+.official-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,60,130,.10); }
+.official-badge { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-size: .66rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 12px; }
+.official-logo { height: 56px; width: 100%; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+.official-logo img { max-height: 100%; max-width: 170px; object-fit: contain; }
+.official-logo-fallback { display: none; align-items: center; gap: 8px; font-size: 1.05rem; font-weight: 800; color: var(--dark-navy, #003c82); }
+.official-logo-fallback i { color: #87ceeb; font-size: 1.2rem; }
+.official-name { font-size: 1.02rem; font-weight: 800; color: var(--dark-navy, #003c82); margin-bottom: 4px; }
+.official-desc { font-size: .82rem; color: #64748b; line-height: 1.5; margin-bottom: 12px; min-height: 2.6em; }
+.official-link { font-size: .8rem; font-weight: 800; color: #fff; background: var(--dark-navy, #003c82); padding: 8px 16px; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: auto; }
+.official-link:hover { background: #87ceeb; color: #00224a; }
+
+/* Supporter */
+.supporter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.supporter-chip { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 10px; text-align: center; font-size: .82rem; font-weight: 700; color: #475569; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.supporter-chip i { color: #87ceeb; font-size: 1.1rem; }
+.supporter-chip small { font-weight: 600; color: #94a3b8; font-size: .7rem; }
+.supporter-chip.is-empty { border-style: dashed; color: #94a3b8; background: #fafcff; }
+
+/* Strip finale */
+.partner-cta-strip { background: linear-gradient(135deg, #00224a 0%, #001229 100%); border-radius: 14px; padding: 16px 22px; color: #fff; border: 1px solid rgba(135,206,235,.3); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.partner-cta-text { font-size: .9rem; font-weight: 600; color: #e2e8f0; display: flex; align-items: center; gap: 10px; margin: 0; }
+.partner-cta-text i { color: #87ceeb; font-size: 1.2rem; }
+.partner-cta-btn { background: #87ceeb; color: #00224a !important; font-size: .84rem; font-weight: 800; padding: 9px 18px; border-radius: 20px; text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+.partner-cta-btn:hover { background: #a0d8ef; }
+@media (max-width: 650px) { .partner-cta-strip { flex-direction: column; text-align: center; justify-content: center; } .partner-cta-text { flex-direction: column; } .main-slot-card { padding: 22px 16px; } }
+
+/* ---- Presenza partner: footer e social ---- */
+.footer-partners { max-width: 1000px; margin: 0 auto 26px; padding: 0 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 18px; }
+.footer-partners-label { color: #94a3b8; font-size: .72rem; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; }
+.footer-partners a { color: #e2e8f0; font-size: .82rem; font-weight: 700; text-decoration: none; border: 1px solid rgba(255,255,255,.2); padding: 6px 14px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; }
+.footer-partners a:hover { border-color: #87ceeb; color: #87ceeb; }
+.footer-partners .footer-partner-cta { background: #87ceeb; color: #00224a; border-color: #87ceeb; }
+.footer-partners .footer-partner-cta:hover { background: #a0d8ef; color: #00224a; }
+.social-partner-strip { margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.1); text-align: center; font-size: .78rem; color: #94a3b8; }
+.social-partner-strip a { color: #87ceeb; font-weight: 700; text-decoration: none; }
+.social-partner-strip a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -198,7 +256,8 @@
 <section class="section match-center-section" id="results">
   <div class="container">
     <h2 class="section-title"><i class="fas fa-trophy"></i> <span data-i18n="i.res_title">試合結果・日程</span></h2>
-    <div class="match-center-swipe-track" id="matchTrack"></div>
+    <!-- Contenuto statico per i crawler (generate_seo.py); il JS lo sostituisce al caricamento -->
+    <div class="match-center-swipe-track" id="matchTrack"><!-- PAST_START --><!-- PAST_END --><!-- UPCOMING_START --><!-- UPCOMING_END --></div>
     <div style="text-align:center;margin-top:30px;"><a href="matches.html" class="google-form-btn" style="max-width:320px;margin:0 auto;"><i class="fas fa-list"></i> <span data-i18n="i.res_all">全試合日程・詳細はこちら</span></a></div>
   </div>
 </section>
@@ -274,52 +333,61 @@
   </div>
 </section>
 
-<section class="section sponsors-section" id="sponsors" style="background:var(--light-bg,#f0f7fc)">
+<section class="section" id="sponsors" style="background:var(--light-bg,#f0f7fc)">
   <div class="container">
     <h2 class="section-title"><i class="fas fa-handshake"></i> <span data-i18n="i.sp_title">パートナー＆スポンサー</span></h2>
-    
-    <div class="sponsors-wrapper">
-      
-      <!-- Tier 1: Main Partner (Slot Disponibile) -->
-      <div class="sponsor-tier-block">
-        <div class="sponsor-tier-title"><i class="fas fa-crown" style="color:#f59e0b"></i> <span data-i18n="i.sp_tier_main">Main Partner</span></div>
-        <div class="tier-main-grid">
-          <div class="main-partner-placeholder">
-            <span class="main-partner-badge">Main Partner Space</span>
-            <div class="main-partner-title" data-i18n="i.sp_main_open">メインパートナー枠（受付中）</div>
-            <div class="main-partner-sub" data-i18n="i.sp_main_sub">ユニフォーム胸スポンサー・クラブメインパートナー枠</div>
-          </div>
+    <div class="partners-wrap">
+
+      <!-- MAIN PARTNER. Quando arriva un partner: sostituire il contenuto del card, togliere is-open e aggiornare il testo. -->
+      <div>
+        <div class="tier-title"><i class="fas fa-crown" style="color:#f59e0b"></i> <span data-i18n="i.sp_tier_main">Main Partner</span></div>
+        <div class="main-slot-card is-open">
+          <span class="main-slot-badge"><i class="fas fa-star"></i> <span data-i18n="i.sp_main_badge">Main Partner</span></span>
+          <div class="main-slot-title" data-i18n="i.sp_main_open">メインパートナー 募集中</div>
+          <p class="main-slot-sub" data-i18n="i.sp_main_sub">クラブの活動を一番近くで支える、メインパートナーを募集しています。試合・SNS・ホームページでのご紹介など、クラブと一緒に発信できるプランをご用意しています。</p>
+          <ul class="main-slot-perks">
+            <li><i class="fas fa-globe"></i><span data-i18n="i.sp_perk2">サイト・SNSでの紹介</span></li>
+            <li><i class="fas fa-futbol"></i><span data-i18n="i.sp_perk3">試合会場での掲出</span></li>
+            <li><i class="fas fa-newspaper"></i><span data-i18n="i.sp_perk4">活動報告での紹介</span></li>
+          </ul>
+          <a href="contact.html?type=sponsor" class="main-slot-cta"><i class="fas fa-paper-plane"></i> <span data-i18n="i.sp_main_btn">メインパートナーについて相談する</span></a>
         </div>
       </div>
 
-      <!-- Tier 2: Official Partner (CarCar Japan) -->
-      <div class="sponsor-tier-block">
-        <div class="sponsor-tier-title"><i class="fas fa-star" style="color:#87ceeb"></i> <span data-i18n="i.sp_tier_official">Official Partner</span></div>
-        <div class="tier-official-grid">
-          <div class="official-partner-card">
-            <span class="official-partner-badge" data-i18n="i.sp_official">Official Partner</span>
-            <div class="official-logo-box">
-              <img src="./immagini/partners/carcarjapan.png" alt="CarCar Japan" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-              <div style="display:none;align-items:center;font-size:1.1rem;font-weight:800;color:var(--dark-navy,#003c82);"><i class="fas fa-car-side" style="color:#87ceeb;margin-right:8px;font-size:1.3rem;"></i>CarCar Japan</div>
+      <!-- OFFICIAL PARTNER: una card per partner. Per aggiungerne una, copiare .official-card. -->
+      <div>
+        <div class="tier-title"><i class="fas fa-star" style="color:#87ceeb"></i> <span data-i18n="i.sp_tier_official">Official Partner</span> <span class="tier-count">1</span></div>
+        <div class="official-grid">
+          <article class="official-card">
+            <span class="official-badge" data-i18n="i.sp_official">Official Partner</span>
+            <div class="official-logo">
+              <img src="./immagini/partners/carcarjapan.png" alt="CarCar Japan" loading="lazy"
+                   onerror="this.style.display='none';this.parentNode.querySelector('.official-logo-fallback').style.display='flex';">
+              <div class="official-logo-fallback"><i class="fas fa-car-side"></i>CarCar Japan</div>
             </div>
-            <div class="official-partner-name">CarCar Japan</div>
-            <div class="official-partner-desc" data-i18n="i.sp_carcar_desc">横浜の持ち込みタイヤ交換専門店・タイヤ直送対応</div>
-            <a href="https://carcar.jp" target="_blank" rel="noopener noreferrer" class="official-partner-link">
-              <span>Web Site</span> <i class="fas fa-external-link-alt" style="font-size:.7rem"></i>
+            <div class="official-name">CarCar Japan</div>
+            <p class="official-desc" data-i18n="i.sp_carcar_desc">横浜のタイヤ交換・持ち込みタイヤ専門店。タイヤの直送にも対応。</p>
+            <a href="https://carcar.jp/?utm_source=yokohamacalcio&utm_medium=partner&utm_campaign=official"
+               target="_blank" rel="noopener sponsored" class="official-link">
+              <i class="fas fa-external-link-alt"></i> <span data-i18n="i.sp_visit">公式サイトを見る</span>
             </a>
-          </div>
+          </article>
         </div>
       </div>
 
-      <!-- CTA Compatta Mono-Riga -->
-      <div class="sponsor-cta-strip">
-        <p class="sponsor-cta-text">
-          <i class="fas fa-handshake-angle" style="color:#87ceeb;font-size:1.2rem;"></i>
-          <span data-i18n="i.sp_cta_text">Yokohama Calcioをサポートしませんか？パートナー企業様を募集しています。</span>
-        </p>
-        <a href="contact.html?type=sponsor" class="sponsor-cta-btn">
-          <i class="fas fa-paper-plane"></i> <span data-i18n="i.sp_btn">お問い合わせ</span>
-        </a>
+      <!-- SUPPORTER: fornitori, ristoranti per il terzo tempo, servizi -->
+      <div>
+        <div class="tier-title"><i class="fas fa-hands-helping" style="color:#64748b"></i> <span data-i18n="i.sp_tier_supp">Supporter</span></div>
+        <div class="supporter-grid">
+          <div class="supporter-chip is-empty"><i class="fas fa-plus"></i><span data-i18n="i.sp_supp_open">パートナー募集</span><small data-i18n="i.sp_supp_sub">用具・飲食・施設</small></div>
+          <div class="supporter-chip is-empty"><i class="fas fa-plus"></i><span data-i18n="i.sp_supp_open">パートナー募集</span><small data-i18n="i.sp_supp_sub">用具・飲食・施設</small></div>
+          <div class="supporter-chip is-empty"><i class="fas fa-plus"></i><span data-i18n="i.sp_supp_open">パートナー募集</span><small data-i18n="i.sp_supp_sub">用具・飲食・施設</small></div>
+        </div>
+      </div>
+
+      <div class="partner-cta-strip">
+        <p class="partner-cta-text"><i class="fas fa-handshake-angle"></i> <span data-i18n="i.sp_cta_text">Yokohama Calcioをサポートしませんか？企業・飲食店のパートナーを募集しています。</span></p>
+        <a href="contact.html?type=sponsor" class="partner-cta-btn"><i class="fas fa-paper-plane"></i> <span data-i18n="i.sp_btn">パートナーについてお問い合わせ</span></a>
       </div>
 
     </div>
@@ -339,7 +407,10 @@ YC.register({
     'i.rec_title': '新メンバー募集中！(18〜40歳経験者)', 'i.rec_desc': '組織的なイタリアンフットボールを体感しませんか？真剣に勝利を目指しながら、共に進化できる仲間を探しています。体験参加をお待ちしています！', 'i.rec_btn': '体験参加を申し込む',
     'i.res_title': '試合結果・日程', 'i.res_all': '全試合日程・詳細はこちら', 'i.last': '前節結果', 'i.next': '次戦', 'i.detail': '詳細', 'i.no_next': '現在、次の試合日程を調整中です。対戦相手も募集しています！', 'i.req_friendly': '練習試合を申し込む', 'i.cd_title': 'キックオフまで', 'i.cd_d': '日', 'i.cd_h': '時間', 'i.cd_m': '分', 'i.cd_s': '秒', 'i.cal_add': 'カレンダーに追加',
     'i.gal_title': 'フォトギャラリー', 'i.shop_title': '公式オンラインショップ', 'i.shop_card': 'Yokohama Calcio オフィシャルグッズ', 'i.shop_desc': 'Tシャツ、キャップ、キーホルダー、マフラータオルなどのオリジナルグッズを取り揃えています。売上収益はチームの活動費として大切に活用させていただきます。', 'i.shop_btn': '公式ショップを見る',
-    'i.sp_title': 'パートナー＆スポンサー', 'i.sp_tier_main': 'メインパートナー', 'i.sp_main_open': 'メインパートナー枠（受付中）', 'i.sp_main_sub': 'ユニフォーム胸スポンサー・クラブメインパートナー枠', 'i.sp_tier_official': 'オフィシャルパートナー', 'i.sp_official': 'オフィシャルパートナー', 'i.sp_carcar_desc': '横浜の持ち込みタイヤ交換専門店・タイヤ直送対応', 'i.sp_cta_text': 'Yokohama Calcioをサポートしませんか？パートナー企業様を募集しています。', 'i.sp_btn': 'パートナー詳細・お問い合わせ',
+    'i.sp_title': 'パートナー＆スポンサー', 'i.sp_tier_main': 'メインパートナー', 'i.sp_main_badge': 'メインパートナー枠', 'i.sp_main_open': 'メインパートナー 募集中', 'i.sp_main_sub': 'クラブの活動を一番近くで支える、メインパートナーを募集しています。試合・SNS・ホームページでのご紹介など、クラブと一緒に発信できるプランをご用意しています。', 'i.sp_perk2': 'サイト・SNSでの紹介', 'i.sp_perk3': '試合会場での掲出', 'i.sp_perk4': '活動報告での紹介', 'i.sp_main_btn': 'メインパートナーについて相談する',
+    'i.sp_tier_official': 'オフィシャルパートナー', 'i.sp_official': 'オフィシャルパートナー', 'i.sp_carcar_desc': '横浜のタイヤ交換・持ち込みタイヤ専門店。タイヤの直送にも対応。', 'i.sp_visit': '公式サイトを見る',
+    'i.sp_tier_supp': 'サプライヤー・サポーター', 'i.sp_supp_open': 'パートナー募集', 'i.sp_supp_sub': '用具・飲食・施設',
+    'i.sp_cta_text': 'Yokohama Calcioをサポートしませんか？企業・飲食店のパートナーを募集しています。', 'i.sp_btn': 'パートナーについてお問い合わせ',
     'i.ct_title': 'お問い合わせ', 'i.ct_sub': '各種お申し込み・お問い合わせ', 'i.ct_card': 'お気軽にご連絡ください', 'i.r1_h': '体験練習・入部希望', 'i.r1_d': '18歳〜40歳の経験者対象・ブランク可', 'i.r2_h': '練習試合・対戦のお申し込み', 'i.r2_d': '親善試合・グラウンド手配', 'i.r3_h': 'パートナー・協賛のご相談', 'i.r3_d': 'チーム支援・パートナーシップ', 'i.r4_h': 'その他チームに関するご質問', 'i.ct_btn': 'お問い合わせフォームを開く' },
   it: { 'i.hero_title': 'La passione italiana nel cuore di Yokohama', 'i.hero_sub': 'Il calcio che unisce le persone', 'i.btn_about': 'Chi Siamo', 'i.btn_trial': 'Prenota una prova', 'i.ticker': 'NEWS',
     'i.about_title': 'Cos\'è lo Yokohama Calcio', 'i.about_sub': 'Da Yokohama, una squadra dilettantistica in perfetto stile italiano',
@@ -350,7 +421,10 @@ YC.register({
     'i.rec_title': 'Cercasi Nuovi Giocatori! (18–40 anni con esperienza)', 'i.rec_desc': 'Vuoi provare l\'organizzazione del calcio tattico italiano a Yokohama? Cerchiamo compagni con cui crescere puntando seriamente al risultato. Ti aspettiamo per una prova!', 'i.rec_btn': 'Prenota una prova',
     'i.res_title': 'Calendario e Risultati', 'i.res_all': 'Vedi tutte le partite', 'i.last': 'Ultimo Match', 'i.next': 'Prossimo Match', 'i.detail': 'Dettagli', 'i.no_next': 'Stiamo programmando le prossime partite. Cerchi una squadra per un\'amichevole?', 'i.req_friendly': 'Organizza un\'amichevole', 'i.cd_title': 'Calcio d\'inizio tra', 'i.cd_d': 'gg', 'i.cd_h': 'ore', 'i.cd_m': 'min', 'i.cd_s': 'sec', 'i.cal_add': 'Aggiungi al Calendario',
     'i.gal_title': 'Galleria Fotografica', 'i.shop_title': 'Online Shop Ufficiale', 'i.shop_card': 'Merchandising Ufficiale Yokohama Calcio', 'i.shop_desc': 'Scopri t-shirt, cappellini, portachiavi e sciarpe per tifare la squadra. Il ricavato sostiene le attività del club.', 'i.shop_btn': 'Visita lo Store Ufficiale',
-    'i.sp_title': 'Partner & Sponsor', 'i.sp_tier_main': 'Main Partner', 'i.sp_main_open': 'Spazio Main Partner Disponibile', 'i.sp_main_sub': 'Sponsor di maglia principale e top partner del club', 'i.sp_tier_official': 'Official Partner', 'i.sp_official': 'Official Partner', 'i.sp_carcar_desc': 'Specialisti nel montaggio e cambio pneumatici a Yokohama', 'i.sp_cta_text': 'Vuoi sostenere lo Yokohama Calcio? Cerchiamo nuovi partner e sponsor locali.', 'i.sp_btn': 'Richiedi Info Partnership',
+    'i.sp_title': 'Partner & Sponsor', 'i.sp_tier_main': 'Main Partner', 'i.sp_main_badge': 'Main Partner', 'i.sp_main_open': 'Main Partner cercasi', 'i.sp_main_sub': 'Cerchiamo un partner principale che sostenga il club da vicino. Offriamo visibilità su sito, social e partite, con piani da costruire insieme.', 'i.sp_perk2': 'Visibilità su sito e social', 'i.sp_perk3': 'Presenza alle partite', 'i.sp_perk4': 'Spazio nei nostri aggiornamenti', 'i.sp_main_btn': 'Richiedi info come Main Partner',
+    'i.sp_tier_official': 'Official Partner', 'i.sp_official': 'Official Partner', 'i.sp_carcar_desc': 'Specialisti nel cambio e nel montaggio di pneumatici a Yokohama, anche con spedizione diretta.', 'i.sp_visit': 'Visita il sito',
+    'i.sp_tier_supp': 'Fornitori & Supporter', 'i.sp_supp_open': 'Partner cercasi', 'i.sp_supp_sub': 'Materiali · ristorazione · strutture',
+    'i.sp_cta_text': 'Vuoi sostenere lo Yokohama Calcio? Cerchiamo aziende e locali partner.', 'i.sp_btn': 'Scrivici per una partnership',
     'i.ct_title': 'Contatti', 'i.ct_sub': 'Invia una richiesta o un messaggio', 'i.ct_card': 'Non esitare a contattarci', 'i.r1_h': 'Prove & Nuovi Giocatori', 'i.r1_d': 'Dai 18 ai 40 anni con esperienza', 'i.r2_h': 'Richiesta Partita Amichevole', 'i.r2_d': 'Organizzazione sfide e campi', 'i.r3_h': 'Partnership & Collaborazioni', 'i.r3_d': 'Sostieni il club', 'i.r4_h': 'Altre domande sul club', 'i.ct_btn': 'Apri Modulo Contatti' },
   en: { 'i.hero_title': 'Italian Football Passion in Yokohama', 'i.hero_sub': 'Where Football Connects People', 'i.btn_about': 'About Club', 'i.btn_trial': 'Book a trial', 'i.ticker': 'NEWS',
     'i.about_title': 'About Yokohama Calcio', 'i.about_sub': 'Italian-style Amateur Football Club in Yokohama',
@@ -361,7 +435,10 @@ YC.register({
     'i.rec_title': 'Recruiting New Players! (18–40 yrs experienced)', 'i.rec_desc': 'Want to experience tactical Italian football in Yokohama? We are looking for teammates to grow with while aiming seriously for results. Come and try!', 'i.rec_btn': 'Book a trial',
     'i.res_title': 'Matches & Results', 'i.res_all': 'View All Matches', 'i.last': 'Last Match', 'i.next': 'Next Match', 'i.detail': 'Details', 'i.no_next': 'Next match date is being scheduled. Looking for a friendly match?', 'i.req_friendly': 'Request Friendly Match', 'i.cd_title': 'Countdown to Kick-off', 'i.cd_d': 'd', 'i.cd_h': 'h', 'i.cd_m': 'm', 'i.cd_s': 's', 'i.cal_add': 'Add to Calendar',
     'i.gal_title': 'Photo Gallery', 'i.shop_title': 'Official Online Shop', 'i.shop_card': 'Yokohama Calcio Official Merchandise', 'i.shop_desc': 'Discover t-shirts, caps, keychains, and scarves to support the team. Proceeds fund the club\'s activities.', 'i.shop_btn': 'Visit Official Store',
-    'i.sp_title': 'Partners & Sponsors', 'i.sp_tier_main': 'Main Partner', 'i.sp_main_open': 'Main Partner Space Available', 'i.sp_main_sub': 'Front shirt sponsor & main club partner space', 'i.sp_tier_official': 'Official Partner', 'i.sp_official': 'Official Partner', 'i.sp_carcar_desc': 'Tire replacement & installation specialists in Yokohama', 'i.sp_cta_text': 'Want to support Yokohama Calcio? We are open for local business partnerships.', 'i.sp_btn': 'Inquire About Partnership',
+    'i.sp_title': 'Partners & Sponsors', 'i.sp_tier_main': 'Main Partner', 'i.sp_main_badge': 'Main Partner', 'i.sp_main_open': 'Main Partner wanted', 'i.sp_main_sub': 'We are looking for a main partner to support the club up close. We offer visibility on our website, social media and matches, with plans built together.', 'i.sp_perk2': 'Website & social visibility', 'i.sp_perk3': 'Presence at matches', 'i.sp_perk4': 'Featured in our updates', 'i.sp_main_btn': 'Ask about Main Partner',
+    'i.sp_tier_official': 'Official Partner', 'i.sp_official': 'Official Partner', 'i.sp_carcar_desc': 'Tire change and installation specialists in Yokohama, with direct tire delivery.', 'i.sp_visit': 'Visit website',
+    'i.sp_tier_supp': 'Suppliers & Supporters', 'i.sp_supp_open': 'Partner wanted', 'i.sp_supp_sub': 'Equipment · food · facilities',
+    'i.sp_cta_text': 'Want to support Yokohama Calcio? We are looking for business and restaurant partners.', 'i.sp_btn': 'Get in touch about a partnership',
     'i.ct_title': 'Contact Us', 'i.ct_sub': 'Inquiries & Applications', 'i.ct_card': 'Feel free to reach out', 'i.r1_h': 'Join / Trial Training', 'i.r1_d': 'Experienced players aged 18–40', 'i.r2_h': 'Friendly Match Requests', 'i.r2_d': 'Match scheduling & pitch setup', 'i.r3_h': 'Partnership & Sponsorship', 'i.r3_d': 'Support the club', 'i.r4_h': 'General Questions', 'i.ct_btn': 'Open Contact Form' }
 });
 YC.boot({ title: {
