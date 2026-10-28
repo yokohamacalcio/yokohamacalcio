@@ -2,9 +2,7 @@
    site-extras.css — da includere DOPO style.css in tutte le pagine.
    1. Menu (prima copiato inline in ogni pagina)   2. Ticker news
    3. Pulsante fisso "prova"   4. Calendario / allenamenti
-   5. Accessibilità (reduced motion) e varie   6. Footer professionale
-   7. Intestazione pagina + KPI   8. Forma recente + Formazione tipo (Campo HD)
-   9. Toast notifiche (copia link)   10. Sponsor & Partner gerarchizzati
+   5. Accessibilità (reduced motion) e varie
    ===================================================================== */
 
 /* ---------- 1. MENU MOBILE (overlay scuro) ---------- */
@@ -173,7 +171,7 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 .pill { border: 1px solid #cbd5e1; background: #f1f5f9; color: var(--dark-navy, #003c82); border-radius: 999px; padding: 8px 16px; font-weight: 700; font-size: .84rem; cursor: pointer; font-family: inherit; }
 .pill.active { background: var(--dark-navy, #003c82); color: #fff; border-color: var(--dark-navy, #003c82); }
 
-/* ---------- 8. FORMA RECENTE + FORMAZIONE TIPO (CAMPO HD) ---------- */
+/* ---------- 8. FORMA RECENTE + FORMAZIONE TIPO ---------- */
 .form-strip { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .form-dot { width: 38px; height: 38px; border-radius: 50%; color: #fff; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; font-size: .9rem; cursor: help; }
 .form-dot.W { background: #16a34a; } .form-dot.D { background: #94a3b8; } .form-dot.L { background: #dc2626; }
@@ -182,48 +180,15 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 .goal-bar .cols { display: flex; align-items: flex-end; gap: 3px; height: 80px; }
 .goal-bar .cols i { display: block; width: 12px; border-radius: 3px 3px 0 0; min-height: 2px; }
 .goal-bar .gf { background: #12A0D7; } .goal-bar .ga { background: #f87171; }
-
 .lineup-wrap { display: grid; grid-template-columns: minmax(0, 360px) 1fr; gap: 24px; align-items: start; }
 @media (max-width: 800px) { .lineup-wrap { grid-template-columns: 1fr; } }
-
-/* CAMPO DA CALCIO HD — Linee SVG bianche nitide in primo piano e lunette corrette */
-.lineup-pitch {
-  position: relative;
-  width: 100%;
-  max-width: 360px;
-  height: 480px !important;
-  margin: 0 auto;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: inset 0 0 30px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.15);
-  border: 3px solid #ffffff;
-  box-sizing: border-box;
-
-  background-color: #238b45 !important;
-  background-image:
-    /* Layer 1 (PRIMO PIANO): Linee bianche nitide SVG con lunette orientate correttamente */
-    url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 400' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='12' y='12' width='276' height='376' rx='4'/%3E%3Cline x1='12' y1='200' x2='288' y2='200'/%3E%3Ccircle cx='150' cy='200' r='42'/%3E%3Ccircle cx='150' cy='200' r='3' fill='%23ffffff'/%3E%3Crect x='65' y='12' width='170' height='60'/%3E%3Crect x='110' y='12' width='80' height='24'/%3E%3Cpath d='M 125 72 A 25 22 0 0 0 175 72'/%3E%3Crect x='65' y='328' width='170' height='60'/%3E%3Crect x='110' y='364' width='80' height='24'/%3E%3Cpath d='M 125 328 A 25 22 0 0 1 175 328'/%3E%3C/g%3E%3C/svg%3E"),
-    /* Layer 2 (INTERMEDIO): Shading radiale d'ombra per tridimensionalità */
-    radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, rgba(0,0,0,0.3) 100%),
-    /* Layer 3 (SFONDO): Erba a strisce orizzontali */
-    repeating-linear-gradient(0deg, #238b45 0px, #238b45 32px, #2ca25f 32px, #2ca25f 64px) !important;
-  background-size: 100% 100%, 100% 100%, 100% 100% !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-}
-
-/* Disattiva sovrapposizioni HTML inutilizzate per prevenire conflitti */
-.lineup-pitch::before,
-.lineup-pitch::after,
-.pitch-overlay {
-  display: none !important;
-}
-
+.lineup-pitch { position: relative; aspect-ratio: 3 / 4; border-radius: 12px; background: linear-gradient(180deg, #16a34a, #15803d 50%, #16a34a); box-shadow: inset 0 0 40px rgba(0,0,0,.35); overflow: hidden; width: 100%; max-width: 360px; margin: 0 auto; }
+.lineup-pitch::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: rgba(255,255,255,.45); }
+.lineup-pitch::after { content: ''; position: absolute; top: 50%; left: 50%; width: 26%; aspect-ratio: 1; border: 2px solid rgba(255,255,255,.45); border-radius: 50%; transform: translate(-50%, -50%); }
 .lineup-chip { position: absolute; transform: translate(-50%, -50%); text-align: center; width: 64px; z-index: 2; }
-.lineup-chip .num { width: 34px; height: 34px; margin: 0 auto 2px; border-radius: 50%; background: linear-gradient(135deg, #87ceeb 0%, #12a0d7 100%); color: #00224a; font-weight: 800; font-size: .85rem; display: flex; align-items: center; justify-content: center; border: 2px solid #ffffff; box-shadow: 0 3px 8px rgba(0,0,0,.4); font-family: var(--font-brand, 'Bebas Neue', sans-serif); }
-.lineup-chip .nm { font-size: .68rem; font-weight: 800; color: #fff; background: rgba(0, 18, 41, 0.85); padding: 2px 7px; border-radius: 8px; border: 1px solid rgba(135,206,235,.4); text-shadow: 0 1px 2px rgba(0,0,0,.8); white-space: nowrap; }
-.lineup-chip.empty .num { background: rgba(15,23,42,.4); color: rgba(255,255,255,.7); border: 2px dashed rgba(255,255,255,.6); }
-.lineup-chip.empty .nm { background: rgba(0,0,0,.5); color: #cbd5e1; }
+.lineup-chip .num { width: 34px; height: 34px; margin: 0 auto 2px; border-radius: 50%; background: #fff; color: var(--dark-navy, #003c82); font-weight: 800; font-size: .85rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,.4); }
+.lineup-chip .nm { font-size: .64rem; font-weight: 800; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.8); line-height: 1.1; }
+.lineup-chip.empty .num { background: rgba(15,23,42,.35); color: rgba(255,255,255,.6); border: 1.5px dashed rgba(255,255,255,.5); }
 .lineup-note { color: #64748b; font-size: .84rem; margin-top: 10px; }
 .mini-table { width: 100%; border-collapse: collapse; font-size: .86rem; }
 .mini-table th { text-align: left; background: #f1f5f9; padding: 8px 10px; color: var(--dark-navy, #003c82); }
@@ -234,72 +199,5 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 .panel h3 i { color: var(--primary-sky, #12A0D7); }
 .table-scroll { overflow-x: auto; }
 
-/* ---------- 9. TOAST NOTIFICHE (copia link) ---------- */
-.toast-copy {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: var(--dark-navy, #00224a);
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 999px;
-  font-size: .85rem;
-  font-weight: 700;
-  box-shadow: 0 8px 24px rgba(0,0,0,.3);
-  border: 1px solid rgba(135,206,235,.4);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
-  z-index: 10000;
-  pointer-events: none;
-}
-.toast-copy.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-}
-.toast-copy i { color: #34d399; }
-
-/* ---------- 10. SPONSOR & PARTNER GERARCHIZZATI ---------- */
-.sponsors-wrapper { display: flex; flex-direction: column; gap: 28px; max-width: 900px; margin: 0 auto; }
-
-.sponsor-tier-block { text-align: center; }
-.sponsor-tier-title { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: var(--dark-navy, #003c82); margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; opacity: 0.8; }
-
-/* Tier 1: Main Partner (In attesa/Slot aperto) */
-.tier-main-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
-.main-partner-placeholder { background: #fff; border: 2px dashed rgba(135,206,235,0.7); border-radius: 14px; padding: 20px; text-align: center; background: linear-gradient(135deg, #ffffff 0%, #f4f9fd 100%); }
-.main-partner-badge { background: var(--dark-navy, #003c82); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 3px 10px; border-radius: 15px; text-transform: uppercase; display: inline-block; margin-bottom: 8px; }
-.main-partner-title { font-size: 0.95rem; font-weight: 700; color: #64748b; margin-bottom: 4px; }
-.main-partner-sub { font-size: 0.8rem; color: #94a3b8; }
-
-/* Tier 2: Official Partner (CarCar Japan) */
-.tier-official-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
-.official-partner-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 20px 18px; text-align: center; box-shadow: 0 4px 14px rgba(0,60,130,0.04); transition: transform .2s ease, box-shadow .2s ease; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
-.official-partner-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,60,130,0.09); }
-.official-partner-badge { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-size: 0.68rem; font-weight: 800; padding: 3px 10px; border-radius: 15px; margin-bottom: 12px; display: inline-block; }
-.official-logo-box { height: 50px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
-.official-logo-box img { max-height: 100%; max-width: 160px; object-fit: contain; }
-.official-partner-name { font-size: 1.05rem; font-weight: 800; color: var(--dark-navy, #003c82); margin-bottom: 4px; }
-.official-partner-desc { font-size: 0.82rem; color: #64748b; line-height: 1.4; margin-bottom: 12px; }
-.official-partner-link { font-size: 0.78rem; font-weight: 700; color: #003c82; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
-.official-partner-link:hover { text-decoration: underline; }
-
-/* Tier 3: Supporter / Technical Partner */
-.tier-tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
-.tech-partner-card { background: #fff; border: 1px solid #f1f5f9; border-radius: 10px; padding: 12px; text-align: center; font-size: 0.8rem; font-weight: 700; color: #64748b; }
-
-/* CTA Compatta Mono-riga per nuovi partner */
-.sponsor-cta-strip { background: linear-gradient(135deg, #00224a 0%, #001229 100%); border-radius: 12px; padding: 14px 22px; color: #fff; border: 1px solid rgba(135,206,235,0.3); display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: 10px; box-shadow: 0 4px 15px rgba(0,34,74,0.15); }
-.sponsor-cta-text { font-size: 0.88rem; font-weight: 600; color: #e2e8f0; display: flex; align-items: center; gap: 10px; margin: 0; }
-.sponsor-cta-btn { background: #87ceeb; color: #00224a !important; font-size: 0.82rem; font-weight: 800; padding: 8px 18px; border-radius: 20px; text-decoration: none; white-space: nowrap; transition: background .2s ease; display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; }
-.sponsor-cta-btn:hover { background: #a0d8ef; }
-
-@media (max-width: 650px) {
-  .sponsor-cta-strip { flex-direction: column; text-align: center; justify-content: center; padding: 16px 14px; }
-  .sponsor-cta-text { flex-direction: column; gap: 4px; }
-}
+/* ---------- 11. PRESENZA PARTNER NEL FOOTER ---------- */
+.footer-partners-label { color: #94a3b8; font-size: .72rem; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; }
