@@ -226,7 +226,7 @@
 <script src="js/booking.js"></script>
 <script>
 // Backend Google Apps Script (salva su Google Sheets)
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxvyazA4_bjlkufEj6-rK5YSrTke-ks_SLNLHEQXrr7_P9C4hUOLAgo9ONVIGdIERk9qQ/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbykJA41COYbwV_6bxeOTaI3fwd6T0u_DU_PhCbJFWD8AY3vQvLzpfzDGdQPoK2XFwMkFw/exec';
 
 YC.register({
   ja: {
@@ -502,10 +502,12 @@ window.addEventListener('DOMContentLoaded', () => {
     const cognomeFormatted = L() === 'ja' && $('last_name_kana').value ? `${$('last_name').value.trim()} (${$('last_name_kana').value.trim()})` : $('last_name').value.trim();
     const nomeFormatted = L() === 'ja' && $('first_name_kana').value ? `${$('first_name').value.trim()} (${$('first_name_kana').value.trim()})` : $('first_name').value.trim();
 
-    const payload = {
+const payload = {
       categoria: VALUES[c] || c,
-      cognome: cognomeFormatted,
-      nome: nomeFormatted,
+      cognome: $('last_name').value.trim(),
+      nome: $('first_name').value.trim(),
+      cognomeKana: L() === 'ja' ? $('last_name_kana').value.trim() : '',
+      nomeKana: L() === 'ja' ? $('first_name_kana').value.trim() : '',
       email: $('email').value.trim(),
       trial_date_1: $('trial_date_1').value || '',
       trial_date_2: $('trial_date_2').value || '',
