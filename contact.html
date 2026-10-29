@@ -290,7 +290,7 @@ textarea.form-control { height: auto; min-height: 120px; padding: 12px 14px; }
 <script src="js/booking.js"></script>
 <script>
 // Backend Google Apps Script (salva su Google Sheets)
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbySsZCaubDREVyE_XJQh5xc7jRaYPSwO_Wq3MLZ30lF0wNAVYQQq2_t15TWcEQacLpvIA/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxvyazA4_bjlkufEj6-rK5YSrTke-ks_SLNLHEQXrr7_P9C4hUOLAgo9ONVIGdIERk9qQ/exec';
 
 YC.register({
   ja: {
@@ -402,7 +402,7 @@ function renderTrialSummary() {
   const box = $('trialSummary'), lang = L();
   const line = it => { const d = YCBooking.describe(it, 'ja'); return `${it.date} ${d.time}${d.venue ? ' @ ' + d.venue : ''}`.trim(); };
   [1, 2, 3].forEach((n, i) => { $('trial_date_' + n).value = booking.items[i] ? line(booking.items[i]) : ''; });
-  $('trial_dates_summary').value = booking.noDate ? 'なし / nessuna data indicata – vedi messaggio' : booking.items.map(line).join(' | ');
+  $('trial_dates_summary').value = booking.noDate ? 'なし / nessuna data indicata – vediメッセージ' : booking.items.map(line).join(' | ');
   box.innerHTML = booking.noDate ? `<span class="trial-chip"><i class="fas fa-comments"></i> ${YC.escapeHtml(T('form.no_dates_chosen'))}</span>`
     : booking.items.length ? booking.items.map(it => { const d = YCBooking.describe(it, lang); return `<span class="trial-chip"><i class="fas fa-calendar-day"></i> ${YC.escapeHtml(YC.data.fmtDate(it.date, lang, { year: undefined, weekday: 'short' }))} ${YC.escapeHtml(d.time)}</span>`; }).join('')
     : `<span class="field-hint">${YC.escapeHtml(window.YCBooking && !YCBooking.hasSelectable() ? T('form.no_trainings') : T('form.date_none'))}</span>`;
