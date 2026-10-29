@@ -1,88 +1,95 @@
-name: Auto SEO, Static HTML & Google Notification
+name: Auto SEO, Static HTML & Calendar
 
+# Unico workflow che rigenera le pagine statiche, sitemap.xml e calendar.ics.
+# Parte solo quando cambiano i dati o lo script. Il commit del bot contiene
+# [skip ci], quindi non fa ripartire il workflow (nessun loop).
 on:
   push:
+    branches: [main]
     paths:
       - 'matches.json'
       - 'players.json'
       - 'opponents.json'
       - 'locations.json'
+      - 'competitions.json'
+      - 'trainings.json'
+      - 'news.json'
+      - 'stats.json'
+      - 'scripts/generate_seo.py'
+      - '.github/workflows/generate-seo.yml'
   workflow_dispatch:
 
 permissions:
   contents: write
 
-jobs:
-  seo-automation:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+# Un solo run alla volta; i run in coda si accodano invece di annullarsi
+concurrency:
+  group: generate-seo
+  cancel-in-progress: false
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          node-version: '18'
+          fetch-depth: 0   # serve a git pull --rebase e alla sitemap
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
 
-      # 1. VALIDAZIONE JSON SORGENTI
+      # 1. VALIDAZIONE JSON SORGENTI: si ferma subito se un file è rotto
       - name: Validate JSON source files
         run: |
-          node -e '
-          const fs = require("fs");
-          ["matches.json", "players.json", "opponents.json", "locations.json"].forEach(f => {
-            if (fs.existsSync(f)) {
-              try {
-                JSON.parse(fs.readFileSync(f, "utf8"));
-                console.log(`✅ ${f} è valido.`);
-              } catch (e) {
-                console.error(`❌ ERRORE SINTASSI IN ${f}:`, e.message);
-                process.exit(1);
-              }
-            } else {
-              console.log(`⚠️ ${f} non trovato, salto.`);
-            }
-          });
-          '
+          python3 - <<'PY'
+          import json, os, sys
+          files = ["matches.json", "players.json", "opponents.json", "locations.json",
+                   "competitions.json", "trainings.json", "news.json", "stats.json"]
+          bad = 0
+          for f in files:
+              if not os.path.exists(f):
+                  print(f"⚠️  {f} non trovato, salto."); continue
+              try:
+                  with open(f, encoding="utf-8") as fh:
+                      json.load(fh)
+                  print(f"✅ {f} valido.")
+              except Exception as e:
+                  print(f"❌ ERRORE SINTASSI in {f}: {e}"); bad += 1
+          sys.exit(1 if bad else 0)
+          PY
 
-      # 2. GENERAZIONE STATS.JSON, HTML STATICO E SCHEMA JSON-LD TRAMITE PYTHON
-      - name: Run Python Static HTML Generator
-        run: python scripts/generate_seo.py
+      # 2. GENERAZIONE: HTML statico, JSON-LD, sitemap.xml, calendar.ics
+      #    (stats.json NON viene generato qui: lo produce il pannello admin)
+      - name: Run generate_seo.py
+        run: python3 scripts/generate_seo.py
 
-      # 3. AGGIORNAMENTO SITEMAP
-      - name: Update Sitemap
+      # 3. COMMIT & PUSH: solo i file generati, rebase prima del push, nessun errore nascosto
+      - name: Commit and push generated files
         run: |
-          node -e '
-          const fs = require("fs");
-          const today = new Date().toISOString().split("T")[0];
-          if (fs.existsSync("sitemap.xml")) {
-            let sitemap = fs.readFileSync("sitemap.xml", "utf8");
-            sitemap = sitemap.replace(/<lastmod>.*?<\/lastmod>/g, `<lastmod>${today}</lastmod>`);
-            fs.writeFileSync("sitemap.xml", sitemap);
-            console.log("✅ Sitemap.xml aggiornata.");
-          } else {
-            console.log("⚠️ sitemap.xml non trovato, salto.");
-          }
-          '
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      # 4. COMMIT & PUSH SICURO (Includerà anche stats.json e gli HTML modificati)
-      - name: Commit and Push Changes
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
+          git add index.html matches.html players.html stats.html sitemap.xml calendar.ics
+
           if git diff --cached --quiet; then
-            echo "ℹ️ Nessuna modifica da committare."
-          else
-            git commit -m "Auto-generate static HTML, stats & SEO [skip ci]"
-            git push
+            echo "ℹ️ Nessuna modifica da pubblicare."
+            exit 0
           fi
 
-      # 5. PING GOOGLE SEARCH CONSOLE
-      - name: Ping Google Search Console
-        run: |
-          curl -s "https://www.google.com/ping?sitemap=https://yokohamacalcio.com/sitemap.xml" || true
+          git commit -m "chore: aggiorna contenuti statici [skip ci]"
+
+          # Se nel frattempo è arrivato un altro commit (es. dal pannello admin), riallineo e riprovo
+          for attempt in 1 2 3; do
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              echo "✅ Push riuscito (tentativo $attempt)."
+              exit 0
+            fi
+            echo "⚠️ Push non riuscito, riprovo tra 5 secondi (tentativo $attempt)."
+            sleep 5
+          done
+          echo "❌ Push fallito dopo 3 tentativi."
+          exit 1
