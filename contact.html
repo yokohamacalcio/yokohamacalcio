@@ -500,7 +500,6 @@ window.addEventListener('DOMContentLoaded', () => {
     // 1. FILTRO ANTISPAM HONEYPOT
     const gotcha = $('_gotcha');
     if (gotcha && gotcha.value.trim() !== '') {
-      // Se il campo nascosto è compilato, finta di aver inviato con successo (senza effettuare chiamate al server)
       conf.classList.add('show');
       form.reset();
       return;
@@ -575,7 +574,8 @@ window.addEventListener('DOMContentLoaded', () => {
       trial_date_2: $('trial_date_2').value || '',
       trial_date_3: $('trial_date_3').value || '',
       dettagli: detailsList.join(' | '),
-      messaggio: $('message').value.trim()
+      messaggio: $('message').value.trim(),
+      lang: L()
     };
 
     const btn = $('submitBtn'); btn.disabled = true;
