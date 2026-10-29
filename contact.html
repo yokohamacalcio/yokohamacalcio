@@ -48,8 +48,11 @@
     <div class="contact-form-card">
       <form id="contactForm" novalidate>
         <input type="hidden" name="_subject" id="formspree_subject" value="[Yokohama Calcio] お問い合わせ / Nuovo Contatto">
-        <!-- Campo Honeypot Antispam -->
-        <input type="text" name="_gotcha" id="_gotcha" style="display:none !important" tabindex="-1" autocomplete="off">
+        
+        <!-- CAMPI ANTIBOT / HONEYPOT & SECURITY -->
+        <input type="text" name="_gotcha" id="_gotcha" style="display:none !important; opacity:0; position:absolute; top:0; left:0; height:0; width:0; z-index:-1;" tabindex="-1" autocomplete="off">
+        <input type="hidden" id="hiddenSecretKey" value="YokohamaCalcioSecret2026SecureKey!">
+        <input type="hidden" id="formLoadTimestamp">
 
         <!-- 1. CATEGORIA (SEMPRE VISIBILE) -->
         <div class="form-group">
@@ -404,6 +407,9 @@ document.addEventListener('yc:langchange', e => {
 });
 
 window.addEventListener('DOMContentLoaded', () => {
+  // Imposta il timestamp iniziale per il controllo di velocità (4 secondi)
+  $('formLoadTimestamp').value = new Date().getTime();
+
   const today = YC.todayJST(); $('birth_date').max = today; $('staff_birth_date').max = today;
   const form = $('contactForm');
 
@@ -499,10 +505,7 @@ window.addEventListener('DOMContentLoaded', () => {
       if (type) detailsList.push(`パートナー種類/Tipo Sponsor: ${VALUES[type] || type}`);
     }
 
-    const cognomeFormatted = L() === 'ja' && $('last_name_kana').value ? `${$('last_name').value.trim()} (${$('last_name_kana').value.trim()})` : $('last_name').value.trim();
-    const nomeFormatted = L() === 'ja' && $('first_name_kana').value ? `${$('first_name').value.trim()} (${$('first_name_kana').value.trim()})` : $('first_name').value.trim();
-
-const payload = {
+    const payload = {
       categoria: VALUES[c] || c,
       cognome: $('last_name').value.trim(),
       nome: $('first_name').value.trim(),
@@ -514,7 +517,10 @@ const payload = {
       trial_date_3: $('trial_date_3').value || '',
       dettagli: detailsList.join(' | '),
       messaggio: $('message').value.trim(),
-      lang: L()
+      lang: L(),
+      gotcha: $('_gotcha').value,
+      secretKey: $('hiddenSecretKey').value,
+      caricamentoTimestamp: $('formLoadTimestamp').value
     };
 
     const btn = $('submitBtn'); btn.disabled = true;
@@ -531,6 +537,7 @@ const payload = {
         conf.classList.add('show'); form.reset(); YCBooking.clear();
         form.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-valid', 'is-invalid'));
         $('calc_age_player').value = '--'; $('calc_age_staff').value = '--'; renderSubPositions(); updateSectionVisibility(); setSubject(); applyKana(L());
+        $('formLoadTimestamp').value = new Date().getTime();
       } else {
         fail('form.send_error');
       }
@@ -546,7 +553,7 @@ const payload = {
   if (['other', 'match', 'sponsor', 'trial', 'staff'].includes(type)) $('category').value = type;
   applyKana(L()); updateSectionVisibility(); setSubject();
 
-  /* Gestione Toast Copia Email (con clearTimeout e scomparsa automatica) */
+  /* Gestione Toast Copia Email Standard */
   $('copyEmailBtn').addEventListener('click', () => {
     navigator.clipboard.writeText($('emailText').textContent.trim()).then(() => {
       const t = $('copyToast');
