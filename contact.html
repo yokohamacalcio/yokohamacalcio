@@ -110,9 +110,10 @@ textarea.form-control { height: auto; min-height: 120px; padding: 12px 14px; }
 
   <div class="contact-grid-container">
     <div class="contact-form-card">
-      <form id="contactForm" action="https://formspree.io/f/xeaoqkbl" method="POST" novalidate>
+      <form id="contactForm" novalidate>
         <input type="hidden" name="_subject" id="formspree_subject" value="[Yokohama Calcio] お問い合わせ / Nuovo Contatto">
-        <input type="text" name="_gotcha" style="display:none !important" tabindex="-1" autocomplete="off">
+        <!-- Campo Honeypot Antispam -->
+        <input type="text" name="_gotcha" id="_gotcha" style="display:none !important" tabindex="-1" autocomplete="off">
 
         <!-- 1. CATEGORIA (SEMPRE VISIBILE) -->
         <div class="form-group">
@@ -153,7 +154,6 @@ textarea.form-control { height: auto; min-height: 120px; padding: 12px 14px; }
           <div id="trialDatesWrapper" style="display:none; flex-direction:column;">
             <div class="field-section-title"><i class="fas fa-calendar-check"></i> <span data-i18n="form.trial_dates_sec_title">体験希望日の選択</span></div>
             
-            <!-- Calendario integrato dinamicamente -->
             <div id="bookingRoot" style="margin-bottom: 12px;"></div>
 
             <div class="field-hint" data-i18n="form.trial_dates_hint">※上のカレンダーでご希望の日程を選択してください（1〜3つ）</div>
@@ -289,6 +289,9 @@ textarea.form-control { height: auto; min-height: 120px; padding: 12px 14px; }
 <script>YC.mountFooter()</script>
 <script src="js/booking.js"></script>
 <script>
+// Backend Google Apps Script (salva su Google Sheets)
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbySsZCaubDREVyE_XJQh5xc7jRaYPSwO_Wq3MLZ30lF0wNAVYQQq2_t15TWcEQacLpvIA/exec';
+
 YC.register({
   ja: {
     'contact_page.title': 'お問い合わせ', 'contact_page.intro': 'クラブに関するご質問、練習試合のお申し込み、パートナーシップ、体験練習参加など、お気軽にお問い合わせください。',
@@ -312,7 +315,7 @@ YC.register({
     'modal.title': '送信が完了しました', 'modal.text': 'お問い合わせありがとうございます。メッセージを受け付けました。<br>担当者より通常24〜48時間以内にご連絡いたします。', 'modal.btn': 'OK',
     'privacy.title': 'プライバシーポリシー', 'privacy.sec1_title': '1. 個人情報の収集目的', 'privacy.sec1_text': '横浜カルチョ（Yokohama Calcio）は、クラブへのお問い合わせ、体験練習への参加申し込み、スタッフ応募、対戦相手の募集に対応する目的でのみ個人情報を収集いたします。',
     'privacy.sec2_title': '2. 個人情報の管理と安全保護', 'privacy.sec2_text': '収集した個人情報は適切な安全対策を講じて管理し、不正アクセス、紛失、改ざん、漏洩などの防止に努めます。',
-    'privacy.sec3_title': '3. 第三者への開示・提供', 'privacy.sec3_text': '当クラブは、法令に基づく場合やご本人の同意がある場合を除き、個人情報を第三者に開示・提供しません。なお、送信内容は Formspree（米国）を経由してクラブ宛にメール転送されます。',
+    'privacy.sec3_title': '3. 第三者への開示・提供', 'privacy.sec3_text': '当クラブは、法令に基づく場合やご本人の同意がある場合を除き、個人情報を第三者に開示・提供しません。送信内容はGoogleのセキュリティ保護されたシステム（Google Cloud / Google Sheets）を経由して安全に管理されます。',
     'privacy.sec4_title': '4. ご本人の権利（照会・修正・削除）', 'privacy.sec4_text': 'ご提供いただいた個人情報の確認、修正、または削除をご希望の場合は、yokohamacalcio@gmail.com までご連絡ください。', 'privacy.close_btn': '閉じる'
   },
   it: {
@@ -337,7 +340,7 @@ YC.register({
     'modal.title': 'Messaggio Inviato!', 'modal.text': 'Grazie per averci contattato. Abbiamo ricevuto la tua richiesta.<br>Un nostro responsabile ti risponderà entro 24-48 ore.', 'modal.btn': 'OK',
     'privacy.title': 'Informativa sulla Privacy', 'privacy.sec1_title': '1. Finalità della raccolta dati', 'privacy.sec1_text': 'Yokohama Calcio raccoglie i dati personali esclusivamente per gestire richieste di informazioni, candidature, amichevoli e comunicazioni.',
     'privacy.sec2_title': '2. Sicurezza dei dati', 'privacy.sec2_text': 'I dati sono custoditi con adeguate misure di sicurezza per prevenirne perdita, modifica o diffusione non autorizzata.',
-    'privacy.sec3_title': '3. Comunicazione a terzi', 'privacy.sec3_text': 'Il club non cede i tuoi dati a terzi. Il modulo di contatto utilizza Formspree (USA) per inoltrare i messaggi al club via email.',
+    'privacy.sec3_title': '3. Comunicazione a terzi', 'privacy.sec3_text': 'Il club non cede i tuoi dati a terzi. I messaggi inviati sono protetti ed elaborati in sicurezza tramite infrastruttura Google (Google Sheets).',
     'privacy.sec4_title': '4. Diritti dell\'interessato', 'privacy.sec4_text': 'Puoi richiedere la cancellazione o rettifica dei tuoi dati scrivendo a: yokohamacalcio@gmail.com.', 'privacy.close_btn': 'Chiudi'
   },
   en: {
@@ -362,7 +365,7 @@ YC.register({
     'modal.title': 'Message Sent!', 'modal.text': 'Thank you for reaching out. We have received your message.<br>We will respond to you within 24-48 hours.', 'modal.btn': 'OK',
     'privacy.title': 'Privacy Policy', 'privacy.sec1_title': '1. Purpose of Data Collection', 'privacy.sec1_text': 'Yokohama Calcio collects personal information strictly for processing general inquiries, trial applications, staff candidacies, and match organization.',
     'privacy.sec2_title': '2. Data Security & Protection', 'privacy.sec2_text': 'Collected data is stored securely using technical measures to prevent unauthorized access or disclosure.',
-    'privacy.sec3_title': '3. Disclosure to Third Parties', 'privacy.sec3_text': 'The club does not share your personal data with third parties. Formspree (USA) is used to forward messages by email.',
+    'privacy.sec3_title': '3. Disclosure to Third Parties', 'privacy.sec3_text': 'The club does not share your personal data with third parties. Form submissions are processed securely via Google infrastructure (Google Sheets).',
     'privacy.sec4_title': '4. Your Rights', 'privacy.sec4_text': 'You may request access, correction, or deletion of your data at any time by contacting: yokohamacalcio@gmail.com.', 'privacy.close_btn': 'Close'
   }
 });
@@ -375,9 +378,19 @@ const SUBPOS = {
   MF: [{ id: 'DM', ja: 'DM (ボランチ・アンカー)', it: 'Mediano / Regista', en: 'Defensive Midfielder' }, { id: 'CM', ja: 'CM (インサイドハーフ)', it: 'Mezzala / Centrale', en: 'Central Midfielder' }, { id: 'SH', ja: 'SH (サイドハーフ)', it: 'Esterno di Centrocampo', en: 'Wide Midfielder' }],
   FW: [{ id: 'ST', ja: 'ST / SW (セカンドトップ・シャドー)', it: 'Seconda Punta / Trequartista', en: 'Second Striker / CAM' }, { id: 'CF', ja: 'CF (センターフォワード)', it: 'Centravanti / Punta Centrale', en: 'Center Forward / Striker' }, { id: 'WG', ja: 'WG (ウイング)', it: 'Ala d\'attacco', en: 'Winger' }]
 };
-const LABELS = { category: 'お問い合わせ種別 / Tipo di Richiesta', last_name: '姓 / Cognome', first_name: '名 / Nome', last_name_kana: 'セイ (フリガナ) / Cognome Kana', first_name_kana: 'メイ (フリガナ) / Nome Kana', email: 'メールアドレス / Email', birth_date: '生年月日 / Data di Nascita', trial_date_1: '体験希望日 1 / Data Provino 1', trial_date_2: '体験希望日 2 / Data Provino 2', trial_date_3: '体験希望日 3 / Data Provino 3', trial_dates_summary: '体験希望日一覧 / Riepilogo Date Provini', experience_level: '競技レベル / Livello Esperienza', experience_details: 'サッカー歴・前所属 / Esperienza Precedente', macro_position: '希望ポジション / Ruolo Principale', 'sub_positions[]': '詳細役割 / Ruoli Specifici Giocatore', staff_birth_date: '生年月日 / Data di Nascita Staff', staff_role: '希望スタッフ役職 / Ruolo Staff Richiesto', staff_experience: '指導歴・スポーツ経歴 / Esperienza Staff', match_team_name: '対戦チーム名 / Nome Squadra Avversaria', match_league: '所属リーグ / Campionato', match_1st_kit: '1stユニフォーム / Divisa 1st', match_2nd_kit: '2ndユニフォーム / Divisa 2nd', has_pitch: 'グラウンド確保状況 / Campo Prenotato', pitch_name: 'グラウンド名 / Nome Campo', company_name: '会社名・団体名 / Nome Azienda', sponsor_type: 'パートナーシップ種類 / Tipo Partnership', message: 'メッセージ内容 / Messaggio', privacy_agree: 'プライバシーポリシー同意 / Consenso Privacy' };
-const VALUES = { other: '一般のお問い合わせ / Generale', match: '練習試合のお申し込み / Richiesta Partita', sponsor: 'パートナー・協賛のご相談 / Sponsorship & Partner', trial: '体験練習・選手入部希望 / Prova Giocatore', staff: 'スタッフ応募 / Candidatura Staff', university: '大学・都県社会人リーグ / Università - Campionati Regionali', highschool_strong: '高校サッカー部強豪・全国 / Superiori Agonistico - Nazionali', youth_club: 'ユース・クラブチーム / Settore Giovanile - Club', highschool_general: '一般高校サッカー部 / Calcio Scolastico - Amatoriale', futsal_enjoy: '競技系フットサル・エンジョイ / Futsal - Amatoriale', GK: 'GK (Goalkeeper / Portiere)', DF: 'DF (Defender / Difensore)', MF: 'MF (Midfielder / Centrocampista)', FW: 'FW (Forward / Attaccante)', CB: 'CB (Center Back / Difensore Centrale)', SB: 'SB / WB (Terzino)', DM: 'DM (Mediano)', CM: 'CM (Mezzala)', SH: 'SH (Esterno)', ST: 'ST (Seconda Punta)', CF: 'CF (Centravanti)', WG: 'WG (Ala)', assistant_coach: 'アシスタントコーチ / Vice Allenatore', team_manager: 'チームマネージャー / Team Manager', trainer: 'トレーナー / Fisioterapista', kit_manager: '用具管理 / Magazziniere', media_analyst: '広報・アナリスト / Media & Analyst', financial: '資金スポンサー / Sponsor Finanziario', technical: 'サプライヤー / Fornitore Tecnico', services: 'サービス提供・施設利用 / Servizi e Strutture', other_partner: 'その他・企画協賛 / Altra Collaborazione', on: 'はい (Sì) / Accetto' };
-const SUBJECTS = { other: '[Yokohama Calcio] 一般のお問い合わせ / Richiesta Generale', match: '[Yokohama Calcio] 練習試合のお申し込み / Richiesta Partita Amichevole', sponsor: '[Yokohama Calcio] パートナー・協賛のご相談 / Sponsorship & Partner', trial: '[Yokohama Calcio] 体験練習・選手入部希望 / Richiesta Prova Giocatore', staff: '[Yokohama Calcio] スタッフ応募 / Candidatura Staff' };
+
+// Mappa Valori e Etichette Bilingui per Google Sheets
+const VALUES = {
+  other: '一般のお問い合わせ / Generale', match: '練習試合のお申し込み / Richiesta Partita', sponsor: 'パートナー・協賛のご相談 / Sponsorship & Partner', trial: '体験練習・選手入部希望 / Prova Giocatore', staff: 'スタッフ応募 / Candidatura Staff',
+  university: '大学・都県社会人リーグ / Università - Campionati Regionali', highschool_strong: '高校サッカー部強豪・全国 / Superiori Agonistico - Nazionali', youth_club: 'ユース・クラブチーム / Settore Giovanile - Club', highschool_general: '一般高校サッカー部 / Calcio Scolastico - Amatoriale', futsal_enjoy: '競技系フットサル・エンジョイ / Futsal - Amatoriale',
+  GK: 'GK (Goalkeeper / Portiere)', DF: 'DF (Defender / Difensore)', MF: 'MF (Midfielder / Centrocampista)', FW: 'FW (Forward / Attaccante)', CB: 'CB (Center Back / Difensore Centrale)', SB: 'SB / WB (Terzino)', DM: 'DM (Mediano)', CM: 'CM (Mezzala)', SH: 'SH (Esterno)', ST: 'ST (Seconda Punta)', CF: 'CF (Centravanti)', WG: 'WG (Ala)',
+  assistant_coach: 'アシスタントコーチ / Vice Allenatore', team_manager: 'チームマネージャー / Team Manager', trainer: 'トレーナー / Fisioterapista', kit_manager: '用具管理 / Magazziniere', media_analyst: '広報・アナリスト / Media & Analyst',
+  financial: '資金スポンサー / Sponsor Finanziario', technical: 'サプライヤー / Fornitore Tecnico', services: 'サービス提供・施設利用 / Servizi e Strutture', other_partner: 'その他・企画協賛 / Altra Collaborazione'
+};
+
+const SUBJECTS = {
+  other: '[Yokohama Calcio] 一般のお問い合わせ / Richiesta Generale', match: '[Yokohama Calcio] 練習試合のお申し込み / Richiesta Partita Amichevole', sponsor: '[Yokohama Calcio] パートナー・協賛のご相談 / Sponsorship & Partner', trial: '[Yokohama Calcio] 体験練習・選手入部希望 / Richiesta Prova Giocatore', staff: '[Yokohama Calcio] スタッフ応募 / Candidatura Staff'
+};
 
 let booking = { items: [], noDate: false };
 const cat = () => $('category').value;
@@ -414,7 +427,7 @@ const validateKana = (input, err) => { const v = input.value.trim(); if (!v) { e
 const validateEmail = (input, err) => { const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim()); err.style.display = ok ? 'none' : 'flex'; input.classList.toggle('is-invalid', !ok); input.classList.toggle('is-valid', ok); return ok; };
 
 function renderSubPositions() {
-  const macro = $('macro_position').value, wrap = $('subPositionWrapper'), box =$('subPositionCheckboxes');
+  const macro = $('macro_position').value, wrap = $('subPositionWrapper'), box = $('subPositionCheckboxes');
   if (!macro || !SUBPOS[macro]) { wrap.style.display = 'none'; box.innerHTML = ''; return; }
   const checked = new Set([...box.querySelectorAll('input:checked')].map(i => i.value));
   box.innerHTML = SUBPOS[macro].map(s => `<label class="simple-checkbox-label"><input type="checkbox" name="sub_positions[]" value="${s.id}" ${macro === 'GK' || checked.has(s.id) ? 'checked' : ''}><span>${YC.escapeHtml(s[L()] || s.ja)}</span></label>`).join('');
@@ -449,7 +462,7 @@ function applyKana(lang) {
 
 document.addEventListener('yc:langchange', e => {
   applyKana(e.detail); renderSubPositions(); renderTrialSummary(); setSubject();
-  updateAge($('birth_date'), $('calc_age_player')); updateAge($('staff_birth_date'), $('calc_age_staff'));$('global_form_error').style.display = 'none';
+  updateAge($('birth_date'), $('calc_age_player')); updateAge($('staff_birth_date'), $('calc_age_staff')); $('global_form_error').style.display = 'none';
 });
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -460,67 +473,134 @@ window.addEventListener('DOMContentLoaded', () => {
     const el = $(id), check = () => {
       if (id === 'email') return validateEmail(el, $('email_error'));
       if (id.endsWith('_kana')) return L() === 'ja' && validateKana(el, $(id + '_error'));
-      if (id === 'birth_date') return validateAge(el, $('age_error_player'),$('age_error_player_msg'), true);
-      if (id === 'staff_birth_date') return validateAge(el, $('age_error_staff'),$('age_error_staff_msg'), false);
+      if (id === 'birth_date') return validateAge(el, $('age_error_player'), $('age_error_player_msg'), true);
+      if (id === 'staff_birth_date') return validateAge(el, $('age_error_staff'), $('age_error_staff_msg'), false);
       el.classList.toggle('is-valid', !!el.value.trim()); el.classList.toggle('is-invalid', !el.value.trim());
     };
     el.addEventListener('blur', check); el.addEventListener('input', () => { if (el.classList.contains('is-invalid') || el.value.trim()) check(); });
   });
 
-  $('birth_date').addEventListener('input', () => updateAge($('birth_date'), $('calc_age_player')));$('staff_birth_date').addEventListener('input', () => updateAge($('staff_birth_date'),$('calc_age_staff')));
-  $('macro_position').addEventListener('change', renderSubPositions);$('subPositionCheckboxes').addEventListener('change', () => { if ($('subPositionCheckboxes').querySelector('input:checked'))$('sub_pos_error').style.display = 'none'; });
-  $('category').addEventListener('change', () => { updateSectionVisibility(); setSubject();$('category').classList.remove('is-invalid'); });
-  $('has_pitch').addEventListener('change', () => { const on =$('has_pitch').checked, p = $('pitch_name');$('pitchNameWrapper').style.display = on ? 'flex' : 'none'; p.required = on; p.disabled = !on; if (!on) p.classList.remove('is-invalid', 'is-valid'); });
+  $('birth_date').addEventListener('input', () => updateAge($('birth_date'), $('calc_age_player'))); $('staff_birth_date').addEventListener('input', () => updateAge($('staff_birth_date'), $('calc_age_staff')));
+  $('macro_position').addEventListener('change', renderSubPositions); $('subPositionCheckboxes').addEventListener('change', () => { if ($('subPositionCheckboxes').querySelector('input:checked')) $('sub_pos_error').style.display = 'none'; });
+  $('category').addEventListener('change', () => { updateSectionVisibility(); setSubject(); $('category').classList.remove('is-invalid'); });
+  $('has_pitch').addEventListener('change', () => { const on = $('has_pitch').checked, p = $('pitch_name'); $('pitchNameWrapper').style.display = on ? 'flex' : 'none'; p.required = on; p.disabled = !on; if (!on) p.classList.remove('is-invalid', 'is-valid'); });
 
   /* modali */
-  const priv = $('privacyModal'), conf =$('confirmModal'), openP = () => priv.classList.add('show'), closeP = () => priv.classList.remove('show');
-  $('openPrivacyModal').addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); openP(); });$('openPrivacyModal').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openP(); } });
-  $('privacyModalCloseBtn').addEventListener('click', closeP);$('privacyModalOkBtn').addEventListener('click', closeP);
+  const priv = $('privacyModal'), conf = $('confirmModal'), openP = () => priv.classList.add('show'), closeP = () => priv.classList.remove('show');
+  $('openPrivacyModal').addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); openP(); }); $('openPrivacyModal').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openP(); } });
+  $('privacyModalCloseBtn').addEventListener('click', closeP); $('privacyModalOkBtn').addEventListener('click', closeP);
   priv.addEventListener('click', e => { if (e.target === priv) closeP(); });
   $('confirmModalCloseBtn').addEventListener('click', () => conf.classList.remove('show')); conf.addEventListener('click', e => { if (e.target === conf) conf.classList.remove('show'); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeP(); conf.classList.remove('show'); } });
 
-  /* invio form */
+  /* invio form verso Google Apps Script con Antispam Honeypot & Dettagli Bilingui */
   form.addEventListener('submit', async e => {
     e.preventDefault();
-    const gBox = $('global_form_error'), gMsg =$('global_form_error_msg'), c = cat();
+
+    // 1. FILTRO ANTISPAM HONEYPOT
+    const gotcha = $('_gotcha');
+    if (gotcha && gotcha.value.trim() !== '') {
+      // Se il campo nascosto è compilato, finta di aver inviato con successo (senza effettuare chiamate al server)
+      conf.classList.add('show');
+      form.reset();
+      return;
+    }
+
+    const gBox = $('global_form_error'), gMsg = $('global_form_error_msg'), c = cat();
     const fail = (msgKey, el) => { gMsg.textContent = T(msgKey); gBox.style.display = 'flex'; if (el) { el.focus && el.focus(); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } return false; };
     gBox.style.display = 'none';
-    if (!c) { $('category').classList.add('is-invalid');$('category').focus(); return; }
+    if (!c) { $('category').classList.add('is-invalid'); $('category').focus(); return; }
     if (!form.checkValidity()) { form.querySelectorAll('input,select,textarea').forEach(el => { if (!el.disabled && !el.checkValidity()) el.classList.add('is-invalid'); }); return fail('form.error_general', form.querySelector('.is-invalid:not([disabled])')); }
     if (!$('privacy_agree').checked) return fail('form.error_privacy');
-    if (L() === 'ja') { if (!validateKana($('last_name_kana'),$('last_name_kana_error'))) return fail('form.error_general', $('last_name_kana')); if (!validateKana($('first_name_kana'), $('first_name_kana_error'))) return fail('form.error_general',$('first_name_kana')); }
-    if (!validateEmail($('email'), $('email_error'))) return fail('form.error_general',$('email'));
-    if (datesRequired(c) && !booking.items.length) { $('trial_dates_error').style.display = 'flex'; return fail('form.error_general',$('trialDatesWrapper')); }
+    if (L() === 'ja') { if (!validateKana($('last_name_kana'), $('last_name_kana_error'))) return fail('form.error_general', $('last_name_kana')); if (!validateKana($('first_name_kana'), $('first_name_kana_error'))) return fail('form.error_general', $('first_name_kana')); }
+    if (!validateEmail($('email'), $('email_error'))) return fail('form.error_general', $('email'));
+    if (datesRequired(c) && !booking.items.length) { $('trial_dates_error').style.display = 'flex'; return fail('form.error_general', $('trialDatesWrapper')); }
     if (c === 'trial') {
-      if (!validateAge($('birth_date'),$('age_error_player'), $('age_error_player_msg'), true)) return fail('form.error_general',$('birth_date'));
-      if ($('macro_position').value && !$('subPositionCheckboxes').querySelector('input:checked')) { $('sub_pos_error').style.display = 'flex'; return fail('form.error_general',$('subPositionWrapper')); }
-    } else if (c === 'staff' && !validateAge($('staff_birth_date'),$('age_error_staff'), $('age_error_staff_msg'), false)) return fail('form.error_general',$('staff_birth_date'));
+      if (!validateAge($('birth_date'), $('age_error_player'), $('age_error_player_msg'), true)) return fail('form.error_general', $('birth_date'));
+      if ($('macro_position').value && !$('subPositionCheckboxes').querySelector('input:checked')) { $('sub_pos_error').style.display = 'flex'; return fail('form.error_general', $('subPositionWrapper')); }
+    } else if (c === 'staff' && !validateAge($('staff_birth_date'), $('age_error_staff'), $('age_error_staff_msg'), false)) return fail('form.error_general', $('staff_birth_date'));
 
-    setSubject();
-    const raw = new FormData(form), out = new FormData();
-    if (raw.get('_subject')) out.append('_subject', raw.get('_subject'));
-    if (raw.get('_gotcha')) out.append('_gotcha', raw.get('_gotcha'));
-    if (raw.get('email')) out.append('_replyto', raw.get('email'));
-    for (const [k, v] of raw.entries()) {
-      if (k.startsWith('_')) continue;
-      if (k.startsWith('trial_date') && !wantsDates(c)) continue;
-      const val = typeof v === 'string' ? v.trim() : v; if (!val || val === '--') continue;
-      out.append(LABELS[k] || k, VALUES[val] || val);
+    // COSTRUZIONE DETTAGLI BILINGUI (Per Google Sheets)
+    const detailsList = [];
+    if (c === 'trial') {
+      const age = $('calc_age_player').value;
+      const expLvl = $('experience_level').value;
+      const expDet = $('experience_details').value.trim();
+      const pos = $('macro_position').value;
+      const subPos = [...document.querySelectorAll('input[name="sub_positions[]"]:checked')].map(i => VALUES[i.value] || i.value).join(', ');
+      
+      if (age && age !== '--') detailsList.push(`年齢/Età: ${age}`);
+      if (expLvl) detailsList.push(`レベル/Livello: ${VALUES[expLvl] || expLvl}`);
+      if (expDet) detailsList.push(`前所属/Squadra: ${expDet}`);
+      if (pos) detailsList.push(`ポジション/Ruolo: ${VALUES[pos] || pos}${subPos ? ' (' + subPos + ')' : ''}`);
+    } else if (c === 'staff') {
+      const age = $('calc_age_staff').value;
+      const role = $('staff_role').value;
+      const exp = $('staff_experience').value.trim();
+      
+      if (age && age !== '--') detailsList.push(`年齢/Età: ${age}`);
+      if (role) detailsList.push(`スタッフ役職/Ruolo Staff: ${VALUES[role] || role}`);
+      if (exp) detailsList.push(`経歴/Esperienza: ${exp}`);
+    } else if (c === 'match') {
+      const team = $('match_team_name').value.trim();
+      const league = $('match_league').value.trim();
+      const kit1 = $('match_1st_kit').value.trim();
+      const kit2 = $('match_2nd_kit').value.trim();
+      const hasPitch = $('has_pitch').checked;
+      const pitch = $('pitch_name').value.trim();
+      
+      if (team) detailsList.push(`対戦チーム/Squadra: ${team}`);
+      if (league) detailsList.push(`リーグ/Campionato: ${league}`);
+      if (kit1) detailsList.push(`1st Kit: ${kit1}`);
+      if (kit2) detailsList.push(`2nd Kit: ${kit2}`);
+      detailsList.push(`グラウンド/Campo: ${hasPitch ? '確保済み/Riservato (' + pitch + ')' : '未定/Da reperire'}`);
+    } else if (c === 'sponsor') {
+      const company = $('company_name').value.trim();
+      const type = $('sponsor_type').value;
+      
+      if (company) detailsList.push(`会社名/Azienda: ${company}`);
+      if (type) detailsList.push(`パートナー種類/Tipo Sponsor: ${VALUES[type] || type}`);
     }
-    const age = c === 'trial' ? $('calc_age_player').value : c === 'staff' ?$('calc_age_staff').value : '';
-    if (age && age !== '--') out.append('年齢 / Età', age);
+
+    // Nomi formattati con Furigana
+    const cognomeFormatted = L() === 'ja' && $('last_name_kana').value ? `${$('last_name').value.trim()} (${$('last_name_kana').value.trim()})` : $('last_name').value.trim();
+    const nomeFormatted = L() === 'ja' && $('first_name_kana').value ? `${$('first_name').value.trim()} (${$('first_name_kana').value.trim()})` : $('first_name').value.trim();
+
+    const payload = {
+      categoria: VALUES[c] || c,
+      cognome: cognomeFormatted,
+      nome: nomeFormatted,
+      email: $('email').value.trim(),
+      trial_date_1: $('trial_date_1').value || '',
+      trial_date_2: $('trial_date_2').value || '',
+      trial_date_3: $('trial_date_3').value || '',
+      dettagli: detailsList.join(' | '),
+      messaggio: $('message').value.trim()
+    };
 
     const btn = $('submitBtn'); btn.disabled = true;
     try {
-      const r = await fetch(form.action, { method: 'POST', body: out, headers: { Accept: 'application/json' } });
-      if (r.ok) {
+      const r = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      
+      const resData = await r.json();
+      
+      if (resData.status === 'success') {
         conf.classList.add('show'); form.reset(); YCBooking.clear();
         form.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-valid', 'is-invalid'));
-        $('calc_age_player').value = '--';$('calc_age_staff').value = '--'; renderSubPositions(); updateSectionVisibility(); setSubject(); applyKana(L());
-      } else fail('form.send_error');
-    } catch (err) { console.error('Formspree:', err); fail('form.net_error'); }
-    finally { btn.disabled = false; }
+        $('calc_age_player').value = '--'; $('calc_age_staff').value = '--'; renderSubPositions(); updateSectionVisibility(); setSubject(); applyKana(L());
+      } else {
+        fail('form.send_error');
+      }
+    } catch (err) {
+      console.error('Apps Script Error:', err); 
+      fail('form.net_error');
+    } finally { 
+      btn.disabled = false; 
+    }
   });
 
   const type = new URLSearchParams(location.search).get('type');
@@ -528,7 +608,7 @@ window.addEventListener('DOMContentLoaded', () => {
   applyKana(L()); updateSectionVisibility(); setSubject();
 
   $('copyEmailBtn').addEventListener('click', () => {
-    navigator.clipboard.writeText($('emailText').textContent.trim()).then(() => { const t =$('copyToast'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }).catch(err => console.error(err));
+    navigator.clipboard.writeText($('emailText').textContent.trim()).then(() => { const t = $('copyToast'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }).catch(err => console.error(err));
   });
 });
 </script>
