@@ -339,6 +339,14 @@ const wantsDates = c => c === 'trial' || c === 'staff';
 const datesRequired = c => wantsDates(c) && !booking.noDate && window.YCBooking && YCBooking.hasSelectable();
 const setSubject = () => { $('formspree_subject').value = SUBJECTS[cat()] || '[Yokohama Calcio] お問い合わせ / Nuovo Contatto'; };
 
+async function getDynamicToken(secretKey) {
+  const hoursCurrent = Math.floor(new Date().getTime() / (1000 * 60 * 60));
+  const msgUint8 = new TextEncoder().encode(secretKey + hoursCurrent);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 function renderTrialSummary() {
   const box = $('trialSummary'), lang = L();
   const line = it => { const d = YCBooking.describe(it, 'ja'); return `${it.date} ${d.time}${d.venue ? ' @ ' + d.venue : ''}`.trim(); };
@@ -505,6 +513,8 @@ window.addEventListener('DOMContentLoaded', () => {
       if (type) detailsList.push(`パートナー種類/Tipo Sponsor: ${VALUES[type] || type}`);
     }
 
+    const dynamicToken = await getDynamicToken($('hiddenSecretKey').value);
+
     const payload = {
       categoria: VALUES[c] || c,
       cognome: $('last_name').value.trim(),
@@ -520,6 +530,7 @@ window.addEventListener('DOMContentLoaded', () => {
       lang: L(),
       gotcha: $('_gotcha').value,
       secretKey: $('hiddenSecretKey').value,
+      dynamicToken: dynamicToken,
       caricamentoTimestamp: $('formLoadTimestamp').value
     };
 
