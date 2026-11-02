@@ -1,8 +1,10 @@
 /* =====================================================================
    site-extras.css — da includere DOPO style.css in tutte le pagine.
-   1. Menu (prima copiato inline in ogni pagina)   2. Ticker news
-   3. Pulsante fisso "prova"   4. Calendario / allenamenti
-   5. Accessibilità (reduced motion) e varie
+   1. Menu (mobile e desktop)       2. Ticker news
+   3. Pulsante fisso "prova"        4. Calendario / allenamenti
+   5. Loghi e bagliore (drop-shadow) 6. Accessibilità e varie
+   7. Footer                        8. Intestazione pagina + KPI
+   9. Form recente + Formazione     10. Contatti, Modali e Toast
    ===================================================================== */
 
 /* ---------- 1. MENU MOBILE (overlay scuro) ---------- */
@@ -123,7 +125,48 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 .cal-info ul { margin: 0 0 18px 18px; line-height: 1.7; font-size: .92rem; }
 .cal-info .recruitment-btn { display: inline-flex; }
 
-/* ---------- 5. VARIE ---------- */
+/* ---------- 5. LOGHI E EFFETTO BAGLIORE (DROP-SHADOW) ---------- */
+.card-logo-wrap {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hero-logo-wrap,
+.mc-teams .logo {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.card-logo-wrap img,
+.hero-logo-wrap img,
+.mc-teams .logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Rimozione filtri dai contenitori per evitare l'alone rettangolare */
+.hero-logo-wrap,
+.card-logo-wrap,
+.mc-teams .logo {
+  filter: none !important;
+}
+
+/* Bagliore azzurro applicato solo alla sagoma trasparente PNG dell'immagine */
+.hero-logo-wrap img,
+.mc.next .logo img {
+  filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.85)) !important;
+}
+
+/* ---------- 6. ACCESSIBILITÀ E VARIE ---------- */
 .partner-logos-container:empty { display: none; }
 :focus-visible { outline: 2px solid var(--primary-sky, #12A0D7); outline-offset: 2px; }
 
@@ -137,7 +180,7 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
   .floating-cta, .cal-card { transition: none; }
 }
 
-/* ---------- 6. FOOTER PROFESSIONALE ---------- */
+/* ---------- 7. FOOTER PROFESSIONALE ---------- */
 .footer { text-align: left; padding: 48px 0 20px; }
 .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 32px; }
 .footer-logo { display: flex; align-items: center; gap: 10px; color: #fff; font-family: var(--font-brand, 'Bebas Neue', sans-serif); font-size: 1.5rem; letter-spacing: 1.5px; margin-bottom: 10px; }
@@ -149,10 +192,11 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 .footer-col h4 { color: #fff; font-size: .85rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
 .footer-col a { display: block; color: #94a3b8; text-decoration: none; font-size: .9rem; padding: 4px 0; }
 .footer-col a:hover { color: #87ceeb; }
+.footer-partners-label { color: #94a3b8; font-size: .72rem; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; }
 .footer-copy { text-align: center; color: #64748b; font-size: .8rem; margin: 32px 20px 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.1); }
 @media (max-width: 800px) { .footer-grid { grid-template-columns: 1fr 1fr; } .footer-brand { grid-column: 1 / -1; } }
 
-/* ---------- 7. INTESTAZIONE PAGINA + KPI ---------- */
+/* ---------- 8. INTESTAZIONE PAGINA + KPI ---------- */
 .page-hero { background: linear-gradient(135deg, #00224a 0%, #003c82 100%); color: #fff; padding: 38px 0 30px; border-bottom: 3px solid #87ceeb; }
 .page-hero h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; display: flex; align-items: center; gap: 12px; }
 .page-hero h1 i { color: #87ceeb; }
@@ -171,7 +215,7 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 .pill { border: 1px solid #cbd5e1; background: #f1f5f9; color: var(--dark-navy, #003c82); border-radius: 999px; padding: 8px 16px; font-weight: 700; font-size: .84rem; cursor: pointer; font-family: inherit; }
 .pill.active { background: var(--dark-navy, #003c82); color: #fff; border-color: var(--dark-navy, #003c82); }
 
-/* ---------- 8. FORMA RECENTE + FORMAZIONE TIPO ---------- */
+/* ---------- 9. FORMA RECENTE + FORMAZIONE TIPO ---------- */
 .form-strip { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .form-dot { width: 38px; height: 38px; border-radius: 50%; color: #fff; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; font-size: .9rem; cursor: help; }
 .form-dot.W { background: #16a34a; } .form-dot.D { background: #94a3b8; } .form-dot.L { background: #dc2626; }
@@ -199,10 +243,7 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 .panel h3 i { color: var(--primary-sky, #12A0D7); }
 .table-scroll { overflow-x: auto; }
 
-/* ---------- 11. PRESENZA PARTNER NEL FOOTER ---------- */
-.footer-partners-label { color: #94a3b8; font-size: .72rem; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; }
-
-/* ---------- 9. CONTATTI & MODALI & TOAST ---------- */
+/* ---------- 10. CONTATTI & MODALI & TOAST ---------- */
 .contact-grid-container { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 340px); gap: 30px; max-width: 1000px; width: 100%; margin: 0 auto; }
 @media (max-width: 880px) { .contact-grid-container { grid-template-columns: 1fr; gap: 20px; } }
 .contact-form-card { background: #fff; border-radius: 16px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,.05); border: 1px solid #e2e8f0; min-width: 0; }
@@ -264,7 +305,7 @@ textarea.form-control { height: auto; min-height: 120px; padding: 12px 14px; }
 .privacy-modal-body h4 { color: #00224a; font-size: .95rem; font-weight: 800; margin: 16px 0 6px; display: flex; align-items: center; gap: 6px; } .privacy-modal-body h4:first-child { margin-top: 0; } .privacy-modal-body p { margin-bottom: 12px; }
 .privacy-modal-footer { padding: 16px 24px; background: #f8fafc; border-top: 1px solid #e2e8f0; text-align: right; }
 
-/* TOAST COPIA EMAIL (POSIZIONATO IN ALTO AL CENTRO) */
+/* TOAST COPIA EMAIL */
 .toast-copy {
   position: fixed;
   top: 30px;
