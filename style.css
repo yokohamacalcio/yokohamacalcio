@@ -851,7 +851,7 @@ body {
     justify-content: center !important;
     flex-shrink: 0 !important;
     background: transparent !important;
-    overflow: hidden !important;
+    overflow: visible !important; /* CORRETTO: permette la diffusione del bagliore */
 }
 
 .card-logo-wrap {
@@ -864,8 +864,6 @@ body {
     height: 64px !important;
 }
 
-/* SOLUZIONE DEFINTIVA AL BUG SAFARI WEBKIT:
-   In un contenitore Flex, l'immagine DEVE avere width: 100% e height: 100% per non gonfiarsi. */
 .card-logo-wrap img, .hero-logo-wrap img {
     width: 100% !important;
     height: 100% !important;
@@ -884,28 +882,6 @@ body {
     width: 100% !important;
     height: 100% !important;
     background: #ffffff !important;
-}
-
-.match-vs-center {
-    font-family: var(--font-brand) !important;
-    font-size: 2.2rem !important;
-    color: var(--primary-sky) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-    white-space: nowrap !important;
-}
-
-.next-match-hero .match-vs-center {
-    font-size: 2.5rem !important;
-}
-
-.score-past {
-    color: var(--dark-navy) !important;
-    letter-spacing: 1px !important;
-    font-size: 2.2rem !important;
-    font-weight: 800;
 }
 
 /* ==========================================
