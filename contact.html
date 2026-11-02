@@ -229,7 +229,7 @@
 <script src="js/booking.js"></script>
 <script>
 // Backend Google Apps Script (salva su Google Sheets)
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyO1CFe3TPtvLAI4ZGtIeQxLSrOosuy3Jme5g4DzplJL5Ar1_adVvw4rj0tuBX-A5NBEA/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnbzEJQqYjRRLJbhJR31whfQM6Z77N9flwSk96FO0E6E-LjZMhe5CUhihG4JFqNK_zzg/exec';
 
 YC.register({
   ja: {
@@ -484,6 +484,9 @@ window.addEventListener('DOMContentLoaded', () => {
       trial_date_1: $('trial_date_1').value || '',
       trial_date_2: $('trial_date_2').value || '',
       trial_date_3: $('trial_date_3').value || '',
+
+      // Data di Nascita (Giocatore o Staff)
+      birthDate: c === 'trial' ? $('birth_date').value : (c === 'staff' ? $('staff_birth_date').value : ''),
 
       // Campi individuali
       age: c === 'trial' ? $('calc_age_player').value : (c === 'staff' ? $('calc_age_staff').value : ''),
