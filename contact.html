@@ -229,7 +229,7 @@
 <script src="js/booking.js"></script>
 <script>
 // Backend Google Apps Script (salva su Google Sheets)
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxwBjsWhRcpbEdyuI757pg5PRrCnWNN8fgfXXumvE-yztHCF1PzJQt7dxVCoOiTPWv0yw/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnbzEJQqYjRRLJbhJR31whfQM6Z77N9flwSk96FO0E6E-LjZMhe5CUhihG4JFqNK_zzg/exec';
 
 YC.register({
   ja: {
@@ -471,50 +471,9 @@ window.addEventListener('DOMContentLoaded', () => {
       if ($('macro_position').value && !$('subPositionCheckboxes').querySelector('input:checked')) { $('sub_pos_error').style.display = 'flex'; return fail('form.error_general', $('subPositionWrapper')); }
     } else if (c === 'staff' && !validateAge($('staff_birth_date'), $('age_error_staff'), $('age_error_staff_msg'), false)) return fail('form.error_general', $('staff_birth_date'));
 
-    // Dettagli bilingui per Google Sheets
-    const detailsList = [];
-    if (c === 'trial') {
-      const age = $('calc_age_player').value;
-      const expLvl = $('experience_level').value;
-      const expDet = $('experience_details').value.trim();
-      const pos = $('macro_position').value;
-      const subPos = [...document.querySelectorAll('input[name="sub_positions[]"]:checked')].map(i => VALUES[i.value] || i.value).join(', ');
-      
-      if (age && age !== '--') detailsList.push(`年齢/Età: ${age}`);
-      if (expLvl) detailsList.push(`レベル/Livello: ${VALUES[expLvl] || expLvl}`);
-      if (expDet) detailsList.push(`前所属/Squadra: ${expDet}`);
-      if (pos) detailsList.push(`ポジション/Ruolo: ${VALUES[pos] || pos}${subPos ? ' (' + subPos + ')' : ''}`);
-    } else if (c === 'staff') {
-      const age = $('calc_age_staff').value;
-      const role = $('staff_role').value;
-      const exp = $('staff_experience').value.trim();
-      
-      if (age && age !== '--') detailsList.push(`年齢/Età: ${age}`);
-      if (role) detailsList.push(`スタッフ役職/Ruolo Staff: ${VALUES[role] || role}`);
-      if (exp) detailsList.push(`経歴/Esperienza: ${exp}`);
-    } else if (c === 'match') {
-      const team = $('match_team_name').value.trim();
-      const league = $('match_league').value.trim();
-      const kit1 = $('match_1st_kit').value.trim();
-      const kit2 = $('match_2nd_kit').value.trim();
-      const hasPitch = $('has_pitch').checked;
-      const pitch = $('pitch_name').value.trim();
-      
-      if (team) detailsList.push(`対戦チーム/Squadra: ${team}`);
-      if (league) detailsList.push(`リーグ/Campionato: ${league}`);
-      if (kit1) detailsList.push(`1st Kit: ${kit1}`);
-      if (kit2) detailsList.push(`2nd Kit: ${kit2}`);
-      detailsList.push(`グラウンド/Campo: ${hasPitch ? '確保済み/Riservato (' + pitch + ')' : '未定/Da reperire'}`);
-    } else if (c === 'sponsor') {
-      const company = $('company_name').value.trim();
-      const type = $('sponsor_type').value;
-      
-      if (company) detailsList.push(`会社名/Azienda: ${company}`);
-      if (type) detailsList.push(`パートナー種類/Tipo Sponsor: ${VALUES[type] || type}`);
-    }
-
     const dynamicToken = await getDynamicToken($('hiddenSecretKey').value);
 
+    // Payload disaggregato con campi separati per ogni sezione
     const payload = {
       categoria: VALUES[c] || c,
       cognome: $('last_name').value.trim(),
@@ -525,7 +484,24 @@ window.addEventListener('DOMContentLoaded', () => {
       trial_date_1: $('trial_date_1').value || '',
       trial_date_2: $('trial_date_2').value || '',
       trial_date_3: $('trial_date_3').value || '',
-      dettagli: detailsList.join(' | '),
+
+      // Campi individuali
+      age: c === 'trial' ? $('calc_age_player').value : (c === 'staff' ? $('calc_age_staff').value : ''),
+      expLevel: c === 'trial' ? (VALUES[$('experience_level').value] || $('experience_level').value) : '',
+      expDetails: c === 'trial' ? $('experience_details').value.trim() : '',
+      macroPosition: c === 'trial' ? (VALUES[$('macro_position').value] || $('macro_position').value) : '',
+      subPositions: c === 'trial' ? [...document.querySelectorAll('input[name="sub_positions[]"]:checked')].map(i => VALUES[i.value] || i.value).join(', ') : '',
+      staffRole: c === 'staff' ? (VALUES[$('staff_role').value] || $('staff_role').value) : '',
+      staffExp: c === 'staff' ? $('staff_experience').value.trim() : '',
+      matchTeam: c === 'match' ? $('match_team_name').value.trim() : '',
+      matchLeague: c === 'match' ? $('match_league').value.trim() : '',
+      matchKit1: c === 'match' ? $('match_1st_kit').value.trim() : '',
+      matchKit2: c === 'match' ? $('match_2nd_kit').value.trim() : '',
+      hasPitch: c === 'match' ? ($('has_pitch').checked ? 'SI / はい' : 'NO / いいえ') : '',
+      pitchName: c === 'match' ? $('pitch_name').value.trim() : '',
+      companyName: c === 'sponsor' ? $('company_name').value.trim() : '',
+      sponsorType: c === 'sponsor' ? (VALUES[$('sponsor_type').value] || $('sponsor_type').value) : '',
+
       messaggio: $('message').value.trim(),
       lang: L(),
       gotcha: $('_gotcha').value,
