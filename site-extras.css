@@ -127,11 +127,11 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 
 /* ---------- 5. LOGHI, BAGLIORE (DROP-SHADOW) E CORREZIONI MATCH CENTER ---------- */
 
-/* 1. Risoluzione punteggio a capo (es. 0 - 11) */
+/* 1. Allineamento perfetto tra loghi e nomi (griglia identica per entrambe le righe) */
 .teams-logos-row, 
 .teams-names-row {
   display: grid !important;
-  grid-template-columns: 1fr auto 1fr !important;
+  grid-template-columns: 1fr 110px 1fr !important; /* Colonna centrale fissa a 110px per allineare perfettamente loghi e nomi */
   align-items: center !important;
   justify-items: center !important;
   width: 100% !important;
@@ -140,12 +140,21 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 .match-vs-center, 
 .score-past {
   white-space: nowrap !important;
-  padding: 0 12px !important;
-  min-width: 100px !important;
+  padding: 0 !important;
+  width: 100% !important;
   text-align: center !important;
-  font-size: 2.2rem !important;
+  font-size: 1.9rem !important;
   line-height: 1 !important;
-  display: inline-block !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.team-name-col {
+  text-align: center !important;
+  width: 100% !important;
+  padding: 0 4px !important;
+  box-sizing: border-box !important;
 }
 
 /* 2. Risoluzione bagliore quadrato e rendering WebKit / Safari mobile */
@@ -195,9 +204,15 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
   will-change: filter;
 }
 
-/* Bagliore applicato esclusivamente alla sagoma PNG del nostro logo */
-.hero-logo-wrap img[src*="logo.png"],
-.card-logo-wrap img[src*="logo.png"],
+/* Rimuoviamo qualsiasi bagliore dai loghi della scheda partita precedente */
+.match-past-box img,
+.card-logo-wrap img {
+  -webkit-filter: none !important;
+  filter: none !important;
+}
+
+/* Bagliore applicato ESCLUSIVAMENTE alla sagoma PNG del nostro logo nella schedina PROSSIMA PARTITA (Hero) */
+.next-match-hero .hero-logo-wrap img[src*="logo.png"],
 #nextMatchBox .hero-logo-wrap img[src*="logo.png"] {
   -webkit-filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.85)) !important;
   filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.85)) !important;
