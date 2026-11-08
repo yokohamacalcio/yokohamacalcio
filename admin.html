@@ -86,7 +86,7 @@
         <div class="match-id-search">
           <button type="button" class="search-toggle-btn" data-action="toggle-id-search"><i class="fas fa-keyboard"></i> <span data-i18n="m.byId"></span></button>
           <div class="search-input-wrap" id="searchInputWrap">
-            <input type="text" id="matchId" placeholder="match-9">
+            <input type="text" id="matchId" placeholder="match-10">
             <button type="button" data-action="search-by-id"><i class="fas fa-search"></i></button>
           </div>
         </div>
@@ -105,18 +105,59 @@
           <div class="form-group"><label data-i18n="m.time"></label><input type="time" id="matchTime" class="form-control" value="11:00"></div>
         </div>
         <div class="row">
-          <div class="form-group"><label data-i18n="lCategory"></label><select id="matchCategory" class="form-control"><option value="friendly" data-i18n="cFriendly"></option><option value="league" data-i18n="cLeague"></option><option value="cup" data-i18n="cCup"></option></select></div>
+          <div class="form-group">
+            <label data-i18n="lCategory">Categoria</label>
+            <select id="matchCategory" class="form-control">
+              <option value="friendly" data-i18n="cFriendly">練習試合 (Amichevole)</option>
+              <option value="triangular">3角戦 (Triangolare)</option>
+              <option value="league" data-i18n="cLeague">リーグ戦 (Campionato)</option>
+              <option value="cup" data-i18n="cCup">カップ戦 (Coppa)</option>
+            </select>
+          </div>
           <div class="form-group"><label data-i18n="m.competition"></label><select id="competitionSelect" class="form-control" required></select></div>
-          <div class="form-group"><label data-i18n="m.typeLabel"></label><input type="text" id="matchType" class="form-control" value="練習試合"></div>
+          <div class="form-group">
+            <label data-i18n="m.typeLabel">Tipo / Formato</label>
+            <select id="matchType" class="form-control">
+              <option value="練習試合">練習試合 (Standard)</option>
+              <option value="triangular">triangular (3角戦)</option>
+              <option value="公式戦">公式戦</option>
+            </select>
+          </div>
         </div>
         <div class="row">
-          <div class="form-group"><label data-i18n="m.opponent"></label><select id="opponentSelect" class="form-control" required></select></div>
+          <div class="form-group">
+            <label>Struttura Partita</label>
+            <select id="isTriangular" class="form-control">
+              <option value="false">Singola (Standard)</option>
+              <option value="true">Triangolare (3角戦)</option>
+            </select>
+          </div>
           <div class="form-group"><label data-i18n="m.venue"></label><select id="locationSelect" class="form-control" required></select></div>
         </div>
         <div class="row">
+          <div class="form-group"><label data-i18n="m.opponent">Avversario 1 (Principale)</label><select id="opponentSelect" class="form-control" required></select></div>
           <div class="form-group"><label data-i18n="m.homeAway"></label><select id="isHome" class="form-control"><option value="true" data-i18n="m.home"></option><option value="false" data-i18n="m.away"></option></select></div>
-          <div class="form-group"><label data-i18n="m.score"></label><input type="text" id="matchScore" class="form-control" placeholder="2 - 1" value="VS"></div>
+          <div class="form-group"><label data-i18n="m.score"></label><input type="text" id="matchScore" class="form-control" placeholder="2 - 1 / VS" value="VS"></div>
         </div>
+
+        <!-- SEZIONE CONFIGURAZIONE TRIANGOLARE -->
+        <div id="triangularSection" class="triangular-box hidden" style="background:rgba(135,206,235,0.08);border:1px dashed var(--sky-dark,#87ceeb);border-radius:12px;padding:16px;margin-top:14px;">
+          <h4 style="margin:0 0 12px;color:var(--dark-navy,#003c82);font-size:.95rem;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-sitemap" style="color:var(--sky-dark,#87ceeb)"></i> Dettagli Triangolare (3角戦)
+          </h4>
+          <div class="row">
+            <div class="form-group">
+              <label><i class="fas fa-shield-alt"></i> Avversario 2 (Secondo Club)</label>
+              <select id="triOpponent2Select" class="form-control"></select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:10px;">
+            <label><i class="fas fa-list-ol"></i> Partite / Incontri del Triangolare (sub_matches)</label>
+            <div id="subMatchesContainer" style="display:flex;flex-direction:column;gap:10px;margin-top:8px;"></div>
+            <button type="button" class="btn-add-row" data-action="add-sub-match" style="margin-top:10px;"><i class="fas fa-plus"></i> Aggiungi Incontro Triangolare</button>
+          </div>
+        </div>
+
       </div>
 
       <div class="section-box">
