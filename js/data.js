@@ -63,8 +63,33 @@
     return { name, url: l.maps || l.url || 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(name), surface: typeof s === 'object' ? (s[lang] || s.ja || '') : s };
   }
 
-  /* il punteggio nel JSON è SEMPRE "nostri-loro". In casa: noi a sinistra; in trasferta: avversario a sinistra */
+  /* il punteggio nel JSON è SEMPRE "nostri-loro". In casa: noi a sinistra; in trasferta: avversario a sinistra.
+     Supporta sia partite singole che triangolari (sommando i punteggi delle sub_matches). */
   function scoreParts(m) {
+    if (!m) return { ours: null, theirs: null, text: '-', left: '-' };
+    if (m.sub_matches && m.sub_matches.length > 0) {
+      let ours = 0, theirs = 0, hasScore = false;
+      m.sub_matches.forEach(sub => {
+        const mt = String(sub.score || '').match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
+        if (mt) {
+          hasScore = true;
+          const s1 = +mt[1], s2 = +mt[2];
+          const isHomeUs = sub.home === 'us' || sub.isHome === true || sub.home_team === 'us';
+          if (isHomeUs) { ours += s1; theirs += s2; }
+          else { ours += s2; theirs += s1; }
+        }
+      });
+      if (!hasScore && m.score) {
+        const mt = String(m.score || '').match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
+        if (mt) {
+          const o = +mt[1], th = +mt[2], home = m.isHome !== false;
+          return { ours: o, theirs: th, text: o + ' - ' + th, left: home ? o + ' - ' + th : th + ' - ' + o };
+        }
+      }
+      if (!hasScore) return { ours: null, theirs: null, text: m.score || '-', left: m.score || '-' };
+      const home = m.isHome !== false;
+      return { ours, theirs, text: ours + ' - ' + theirs, left: home ? ours + ' - ' + theirs : theirs + ' - ' + ours };
+    }
     const mt = String(m.score || '').match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
     if (!mt) return { ours: null, theirs: null, text: m.score || '-', left: m.score || '-' };
     const o = +mt[1], th = +mt[2], home = m.isHome !== false;
@@ -99,6 +124,155 @@
       return (p ? playerName(p, lang) : s) + suffix;
     }).filter(Boolean).join(', ');
   }
+
+  /* Parsing dei gol / assist per conteggio ("小金井 健斗 x2" -> { name: "小金井 健斗", count: 2 }) */
+  function parsePlayerTextCounts(text) {
+    const result = [];
+    if (!text || typeof text !== 'string' || text === 'なし' || text === 'Nessuno') return result;
+    text.split(/[,、]/).forEach(item => {
+      let s = item.trim();
+      if (!s) return;
+      let count = 1;
+      const mult = s.match(/^(.*?)\s*([xX*]\s*(\d+))$/);
+      if (mult) {
+        s = mult[1].trim();
+        count = parseInt(mult[3], 10) || 1;
+      }
+      const min = s.match(/^(.*?)\s*[(（]([^)）]+)[)）]$/);
+      if (min) s = min[1].trim();
+      if (s) result.push({ name: s, count });
+    });
+    return result;
+  }
+
+  /* Parsing dei portieri e gol subiti ("御村 葵(1)" -> { name: "御村 葵", conceded: 1, cleanSheet: false }) */
+  function parseGoalkeepers(text) {
+    const result = [];
+    if (!text || typeof text !== 'string' || text === 'なし' || text === 'Nessuno') return result;
+    text.split(/[,、]/).forEach(item => {
+      const s = item.trim();
+      if (!s) return;
+      const parsed = s.match(/^([^(（]+)(?:[(（](\d+)[)）])?/);
+      if (parsed) {
+        const name = parsed[1].trim();
+        const conceded = parsed[2] !== undefined ? parseInt(parsed[2], 10) : 0;
+        result.push({ name, conceded, cleanSheet: conceded === 0 });
+      }
+    });
+    return result;
+  }
+
+  /* Estrae tutti gli eventi (marcatori, assist, portieri) da una partita singola o triangolare */
+  function getMatchEvents(m) {
+    const scorers = [];
+    const assists = [];
+    const goalkeepers = [];
+
+    if (m.sub_matches && m.sub_matches.length > 0) {
+      m.sub_matches.forEach(sub => {
+        if (sub.scorers) scorers.push(...parsePlayerTextCounts(sub.scorers));
+        if (sub.assists) assists.push(...parsePlayerTextCounts(sub.assists));
+        if (sub.goalkeeper || sub.goalkeepers) {
+          goalkeepers.push(...parseGoalkeepers(sub.goalkeeper || sub.goalkeepers));
+        }
+      });
+    } else {
+      if (m.scorers) scorers.push(...parsePlayerTextCounts(m.scorers));
+      if (m.assists) assists.push(...parsePlayerTextCounts(m.assists));
+      if (m.goalkeepers) goalkeepers.push(...parseGoalkeepers(m.goalkeepers));
+    }
+
+    return { scorers, assists, goalkeepers };
+  }
+
+  /* Calcola le statistiche generali del club e le statistiche individuali dei giocatori.
+     Per i triangolari, la presenza della partita vale 1 per il giocatore, ma i gol, assist e clean sheet
+     vengono estratti e sommati da ciascuna sub_match. */
+  function computeStats(matches, players) {
+    const team = { total: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0 };
+    const playerStats = {};
+
+    const initPlayer = (name) => {
+      if (!playerStats[name]) {
+        playerStats[name] = {
+          name,
+          appearances: 0,
+          starts: 0,
+          subsIn: 0,
+          goals: 0,
+          assists: 0,
+          gkMatches: 0,
+          gkGoalsConceded: 0,
+          cleanSheets: 0,
+          mvp: 0
+        };
+      }
+      return playerStats[name];
+    };
+
+    (matches || []).forEach(m => {
+      if (!m || m.status === 'upcoming') return;
+
+      const sc = scoreParts(m);
+      if (sc.ours !== null) {
+        team.total += 1;
+        team.gf += sc.ours;
+        team.ga += sc.theirs;
+        const res = result(m);
+        if (res === 'W') team.wins += 1;
+        else if (res === 'D') team.draws += 1;
+        else if (res === 'L') team.losses += 1;
+      }
+
+      const lineup = m.lineup || [];
+      const starters = m.starters || (m.starters_positions ? Object.values(m.starters_positions) : []);
+      const subsIn = m.substitutes_in || [];
+
+      const participants = new Set([...lineup, ...starters, ...subsIn]);
+      participants.forEach(pName => {
+        if (!pName) return;
+        const st = initPlayer(pName);
+        st.appearances += 1;
+        if (starters.includes(pName)) st.starts += 1;
+        else if (subsIn.includes(pName)) st.subsIn += 1;
+      });
+
+      const events = getMatchEvents(m);
+
+      events.scorers.forEach(scItem => {
+        const st = initPlayer(scItem.name);
+        st.goals += scItem.count;
+      });
+
+      events.assists.forEach(asItem => {
+        const st = initPlayer(asItem.name);
+        st.assists += asItem.count;
+      });
+
+      const gksInMatch = new Set();
+      events.goalkeepers.forEach(gk => {
+        const st = initPlayer(gk.name);
+        st.gkGoalsConceded += gk.conceded;
+        if (gk.cleanSheet) st.cleanSheets += 1;
+        gksInMatch.add(gk.name);
+      });
+      gksInMatch.forEach(gkName => {
+        const st = initPlayer(gkName);
+        st.gkMatches += 1;
+      });
+
+      if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
+        const mvpList = parsePlayerTextCounts(m.mvp);
+        mvpList.forEach(item => {
+          const st = initPlayer(item.name);
+          st.mvp += item.count;
+        });
+      }
+    });
+
+    return { team, players: playerStats };
+  }
+
   /* calcolo età da data di nascita; il sito mostra solo l'età */
   function age(birth) {
     if (!birth) return null; const b = new Date(birth); if (isNaN(b)) return null;
@@ -114,5 +288,27 @@
       .map(x => Object.assign({}, x, parseRange(x.time))).sort((a, b) => (a.date + a.start).localeCompare(b.date + b.start));
   }
 
-  window.YC.data = { load, normCat, catBadge, fmtDate, ts, avatarUrl, oppInfo, logoImg, locInfo, scoreParts, result, findPlayer, playerName, translatePlayerText, age, parseRange, upcomingTrainings };
+  window.YC.data = {
+    load,
+    normCat,
+    catBadge,
+    fmtDate,
+    ts,
+    avatarUrl,
+    oppInfo,
+    logoImg,
+    locInfo,
+    scoreParts,
+    result,
+    findPlayer,
+    playerName,
+    translatePlayerText,
+    parsePlayerTextCounts,
+    parseGoalkeepers,
+    getMatchEvents,
+    computeStats,
+    age,
+    parseRange,
+    upcomingTrainings
+  };
 })();
