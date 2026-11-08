@@ -182,7 +182,7 @@
   <div class="container">
     <h2 class="section-title"><i class="fas fa-trophy"></i> <span data-i18n="i.res_title">試合結果・日程</span></h2>
     <div class="match-center-swipe-track" id="matchTrack">
-      <!-- Generato dinamicamente via JS tramite data.js -->
+      <!-- Generato dinamicamente via JS -->
     </div>
     <div style="text-align:center;margin-top:30px;"><a href="matches.html" class="google-form-btn" style="max-width:320px;margin:0 auto;"><i class="fas fa-list"></i> <span data-i18n="i.res_all">全試合日程・詳細はこちら</span></a></div>
   </div>
@@ -325,7 +325,7 @@ YC.register({
     'i.about_title': 'About Yokohama Calcio', 'i.about_sub': 'Italian-style Amateur Football Club in Yokohama',
     'i.about_p1': 'Yokohama Calcio is an amateur football club founded in 2025 in Yokohama. Inspired by the organised tactical approach of Italian football, we aim to be a team where every player understands their role and moves in sync.',
     'i.about_p2': 'Guided by the philosophy “Individual Growth, Team Evolution”, we bring together players of all ages and backgrounds who take football seriously.',
-    'i.values_title': 'Our Core Values', 'i.val1_h': 'Individual Growth, Team Evolution', 'i.val1_d': 'Developing decision-making and tactical awareness to serve the team.', 'i.val2_h': 'Enjoyable, yet Serious', 'i.val2_d': 'Training passionately to share the satisfaction of accomplishment and victory.', 'i.val3_h': 'Tactical Synergy (Gioco di Squadra)', 'i.val3_d': 'Positioning, organized defense, and rapid transitions.', 'i.about_more': 'Learn more about club history & philosophy',
+    'i.values_title': 'Our Core Values', 'i.val1_h': 'Individual Growth, Team Evolution', 'i.val1_d': 'Developing decision-making and tactical awareness to serve the team.', 'i.val2_h': 'Enjoyable, yet Serious', 'i.val2_d': 'Training passionately to share the satisfaction of accomplishment and victory.', 'i.val3_h': 'Positioning, organized defense, and rapid transitions.', 'i.about_more': 'Learn more about club history & philosophy',
     'i.join_title': 'How to try us out', 'i.s1_h': 'Pick a date', 'i.s1_d': 'Choose 1 to 3 dates from the training calendar and send your request through the form.', 'i.s2_h': 'Do 3 trials', 'i.s2_d': '3 trial sessions are required before joining (500 yen each). A break from the game is fine.', 'i.s3_h': 'Join the squad', 'i.s3_d': 'Monthly fee 2,000 yen, at least 2 sessions a month. Ages 18–40 with experience.',
     'i.rec_title': 'Recruiting New Players! (18–40 yrs experienced)', 'i.rec_desc': 'Want to experience tactical Italian football in Yokohama? We are looking for teammates to grow with while aiming seriously for results. Come and try!', 'i.rec_btn': 'Book a trial',
     'i.res_title': 'Matches & Results', 'i.res_all': 'View All Matches', 'i.last': 'Last Match', 'i.next': 'Next Match', 'i.detail': 'Details', 'i.no_next': 'Next match date is being scheduled. Looking for a friendly match?', 'i.req_friendly': 'Request Friendly Match', 'i.cd_title': 'Countdown to Kick-off', 'i.cd_d': 'd', 'i.cd_h': 'h', 'i.cd_m': 'm', 'i.cd_s': 's', 'i.cal_add': 'Add to Calendar',
@@ -354,93 +354,101 @@ function nextMatch() {
 }
 const venueLine = (loc, dark) => `<div class="match-info-item"><i class="fas fa-map-marker-alt" style="color:${dark ? 'var(--primary-sky)' : 'var(--dark-navy)'}"></i><a href="${esc(safeUrl(loc.url))}" target="_blank" rel="noopener noreferrer">${esc(loc.name)} <i class="fas fa-external-link-alt" style="font-size:.65rem;opacity:.7"></i></a></div>`;
 
-function lastHtml(m) {
-  const lang = YC.lang(), d = YC.data, loc = d.locInfo(m.location_id, m.venue, lang, D.locations);
-  const badge = d.catBadge(m.category, lang);
-  const scorers = d.translatePlayerText(m.scorers, lang, D.players), mvp = d.translatePlayerText(m.mvp, lang, D.players);
-  const bar = venueLine(loc, false) + (scorers ? `<div class="match-info-item"><i class="fas fa-futbol" style="color:var(--dark-navy)"></i><span>${esc(scorers)}</span></div>` : '') + (mvp ? `<div class="match-info-item"><i class="fas fa-star" style="color:#f59e0b"></i><strong>${esc(mvp)}</strong></div>` : '');
-
-  const isTriangular = m.type === 'triangular' || m.category === 'triangular' || m.isTriangular || (m.sub_matches && m.sub_matches.length > 0);
-
-  let teamsWrapperHtml = '';
-
-  if (isTriangular) {
-    const allSubs = m.sub_matches || [];
-    const mySubs = allSubs.filter(sub => sub.home === 'us' || sub.away === 'us' || sub.isHome === true || sub.opponent_id);
-    
-    let rowsHtml = '';
-    if (mySubs.length > 0) {
-      rowsHtml = mySubs.map(sub => {
-        const isHomeUs = sub.home === 'us' || sub.isHome === true;
-        const oppId = sub.opponent_id || (isHomeUs ? sub.away : sub.home);
-        const oppInfo = d.oppInfo({ opponent_id: oppId }, lang, D.opponents);
-
-        const hName = isHomeUs ? 'Yokohama Calcio' : (sub.home_name || oppInfo.name);
-        const aName = isHomeUs ? (sub.away_name || oppInfo.name) : 'Yokohama Calcio';
-        const hLogo = isHomeUs ? './immagini/logo.png?v=2' : oppInfo.logo;
-        const aLogo = isHomeUs ? oppInfo.logo : './immagini/logo.png?v=2';
-        const hFb = isHomeUs ? '' : oppInfo.avatar;
-        const aFb = isHomeUs ? oppInfo.avatar : '';
-
-        const subScorers = sub.scorers ? d.translatePlayerText(sub.scorers, lang, D.players) : '';
-        const subGk = sub.goalkeeper ? esc(sub.goalkeeper) : '';
-
-        return `<div class="triangular-match-block">
-          <div class="triangular-match-row">
-            <div class="tri-team tri-home">
-              <div class="card-logo-wrap sm">${d.logoImg(hLogo, hName, hFb)}</div>
-              <span class="tri-team-name">${esc(hName)}</span>
-            </div>
-            <div class="tri-score">${esc(sub.score || 'VS')}</div>
-            <div class="tri-team tri-away">
-              <span class="tri-team-name">${esc(aName)}</span>
-              <div class="card-logo-wrap sm">${d.logoImg(aLogo, aName, aFb)}</div>
-            </div>
-          </div>
-          ${(subScorers || subGk) ? `
-            <div class="triangular-sub-meta">
-              ${subScorers ? `<span><i class="fas fa-futbol"></i> ${subScorers}</span>` : ''}
-              ${subGk ? `<span><i class="fas fa-shield-halved"></i> GK: ${subGk}</span>` : ''}
-            </div>
-          ` : ''}
-        </div>`;
-      }).join('');
-    } else {
-      const opps = Array.isArray(m.opponents) ? m.opponents : [m.opponent_id];
-      rowsHtml = opps.map(oppId => {
-        const o = d.oppInfo({ opponent_id: oppId }, lang, D.opponents);
-        return `<div class="triangular-match-row">
-          <div class="tri-team tri-home">
-            <div class="card-logo-wrap sm"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
-            <span class="tri-team-name">Yokohama Calcio</span>
-          </div>
-          <div class="tri-score">${esc(m.score || 'VS')}</div>
-          <div class="tri-team tri-away">
-            <span class="tri-team-name">${esc(o.name)}</span>
-            <div class="card-logo-wrap sm">${d.logoImg(o.logo, o.name, o.avatar)}</div>
-          </div>
-        </div>`;
-      }).join('');
-    }
-    teamsWrapperHtml = `<div class="triangular-teams-wrapper">${rowsHtml}</div>`;
-  } else {
-    const o = d.oppInfo(m, lang, D.opponents);
-    const home = m.isHome !== false, sc = d.scoreParts(m);
-    const us = { name: 'Yokohama Calcio', logo: './immagini/logo.png?v=2', fb: '' }, them = { name: o.name, logo: o.logo, fb: o.avatar };
-    const [L, R] = home ? [us, them] : [them, us];
-    teamsWrapperHtml = `<div class="match-teams-wrapper">
-      <div class="teams-logos-row"><div class="card-logo-wrap">${d.logoImg(L.logo, L.name, L.fb)}</div><div class="match-vs-center score-past">${esc(sc.left)}</div><div class="card-logo-wrap">${d.logoImg(R.logo, R.name, R.fb)}</div></div>
-      <div class="teams-names-row"><div class="team-name-col">${esc(L.name)}</div><div></div><div class="team-name-col">${esc(R.name)}</div></div>
-    </div>`;
+function getMatchScorersText(m, lang, D) {
+  if (m.scorers && m.scorers.trim()) {
+    return YC.data.translatePlayerText(m.scorers, lang, D.players);
   }
+  if (m.sub_matches && m.sub_matches.length > 0) {
+    const list = m.sub_matches.map(sub => sub.scorers && sub.scorers.trim()).filter(Boolean);
+    if (list.length > 0) {
+      return YC.data.translatePlayerText(list.join(', '), lang, D.players);
+    }
+  }
+  return '';
+}
 
+function getMatchAssistsText(m, lang, D) {
+  if (m.assists && m.assists.trim()) {
+    return YC.data.translatePlayerText(m.assists, lang, D.players);
+  }
+  if (m.sub_matches && m.sub_matches.length > 0) {
+    const list = m.sub_matches.map(sub => sub.assists && sub.assists.trim()).filter(Boolean);
+    if (list.length > 0) {
+      return YC.data.translatePlayerText(list.join(', '), lang, D.players);
+    }
+  }
+  return '';
+}
+
+function lastHtml(m) {
+  const lang = YC.lang(), d = YC.data;
+  const loc = d.locInfo(m.location_id, m.venue, lang, D.locations);
+  const badge = d.catBadge(m.category, lang);
+  const isTriangular = m.type === 'triangular' || m.category === 'triangular' || m.isTriangular || (m.sub_matches && m.sub_matches.length > 0);
   const badgeTri = isTriangular ? `<span class="match-badge badge-tournament">3角戦</span>` : '';
 
-  return `<div class="match-past-box" id="${esc(m.id || '')}"><div>
-    <div class="match-past-header"><div class="match-badge-group"><span class="match-badge badge-official">${t('i.last')}</span>${badgeTri}<span class="match-badge ${badge.cls}">${esc(badge.label)}</span></div><span class="match-box-date">${esc(d.fmtDate(m.date, lang))}</span></div>
-    ${teamsWrapperHtml}
-    <div class="match-info-hero-bar">${bar}</div></div>
-    <div class="match-card-footer"><a href="matches.html#${esc(m.id || '')}" class="btn-match-detail">${t('i.detail')} <i class="fas fa-chevron-right"></i></a></div></div>`;
+  let oppInfo;
+  if (isTriangular && m.opponents && Array.isArray(m.opponents) && m.opponents.length > 0) {
+    const names = m.opponents.map(id => d.oppInfo({ opponent_id: id }, lang, D.opponents).name);
+    const mainOpp = d.oppInfo({ opponent_id: m.opponent_id || m.opponents[0] }, lang, D.opponents);
+    oppInfo = { name: names.join(' / '), logo: mainOpp.logo, avatar: mainOpp.avatar };
+  } else {
+    oppInfo = d.oppInfo(m, lang, D.opponents);
+  }
+
+  const home = m.isHome !== false;
+  const sc = d.scoreParts(m);
+  const us = { name: 'Yokohama Calcio', logo: './immagini/logo.png?v=2', fb: '' };
+  const them = { name: oppInfo.name, logo: oppInfo.logo, fb: oppInfo.avatar };
+  const [L, R] = home ? [us, them] : [them, us];
+
+  const scorers = getMatchScorersText(m, lang, D);
+  const assists = getMatchAssistsText(m, lang, D);
+  const mvp = m.mvp ? d.translatePlayerText(m.mvp, lang, D.players) : '';
+
+  const bar = `
+    <div class="match-info-item">
+      <i class="fas fa-map-marker-alt" style="color:var(--dark-navy)"></i>
+      <a href="${esc(safeUrl(loc.url))}" target="_blank" rel="noopener noreferrer">${esc(loc.name)} <i class="fas fa-external-link-alt" style="font-size:.65rem;opacity:.7"></i></a>
+    </div>
+    ${scorers ? `<div class="match-info-item"><i class="fas fa-futbol" style="color:var(--dark-navy)"></i><span>${esc(scorers)}</span></div>` : ''}
+    ${assists ? `<div class="match-info-item"><i class="fas fa-hands-helping" style="color:var(--dark-navy)"></i><span>${esc(assists)}</span></div>` : ''}
+    ${mvp ? `<div class="match-info-item"><i class="fas fa-star" style="color:#f59e0b"></i><strong>${esc(mvp)}</strong></div>` : ''}
+  `;
+
+  return `
+    <div class="match-past-box" id="${esc(m.id || '')}">
+      <div>
+        <div class="match-past-header">
+          <div class="match-badge-group">
+            <span class="match-badge badge-official">${t('i.last')}</span>
+            ${badgeTri}
+            <span class="match-badge ${badge.cls}">${esc(badge.label)}</span>
+          </div>
+          <span class="match-box-date">${esc(d.fmtDate(m.date, lang))}</span>
+        </div>
+
+        <div class="match-teams-wrapper">
+          <div class="teams-logos-row">
+            <div class="card-logo-wrap">${d.logoImg(L.logo, L.name, L.fb)}</div>
+            <div class="match-vs-center score-past">${esc(sc.left)}</div>
+            <div class="card-logo-wrap">${d.logoImg(R.logo, R.name, R.fb)}</div>
+          </div>
+          <div class="teams-names-row">
+            <div class="team-name-col">${esc(L.name)}</div>
+            <div></div>
+            <div class="team-name-col">${esc(R.name)}</div>
+          </div>
+        </div>
+
+        <div class="match-info-hero-bar">${bar}</div>
+      </div>
+
+      <div class="match-card-footer">
+        <a href="matches.html#${esc(m.id || '')}" class="btn-match-detail">${t('i.detail')} <i class="fas fa-chevron-right"></i></a>
+      </div>
+    </div>
+  `;
 }
 
 function nextHtml(m) {
