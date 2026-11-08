@@ -551,7 +551,8 @@
 .no-match-box { display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; text-align: center !important; width: 100% !important; max-width: 340px !important; margin: 0 auto !important; }
 .no-match-icon { font-size: 2.5rem !important; color: var(--primary-sky, #87ceeb) !important; margin-bottom: 14px !important; display: flex !important; align-items: center !important; justify-content: center !important; }
 .no-match-text { color: #ffffff !important; font-size: 0.95rem !important; line-height: 1.6 !important; margin: 0 0 20px 0 !important; text-align: center !important; font-weight: 500 !important; }
-.btn-match-detail-hero.btn-no-match { display: inline-flex !important; align-items: center !important; justify-content: center !important; text-align: center !important; gap: 8px !important; padding: 11px 22px !important; font-size: 0.88rem !important; font-weight: 800 !important; border-radius: 30px !important; background: var(--primary-sky, #87ceeb) !important; color: var(--dark-navy, #003c82) !important; text-decoration: none !important; box-shadow: 0 4px 15px rgba(135,206,235,0.3) !important; transition: all 0.25s ease !important; margin: 0 auto !important; }
+.btn-match-detail-hero.btn-no-match { display: inline-flex !important; align-items: center !important; justify-content: center !important; text-align: center !important; gap: 8px !important; padding: 11px 22px !important; font-size: 0.88rem !important; font-weight: 800 !important; border-radius: 30px !important; background: var(--primary-sky, #87ceeb) !important; color: var(--dark-navy, #003c82) !important; text-decoration: none !important; box-shadow: 0 4px 15px rgba(135,206,235,0.3) !important; transition: all 0.25s ease !important; margin: 0 auto !important; line-height: 1 !important; }
+.btn-match-detail-hero.btn-no-match span { display: inline-flex !important; align-items: center !important; justify-content: center !important; line-height: 1 !important; }
 .btn-match-detail-hero.btn-no-match:hover { background: #ffffff !important; transform: translateY(-2px) !important; }
 
 /* ---- Logo sizing & Drop-shadow fix ---- */
@@ -866,24 +867,30 @@ function lastHtml(m) {
   let teamsWrapperHtml = '';
 
   if (isTriangular) {
-    const subList = m.sub_matches || m.subMatches || [];
+    const allSubs = m.sub_matches || m.subMatches || [];
+    // Filtra mostrando SOLO gli incontri giocati dallo Yokohama Calcio ('us')
+    const mySubs = allSubs.filter(sub => sub.home === 'us' || sub.away === 'us' || sub.isHome === true || sub.home_team === 'us' || sub.away_team === 'us');
+    
     let rowsHtml = '';
-    if (subList.length > 0) {
-      rowsHtml = subList.map(sub => {
-        const homeOpp = d.oppInfo(sub.home || sub.home_team || sub, lang, D.opponents);
-        const awayOpp = d.oppInfo(sub.away || sub.away_team || sub, lang, D.opponents);
-        const hName = sub.home_name || (sub.home === 'us' || sub.isHome ? 'Yokohama Calcio' : homeOpp.name);
-        const aName = sub.away_name || (sub.away === 'us' || (!sub.isHome && sub.away) ? 'Yokohama Calcio' : awayOpp.name);
-        const hLogo = sub.home === 'us' || sub.isHome ? './immagini/logo.png?v=2' : homeOpp.logo;
-        const aLogo = sub.away === 'us' ? './immagini/logo.png?v=2' : awayOpp.logo;
-        const hFb = sub.home === 'us' || sub.isHome ? '' : homeOpp.avatar;
-        const aFb = sub.away === 'us' ? '' : awayOpp.avatar;
+    if (mySubs.length > 0) {
+      rowsHtml = mySubs.map(sub => {
+        const isHomeUs = sub.home === 'us' || sub.home_team === 'us' || sub.isHome === true;
+        const oppId = isHomeUs ? (sub.away || sub.away_team) : (sub.home || sub.home_team);
+        const oppInfo = d.oppInfo(oppId, lang, D.opponents);
+
+        const hName = isHomeUs ? 'Yokohama Calcio' : (sub.home_name || oppInfo.name);
+        const aName = isHomeUs ? (sub.away_name || oppInfo.name) : 'Yokohama Calcio';
+        const hLogo = isHomeUs ? './immagini/logo.png?v=2' : oppInfo.logo;
+        const aLogo = isHomeUs ? oppInfo.logo : './immagini/logo.png?v=2';
+        const hFb = isHomeUs ? '' : oppInfo.avatar;
+        const aFb = isHomeUs ? oppInfo.avatar : '';
+
         return `<div class="triangular-match-row">
           <div class="tri-team tri-home">
             <div class="card-logo-wrap sm">${d.logoImg(hLogo, hName, hFb)}</div>
             <span class="tri-team-name">${esc(hName)}</span>
           </div>
-          <div class="tri-score">${esc(sub.score || '0 - 0')}</div>
+          <div class="tri-score">${esc(sub.score || 'VS')}</div>
           <div class="tri-team tri-away">
             <span class="tri-team-name">${esc(aName)}</span>
             <div class="card-logo-wrap sm">${d.logoImg(aLogo, aName, aFb)}</div>
@@ -899,7 +906,7 @@ function lastHtml(m) {
             <div class="card-logo-wrap sm"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
             <span class="tri-team-name">Yokohama Calcio</span>
           </div>
-          <div class="tri-score">${esc(m.score || '-')}</div>
+          <div class="tri-score">${esc(m.score || 'VS')}</div>
           <div class="tri-team tri-away">
             <span class="tri-team-name">${esc(o.name)}</span>
             <div class="card-logo-wrap sm">${d.logoImg(o.logo, o.name, o.avatar)}</div>
@@ -942,7 +949,7 @@ function nextHtml(m) {
     const opps = Array.isArray(m.opponents) ? m.opponents : (m.sub_matches || m.subMatches || []);
     const opp1 = d.oppInfo(opps[0] || m, lang, D.opponents);
     const opp2 = opps[1] ? d.oppInfo(opps[1], lang, D.opponents) : { name: 'TBD', logo: '' };
-    
+
     teamsWrapperHtml = `<div class="match-teams-wrapper">
       <div class="triangular-hero-logos">
         <div class="hero-logo-wrap"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
@@ -983,7 +990,7 @@ function noNextHtml() {
       <div class="no-match-icon"><i class="fas fa-handshake-angle"></i></div>
       <p class="no-match-text" data-i18n="i.no_next">${t('i.no_next')}</p>
       <a href="contact.html?type=match" class="btn-match-detail-hero btn-no-match">
-        <i class="fas fa-paper-plane"></i> <span data-i18n="i.req_friendly">${t('i.req_friendly')}</span>
+        <i class="fas fa-paper-plane"></i><span data-i18n="i.req_friendly">${t('i.req_friendly')}</span>
       </a>
     </div>
   </div>`;
