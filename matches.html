@@ -462,6 +462,21 @@
 .mc-teams .center { font-family: var(--font-brand); font-size: 2.2rem; color: var(--dark-navy); font-weight: 800; letter-spacing: 1px; text-align: center; }
 .mc-teams .center.vs { color: var(--primary-sky); }
 .mc-teams .name { font-weight: 700; font-size: .92rem; text-align: center; color: var(--dark-navy); line-height: 1.25; }
+
+/* ---- Triangolare Support Styles ---- */
+.triangular-teams-wrapper { display: flex; flex-direction: column; gap: 8px; width: 100%; margin: 10px 0; }
+.triangular-match-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px; gap: 8px; }
+.mc.next .triangular-match-row { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); }
+.tri-team { display: flex; align-items: center; gap: 6px; overflow: hidden; }
+.tri-team.tri-home { justify-content: flex-start; } .tri-team.tri-away { justify-content: flex-end; }
+.tri-team-name { font-size: .78rem; font-weight: 700; color: var(--dark-navy, #003c82); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mc.next .tri-team-name { color: #fff; }
+.tri-score { font-family: 'Bebas Neue', var(--font-brand, sans-serif); font-size: 1.3rem; font-weight: 800; color: var(--dark-navy, #003c82); white-space: nowrap; padding: 0 6px; }
+.mc.next .tri-score { color: var(--primary-sky, #87ceeb); }
+.triangular-hero-logos { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; justify-items: center; width: 100%; margin: 10px 0 4px; }
+.triangular-hero-names { display: grid; grid-template-columns: 1fr 20px 1fr 20px 1fr; align-items: start; justify-items: center; width: 100%; }
+.tri-vs-label { font-family: var(--font-brand, 'Bebas Neue', sans-serif); font-size: 1.2rem; color: var(--primary-sky, #87ceeb); font-weight: 700; }
+
 .mc-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
 .mc-meta { font-size: .8rem; color: #64748b; font-weight: 600; display: flex; gap: 6px 14px; flex-wrap: wrap; }
 .mc-actions { display: flex; gap: 8px; }
@@ -494,7 +509,13 @@
 .counter { display: block; margin-bottom: 10px; font-weight: 600; color: var(--dark-navy); font-size: .9rem; }
 .btn-more { background: var(--dark-navy); color: #fff; border: 0; border-radius: 25px; padding: 11px 26px; font: inherit; font-weight: 700; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; }
 .empty-box { text-align: center; padding: 30px; background: #f8fafc; border-radius: 12px; color: #64748b; font-weight: 600; }
-@media (max-width: 600px) { .mc { padding: 14px; } .mc-teams .row-logos, .mc-teams .row-names { grid-template-columns: 1fr 70px 1fr; } .mc-teams .logo { width: 52px; height: 52px; } .mc-teams .center { font-size: 1.8rem; } }
+@media (max-width: 600px) { 
+  .mc { padding: 14px; } 
+  .mc-teams .row-logos, .mc-teams .row-names { grid-template-columns: 1fr 70px 1fr; } 
+  .mc-teams .logo { width: 52px; height: 52px; } 
+  .mc-teams .center { font-size: 1.8rem; } 
+  .triangular-hero-logos .logo { width: 44px; height: 44px; }
+}
 </style>
 </head>
 <body>
@@ -574,20 +595,99 @@ function detailsHtml(m, past) {
 /* ---- card ---- */
 function card(m, kind) {
   const lang = YC.lang(), d = YC.data, o = d.oppInfo(m, lang, D.opponents), home = m.isHome !== false, badge = d.catBadge(m.category, lang);
-  const us = { name: 'Yokohama Calcio', logo: './immagini/logo.png?v=2', fb: '' }, them = { name: o.name, logo: o.logo, fb: o.avatar };
   const upcoming = kind !== 'past';
-  const [L, R] = (upcoming || home) ? [us, them] : [them, us];
   const sc = d.scoreParts(m), res = upcoming ? null : d.result(m);
-  const centerTxt = upcoming ? 'VS' : sc.left, id = esc(m.id || ''), isOpen = open.has(m.id);
+  const id = esc(m.id || ''), isOpen = open.has(m.id);
   const live = m.status === 'live';
-  const heads = (kind === 'next' ? `<span class="mc-badge badge-next">${t('m.next')}</span>` : '') + (live ? `<span class="mc-badge badge-live">${t('m.live')}</span>` : '') + `<span class="mc-badge ${badge.cls}">${esc(badge.label)}</span>` + `<span class="mc-badge badge-ha">${home ? 'HOME' : 'AWAY'}</span>`;
+
+  const isTriangular = m.type === 'triangular' || m.category === 'triangular' || m.isTriangular || (m.sub_matches && m.sub_matches.length > 0) || (m.subMatches && m.subMatches.length > 0) || (Array.isArray(m.opponents) && m.opponents.length > 1);
+
+  const badgeTri = isTriangular ? `<span class="mc-badge badge-tournament">3角戦</span>` : '';
+  const heads = (kind === 'next' ? `<span class="mc-badge badge-next">${t('m.next')}</span>` : '') + (live ? `<span class="mc-badge badge-live">${t('m.live')}</span>` : '') + badgeTri + `<span class="mc-badge ${badge.cls}">${esc(badge.label)}</span>` + `<span class="mc-badge badge-ha">${home ? 'HOME' : 'AWAY'}</span>`;
+
+  let teamsWrapperHtml = '';
+
+  if (isTriangular) {
+    if (upcoming) {
+      const opps = Array.isArray(m.opponents) ? m.opponents : (m.sub_matches || m.subMatches || []);
+      const opp1 = d.oppInfo(opps[0] || m, lang, D.opponents);
+      const opp2 = opps[1] ? d.oppInfo(opps[1], lang, D.opponents) : { name: 'TBD', logo: '' };
+      
+      teamsWrapperHtml = `<div class="mc-teams">
+        <div class="triangular-hero-logos">
+          <div class="logo"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
+          <span class="tri-vs-label">VS</span>
+          <div class="logo">${d.logoImg(opp1.logo, opp1.name, opp1.avatar)}</div>
+          <span class="tri-vs-label">VS</span>
+          <div class="logo">${opp2.logo ? d.logoImg(opp2.logo, opp2.name, opp2.avatar) : '<div class="logo"></div>'}</div>
+        </div>
+        <div class="triangular-hero-names">
+          <div class="name">Yokohama Calcio</div><div></div>
+          <div class="name">${esc(opp1.name)}</div><div></div>
+          <div class="name">${esc(opp2.name)}</div>
+        </div>
+      </div>`;
+    } else {
+      const subList = m.sub_matches || m.subMatches || [];
+      let rowsHtml = '';
+      if (subList.length > 0) {
+        rowsHtml = subList.map(sub => {
+          const homeOpp = d.oppInfo(sub.home || sub.home_team || sub, lang, D.opponents);
+          const awayOpp = d.oppInfo(sub.away || sub.away_team || sub, lang, D.opponents);
+          const hName = sub.home_name || (sub.home === 'us' || sub.isHome ? 'Yokohama Calcio' : homeOpp.name);
+          const aName = sub.away_name || (sub.away === 'us' || (!sub.isHome && sub.away) ? 'Yokohama Calcio' : awayOpp.name);
+          const hLogo = sub.home === 'us' || sub.isHome ? './immagini/logo.png?v=2' : homeOpp.logo;
+          const aLogo = sub.away === 'us' ? './immagini/logo.png?v=2' : awayOpp.logo;
+          const hFb = sub.home === 'us' || sub.isHome ? '' : homeOpp.avatar;
+          const aFb = sub.away === 'us' ? '' : awayOpp.avatar;
+          return `<div class="triangular-match-row">
+            <div class="tri-team tri-home">
+              <div class="logo sm" style="width:32px;height:32px;">${d.logoImg(hLogo, hName, hFb)}</div>
+              <span class="tri-team-name">${esc(hName)}</span>
+            </div>
+            <div class="tri-score">${esc(sub.score || '0 - 0')}</div>
+            <div class="tri-team tri-away">
+              <span class="tri-team-name">${esc(aName)}</span>
+              <div class="logo sm" style="width:32px;height:32px;">${d.logoImg(aLogo, aName, aFb)}</div>
+            </div>
+          </div>`;
+        }).join('');
+      } else {
+        const opps = Array.isArray(m.opponents) ? m.opponents : [m.opponent_id];
+        rowsHtml = opps.map(oppId => {
+          const o = d.oppInfo(oppId, lang, D.opponents);
+          return `<div class="triangular-match-row">
+            <div class="tri-team tri-home">
+              <div class="logo sm" style="width:32px;height:32px;"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
+              <span class="tri-team-name">Yokohama Calcio</span>
+            </div>
+            <div class="tri-score">${esc(m.score || '-')}</div>
+            <div class="tri-team tri-away">
+              <span class="tri-team-name">${esc(o.name)}</span>
+              <div class="logo sm" style="width:32px;height:32px;">${d.logoImg(o.logo, o.name, o.avatar)}</div>
+            </div>
+          </div>`;
+        }).join('');
+      }
+      teamsWrapperHtml = `<div class="triangular-teams-wrapper">${rowsHtml}</div>`;
+    }
+  } else {
+    const us = { name: 'Yokohama Calcio', logo: './immagini/logo.png?v=2', fb: '' }, them = { name: o.name, logo: o.logo, fb: o.avatar };
+    const [L, R] = (upcoming || home) ? [us, them] : [them, us];
+    const centerTxt = upcoming ? 'VS' : sc.left;
+    teamsWrapperHtml = `<div class="mc-teams">
+      <div class="row-logos"><div class="logo">${d.logoImg(L.logo, L.name, L.fb)}</div><div class="center ${upcoming ? 'vs' : ''}">${esc(centerTxt)}</div><div class="logo">${d.logoImg(R.logo, R.name, R.fb)}</div></div>
+      <div class="row-names"><div class="name">${esc(L.name)}</div><div></div><div class="name">${esc(R.name)}</div></div>
+    </div>`;
+  }
+
   const resLabel = res ? (res === 'W' ? t('m.win') : res === 'D' ? t('m.draw') : t('m.loss')) : '';
   const meta = (upcoming && m.time ? `<span><i class="far fa-clock"></i> ${esc(m.time)} K.O.</span>` : '') + (res ? `<span class="result-dot ${res}">${resLabel}</span>` : '');
   const ics = upcoming ? `<button type="button" class="mc-btn" data-ics="${id}"><i class="far fa-calendar-plus"></i> ${t('m.ics')}</button>` : '';
+
   return `<article class="mc ${kind === 'next' ? 'next' : ''}" id="${id}" data-key="${esc(keyOf(m))}">
     <div class="mc-head"><div class="match-badge-group" style="display:flex;gap:6px;flex-wrap:wrap">${heads}</div><span class="mc-date">${esc(d.fmtDate(m.date, lang))}</span></div>
-    <div class="mc-teams"><div class="row-logos"><div class="logo">${d.logoImg(L.logo, L.name, L.fb)}</div><div class="center ${upcoming ? 'vs' : ''}">${esc(centerTxt)}</div><div class="logo">${d.logoImg(R.logo, R.name, R.fb)}</div></div>
-    <div class="row-names"><div class="name">${esc(L.name)}</div><div></div><div class="name">${esc(R.name)}</div></div></div>
+    ${teamsWrapperHtml}
     <div class="mc-foot"><div class="mc-meta">${meta}</div><div class="mc-actions">${ics}<button type="button" class="mc-btn" data-share="${id}" aria-label="${t('m.share')}"><i class="fas fa-share-nodes"></i></button><button type="button" class="mc-btn" data-toggle="${id}" aria-expanded="${isOpen}"><i class="fas fa-chevron-${isOpen ? 'up' : 'down'}"></i> ${isOpen ? t('m.hide') : t('m.details')}</button></div></div>
     <div class="mc-details" ${isOpen ? '' : 'hidden'}>${detailsHtml(m, !upcoming)}</div></article>`;
 }
