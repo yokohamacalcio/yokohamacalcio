@@ -299,17 +299,9 @@
 .official-link { font-size: .8rem; font-weight: 800; color: #fff; background: var(--dark-navy, #003c82); padding: 8px 16px; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: auto; }
 .official-link:hover { background: #87ceeb; color: #00224a; }
 
-/* Strip finale partner (Single line on desktop) */
-.partner-cta-strip { background: linear-gradient(135deg, #00224a 0%, #001229 100%); border-radius: 14px; padding: 14px 20px; color: #fff; border: 1px solid rgba(135,206,235,.3); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: nowrap; }
-.partner-cta-text { font-size: .86rem; font-weight: 600; color: #e2e8f0; display: flex; align-items: center; gap: 10px; margin: 0; flex: 1; min-width: 0; line-height: 1.35; }
-.partner-cta-text i { color: #87ceeb; font-size: 1.15rem; flex-shrink: 0; }
-.partner-cta-btn { background: #87ceeb; color: #00224a !important; font-size: .82rem; font-weight: 800; padding: 8px 16px; border-radius: 20px; text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; }
-.partner-cta-btn:hover { background: #a0d8ef; }
-@media (max-width: 850px) { 
-  .partner-cta-strip { flex-wrap: wrap; text-align: center; justify-content: center; padding: 16px; } 
-  .partner-cta-text { flex-direction: column; text-align: center; gap: 8px; } 
-  .partner-cta-btn { margin-top: 4px; }
-}
+/* Box CTA Sponsor (Ripristinata) */
+.partner-cta-box { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 24px 20px; text-align: center; box-shadow: 0 4px 14px rgba(0,60,130,.05); margin-top: 10px; }
+.partner-cta-box p { font-size: .92rem; font-weight: 600; color: var(--dark-navy, #003c82); margin: 0 0 16px 0; line-height: 1.5; }
 </style>
 </head>
 <body>
@@ -487,10 +479,10 @@
         </div>
       </div>
 
-      <!-- CALL TO ACTION PER NUOVI SPONSOR -->
-      <div class="partner-cta-strip">
-        <p class="partner-cta-text"><i class="fas fa-handshake-angle"></i> <span data-i18n="i.sp_cta_text">Yokohama Calcioをサポートしませんか？企業・飲食店のパートナーを募集しています。</span></p>
-        <a href="contact.html?type=sponsor" class="partner-cta-btn"><i class="fas fa-paper-plane"></i> <span data-i18n="i.sp_btn">パートナーについてお問い合わせ</span></a>
+      <!-- CALL TO ACTION PER NUOVI SPONSOR (RIPRISTINATA) -->
+      <div class="partner-cta-box">
+        <p data-i18n="i.sp_cta_text">Yokohama Calcioをサポートしませんか？企業・飲食店のパートナーを募集しています。</p>
+        <a href="contact.html?type=sponsor" class="google-form-btn" style="max-width:340px;margin:0 auto;"><i class="fas fa-paper-plane"></i> <span data-i18n="i.sp_btn">パートナーについてお問い合わせ</span></a>
       </div>
 
     </div>
@@ -687,9 +679,9 @@ function noNextHtml() {
   return `<div class="next-match-hero no-match-card">
     <div class="no-match-box">
       <div class="no-match-icon"><i class="fas fa-handshake-angle"></i></div>
-      <p class="no-match-text">${t('i.no_next')}</p>
+      <p class="no-match-text" data-i18n="i.no_next">${t('i.no_next')}</p>
       <a href="contact.html?type=match" class="btn-match-detail-hero btn-no-match">
-        <i class="fas fa-paper-plane"></i> <span>${t('i.req_friendly')}</span>
+        <i class="fas fa-paper-plane"></i> <span data-i18n="i.req_friendly">${t('i.req_friendly')}</span>
       </a>
     </div>
   </div>`;
