@@ -140,10 +140,10 @@
           <div class="form-group"><label data-i18n="m.score"></label><input type="text" id="matchScore" class="form-control" placeholder="2 - 1 / VS" value="VS"></div>
         </div>
 
-        <!-- SEZIONE CONFIGURAZIONE TRIANGOLARE (Visualizzata direttamente nell'HTML) -->
+        <!-- SEZIONE CONFIGURAZIONE TRIANGOLARE (Limitata ai nostri incontri) -->
         <div id="triangularSection" class="triangular-box hidden" style="background:rgba(135,206,235,0.08);border:1px dashed var(--sky-dark,#87ceeb);border-radius:12px;padding:16px;margin-top:14px;">
           <h4 style="margin:0 0 12px;color:var(--dark-navy,#003c82);font-size:.95rem;display:flex;align-items:center;gap:8px;">
-            <i class="fas fa-sitemap" style="color:var(--sky-dark,#87ceeb)"></i> Dettagli Triangolare (3角戦)
+            <i class="fas fa-sitemap" style="color:var(--sky-dark,#87ceeb)"></i> Dettagli Triangolare (Le nostre sfide)
           </h4>
           <div class="row">
             <div class="form-group">
@@ -155,10 +155,10 @@
             <label><i class="fas fa-list-ol"></i> Incontri e Punteggi del Triangolare</label>
             <div id="subMatchesContainer" style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
               
-              <!-- Incontro 1 -->
+              <!-- Incontro 1: Yokohama Calcio vs Avversario 1 -->
               <div class="sub-match-row" style="display:grid;grid-template-columns:1fr auto 1fr 100px auto;gap:8px;align-items:center;background:var(--bg-card,#fff);padding:10px;border:1px solid var(--border,#cbd5e1);border-radius:8px;">
                 <select class="form-control sub-home-select">
-                  <option value="us">Yokohama Calcio</option>
+                  <option value="us" selected>Yokohama Calcio</option>
                   <option value="opp1">Avversario 1</option>
                   <option value="opp2">Avversario 2</option>
                 </select>
@@ -172,24 +172,7 @@
                 <button type="button" class="btn-icon" onclick="this.parentElement.remove()" style="color:var(--red,#ef4444)"><i class="fas fa-trash"></i></button>
               </div>
 
-              <!-- Incontro 2 -->
-              <div class="sub-match-row" style="display:grid;grid-template-columns:1fr auto 1fr 100px auto;gap:8px;align-items:center;background:var(--bg-card,#fff);padding:10px;border:1px solid var(--border,#cbd5e1);border-radius:8px;">
-                <select class="form-control sub-home-select">
-                  <option value="opp1" selected>Avversario 1</option>
-                  <option value="us">Yokohama Calcio</option>
-                  <option value="opp2">Avversario 2</option>
-                </select>
-                <span style="font-weight:800;color:var(--sky-dark,#87ceeb)">VS</span>
-                <select class="form-control sub-away-select">
-                  <option value="opp2" selected>Avversario 2</option>
-                  <option value="us">Yokohama Calcio</option>
-                  <option value="opp1">Avversario 1</option>
-                </select>
-                <input type="text" class="form-control sub-score-input" placeholder="Es. 1 - 0" value="VS">
-                <button type="button" class="btn-icon" onclick="this.parentElement.remove()" style="color:var(--red,#ef4444)"><i class="fas fa-trash"></i></button>
-              </div>
-
-              <!-- Incontro 3 -->
+              <!-- Incontro 2: Yokohama Calcio vs Avversario 2 -->
               <div class="sub-match-row" style="display:grid;grid-template-columns:1fr auto 1fr 100px auto;gap:8px;align-items:center;background:var(--bg-card,#fff);padding:10px;border:1px solid var(--border,#cbd5e1);border-radius:8px;">
                 <select class="form-control sub-home-select">
                   <option value="us" selected>Yokohama Calcio</option>
@@ -310,7 +293,7 @@
 <script src="js/admin-core.js"></script>
 <script src="js/admin-matches.js"></script>
 
-<!-- SCRIPT UI TRIANGOLARE INLINE (Assicura il funzionamento immediato) -->
+<!-- SCRIPT UI TRIANGOLARE INLINE -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const isTriangular = document.getElementById('isTriangular');
@@ -318,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const matchType = document.getElementById('matchType');
   const triangularSection = document.getElementById('triangularSection');
 
-  // Funzione per mostrare/nascondere la sezione in base alla scelta
+  // Mostra/Nasconde la sezione in base alla scelta
   function toggleTriangularUI() {
     if (isTriangular.value === 'true' || matchCategory.value === 'triangular' || matchType.value === 'triangular') {
       triangularSection.classList.remove('hidden');
@@ -327,13 +310,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Aggiungi gli eventi
   isTriangular.addEventListener('change', toggleTriangularUI);
   matchCategory.addEventListener('change', toggleTriangularUI);
   matchType.addEventListener('change', toggleTriangularUI);
 });
 
-// Funzione richiamata dal pulsante per aggiungere un nuovo incontro dinamicamente
+// Aggiunge un nuovo incontro al Triangolare (se mai ce ne fosse bisogno per altri test)
 function addTriangularMatchUI() {
   const container = document.getElementById('subMatchesContainer');
   const row = document.createElement('div');
@@ -341,7 +323,7 @@ function addTriangularMatchUI() {
   row.style.cssText = 'display:grid;grid-template-columns:1fr auto 1fr 100px auto;gap:8px;align-items:center;background:var(--bg-card,#fff);padding:10px;border:1px solid var(--border,#cbd5e1);border-radius:8px;';
   row.innerHTML = `
     <select class="form-control sub-home-select">
-      <option value="us">Yokohama Calcio</option>
+      <option value="us" selected>Yokohama Calcio</option>
       <option value="opp1">Avversario 1</option>
       <option value="opp2">Avversario 2</option>
     </select>
