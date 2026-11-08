@@ -1,362 +1,361 @@
-/**
- * Yokohama Calcio - Admin Matches Module (js/admin-matches.js)
- * Gestione completa del form partite con supporto avanzato per Triangolari (3角戦),
- * doppio avversario, risultati dei singoli incontri e gestione eventi/tattica.
- */
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.github.com; base-uri 'none'; form-action 'none';">
+<title>Yokohama Calcio | Admin Panel</title>
+<link rel="icon" href="./immagini/logo.png?v=2" type="image/png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<a href="#mainContent" class="skip-link">Skip to content</a>
 
-(function () {
-  'use strict';
+<!-- LOGIN -->
+<div id="loginSection" class="login-box" role="main">
+  <i class="fas fa-lock lock-icon" aria-hidden="true"></i>
+  <h2 style="margin-bottom:8px">Yokohama Calcio Admin</h2>
+  <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:20px" data-i18n="loginSub"></p>
+  <div class="lang-switcher-admin" style="justify-content:center;margin-bottom:20px">
+    <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="ja">JP</button>
+    <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="it">IT</button>
+    <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="en">EN</button>
+  </div>
+  <form id="loginForm">
+    <div class="form-group" style="text-align:left">
+      <label for="inputToken"><i class="fas fa-key"></i> GitHub Token (PAT)</label>
+      <input type="password" id="inputToken" class="form-control" placeholder="ghp_… / github_pat_…" required autocomplete="off">
+    </div>
+    <button type="submit" class="btn-submit" id="loginBtn" data-i18n="loginBtn"></button>
+  </form>
+  <div id="loginError" style="color:var(--red);font-size:.85rem;margin-top:15px;font-weight:700;min-height:20px"></div>
+  <div style="font-size:.72rem;color:var(--text-muted);margin-top:16px">🔒 Token → <b>sessionStorage</b> (cancellato alla chiusura del browser).</div>
+</div>
 
-  // --- Elementi DOM ---
-  const form = document.getElementById('matchForm');
-  const matchIdInput = document.getElementById('matchId');
-  const matchStatusSelect = document.getElementById('matchStatus');
-  const matchDateInput = document.getElementById('matchDate');
-  const matchTimeInput = document.getElementById('matchTime');
-  const matchCategorySelect = document.getElementById('matchCategory');
-  const competitionSelect = document.getElementById('competitionSelect');
-  const matchTypeSelect = document.getElementById('matchType');
-  const isTriangularSelect = document.getElementById('isTriangular');
-  const locationSelect = document.getElementById('locationSelect');
-  const opponentSelect = document.getElementById('opponentSelect');
-  const triOpponent2Select = document.getElementById('triOpponent2Select');
-  const isHomeSelect = document.getElementById('isHome');
-  const matchScoreInput = document.getElementById('matchScore');
-  const mvpSelect = document.getElementById('mvpSelect');
-  const formationSelect = document.getElementById('formationSelect');
-  
-  // Sezioni dinamiche
+<!-- DASHBOARD -->
+<div id="adminDashboard" class="admin-container hidden" role="main">
+  <div class="admin-header-bar">
+    <div>
+      <h2 id="mainContent"><i class="fas fa-shield-alt"></i> Yokohama Calcio Admin</h2>
+      <span style="font-size:.78rem;color:var(--green);font-weight:700"><i class="fas fa-check-circle"></i> <span data-i18n="authenticated"></span></span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <div class="lang-switcher-admin">
+        <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="ja">JP</button>
+        <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="it">IT</button>
+        <button type="button" class="lang-btn-admin" data-action="set-lang" data-lang="en">EN</button>
+      </div>
+      <button type="button" class="btn-icon" data-action="toggle-dark" title="Dark mode"><i class="fas fa-moon" id="darkIcon"></i></button>
+      <button type="button" class="btn-icon" data-action="export-backup" title="Backup"><i class="fas fa-download"></i></button>
+      <button type="button" class="btn-logout" data-action="logout"><i class="fas fa-sign-out-alt"></i> <span data-i18n="logout"></span></button>
+    </div>
+  </div>
+
+  <div id="draftBanner" class="draft-banner hidden">
+    <span><i class="fas fa-save"></i> <span data-i18n="draftFound"></span></span>
+    <div style="display:flex;gap:8px">
+      <button type="button" class="btn-reset" style="background:var(--green)" data-action="restore-draft"><i class="fas fa-check"></i> <span data-i18n="draftRestore"></span></button>
+      <button type="button" class="btn-reset" data-action="discard-draft"><i class="fas fa-times"></i> <span data-i18n="draftDiscard"></span></button>
+    </div>
+  </div>
+
+  <div class="admin-tabs" role="tablist">
+    <button class="tab-btn active" data-action="switch-tab" data-tab="tab-matches" role="tab" aria-selected="true"><i class="fas fa-futbol"></i> <span data-i18n="tMatches"></span></button>
+    <button class="tab-btn" data-action="switch-tab" data-tab="tab-players" role="tab" aria-selected="false"><i class="fas fa-users"></i> <span data-i18n="tPlayers"></span></button>
+    <button class="tab-btn" data-action="switch-tab" data-tab="tab-opponents" role="tab" aria-selected="false"><i class="fas fa-shield-halved"></i> <span data-i18n="tOpponents"></span></button>
+    <button class="tab-btn" data-action="switch-tab" data-tab="tab-locations" role="tab" aria-selected="false"><i class="fas fa-map-marker-alt"></i> <span data-i18n="tLocations"></span></button>
+    <button class="tab-btn" data-action="switch-tab" data-tab="tab-competitions" role="tab" aria-selected="false"><i class="fas fa-trophy"></i> <span data-i18n="tCompetitions"></span></button>
+    <button class="tab-btn" data-action="switch-tab" data-tab="tab-news" role="tab" aria-selected="false"><i class="fas fa-newspaper"></i> <span data-i18n="tNews"></span></button>
+    <button class="tab-btn" data-action="switch-tab" data-tab="tab-trainings" role="tab" aria-selected="false"><i class="fas fa-running"></i> <span data-i18n="tTrainings"></span></button>
+    <button class="tab-btn" data-action="switch-tab" data-tab="tab-line" role="tab" aria-selected="false"><i class="fab fa-line"></i> <span data-i18n="tLine"></span></button>
+    <button class="tab-btn" data-action="switch-tab" data-tab="tab-json" role="tab" aria-selected="false"><i class="fas fa-screwdriver-wrench"></i> <span data-i18n="tJson"></span></button>
+  </div>
+
+  <!-- 1. PARTITE -->
+  <div id="tab-matches" class="tab-content" role="tabpanel">
+    <form id="matchForm" autocomplete="off">
+      <div class="match-selector-hero">
+        <div class="hero-label"><i class="fas fa-search"></i> <span data-i18n="m.selectLabel"></span></div>
+        <div class="match-selector-row">
+          <select id="matchSelector" aria-label="Match"><option value=""></option></select>
+          <button type="button" class="hero-btn" data-action="load-match-selector"><i class="fas fa-arrow-right"></i> <span data-i18n="m.load"></span></button>
+        </div>
+        <div class="match-id-search">
+          <button type="button" class="search-toggle-btn" data-action="toggle-id-search"><i class="fas fa-keyboard"></i> <span data-i18n="m.byId"></span></button>
+          <div class="search-input-wrap" id="searchInputWrap">
+            <input type="text" id="matchId" placeholder="match-10">
+            <button type="button" data-action="search-by-id"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+        <div class="match-quick-actions">
+          <button type="button" class="quick-action-btn new" data-action="new-match"><i class="fas fa-plus-circle"></i> <span data-i18n="m.new"></span></button>
+          <button type="button" class="quick-action-btn" data-action="duplicate-match"><i class="fas fa-clone"></i> <span data-i18n="m.dup"></span></button>
+          <button type="button" class="quick-action-btn danger" data-action="delete-match"><i class="fas fa-trash"></i> <span data-i18n="m.del"></span></button>
+        </div>
+      </div>
+
+      <div class="section-box">
+        <h3><span class="sec-num">1</span> <i class="fas fa-info-circle"></i> <span data-i18n="m.info"></span></h3>
+        <div class="row">
+          <div class="form-group"><label data-i18n="m.status"></label><select id="matchStatus" class="form-control"><option value="past" data-i18n="m.past"></option><option value="upcoming" data-i18n="m.upcoming"></option></select></div>
+          <div class="form-group"><label data-i18n="lDate"></label><input type="date" id="matchDate" class="form-control" required></div>
+          <div class="form-group"><label data-i18n="m.time"></label><input type="time" id="matchTime" class="form-control" value="11:00"></div>
+        </div>
+        <div class="row">
+          <div class="form-group">
+            <label data-i18n="lCategory">Categoria</label>
+            <select id="matchCategory" class="form-control">
+              <option value="friendly" data-i18n="cFriendly">練習試合 (Amichevole)</option>
+              <option value="triangular">3角戦 (Triangolare)</option>
+              <option value="league" data-i18n="cLeague">リーグ戦 (Campionato)</option>
+              <option value="cup" data-i18n="cCup">カップ戦 (Coppa)</option>
+            </select>
+          </div>
+          <div class="form-group"><label data-i18n="m.competition"></label><select id="competitionSelect" class="form-control" required></select></div>
+          <div class="form-group">
+            <label data-i18n="m.typeLabel">Tipo / Formato</label>
+            <select id="matchType" class="form-control">
+              <option value="練習試合">練習試合 (Standard)</option>
+              <option value="triangular">triangular (3角戦)</option>
+              <option value="公式戦">公式戦</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group">
+            <label>Struttura Partita</label>
+            <select id="isTriangular" class="form-control">
+              <option value="false">Singola (Standard)</option>
+              <option value="true">Triangolare (3角戦)</option>
+            </select>
+          </div>
+          <div class="form-group"><label data-i18n="m.venue"></label><select id="locationSelect" class="form-control" required></select></div>
+        </div>
+        <div class="row">
+          <div class="form-group"><label data-i18n="m.opponent">Avversario 1 (Principale)</label><select id="opponentSelect" class="form-control" required></select></div>
+          <div class="form-group"><label data-i18n="m.homeAway"></label><select id="isHome" class="form-control"><option value="true" data-i18n="m.home"></option><option value="false" data-i18n="m.away"></option></select></div>
+          <div class="form-group"><label data-i18n="m.score"></label><input type="text" id="matchScore" class="form-control" placeholder="2 - 1 / VS" value="VS"></div>
+        </div>
+
+        <!-- SEZIONE CONFIGURAZIONE TRIANGOLARE (Visualizzata direttamente nell'HTML) -->
+        <div id="triangularSection" class="triangular-box hidden" style="background:rgba(135,206,235,0.08);border:1px dashed var(--sky-dark,#87ceeb);border-radius:12px;padding:16px;margin-top:14px;">
+          <h4 style="margin:0 0 12px;color:var(--dark-navy,#003c82);font-size:.95rem;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-sitemap" style="color:var(--sky-dark,#87ceeb)"></i> Dettagli Triangolare (3角戦)
+          </h4>
+          <div class="row">
+            <div class="form-group">
+              <label><i class="fas fa-shield-alt"></i> Avversario 2 (Seconda Squadra)</label>
+              <select id="triOpponent2Select" class="form-control"></select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:10px;">
+            <label><i class="fas fa-list-ol"></i> Incontri e Punteggi del Triangolare</label>
+            <div id="subMatchesContainer" style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+              
+              <!-- Incontro 1 -->
+              <div class="sub-match-row" style="display:grid;grid-template-columns:1fr auto 1fr 100px auto;gap:8px;align-items:center;background:var(--bg-card,#fff);padding:10px;border:1px solid var(--border,#cbd5e1);border-radius:8px;">
+                <select class="form-control sub-home-select">
+                  <option value="us">Yokohama Calcio</option>
+                  <option value="opp1">Avversario 1</option>
+                  <option value="opp2">Avversario 2</option>
+                </select>
+                <span style="font-weight:800;color:var(--sky-dark,#87ceeb)">VS</span>
+                <select class="form-control sub-away-select">
+                  <option value="opp1" selected>Avversario 1</option>
+                  <option value="us">Yokohama Calcio</option>
+                  <option value="opp2">Avversario 2</option>
+                </select>
+                <input type="text" class="form-control sub-score-input" placeholder="Es. 1 - 0" value="VS">
+                <button type="button" class="btn-icon" onclick="this.parentElement.remove()" style="color:var(--red,#ef4444)"><i class="fas fa-trash"></i></button>
+              </div>
+
+              <!-- Incontro 2 -->
+              <div class="sub-match-row" style="display:grid;grid-template-columns:1fr auto 1fr 100px auto;gap:8px;align-items:center;background:var(--bg-card,#fff);padding:10px;border:1px solid var(--border,#cbd5e1);border-radius:8px;">
+                <select class="form-control sub-home-select">
+                  <option value="opp1" selected>Avversario 1</option>
+                  <option value="us">Yokohama Calcio</option>
+                  <option value="opp2">Avversario 2</option>
+                </select>
+                <span style="font-weight:800;color:var(--sky-dark,#87ceeb)">VS</span>
+                <select class="form-control sub-away-select">
+                  <option value="opp2" selected>Avversario 2</option>
+                  <option value="us">Yokohama Calcio</option>
+                  <option value="opp1">Avversario 1</option>
+                </select>
+                <input type="text" class="form-control sub-score-input" placeholder="Es. 1 - 0" value="VS">
+                <button type="button" class="btn-icon" onclick="this.parentElement.remove()" style="color:var(--red,#ef4444)"><i class="fas fa-trash"></i></button>
+              </div>
+
+              <!-- Incontro 3 -->
+              <div class="sub-match-row" style="display:grid;grid-template-columns:1fr auto 1fr 100px auto;gap:8px;align-items:center;background:var(--bg-card,#fff);padding:10px;border:1px solid var(--border,#cbd5e1);border-radius:8px;">
+                <select class="form-control sub-home-select">
+                  <option value="us" selected>Yokohama Calcio</option>
+                  <option value="opp1">Avversario 1</option>
+                  <option value="opp2">Avversario 2</option>
+                </select>
+                <span style="font-weight:800;color:var(--sky-dark,#87ceeb)">VS</span>
+                <select class="form-control sub-away-select">
+                  <option value="opp2" selected>Avversario 2</option>
+                  <option value="us">Yokohama Calcio</option>
+                  <option value="opp1">Avversario 1</option>
+                </select>
+                <input type="text" class="form-control sub-score-input" placeholder="Es. 1 - 0" value="VS">
+                <button type="button" class="btn-icon" onclick="this.parentElement.remove()" style="color:var(--red,#ef4444)"><i class="fas fa-trash"></i></button>
+              </div>
+
+            </div>
+            <button type="button" class="btn-add-row" onclick="addTriangularMatchUI()" style="margin-top:10px;"><i class="fas fa-plus"></i> Aggiungi Altro Incontro</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="section-box">
+        <h3><span class="sec-num">2</span> <i class="fas fa-chart-line"></i> <span data-i18n="m.events"></span></h3>
+        <div class="form-group"><label><i class="fas fa-futbol"></i> <span data-i18n="m.scorers"></span></label><div id="scorersContainer"></div><button type="button" class="btn-add-row" data-action="add-scorer"><i class="fas fa-plus"></i> <span data-i18n="m.add"></span></button></div>
+        <div class="form-group"><label><i class="fas fa-handshake"></i> <span data-i18n="m.assists"></span></label><div id="assistsContainer"></div><button type="button" class="btn-add-row" data-action="add-assist"><i class="fas fa-plus"></i> <span data-i18n="m.add"></span></button></div>
+        <div class="form-group"><label><i class="fas fa-mitten"></i> <span data-i18n="m.gks"></span></label><div id="gkContainer"></div><button type="button" class="btn-add-row" data-action="add-gk"><i class="fas fa-plus"></i> <span data-i18n="m.add"></span></button></div>
+        <div class="row"><div class="form-group"><label><i class="fas fa-star"></i> MVP</label><select id="mvpSelect" class="form-control"></select></div></div>
+        <div class="row">
+          <div class="form-group"><label data-i18n="m.yellows"></label><div id="yellowCardsContainer"></div><button type="button" class="btn-add-row" data-action="add-yellow"><i class="fas fa-plus"></i> <span data-i18n="m.add"></span></button></div>
+          <div class="form-group"><label data-i18n="m.reds"></label><div id="redCardsContainer"></div><button type="button" class="btn-add-row" data-action="add-red"><i class="fas fa-plus"></i> <span data-i18n="m.add"></span></button></div>
+        </div>
+      </div>
+
+      <div class="section-box">
+        <h3><span class="sec-num">3</span> <i class="fas fa-chess-board"></i> <span data-i18n="m.tactics"></span></h3>
+        <div class="row"><div class="form-group"><label><i class="fas fa-chess-board"></i> <span data-i18n="m.formation"></span></label>
+          <select id="formationSelect" class="form-control"><option value="4-4-2">4-4-2</option><option value="4-3-3">4-3-3</option><option value="4-2-3-1">4-2-3-1</option><option value="3-5-2">3-5-2</option><option value="3-4-3">3-4-3</option><option value="5-3-2">5-3-2</option><option value="4-1-4-1">4-1-4-1</option></select></div></div>
+        <div class="mister-helper-box">
+          <div class="mister-helper-header"><div><strong><i class="fas fa-user-tie"></i> <span data-i18n="m.mister"></span></strong><span class="mister-helper-subtitle" data-i18n="m.misterSub"></span></div>
+            <button type="button" class="btn-suggest-lineup" data-action="suggest-lineup"><i class="fas fa-wand-magic-sparkles"></i> <span data-i18n="m.suggest"></span></button></div>
+          <div class="mister-helper-body" id="misterHelperBody"></div>
+        </div>
+        <div class="tactical-pitch-container">
+          <div class="pitch-header-bar"><h4 style="color:#fef08a;font-size:.95rem"><i class="fas fa-gamepad"></i> <span data-i18n="m.starters"></span></h4>
+            <button type="button" class="btn-clear-pitch" data-action="clear-pitch"><i class="fas fa-eraser"></i> <span data-i18n="m.clear"></span></button></div>
+          <div class="pitch-grid" id="pitchGrid"></div>
+        </div>
+        <h4 style="margin:18px 0 10px;font-size:.95rem"><i class="fas fa-chair"></i> <span data-i18n="m.bench"></span></h4>
+        <div class="bench-grid" id="benchGrid"></div>
+        <div class="trialist-box">
+          <button type="button" class="btn-add-trialist" data-action="add-trialist"><i class="fas fa-user-plus"></i> <span data-i18n="m.addTrialist"></span></button>
+          <div style="margin-top:10px;font-weight:700;font-size:.82rem;color:#047857"><i class="fas fa-list"></i> <span data-i18n="m.trialists"></span></div>
+          <div class="trialist-list" id="trialistListContainer"></div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submitBtn"><i class="fas fa-save"></i> <span data-i18n="m.saveMatch"></span></button>
+      <div id="statusMsg" style="margin-top:16px;font-weight:700;text-align:center"></div>
+    </form>
+  </div>
+
+  <!-- 2-7: generati da admin-core.js -->
+  <div id="tab-players" class="tab-content hidden" role="tabpanel"></div>
+  <div id="tab-opponents" class="tab-content hidden" role="tabpanel"></div>
+  <div id="tab-locations" class="tab-content hidden" role="tabpanel"></div>
+  <div id="tab-competitions" class="tab-content hidden" role="tabpanel"></div>
+  <div id="tab-news" class="tab-content hidden" role="tabpanel"></div>
+  <div id="tab-trainings" class="tab-content hidden" role="tabpanel"></div>
+
+  <!-- 8. LINE -->
+  <div id="tab-line" class="tab-content hidden" role="tabpanel">
+    <div class="section-box">
+      <h3><i class="fab fa-line" style="color:#06c755"></i> <span data-i18n="m.lineTitle"></span></h3>
+      <p class="muted" data-i18n="m.lineSub"></p>
+      <button type="button" class="btn-submit" style="background:#06c755;margin:10px 0 15px" data-action="generate-line"><i class="fas fa-magic"></i> <span data-i18n="m.lineGen"></span></button>
+      <textarea id="lineTextOutput" class="form-control" rows="14" readonly></textarea>
+      <button type="button" class="btn-submit" style="margin-top:10px;background:var(--sky-dark)" data-action="copy-line"><i class="fas fa-copy"></i> <span data-i18n="m.lineCopy"></span></button>
+    </div>
+  </div>
+
+  <!-- 9. JSON / STRUMENTI -->
+  <div id="tab-json" class="tab-content hidden" role="tabpanel">
+    <div class="tools-grid">
+      <div class="section-box">
+        <h3><i class="fas fa-rotate"></i> <span data-i18n="recalcTitle"></span></h3>
+        <p class="muted">matches.json → stats.json + caps in players.json (1 commit)</p>
+        <button type="button" class="btn-submit" data-action="recalc"><i class="fas fa-calculator"></i> <span data-i18n="recalcBtn"></span></button>
+      </div>
+      <div class="section-box">
+        <h3><i class="fas fa-box-archive"></i> <span data-i18n="backup"></span></h3>
+        <div class="btn-row"><button type="button" class="btn-submit" data-action="export-backup"><i class="fas fa-download"></i> <span data-i18n="exportBtn"></span></button>
+        <button type="button" class="btn-submit" style="background:var(--amber)" data-action="import-backup"><i class="fas fa-upload"></i> <span data-i18n="importBtn"></span></button></div>
+      </div>
+    </div>
+    <div class="section-box">
+      <h3><i class="fas fa-code"></i> JSON</h3>
+      <p class="muted" data-i18n="jsonWarn"></p>
+      <div class="row">
+        <div class="form-group"><label for="jsonFile" data-i18n="jsonFile"></label>
+          <select id="jsonFile" class="form-control"><option value="matches">matches.json</option><option value="players">players.json</option><option value="opponents">opponents.json</option><option value="locations">locations.json</option><option value="competitions">competitions.json</option><option value="news">news.json</option><option value="trainings">trainings.json</option><option value="standings">standings.json</option><option value="stats">stats.json (auto)</option></select></div>
+      </div>
+      <div class="btn-row" style="margin:0 0 10px"><button type="button" class="btn-reset" data-action="json-load"><i class="fas fa-folder-open"></i> <span data-i18n="jsonLoad"></span></button><button type="button" class="btn-reset" data-action="json-validate"><i class="fas fa-check"></i> <span data-i18n="jsonValidate"></span></button><span id="jsonMsg" style="font-weight:700;align-self:center"></span></div>
+      <textarea id="jsonArea" class="form-control" rows="18" spellcheck="false"></textarea>
+      <div class="btn-row"><button type="button" class="btn-submit green" data-action="json-save"><i class="fas fa-cloud-upload-alt"></i> <span data-i18n="jsonSave"></span></button></div>
+    </div>
+  </div>
+</div>
+
+<div id="modalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box"><div class="modal-title" id="modalTitle"></div><div id="modalBody"></div>
+    <div class="modal-actions"><button type="button" class="btn-modal-cancel" id="modalCancel"></button><button type="button" class="btn-modal-confirm" id="modalConfirm">OK</button></div></div>
+</div>
+<div id="toastContainer" role="status" aria-live="polite"></div>
+<input type="file" id="importFile" class="hidden" accept=".json,application/json">
+
+<script src="js/admin-core.js"></script>
+<script src="js/admin-matches.js"></script>
+
+<!-- SCRIPT UI TRIANGOLARE INLINE (Assicura il funzionamento immediato) -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const isTriangular = document.getElementById('isTriangular');
+  const matchCategory = document.getElementById('matchCategory');
+  const matchType = document.getElementById('matchType');
   const triangularSection = document.getElementById('triangularSection');
-  const subMatchesContainer = document.getElementById('subMatchesContainer');
-  const scorersContainer = document.getElementById('scorersContainer');
-  const assistsContainer = document.getElementById('assistsContainer');
-  const gkContainer = document.getElementById('gkContainer');
-  const yellowCardsContainer = document.getElementById('yellowCardsContainer');
-  const redCardsContainer = document.getElementById('redCardsContainer');
-  const pitchGrid = document.getElementById('pitchGrid');
-  const benchGrid = document.getElementById('benchGrid');
-  const trialistListContainer = document.getElementById('trialistListContainer');
 
-  // Stato opzionale per il Mister Helper & Formazioni
-  let loadedPlayers = [];
-  let loadedOpponents = [];
-
-  // ==========================================
-  // 1. LOGICA E GESTIONE TRIANGOLARI (3角戦)
-  // ==========================================
-
-  /**
-   * Mostra o nasconde i campi dedicati ai triangolari
-   */
+  // Funzione per mostrare/nascondere la sezione in base alla scelta
   function toggleTriangularUI() {
-    const isTri = isTriangularSelect.value === 'true' || 
-                  matchCategorySelect.value === 'triangular' || 
-                  matchTypeSelect.value === 'triangular';
-    
-    if (isTri) {
-      isTriangularSelect.value = 'true';
-      if (matchTypeSelect.value !== 'triangular') matchTypeSelect.value = 'triangular';
+    if (isTriangular.value === 'true' || matchCategory.value === 'triangular' || matchType.value === 'triangular') {
       triangularSection.classList.remove('hidden');
-      updateSubMatchTeamOptions();
     } else {
-      isTriangularSelect.value = 'false';
       triangularSection.classList.add('hidden');
     }
   }
 
-  /**
-   * Popola i selettori degli avversari (Avversario 1 e Avversario 2)
-   */
-  function populateOpponentSelects(opponentsData, currentOpp1 = '', currentOpp2 = '') {
-    loadedOpponents = Array.isArray(opponentsData) ? opponentsData : [];
-    
-    const optionsHtml = '<option value="">-- 選択してください (Seleziona) --</option>' +
-      loadedOpponents.map(o => {
-        const nameJA = (typeof o.name === 'object') ? o.name.ja : o.name;
-        return `<option value="${o.id}">${nameJA} (${o.id})</option>`;
-      }).join('');
+  // Aggiungi gli eventi
+  isTriangular.addEventListener('change', toggleTriangularUI);
+  matchCategory.addEventListener('change', toggleTriangularUI);
+  matchType.addEventListener('change', toggleTriangularUI);
+});
 
-    opponentSelect.innerHTML = optionsHtml;
-    triOpponent2Select.innerHTML = optionsHtml;
-
-    if (currentOpp1) opponentSelect.value = currentOpp1;
-    if (currentOpp2) triOpponent2Select.value = currentOpp2;
-  }
-
-  /**
-   * Genera l'HTML di un singolo incontro all'interno del triangolare
-   */
-  function createSubMatchRowHtml(sub = { home: 'us', away: '', score: 'VS' }, index = 0) {
-    const opp1Id = opponentSelect.value;
-    const opp2Id = triOpponent2Select.value;
-    
-    const opp1Name = opponentSelect.options[opponentSelect.selectedIndex]?.text || 'Opponent 1';
-    const opp2Name = triOpponent2Select.options[triOpponent2Select.selectedIndex]?.text || 'Opponent 2';
-
-    const getTeamOptions = (selectedVal) => `
-      <option value="us" ${selectedVal === 'us' ? 'selected' : ''}>Yokohama Calcio</option>
-      <option value="${opp1Id}" ${(selectedVal === opp1Id && opp1Id) ? 'selected' : ''}>${opp1Name}</option>
-      <option value="${opp2Id}" ${(selectedVal === opp2Id && opp2Id) ? 'selected' : ''}>${opp2Name}</option>
-    `;
-
-    return `
-      <div class="sub-match-row" data-index="${index}" style="display:grid;grid-template-columns:1fr auto 1fr 110px auto;gap:8px;align-items:center;background:#fff;padding:10px;border:1px solid var(--border,#cbd5e1);border-radius:8px;">
-        <select class="form-control sub-home-select">${getTeamOptions(sub.home || sub.home_team)}</select>
-        <span style="font-weight:800;color:var(--sky-dark,#87ceeb)">VS</span>
-        <select class="form-control sub-away-select">${getTeamOptions(sub.away || sub.away_team)}</select>
-        <input type="text" class="form-control sub-score-input" placeholder="0 - 0" value="${sub.score || 'VS'}">
-        <button type="button" class="btn-icon" data-action="remove-sub-match" title="Elimina incontro" style="color:var(--red,#ef4444)"><i class="fas fa-trash"></i></button>
-      </div>
-    `;
-  }
-
-  /**
-   * Genera la lista degli incontri del triangolare
-   */
-  function renderSubMatches(subMatchesList = []) {
-    if (!subMatchesList || subMatchesList.length === 0) {
-      const opp1Id = opponentSelect.value;
-      const opp2Id = triOpponent2Select.value;
-      
-      // Sfide standard del triangolare: 1 vs 2, 2 vs 3, 1 vs 3
-      subMatchesList = [
-        { home: 'us', away: opp1Id, score: 'VS' },
-        { home: opp1Id, away: opp2Id, score: 'VS' },
-        { home: 'us', away: opp2Id, score: 'VS' }
-      ];
-    }
-
-    subMatchesContainer.innerHTML = subMatchesList.map((sub, i) => createSubMatchRowHtml(sub, i)).join('');
-  }
-
-  /**
-   * Aggiorna dinamicamente i nomi dei club nei menu a tendina degli incontri
-   */
-  function updateSubMatchTeamOptions() {
-    const rows = subMatchesContainer.querySelectorAll('.sub-match-row');
-    const opp1Id = opponentSelect.value;
-    const opp2Id = triOpponent2Select.value;
-    
-    const opp1Name = opponentSelect.options[opponentSelect.selectedIndex]?.text || 'Avversario 1';
-    const opp2Name = triOpponent2Select.options[triOpponent2Select.selectedIndex]?.text || 'Avversario 2';
-
-    rows.forEach(row => {
-      const homeSelect = row.querySelector('.sub-home-select');
-      const awaySelect = row.querySelector('.sub-away-select');
-      const currentHome = homeSelect.value;
-      const currentAway = awaySelect.value;
-
-      const optionsHtml = `
-        <option value="us">Yokohama Calcio</option>
-        <option value="${opp1Id}">${opp1Name}</option>
-        <option value="${opp2Id}">${opp2Name}</option>
-      `;
-
-      homeSelect.innerHTML = optionsHtml;
-      awaySelect.innerHTML = optionsHtml;
-
-      homeSelect.value = currentHome;
-      awaySelect.value = currentAway;
-    });
-  }
-
-  /**
-   * Raccoglie i dati delle sub-matches dal form
-   */
-  function collectSubMatchesData() {
-    const rows = subMatchesContainer.querySelectorAll('.sub-match-row');
-    const list = [];
-    rows.forEach(row => {
-      const home = row.querySelector('.sub-home-select').value;
-      const away = row.querySelector('.sub-away-select').value;
-      const score = row.querySelector('.sub-score-input').value.trim() || 'VS';
-      if (home && away) {
-        list.push({ home, away, score });
-      }
-    });
-    return list;
-  }
-
-  // ==========================================
-  // 2. ELEMENTI DINAMICI (Marcatori, Card, etc.)
-  // ==========================================
-
-  function addDynamicRow(container, textValue = '') {
-    if (!container) return;
-    const div = document.createElement('div');
-    div.className = 'dynamic-row';
-    div.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center;';
-    div.innerHTML = `
-      <input type="text" class="form-control" value="${textValue}" placeholder="選手名 / Dettaglio">
-      <button type="button" class="btn-icon" data-action="remove-row" style="color:var(--red,#ef4444)"><i class="fas fa-times"></i></button>
-    `;
-    container.appendChild(div);
-  }
-
-  function getDynamicValues(container) {
-    if (!container) return '';
-    const inputs = container.querySelectorAll('input');
-    return Array.from(inputs).map(i => i.value.trim()).filter(Boolean).join(', ');
-  }
-
-  function setDynamicValues(container, text) {
-    if (!container) return;
-    container.innerHTML = '';
-    if (!text) return;
-    text.split(',').map(s => s.trim()).filter(Boolean).forEach(val => addDynamicRow(container, val));
-  }
-
-  // ==========================================
-  // 3. FUNZIONI GLOBALI EXPORTATE PER ADMIN
-  // ==========================================
-
-  /**
-   * Carica i dati della partita nel form (Edizione/Modifica)
-   */
-  window.loadMatchIntoForm = function (match, opponentsList = [], playersList = []) {
-    if (!match) return;
-
-    loadedPlayers = playersList || [];
-    
-    matchIdInput.value = match.id || '';
-    matchStatusSelect.value = match.status || 'past';
-    matchDateInput.value = match.date || '';
-    matchTimeInput.value = match.time || '11:00';
-    matchCategorySelect.value = match.category || 'friendly';
-    competitionSelect.value = match.competition_id || 'friendly';
-    locationSelect.value = match.location_id || '';
-    isHomeSelect.value = String(match.isHome !== false);
-    matchScoreInput.value = match.score || 'VS';
-
-    // Gestione Triangolare
-    const isTri = match.isTriangular || match.type === 'triangular' || match.category === 'triangular';
-    isTriangularSelect.value = isTri ? 'true' : 'false';
-    matchTypeSelect.value = match.type || (isTri ? 'triangular' : '練習試合');
-
-    const opps = Array.isArray(match.opponents) ? match.opponents : [match.opponent_id];
-    populateOpponentSelects(opponentsList, opps[0] || match.opponent_id || '', opps[1] || '');
-
-    toggleTriangularUI();
-
-    if (isTri) {
-      renderSubMatches(match.sub_matches || match.subMatches || []);
-    }
-
-    // Caricamento Eventi (Marcatori, Assist, Carte, Portieri)
-    setDynamicValues(scorersContainer, match.scorers || '');
-    setDynamicValues(assistsContainer, match.assists || '');
-    setDynamicValues(gkContainer, match.goalkeepers || '');
-    setDynamicValues(yellowCardsContainer, match.yellow_cards || '');
-    setDynamicValues(redCardsContainer, match.red_cards || '');
-
-    if (mvpSelect) mvpSelect.value = match.mvp || '';
-    if (formationSelect) formationSelect.value = match.formation || '4-4-2';
-  };
-
-  /**
-   * Costruisce l'oggetto JSON completo della partita per il salvataggio su matches.json
-   */
-  window.buildMatchObjectFromForm = function () {
-    const isTri = isTriangularSelect.value === 'true';
-    const opp1 = opponentSelect.value;
-    const opp2 = triOpponent2Select.value;
-
-    const matchObj = {
-      id: matchIdInput.value || ('match-' + Date.now()),
-      category: matchCategorySelect.value,
-      competition_id: competitionSelect.value || 'friendly',
-      date: matchDateInput.value,
-      time: matchTimeInput.value || '11:00',
-      status: matchStatusSelect.value,
-      type: isTri ? 'triangular' : (matchTypeSelect.value || '練習試合'),
-      isHome: isHomeSelect.value === 'true',
-      score: matchScoreInput.value.trim() || 'VS',
-      location_id: locationSelect.value,
-      scorers: getDynamicValues(scorersContainer),
-      assists: getDynamicValues(assistsContainer),
-      mvp: mvpSelect ? mvpSelect.value : '',
-      yellow_cards: getDynamicValues(yellowCardsContainer),
-      red_cards: getDynamicValues(redCardsContainer),
-      goalkeepers: getDynamicValues(gkContainer),
-      formation: formationSelect ? formationSelect.value : '4-4-2'
-    };
-
-    if (isTri) {
-      matchObj.isTriangular = true;
-      matchObj.opponent_id = opp1;
-      matchObj.opponents = [opp1, opp2].filter(Boolean);
-      matchObj.sub_matches = collectSubMatchesData();
-    } else {
-      matchObj.opponent_id = opp1;
-    }
-
-    return matchObj;
-  };
-
-  // ==========================================
-  // 4. EVENT LISTENERS
-  // ==========================================
-
-  isTriangularSelect.addEventListener('change', () => {
-    toggleTriangularUI();
-    if (isTriangularSelect.value === 'true') renderSubMatches();
-  });
-
-  matchCategorySelect.addEventListener('change', () => {
-    if (matchCategorySelect.value === 'triangular') {
-      isTriangularSelect.value = 'true';
-    }
-    toggleTriangularUI();
-  });
-
-  matchTypeSelect.addEventListener('change', () => {
-    if (matchTypeSelect.value === 'triangular') {
-      isTriangularSelect.value = 'true';
-    }
-    toggleTriangularUI();
-  });
-
-  opponentSelect.addEventListener('change', updateSubMatchTeamOptions);
-  triOpponent2Select.addEventListener('change', updateSubMatchTeamOptions);
-
-  // Delegazione eventi Form (Aggiunta / Rimozione Righe Dinamiche)
-  document.addEventListener('click', (e) => {
-    const btnAddSub = e.target.closest('[data-action="add-sub-match"]');
-    if (btnAddSub) {
-      const opp1Id = opponentSelect.value;
-      const newRowHtml = createSubMatchRowHtml({ home: 'us', away: opp1Id, score: 'VS' }, subMatchesContainer.children.length);
-      subMatchesContainer.insertAdjacentHTML('beforeend', newRowHtml);
-      return;
-    }
-
-    const btnRemoveSub = e.target.closest('[data-action="remove-sub-match"]');
-    if (btnRemoveSub) {
-      const row = btnRemoveSub.closest('.sub-match-row');
-      if (row) row.remove();
-      return;
-    }
-
-    const btnRemoveRow = e.target.closest('[data-action="remove-row"]');
-    if (btnRemoveRow) {
-      const row = btnRemoveRow.closest('.dynamic-row');
-      if (row) row.remove();
-      return;
-    }
-
-    const btnAddScorer = e.target.closest('[data-action="add-scorer"]');
-    if (btnAddScorer) { addDynamicRow(scorersContainer); return; }
-
-    const btnAddAssist = e.target.closest('[data-action="add-assist"]');
-    if (btnAddAssist) { addDynamicRow(assistsContainer); return; }
-
-    const btnAddGk = e.target.closest('[data-action="add-gk"]');
-    if (btnAddGk) { addDynamicRow(gkContainer); return; }
-
-    const btnAddYellow = e.target.closest('[data-action="add-yellow"]');
-    if (btnAddYellow) { addDynamicRow(yellowCardsContainer); return; }
-
-    const btnAddRed = e.target.closest('[data-action="add-red"]');
-    if (btnAddRed) { addDynamicRow(redCardsContainer); return; }
-  });
-
-})();
+// Funzione richiamata dal pulsante per aggiungere un nuovo incontro dinamicamente
+function addTriangularMatchUI() {
+  const container = document.getElementById('subMatchesContainer');
+  const row = document.createElement('div');
+  row.className = 'sub-match-row';
+  row.style.cssText = 'display:grid;grid-template-columns:1fr auto 1fr 100px auto;gap:8px;align-items:center;background:var(--bg-card,#fff);padding:10px;border:1px solid var(--border,#cbd5e1);border-radius:8px;';
+  row.innerHTML = `
+    <select class="form-control sub-home-select">
+      <option value="us">Yokohama Calcio</option>
+      <option value="opp1">Avversario 1</option>
+      <option value="opp2">Avversario 2</option>
+    </select>
+    <span style="font-weight:800;color:var(--sky-dark,#87ceeb)">VS</span>
+    <select class="form-control sub-away-select">
+      <option value="opp1">Avversario 1</option>
+      <option value="us">Yokohama Calcio</option>
+      <option value="opp2">Avversario 2</option>
+    </select>
+    <input type="text" class="form-control sub-score-input" placeholder="Es. 1 - 0" value="VS">
+    <button type="button" class="btn-icon" onclick="this.parentElement.remove()" style="color:var(--red,#ef4444)"><i class="fas fa-trash"></i></button>
+  `;
+  container.appendChild(row);
+}
+</script>
+</body>
+</html>
