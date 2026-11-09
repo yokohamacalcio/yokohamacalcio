@@ -97,10 +97,10 @@ def split_names(text):
 
 
 def strip_marks(s):
-    s = str(s or '').strip()
-    s = re.sub(r'\s*[(（][^)）]*[)）]', '', s)
-    s = re.sub(r'\s*[xX*]\s*\d+', '', s)
-    return s.strip()
+    st = str(s or '').strip()
+    st = re.sub(r'\s*[(（][^)）]*[)）]', '', st)
+    st = re.sub(r'\s*[xX*]\s*\d+', '', st)
+    return st.strip()
 
 
 def match_start(m):
@@ -115,7 +115,6 @@ def match_start(m):
 # PARSING EVENTI & PUNTEGGI (INCLUSI TRIANGOLARI)
 # ============================================================
 def parse_score_parts(m):
-    """Calcola gol fatti (noi) e subiti (loro) supportando partite singole e sub_matches."""
     if not m:
         return None, None
     sub_matches = m.get('sub_matches') or m.get('subMatches') or []
@@ -127,15 +126,21 @@ def parse_score_parts(m):
             if mt:
                 has_score = True
                 s1, s2 = int(mt.group(1)), int(mt.group(2))
-                is_home_us = sub.get('home') == 'us' or sub.get('isHome') is True or sub.get('home_team') == 'us'
+                is_home_us = (
+                    sub.get('home') == 'us'
+                    or sub.get('isHome') is True
+                    or sub.get('home_team') == 'us'
+                    or (sub.get('home') is None and sub.get('isHome') is None and m.get('isHome', True) is not False)
+                )
                 if is_home_us:
-                    ours += s1; theirs += s2
+                    ours += s1
+                    theirs += s2
                 else:
-                    ours += s2; theirs += s1
+                    ours += s2
+                    theirs += s1
         if has_score:
             return ours, theirs
-    
-    # Partita singola
+
     sc = str(m.get('score') or '').strip()
     mt = re.match(r'^\s*(\d+)\s*-\s*(\d+)\s*$', sc)
     if mt:
@@ -156,7 +161,6 @@ def score_left_right(m):
 
 
 def get_match_scorers(m):
-    """Estrae i marcatori sia da m.scorers sia da sub_matches."""
     scorers = []
     sub_matches = m.get('sub_matches') or m.get('subMatches') or []
     if sub_matches:
@@ -170,7 +174,6 @@ def get_match_scorers(m):
 
 
 def get_match_assists(m):
-    """Estrae gli assistman sia da m.assists sia da sub_matches."""
     assists = []
     sub_matches = m.get('sub_matches') or m.get('subMatches') or []
     if sub_matches:
@@ -184,7 +187,6 @@ def get_match_assists(m):
 
 
 def get_match_mvps(m):
-    """Estrae gli MVP sia da m.mvp sia da sub_matches."""
     mvps = []
     sub_matches = m.get('sub_matches') or m.get('subMatches') or []
     if sub_matches:
@@ -237,7 +239,16 @@ def find_player(name, players):
             return p
     if len(t) < 2:
         return None
-    hits = [p for p in players if any((v := norm(p.get(k))) and (t in v or v in t) for k in keys[1:])]
+    hits = []
+    for p in players:
+        match_found = False
+        for k in keys[1:]:
+            v = norm(p.get(k))
+            if v and (t in v or v in t):
+                match_found = True
+                break
+        if match_found:
+            hits.append(p)
     return hits[0] if len(hits) == 1 else None
 
 
@@ -262,9 +273,17 @@ def team_sides(m, opp_name, opp_logo):
 
 def build_index_cards(matches, locations, opponents):
     now = datetime.now(JST)
-    upcoming = sorted([m for m in matches if m.get('status') == 'upcoming' and (match_start(m) or now) > now - timedelta(hours=6)], key=lambda x: (x.get('date', ''), x.get('time') or ''))
-    past = sorted([m for m in matches if m.get('status') in ('past', 'live')], key=lambda x: (x.get('date', ''), x.get('time') or ''), reverse=True)
-    up_html = past_html = ''
+    upcoming = sorted(
+        [m for m in matches if m.get('status') == 'upcoming' and (match_start(m) or now) > now - timedelta(hours=6)],
+        key=lambda x: (x.get('date', ''), x.get('time') or '')
+    )
+    past = sorted(
+        [m for m in matches if m.get('status') in ('past', 'live')],
+        key=lambda x: (x.get('date', ''), x.get('time') or ''),
+        reverse=True
+    )
+    up_html = ''
+    past_html = ''
 
     if upcoming:
         m = upcoming[0]
@@ -276,23 +295,22 @@ def build_index_cards(matches, locations, opponents):
         is_triangular = m.get('type') == 'triangular' or m.get('category') == 'triangular' or m.get('isTriangular') or bool(m.get('sub_matches') or m.get('subMatches'))
         badge_tri = '<span class="match-badge badge-tournament">3角戦</span>' if is_triangular else ''
 
-        up_html = f"""
-        <div class="next-match-hero" id="nextMatchBox">
-            <div class="next-match-header"><div class="match-badge-group"><span class="next-match-badge">次戦</span>{badge_tri}<span class="match-badge badge-official">{esc(category_label(m.get('category')))}</span></div><span class="match-box-date">{esc(m.get('date'))}</span></div>
-            <div class="match-teams-wrapper">
-                <div class="teams-logos-row"><div class="hero-logo-wrap"><img src="{esc(l1)}" alt="{esc(t1)}"></div><div class="match-vs-center">VS</div><div class="hero-logo-wrap"><img src="{esc(l2)}" alt="{esc(t2)}"></div></div>
-                <div class="teams-names-row"><div class="team-name-col">{esc(t1)}</div><div></div><div class="team-name-col">{esc(t2)}</div></div>
-            </div>
-            <div class="match-info-hero-bar">{time_html}{surf_html}<div class="match-info-item"><i class="fas fa-map-marker-alt"></i><a href="{esc(lu)}" target="_blank" rel="noopener noreferrer">{esc(ln)}</a></div></div>
-            <div class="match-card-footer-hero"><a href="matches.html#{esc(m.get('id'))}" class="btn-match-detail-hero"><span>詳細</span></a></div>
-        </div>"""
+        up_html = f'''<div class="next-match-hero" id="nextMatchBox">
+    <div class="next-match-header"><div class="match-badge-group"><span class="next-match-badge">次戦</span>{badge_tri}<span class="match-badge badge-official">{esc(category_label(m.get('category')))}</span></div><span class="match-box-date">{esc(m.get('date'))}</span></div>
+    <div class="match-teams-wrapper">
+        <div class="teams-logos-row"><div class="hero-logo-wrap"><img src="{esc(l1)}" alt="{esc(t1)}"></div><div class="match-vs-center">VS</div><div class="hero-logo-wrap"><img src="{esc(l2)}" alt="{esc(t2)}"></div></div>
+        <div class="teams-names-row"><div class="team-name-col">{esc(t1)}</div><div></div><div class="team-name-col">{esc(t2)}</div></div>
+    </div>
+    <div class="match-info-hero-bar">{time_html}{surf_html}<div class="match-info-item"><i class="fas fa-map-marker-alt"></i><a href="{esc(lu)}" target="_blank" rel="noopener noreferrer">{esc(ln)}</a></div></div>
+    <div class="match-card-footer-hero"><a href="matches.html#{esc(m.get('id'))}" class="btn-match-detail-hero"><span>詳細</span></a></div>
+</div>'''
 
     if past:
         m = past[0]
         on, ol = opp_info(m, opponents)
         ln, lu, _ = loc_info(m.get('location_id'), m.get('venue'), locations)
         t1, l1, t2, l2 = team_sides(m, on, ol)
-        
+
         is_triangular = m.get('type') == 'triangular' or m.get('category') == 'triangular' or m.get('isTriangular') or bool(m.get('sub_matches') or m.get('subMatches'))
         sub_matches = m.get('sub_matches') or m.get('subMatches') or []
         badge_tri = '<span class="match-badge badge-tournament">3角戦</span>' if is_triangular else ''
@@ -308,25 +326,23 @@ def build_index_cards(matches, locations, opponents):
                 h_logo = LOGO if is_home_us else s_ol
                 a_logo = s_ol if is_home_us else LOGO
 
-                rows_html.append(f"""
-        <div class="triangular-match-row">
-          <div class="tri-team tri-home">
-            <div class="card-logo-wrap md"><img src="{esc(h_logo)}" alt="{esc(h_name)}"></div>
-            <span class="tri-team-name">{esc(h_name)}</span>
-          </div>
-          <div class="tri-score">{esc(sub.get('score') or sub.get('result') or 'VS')}</div>
-          <div class="tri-team tri-away">
-            <div class="card-logo-wrap md"><img src="{esc(a_logo)}" alt="{esc(a_name)}"></div>
-            <span class="tri-team-name">{esc(a_name)}</span>
-          </div>
-        </div>""")
+                rows_html.append(f'''<div class="triangular-match-row">
+  <div class="tri-team tri-home">
+    <div class="card-logo-wrap md"><img src="{esc(h_logo)}" alt="{esc(h_name)}"></div>
+    <span class="tri-team-name">{esc(h_name)}</span>
+  </div>
+  <div class="tri-score">{esc(sub.get('score') or sub.get('result') or 'VS')}</div>
+  <div class="tri-team tri-away">
+    <div class="card-logo-wrap md"><img src="{esc(a_logo)}" alt="{esc(a_name)}"></div>
+    <span class="tri-team-name">{esc(a_name)}</span>
+  </div>
+</div>''')
             teams_body = f'<div class="triangular-teams-wrapper">{"".join(rows_html)}</div>'
         else:
-            teams_body = f"""
-            <div class="match-teams-wrapper">
-                <div class="teams-logos-row"><div class="card-logo-wrap"><img src="{esc(l1)}" alt="{esc(t1)}"></div><div class="match-vs-center score-past">{esc(score_left_right(m))}</div><div class="card-logo-wrap"><img src="{esc(l2)}" alt="{esc(t2)}"></div></div>
-                <div class="teams-names-row"><div class="team-name-col">{esc(t1)}</div><div></div><div class="team-name-col">{esc(t2)}</div></div>
-            </div>"""
+            teams_body = f'''<div class="match-teams-wrapper">
+    <div class="teams-logos-row"><div class="card-logo-wrap"><img src="{esc(l1)}" alt="{esc(t1)}"></div><div class="match-vs-center score-past">{esc(score_left_right(m))}</div><div class="card-logo-wrap"><img src="{esc(l2)}" alt="{esc(t2)}"></div></div>
+    <div class="teams-names-row"><div class="team-name-col">{esc(t1)}</div><div></div><div class="team-name-col">{esc(t2)}</div></div>
+</div>'''
 
         bar = f'<div class="match-info-item"><i class="fas fa-map-marker-alt"></i><a href="{esc(lu)}" target="_blank" rel="noopener noreferrer">{esc(ln)}</a></div>'
         scorers = get_match_scorers(m)
@@ -339,13 +355,12 @@ def build_index_cards(matches, locations, opponents):
         if mvps:
             bar += f'<div class="match-info-item"><i class="fas fa-star" style="color:#f59e0b"></i><strong>{esc(", ".join(mvps))}</strong></div>'
 
-        past_html = f"""
-        <div class="match-past-box" id="{esc(m.get('id'))}">
-            <div class="match-past-header"><div class="match-badge-group"><span class="match-badge badge-official">前節結果</span>{badge_tri}<span class="match-badge badge-official">{esc(category_label(m.get('category')))}</span></div><span class="match-box-date">{esc(m.get('date'))}</span></div>
-            {teams_body}
-            <div class="match-info-hero-bar">{bar}</div>
-            <div class="match-card-footer"><a href="matches.html#{esc(m.get('id'))}" class="btn-match-detail"><span>詳細</span></a></div>
-        </div>"""
+        past_html = f'''<div class="match-past-box" id="{esc(m.get('id'))}">
+    <div class="match-past-header"><div class="match-badge-group"><span class="match-badge badge-official">前節結果</span>{badge_tri}<span class="match-badge badge-official">{esc(category_label(m.get('category')))}</span></div><span class="match-box-date">{esc(m.get('date'))}</span></div>
+    {teams_body}
+    <div class="match-info-hero-bar">{bar}</div>
+    <div class="match-card-footer"><a href="matches.html#{esc(m.get('id'))}" class="btn-match-detail"><span>詳細</span></a></div>
+</div>'''
     return up_html, past_html
 
 
@@ -469,16 +484,17 @@ def player_card(p, counts, st):
     detail = [f'役割: {p.get("position", "-")}', f'出身地: {p.get("hometown", "-")}', f'年齢: {calculate_age(p.get("birth_date"))} 歳', f'出場: {safe_int(st.get("caps"))}']
     detail += ([f'失点: {safe_int(st.get("goals_conceded"))}', f'クリーンシート: {safe_int(st.get("clean_sheets"))}'] if role == 'gk' else [f'得点: {safe_int(st.get("goals"))}', f'アシスト: {safe_int(st.get("assists"))}'])
     rows = ''.join(f'<div class="player-detail-row"><span>{esc(d)}</span></div>' for d in detail)
-    return f"""
-            <div class="player-card" id="{esc(pid)}" data-player-id="{esc(pid)}" data-player-role="{esc(role)}">
-                <div class="player-card-inner">
-                    <div class="player-card-front">
-                        <div class="player-body-jersey {'jersey-gk' if role == 'gk' else ''}">{fascia}<div class="jersey-surname-large">{esc(surname_display(p, counts))}</div><div class="jersey-number-large">{esc(p.get('number') if p.get('number') is not None else '-')}</div></div>
-                        <div class="player-name-block-front"><div class="player-name-kanji">{esc(kanji)}</div><div class="player-name-romaji">{esc(kana)}</div></div>
-                    </div>
-                    <div class="player-card-back"><div class="player-back-name-block"><div class="player-name-kanji">{esc(kanji)}</div></div><div class="player-details-inner">{rows}</div></div>
-                </div>
-            </div>"""
+    jersey_gk = 'jersey-gk' if role == 'gk' else ''
+    num_str = esc(p.get('number') if p.get('number') is not None else '-')
+    return f'''<div class="player-card" id="{esc(pid)}" data-player-id="{esc(pid)}" data-player-role="{esc(role)}">
+    <div class="player-card-inner">
+        <div class="player-card-front">
+            <div class="player-body-jersey {jersey_gk}">{fascia}<div class="jersey-surname-large">{esc(surname_display(p, counts))}</div><div class="jersey-number-large">{num_str}</div></div>
+            <div class="player-name-block-front"><div class="player-name-kanji">{esc(kanji)}</div><div class="player-name-romaji">{esc(kana)}</div></div>
+        </div>
+        <div class="player-card-back"><div class="player-back-name-block"><div class="player-name-kanji">{esc(kanji)}</div></div><div class="player-details-inner">{rows}</div></div>
+    </div>
+</div>'''
 
 
 def person_schema(p, st):
@@ -526,12 +542,14 @@ def build_showcase(players, stats_map, n=3):
     for key in ('goals', 'assists', 'caps'):
         best = max(rows, key=lambda x: safe_int(x[1].get(key)))
         if best[0].get('id') not in seen:
-            picks.append(best); seen.add(best[0].get('id'))
+            picks.append(best)
+            seen.add(best[0].get('id'))
     for r in rows:
         if len(picks) >= n:
             break
         if r[0].get('id') not in seen:
-            picks.append(r); seen.add(r[0].get('id'))
+            picks.append(r)
+            seen.add(r[0].get('id'))
     out = []
     for p, st in picks[:n]:
         role = (p.get('role') or 'mf').lower()
@@ -659,13 +677,27 @@ def build_sitemap():
     for fname, loc, prio, freq, deps in PAGES:
         if not os.path.exists(os.path.join(ROOT_DIR, fname)):
             continue
-        dates = [d for d in (git_date(x) for x in deps) if d]
+        dates = []
+        for x in deps:
+            d = git_date(x)
+            if d:
+                dates.append(d)
         last = max(dates) if dates else today
         u = SITE + loc
         sep = '&' if '?' in u else '?'
-        alts = ''.join(f'<xhtml:link rel="alternate" hreflang="{l}" href="{xml_escape(u if l == "ja" else u + sep + "lang=" + l)}"/>' for l in ('ja', 'it', 'en')) + f'<xhtml:link rel="alternate" hreflang="x-default" href="{xml_escape(u)}"/>'
-        urls.append(f'  <url><loc>{xml_escape(u)}</loc><lastmod>{last}</lastmod><changefreq>{freq}</changefreq><priority>{prio}</priority>{alts}</url>')
-    return ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + '\n'.join(urls) + '\n</urlset>\n')
+        alts = ''.join(
+            f'<xhtml:link rel="alternate" hreflang="{l}" href="{xml_escape(u if l == "ja" else u + sep + "lang=" + l)}"/>'
+            for l in ('ja', 'it', 'en')
+        ) + f'<xhtml:link rel="alternate" hreflang="x-default" href="{xml_escape(u)}"/>'
+        urls.append(
+            f'  <url><loc>{xml_escape(u)}</loc><lastmod>{last}</lastmod><changefreq>{freq}</changefreq><priority>{prio}</priority>{alts}</url>'
+        )
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
+        + '\n'.join(urls)
+        + '\n</urlset>\n'
+    )
 
 
 def ics_text(s):
@@ -676,41 +708,8 @@ def ics_fold(line):
     out, cur = [], ''
     for ch in line:
         if len((cur + ch).encode('utf-8')) > 74:
-            out.append(cur); cur = ' ' + ch
+            out.append(cur)
+            cur = ' ' + ch
         else:
             cur += ch
     out.append(cur)
-    return '\r\n'.join(out)
-
-
-def build_calendar(matches, trainings, locations, opponents):
-    t0 = today_jst()
-    stamp = t0.strftime('%Y%m%dT000000Z')
-    lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Yokohama Calcio//Site//JA', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'X-WR-CALNAME:Yokohama Calcio', 'X-WR-TIMEZONE:Asia/Tokyo', 'REFRESH-INTERVAL;VALUE=DURATION:PT12H', 'X-PUBLISHED-TTL:PT12H',
-             'BEGIN:VTIMEZONE', 'TZID:Asia/Tokyo', 'BEGIN:STANDARD', 'DTSTART:19700101T000000', 'TZOFFSETFROM:+0900', 'TZOFFSETTO:+0900', 'TZNAME:JST', 'END:STANDARD', 'END:VTIMEZONE']
-
-    def event(uid, start, end, summary, location, desc, url, status='CONFIRMED'):
-        lines.extend(['BEGIN:VEVENT', f'UID:{uid}@yokohamacalcio.com', f'DTSTAMP:{stamp}', f'DTSTART;TZID=Asia/Tokyo:{start:%Y%m%dT%H%M%S}', f'DTEND;TZID=Asia/Tokyo:{end:%Y%m%dT%H%M%S}',
-                      f'SUMMARY:{ics_text(summary)}', f'LOCATION:{ics_text(location)}', f'DESCRIPTION:{ics_text(desc)}', f'URL:{url}', f'STATUS:{status}', 'END:VEVENT'])
-
-    for m in matches:
-        st = match_start(m)
-        if not st or (m.get('status') != 'upcoming' and st.date() < t0 - timedelta(days=60)):
-            continue
-        on, _ = opp_info(m, opponents)
-        ln, _, _ = loc_info(m.get('location_id'), m.get('venue'), locations)
-        home = m.get('isHome', True)
-        name = f'{"Yokohama Calcio" if home else on} vs {on if home else "Yokohama Calcio"}'
-        ours, theirs = parse_score_parts(m)
-        done = ours is not None and m.get('status') != 'upcoming'
-        event(m.get('id', st.strftime('%Y%m%d')), st.replace(tzinfo=None), (st + timedelta(hours=2)).replace(tzinfo=None), name + (f' ({score_left_right(m)})' if done else ''), ln, f'{category_label(m.get("category"))} / {ln}', f'{SITE}/matches.html#{m.get("id", "")}')
-
-    for t in trainings:
-        try:
-            d = datetime.strptime(t.get('date', ''), '%Y-%m-%d')
-        except ValueError:
-            continue
-        if d.date() < t0 or t.get('status') not in (None, 'upcoming', 'cancelled'):
-            continue
-        rng = re.search(r'(\d{1,2}):(\d{2})\s*[-–~]\s*(\d{1,2}):(\d{2})', str(t.get('time') or ''))
-        one = re.search(r'
