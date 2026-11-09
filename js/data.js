@@ -1,8 +1,17 @@
 /* js/data.js — caricamento JSON e helper comuni a index, matches, players, stats, about.
-   Richiede common.js. Uso:  const D = await YC.data.load(['matches','opponents',...]); */
+   Richiede common.js. Uso: const D = await YC.data.load(['matches','opponents',...]); */
 (function () {
   'use strict';
-  const FILES = { matches: ['matches.json', []], opponents: ['opponents.json', {}], locations: ['locations.json', {}], players: ['players.json', []], stats: ['stats.json', {}], trainings: ['trainings.json', []], news: ['news.json', []] };
+
+  const FILES = {
+    matches: ['matches.json', []],
+    opponents: ['opponents.json', {}],
+    locations: ['locations.json', {}],
+    players: ['players.json', []],
+    stats: ['stats.json', {}],
+    trainings: ['trainings.json', []],
+    news: ['news.json', []]
+  };
   const cache = {};
   const LOCALE = { ja: 'ja-JP', it: 'it-IT', en: 'en-US' };
   const CAT = {
@@ -21,11 +30,11 @@
     })).then(() => out);
   }
 
-  /* categoria: 'official' (admin) e 'league' (sito) sono la stessa cosa */
+  /* Categoria: 'official' (admin) e 'league' (sito) sono equivalenti */
   const normCat = c => (c === 'official' ? 'league' : (CAT[c] ? c : 'friendly'));
   const catBadge = (c, lang) => { const k = CAT[normCat(c)]; return { cls: k.cls, label: k[lang] || k.ja }; };
 
-  /* data in fuso del Giappone, mai slittata */
+  /* Data in fuso orario del Giappone (JST), mai slittata */
   function fmtDate(date, lang, opt) {
     if (!date) return '';
     const d = new Date(String(date).trim().replace(/\./g, '-').slice(0, 10) + 'T12:00:00+09:00');
@@ -34,7 +43,7 @@
   }
   const ts = (date, time) => new Date(date + 'T' + (time || '00:00') + ':00+09:00').getTime();
 
-  /* ---- avversari e loghi ---- */
+  /* ---- Avversari e loghi ---- */
   function hue(str) { let h = 0; for (let i = 0; i < str.length; i++) h = str.charCodeAt(i) + ((h << 5) - h); return Math.abs(h) % 360; }
   function hsl2hex(h, s, l) {
     s /= 100; l /= 100; const a = s * Math.min(l, 1 - l);
@@ -45,11 +54,12 @@
     return 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name || id || '?') + '&background=' + hsl2hex(hue(String(id || name || 'x').toLowerCase()), 70, 40) + '&color=ffffff&bold=true&size=128&rounded=true';
   }
   function oppInfo(m, lang, opponents) {
-    const o = (opponents || {})[m.opponent_id];
+    const oppId = (m && (m.opponent_id || m.opponent)) || '';
+    const o = (opponents || {})[oppId];
     const names = (o && o.name) || {};
-    const name = names[lang] || names.ja || m.opponent_name || m.opponent_id || 'Opponent';
+    const name = names[lang] || names.ja || (m && m.opponent_name) || oppId || 'Opponent';
     const latin = names.en || names.it || (String(name).replace(/[^\x00-\x7F]/g, '').trim()) || name;
-    const avatar = avatarUrl(m.opponent_id, latin);
+    const avatar = avatarUrl(oppId, latin);
     return { name, logo: (o && o.logo) || avatar, avatar };
   }
   /* <img> con fallback automatico all'avatar generato */
@@ -63,8 +73,7 @@
     return { name, url: l.maps || l.url || 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(name), surface: typeof s === 'object' ? (s[lang] || s.ja || '') : s };
   }
 
-  /* il punteggio nel JSON è SEMPRE "nostri-loro". In casa: noi a sinistra; in trasferta: avversario a sinistra.
-     Supporta sia partite singole che triangolari (sommando i punteggi delle sub_matches). */
+  /* Punteggio sempre "nostri-loro". Supporta sia partite singole che triangolari. */
   function scoreParts(m) {
     if (!m) return { ours: null, theirs: null, text: '-', left: '-' };
     if (m.sub_matches && m.sub_matches.length > 0) {
@@ -97,7 +106,7 @@
   }
   const result = m => { const s = scoreParts(m); return s.ours == null ? null : (s.ours > s.theirs ? 'W' : s.ours === s.theirs ? 'D' : 'L'); };
 
-  /* ---- giocatori ---- */
+  /* ---- Giocatori ---- */
   function findPlayer(players, q) {
     if (!q || q === 'なし' || q === 'Nessuno' || !players || !players.length) return null;
     const t = YC.cleanStr(q); if (!t) return null;
@@ -111,7 +120,7 @@
     if (lang === 'ja') return (p.name_kanji && JA_CHARS.test(p.name_kanji)) ? p.name_kanji : (p.name_kana || p.name_kanji || p.name_romaji);
     return p.name_romaji || p.name_kanji || p.name_kana;
   }
-  /* "小金井 健斗 x2, 川合 翔 (23')" -> testo nella lingua scelta */
+  
   function translatePlayerText(text, lang, players) {
     if (!text || typeof text !== 'string' || text === 'なし' || text === 'Nessuno') return '';
     return text.split(/[,、]/).map(item => {
@@ -125,7 +134,7 @@
     }).filter(Boolean).join(', ');
   }
 
-  /* Parsing dei gol / assist per conteggio ("小金井 健斗 x2" -> { name: "小金井 健斗", count: 2 }) */
+  /* Parsing dei gol/assist con quantificatore ("小金井 健斗 x2" -> { name: "小金井 健斗", count: 2 }) */
   function parsePlayerTextCounts(text) {
     const result = [];
     if (!text || typeof text !== 'string' || text === 'なし' || text === 'Nessuno') return result;
@@ -146,48 +155,67 @@
   }
 
   /* Parsing dei portieri e gol subiti ("御村 葵(1)" -> { name: "御村 葵", conceded: 1, cleanSheet: false }) */
-  function parseGoalkeepers(text) {
+  function parseGoalkeepers(text, defaultConceded) {
     const result = [];
     if (!text || typeof text !== 'string' || text === 'なし' || text === 'Nessuno') return result;
+    const defGa = typeof defaultConceded === 'number' ? defaultConceded : 0;
     text.split(/[,、]/).forEach(item => {
       const s = item.trim();
       if (!s) return;
       const parsed = s.match(/^([^(（]+)(?:[(（](\d+)[)）])?/);
       if (parsed) {
         const name = parsed[1].trim();
-        const conceded = parsed[2] !== undefined ? parseInt(parsed[2], 10) : 0;
+        const conceded = parsed[2] !== undefined ? parseInt(parsed[2], 10) : defGa;
         result.push({ name, conceded, cleanSheet: conceded === 0 });
       }
     });
     return result;
   }
 
-  /* Estrae tutti gli eventi (marcatori, assist, portieri) da una partita singola o triangolare */
+  /* Estrazione unificata di tutti gli eventi (marcatori, assist, sanzioni, portieri) da partite o triangolari */
   function getMatchEvents(m) {
     const scorers = [];
     const assists = [];
+    const yellows = [];
+    const reds = [];
     const goalkeepers = [];
+    const mvps = [];
 
     if (m.sub_matches && m.sub_matches.length > 0) {
       m.sub_matches.forEach(sub => {
         if (sub.scorers) scorers.push(...parsePlayerTextCounts(sub.scorers));
         if (sub.assists) assists.push(...parsePlayerTextCounts(sub.assists));
-        if (sub.goalkeeper || sub.goalkeepers) {
-          goalkeepers.push(...parseGoalkeepers(sub.goalkeeper || sub.goalkeepers));
+        if (sub.yellow_cards) yellows.push(...parsePlayerTextCounts(sub.yellow_cards));
+        if (sub.red_cards) reds.push(...parsePlayerTextCounts(sub.red_cards));
+
+        const isHomeUs = sub.home === 'us' || sub.isHome === true || sub.home_team === 'us';
+        const mt = String(sub.score || '').match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
+        const subTheirs = mt ? (isHomeUs ? +mt[2] : +mt[1]) : 0;
+
+        const gkStr = sub.goalkeeper || sub.goalkeepers;
+        if (gkStr) {
+          goalkeepers.push(...parseGoalkeepers(gkStr, subTheirs));
         }
       });
+      if (m.mvp) mvps.push(...parsePlayerTextCounts(m.mvp));
+      if (m.yellow_cards && yellows.length === 0) yellows.push(...parsePlayerTextCounts(m.yellow_cards));
+      if (m.red_cards && reds.length === 0) reds.push(...parsePlayerTextCounts(m.red_cards));
     } else {
+      const sc = scoreParts(m);
+      const mainTheirs = sc.theirs || 0;
+
       if (m.scorers) scorers.push(...parsePlayerTextCounts(m.scorers));
       if (m.assists) assists.push(...parsePlayerTextCounts(m.assists));
-      if (m.goalkeepers) goalkeepers.push(...parseGoalkeepers(m.goalkeepers));
+      if (m.yellow_cards) yellows.push(...parsePlayerTextCounts(m.yellow_cards));
+      if (m.red_cards) reds.push(...parsePlayerTextCounts(m.red_cards));
+      if (m.mvp) mvps.push(...parsePlayerTextCounts(m.mvp));
+      if (m.goalkeepers) goalkeepers.push(...parseGoalkeepers(m.goalkeepers, mainTheirs));
     }
 
-    return { scorers, assists, goalkeepers };
+    return { scorers, assists, yellows, reds, goalkeepers, mvps };
   }
 
-  /* Calcola le statistiche generali del club e le statistiche individuali dei giocatori.
-     Per i triangolari, la presenza della partita vale 1 per il giocatore, ma i gol, assist e clean sheet
-     vengono estratti e sommati da ciascuna sub_match. */
+  /* Aggregazione completa statistiche squadra e singoli giocatori */
   function computeStats(matches, players) {
     const team = { total: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0 };
     const playerStats = {};
@@ -204,7 +232,9 @@
           gkMatches: 0,
           gkGoalsConceded: 0,
           cleanSheets: 0,
-          mvp: 0
+          mvp: 0,
+          yellows: 0,
+          reds: 0
         };
       }
       return playerStats[name];
@@ -249,6 +279,16 @@
         st.assists += asItem.count;
       });
 
+      events.yellows.forEach(yItem => {
+        const st = initPlayer(yItem.name);
+        st.yellows += (yItem.count || 1);
+      });
+
+      events.reds.forEach(rItem => {
+        const st = initPlayer(rItem.name);
+        st.reds += (rItem.count || 1);
+      });
+
       const gksInMatch = new Set();
       events.goalkeepers.forEach(gk => {
         const st = initPlayer(gk.name);
@@ -261,26 +301,23 @@
         st.gkMatches += 1;
       });
 
-      if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') {
-        const mvpList = parsePlayerTextCounts(m.mvp);
-        mvpList.forEach(item => {
-          const st = initPlayer(item.name);
-          st.mvp += item.count;
-        });
-      }
+      events.mvps.forEach(item => {
+        const st = initPlayer(item.name);
+        st.mvp += item.count;
+      });
     });
 
     return { team, players: playerStats };
   }
 
-  /* calcolo età da data di nascita; il sito mostra solo l'età */
+  /* Calcolo età da data di nascita */
   function age(birth) {
     if (!birth) return null; const b = new Date(birth); if (isNaN(b)) return null;
     const n = new Date(Date.now() + 9 * 3600e3); let a = n.getUTCFullYear() - b.getUTCFullYear();
     if (n.getUTCMonth() < b.getUTCMonth() || (n.getUTCMonth() === b.getUTCMonth() && n.getUTCDate() < b.getUTCDate())) a--; return a;
   }
 
-  /* ---- allenamenti (trainings.json) ---- */
+  /* ---- Allenamenti (trainings.json) ---- */
   function parseRange(t) { const m = String(t || '').match(/(\d{1,2}:\d{2})\s*[-–~]\s*(\d{1,2}:\d{2})/); return m ? { start: m[1].padStart(5, '0'), end: m[2].padStart(5, '0') } : { start: (String(t || '').match(/\d{1,2}:\d{2}/) || [''])[0], end: '' }; }
   function upcomingTrainings(list) {
     const today = YC.todayJST();
