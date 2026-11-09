@@ -200,7 +200,7 @@
     Object.entries(m.starters_positions || {}).forEach(([pos, n]) => { const s = document.querySelector(`#pitchGrid .squad-sel[data-pos="${pos}"]`); if (s) ensureOption(s, findValue(n)); });
     (m.bench_details || []).forEach((b, i) => { const c = document.querySelector(`[data-slot="${i + 1}"]`); if (!c) return; ensureOption(c.querySelector('.bench-sel'), findValue(b.player)); const chk = c.querySelector('.bench-in'); chk.checked = !!b.subbed_in; c.querySelector('.bench-pos').disabled = !b.subbed_in; if (b.position_played) c.querySelector('.bench-pos').value = b.position_played; });
     Object.values(ROWS).forEach(([cid]) => $(cid).innerHTML = '');
-    
+
     const subMatches = m.sub_matches || m.subMatches || [];
     const getSubProp = (obj, ...keys) => {
       if (!obj) return undefined;
@@ -216,7 +216,7 @@
     parseList(getSubFieldStr('goalkeepers', 'gk'), true).forEach(e => addRow('gk', e));
     parseList(getSubFieldStr('yellow_cards', 'yellows')).forEach(e => addRow('yellow', e));
     parseList(getSubFieldStr('red_cards', 'reds')).forEach(e => addRow('red', e));
-    
+
     refreshSelects(); 
     const mvpVal = getSubFieldStr('mvp', 'MVP');
     if (mvpVal && mvpVal !== 'なし' && mvpVal !== 'Nessuno') ensureOption($('mvpSelect'), findValue(mvpVal));
@@ -265,55 +265,6 @@
       return undefined;
     };
 
-    function processSubMatch(subObj, matchParent) {
-      let gf = 0, ga = 0;
-      const rawScore = getSubProp(subObj, 'score', 'result') || '';
-      const sm = String(rawScore).match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
-      if (sm) { gf = +sm[1]; ga = +sm[2]; }
-
-      tt.total_matches++;
-      tt.goals_for += gf;
-      tt.goals_against += ga;
-      if (gf > ga) tt.wins++;
-      else if (gf === ga) tt.draws++;
-      else tt.losses++;
-      if (!ga) tt.clean_sheets++;
-
-      const seen = new Set();
-      const startersList = getSubProp(subObj, 'starters') || matchParent.starters || [];
-      startersList.forEach(n => { const id = resolve(n); if (id && map[id] && !seen.has(id)) { map[id].starters++; map[id].caps++; seen.add(id); } });
-
-      const subsList = getSubProp(subObj, 'substitutes_in') || matchParent.substitutes_in || [];
-      subsList.forEach(n => { const id = resolve(n); if (id && map[id] && !seen.has(id)) { map[id].subs++; map[id].caps++; seen.add(id); } });
-
-      const subScorers = getSubProp(subObj, 'scorers', 'goals');
-      if (subScorers) { parseList(subScorers).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].goals += e.n; }); }
-
-      const subAssists = getSubProp(subObj, 'assists', 'assist');
-      if (subAssists) { parseList(subAssists).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].assists += e.n; }); }
-
-      const subMvp = getSubProp(subObj, 'mvp', 'MVP');
-      if (subMvp) { parseList(subMvp).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].mvps++; }); }
-
-      const subYellows = getSubProp(subObj, 'yellow_cards', 'yellows', 'yellow');
-      if (subYellows) { parseList(subYellows).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].yellows += e.n; }); }
-
-      const subReds = getSubProp(subObj, 'red_cards', 'reds', 'red');
-      if (subReds) { parseList(subReds).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].reds += e.n; }); }
-
-      const subGks = getSubProp(subObj, 'goalkeepers', 'gk', 'gks') || matchParent.goalkeepers;
-      if (subGks) {
-        parseList(subGks, true).forEach(e => {
-          const id = resolve(e.name);
-          if (id && map[id]) {
-            const c = (e.n != null) ? e.n : (String(subGks).includes('(') ? 0 : ga);
-            map[id].goals_conceded += c;
-            if (!c) map[id].clean_sheets++;
-          }
-        });
-      }
-    }
-
     const hasSubProp = (subs, ...keys) => subs.some(s => keys.some(k => getSubProp(s, k) !== undefined));
 
     matches.forEach(m => {
@@ -322,14 +273,89 @@
 
       const subMatches = m.sub_matches || m.subMatches || [];
 
+      // 1. PRESENZE (CAPS) — UN SOLO GETTONE PER L'INTERO EVENTO MATCH m
+      const startersInMatch = new Set();
+      const subsInMatch = new Set();
+
       if (subMatches.length > 0) {
         subMatches.forEach(sub => {
-          processSubMatch(sub, m);
+          const stList = getSubProp(sub, 'starters') || m.starters || [];
+          stList.forEach(n => { const id = resolve(n); if (id && map[id]) startersInMatch.add(id); });
+          const sbList = getSubProp(sub, 'substitutes_in') || m.substitutes_in || [];
+          sbList.forEach(n => { const id = resolve(n); if (id && map[id]) subsInMatch.add(id); });
+        });
+      } else {
+        (m.starters || []).forEach(n => { const id = resolve(n); if (id && map[id]) startersInMatch.add(id); });
+        (m.substitutes_in || []).forEach(n => { const id = resolve(n); if (id && map[id]) subsInMatch.add(id); });
+      }
+
+      startersInMatch.forEach(id => { map[id].starters++; map[id].caps++; });
+      subsInMatch.forEach(id => { if (!startersInMatch.has(id)) { map[id].subs++; map[id].caps++; } });
+
+      // 2. RISULTATI, GOL, ASSIST, CARTELLINI, MVP, GK & CLEAN SHEETS
+      if (subMatches.length > 0) {
+        subMatches.forEach(sub => {
+          let gf = 0, ga = 0;
+          const rawScore = getSubProp(sub, 'score', 'result') || '';
+          const sm = String(rawScore).match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
+          if (sm) {
+            const s1 = +sm[1], s2 = +sm[2];
+            const isHomeUs = sub.home === 'us' || sub.isHome === true || sub.home_team === 'us' || (sub.home === undefined && sub.isHome === undefined && m.isHome !== false);
+            gf = isHomeUs ? s1 : s2;
+            ga = isHomeUs ? s2 : s1;
+          }
+
+          tt.total_matches++;
+          tt.goals_for += gf;
+          tt.goals_against += ga;
+          if (gf > ga) tt.wins++;
+          else if (gf === ga) tt.draws++;
+          else tt.losses++;
+          if (ga === 0) tt.clean_sheets++;
+
+          const subScorers = getSubProp(sub, 'scorers', 'goals');
+          if (subScorers) { parseList(subScorers).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].goals += e.n; }); }
+
+          const subAssists = getSubProp(sub, 'assists', 'assist');
+          if (subAssists) { parseList(subAssists).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].assists += e.n; }); }
+
+          const subMvp = getSubProp(sub, 'mvp', 'MVP');
+          if (subMvp) { parseList(subMvp).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].mvps++; }); }
+
+          const subYellows = getSubProp(sub, 'yellow_cards', 'yellows', 'yellow');
+          if (subYellows) { parseList(subYellows).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].yellows += e.n; }); }
+
+          const subReds = getSubProp(sub, 'red_cards', 'reds', 'red');
+          if (subReds) { parseList(subReds).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].reds += e.n; }); }
+
+          const subGks = getSubProp(sub, 'goalkeepers', 'gk', 'gks');
+          const fallbackGks = m.goalkeepers || (m.starters_positions && m.starters_positions.GK);
+          if (subGks) {
+            parseList(subGks, true).forEach(e => {
+              const id = resolve(e.name);
+              if (id && map[id]) {
+                const c = (e.n != null) ? e.n : (String(subGks).includes('(') ? 0 : ga);
+                map[id].goals_conceded += c;
+                if (c === 0) map[id].clean_sheets++;
+              }
+            });
+          } else if (fallbackGks) {
+            parseList(fallbackGks, true).forEach(e => {
+              const id = resolve(e.name);
+              if (id && map[id]) {
+                const c = ga;
+                map[id].goals_conceded += c;
+                if (c === 0) map[id].clean_sheets++;
+              }
+            });
+          }
+
           if (sub.starters_positions && typeof sub.starters_positions === 'object') {
             Object.entries(sub.starters_positions).forEach(([k, v]) => posRe.test(k.trim()) ? rec(v, k) : rec(k, v));
           }
         });
 
+        // Fallback event dati dal match padre se non presenti nei sub_matches
         if (!hasSubProp(subMatches, 'scorers', 'goals') && m.scorers) {
           parseList(m.scorers).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].goals += e.n; });
         }
@@ -345,22 +371,44 @@
         if (!hasSubProp(subMatches, 'red_cards', 'reds', 'red') && m.red_cards) {
           parseList(m.red_cards).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].reds += e.n; });
         }
-        if (!hasSubProp(subMatches, 'goalkeepers', 'gk', 'gks') && m.goalkeepers) {
-          const totalGa = subMatches.reduce((acc, sub) => {
-            const sm = String(getSubProp(sub, 'score', 'result') || '').match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
-            return acc + (sm ? +sm[2] : 0);
-          }, 0);
-          parseList(m.goalkeepers, true).forEach(e => {
+      } else {
+        // Partita singola (standard)
+        let gf = 0, ga = 0;
+        const rawScore = m.score || '';
+        const sm = String(rawScore).match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
+        if (sm) {
+          const s1 = +sm[1], s2 = +sm[2];
+          const isHomeUs = m.isHome !== false;
+          gf = isHomeUs ? s1 : s2;
+          ga = isHomeUs ? s2 : s1;
+        }
+
+        tt.total_matches++;
+        tt.goals_for += gf;
+        tt.goals_against += ga;
+        if (gf > ga) tt.wins++;
+        else if (gf === ga) tt.draws++;
+        else tt.losses++;
+        if (ga === 0) tt.clean_sheets++;
+
+        if (m.scorers) parseList(m.scorers).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].goals += e.n; });
+        if (m.assists) parseList(m.assists).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].assists += e.n; });
+        if (m.mvp) parseList(m.mvp).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].mvps++; });
+        if (m.yellow_cards) parseList(m.yellow_cards).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].yellows += e.n; });
+        if (m.red_cards) parseList(m.red_cards).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].reds += e.n; });
+
+        const gks = m.goalkeepers || (m.starters_positions && m.starters_positions.GK);
+        if (gks) {
+          parseList(gks, true).forEach(e => {
             const id = resolve(e.name);
             if (id && map[id]) {
-              const c = (e.n != null) ? e.n : (String(m.goalkeepers).includes('(') ? 0 : totalGa);
+              const c = (e.n != null) ? e.n : (String(gks).includes('(') ? 0 : ga);
               map[id].goals_conceded += c;
-              if (!c) map[id].clean_sheets++;
+              if (c === 0) map[id].clean_sheets++;
             }
           });
         }
-      } else {
-        processSubMatch(m, m);
+
         Object.entries(m.starters_positions || {}).forEach(([k, v]) => posRe.test(k.trim()) ? rec(v, k) : rec(k, v));
         (m.bench_details || []).forEach(b => { if (b && b.subbed_in && b.position_played) rec(b.player, b.position_played); });
       }
