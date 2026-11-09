@@ -209,13 +209,18 @@
       }
       return undefined;
     };
-    const getSubFieldStr = (field, altField) => m[field] || subMatches.map(s => getSubProp(s, field, altField)).filter(Boolean).join(', ');
+    const getSubFieldStr = (...keys) => {
+      for (const k of keys) {
+        if (m[k]) return m[k];
+      }
+      return subMatches.map(s => getSubProp(s, ...keys)).filter(Boolean).join(', ');
+    };
 
-    parseList(getSubFieldStr('scorers', 'goals')).forEach(e => addRow('scorer', e));
+    parseList(getSubFieldStr('scorers', 'scorer', 'goals', 'goal')).forEach(e => addRow('scorer', e));
     parseList(getSubFieldStr('assists', 'assist')).forEach(e => addRow('assist', e));
-    parseList(getSubFieldStr('goalkeepers', 'gk'), true).forEach(e => addRow('gk', e));
-    parseList(getSubFieldStr('yellow_cards', 'yellows')).forEach(e => addRow('yellow', e));
-    parseList(getSubFieldStr('red_cards', 'reds')).forEach(e => addRow('red', e));
+    parseList(getSubFieldStr('goalkeepers', 'goalkeeper', 'gk', 'gks'), true).forEach(e => addRow('gk', e));
+    parseList(getSubFieldStr('yellow_cards', 'yellows', 'yellow', 'yellow_card')).forEach(e => addRow('yellow', e));
+    parseList(getSubFieldStr('red_cards', 'reds', 'red', 'red_card')).forEach(e => addRow('red', e));
 
     refreshSelects(); 
     const mvpVal = getSubFieldStr('mvp', 'MVP');
@@ -273,7 +278,7 @@
 
       const subMatches = m.sub_matches || m.subMatches || [];
 
-      // 1. PRESENZE (CAPS) — UN SOLO GETTONE PER L'INTERO EVENTO MATCH m
+      // 1. PRESENZE (CAPS) — 1 MATCH EVENTO = 1 PRESENZA PER I GIOCATORI
       const startersInMatch = new Set();
       const subsInMatch = new Set();
 
@@ -292,28 +297,57 @@
       startersInMatch.forEach(id => { map[id].starters++; map[id].caps++; });
       subsInMatch.forEach(id => { if (!startersInMatch.has(id)) { map[id].subs++; map[id].caps++; } });
 
-      // 2. RISULTATI, GOL, ASSIST, CARTELLINI, MVP, GK & CLEAN SHEETS
+      // 2. STATISTICHE DI SQUADRA (TT): 1 EVENTO MATCH = 1 PARTITA COMPLETA
+      let totGf = 0, totGa = 0;
+      let hasScore = false;
+
       if (subMatches.length > 0) {
         subMatches.forEach(sub => {
-          let gf = 0, ga = 0;
+          const rawScore = getSubProp(sub, 'score', 'result') || '';
+          const sm = String(rawScore).match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
+          if (sm) {
+            hasScore = true;
+            const s1 = +sm[1], s2 = +sm[2];
+            const isHomeUs = sub.home === 'us' || sub.isHome === true || sub.home_team === 'us' || (sub.home === undefined && sub.isHome === undefined && m.isHome !== false);
+            totGf += isHomeUs ? s1 : s2;
+            totGa += isHomeUs ? s2 : s1;
+          }
+        });
+      } else {
+        const rawScore = m.score || '';
+        const sm = String(rawScore).match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
+        if (sm) {
+          hasScore = true;
+          const s1 = +sm[1], s2 = +sm[2];
+          const isHomeUs = m.isHome !== false;
+          totGf = isHomeUs ? s1 : s2;
+          totGa = isHomeUs ? s2 : s1;
+        }
+      }
+
+      tt.total_matches++;
+      tt.goals_for += totGf;
+      tt.goals_against += totGa;
+      if (hasScore) {
+        if (totGf > totGa) tt.wins++;
+        else if (totGf === totGa) tt.draws++;
+        else tt.losses++;
+      }
+      if (totGa === 0) tt.clean_sheets++;
+
+      // 3. EVENTI SINGOLI: GOL, ASSIST, CARTELLINI, MVP, PORTIERI & CLEAN SHEETS
+      if (subMatches.length > 0) {
+        subMatches.forEach(sub => {
+          let subGa = 0;
           const rawScore = getSubProp(sub, 'score', 'result') || '';
           const sm = String(rawScore).match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
           if (sm) {
             const s1 = +sm[1], s2 = +sm[2];
             const isHomeUs = sub.home === 'us' || sub.isHome === true || sub.home_team === 'us' || (sub.home === undefined && sub.isHome === undefined && m.isHome !== false);
-            gf = isHomeUs ? s1 : s2;
-            ga = isHomeUs ? s2 : s1;
+            subGa = isHomeUs ? s2 : s1;
           }
 
-          tt.total_matches++;
-          tt.goals_for += gf;
-          tt.goals_against += ga;
-          if (gf > ga) tt.wins++;
-          else if (gf === ga) tt.draws++;
-          else tt.losses++;
-          if (ga === 0) tt.clean_sheets++;
-
-          const subScorers = getSubProp(sub, 'scorers', 'goals');
+          const subScorers = getSubProp(sub, 'scorers', 'scorer', 'goals', 'goal');
           if (subScorers) { parseList(subScorers).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].goals += e.n; }); }
 
           const subAssists = getSubProp(sub, 'assists', 'assist');
@@ -322,28 +356,20 @@
           const subMvp = getSubProp(sub, 'mvp', 'MVP');
           if (subMvp) { parseList(subMvp).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].mvps++; }); }
 
-          const subYellows = getSubProp(sub, 'yellow_cards', 'yellows', 'yellow');
+          const subYellows = getSubProp(sub, 'yellow_cards', 'yellows', 'yellow', 'yellow_card');
           if (subYellows) { parseList(subYellows).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].yellows += e.n; }); }
 
-          const subReds = getSubProp(sub, 'red_cards', 'reds', 'red');
+          const subReds = getSubProp(sub, 'red_cards', 'reds', 'red', 'red_card');
           if (subReds) { parseList(subReds).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].reds += e.n; }); }
 
-          const subGks = getSubProp(sub, 'goalkeepers', 'gk', 'gks');
+          const subGks = getSubProp(sub, 'goalkeepers', 'goalkeeper', 'gk', 'gks');
           const fallbackGks = m.goalkeepers || (m.starters_positions && m.starters_positions.GK);
-          if (subGks) {
-            parseList(subGks, true).forEach(e => {
+          const gksToUse = subGks || fallbackGks;
+          if (gksToUse) {
+            parseList(gksToUse, true).forEach(e => {
               const id = resolve(e.name);
               if (id && map[id]) {
-                const c = (e.n != null) ? e.n : (String(subGks).includes('(') ? 0 : ga);
-                map[id].goals_conceded += c;
-                if (c === 0) map[id].clean_sheets++;
-              }
-            });
-          } else if (fallbackGks) {
-            parseList(fallbackGks, true).forEach(e => {
-              const id = resolve(e.name);
-              if (id && map[id]) {
-                const c = ga;
+                const c = (e.n != null) ? e.n : (String(gksToUse).includes('(') ? 0 : subGa);
                 map[id].goals_conceded += c;
                 if (c === 0) map[id].clean_sheets++;
               }
@@ -356,7 +382,7 @@
         });
 
         // Fallback event dati dal match padre se non presenti nei sub_matches
-        if (!hasSubProp(subMatches, 'scorers', 'goals') && m.scorers) {
+        if (!hasSubProp(subMatches, 'scorers', 'scorer', 'goals', 'goal') && m.scorers) {
           parseList(m.scorers).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].goals += e.n; });
         }
         if (!hasSubProp(subMatches, 'assists', 'assist') && m.assists) {
@@ -365,32 +391,14 @@
         if (!hasSubProp(subMatches, 'mvp', 'MVP') && m.mvp) {
           parseList(m.mvp).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].mvps++; });
         }
-        if (!hasSubProp(subMatches, 'yellow_cards', 'yellows', 'yellow') && m.yellow_cards) {
+        if (!hasSubProp(subMatches, 'yellow_cards', 'yellows', 'yellow', 'yellow_card') && m.yellow_cards) {
           parseList(m.yellow_cards).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].yellows += e.n; });
         }
-        if (!hasSubProp(subMatches, 'red_cards', 'reds', 'red') && m.red_cards) {
+        if (!hasSubProp(subMatches, 'red_cards', 'reds', 'red', 'red_card') && m.red_cards) {
           parseList(m.red_cards).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].reds += e.n; });
         }
       } else {
         // Partita singola (standard)
-        let gf = 0, ga = 0;
-        const rawScore = m.score || '';
-        const sm = String(rawScore).match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
-        if (sm) {
-          const s1 = +sm[1], s2 = +sm[2];
-          const isHomeUs = m.isHome !== false;
-          gf = isHomeUs ? s1 : s2;
-          ga = isHomeUs ? s2 : s1;
-        }
-
-        tt.total_matches++;
-        tt.goals_for += gf;
-        tt.goals_against += ga;
-        if (gf > ga) tt.wins++;
-        else if (gf === ga) tt.draws++;
-        else tt.losses++;
-        if (ga === 0) tt.clean_sheets++;
-
         if (m.scorers) parseList(m.scorers).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].goals += e.n; });
         if (m.assists) parseList(m.assists).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].assists += e.n; });
         if (m.mvp) parseList(m.mvp).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].mvps++; });
@@ -402,7 +410,7 @@
           parseList(gks, true).forEach(e => {
             const id = resolve(e.name);
             if (id && map[id]) {
-              const c = (e.n != null) ? e.n : (String(gks).includes('(') ? 0 : ga);
+              const c = (e.n != null) ? e.n : (String(gks).includes('(') ? 0 : totGa);
               map[id].goals_conceded += c;
               if (c === 0) map[id].clean_sheets++;
             }
@@ -425,12 +433,16 @@
     e.preventDefault();
     const m = readForm(); if (!m.id) { toast('warn', t('m.noId')); $('searchInputWrap').classList.add('open'); return $('matchId').focus(); }
     $('matchId').value = m.id;
-    if (m.status === 'past') {
+
+    const old = D.matches.find(x => String(x.id).toLowerCase() === m.id.toLowerCase()), payload = { ...(old || {}), ...m };
+    const isTri = payload.type === 'triangular' || payload.isTriangular || (payload.sub_matches && payload.sub_matches.length > 0) || (payload.subMatches && payload.subMatches.length > 0);
+
+    if (m.status === 'past' && !isTri) {
       const sm = m.score.match(/^\s*(\d+)\s*-\s*(\d+)\s*$/); if (!sm) return toast('warn', t('m.badScore'));
       m.score = `${sm[1]} - ${sm[2]}`;
       const sGoals = parseList(m.scorers).reduce((a, r) => a + r.n, 0); if (sGoals && sGoals !== +sm[1]) toast('warn', t('m.goalsMismatch').replace('{s}', sGoals).replace('{g}', sm[1]), 7000);
     }
-    const old = D.matches.find(x => String(x.id).toLowerCase() === m.id.toLowerCase()), payload = { ...(old || {}), ...m };
+
     if (m.status === 'upcoming' && !('formation' in m)) ['formation', 'starters_positions', 'starters', 'substitutes_in', 'substitutes_unused', 'bench_details', 'lineup'].forEach(k => delete payload[k]);
     const matches = D.matches.some(x => x.id === old?.id && old) ? D.matches.map(x => x === old ? payload : x) : [...D.matches, payload];
     const stats = buildStats(D.players, matches), btn = $('submitBtn'); btn.disabled = true; $('statusMsg').style.color = 'var(--sky-dark)'; $('statusMsg').innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('saving')}`;
