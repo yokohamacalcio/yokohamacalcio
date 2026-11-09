@@ -455,7 +455,7 @@
 .mc-teams .center.vs { color: var(--primary-sky); }
 .mc-teams .name { font-weight: 700; font-size: .92rem; text-align: center; color: var(--dark-navy); line-height: 1.25; }
 
-/* ---- Triangolare Support Styles ---- */
+/* ---- Stili Supporto Triangolare ---- */
 .triangular-teams-wrapper { display: flex; flex-direction: column; gap: 8px; width: 100%; margin: 10px 0; }
 .triangular-match-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px; gap: 8px; }
 .mc.next .triangular-match-row { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); }
@@ -482,7 +482,8 @@
 .lineup-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
 .lineup-chips span { background: #fff; border: 1px solid #e2e8f0; border-radius: 999px; padding: 3px 10px; font-size: .76rem; font-weight: 600; }
 .lineup-chips b { color: var(--primary-sky); margin-right: 4px; }
-/* prossima partita in evidenza */
+
+/* prossime partite */
 .mc.next { background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%); color: #fff; border: 2px solid var(--primary-sky); box-shadow: 0 10px 25px rgba(0,60,130,.15); }
 .mc.next .mc-head { border-color: rgba(255,255,255,.2); }
 .mc.next .mc-date, .mc.next .mc-meta { color: rgba(255,255,255,.85); }
@@ -569,11 +570,27 @@ function line(icon, label, html) { return html ? `<div class="line"><i class="fa
 function detailsHtml(m, past) {
   const lang = YC.lang(), d = YC.data, loc = d.locInfo(m.location_id, m.venue, lang, D.locations), P = D.players;
   const tx = txt => esc(d.translatePlayerText(txt, lang, P));
+
+  let scorersStr = m.scorers;
+  let assistsStr = m.assists;
+  let yellowStr = m.yellow_cards;
+  let redStr = m.red_cards;
+  let gkStr = m.goalkeepers;
+  let mvpStr = m.mvp;
+
+  if (m.sub_matches && m.sub_matches.length > 0) {
+    if (!scorersStr) scorersStr = m.sub_matches.map(s => s.scorers).filter(Boolean).join(', ');
+    if (!assistsStr) assistsStr = m.sub_matches.map(s => s.assists).filter(Boolean).join(', ');
+    if (!yellowStr) yellowStr = m.sub_matches.map(s => s.yellow_cards).filter(Boolean).join(', ');
+    if (!redStr) redStr = m.sub_matches.map(s => s.red_cards).filter(Boolean).join(', ');
+    if (!gkStr) gkStr = m.sub_matches.map(s => s.goalkeeper || s.goalkeepers).filter(Boolean).join(', ');
+  }
+
   let h = line('fa-map-marker-alt', t('m.venue'), `<a href="${esc(safeUrl(loc.url))}" target="_blank" rel="noopener noreferrer">${esc(loc.name)} <i class="fas fa-external-link-alt" style="font-size:.65rem;width:auto"></i></a>`);
   h += line('fa-layer-group', t('m.surface'), esc(loc.surface)) + line('fa-clock', t('m.kickoff'), esc(m.time || ''));
   if (past) {
-    h += line('fa-futbol', t('m.scorers'), tx(m.scorers)) + line('fa-shoe-prints', t('m.assists'), tx(m.assists)) + line('fa-star', t('m.mvp'), tx(m.mvp));
-    h += line('fa-square', t('m.yellow'), tx(m.yellow_cards)) + line('fa-square', t('m.red'), tx(m.red_cards)) + line('fa-mitten', t('m.gk'), tx(m.goalkeepers));
+    h += line('fa-futbol', t('m.scorers'), tx(scorersStr)) + line('fa-shoe-prints', t('m.assists'), tx(assistsStr)) + line('fa-star', t('m.mvp'), tx(mvpStr));
+    h += line('fa-square', t('m.yellow'), tx(yellowStr)) + line('fa-square', t('m.red'), tx(redStr)) + line('fa-mitten', t('m.gk'), tx(gkStr));
     const sp = m.starters_positions || {};
     if (Object.keys(sp).length) {
       const chips = Object.entries(sp).map(([slot, n]) => { const p = d.findPlayer(P, n); return `<span><b>${esc(slot)}</b>${esc(p ? d.playerName(p, lang) : n)}</span>`; }).join('');
@@ -603,8 +620,8 @@ function card(m, kind) {
   if (isTriangular) {
     if (upcoming) {
       const opps = Array.isArray(m.opponents) ? m.opponents : (m.sub_matches || m.subMatches || []);
-      const opp1 = d.oppInfo(opps[0] || m, lang, D.opponents);
-      const opp2 = opps[1] ? d.oppInfo(opps[1], lang, D.opponents) : { name: 'TBD', logo: '' };
+      const opp1 = d.oppInfo(typeof opps[0] === 'object' ? (opps[0].opponent_id || opps[0]) : { opponent_id: opps[0] }, lang, D.opponents);
+      const opp2 = opps[1] ? d.oppInfo(typeof opps[1] === 'object' ? (opps[1].opponent_id || opps[1]) : { opponent_id: opps[1] }, lang, D.opponents) : { name: 'TBD', logo: '' };
       
       teamsWrapperHtml = `<div class="mc-teams">
         <div class="triangular-hero-logos">
@@ -625,14 +642,15 @@ function card(m, kind) {
       let rowsHtml = '';
       if (subList.length > 0) {
         rowsHtml = subList.map(sub => {
-          const homeOpp = d.oppInfo(sub.home || sub.home_team || sub, lang, D.opponents);
-          const awayOpp = d.oppInfo(sub.away || sub.away_team || sub, lang, D.opponents);
-          const hName = sub.home_name || (sub.home === 'us' || sub.isHome ? 'Yokohama Calcio' : homeOpp.name);
-          const aName = sub.away_name || (sub.away === 'us' || (!sub.isHome && sub.away) ? 'Yokohama Calcio' : awayOpp.name);
-          const hLogo = sub.home === 'us' || sub.isHome ? './immagini/logo.png?v=2' : homeOpp.logo;
-          const aLogo = sub.away === 'us' ? './immagini/logo.png?v=2' : awayOpp.logo;
-          const hFb = sub.home === 'us' || sub.isHome ? '' : homeOpp.avatar;
-          const aFb = sub.away === 'us' ? '' : awayOpp.avatar;
+          const oppId = sub.opponent_id || sub.opponent || m.opponent_id;
+          const opp = d.oppInfo({ opponent_id: oppId }, lang, D.opponents);
+          const isHomeUs = sub.home === 'us' || sub.isHome === true || sub.home_team === 'us';
+          const hName = isHomeUs ? 'Yokohama Calcio' : opp.name;
+          const aName = isHomeUs ? opp.name : 'Yokohama Calcio';
+          const hLogo = isHomeUs ? './immagini/logo.png?v=2' : opp.logo;
+          const aLogo = isHomeUs ? opp.logo : './immagini/logo.png?v=2';
+          const hFb = isHomeUs ? '' : opp.avatar;
+          const aFb = isHomeUs ? opp.avatar : '';
           return `<div class="triangular-match-row">
             <div class="tri-team tri-home">
               <div class="logo sm" style="width:32px;height:32px;">${d.logoImg(hLogo, hName, hFb)}</div>
@@ -648,7 +666,7 @@ function card(m, kind) {
       } else {
         const opps = Array.isArray(m.opponents) ? m.opponents : [m.opponent_id];
         rowsHtml = opps.map(oppId => {
-          const o = d.oppInfo(oppId, lang, D.opponents);
+          const o = d.oppInfo({ opponent_id: oppId }, lang, D.opponents);
           return `<div class="triangular-match-row">
             <div class="tri-team tri-home">
               <div class="logo sm" style="width:32px;height:32px;"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
