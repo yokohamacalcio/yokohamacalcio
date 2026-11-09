@@ -3,10 +3,9 @@
 generate_seo.py — contenuti statici per crawler + sitemap + calendario.
 
 Legge i JSON del sito e scrive SOLO tra i marker già presenti nelle pagine
-(un marker assente viene semplicemente saltato). Non scrive mai i JSON dei dati:
-stats.json lo produce il pannello admin nello stesso commit di matches.json.
+(un marker assente viene semplicemente saltato). Supporta partite singole e triangolari (sub_matches).
 
-Marker supportati
+Marker supportati:
   index.html   UPCOMING_*, PAST_*, SCHEMA_EVENTS_*, SHOWCASE_*
   matches.html UPCOMING_*, PAST_*, SCHEMA_EVENTS_*
   players.html PLAYERS_*, SCHEMA_PLAYERS_*
@@ -23,7 +22,7 @@ from urllib.parse import quote
 from xml.sax.saxutils import escape as xml_escape
 
 # ============================================================
-# PERCORSI
+# PERCORSI & COSTANTI
 # ============================================================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = BASE_DIR if os.path.exists(os.path.join(BASE_DIR, 'matches.json')) else os.path.dirname(BASE_DIR)
@@ -56,7 +55,6 @@ def load_json(path):
 
 
 def as_list(data, key):
-  """Accetta sia [..] sia {"key": [..]} (es. competitions.json)."""
   if isinstance(data, list):
     return data
   if isinstance(data, dict) and isinstance(data.get(key), list):
@@ -92,11 +90,6 @@ def norm(s):
   return re.sub(r'[\s\u3000]+', '', str(s or '')).lower()
 
 
-def parse_score(score):
-  m = re.match(r'^\s*(\d+)\s*-\s*(\d+)\s*$', str(score or ''))
-  return (int(m.group(1)), int(m.group(2))) if m else None
-
-
 def split_names(text):
   if not text or str(text).strip() in ('なし', 'Nessuno', ''):
     return []
@@ -114,6 +107,58 @@ def match_start(m):
     return datetime.strptime(f'{d} {t}', '%Y-%m-%d %H:%M').replace(tzinfo=JST)
   except ValueError:
     return None
+
+
+# ============================================================
+# PARSING EVENTI & PUNTEGGI (INCLUSI TRIANGOLARI)
+# ============================================================
+def parse_score_parts(m):
+  """Calcola gol fatti e subiti supportando sia partite singole che sub_matches."""
+  if not m:
+    return None, None
+  sub_matches = m.get('sub_matches') or m.get('subMatches') or []
+  if sub_matches:
+    ours, theirs, has_score = 0, 0, False
+    for sub in sub_matches:
+      sc = str(sub.get('score') or '').strip()
+      mt = re.match(r'^\s*(\d+)\s*-\s*(\d+)\s*$', sc)
+      if mt:
+        has_score = True
+        s1, s2 = int(mt.group(1)), int(mt.group(2))
+        is_home_us = sub.get('home') == 'us' or sub.get('isHome') is True or sub.get('home_team') == 'us'
+        if is_home_us:
+          ours += s1; theirs += s2
+        else:
+          ours += s2; theirs += s1
+    if has_score:
+      return ours, theirs
+  
+  # Partita singola
+  sc = str(m.get('score') or '').strip()
+  mt = re.match(r'^\s*(\d+)\s*-\s*(\d+)\s*$', sc)
+  if mt:
+    return int(mt.group(1)), int(mt.group(2))
+  return None, None
+
+
+def score_left_right(m):
+  ours, theirs = parse_score_parts(m)
+  if ours is None:
+    return m.get('score') or '-'
+  return f'{ours} - {theirs}' if m.get('isHome', True) else f'{theirs} - {ours}'
+
+
+def get_match_scorers(m):
+  """Estrae i marcatori sia da m.scorers sia da sub_matches."""
+  scorers = []
+  sub_matches = m.get('sub_matches') or m.get('subMatches') or []
+  if sub_matches:
+    for sub in sub_matches:
+      if sub.get('scorers'):
+        scorers.extend(split_names(sub.get('scorers')))
+  if not scorers and m.get('scorers'):
+    scorers.extend(split_names(m.get('scorers')))
+  return scorers
 
 
 # ============================================================
@@ -137,11 +182,10 @@ def loc_info(loc_id, fallback, locations):
 
 
 def category_label(cat):
-  return {'official': '公式戦', 'league': '公式戦', 'friendly': '練習試合', 'tournament': '大会', 'cup': 'カップ戦'}.get(cat, '試合')
+  return {'official': '公式戦', 'league': '公式戦', 'friendly': '練習試合', 'tournament': '大会', 'cup': 'カップ戦', 'triangular': '3角戦'}.get(cat, '試合')
 
 
 def find_player(name, players):
-  """Esatto su id/kanji/kana/romaji; poi parziale solo se UNICO (evita Fukuda K./D.)."""
   t = norm(name)
   if not t:
     return None
@@ -174,16 +218,7 @@ def team_sides(m, opp_name, opp_logo):
   return (('Yokohama Calcio', LOGO, opp_name, opp_logo) if home else (opp_name, opp_logo, 'Yokohama Calcio', LOGO))
 
 
-def score_left_right(m):
-  """Il punteggio nel JSON è sempre «nostri - loro»; in trasferta si mostra al contrario."""
-  s = parse_score(m.get('score'))
-  if not s:
-    return m.get('score') or '-'
-  return f'{s[0]} - {s[1]}' if m.get('isHome', True) else f'{s[1]} - {s[0]}'
-
-
 def build_index_cards(matches, locations, opponents):
-  """Hero «prossima» + card «ultima» per la home (stessa grafica del JS)."""
   now = datetime.now(JST)
   upcoming = sorted([m for m in matches if m.get('status') == 'upcoming' and (match_start(m) or now) > now - timedelta(hours=6)], key=lambda x: (x.get('date', ''), x.get('time') or ''))
   past = sorted([m for m in matches if m.get('status') in ('past', 'live')], key=lambda x: (x.get('date', ''), x.get('time') or ''), reverse=True)
@@ -213,7 +248,7 @@ def build_index_cards(matches, locations, opponents):
     ln, lu, _ = loc_info(m.get('location_id'), m.get('venue'), locations)
     t1, l1, t2, l2 = team_sides(m, on, ol)
     bar = ''
-    names = split_names(m.get('scorers'))
+    names = get_match_scorers(m)
     if names:
       bar += f'<div class="match-info-item"><i class="fas fa-futbol"></i><span>{esc(", ".join(names))}</span></div>'
     if split_names(m.get('mvp')):
@@ -232,15 +267,15 @@ def build_index_cards(matches, locations, opponents):
 
 
 def build_matches_page_lists(matches, locations, opponents):
-  """matches.html: TUTTE le partite come HTML semantico (il JS le ridisegna al caricamento)."""
   def article(m):
     on, _ = opp_info(m, opponents)
     ln, lu, _ = loc_info(m.get('location_id'), m.get('venue'), locations)
     t1, _, t2, _ = team_sides(m, on, '')
     done = m.get('status') in ('past', 'live')
     extra = ''
-    if done and split_names(m.get('scorers')):
-      extra += f'<p>得点: {esc(", ".join(split_names(m.get("scorers"))))}</p>'
+    scorers = get_match_scorers(m)
+    if done and scorers:
+      extra += f'<p>得点: {esc(", ".join(scorers))}</p>'
     if done and split_names(m.get('mvp')):
       extra += f'<p>MVP: {esc(m.get("mvp"))}</p>'
     return (f'<article class="mc" id="{esc(m.get("id"))}"><h3>{esc(t1)} {esc(score_left_right(m)) if done else "vs"} {esc(t2)}</h3>'
@@ -258,14 +293,16 @@ def build_event_schemas(matches, locations, opponents, players):
     ln, _, _ = loc_info(m.get('location_id'), m.get('venue'), locations)
     home = m.get('isHome', True)
     home_team, away_team = ('Yokohama Calcio', on) if home else (on, 'Yokohama Calcio')
-    score = str(m.get('score') or '').strip()
-    has_score = parse_score(score) is not None
-    name = f'{home_team} vs {away_team}' + (f' ({score_left_right(m)})' if has_score else '')
+    ours, theirs = parse_score_parts(m)
+    has_score = ours is not None
+    score_str = score_left_right(m)
+    name = f'{home_team} vs {away_team}' + (f' ({score_str})' if has_score else '')
     desc = [f'Match {name}.']
     if has_score:
-      desc.append(f'Score: {score_left_right(m)}.')
-    if split_names(m.get('scorers')):
-      desc.append(f'Scorers: {m["scorers"]}.')
+      desc.append(f'Score: {score_str}.')
+    scorers = get_match_scorers(m)
+    if scorers:
+      desc.append(f'Scorers: {", ".join(scorers)}.')
     if split_names(m.get('mvp')):
       desc.append(f'MVP: {m["mvp"]}.')
     desc.append(f'Venue: {ln}.')
@@ -285,9 +322,9 @@ def build_event_schemas(matches, locations, opponents, players):
         'homeTeam': {'@type': 'SportsTeam', 'name': home_team}, 'awayTeam': {'@type': 'SportsTeam', 'name': away_team},
         'isAccessibleForFree': True,
     }
-    if not done:   # offerta gratuita solo per le partite future
+    if not done:
       ev['offers'] = {'@type': 'Offer', 'url': f'{SITE}/matches.html#{m.get("id", "")}', 'price': '0', 'priceCurrency': 'JPY', 'availability': 'https://schema.org/InStock', 'validFrom': f'{m.get("date")}T00:00:00+09:00'}
-    performers = [person_ref(strip_marks(s), players) for s in split_names(m.get('scorers'))]
+    performers = [person_ref(strip_marks(s), players) for s in scorers]
     if performers:
       ev['performer'] = performers
     out.append(ev)
@@ -295,10 +332,9 @@ def build_event_schemas(matches, locations, opponents, players):
 
 
 # ============================================================
-# GIOCATORI
+# GIOCATORI & STATISTICHE
 # ============================================================
 SECTION_ICONS = {'gk': 'fa-hands', 'df': 'fa-shield-alt', 'mf': 'fa-running', 'fw': 'fa-futbol'}
-BADGE_ICONS = {'gk': 'fa-hands', 'df': 'fa-shield-alt', 'mf': 'fa-running', 'fw': 'fa-bullseye'}
 SECTION_LABELS = {'gk': 'GOALKEEPER', 'df': 'DEFENDER', 'mf': 'MIDFIELDER', 'fw': 'FORWARD'}
 LEAD_LABEL = {'captain': ('CAPTAIN', ''), 'vice_captain': ('VICE CAPT.', ' vc-fascia')}
 LEAD_TITLE = {'captain': 'Captain', 'vice_captain': 'Vice Captain', 'manager': 'Founder & Manager', 'founder': 'Founder & Manager'}
@@ -358,7 +394,6 @@ def player_card(p, counts, st):
 
 
 def person_schema(p, st):
-  """Niente data di nascita: il sito mostra solo l'età."""
   role = (p.get('role') or '').lower()
   st = st or {}
   caps, starters, subs = safe_int(st.get('caps')), safe_int(st.get('starters')), safe_int(st.get('subs'))
@@ -419,7 +454,7 @@ def build_showcase(players, stats_map, n=3):
 
 
 # ============================================================
-# STATISTICHE
+# STATISTICHE RANKING
 # ============================================================
 def stat_rows(players, stats_map):
   return [(p, stats_map.get(p.get('id'), {}) or {}) for p in players if p.get('role') != 'staff']
@@ -487,7 +522,6 @@ def build_stats_schemas(players, stats_data):
 # INIEZIONE NEI MARKER
 # ============================================================
 def inject_between(filename, start, end, body, label):
-  """Sostituisce il contenuto tra due marker. Se mancano, non fa nulla."""
   full = os.path.join(ROOT_DIR, filename)
   if body is None or not os.path.exists(full):
     return
@@ -509,9 +543,9 @@ def inject_simple(filename, name, body, label):
 
 
 # ============================================================
-# SITEMAP
+# SITEMAP & CALENDARIO
 # ============================================================
-PAGES = [  # file, url, priorità, frequenza, file che ne cambiano il contenuto
+PAGES = [
     ('index.html', '/', '1.0', 'weekly', ['index.html', 'matches.json', 'news.json']),
     ('matches.html', '/matches.html', '0.9', 'weekly', ['matches.html', 'matches.json']),
     ('players.html', '/players.html', '0.8', 'weekly', ['players.html', 'players.json', 'stats.json']),
@@ -546,9 +580,6 @@ def build_sitemap():
   return ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + '\n'.join(urls) + '\n</urlset>\n')
 
 
-# ============================================================
-# CALENDARIO .ics (partite + allenamenti)
-# ============================================================
 def ics_text(s):
   return str(s).replace('\\', '\\\\').replace(';', '\\;').replace(',', '\\,').replace('\r', '').replace('\n', '\\n')
 
@@ -582,7 +613,8 @@ def build_calendar(matches, trainings, locations, opponents):
     ln, _, _ = loc_info(m.get('location_id'), m.get('venue'), locations)
     home = m.get('isHome', True)
     name = f'{"Yokohama Calcio" if home else on} vs {on if home else "Yokohama Calcio"}'
-    done = parse_score(m.get('score')) is not None and m.get('status') != 'upcoming'
+    ours, theirs = parse_score_parts(m)
+    done = ours is not None and m.get('status') != 'upcoming'
     event(m.get('id', st.strftime('%Y%m%d')), st.replace(tzinfo=None), (st + timedelta(hours=2)).replace(tzinfo=None), name + (f' ({score_left_right(m)})' if done else ''), ln, f'{category_label(m.get("category"))} / {ln}', f'{SITE}/matches.html#{m.get("id", "")}')
 
   for t in trainings:
