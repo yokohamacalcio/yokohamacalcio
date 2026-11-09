@@ -30,7 +30,6 @@ function buildStats() {
         playersData.forEach(p => {
             if (p.role === 'staff') return;
             
-            // Generazione ID stabile senza mai usare Math.random()
             let rawId = p.id;
             if (!rawId) {
                 const baseName = p.name_romaji || p.name_kanji || `num-${p.number || 'unknown'}`;
@@ -38,7 +37,6 @@ function buildStats() {
             }
             const uniqueId = String(rawId).trim();
 
-            // Se la chiave esiste già, evitiamo di sovrascrivere o duplicare
             if (playersMap[uniqueId]) return;
 
             playersMap[uniqueId] = {
@@ -62,7 +60,6 @@ function buildStats() {
                 positions_played: {}
             };
 
-            // Mappatura sicura degli alias
             const aliases = [uniqueId, p.id, p.name_kanji, p.name_kana, p.name_romaji, p.number !== null ? String(p.number) : null];
             aliases.forEach(alias => {
                 if (alias !== null && alias !== undefined) {
@@ -82,7 +79,6 @@ function buildStats() {
 
             if (aliasToId.has(t)) return aliasToId.get(t);
 
-            // Ricerca parziale di sicurezza per stringhe sufficientemente lunghe
             if (t.length >= 2) {
                 for (const [alias, id] of aliasToId.entries()) {
                     if (alias === t || alias.includes(t) || t.includes(alias)) {
@@ -116,17 +112,10 @@ function buildStats() {
             formations_used: {}
         };
 
-        // 2. Elaborazione delle partite
-        matchesData.forEach(m => {
-            if (String(m.status || '').toLowerCase() !== 'past') return;
-            teamTotals.total_matches++;
-
-            if (m.formation) {
-                teamTotals.formations_used[m.formation] = (teamTotals.formations_used[m.formation] || 0) + 1;
-            }
-
+        // Helper per elaborare le singole partite o le sotto-partite (sub_matches)
+        function processMatchStats(matchObj, fallbackStarters, fallbackSubs) {
             let gf = 0, ga = 0;
-            const s = m.score ? m.score.trim() : '';
+            const s = matchObj.score ? String(matchObj.score).trim() : '';
             if (s.includes('-')) {
                 const parts = s.split('-').map(x => parseInt(x.trim(), 10));
                 if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
@@ -135,6 +124,7 @@ function buildStats() {
                 }
             }
 
+            teamTotals.total_matches++;
             teamTotals.goals_for += gf;
             teamTotals.goals_against += ga;
             if (gf > ga) teamTotals.wins++;
@@ -145,8 +135,9 @@ function buildStats() {
             const processedCaps = new Set();
 
             // Titolari
-            if (Array.isArray(m.starters)) {
-                m.starters.forEach(n => {
+            const startersList = matchObj.starters || fallbackStarters;
+            if (Array.isArray(startersList)) {
+                startersList.forEach(n => {
                     const id = resolveId(n);
                     if (id && playersMap[id] && !processedCaps.has(id)) {
                         playersMap[id].starters++;
@@ -156,16 +147,10 @@ function buildStats() {
                 });
             }
 
-            if (m.starters_positions && typeof m.starters_positions === 'object') {
-                Object.entries(m.starters_positions).forEach(([k, v]) => {
-                    if (posRegex.test(k.trim())) recordPos(v, k);
-                    else recordPos(k, v);
-                });
-            }
-
-            // Sostituti entrati
-            if (Array.isArray(m.substitutes_in)) {
-                m.substitutes_in.forEach(n => {
+            // Sostituti
+            const subsList = matchObj.substitutes_in || fallbackSubs;
+            if (Array.isArray(subsList)) {
+                subsList.forEach(n => {
                     const id = resolveId(n);
                     if (id && playersMap[id] && !processedCaps.has(id)) {
                         playersMap[id].subs++;
@@ -175,15 +160,10 @@ function buildStats() {
                 });
             }
 
-            if (Array.isArray(m.bench_details)) {
-                m.bench_details.forEach(b => {
-                    if (b && b.subbed_in && b.position_played) recordPos(b.player, b.position_played);
-                });
-            }
-
             // Marcatori
-            if (m.scorers && m.scorers !== 'なし' && m.scorers !== 'Nessuno') {
-                m.scorers.split(/[,、]/).forEach(e => {
+            const scorersStr = matchObj.scorers;
+            if (scorersStr && scorersStr !== 'なし' && scorersStr !== 'Nessuno') {
+                String(scorersStr).split(/[,、]/).forEach(e => {
                     let txt = String(e).trim(), c = 1;
                     const mm = txt.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
                     if (mm) { txt = mm[1].trim(); c = parseInt(mm[2], 10) || 1; }
@@ -193,8 +173,9 @@ function buildStats() {
             }
 
             // Assist
-            if (m.assists && m.assists !== 'なし' && m.assists !== 'Nessuno') {
-                m.assists.split(/[,、]/).forEach(e => {
+            const assistsStr = matchObj.assists;
+            if (assistsStr && assistsStr !== 'なし' && assistsStr !== 'Nessuno') {
+                String(assistsStr).split(/[,、]/).forEach(e => {
                     let txt = String(e).trim(), c = 1;
                     const mm = txt.match(/(.*?)\s*(?:[xX\*])\s*(\d+)/);
                     if (mm) { txt = mm[1].trim(); c = parseInt(mm[2], 10) || 1; }
@@ -203,27 +184,30 @@ function buildStats() {
                 });
             }
 
-            if (m.mvp) {
-                m.mvp.split(/[,、]/).forEach(n => {
+            // MVP e Cartellini
+            if (matchObj.mvp) {
+                String(matchObj.mvp).split(/[,、]/).forEach(n => {
                     const id = resolveId(n);
                     if (id && playersMap[id]) playersMap[id].mvps++;
                 });
             }
-            if (m.yellow_cards) {
-                m.yellow_cards.split(/[,、]/).forEach(n => {
+            if (matchObj.yellow_cards) {
+                String(matchObj.yellow_cards).split(/[,、]/).forEach(n => {
                     const id = resolveId(n);
                     if (id && playersMap[id]) playersMap[id].yellows++;
                 });
             }
-            if (m.red_cards) {
-                m.red_cards.split(/[,、]/).forEach(n => {
+            if (matchObj.red_cards) {
+                String(matchObj.red_cards).split(/[,、]/).forEach(n => {
                     const id = resolveId(n);
                     if (id && playersMap[id]) playersMap[id].reds++;
                 });
             }
 
-            if (m.goalkeepers) {
-                m.goalkeepers.split(/[,、]/).forEach(e => {
+            // Portieri
+            const gkStr = matchObj.goalkeepers || matchObj.goalkeeper;
+            if (gkStr) {
+                String(gkStr).split(/[,、]/).forEach(e => {
                     const mm = e.trim().match(/^(.+?)\s*[(（]\s*(\d+)\s*[)）]\s*$/);
                     let raw = e.trim(), gkGa = ga;
                     if (mm) { raw = mm[1].trim(); const p = parseInt(mm[2], 10); if (!isNaN(p)) gkGa = p; }
@@ -233,6 +217,42 @@ function buildStats() {
                         if (gkGa === 0) playersMap[id].clean_sheets++;
                     }
                 });
+            }
+        }
+
+        // 2. Elaborazione delle partite (supporto nativo per partite singole e triangolari sub_matches)
+        matchesData.forEach(m => {
+            if (String(m.status || '').toLowerCase() !== 'past') return;
+
+            if (m.formation) {
+                teamTotals.formations_used[m.formation] = (teamTotals.formations_used[m.formation] || 0) + 1;
+            }
+
+            const subMatches = m.sub_matches || m.subMatches || [];
+
+            if (subMatches.length > 0) {
+                subMatches.forEach(sub => {
+                    processMatchStats(sub, m.starters, m.substitutes_in);
+                    if (sub.starters_positions && typeof sub.starters_positions === 'object') {
+                        Object.entries(sub.starters_positions).forEach(([k, v]) => {
+                            if (posRegex.test(k.trim())) recordPos(v, k);
+                            else recordPos(k, v);
+                        });
+                    }
+                });
+            } else {
+                processMatchStats(m, m.starters, m.substitutes_in);
+                if (m.starters_positions && typeof m.starters_positions === 'object') {
+                    Object.entries(m.starters_positions).forEach(([k, v]) => {
+                        if (posRegex.test(k.trim())) recordPos(v, k);
+                        else recordPos(k, v);
+                    });
+                }
+                if (Array.isArray(m.bench_details)) {
+                    m.bench_details.forEach(b => {
+                        if (b && b.subbed_in && b.position_played) recordPos(b.player, b.position_played);
+                    });
+                }
             }
         });
 
@@ -250,7 +270,7 @@ function buildStats() {
         };
 
         fs.writeFileSync(statsPath, JSON.stringify(statsOutput, null, 2), 'utf8');
-        console.log('✅ stats.json generato perfettamente senza duplicati.');
+        console.log('✅ stats.json generato perfettamente (con supporto completo ai triangolari).');
     } catch (err) {
         console.error('❌ Errore durante la generazione delle statistiche:', err);
         process.exit(1);
