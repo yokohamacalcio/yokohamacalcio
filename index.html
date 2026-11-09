@@ -503,25 +503,19 @@
 .hero-btn-outline:hover { background: rgba(255,255,255,.25); border-color: #fff; transform: translateY(-2px); }
 
 /* ---- Layout Partite Triangolari ---- */
-.triangular-teams-wrapper { display: flex; flex-direction: column; gap: 14px; margin: 16px 0; width: 100%; }
-.triangular-match-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; }
-.tri-team { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 6px; width: 100%; min-width: 0; }
-.tri-team .card-logo-wrap, .tri-team .card-logo-wrap.md { width: 54px; height: 54px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.triangular-teams-wrapper { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; width: 100%; }
+.triangular-match-row { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 10px; }
+.tri-team { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 4px; width: 100%; min-width: 0; }
+.tri-team .card-logo-wrap, .tri-team .card-logo-wrap.md { width: 48px; height: 48px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
 .tri-team .card-logo-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
-.tri-team-name { font-size: 0.88rem; font-weight: 700; color: #0f172a; line-height: 1.25; word-break: break-word; text-align: center; max-width: 100%; }
-.tri-score { font-family: 'Bebas Neue', 'Montserrat', sans-serif; font-size: 1.75rem; font-weight: 800; letter-spacing: 1px; color: #00224a; padding: 6px 16px; background: #e2e8f0; border-radius: 8px; white-space: nowrap; text-align: center; }
-
-/* ---- Bottone Hero Partita / No Match Centrato ---- */
-.no-match-box { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 25px 20px; width: 100%; }
-.btn-match-detail-hero, .btn-no-match { display: inline-flex !important; align-items: center !important; justify-content: center !important; text-align: center !important; gap: 8px !important; margin: 0 auto !important; }
-.btn-match-detail-hero span, .btn-no-match span { display: inline-block; text-align: center; }
+.tri-team-name { font-size: clamp(0.68rem, 2.2vw, 0.85rem) !important; font-weight: 700; color: #0f172a; line-height: 1.2; white-space: nowrap !important; overflow: visible !important; text-overflow: clip !important; text-align: center; max-width: 100%; }
+.tri-score { font-family: 'Bebas Neue', 'Montserrat', sans-serif; font-size: 1.6rem; font-weight: 800; letter-spacing: 1px; color: #00224a; padding: 4px 14px; background: #e2e8f0; border-radius: 8px; white-space: nowrap; text-align: center; }
 
 @media (max-width: 768px) { .hero-section { min-height: 500px; } .hero-content-wrapper { width: 90%; padding: 45px 0 55px; } .hero-main-title { font-size: clamp(26px, 7.5vw, 42px); line-height: 1.2; } .hero-subtitle { font-size: .92rem; margin-top: 14px; } .hero-action-btns { margin-top: 22px; gap: 10px; } .hero-btn { padding: 10px 20px; font-size: .85rem; } }
 @media (max-width: 600px) { .section-title { font-size: 1.4rem !important; } }
 @media (max-width: 480px) {
-  .tri-team .card-logo-wrap, .tri-team .card-logo-wrap.md { width: 44px; height: 44px; }
-  .tri-team-name { font-size: 0.8rem; }
-  .tri-score { font-size: 1.45rem; padding: 4px 12px; }
+  .tri-team .card-logo-wrap, .tri-team .card-logo-wrap.md { width: 40px; height: 40px; }
+  .tri-score { font-size: 1.4rem; padding: 4px 10px; }
 }
 </style>
 </head>
@@ -774,6 +768,20 @@ function getMatchAssistsText(m, lang, D) {
   return '';
 }
 
+function getMatchMVPText(m, lang, D) {
+  if (m.mvp && m.mvp.trim()) {
+    return YC.data.translatePlayerText(m.mvp, lang, D.players);
+  }
+  if (m.sub_matches && m.sub_matches.length > 0) {
+    const list = m.sub_matches.map(sub => sub.mvp && sub.mvp.trim()).filter(Boolean);
+    if (list.length > 0) {
+      const unique = [...new Set(list)];
+      return YC.data.translatePlayerText(unique.join(', '), lang, D.players);
+    }
+  }
+  return '';
+}
+
 function lastHtml(m) {
   const lang = YC.lang(), d = YC.data;
   const loc = d.locInfo(m.location_id, m.venue, lang, D.locations);
@@ -838,7 +846,7 @@ function lastHtml(m) {
 
   const scorers = getMatchScorersText(m, lang, D);
   const assists = getMatchAssistsText(m, lang, D);
-  const mvp = m.mvp ? d.translatePlayerText(m.mvp, lang, D.players) : '';
+  const mvp = getMatchMVPText(m, lang, D);
 
   const bar = `
     <div class="match-info-item">
