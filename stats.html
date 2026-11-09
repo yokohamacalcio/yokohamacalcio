@@ -32,78 +32,6 @@
 <script src="js/common.js"></script>
 <script src="js/data.js"></script>
 
-<!-- SCHEMA_STATS_START -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Dataset",
-  "@id": "https://yokohamacalcio.com/stats.html#dataset",
-  "url": "https://yokohamacalcio.com/stats.html",
-  "name": "Yokohama Calcio — Team and Player Statistics",
-  "description": "Statistics for Yokohama Calcio. Matches: 9, wins: 0, draws: 0, losses: 9, goals for: 8, goals against: 49, clean sheets: 0.",
-  "creator": {
-    "@type": "SportsTeam",
-    "name": "Yokohama Calcio",
-    "url": "https://yokohamacalcio.com"
-  },
-  "dateModified": "2026-11-08",
-  "isAccessibleForFree": true,
-  "variableMeasured": [
-    {
-      "@type": "PropertyValue",
-      "name": "appearances",
-      "description": "Total appearances"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "starters",
-      "description": "Appearances as starter"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "substitute_appearances",
-      "description": "Appearances from bench"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "goals",
-      "description": "Goals scored"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "assists",
-      "description": "Assists provided"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "mvp_awards",
-      "description": "MVP awards"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "yellow_cards",
-      "description": "Yellow cards"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "red_cards",
-      "description": "Red cards"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "goals_conceded",
-      "description": "Goals conceded (goalkeepers)"
-    },
-    {
-      "@type": "PropertyValue",
-      "name": "clean_sheets",
-      "description": "Clean sheets (goalkeepers)"
-    }
-  ]
-}
-</script>
-<!-- SCHEMA_STATS_END -->
-
 <style>
 .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 22px; }
 .ranking-card { background: #fff; border-radius: 16px; padding: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 16px rgba(0,60,130,.05); }
@@ -131,7 +59,6 @@
 .stats-section-title { font-family: var(--font-brand); font-size: 1.7rem; color: var(--dark-navy); border-bottom: 3px solid var(--dark-navy); padding-bottom: 8px; margin: 40px 0 22px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px; }
 .stats-section-title i { color: var(--primary-sky); }
 
-/* --- STILI INTERATTIVI PER IL GRAFICO GOL --- */
 .goal-bars {
     display: flex;
     align-items: flex-end;
@@ -257,16 +184,37 @@ const expanded = {};
 const seasonMatches = () => M.filter(m => m.status === 'past' && (ui.season === 'all' || String(m.date).slice(0, 4) === ui.season)).sort((a, b) => a.date.localeCompare(b.date));
 const compMatches = () => seasonMatches().filter(m => ui.comp === 'all' || D().normCat(m.category) === ui.comp);
 
+/* Parser avanzato per estrarre il nome e la quantità (es. "Giocatore (x2)", "Giocatore (2)", "Giocatore x2") */
 function entries(text) {
   if (!text || text === 'なし' || text === 'Nessuno') return [];
   return String(text).split(/[,、]/).map(x => x.trim()).filter(Boolean).map(s => {
-    s = s.replace(/\s*[(（][^)）]*[)）]\s*$/, '').trim();
-    const m = s.match(/^(.*?)\s*[xX*]\s*(\d+)$/);
-    return m ? { name: m[1].trim(), count: parseInt(m[2], 10) || 1 } : { name: s, count: 1 };
+    // 1) Match tipo "Giocatore (x2)", "Giocatore (2)", "Giocatore (X2)"
+    const parenMult = s.match(/^(.*?)\s*[(（]\s*(?:[xX*]\s*(\d+)|(\d+))\s*[)）]$/);
+    if (parenMult) {
+      const name = parenMult[1].trim();
+      const count = parseInt(parenMult[2] || parenMult[3], 10) || 1;
+      return { name, count };
+    }
+    // 2) Match tipo "Giocatore x2", "Giocatore X2", "Giocatore *2"
+    const outerMult = s.match(/^(.*?)\s*[xX*]\s*(\d+)$/);
+    if (outerMult) {
+      const name = outerMult[1].trim();
+      const count = parseInt(outerMult[2], 10) || 1;
+      return { name, count };
+    }
+    // 3) Match con minute o note generiche tra parentesi tipo "Giocatore (15', x2)" o "Giocatore (23')"
+    const genParen = s.match(/^(.*?)\s*[(（]([^)）]+)[)）]$/);
+    if (genParen) {
+      const name = genParen[1].trim();
+      const inside = genParen[2].trim();
+      const inMult = inside.match(/[xX*]\s*(\d+)/);
+      const count = inMult ? (parseInt(inMult[1], 10) || 1) : 1;
+      return { name, count };
+    }
+    return { name: s, count: 1 };
   }).filter(e => e.name);
 }
 
-/* Estrattore unificato per eventi partita / triangolari */
 function getEventsForMatch(m) {
   const scorers = [];
   const assists = [];
@@ -287,10 +235,12 @@ function getEventsForMatch(m) {
         String(gkStr).split(/[,、]/).forEach(x => {
           const s = x.trim();
           if (!s) return;
-          const mt = s.match(/^(.+?)\s*[(（]\s*(\d+)\s*[)）]$/);
-          const name = mt ? mt[1].trim() : s;
-          const conc = mt ? parseInt(mt[2], 10) : 0;
-          gks.push({ name, conc, cleanSheet: conc === 0 });
+          const parsed = entries(s)[0];
+          if (parsed) {
+            const mt = s.match(/^([^(（]+)(?:[(（](\d+)[)）])?/);
+            const conc = mt && mt[2] !== undefined ? parseInt(mt[2], 10) : 0;
+            gks.push({ name: parsed.name, conc, cleanSheet: conc === 0 });
+          }
         });
       }
     });
@@ -309,9 +259,9 @@ function getEventsForMatch(m) {
       String(m.goalkeepers).split(/[,、]/).forEach(x => {
         const s = x.trim();
         if (!s) return;
-        const mt = s.match(/^(.+?)\s*[(（]\s*(\d+)\s*[)）]$/);
+        const mt = s.match(/^([^(（]+)(?:[(（](\d+)[)）])?/);
         const name = mt ? mt[1].trim() : s;
-        const conc = mt ? parseInt(mt[2], 10) : ga;
+        const conc = mt && mt[2] !== undefined ? parseInt(mt[2], 10) : ga;
         gks.push({ name, conc, cleanSheet: conc === 0 });
       });
     }
@@ -324,9 +274,23 @@ function tally(list) {
   const r = { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, y: 0, rd: 0, clean: 0 };
   list.forEach(m => {
     const s = D().scoreParts(m); if (s.ours == null) return;
-    r.p++; r.gf += s.ours; r.ga += s.theirs; if (s.theirs === 0) r.clean++;
+    r.p++; r.gf += s.ours; r.ga += s.theirs;
     s.ours > s.theirs ? r.w++ : s.ours === s.theirs ? r.d++ : r.l++;
-    
+
+    // Verifica Clean Sheet squadra anche sulle sotto-partite (sub_matches)
+    if (m.sub_matches && m.sub_matches.length > 0) {
+      m.sub_matches.forEach(sub => {
+        const isHomeUs = sub.home === 'us' || sub.isHome === true || sub.home_team === 'us';
+        const mt = String(sub.score || '').match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
+        if (mt) {
+          const theirs = isHomeUs ? +mt[2] : +mt[1];
+          if (theirs === 0) r.clean++;
+        }
+      });
+    } else {
+      if (s.theirs === 0) r.clean++;
+    }
+
     const ev = getEventsForMatch(m);
     r.y += ev.yellows.reduce((sum, item) => sum + (item.count || 1), 0);
     r.rd += ev.reds.reduce((sum, item) => sum + (item.count || 1), 0);
@@ -347,7 +311,6 @@ function aggregate(list) {
     const starters = Array.isArray(m.starters) ? m.starters : Object.values(m.starters_positions || {});
     const subs = Array.isArray(m.substitutes_in) ? m.substitutes_in : (m.bench_details || []).filter(b => b.subbed_in).map(b => b.player);
     
-    // Conteggio presenze (1 sola volta per evento gara/triangolare)
     starters.forEach(n => { if (n) bump(A.apps, n, 1, { subs: 0 }); });
     subs.forEach(n => { if (n) { const o = bump(A.apps, n, 1, { subs: 0 }); o.subs++; } });
 
@@ -355,7 +318,7 @@ function aggregate(list) {
 
     ev.scorers.forEach(e => bump(A.goals, e.name, e.count));
     ev.assists.forEach(e => bump(A.assists, e.name, e.count));
-    ev.mvps.forEach(e => bump(A.mvp, e.name, 1));
+    ev.mvps.forEach(e => bump(A.mvp, e.name, e.count || 1));
     ev.yellows.forEach(e => bump(A.yellow, e.name, e.count || 1));
     ev.reds.forEach(e => bump(A.red, e.name, e.count || 1));
 
