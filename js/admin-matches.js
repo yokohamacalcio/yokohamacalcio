@@ -24,7 +24,6 @@
   AD.isDirty = () => dirty;
   const markDirty = () => { dirty = true; };
 
-  /* ---------- parsing coerente con il sito ("Nome x2 (23')", "Portiere(3)") ---------- */
   function parseList(text, gk) {
     if (!text || Array.isArray(text) && !text.length) return [];
     const items = Array.isArray(text) ? text : String(text).split(SEP);
@@ -36,7 +35,6 @@
     }).filter(e => e.name);
   }
 
-  /* ---------- giocatori e menu ---------- */
   const allPeople = () => [...D.players, ...trialists];
   const pval = p => p.name_kanji || p.name_romaji;
   const pdisp = p => AD.pname(p, State.lang) || pval(p);
@@ -67,7 +65,6 @@
     updateCards();
   }
 
-  /* ---------- selettori dati ---------- */
   const oppName = k => AD.nm((D.opponents[k] || {}).name, State.lang) || k;
   const locName = k => (D.locations[k] || {})[State.lang] || (D.locations[k] || {}).it || k;
   function renderSelects() {
@@ -77,13 +74,12 @@
     $('locationSelect').innerHTML = Object.keys(D.locations).sort().map(k => `<option value="${esc(k)}">${esc(locName(k))} (${esc(k)})</option>`).join('');
     $('competitionSelect').innerHTML = (D.competitions.length ? D.competitions : [{ id: 'friendly', name: { it: 'Amichevoli' } }]).map(x => { const bits = [x.division && (State.lang === 'ja' ? x.division + '部' : 'Div. ' + x.division), x.block && (State.lang === 'ja' ? x.block + 'ブロック' : 'Blocco ' + x.block), x.season && x.season !== 'all' && '(' + x.season + ')'].filter(Boolean).join(' '); return `<option value="${esc(x.id)}">${esc(AD.nm(x.name, State.lang) + (bits ? ' ' + bits : '') + ' [' + x.id + ']')}</option>`; }).join('');
     if (o) $('opponentSelect').value = o; if (l) $('locationSelect').value = l; if (c) $('competitionSelect').value = c;
-    const sorted = [...D.matches].sort((a, b) => { const up = x => (x.status === 'upcoming' || x.status === 'live') ? 0 : 1; return up(a) - up(b) || (up(a) ? String(b.date).localeCompare(a.date) : String(a.date).localeCompare(b.date)); });
+    const sorted = [...D.matches].sort((a, b) => { const up = x => (x.status === 'upcoming' || x.status === 'live') ? 0 : 1; return up(a) - up(b) || (up(a) ? String(b.date).localeCompare(a.date) : String(b.date).localeCompare(a.date)); });
     const cur = $('matchSelector').value;
     $('matchSelector').innerHTML = `<option value="">— ${sorted.length} —</option>` + sorted.map(m => `<option value="${esc(m.id)}">${(m.status === 'upcoming' || m.status === 'live') ? '🟢' : '⚪'} ${esc(m.date)} — vs ${esc(oppName(m.opponent_id))}${m.score && m.score !== 'VS' ? ' (' + esc(m.score) + ')' : ''} · [${esc(m.id)}]</option>`).join('');
     if (cur) $('matchSelector').value = cur;
   }
 
-  /* ---------- campo e panchina ---------- */
   function renderPitch() {
     const coords = FORM[$('formationSelect').value] || FORM['4-4-2'];
     const prev = {}; $$('#pitchGrid .squad-sel').forEach(s => prev[s.dataset.pos] = s.value);
@@ -97,7 +93,6 @@
     refreshSelects(); renderMister();
   }
 
-  /* ---------- affinità e Mister virtuale ---------- */
   const statsPlayers = () => (D.stats && D.stats.players) || {};
   function macroOf(p) { return p.role === 'gk' ? 'GK' : p.role === 'df' ? 'DEF' : p.role === 'mf' ? 'MID' : p.role === 'fw' ? 'ATT' : 'UNK'; }
   function affinity(p, tag) {
@@ -141,7 +136,6 @@
     markDirty(); refreshSelects(); renderMister(); toast('success', `✨ ${t('m.suggested')} (${n})`);
   }
 
-  /* ---------- righe statistiche ---------- */
   const ROWS = { scorer: ['scorersContainer', { count: 'm.goals', min: 1 }], assist: ['assistsContainer', { count: 'm.assistN' }], gk: ['gkContainer', { count: 'm.conceded', gk: 1 }], yellow: ['yellowCardsContainer', { min: 1 }], red: ['redCardsContainer', { min: 1 }] };
   function addRow(kind, data) {
     const [cid, o] = ROWS[kind], div = document.createElement('div'); div.className = 'stat-row'; div.dataset.kind = kind;
@@ -153,7 +147,6 @@
   const rowsOf = kind => $$(`#${ROWS[kind][0]} .stat-row`).map(r => ({ name: r.querySelector('.row-sel').value, n: parseInt((r.querySelector('.count-input') || {}).value, 10), min: ((r.querySelector('.minute-input') || {}).value || '').trim() })).filter(r => r.name);
   const fmtNames = (arr, withMin) => arr.map(r => `${r.name}${r.n > 1 ? ' x' + r.n : ''}${withMin && r.min ? ` (${r.min}')` : ''}`).join(', ');
 
-  /* ---------- lettura / scrittura del modulo ---------- */
   function readForm() {
     const up = $('matchStatus').value === 'upcoming', sp = {}, starters = [], bench = [], subsIn = [], subsOut = [];
     $$('#pitchGrid .squad-sel').forEach(s => { if (s.value) { sp[s.dataset.pos] = s.value; starters.push(s.value); } });
@@ -192,7 +185,7 @@
   }
   const nextId = () => 'match-' + (D.matches.reduce((mx, m) => Math.max(mx, parseInt((String(m.id).match(/match-(\d+)/i) || [0, 0])[1], 10) || 0), 0) + 1);
 
-  /* ---------- statistiche (stessa struttura di stats.json) ---------- */
+  /* ---------- statistiche (con supporto completo ai triangolari sub_matches) ---------- */
   function buildStats(players, matches) {
     const map = {}, alias = new Map();
     players.forEach(p => {
@@ -206,35 +199,74 @@
       let c = cleanStr(raw).replace(/\(\d+(?:\+\d+)?['′]?\)/g, '').replace(/x\d+$/, '').trim(); if (!c || ['なし', 'nessuno', 'null'].includes(c)) return null;
       if (alias.has(c) && !/^n\d+$/.test(c)) return alias.get(c);
       if (c.length < 2) return null;
-      const ids = [...new Set(fuzzy.filter(([a]) => a.includes(c) || c.includes(a)).map(([, id]) => id))]; return ids.length === 1 ? ids[0] : null;   // ambiguo → nessuno (evita Fukuda K./D.)
+      const ids = [...new Set(fuzzy.filter(([a]) => a.includes(c) || c.includes(a)).map(([, id]) => id))]; return ids.length === 1 ? ids[0] : null;
     }
     const tt = { total_matches: 0, wins: 0, draws: 0, losses: 0, goals_for: 0, goals_against: 0, clean_sheets: 0, formations_used: {} };
     const posRe = /^(GK|CB|LB|RB|LWB|RWB|DM|CM|LM|RM|AM|LW|RW|FW|ST)(-[LRC123])?$/i;
     const rec = (name, tag) => { const id = resolve(name); if (id && map[id] && tag) { const k = String(tag).trim().toUpperCase(); map[id].positions_played[k] = (map[id].positions_played[k] || 0) + 1; } };
-    matches.forEach(m => {
-      if (String(m.status).toLowerCase() !== 'past') return; tt.total_matches++;
-      if (m.formation) tt.formations_used[m.formation] = (tt.formations_used[m.formation] || 0) + 1;
-      let gf = 0, ga = 0; const sm = String(m.score || '').match(/^\s*(\d+)\s*-\s*(\d+)\s*$/); if (sm) { gf = +sm[1]; ga = +sm[2]; }
-      tt.goals_for += gf; tt.goals_against += ga; gf > ga ? tt.wins++ : gf === ga ? tt.draws++ : tt.losses++; if (!ga) tt.clean_sheets++;
+
+    // Helper per processare una singola partita o sotto-partita (sub_match)
+    function processSubMatch(subObj, matchParent) {
+      let gf = 0, ga = 0; 
+      const sm = String(subObj.score || '').match(/^\s*(\d+)\s*-\s*(\d+)\s*$/); 
+      if (sm) { gf = +sm[1]; ga = +sm[2]; }
+
+      tt.total_matches++;
+      tt.goals_for += gf; 
+      tt.goals_against += ga; 
+      gf > ga ? tt.wins++ : gf === ga ? tt.draws++ : tt.losses++; 
+      if (!ga) tt.clean_sheets++;
+
       const seen = new Set();
-      (m.starters || []).forEach(n => { const id = resolve(n); if (id && map[id] && !seen.has(id)) { map[id].starters++; map[id].caps++; seen.add(id); } });
-      Object.entries(m.starters_positions || {}).forEach(([k, v]) => posRe.test(k.trim()) ? rec(v, k) : rec(k, v));
-      (m.substitutes_in || []).forEach(n => { const id = resolve(n); if (id && map[id] && !seen.has(id)) { map[id].subs++; map[id].caps++; seen.add(id); } });
-      (m.bench_details || []).forEach(b => { if (b && b.subbed_in && b.position_played) rec(b.player, b.position_played); });
-      parseList(m.scorers).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].goals += e.n; });
-      parseList(m.assists).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].assists += e.n; });
-      parseList(m.mvp).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].mvps++; });
-      parseList(m.yellow_cards).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].yellows++; });
-      parseList(m.red_cards).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].reds++; });
-      parseList(m.goalkeepers, true).forEach(e => { const id = resolve(e.name); if (id && map[id]) { const c = e.n || (String(m.goalkeepers).includes('(') ? 0 : ga); map[id].goals_conceded += c; if (!c) map[id].clean_sheets++; } });
+      const startersList = subObj.starters || matchParent.starters || [];
+      startersList.forEach(n => { const id = resolve(n); if (id && map[id] && !seen.has(id)) { map[id].starters++; map[id].caps++; seen.add(id); } });
+      
+      const subsList = subObj.substitutes_in || matchParent.substitutes_in || [];
+      subsList.forEach(n => { const id = resolve(n); if (id && map[id] && !seen.has(id)) { map[id].subs++; map[id].caps++; seen.add(id); } });
+
+      parseList(subObj.scorers).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].goals += e.n; });
+      parseList(subObj.assists).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].assists += e.n; });
+      parseList(subObj.mvp).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].mvps++; });
+      parseList(subObj.yellow_cards).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].yellows++; });
+      parseList(subObj.red_cards).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].reds++; });
+      
+      parseList(subObj.goalkeepers || matchParent.goalkeepers, true).forEach(e => { 
+        const id = resolve(e.name); 
+        if (id && map[id]) { 
+          const c = e.n || (String(subObj.goalkeepers || matchParent.goalkeepers).includes('(') ? 0 : ga); 
+          map[id].goals_conceded += c; 
+          if (!c) map[id].clean_sheets++; 
+        } 
+      });
+    }
+
+    matches.forEach(m => {
+      if (String(m.status).toLowerCase() !== 'past') return;
+      if (m.formation) tt.formations_used[m.formation] = (tt.formations_used[m.formation] || 0) + 1;
+
+      const subMatches = m.sub_matches || m.subMatches || [];
+
+      if (subMatches.length > 0) {
+        subMatches.forEach(sub => {
+          processSubMatch(sub, m);
+          if (sub.starters_positions && typeof sub.starters_positions === 'object') {
+            Object.entries(sub.starters_positions).forEach(([k, v]) => posRe.test(k.trim()) ? rec(v, k) : rec(k, v));
+          }
+        });
+      } else {
+        processSubMatch(m, m);
+        Object.entries(m.starters_positions || {}).forEach(([k, v]) => posRe.test(k.trim()) ? rec(v, k) : rec(k, v));
+        (m.bench_details || []).forEach(b => { if (b && b.subbed_in && b.position_played) rec(b.player, b.position_played); });
+      }
     });
+
     const L = Object.values(map), top = (f, k) => L.filter(p => p[f] > 0).sort((a, b) => b[f] - a[f] || b.caps - a.caps).slice(0, 5);
     return { updated_at: new Date().toISOString(), team_totals: tt, players: map, rankings: { top_scorers: top('goals'), top_assists: top('assists'), most_caps: top('caps'), mvps: top('mvps') } };
   }
+
   const syncCaps = (players, stats) => players.map(p => stats.players[p.id] ? { ...p, caps: stats.players[p.id].caps || 0 } : (p.role === 'staff' ? p : { ...p, caps: 0 }));
   AD.recalc = async () => { const stats = buildStats(D.players, D.matches); if (await save({ stats, players: syncCaps(D.players, stats) }, 'Admin: recalc stats & caps')) { toast('success', '✅ ' + t('m.recalcDone')); AD.renderEntities(); renderMister(); updateCards(); } };
 
-  /* ---------- salva / elimina ---------- */
   async function saveMatch(e) {
     e.preventDefault();
     const m = readForm(); if (!m.id) { toast('warn', t('m.noId')); $('searchInputWrap').classList.add('open'); return $('matchId').focus(); }
@@ -267,7 +299,6 @@
     currentId = ''; $('matchId').value = nid; $('matchDate').value = ''; $('matchScore').value = 'VS'; $('matchStatus').value = 'upcoming'; $('matchSelector').value = ''; markDirty(); toast('info', `📋 ${nid}: ${t('m.dupDone')}`);
   }
 
-  /* ---------- in prova ---------- */
   function renderTrialists() {
     $('trialistListContainer').innerHTML = trialists.length ? trialists.map(p => `<div class="trialist-item"><span><i class="fas fa-user-clock"></i> ${esc(p.name_kanji)}</span><button type="button" class="btn-remove-trialist" data-action="remove-trialist" data-id="${esc(p.id)}"><i class="fas fa-times-circle"></i></button></div>`).join('') : '<span class="muted">—</span>';
   }
@@ -276,21 +307,18 @@
     trialists.push({ id: 'trialist_' + Date.now(), name_kanji: n.trim(), name_romaji: n.trim(), position: 'TRIAL', role: 'mf' }); renderTrialists(); refreshSelects(); markDirty();
   }
 
-  /* ---------- LINE ---------- */
   function generateLine() {
     const L = State.lang, m = readForm(), tr = (a, b, c) => L === 'it' ? a : L === 'en' ? b : c, loc = D.locations[m.location_id] || {};
     const st = Object.entries(m.starters_positions || {}).map(([p, n]) => `・[${p}] ${AD.pname(allPeople().find(x => pval(x) === n) || { name_kanji: n }, L) || n}`), bn = (m.bench_details || []).map(b => `・${AD.pname(allPeople().find(x => pval(x) === b.player) || { name_kanji: b.player }, L) || b.player}`);
     $('lineTextOutput').value = `⚽ 【Yokohama Calcio ${tr('Annuncio Partita', 'Match Announcement', '試合案内')}】 ⚽\n\n📅 ${tr('Data', 'Date', '日付')}: ${m.date || 'TBD'}\n⏰ ${tr('Orario', 'Time', '時間')}: ${m.time}\n🛡️ ${tr('Avversario', 'Opponent', '対戦相手')}: ${oppName(m.opponent_id)}\n📍 ${tr('Campo', 'Venue', '会場')}: ${locName(m.location_id)}\n${loc.maps ? '🗺️ Google Maps: ' + loc.maps + '\n' : ''}\n------------------------------\n【Titolari / スタメン】\n${st.join('\n') || 'TBD / 未定'}\n\n【Panchina / ベンチ】\n${bn.join('\n') || 'TBD / 未定'}\n------------------------------\n\nForza Yokohama Calcio! 🔥`;
   }
 
-  /* ---------- bozza ---------- */
   const DRAFT = 'yc_admin_draft';
   function clearDraft() { sessionStorage.removeItem(DRAFT); $('draftBanner').classList.add('hidden'); }
   function saveDraft() { if (!dirty) return; try { sessionStorage.setItem(DRAFT, JSON.stringify({ ...readForm(), _trialists: trialists })); } catch (_) {} }
   function checkDraft() { $('draftBanner').classList.toggle('hidden', !sessionStorage.getItem(DRAFT)); }
   function restoreDraft() { try { const d = JSON.parse(sessionStorage.getItem(DRAFT)); currentId = d.id || ''; fillForm(d); $('matchId').value = d.id || ''; clearDraft(); markDirty(); toast('success', '✅ Draft'); } catch (e) { toast('error', e.message); } }
 
-  /* ---------- eventi ---------- */
   Object.assign(actions, {
     'load-match-selector': () => { const id = $('matchSelector').value; if (!id) return toast('warn', t('m.pickFirst')); loadMatch(id); $('searchInputWrap').classList.add('open'); },
     'search-by-id': () => { const id = $('matchId').value.trim(); if (!id) return $('matchId').focus(); loadMatch(id); }, 'toggle-id-search': () => { $('searchInputWrap').classList.toggle('open'); setTimeout(() => $('matchId').focus(), 80); },
