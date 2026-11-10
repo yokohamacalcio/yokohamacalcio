@@ -78,55 +78,42 @@ const esc = YC.escapeHtml, t = k => YC.t(k), D = () => YC.data;
 let M = [], P = [], OPP = {}, STAND = {}, ready = false;
 let ui = { season: String(YC.todayJST().slice(0, 4)), comp: 'all' };
 const expanded = {};
-const seasonMatches = () => M.filter(m => m.status === 'past' && (ui.season === 'all' || String(m.date).slice(0, 4) === ui.season)).sort((a, b) => a.date.localeCompare(b.date));
+const seasonMatches = () => M.filter(m => m && m.status === 'past' && (ui.season === 'all' || String(m.date || '').slice(0, 4) === ui.season)).sort((a, b) => String(a.date || '').localeCompare(b.date || ''));
 const compMatches = () => seasonMatches().filter(m => ui.comp === 'all' || D().normCat(m.category) === ui.comp);
-/* Parser avanzato per estrarre il nome e la quantità (es. "Giocatore (x2)", "Giocatore (2)", "Giocatore x2") /
 function entries(text) {
 if (!text || text === 'なし' || text === 'Nessuno') return [];
 return String(text).split(/[,、]/).map(x => x.trim()).filter(Boolean).map(s => {
-const parenMult = s.match(/^(.?)\s*[(（]\s*(?:[xX*]\s*(\d+)|(\d+))\s*[)）]￼
+const parenMult = s.match(/^(.?)\s[(（]\s*(?:[xX*]\s*(\d+)|(\d+))\s*[)）]￼
 if (parenMult) {
-￼
-￼
 ￼
 }
 const outerMult = s.match(/^(.*?)\s*[xX*]\s*(\d+)/);
 if (outerMult) {
-const name = outerMult[1].trim();
-const count = parseInt(outerMult[2], 10) || 1;
-return { name, count };
+return { name: outerMult[1].trim(), count: parseInt(outerMult[2], 10) || 1 };
 }
 const genParen = s.match(/^(.?)\s(（）]+)[)）]$/);
 if (genParen) {
 const name = genParen[1].trim();
-const inside = genParen[2].trim();
-const inMult = inside.match(/[xX*]\s*(\d+)/);
-const count = inMult ? (parseInt(inMult[1], 10) || 1) : 1;
-return { name, count };
+const inMult = genParen[2].trim().match(/[xX*]\s*(\d+)/);
+return { name, count: inMult ? (parseInt(inMult[1], 10) || 1) : 1 };
 }
 return { name: s, count: 1 };
 }).filter(e => e.name);
 }
 function getEventsForMatch(m) {
-const scorers = [];
-const assists = [];
-const yellows = [];
-const reds = [];
-const mvps = [];
-const subMatches = m.sub_matches || m.subMatches || [];
-if (subMatches.length > 0) {
-subMatches.forEach(sub => {
+const scorers = [], assists = [], yellows = [], reds = [], mvps = [];
+if (m.sub_matches && Array.isArray(m.sub_matches) && m.sub_matches.length > 0) {
+m.sub_matches.forEach(sub => {
+if (!sub) return;
 if (sub.scorers) scorers.push(...entries(sub.scorers));
 if (sub.assists) assists.push(...entries(sub.assists));
 if (sub.yellow_cards) yellows.push(...entries(sub.yellow_cards));
 if (sub.red_cards) reds.push(...entries(sub.red_cards));
 if (sub.mvp) mvps.push(...entries(sub.mvp));
 });
-if (m.scorers && scorers.length === 0) scorers.push(...entries(m.scorers));
-if (m.assists && assists.length === 0) assists.push(...entries(m.assists));
+if (m.mvp && mvps.length === 0) mvps.push(...entries(m.mvp));
 if (m.yellow_cards && yellows.length === 0) yellows.push(...entries(m.yellow_cards));
 if (m.red_cards && reds.length === 0) reds.push(...entries(m.red_cards));
-if (m.mvp && mvps.length === 0) mvps.push(...entries(m.mvp));
 } else {
 if (m.scorers) scorers.push(...entries(m.scorers));
 if (m.assists) assists.push(...entries(m.assists));
@@ -139,34 +126,37 @@ return { scorers, assists, yellows, reds, mvps };
 function tally(list) {
 const r = { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, y: 0, rd: 0, clean: 0 };
 list.forEach(m => {
-let ours = 0, theirs = 0;
-let hasScore = false;
-const subMatches = m.sub_matches || m.subMatches || [];
-if (subMatches.length > 0) {
-subMatches.forEach(sub => {
+if (!m) return;
+let totGf = 0, totGa = 0, hasScore = false;
+if (m.sub_matches && Array.isArray(m.sub_matches) && m.sub_matches.length > 0) {
+m.sub_matches.forEach(sub => {
+if (!sub) return;
 const isHomeUs = sub.home === 'us' || sub.isHome === true || sub.home_team === 'us' || (sub.home === undefined && sub.isHome === undefined && m.isHome !== false);
-const mt = String(sub.score || '').match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
+const mt = String(sub.score || sub.result || '').match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
 if (mt) {
 hasScore = true;
 const s1 = +mt[1], s2 = +mt[2];
-ours += isHomeUs ? s1 : s2;
-theirs += isHomeUs ? s2 : s1;
+totGf += isHomeUs ? s1 : s2;
+totGa += isHomeUs ? s2 : s1;
 }
 });
 } else {
 const s = D().scoreParts(m);
-if (s.ours != null) {
+if (s && s.ours != null) {
 hasScore = true;
-ours = s.ours;
-theirs = s.theirs;
+totGf = s.ours;
+totGa = s.theirs;
 }
 }
-if (!hasScore) return;
+if (hasScore) {
 r.p++;
-r.gf += ours;
-r.ga += theirs;
-ours > theirs ? r.w++ : ours === theirs ? r.d++ : r.l++;
-if (theirs === 0) r.clean++;
+r.gf += totGf;
+r.ga += totGa;
+if (totGf > totGa) r.w++;
+else if (totGf === totGa) r.d++;
+else r.l++;
+if (totGa === 0) r.clean++;
+}
 const ev = getEventsForMatch(m);
 r.y += ev.yellows.reduce((sum, item) => sum + (item.count || 1), 0);
 r.rd += ev.reds.reduce((sum, item) => sum + (item.count || 1), 0);
@@ -182,94 +172,84 @@ o.n += n; return o;
 function aggregate(list) {
 const A = { apps: {}, goals: {}, assists: {}, mvp: {}, yellow: {}, red: {}, gk: {} };
 list.forEach(m => {
-// 1. CAPS / PRESENZE UNICHE PER MATCH m (max 1 presenza per evento)
+if (!m) return;
+// 1. PRESENZE (CAPS) — MAX 1 PRESENZA PER GIOCATORE PER EVENTO MATCH
 const startersInMatch = new Set();
 const subsInMatch = new Set();
 const addStarters = (obj) => {
 if (!obj) return;
 const st = Array.isArray(obj.starters) ? obj.starters : Object.values(obj.starters_positions || {});
-st.forEach(n => { if (n) startersInMatch.add(n); });
+st.forEach(n => { if (n) startersInMatch.add(String(n).trim()); });
 };
 const addSubs = (obj) => {
 if (!obj) return;
-const sb = Array.isArray(obj.substitutes_in) ? obj.substitutes_in : (obj.bench_details || []).filter(b => b.subbed_in || b.subbedIn).map(b => b.player);
-sb.forEach(n => { if (n) subsInMatch.add(n); });
+const sb = Array.isArray(obj.substitutes_in) ? obj.substitutes_in : (obj.bench_details || []).filter(b => b && (b.subbed_in || b.subbedIn)).map(b => b.player || b.name);
+sb.forEach(n => { if (n) subsInMatch.add(String(n).trim()); });
 };
 addStarters(m);
 addSubs(m);
-const subMatches = m.sub_matches || m.subMatches || [];
-if (subMatches.length > 0) {
-subMatches.forEach(sub => {
+if (m.sub_matches && Array.isArray(m.sub_matches) && m.sub_matches.length > 0) {
+m.sub_matches.forEach(sub => {
 addStarters(sub);
 addSubs(sub);
 });
 }
-startersInMatch.forEach(n => {
-bump(A.apps, n, 1, { subs: 0 });
-});
+if (startersInMatch.size === 0 && subsInMatch.size === 0 && Array.isArray(m.lineup)) {
+m.lineup.forEach(n => { if (n) startersInMatch.add(String(n).trim()); });
+}
+startersInMatch.forEach(n => bump(A.apps, n, 1, { subs: 0 }));
 subsInMatch.forEach(n => {
 if (!startersInMatch.has(n)) {
 const o = bump(A.apps, n, 1, { subs: 0 });
-o.subs++;
+o.subs = (o.subs || 0) + 1;
 }
 });
-// 2. EVENTI: GOL, ASSIST, MVP, CARTELLINI
+// 2. EVENTI
 const ev = getEventsForMatch(m);
 ev.scorers.forEach(e => bump(A.goals, e.name, e.count));
 ev.assists.forEach(e => bump(A.assists, e.name, e.count));
 ev.mvps.forEach(e => bump(A.mvp, e.name, e.count || 1));
 ev.yellows.forEach(e => bump(A.yellow, e.name, e.count || 1));
 ev.reds.forEach(e => bump(A.red, e.name, e.count || 1));
-// 3. PORTIERI & CLEAN SHEETS PER MATCH m (aggregati sull'intero evento)
-const gkConcededMap = new Map();
-const gksPlayedSet = new Set();
-const recordGk = (name, conc) => {
-if (!name) return;
-const current = gkConcededMap.get(name) || 0;
-gkConcededMap.set(name, current + conc);
-gksPlayedSet.add(name);
-};
-if (subMatches.length > 0) {
-subMatches.forEach(sub => {
-let subGa = 0;
-const mt = String(sub.score || '').match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
-if (mt) {
+// 3. PORTIERI & CLEAN SHEETS (AGGREGATI PER MATCH EVENT)
+const matchGks = new Map();
+if (m.sub_matches && Array.isArray(m.sub_matches) && m.sub_matches.length > 0) {
+m.sub_matches.forEach(sub => {
+if (!sub) return;
 const isHomeUs = sub.home === 'us' || sub.isHome === true || sub.home_team === 'us' || (sub.home === undefined && sub.isHome === undefined && m.isHome !== false);
-subGa = isHomeUs ? +mt[2] : +mt[1];
-}
+const mt = String(sub.score || sub.result || '').match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
+const subGa = mt ? (isHomeUs ? +mt[2] : +mt[1]) : 0;
 const gkStr = sub.goalkeeper || sub.goalkeepers || m.goalkeepers || (m.starters_positions && m.starters_positions.GK) || (sub.starters_positions && sub.starters_positions.GK);
 if (gkStr) {
 String(gkStr).split(/[,、]/).forEach(x => {
-const s = x.trim();
-if (!s) return;
+const s = x.trim(); if (!s) return;
 const parsed = entries(s)[0];
 if (parsed) {
-const matchCon = s.match(/^([^(（]+)(?:(（[)）])?/);
-const conc = matchCon && matchCon[2] !== undefined ? parseInt(matchCon[2], 10) : subGa;
-recordGk(parsed.name, conc);
+const matchConceded = s.match(/^([^(（]+)(?:(（[)）])?/);
+const conc = (matchConceded && matchConceded[2] !== undefined) ? parseInt(matchConceded[2], 10) : subGa;
+const name = parsed.name;
+matchGks.set(name, (matchGks.get(name) || 0) + conc);
 }
 });
 }
 });
 } else {
+const ga = (D().scoreParts(m).theirs) || 0;
 const gkStr = m.goalkeepers || (m.starters_positions && m.starters_positions.GK);
 if (gkStr) {
-const ga = (D().scoreParts(m).theirs) || 0;
 String(gkStr).split(/[,、]/).forEach(x => {
-const s = x.trim();
-if (!s) return;
-const matchCon = s.match(/^([^(（]+)(?:(（[)）])?/);
-const name = matchCon ? matchCon[1].trim() : s;
-const conc = matchCon && matchCon[2] !== undefined ? parseInt(matchCon[2], 10) : ga;
-recordGk(name, conc);
+const s = x.trim(); if (!s) return;
+const matchConceded = s.match(/^([^(（]+)(?:(（[)）])?/);
+const name = matchConceded ? matchConceded[1].trim() : s;
+const conc = (matchConceded && matchConceded[2] !== undefined) ? parseInt(matchConceded[2], 10) : ga;
+matchGks.set(name, (matchGks.get(name) || 0) + conc);
 });
 }
 }
-gksPlayedSet.forEach(name => {
-const conc = gkConcededMap.get(name) || 0;
-const o = bump(A.gk, name, conc, { played: 0, cleanSheets: 0 });
+matchGks.forEach((totConceded, gkName) => {
+const o = bump(A.gk, gkName, totConceded, { played: 0, cleanSheets: 0 });
 o.played++;
-if (conc === 0) {
+if (totConceded === 0) {
 o.cleanSheets = (o.cleanSheets || 0) + 1;
 }
 });
@@ -331,13 +311,14 @@ rows.map((x, i) => ⁠<tr class="${/yokohama\s*calcio|ヨコハマ・?カルチ�
 function renderH2H(list) {
 const g = {};
 list.forEach(m => {
-const subMatches = m.sub_matches || m.subMatches || [];
-if (subMatches.length > 0) {
-subMatches.forEach(sub => {
+if (!m) return;
+if (m.sub_matches && Array.isArray(m.sub_matches) && m.sub_matches.length > 0) {
+m.sub_matches.forEach(sub => {
+if (!sub) return;
 const oppId = sub.opponent_id || m.opponent_id;
 if (!oppId) return;
 const isHomeUs = sub.home === 'us' || sub.isHome === true || sub.home_team === 'us' || (sub.home === undefined && sub.isHome === undefined && m.isHome !== false);
-const mt = String(sub.score || '').match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
+const mt = String(sub.score || sub.result || '').match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
 if (!mt) return;
 const s1 = +mt[1], s2 = +mt[2];
 const ours = isHomeUs ? s1 : s2;
@@ -352,7 +333,7 @@ else r.l++;
 });
 } else {
 const s = D().scoreParts(m);
-if (s.ours == null || !m.opponent_id) return;
+if (!s || s.ours == null || !m.opponent_id) return;
 const r = g[m.opponent_id] || (g[m.opponent_id] = { m, p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0 });
 r.p++;
 r.gf += s.ours;
@@ -380,7 +361,7 @@ rankCard('yellow', 'fa-square', t('s.r_yellow'), '', V(A.yellow), unit('s.u_card
 rankCard('red', 'fa-square', t('s.r_red'), '', V(A.red), unit('s.u_cards'), byN);
 }
 function renderControls() {
-const years = [...new Set(M.map(m => String(m.date).slice(0, 4)).concat(YC.todayJST().slice(0, 4)))].sort().reverse();
+const years = [...new Set(M.map(m => String((m && m.date) || '').slice(0, 4)).filter(Boolean).concat(YC.todayJST().slice(0, 4)))].sort().reverse();
 document.getElementById('season').innerHTML = ⁠<option value="all" ${ui.season === 'all' ? 'selected' : ''}>${t('s.all_seasons')}</option>⁠ + years.map(y => ⁠<option value="${y}" ${ui.season === y ? 'selected' : ''}>${y}</option>⁠).join('');
 document.getElementById('compPills').innerHTML = ['all', 'league', 'cup', 'friendly'].map(c => ⁠<button type="button" class="pill ${ui.comp === c ? 'active' : ''}" data-comp="${c}">${t('s.comp_' + c)}</button>⁠).join('');
 }
@@ -396,8 +377,10 @@ const m = e.target.closest('[data-more]'); if (m) { expanded[m.dataset.more] = !
 document.getElementById('season').addEventListener('change', e => { ui.season = e.target.value; Object.keys(expanded).forEach(k => delete expanded[k]); render(); });
 Promise.all([YC.data.load(['matches', 'players', 'opponents']), YC.fetchJson('standings.json', {})]).then(([d, st]) => {
 M = Array.isArray(d.matches) ? d.matches : []; P = Array.isArray(d.players) ? d.players : []; OPP = d.opponents || {}; STAND = st || {};
-const years = M.map(m => String(m.date).slice(0, 4)); if (ui.season !== 'all' && !years.includes(ui.season)) ui.season = 'all';
+const years = M.map(m => String((m && m.date) || '').slice(0, 4)).filter(Boolean); if (ui.season !== 'all' && !years.includes(ui.season)) ui.season = 'all';
 ready = true; render();
+}).catch(err => {
+console.error("Errore caricamento dati stats:", err);
 });
 document.addEventListener('yc:langchange', () => ready && render());
 </script>
