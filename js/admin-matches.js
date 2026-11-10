@@ -278,24 +278,55 @@
 
       const subMatches = m.sub_matches || m.subMatches || [];
 
-      // 1. PRESENZE (CAPS) — 1 MATCH EVENTO = 1 PRESENZA PER I GIOCATORI
+      // 1. PRESENZE (CAPS) — MAX 1 PRESENZA PER GIOCATORE PER EVENTO MATCH
       const startersInMatch = new Set();
       const subsInMatch = new Set();
 
+      const extractStarters = (obj) => {
+        if (!obj) return;
+        if (Array.isArray(obj.starters)) {
+          obj.starters.forEach(n => { const id = resolve(n); if (id) startersInMatch.add(id); });
+        }
+        if (obj.starters_positions && typeof obj.starters_positions === 'object') {
+          Object.values(obj.starters_positions).forEach(n => { const id = resolve(n); if (id) startersInMatch.add(id); });
+        }
+      };
+
+      const extractSubs = (obj) => {
+        if (!obj) return;
+        if (Array.isArray(obj.substitutes_in)) {
+          obj.substitutes_in.forEach(n => { const id = resolve(n); if (id) subsInMatch.add(id); });
+        }
+        if (Array.isArray(obj.bench_details)) {
+          obj.bench_details.forEach(b => {
+            if (b && (b.subbed_in || b.subbedIn)) {
+              const id = resolve(b.player || b.name);
+              if (id) subsInMatch.add(id);
+            }
+          });
+        }
+      };
+
+      extractStarters(m);
+      extractSubs(m);
+
       if (subMatches.length > 0) {
         subMatches.forEach(sub => {
-          const stList = getSubProp(sub, 'starters') || m.starters || [];
-          stList.forEach(n => { const id = resolve(n); if (id && map[id]) startersInMatch.add(id); });
-          const sbList = getSubProp(sub, 'substitutes_in') || m.substitutes_in || [];
-          sbList.forEach(n => { const id = resolve(n); if (id && map[id]) subsInMatch.add(id); });
+          extractStarters(sub);
+          extractSubs(sub);
         });
-      } else {
-        (m.starters || []).forEach(n => { const id = resolve(n); if (id && map[id]) startersInMatch.add(id); });
-        (m.substitutes_in || []).forEach(n => { const id = resolve(n); if (id && map[id]) subsInMatch.add(id); });
       }
 
-      startersInMatch.forEach(id => { map[id].starters++; map[id].caps++; });
-      subsInMatch.forEach(id => { if (!startersInMatch.has(id)) { map[id].subs++; map[id].caps++; } });
+      if (startersInMatch.size === 0 && subsInMatch.size === 0 && Array.isArray(m.lineup)) {
+        m.lineup.forEach(n => { const id = resolve(n); if (id) startersInMatch.add(id); });
+      }
+
+      startersInMatch.forEach(id => {
+        if (map[id]) { map[id].starters++; map[id].caps++; }
+      });
+      subsInMatch.forEach(id => {
+        if (map[id] && !startersInMatch.has(id)) { map[id].subs++; map[id].caps++; }
+      });
 
       // 2. STATISTICHE DI SQUADRA (TT): 1 EVENTO MATCH = 1 PARTITA COMPLETA
       let totGf = 0, totGa = 0;
@@ -335,7 +366,23 @@
       }
       if (totGa === 0) tt.clean_sheets++;
 
-      // 3. EVENTI SINGOLI: GOL, ASSIST, CARTELLINI, MVP, PORTIERI & CLEAN SHEETS
+      // 3. EVENTI SINGOLI & GOL SUBITI/CLEAN SHEETS
+      const matchGkConceded = new Map();
+
+      const processGksForSegment = (gkStr, defaultGa) => {
+        if (!gkStr) return;
+        const parsed = parseList(gkStr, true);
+        if (!parsed.length) return;
+        parsed.forEach(e => {
+          const id = resolve(e.name);
+          if (id && map[id]) {
+            const conceded = (e.n != null) ? e.n : defaultGa;
+            const prev = matchGkConceded.get(id) || 0;
+            matchGkConceded.set(id, prev + conceded);
+          }
+        });
+      };
+
       if (subMatches.length > 0) {
         subMatches.forEach(sub => {
           let subGa = 0;
@@ -363,25 +410,16 @@
           if (subReds) { parseList(subReds).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].reds += e.n; }); }
 
           const subGks = getSubProp(sub, 'goalkeepers', 'goalkeeper', 'gk', 'gks');
-          const fallbackGks = m.goalkeepers || (m.starters_positions && m.starters_positions.GK);
+          const fallbackGks = m.goalkeepers || (m.starters_positions && m.starters_positions.GK) || (sub.starters_positions && sub.starters_positions.GK);
           const gksToUse = subGks || fallbackGks;
-          if (gksToUse) {
-            parseList(gksToUse, true).forEach(e => {
-              const id = resolve(e.name);
-              if (id && map[id]) {
-                const c = (e.n != null) ? e.n : (String(gksToUse).includes('(') ? 0 : subGa);
-                map[id].goals_conceded += c;
-                if (c === 0) map[id].clean_sheets++;
-              }
-            });
-          }
+          processGksForSegment(gksToUse, subGa);
 
           if (sub.starters_positions && typeof sub.starters_positions === 'object') {
             Object.entries(sub.starters_positions).forEach(([k, v]) => posRe.test(k.trim()) ? rec(v, k) : rec(k, v));
           }
         });
 
-        // Fallback event dati dal match padre se non presenti nei sub_matches
+        // Fallback eventi dal match principale
         if (!hasSubProp(subMatches, 'scorers', 'scorer', 'goals', 'goal') && m.scorers) {
           parseList(m.scorers).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].goals += e.n; });
         }
@@ -398,7 +436,7 @@
           parseList(m.red_cards).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].reds += e.n; });
         }
       } else {
-        // Partita singola (standard)
+        // Partita singola
         if (m.scorers) parseList(m.scorers).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].goals += e.n; });
         if (m.assists) parseList(m.assists).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].assists += e.n; });
         if (m.mvp) parseList(m.mvp).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].mvps++; });
@@ -406,20 +444,19 @@
         if (m.red_cards) parseList(m.red_cards).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].reds += e.n; });
 
         const gks = m.goalkeepers || (m.starters_positions && m.starters_positions.GK);
-        if (gks) {
-          parseList(gks, true).forEach(e => {
-            const id = resolve(e.name);
-            if (id && map[id]) {
-              const c = (e.n != null) ? e.n : (String(gks).includes('(') ? 0 : totGa);
-              map[id].goals_conceded += c;
-              if (c === 0) map[id].clean_sheets++;
-            }
-          });
-        }
+        processGksForSegment(gks, totGa);
 
         Object.entries(m.starters_positions || {}).forEach(([k, v]) => posRe.test(k.trim()) ? rec(v, k) : rec(k, v));
         (m.bench_details || []).forEach(b => { if (b && b.subbed_in && b.position_played) rec(b.player, b.position_played); });
       }
+
+      // Aggiornamento definitivo gol subiti e Clean Sheet del portiere per il match m
+      matchGkConceded.forEach((conceded, id) => {
+        map[id].goals_conceded += conceded;
+        if (conceded === 0) {
+          map[id].clean_sheets++;
+        }
+      });
     });
 
     const L = Object.values(map), top = (f, k) => L.filter(p => p[f] > 0).sort((a, b) => b[f] - a[f] || b.caps - a.caps).slice(0, 5);
