@@ -51,7 +51,7 @@
   <div class="toolbar">
     <div class="pill-row" id="catPills" role="group"></div>
     <label for="season" class="sr-only" style="position:absolute;left:-9999px">Season</label>
-    <select id="season" style="margin-left:auto"></select>
+    <select id="season" class="season-select"></select>
   </div>
 
   <h2 class="block-title"><i class="fas fa-calendar-check"></i> <span data-i18n="m.upcoming"></span></h2>
@@ -183,8 +183,8 @@ function card(m, kind) {
             </div>
             <div class="tri-score score-box">${esc(sub.score || '0 - 0')}</div>
             <div class="tri-team tri-away">
-              <span class="tri-team-name">${esc(aName)}</span>
               <div class="logo">${d.logoImg(aLogo, aName, aFb)}</div>
+              <span class="tri-team-name">${esc(aName)}</span>
             </div>
           </div>`;
         }).join('');
@@ -199,8 +199,8 @@ function card(m, kind) {
             </div>
             <div class="tri-score score-box">${esc(m.score || '-')}</div>
             <div class="tri-team tri-away">
-              <span class="tri-team-name">${esc(o.name)}</span>
               <div class="logo">${d.logoImg(o.logo, o.name, o.avatar)}</div>
+              <span class="tri-team-name">${esc(o.name)}</span>
             </div>
           </div>`;
         }).join('');
