@@ -37,90 +37,6 @@
 </script>
 <!-- SCHEMA_EVENTS_START -->
 <!-- SCHEMA_EVENTS_END -->
-
-<style>
-.matches-wrap { max-width: 860px; margin: 0 auto; }
-.block-title { font-size: 1.15rem; font-weight: 800; color: var(--dark-navy); margin: 34px 0 16px; display: flex; align-items: center; gap: 10px; }
-.block-title i { color: var(--primary-sky); }
-.match-list { display: flex; flex-direction: column; gap: 16px; }
-.mc { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px 20px; box-shadow: 0 4px 16px rgba(0,60,130,.05); scroll-margin-top: 110px; }
-.mc.flash { animation: flash 2s ease; }
-@keyframes flash { 0%, 60% { box-shadow: 0 0 0 4px rgba(135,206,235,.8); } 100% { box-shadow: 0 4px 16px rgba(0,60,130,.05); } }
-.mc-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 6px; }
-.mc-date { font-size: .8rem; font-weight: 700; color: #64748b; }
-.mc-teams .row-logos, .mc-teams .row-names { display: grid; grid-template-columns: 1fr 90px 1fr; justify-items: center; }
-.mc-teams .row-logos { align-items: center; margin-top: 10px; } .mc-teams .row-names { margin-top: 8px; align-items: start; }
-.mc-teams .logo { width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.mc-teams .logo img { width: 100%; height: 100%; object-fit: contain; }
-.mc-teams .center { font-family: var(--font-brand); font-size: 2.2rem; color: var(--dark-navy); font-weight: 800; letter-spacing: 1px; text-align: center; }
-.mc-teams .center.vs { color: var(--primary-sky); }
-.mc-teams .name { font-weight: 700; font-size: .92rem; text-align: center; color: var(--dark-navy); line-height: 1.25; }
-
-/* ---- Stili Supporto Triangolare ---- */
-.triangular-teams-wrapper { display: flex; flex-direction: column; gap: 8px; width: 100%; margin: 10px 0; }
-.triangular-match-row { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 12px; gap: 8px; }
-.mc.next .triangular-match-row { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); }
-.tri-team { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.tri-team.tri-home { justify-content: flex-start; } 
-.tri-team.tri-away { justify-content: flex-end; }
-.tri-team .logo { width: 36px; height: 36px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-.tri-team .logo img { width: 100%; height: 100%; object-fit: contain; }
-.tri-team-name { font-size: .82rem; font-weight: 700; color: var(--dark-navy, #003c82); line-height: 1.2; word-break: break-word; }
-.tri-team.tri-home .tri-team-name { text-align: left; }
-.tri-team.tri-away .tri-team-name { text-align: right; }
-.mc.next .tri-team-name { color: #fff; }
-.tri-score { font-family: 'Bebas Neue', var(--font-brand, sans-serif); font-size: 1.4rem; font-weight: 800; color: var(--dark-navy, #003c82); white-space: nowrap; padding: 0 8px; text-align: center; }
-.mc.next .tri-score { color: var(--primary-sky, #87ceeb); }
-
-/* Grid Triangolare Prossima Partita (Hero) */
-.triangular-hero-logos { display: grid; grid-template-columns: 1fr 30px 1fr 30px 1fr; align-items: center; justify-items: center; width: 100%; margin: 12px 0 6px; }
-.triangular-hero-names { display: grid; grid-template-columns: 1fr 30px 1fr 30px 1fr; align-items: start; justify-items: center; width: 100%; }
-.tri-vs-label { font-family: var(--font-brand, 'Bebas Neue', sans-serif); font-size: 1.3rem; color: var(--primary-sky, #87ceeb); font-weight: 800; text-align: center; }
-
-.mc-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
-.mc-meta { font-size: .8rem; color: #64748b; font-weight: 600; display: flex; gap: 6px 14px; flex-wrap: wrap; }
-.mc-actions { display: flex; gap: 8px; }
-.mc-btn { background: transparent; border: 1px solid #cbd5e1; color: var(--dark-navy); border-radius: 8px; padding: 7px 12px; font: inherit; font-size: .78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
-.mc-btn:hover, .mc-btn[aria-expanded="true"] { background: var(--dark-navy); color: #fff; border-color: var(--dark-navy); }
-.mc-details { margin-top: 14px; background: #f8fafc; border-radius: 12px; padding: 14px 16px; display: grid; gap: 8px; font-size: .88rem; color: #334155; }
-.mc-details[hidden] { display: none; }
-.mc-details .line { display: flex; gap: 8px; align-items: baseline; line-height: 1.45; }
-.mc-details .line i { width: 18px; text-align: center; color: var(--primary-sky); flex-shrink: 0; }
-.mc-details a { color: var(--dark-navy); font-weight: 700; }
-.lineup-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
-.lineup-chips span { background: #fff; border: 1px solid #e2e8f0; border-radius: 999px; padding: 3px 10px; font-size: .76rem; font-weight: 600; }
-.lineup-chips b { color: var(--primary-sky); margin-right: 4px; }
-
-/* prossime partite */
-.mc.next { background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%); color: #fff; border: 2px solid var(--primary-sky); box-shadow: 0 10px 25px rgba(0,60,130,.15); }
-.mc.next .mc-head { border-color: rgba(255,255,255,.2); }
-.mc.next .mc-date, .mc.next .mc-meta { color: rgba(255,255,255,.85); }
-.mc.next .name, .mc.next .center { color: #fff; } .mc.next .center.vs { color: var(--primary-sky); }
-.mc.next .logo img { filter: drop-shadow(0 0 10px rgba(135,206,235,.8)); }
-.mc.next .mc-btn { color: #fff; border-color: rgba(135,206,235,.5); } .mc.next .mc-btn:hover { background: var(--primary-sky); color: var(--dark-navy); }
-.mc.next .mc-details { background: rgba(255,255,255,.08); color: #e2e8f0; } .mc.next .mc-details a { color: #fff; }
-.mc-badge { font-size: .72rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: .5px; color: #fff; }
-.badge-official, .badge-league { background: #003c82; } .badge-friendly { background: #64748b; } .badge-tournament, .badge-cup { background: #d97706; }
-.badge-next { background: var(--primary-sky); color: var(--dark-navy); font-weight: 800; border-radius: 999px; padding: 3px 10px; }
-.badge-ha { background: rgba(0,0,0,.18); } .mc.next .badge-ha { background: rgba(255,255,255,.2); }
-.badge-live { background: #ef4444; animation: pulse 1.5s infinite; } @keyframes pulse { 50% { opacity: .55; } }
-.result-dot { width: 26px; height: 26px; border-radius: 50%; color: #fff; font-size: .72rem; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
-.result-dot.W { background: #16a34a; } .result-dot.D { background: #94a3b8; } .result-dot.L { background: #dc2626; }
-.more-wrap { text-align: center; margin-top: 22px; }
-.counter { display: block; margin-bottom: 10px; font-weight: 600; color: var(--dark-navy); font-size: .9rem; }
-.btn-more { background: var(--dark-navy); color: #fff; border: 0; border-radius: 25px; padding: 11px 26px; font: inherit; font-weight: 700; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; }
-.empty-box { text-align: center; padding: 30px; background: #f8fafc; border-radius: 12px; color: #64748b; font-weight: 600; }
-@media (max-width: 600px) { 
-  .mc { padding: 14px; } 
-  .mc-teams .row-logos, .mc-teams .row-names { grid-template-columns: 1fr 70px 1fr; } 
-  .mc-teams .logo { width: 52px; height: 52px; } 
-  .mc-teams .center { font-size: 1.8rem; } 
-  .triangular-hero-logos { grid-template-columns: 1fr 20px 1fr 20px 1fr; }
-  .triangular-hero-names { grid-template-columns: 1fr 20px 1fr 20px 1fr; }
-  .tri-team .logo { width: 28px; height: 28px; }
-  .tri-team-name { font-size: .76rem; }
-}
-</style>
 </head>
 <body>
 <script>YC.mountHeader('matches')</script>
@@ -167,7 +83,7 @@ const keyOf = m => (m.date || '') + (m.time || '');
 function pass(m) { return (ui.cat === 'all' || filterCat(m.category) === ui.cat) && (ui.season === 'all' || String(m.date).slice(0, 4) === ui.season); }
 
 /* ---- dettagli ---- */
-function line(icon, label, html) { return html ? `<div class="line"><i class="fas ${icon}"></i><span><b>${label}:</b> ${html}</span></div>` : ''; }
+function line(icon, label, html, customStyle = '') { return html ? `<div class="line"><i class="fas ${icon}" ${customStyle ? `style="${customStyle}"` : ''}></i><span><b>${label}:</b> ${html}</span></div>` : ''; }
 function detailsHtml(m, past) {
   const lang = YC.lang(), d = YC.data, loc = d.locInfo(m.location_id, m.venue, lang, D.locations), P = D.players;
   const tx = txt => esc(d.translatePlayerText(txt, lang, P));
@@ -190,12 +106,18 @@ function detailsHtml(m, past) {
   let h = line('fa-map-marker-alt', t('m.venue'), `<a href="${esc(safeUrl(loc.url))}" target="_blank" rel="noopener noreferrer">${esc(loc.name)} <i class="fas fa-external-link-alt" style="font-size:.65rem;width:auto"></i></a>`);
   h += line('fa-layer-group', t('m.surface'), esc(loc.surface)) + line('fa-clock', t('m.kickoff'), esc(m.time || ''));
   if (past) {
-    h += line('fa-futbol', t('m.scorers'), tx(scorersStr)) + line('fa-shoe-prints', t('m.assists'), tx(assistsStr)) + line('fa-star', t('m.mvp'), tx(mvpStr));
-    h += line('fa-square', t('m.yellow'), tx(yellowStr)) + line('fa-square', t('m.red'), tx(redStr)) + line('fa-mitten', t('m.gk'), tx(gkStr));
+    h += line('fa-futbol', t('m.scorers'), tx(scorersStr)) 
+       + line('fa-shoe-prints', t('m.assists'), tx(assistsStr)) 
+       + line('fa-star', t('m.mvp'), tx(mvpStr), 'color:#f59e0b')
+       + line('fa-square', t('m.yellow'), tx(yellowStr), 'color:#eab308') 
+       + line('fa-square', t('m.red'), tx(redStr), 'color:#ef4444') 
+       + line('fa-mitten', t('m.gk'), tx(gkStr))
+       + line('fa-chess-board', t('m.formation'), m.formation ? esc(m.formation) : '');
+
     const sp = m.starters_positions || {};
     if (Object.keys(sp).length) {
       const chips = Object.entries(sp).map(([slot, n]) => { const p = d.findPlayer(P, n); return `<span><b>${esc(slot)}</b>${esc(p ? d.playerName(p, lang) : n)}</span>`; }).join('');
-      h += `<div class="line"><i class="fas fa-chess-board"></i><span><b>${t('m.formation')}${m.formation ? ' ' + esc(m.formation) : ''}</b><div class="lineup-chips">${chips}</div></span></div>`;
+      h += `<div class="line"><i class="fas fa-users"></i><span><b>${t('m.starters')}</b><div class="lineup-chips">${chips}</div></span></div>`;
     }
     const subs = (m.substitutes_in || []).map(n => { const p = d.findPlayer(P, n); return esc(p ? d.playerName(p, lang) : n); });
     if (subs.length) h += line('fa-right-left', t('m.subs'), subs.join(', '));
@@ -259,7 +181,7 @@ function card(m, kind) {
               <div class="logo">${d.logoImg(hLogo, hName, hFb)}</div>
               <span class="tri-team-name">${esc(hName)}</span>
             </div>
-            <div class="tri-score">${esc(sub.score || '0 - 0')}</div>
+            <div class="tri-score score-box">${esc(sub.score || '0 - 0')}</div>
             <div class="tri-team tri-away">
               <span class="tri-team-name">${esc(aName)}</span>
               <div class="logo">${d.logoImg(aLogo, aName, aFb)}</div>
@@ -275,7 +197,7 @@ function card(m, kind) {
               <div class="logo"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
               <span class="tri-team-name">Yokohama Calcio</span>
             </div>
-            <div class="tri-score">${esc(m.score || '-')}</div>
+            <div class="tri-score score-box">${esc(m.score || '-')}</div>
             <div class="tri-team tri-away">
               <span class="tri-team-name">${esc(o.name)}</span>
               <div class="logo">${d.logoImg(o.logo, o.name, o.avatar)}</div>
@@ -288,9 +210,9 @@ function card(m, kind) {
   } else {
     const us = { name: 'Yokohama Calcio', logo: './immagini/logo.png?v=2', fb: '' }, them = { name: o.name, logo: o.logo, fb: o.avatar };
     const [L, R] = (upcoming || home) ? [us, them] : [them, us];
-    const centerTxt = upcoming ? 'VS' : sc.left;
+    const centerHtml = upcoming ? `<span class="center vs">VS</span>` : `<span class="score-box">${esc(sc.left)}</span>`;
     teamsWrapperHtml = `<div class="mc-teams">
-      <div class="row-logos"><div class="logo">${d.logoImg(L.logo, L.name, L.fb)}</div><div class="center ${upcoming ? 'vs' : ''}">${esc(centerTxt)}</div><div class="logo">${d.logoImg(R.logo, R.name, R.fb)}</div></div>
+      <div class="row-logos"><div class="logo">${d.logoImg(L.logo, L.name, L.fb)}</div><div class="center-score-wrap">${centerHtml}</div><div class="logo">${d.logoImg(R.logo, R.name, R.fb)}</div></div>
       <div class="row-names"><div class="name">${esc(L.name)}</div><div></div><div class="name">${esc(R.name)}</div></div>
     </div>`;
   }
