@@ -263,7 +263,7 @@ font-weight: 800 !important;
 text-align: center !important;
 line-height: 1 !important;
 }
-/* Triangolari Conclusi (Righe di partite) */
+/* Triangolari Conclusi (Righe di partite: Disposizione Logo sopra e Nome sotto) */
 .triangular-teams-wrapper {
 display: flex !important;
 flex-direction: column !important;
@@ -288,19 +288,27 @@ border-color: rgba(255, 255, 255, 0.15) !important;
 }
 .tri-team {
 display: flex !important;
+flex-direction: column !important;
 align-items: center !important;
-gap: 8px !important;
+justify-content: flex-start !important;
+text-align: center !important;
+gap: 4px !important;
 min-width: 0 !important;
+width: 100% !important;
 }
-.tri-team.tri-home { justify-content: flex-start !important; }
-.tri-team.tri-away { justify-content: flex-end !important; }
+.tri-team.tri-home,
+.tri-team.tri-away {
+justify-content: flex-start !important;
+text-align: center !important;
+}
 .tri-team .logo {
-width: 32px !important;
-height: 32px !important;
+width: 36px !important;
+height: 36px !important;
 flex-shrink: 0 !important;
 display: flex !important;
 align-items: center !important;
 justify-content: center !important;
+margin-bottom: 2px !important;
 }
 .tri-team .logo img {
 width: 100% !important;
@@ -308,11 +316,12 @@ height: 100% !important;
 object-fit: contain !important;
 }
 .tri-team-name {
-font-size: 0.82rem !important;
+font-size: 0.80rem !important;
 font-weight: 700 !important;
 color: var(--dark-navy, #003c82) !important;
 line-height: 1.2 !important;
 word-break: break-word !important;
+text-align: center !important;
 }
 .mc.next .tri-team-name,
 .next-match-hero .tri-team-name {
@@ -427,7 +436,7 @@ color: #ffffff !important;
 .score-box { font-size: 1.35rem !important; padding: 3px 10px !important; min-width: 52px !important; }
 .mc-vs { font-size: 1.6rem !important; }
 .triangular-hero-grid .match-team-logo { width: 40px !important; height: 40px !important; }
-.tri-team .logo { width: 28px !important; height: 28px !important; }
+.tri-team .logo { width: 30px !important; height: 30px !important; }
 .tri-team-name { font-size: .76rem !important; }
 }
 @media (max-width: 480px) {
