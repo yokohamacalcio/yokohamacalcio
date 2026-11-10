@@ -133,7 +133,7 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 .cal-info h3 { color: #87ceeb; font-size: 1.15rem; margin-bottom: 10px; }
 .cal-info ul { margin: 0 0 18px 18px; line-height: 1.7; font-size: .92rem; }
 .cal-info .recruitment-btn { display: inline-flex; }
-/* ---------- 6. MATCH CENTER, SCHEDE PARTITA & SCORE-BOX UNIFICATO ---------- */
+/* ---------- 6. SCHEDE PARTITA, STRUTTURA UNIFICATA LOGO + NOME SOTTO ---------- */
 .matches-wrap { max-width: 860px; margin: 0 auto; }
 .block-title { font-size: 1.15rem; font-weight: 800; color: var(--dark-navy); margin: 34px 0 16px; display: flex; align-items: center; gap: 10px; }
 .block-title i { color: var(--primary-sky); }
@@ -143,55 +143,180 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 @keyframes flash { 0%, 60% { box-shadow: 0 0 0 4px rgba(135,206,235,.8); } 100% { box-shadow: 0 4px 16px rgba(0,60,130,.05); } }
 .mc-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 6px; }
 .mc-date { font-size: .8rem; font-weight: 700; color: #64748b; }
-.mc-teams .row-logos, .mc-teams .row-names { display: grid; grid-template-columns: 1fr 100px 1fr; justify-items: center; align-items: center; }
-.mc-teams .row-logos { margin-top: 10px; }
-.mc-teams .row-names { margin-top: 8px; align-items: start; }
-.mc-teams .center-score-wrap { display: flex; align-items: center; justify-content: center; width: 100%; }
-.mc-teams .center { font-family: var(--font-brand, 'Bebas Neue', sans-serif); font-size: 2.2rem; color: var(--dark-navy); font-weight: 800; letter-spacing: 1px; text-align: center; }
-.mc-teams .center.vs { color: var(--primary-sky); }
-.mc-teams .name { font-weight: 700; font-size: .92rem; text-align: center; color: var(--dark-navy); line-height: 1.25; }
-/* ---- Box del punteggio unificato per tutte le partite concluse ---- */
+/* Contenitore a 3 colonne per sfide singole (Home | Score/VS | Away) */
+.match-teams-wrapper {
+display: grid !important;
+grid-template-columns: 1fr auto 1fr !important;
+align-items: center !important;
+justify-items: center !important;
+width: 100% !important;
+gap: 12px !important;
+margin: 14px 0 !important;
+}
+/* Colonna singola per ciascuna squadra: Stemma sopra e Nome sotto */
+.match-team-col {
+display: flex !important;
+flex-direction: column !important;
+align-items: center !important;
+justify-content: flex-start !important;
+text-align: center !important;
+width: 100% !important;
+min-width: 0 !important;
+}
+/* Contenitore stemma */
+.match-team-logo {
+width: 64px !important;
+height: 64px !important;
+display: flex !important;
+align-items: center !important;
+justify-content: center !important;
+flex-shrink: 0 !important;
+margin-bottom: 6px !important;
+overflow: visible !important;
+}
+.match-team-logo img, .match-team-logo svg {
+width: 100% !important;
+height: 100% !important;
+max-width: 100% !important;
+max-height: 100% !important;
+object-fit: contain !important;
+display: block !important;
+}
+/* Nome squadra sotto lo stemma */
+.match-team-name {
+font-weight: 700 !important;
+font-size: 0.88rem !important;
+line-height: 1.25 !important;
+color: var(--dark-navy, #003c82) !important;
+text-align: center !important;
+word-break: break-word !important;
+max-width: 100% !important;
+margin: 0 !important;
+padding: 0 2px !important;
+}
+.mc.next .match-team-name,
+.next-match-hero .match-team-name {
+color: #ffffff !important;
+}
+.mc.next .match-team-logo img[src*="logo.png"],
+.next-match-hero .match-team-logo img[src*="logo.png"] {
+filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.85)) !important;
+-webkit-filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.85)) !important;
+}
+/* Centro (VS o Score) */
+.match-center-score {
+display: flex !important;
+align-items: center !important;
+justify-content: center !important;
+flex-shrink: 0 !important;
+padding: 0 4px !important;
+}
+.mc-vs {
+font-family: var(--font-brand, 'Bebas Neue', sans-serif) !important;
+font-size: 2rem !important;
+font-weight: 800 !important;
+color: var(--primary-sky, #87ceeb) !important;
+letter-spacing: 1px !important;
+line-height: 1 !important;
+}
+/* Box del punteggio unificato per tutte le partite concluse */
 .score-box {
-display: inline-flex;
-align-items: center;
-justify-content: center;
-background: #e2e8f0;
-color: var(--dark-navy, #003c82);
-font-family: 'Bebas Neue', var(--font-brand, sans-serif);
-font-size: 1.5rem;
-font-weight: 800;
-letter-spacing: 1px;
-padding: 4px 14px;
-border-radius: 8px;
-min-width: 60px;
-text-align: center;
-white-space: nowrap;
-line-height: 1;
+display: inline-flex !important;
+align-items: center !important;
+justify-content: center !important;
+background: #e2e8f0 !important;
+color: var(--dark-navy, #003c82) !important;
+font-family: 'Bebas Neue', var(--font-brand, sans-serif) !important;
+font-size: 1.6rem !important;
+font-weight: 800 !important;
+letter-spacing: 1px !important;
+padding: 4px 14px !important;
+border-radius: 8px !important;
+min-width: 64px !important;
+text-align: center !important;
+white-space: nowrap !important;
+line-height: 1 !important;
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
 }
 .mc.next .score-box,
 .next-match-hero .score-box {
-background: rgba(255, 255, 255, 0.15);
-color: var(--primary-sky, #87ceeb);
-border: 1px solid rgba(135, 206, 235, 0.3);
+background: rgba(255, 255, 255, 0.15) !important;
+color: var(--primary-sky, #87ceeb) !important;
+border: 1px solid rgba(135, 206, 235, 0.3) !important;
 }
-/* ---- Stili Supporto Triangolare ---- */
-.triangular-teams-wrapper { display: flex; flex-direction: column; gap: 8px; width: 100%; margin: 10px 0; }
-.triangular-match-row { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 12px; gap: 8px; }
-.mc.next .triangular-match-row, .next-match-hero .triangular-match-row { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); }
-.tri-team { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.tri-team.tri-home { justify-content: flex-start; }
-.tri-team.tri-away { justify-content: flex-end; }
-.tri-team .logo { width: 36px; height: 36px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-.tri-team .logo img { width: 100%; height: 100%; object-fit: contain; }
-.tri-team-name { font-size: .82rem; font-weight: 700; color: var(--dark-navy, #003c82); line-height: 1.2; word-break: break-word; }
-.tri-team.tri-home .tri-team-name { text-align: left; }
-.tri-team.tri-away .tri-team-name { text-align: right; }
-.mc.next .tri-team-name, .next-match-hero .tri-team-name { color: #fff; }
-.tri-score { font-family: 'Bebas Neue', var(--font-brand, sans-serif); }
-/* Grid Triangolare Prossima Partita (Hero) */
-.triangular-hero-logos { display: grid; grid-template-columns: 1fr 30px 1fr 30px 1fr; align-items: center; justify-items: center; width: 100%; margin: 12px 0 6px; }
-.triangular-hero-names { display: grid; grid-template-columns: 1fr 30px 1fr 30px 1fr; align-items: start; justify-items: center; width: 100%; }
-.tri-vs-label { font-family: var(--font-brand, 'Bebas Neue', sans-serif); font-size: 1.3rem; color: var(--primary-sky, #87ceeb); font-weight: 800; text-align: center; }
+/* Grid Triangolare Prossima Partita (3 squadre) */
+.triangular-hero-grid {
+display: grid !important;
+grid-template-columns: 1fr auto 1fr auto 1fr !important;
+align-items: center !important;
+justify-items: center !important;
+width: 100% !important;
+gap: 6px !important;
+margin: 12px 0 !important;
+}
+.tri-vs-label {
+font-family: var(--font-brand, 'Bebas Neue', sans-serif) !important;
+font-size: 1.3rem !important;
+color: var(--primary-sky, #87ceeb) !important;
+font-weight: 800 !important;
+text-align: center !important;
+line-height: 1 !important;
+}
+/* Triangolari Conclusi (Righe di partite) */
+.triangular-teams-wrapper {
+display: flex !important;
+flex-direction: column !important;
+gap: 8px !important;
+width: 100% !important;
+margin: 10px 0 !important;
+}
+.triangular-match-row {
+display: grid !important;
+grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
+align-items: center !important;
+background: #f8fafc !important;
+border: 1px solid #e2e8f0 !important;
+border-radius: 8px !important;
+padding: 8px 12px !important;
+gap: 8px !important;
+}
+.mc.next .triangular-match-row,
+.next-match-hero .triangular-match-row {
+background: rgba(255, 255, 255, 0.08) !important;
+border-color: rgba(255, 255, 255, 0.15) !important;
+}
+.tri-team {
+display: flex !important;
+align-items: center !important;
+gap: 8px !important;
+min-width: 0 !important;
+}
+.tri-team.tri-home { justify-content: flex-start !important; }
+.tri-team.tri-away { justify-content: flex-end !important; }
+.tri-team .logo {
+width: 32px !important;
+height: 32px !important;
+flex-shrink: 0 !important;
+display: flex !important;
+align-items: center !important;
+justify-content: center !important;
+}
+.tri-team .logo img {
+width: 100% !important;
+height: 100% !important;
+object-fit: contain !important;
+}
+.tri-team-name {
+font-size: 0.82rem !important;
+font-weight: 700 !important;
+color: var(--dark-navy, #003c82) !important;
+line-height: 1.2 !important;
+word-break: break-word !important;
+}
+.mc.next .tri-team-name,
+.next-match-hero .tri-team-name {
+color: #ffffff !important;
+}
 .mc-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
 .mc-meta { font-size: .8rem; color: #64748b; font-weight: 600; display: flex; gap: 6px 14px; flex-wrap: wrap; }
 .mc-actions { display: flex; gap: 8px; }
@@ -209,10 +334,6 @@ border: 1px solid rgba(135, 206, 235, 0.3);
 .mc.next { background: linear-gradient(135deg, var(--dark-navy, #003c82) 0%, #001f42 100%); color: #fff; border: 2px solid var(--primary-sky); box-shadow: 0 10px 25px rgba(0,60,130,.15); }
 .mc.next .mc-head { border-color: rgba(255,255,255,.2); }
 .mc.next .mc-date, .mc.next .mc-meta { color: rgba(255,255,255,.85); }
-.mc.next .name, .mc.next .center { color: #fff; } .mc.next .center.vs { color: var(--primary-sky); }
-.mc.next .logo img { filter: drop-shadow(0 0 10px rgba(135,206,235,.8)); }
-.mc.next .mc-btn { color: #fff; border-color: rgba(135,206,235,.5); } .mc.next .mc-btn:hover { background: var(--primary-sky); color: var(--dark-navy); }
-.mc.next .mc-details { background: rgba(255,255,255,.08); color: #e2e8f0; } .mc.next .mc-details a { color: #fff; }
 .mc-badge { font-size: .72rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: .5px; color: #fff; }
 .badge-official, .badge-league { background: #003c82; } .badge-friendly { background: #64748b; } .badge-tournament, .badge-cup { background: #d97706; }
 .badge-next { background: var(--primary-sky); color: var(--dark-navy); font-weight: 800; border-radius: 999px; padding: 3px 10px; }
@@ -260,44 +381,6 @@ border: 1px solid rgba(135, 206, 235, 0.3);
 .next-match-header { border-bottom-color: rgba(255,255,255,.2); }
 .next-match-badge { background: var(--primary-sky, #87ceeb); color: var(--dark-navy, #003c82); font-weight: 800; padding: 3px 10px; border-radius: 20px; font-size: .72rem; text-transform: uppercase; }
 .match-box-date { font-size: .76rem; color: #64748b; font-weight: 600; }
-.match-teams-wrapper { display: flex; flex-direction: column; gap: 10px; width: 100%; margin: 10px 0; }
-.teams-logos-row,
-.teams-names-row {
-display: grid !important;
-grid-template-columns: 1fr 110px 1fr !important;
-align-items: center !important;
-justify-items: center !important;
-width: 100% !important;
-}
-.match-vs-center,
-.score-past {
-white-space: nowrap !important;
-padding: 0 !important;
-width: 100% !important;
-text-align: center !important;
-font-size: 1.9rem !important;
-line-height: 1 !important;
-display: flex !important;
-align-items: center !important;
-justify-content: center !important;
-}
-.match-vs-center { font-family: var(--font-brand, 'Bebas Neue', sans-serif); color: var(--primary-sky, #87ceeb); }
-.score-past { color: var(--dark-navy, #003c82); letter-spacing: 1px; font-weight: 800; }
-.team-name-col {
-text-align: center !important;
-width: 100% !important;
-padding: 0 4px !important;
-box-sizing: border-box !important;
-font-weight: 700;
-font-size: .9rem;
-line-height: 1.2;
-color: var(--dark-navy, #003c82);
-display: -webkit-box;
--webkit-line-clamp: 2;
--webkit-box-orient: vertical;
-overflow: hidden;
-}
-.next-match-hero .team-name-col { color: #fff !important; }
 /* Nessuna Partita in Programma (No-Match Card) */
 .next-match-hero.no-match-card { display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; text-align: center !important; padding: 30px 20px !important; min-height: 440px !important; }
 .no-match-box { display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; text-align: center !important; width: 100% !important; max-width: 340px !important; margin: 0 auto !important; }
@@ -306,64 +389,6 @@ overflow: hidden;
 .btn-match-detail-hero.btn-no-match { display: inline-flex !important; align-items: center !important; justify-content: center !important; text-align: center !important; gap: 8px !important; padding: 11px 22px !important; font-size: 0.88rem !important; font-weight: 800 !important; border-radius: 30px !important; background: var(--primary-sky, #87ceeb) !important; color: var(--dark-navy, #003c82) !important; text-decoration: none !important; box-shadow: 0 4px 15px rgba(135,206,235,0.3) !important; transition: all 0.25s ease !important; margin: 0 auto !important; line-height: 1 !important; }
 .btn-match-detail-hero.btn-no-match span { display: inline-flex !important; align-items: center !important; justify-content: center !important; line-height: 1 !important; }
 .btn-match-detail-hero.btn-no-match:hover { background: #ffffff !important; transform: translateY(-2px) !important; }
-/* Loghi e rendering WebKit/Safari */
-.hero-logo-wrap,
-.card-logo-wrap,
-.mc-teams .logo,
-.mc .logo {
-display: flex !important;
-align-items: center !important;
-justify-content: center !important;
-flex-shrink: 0 !important;
-width: 80px !important;
-height: 80px !important;
-overflow: visible !important;
-background: transparent !important;
-background-color: transparent !important;
-border: none !important;
-outline: none !important;
-box-shadow: none !important;
-filter: none !important;
-isolation: isolate !important;
--webkit-backface-visibility: hidden;
-backface-visibility: hidden;
-}
-.card-logo-wrap {
-width: 64px !important;
-height: 64px !important;
-}
-.card-logo-wrap.sm {
-width: 36px !important;
-height: 36px !important;
-}
-.card-logo-wrap img,
-.hero-logo-wrap img,
-.mc-teams .logo img,
-.mc .logo img {
-display: block !important;
-width: 100% !important;
-height: 100% !important;
-object-fit: contain !important;
-background: transparent !important;
-background-color: transparent !important;
-border: none !important;
-outline: none !important;
-box-shadow: none !important;
-border-radius: 0 !important;
--webkit-transform: translateZ(0) !important;
-transform: translateZ(0) !important;
-will-change: filter;
-}
-.match-past-box img,
-.card-logo-wrap img {
--webkit-filter: none !important;
-filter: none !important;
-}
-.next-match-hero .hero-logo-wrap img[src*="logo.png"],
-#nextMatchBox .hero-logo-wrap img[src*="logo.png"] {
--webkit-filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.85)) !important;
-filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.85)) !important;
-}
 .match-info-hero-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 14px; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 12px; border-radius: 8px; font-size: .78rem; margin-top: 8px; color: var(--dark-navy, #003c82); font-weight: 600; }
 .next-match-hero .match-info-hero-bar { background: rgba(255,255,255,.08); border: none; color: #fff; }
 .match-past-box .match-info-hero-bar { flex-direction: column; align-items: flex-start; }
@@ -396,13 +421,13 @@ filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.85)) !important;
 @media (max-width: 600px) {
 .section-title { font-size: 1.4rem !important; }
 .mc { padding: 14px; }
-.mc-teams .row-logos, .mc-teams .row-names { grid-template-columns: 1fr 80px 1fr; }
-.mc-teams .logo { width: 52px; height: 52px; }
-.mc-teams .center { font-size: 1.8rem; }
-.triangular-hero-logos { grid-template-columns: 1fr 20px 1fr 20px 1fr; }
-.triangular-hero-names { grid-template-columns: 1fr 20px 1fr 20px 1fr; }
-.tri-team .logo { width: 28px; height: 28px; }
-.tri-team-name { font-size: .76rem; }
+.match-team-logo { width: 52px !important; height: 52px !important; }
+.match-team-name { font-size: .78rem !important; }
+.score-box { font-size: 1.35rem !important; padding: 3px 10px !important; min-width: 52px !important; }
+.mc-vs { font-size: 1.6rem !important; }
+.triangular-hero-grid .match-team-logo { width: 40px !important; height: 40px !important; }
+.tri-team .logo { width: 28px !important; height: 28px !important; }
+.tri-team-name { font-size: .76rem !important; }
 }
 @media (max-width: 480px) {
 .tri-team .card-logo-wrap, .tri-team .card-logo-wrap.md { width: 40px; height: 40px; }
