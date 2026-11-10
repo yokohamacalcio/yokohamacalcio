@@ -401,13 +401,13 @@ function lastHtml(m) {
       return `
         <div class="triangular-match-row">
           <div class="tri-team tri-home">
-            <div class="card-logo-wrap md">${d.logoImg(hLogo, hName, hFb)}</div>
+            <div class="logo">${d.logoImg(hLogo, hName, hFb)}</div>
             <span class="tri-team-name">${esc(hName)}</span>
           </div>
           <div class="tri-score score-box">${esc(sub.score || 'VS')}</div>
           <div class="tri-team tri-away">
-            <div class="card-logo-wrap md">${d.logoImg(aLogo, aName, aFb)}</div>
             <span class="tri-team-name">${esc(aName)}</span>
+            <div class="logo">${d.logoImg(aLogo, aName, aFb)}</div>
           </div>
         </div>
       `;
@@ -424,15 +424,16 @@ function lastHtml(m) {
 
     bodyHtml = `
       <div class="match-teams-wrapper">
-        <div class="teams-logos-row">
-          <div class="card-logo-wrap">${d.logoImg(L.logo, L.name, L.fb)}</div>
-          <div class="match-vs-center score-past score-box">${esc(sc.left)}</div>
-          <div class="card-logo-wrap">${d.logoImg(R.logo, R.name, R.fb)}</div>
+        <div class="match-team-col">
+          <div class="match-team-logo">${d.logoImg(L.logo, L.name, L.fb)}</div>
+          <div class="match-team-name">${esc(L.name)}</div>
         </div>
-        <div class="teams-names-row">
-          <div class="team-name-col">${esc(L.name)}</div>
-          <div></div>
-          <div class="team-name-col">${esc(R.name)}</div>
+        <div class="match-center-score">
+          <span class="score-box">${esc(sc.left)}</span>
+        </div>
+        <div class="match-team-col">
+          <div class="match-team-logo">${d.logoImg(R.logo, R.name, R.fb)}</div>
+          <div class="match-team-name">${esc(R.name)}</div>
         </div>
       </div>
     `;
@@ -488,25 +489,34 @@ function nextHtml(m) {
     const opp1 = d.oppInfo(opps[0] ? { opponent_id: opps[0].opponent_id || opps[0] } : m, lang, D.opponents);
     const opp2 = opps[1] ? d.oppInfo({ opponent_id: opps[1].opponent_id || opps[1] }, lang, D.opponents) : { name: 'TBD', logo: '' };
 
-    teamsWrapperHtml = `<div class="match-teams-wrapper">
-      <div class="triangular-hero-logos">
-        <div class="hero-logo-wrap"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
-        <span class="tri-vs-label">VS</span>
-        <div class="hero-logo-wrap">${d.logoImg(opp1.logo, opp1.name, opp1.avatar)}</div>
-        <span class="tri-vs-label">VS</span>
-        <div class="hero-logo-wrap">${opp2.logo ? d.logoImg(opp2.logo, opp2.name, opp2.avatar) : '<div class="card-logo-wrap"></div>'}</div>
+    teamsWrapperHtml = `<div class="triangular-hero-grid">
+      <div class="match-team-col">
+        <div class="match-team-logo"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
+        <div class="match-team-name">Yokohama Calcio</div>
       </div>
-      <div class="triangular-hero-names">
-        <div class="team-name-col">Yokohama Calcio</div><div></div>
-        <div class="team-name-col">${esc(opp1.name)}</div><div></div>
-        <div class="team-name-col">${esc(opp2.name)}</div>
+      <span class="tri-vs-label">VS</span>
+      <div class="match-team-col">
+        <div class="match-team-logo">${d.logoImg(opp1.logo, opp1.name, opp1.avatar)}</div>
+        <div class="match-team-name">${esc(opp1.name)}</div>
+      </div>
+      <span class="tri-vs-label">VS</span>
+      <div class="match-team-col">
+        <div class="match-team-logo">${opp2.logo ? d.logoImg(opp2.logo, opp2.name, opp2.avatar) : '<div class="match-team-logo"></div>'}</div>
+        <div class="match-team-name">${esc(opp2.name)}</div>
       </div>
     </div>`;
   } else {
     const o = d.oppInfo(m, lang, D.opponents);
     teamsWrapperHtml = `<div class="match-teams-wrapper">
-      <div class="teams-logos-row"><div class="hero-logo-wrap"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div><div class="match-vs-center">VS</div><div class="hero-logo-wrap">${d.logoImg(o.logo, o.name, o.avatar)}</div></div>
-      <div class="teams-names-row"><div class="team-name-col">Yokohama Calcio</div><div></div><div class="team-name-col">${esc(o.name)}</div></div>
+      <div class="match-team-col">
+        <div class="match-team-logo"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
+        <div class="match-team-name">Yokohama Calcio</div>
+      </div>
+      <div class="match-center-score"><span class="mc-vs">VS</span></div>
+      <div class="match-team-col">
+        <div class="match-team-logo">${d.logoImg(o.logo, o.name, o.avatar)}</div>
+        <div class="match-team-name">${esc(o.name)}</div>
+      </div>
     </div>`;
   }
 
@@ -528,7 +538,9 @@ function noNextHtml() {
       <div class="no-match-icon"><i class="fas fa-handshake-angle"></i></div>
       <p class="no-match-text" data-i18n="i.no_next">${t('i.no_next')}</p>
       <a href="contact.html?type=match" class="btn-match-detail-hero btn-no-match">
+        <i class="fas fa-paper-plane"></i>
         <span data-i18n="i.req_friendly">${t('i.req_friendly')}</span>
+        <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
       </a>
     </div>
   </div>`;
