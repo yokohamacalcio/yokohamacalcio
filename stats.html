@@ -31,6 +31,94 @@
 <link rel="stylesheet" href="site-extras.css">
 <script src="js/common.js"></script>
 <script src="js/data.js"></script>
+<style>
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 22px; }
+.ranking-card { background: #fff; border-radius: 16px; padding: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 16px rgba(0,60,130,.05); }
+.ranking-title { font-size: 1.15rem; color: var(--dark-navy); border-bottom: 2px solid var(--primary-sky); padding-bottom: 8px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; font-family: var(--font-brand); letter-spacing: 1px; }
+.ranking-list { list-style: none; padding: 0; margin: 0; }
+.ranking-item { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 9px 4px; border-bottom: 1px dashed #e2e8f0; }
+.ranking-item:last-child { border-bottom: 0; }
+.rank-left { display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1; }
+.rank-number { width: 24px; font-weight: 800; color: var(--primary-sky); flex-shrink: 0; }
+.rank-1 { color: #f59e0b; font-size: 1.1rem; } .rank-2 { color: #94a3b8; } .rank-3 { color: #b45309; }
+.rank-name { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.trial-badge { font-size: .68rem; background: #e2e8f0; color: #475569; padding: 2px 6px; border-radius: 4px; font-weight: 700; margin-left: 6px; }
+.rank-val { font-weight: 800; color: var(--primary-sky); white-space: nowrap; text-align: right; }
+.rank-val small { display: block; color: #64748b; font-weight: 600; font-size: .72rem; }
+.more-btn { width: 100%; margin-top: 12px; padding: 8px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; color: var(--dark-navy); font: inherit; font-weight: 700; font-size: .84rem; cursor: pointer; }
+.more-btn:hover { background: var(--dark-navy); color: #fff; }
+.stats-table-wrapper { overflow-x: auto; }
+.stats-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; text-align: center; }
+.stats-table th { background: var(--dark-navy); color: #fff; padding: 11px 8px; font-size: .82rem; }
+.stats-table td { padding: 11px 8px; border-bottom: 1px solid #e2e8f0; font-weight: 600; font-size: .9rem; }
+.stats-table tr.hl td { background: rgba(135,206,235,.25); }
+.stats-table td.left, .stats-table th.left { text-align: left; }
+.empty { text-align: center; color: #94a3b8; padding: 22px 8px; font-weight: 600; }
+.sub-title { font-size: .95rem; font-weight: 800; color: var(--dark-navy); margin: 22px 0 10px; }
+.stats-section-title { font-family: var(--font-brand); font-size: 1.7rem; color: var(--dark-navy); border-bottom: 3px solid var(--dark-navy); padding-bottom: 8px; margin: 40px 0 22px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px; }
+.stats-section-title i { color: var(--primary-sky); }
+.goal-bars {
+display: flex;
+align-items: flex-end;
+justify-content: space-around;
+height: 140px;
+margin-top: 25px;
+padding-top: 35px;
+padding-bottom: 10px;
+border-bottom: 2px solid #e2e8f0;
+}
+.goal-bar {
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+height: 100%;
+justify-content: flex-end;
+cursor: pointer;
+outline: none;
+transition: transform 0.2s ease;
+}
+.goal-bar:hover, .goal-bar:focus, .goal-bar:active {
+transform: translateY(-4px);
+}
+.goal-bar .bar-val-pop {
+position: absolute;
+top: -30px;
+left: 50%;
+transform: translateX(-50%) scale(0.85);
+background: var(--dark-navy, #003c82);
+color: #ffffff;
+padding: 3px 8px;
+border-radius: 6px;
+font-size: 0.78rem;
+font-weight: 800;
+white-space: nowrap;
+opacity: 0;
+visibility: hidden;
+transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+pointer-events: none;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+z-index: 10;
+}
+.goal-bar .bar-val-pop::after {
+content: '';
+position: absolute;
+bottom: -4px;
+left: 50%;
+transform: translateX(-50%);
+border-width: 4px 4px 0;
+border-style: solid;
+border-color: var(--dark-navy, #003c82) transparent transparent;
+}
+.goal-bar:hover .bar-val-pop,
+.goal-bar:focus .bar-val-pop,
+.goal-bar:active .bar-val-pop {
+opacity: 1;
+visibility: visible;
+transform: translateX(-50%) scale(1);
+}
+@media (max-width: 600px) { .stats-table th, .stats-table td { padding: 8px 4px; font-size: .76rem; } }
+</style>
 </head>
 <body>
 <script>YC.mountHeader('stats')</script>
@@ -80,28 +168,42 @@ let ui = { season: String(YC.todayJST().slice(0, 4)), comp: 'all' };
 const expanded = {};
 const seasonMatches = () => M.filter(m => m && m.status === 'past' && (ui.season === 'all' || String(m.date || '').slice(0, 4) === ui.season)).sort((a, b) => String(a.date || '').localeCompare(b.date || ''));
 const compMatches = () => seasonMatches().filter(m => ui.comp === 'all' || D().normCat(m.category) === ui.comp);
+/* Parser avanzato per estrarre il nome e la quantità (es. "Giocatore (x2)", "Giocatore (2)", "Giocatore x2") /
 function entries(text) {
 if (!text || text === 'なし' || text === 'Nessuno') return [];
 return String(text).split(/[,、]/).map(x => x.trim()).filter(Boolean).map(s => {
-const parenMult = s.match(/^(.?)\s[(（]\s*(?:[xX*]\s*(\d+)|(\d+))\s*[)）]￼
+// 1) Match tipo "Giocatore (x2)", "Giocatore (2)", "Giocatore (X2)"
+const parenMult = s.match(/^(.?)\s*[(（]\s*(?:[xX*]\s*(\d+)|(\d+))\s*[)）]￼
 if (parenMult) {
 ￼
+￼
+￼
 }
+￼
 const outerMult = s.match(/^(.*?)\s*[xX*]\s*(\d+)/);
 if (outerMult) {
-return { name: outerMult[1].trim(), count: parseInt(outerMult[2], 10) || 1 };
+const name = outerMult[1].trim();
+const count = parseInt(outerMult[2], 10) || 1;
+return { name, count };
 }
+// 3) Match con minute o note generiche tra parentesi tipo "Giocatore (15', x2)" o "Giocatore (23')"
 const genParen = s.match(/^(.?)\s(（）]+)[)）]$/);
 if (genParen) {
 const name = genParen[1].trim();
-const inMult = genParen[2].trim().match(/[xX*]\s*(\d+)/);
-return { name, count: inMult ? (parseInt(inMult[1], 10) || 1) : 1 };
+const inside = genParen[2].trim();
+const inMult = inside.match(/[xX*]\s*(\d+)/);
+const count = inMult ? (parseInt(inMult[1], 10) || 1) : 1;
+return { name, count };
 }
 return { name: s, count: 1 };
 }).filter(e => e.name);
 }
 function getEventsForMatch(m) {
-const scorers = [], assists = [], yellows = [], reds = [], mvps = [];
+const scorers = [];
+const assists = [];
+const yellows = [];
+const reds = [];
+const mvps = [];
 if (m.sub_matches && Array.isArray(m.sub_matches) && m.sub_matches.length > 0) {
 m.sub_matches.forEach(sub => {
 if (!sub) return;
@@ -173,7 +275,7 @@ function aggregate(list) {
 const A = { apps: {}, goals: {}, assists: {}, mvp: {}, yellow: {}, red: {}, gk: {} };
 list.forEach(m => {
 if (!m) return;
-// 1. PRESENZE (CAPS) — MAX 1 PRESENZA PER GIOCATORE PER EVENTO MATCH
+// 1. PRESENZE (CAPS) — UNICA PRESENZA PER GIOCATORE PER EVENTO MATCH
 const startersInMatch = new Set();
 const subsInMatch = new Set();
 const addStarters = (obj) => {
@@ -204,14 +306,14 @@ const o = bump(A.apps, n, 1, { subs: 0 });
 o.subs = (o.subs || 0) + 1;
 }
 });
-// 2. EVENTI
+// 2. EVENTI (Gol, Assist, MVP, Cartellini)
 const ev = getEventsForMatch(m);
 ev.scorers.forEach(e => bump(A.goals, e.name, e.count));
 ev.assists.forEach(e => bump(A.assists, e.name, e.count));
 ev.mvps.forEach(e => bump(A.mvp, e.name, e.count || 1));
 ev.yellows.forEach(e => bump(A.yellow, e.name, e.count || 1));
 ev.reds.forEach(e => bump(A.red, e.name, e.count || 1));
-// 3. PORTIERI & CLEAN SHEETS (AGGREGATI PER MATCH EVENT)
+// 3. PORTIERI & CLEAN SHEETS (AGGREGATI PER EVENTO MATCH)
 const matchGks = new Map();
 if (m.sub_matches && Array.isArray(m.sub_matches) && m.sub_matches.length > 0) {
 m.sub_matches.forEach(sub => {
@@ -312,13 +414,13 @@ function renderH2H(list) {
 const g = {};
 list.forEach(m => {
 if (!m) return;
-if (m.sub_matches && Array.isArray(m.sub_matches) && m.sub_matches.length > 0) {
+if (m.sub_matches && m.sub_matches.length > 0) {
 m.sub_matches.forEach(sub => {
 if (!sub) return;
 const oppId = sub.opponent_id || m.opponent_id;
 if (!oppId) return;
-const isHomeUs = sub.home === 'us' || sub.isHome === true || sub.home_team === 'us' || (sub.home === undefined && sub.isHome === undefined && m.isHome !== false);
-const mt = String(sub.score || sub.result || '').match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
+const isHomeUs = sub.home === 'us' || sub.isHome === true || sub.home_team === 'us';
+const mt = String(sub.score || '').match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
 if (!mt) return;
 const s1 = +mt[1], s2 = +mt[2];
 const ours = isHomeUs ? s1 : s2;
@@ -380,7 +482,7 @@ M = Array.isArray(d.matches) ? d.matches : []; P = Array.isArray(d.players) ? d.
 const years = M.map(m => String((m && m.date) || '').slice(0, 4)).filter(Boolean); if (ui.season !== 'all' && !years.includes(ui.season)) ui.season = 'all';
 ready = true; render();
 }).catch(err => {
-console.error("Errore caricamento dati stats:", err);
+console.error("Errore nel caricamento dati per le statistiche:", err);
 });
 document.addEventListener('yc:langchange', () => ready && render());
 </script>
