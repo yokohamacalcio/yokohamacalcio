@@ -4,9 +4,9 @@
   const { State, $, $$, esc, cleanStr, isJa, todayJST, t, toast, confirmBox, promptBox, save, hooks, actions } = AD;
   const D = State.data;
   AD.addDict({
-    it: { 'm.selectLabel': 'Seleziona partita da modificare', 'm.load': 'Carica', 'm.byId': 'Oppure cerca per ID', 'm.new': 'Nuova partita', 'm.dup': 'Duplica corrente', 'm.del': 'Elimina corrente', 'm.info': 'Informazioni partita', 'm.status': 'Stato', 'm.past': 'Finita (past)', 'm.upcoming': 'In programma (upcoming)', 'm.time': 'Orario K.O.', 'm.competition': 'Competizione', 'm.typeLabel': 'Etichetta tipo', 'm.opponent': 'Avversario', 'm.venue': 'Campo', 'm.homeAway': 'Casa / Trasferta', 'm.home': 'Casa (noi vs loro)', 'm.away': 'Trasferta (loro vs noi)', 'm.score': 'Risultato (sempre nostri - loro)', 'm.events': 'Eventi e prestazioni', 'm.scorers': 'Marcatori', 'm.assists': 'Assistman', 'm.gks': 'Portieri e gol subiti', 'm.yellows': 'Gialli', 'm.reds': 'Rossi', 'm.add': 'Aggiungi', 'm.tactics': 'Assetto tattico e convocati', 'm.formation': 'Modulo', 'm.mister': 'Suggerimento Mister', 'm.misterSub': 'Basato sull\'uso nei ruoli (stats.json)', 'm.suggest': 'Suggerisci formazione', 'm.starters': 'Titolari', 'm.clear': 'Cancella', 'm.bench': 'Panchina (10)', 'm.addTrialist': '+ Giocatore in prova', 'm.trialists': 'In prova (solo questo match):', 'm.saveMatch': 'Salva partita e aggiorna stats + caps', 'm.lineTitle': 'Convocazioni LINE', 'm.lineSub': 'Messaggio pronto da incollare nel gruppo LINE.', 'm.lineGen': 'Genera testo', 'm.lineCopy': 'Copia', 'm.goals': 'Gol', 'm.assistN': 'Assist', 'm.conceded': 'Subiti', 'm.minute': 'min', 'm.trialPrompt': 'Nome del giocatore in prova:', 'm.noId': 'Specifica un ID (usa «Nuova partita»).', 'm.notFound': 'Partita non trovata', 'm.pickFirst': 'Seleziona prima una partita.', 'm.deleteQ': 'Eliminare definitivamente la partita', 'm.badScore': 'Risultato non valido (es. 2 - 1).', 'm.goalsMismatch': 'Attenzione: i marcatori ({s}) non corrispondono ai nostri gol ({g}).', 'm.notInSquad': 'non in rosa', 'm.noStats': 'Nessun dato statistico: salva qualche partita.', 'm.suggested': 'Formazione suggerita', 'm.noneOpt': '— nessuno —', 'm.sub': 'Subentrato', 'm.bn': 'Panchina', 'm.copied': 'Testo copiato', 'm.genFirst': 'Genera prima il testo.', 'm.recalcDone': 'stats.json e caps aggiornati', 'm.dupDone': 'Duplicata: aggiorna data e avversario.' },
-    ja: { 'm.selectLabel': '編集する試合を選択', 'm.load': '読込', 'm.byId': 'ID で検索', 'm.new': '新規試合', 'm.dup': '複製', 'm.del': '削除', 'm.info': '試合情報', 'm.status': 'ステータス', 'm.past': '終了', 'm.upcoming': '予定', 'm.time': 'K.O.', 'm.competition': '大会', 'm.typeLabel': '種別ラベル', 'm.opponent': '対戦相手', 'm.venue': '会場', 'm.homeAway': 'ホーム/アウェイ', 'm.home': 'ホーム', 'm.away': 'アウェイ', 'm.score': 'スコア（常に自-相手）', 'm.events': 'イベント', 'm.scorers': '得点者', 'm.assists': 'アシスト', 'm.gks': 'GK・失点', 'm.yellows': '警告', 'm.reds': '退場', 'm.add': '追加', 'm.tactics': 'フォーメーション', 'm.formation': '布陣', 'm.mister': '監督サジェスト', 'm.misterSub': 'ポジション使用率に基づく', 'm.suggest': '布陣を提案', 'm.starters': '先発', 'm.clear': 'クリア', 'm.bench': '控え (10)', 'm.addTrialist': '+ 練習生を追加', 'm.trialists': '練習生（この試合のみ）:', 'm.saveMatch': '試合を保存してスタッツ・出場数を更新', 'm.lineTitle': 'LINE招集文', 'm.lineSub': 'LINEにそのまま貼れる案内文を生成します。', 'm.lineGen': '生成', 'm.lineCopy': 'コピー', 'm.goals': '得点', 'm.assistN': 'アシスト', 'm.conceded': '失点', 'm.minute': '分', 'm.trialPrompt': '練習生の名前:', 'm.noId': 'IDを指定してください（「新規試合」）。', 'm.notFound': '試合が見つかりません', 'm.pickFirst': '先に試合を選択してください。', 'm.deleteQ': '次の試合を完全に削除しますか', 'm.badScore': 'スコアが不正です（例 2 - 1）。', 'm.goalsMismatch': '注意: 得点者 ({s}) と自チーム得点 ({g}) が一致しません。', 'm.notInSquad': '名簿外', 'm.noStats': 'スタッツがありません。', 'm.suggested': '布陣を提案しました', 'm.noneOpt': '— なし —', 'm.sub': '途中出場', 'm.bn': '控え', 'm.copied': 'コピーしました', 'm.genFirst': '先に生成してください。', 'm.recalcDone': 'stats.json と caps を更新しました', 'm.dupDone': '複製しました。日付と相手を更新してください。' },
-    en: { 'm.selectLabel': 'Select match to edit', 'm.load': 'Load', 'm.byId': 'Or search by ID', 'm.new': 'New match', 'm.dup': 'Duplicate current', 'm.del': 'Delete current', 'm.info': 'Match information', 'm.status': 'Status', 'm.past': 'Finished (past)', 'm.upcoming': 'Scheduled (upcoming)', 'm.time': 'Kick-off', 'm.competition': 'Competition', 'm.typeLabel': 'Type label', 'm.opponent': 'Opponent', 'm.venue': 'Venue', 'm.homeAway': 'Home / Away', 'm.home': 'Home (us vs them)', 'm.away': 'Away (them vs us)', 'm.score': 'Score (always us - them)', 'm.events': 'Events & performance', 'm.scorers': 'Scorers', 'm.assists': 'Assists', 'm.gks': 'Goalkeepers & conceded', 'm.yellows': 'Yellows', 'm.reds': 'Reds', 'm.add': 'Add', 'm.tactics': 'Tactics & squad', 'm.formation': 'Formation', 'm.mister': 'Manager suggestion', 'm.misterSub': 'Based on role usage (stats.json)', 'm.suggest': 'Suggest lineup', 'm.starters': 'Starting XI', 'm.clear': 'Clear', 'm.bench': 'Bench (10)', 'm.addTrialist': '+ Add trialist', 'm.trialists': 'Trialists (this match only):', 'm.saveMatch': 'Save match & update stats + caps', 'm.lineTitle': 'LINE announcement', 'm.lineSub': 'Ready-to-paste message for the LINE group.', 'm.lineGen': 'Generate', 'm.lineCopy': 'Copy', 'm.goals': 'Goals', 'm.assistN': 'Assists', 'm.conceded': 'Conceded', 'm.minute': 'min', 'm.trialPrompt': 'Trialist name:', 'm.noId': 'Specify an ID (use “New match”).', 'm.notFound': 'Match not found', 'm.pickFirst': 'Select a match first.', 'm.deleteQ': 'Permanently delete match', 'm.badScore': 'Invalid score (e.g. 2 - 1).', 'm.goalsMismatch': 'Note: scorers ({s}) do not match our goals ({g}).', 'm.notInSquad': 'not in squad', 'm.noStats': 'No stats yet: save some matches.', 'm.suggested': 'Lineup suggested', 'm.noneOpt': '— none —', 'm.sub': 'Subbed in', 'm.bn': 'Bench', 'm.copied': 'Text copied', 'm.genFirst': 'Generate the text first.', 'm.recalcDone': 'stats.json and caps updated', 'm.dupDone': 'Duplicated: update date and opponent.' }
+    it: { 'm.selectLabel': 'Seleziona partita da modificare', 'm.load': 'Carica', 'm.byId': 'Oppure cerca per ID', 'm.new': 'Nuova partita', 'm.dup': 'Duplica corrente', 'm.del': 'Elimina corrente', 'm.info': 'Informazioni partita', 'm.status': 'Stato', 'm.past': 'Finita (past)', 'm.upcoming': 'In programma (upcoming)', 'm.time': 'Orario K.O.', 'm.competition': 'Competizione', 'm.typeLabel': 'Etichetta tipo', 'm.opponent': 'Avversario', 'm.venue': 'Campo', 'm.homeAway': 'Casa / Trasferta', 'm.home': 'Casa (noi vs loro)', 'm.away': 'Trasferta (loro vs noi)', 'm.score': 'Risultato (sempre nostri - loro)', 'm.events': 'Eventi e prestazioni', 'm.scorers': 'Marcatori', 'm.assists': 'Assistman', 'm.gks': 'Portieri e gol subiti', 'm.yellows': 'Gialli', 'm.reds': 'Rossi', 'm.add': 'Aggiungi', 'm.tactics': 'Assetto tattico e convocati', 'm.formation': 'Modulo', 'm.mister': 'Suggerimento Mister', 'm.misterSub': 'Basato sull\'uso nei ruoli (stats.json)', 'm.suggest': 'Suggerisci formazione', 'm.starters': 'Titolari', 'm.clear': 'Cancella', 'm.bench': 'Panchina (10)', 'm.addTrialist': '+ Giocatore in prova', 'm.trialists': 'In prova (solo questo match):', 'm.saveMatch': 'Salva partita e aggiorna stats + caps', 'm.lineTitle': 'Convocazioni LINE', 'm.lineSub': 'Messaggio pronto da incollare nel gruppo LINE.', 'm.lineGen': 'Genera testo', 'm.lineCopy': 'Copia', 'm.goals': 'Gol', 'm.assistN': 'Assist', 'm.conceded': 'Subiti', 'm.minute': 'min', 'm.trialPrompt': 'Nome del giocatore in prova:', 'm.noId': 'Specifica un ID (usa «Nuova partita»).', 'm.notFound': 'Partita non trovata', 'm.pickFirst': 'Seleziona prima una partita.', 'm.deleteQ': 'Eliminare definitivamente la partita', 'm.badScore': 'Risultato non valido (es. 2 - 1).', 'm.goalsMismatch': 'Attenzione: i marcatori ({s}) non corrispondono ai nostri gol ({g}).', 'm.notInSquad': 'non in rosa', 'm.noStats': 'Nessun dato statistico: salva qualche partita.', 'm.suggested': 'Formazione suggerita', 'm.noneOpt': '— nessuno —', 'm.sub': 'Subentrato', 'm.bn': 'Panchina', 'm.copied': 'Testo copiato', 'm.genFirst': 'Genera prima il testo.', 'm.recalcDone': 'stats.json e caps aggiornati', 'm.dupDone': 'Duplicata: aggiorna data e avversario.', 'm.format': 'Formato', 'm.fSingle': 'Partita singola', 'm.fTri': 'Triangolare (3角戦)', 'm.typeFriendly': 'Amichevole', 'm.typeTri': 'Triangolare', 'm.typeOfficial': 'Ufficiale', 'm.tri.title': 'Triangolare: avversari e nostri incontri', 'm.tri.opp2': 'Avversario 2 (terza squadra)', 'm.tri.list': 'I nostri incontri (gol, assist e portiere per ogni incontro)', 'm.tri.hint': 'Per ogni incontro: punteggio «nostri - loro». Formazione, MVP e cartellini sono della giornata. Il risultato complessivo si calcola da solo.', 'm.tri.add': 'Aggiungi incontro', 'm.tri.auto': 'Calcola risultato complessivo', 'm.tri.aggDone': 'Risultato complessivo: {s}', 'm.tri.needScores': 'Inserisci il punteggio di tutti gli incontri per calcolare il risultato complessivo.', 'm.tri.needOpp2': 'Scegli il secondo avversario del triangolare.', 'm.tri.sameOpp': 'I due avversari devono essere diversi.', 'm.tri.noSub': 'Aggiungi almeno un incontro.', 'm.tri.noSubOpp': 'Ogni incontro deve avere un avversario.', 'm.tri.badScore': 'Punteggio di un incontro non valido (es. 2 - 1 oppure VS).', 'm.auditTitle': 'Controllo coerenza dati', 'm.auditSub': 'Segnala punteggi, portieri, marcatori e formazioni che non tornano.', 'm.auditBtn': 'Controlla tutte le partite', 'm.auditNone': 'Nessun problema trovato.', 'm.auditN': '{n} avvisi sui dati di questa partita: apri Strumenti → Controllo coerenza.' },
+    ja: { 'm.selectLabel': '編集する試合を選択', 'm.load': '読込', 'm.byId': 'ID で検索', 'm.new': '新規試合', 'm.dup': '複製', 'm.del': '削除', 'm.info': '試合情報', 'm.status': 'ステータス', 'm.past': '終了', 'm.upcoming': '予定', 'm.time': 'K.O.', 'm.competition': '大会', 'm.typeLabel': '種別ラベル', 'm.opponent': '対戦相手', 'm.venue': '会場', 'm.homeAway': 'ホーム/アウェイ', 'm.home': 'ホーム', 'm.away': 'アウェイ', 'm.score': 'スコア（常に自-相手）', 'm.events': 'イベント', 'm.scorers': '得点者', 'm.assists': 'アシスト', 'm.gks': 'GK・失点', 'm.yellows': '警告', 'm.reds': '退場', 'm.add': '追加', 'm.tactics': 'フォーメーション', 'm.formation': '布陣', 'm.mister': '監督サジェスト', 'm.misterSub': 'ポジション使用率に基づく', 'm.suggest': '布陣を提案', 'm.starters': '先発', 'm.clear': 'クリア', 'm.bench': '控え (10)', 'm.addTrialist': '+ 練習生を追加', 'm.trialists': '練習生（この試合のみ）:', 'm.saveMatch': '試合を保存してスタッツ・出場数を更新', 'm.lineTitle': 'LINE招集文', 'm.lineSub': 'LINEにそのまま貼れる案内文を生成します。', 'm.lineGen': '生成', 'm.lineCopy': 'コピー', 'm.goals': '得点', 'm.assistN': 'アシスト', 'm.conceded': '失点', 'm.minute': '分', 'm.trialPrompt': '練習生の名前:', 'm.noId': 'IDを指定してください（「新規試合」）。', 'm.notFound': '試合が見つかりません', 'm.pickFirst': '先に試合を選択してください。', 'm.deleteQ': '次の試合を完全に削除しますか', 'm.badScore': 'スコアが不正です（例 2 - 1）。', 'm.goalsMismatch': '注意: 得点者 ({s}) と自チーム得点 ({g}) が一致しません。', 'm.notInSquad': '名簿外', 'm.noStats': 'スタッツがありません。', 'm.suggested': '布陣を提案しました', 'm.noneOpt': '— なし —', 'm.sub': '途中出場', 'm.bn': '控え', 'm.copied': 'コピーしました', 'm.genFirst': '先に生成してください。', 'm.recalcDone': 'stats.json と caps を更新しました', 'm.dupDone': '複製しました。日付と相手を更新してください。', 'm.format': 'フォーマット', 'm.fSingle': '単独試合', 'm.fTri': '3角戦（トライアングル）', 'm.typeFriendly': '練習試合', 'm.typeTri': '3角戦', 'm.typeOfficial': '公式戦', 'm.tri.title': '3角戦：対戦相手と自チームの試合', 'm.tri.opp2': '対戦相手2（3チーム目）', 'm.tri.list': '自チームの試合（各試合の得点・アシスト・GK）', 'm.tri.hint': '各試合のスコアは「自 - 相手」。メンバー・MVP・カードは当日分です。総合スコアは自動計算されます。', 'm.tri.add': '試合を追加', 'm.tri.auto': '総合スコアを計算', 'm.tri.aggDone': '総合スコア: {s}', 'm.tri.needScores': '総合スコアを計算するには全試合のスコアを入力してください。', 'm.tri.needOpp2': '2チーム目の対戦相手を選択してください。', 'm.tri.sameOpp': '2つの対戦相手は別のチームにしてください。', 'm.tri.noSub': '試合を1つ以上追加してください。', 'm.tri.noSubOpp': '各試合に対戦相手を選択してください。', 'm.tri.badScore': 'スコアが不正です（例 2 - 1 または VS）。', 'm.auditTitle': 'データ整合性チェック', 'm.auditSub': 'スコア・GK・得点者・先発の不整合を表示します。', 'm.auditBtn': '全試合をチェック', 'm.auditNone': '問題は見つかりませんでした。', 'm.auditN': 'この試合に{n}件の警告: ツール → 整合性チェックを確認してください。' },
+    en: { 'm.selectLabel': 'Select match to edit', 'm.load': 'Load', 'm.byId': 'Or search by ID', 'm.new': 'New match', 'm.dup': 'Duplicate current', 'm.del': 'Delete current', 'm.info': 'Match information', 'm.status': 'Status', 'm.past': 'Finished (past)', 'm.upcoming': 'Scheduled (upcoming)', 'm.time': 'Kick-off', 'm.competition': 'Competition', 'm.typeLabel': 'Type label', 'm.opponent': 'Opponent', 'm.venue': 'Venue', 'm.homeAway': 'Home / Away', 'm.home': 'Home (us vs them)', 'm.away': 'Away (them vs us)', 'm.score': 'Score (always us - them)', 'm.events': 'Events & performance', 'm.scorers': 'Scorers', 'm.assists': 'Assists', 'm.gks': 'Goalkeepers & conceded', 'm.yellows': 'Yellows', 'm.reds': 'Reds', 'm.add': 'Add', 'm.tactics': 'Tactics & squad', 'm.formation': 'Formation', 'm.mister': 'Manager suggestion', 'm.misterSub': 'Based on role usage (stats.json)', 'm.suggest': 'Suggest lineup', 'm.starters': 'Starting XI', 'm.clear': 'Clear', 'm.bench': 'Bench (10)', 'm.addTrialist': '+ Add trialist', 'm.trialists': 'Trialists (this match only):', 'm.saveMatch': 'Save match & update stats + caps', 'm.lineTitle': 'LINE announcement', 'm.lineSub': 'Ready-to-paste message for the LINE group.', 'm.lineGen': 'Generate', 'm.lineCopy': 'Copy', 'm.goals': 'Goals', 'm.assistN': 'Assists', 'm.conceded': 'Conceded', 'm.minute': 'min', 'm.trialPrompt': 'Trialist name:', 'm.noId': 'Specify an ID (use “New match”).', 'm.notFound': 'Match not found', 'm.pickFirst': 'Select a match first.', 'm.deleteQ': 'Permanently delete match', 'm.badScore': 'Invalid score (e.g. 2 - 1).', 'm.goalsMismatch': 'Note: scorers ({s}) do not match our goals ({g}).', 'm.notInSquad': 'not in squad', 'm.noStats': 'No stats yet: save some matches.', 'm.suggested': 'Lineup suggested', 'm.noneOpt': '— none —', 'm.sub': 'Subbed in', 'm.bn': 'Bench', 'm.copied': 'Text copied', 'm.genFirst': 'Generate the text first.', 'm.recalcDone': 'stats.json and caps updated', 'm.dupDone': 'Duplicated: update date and opponent.', 'm.format': 'Format', 'm.fSingle': 'Single match', 'm.fTri': 'Triangular (3-team)', 'm.typeFriendly': 'Friendly', 'm.typeTri': 'Triangular', 'm.typeOfficial': 'Official', 'm.tri.title': 'Triangular: opponents & our fixtures', 'm.tri.opp2': 'Opponent 2 (third team)', 'm.tri.list': 'Our fixtures (goals, assists and goalkeeper per fixture)', 'm.tri.hint': 'Per fixture: score “us - them”. Line-up, MVP and cards belong to the day. The overall result is calculated automatically.', 'm.tri.add': 'Add fixture', 'm.tri.auto': 'Calculate overall score', 'm.tri.aggDone': 'Overall score: {s}', 'm.tri.needScores': 'Enter the score of every fixture to calculate the overall result.', 'm.tri.needOpp2': 'Choose the second opponent of the triangular.', 'm.tri.sameOpp': 'The two opponents must be different.', 'm.tri.noSub': 'Add at least one fixture.', 'm.tri.noSubOpp': 'Every fixture needs an opponent.', 'm.tri.badScore': 'Invalid fixture score (e.g. 2 - 1 or VS).', 'm.auditTitle': 'Data consistency check', 'm.auditSub': 'Flags scores, goalkeepers, scorers and line-ups that do not add up.', 'm.auditBtn': 'Check all matches', 'm.auditNone': 'No problems found.', 'm.auditN': '{n} warnings on this match: open Tools → Consistency check.' }
   });
 
   const FORM = {
@@ -24,45 +24,12 @@
   AD.isDirty = () => dirty;
   const markDirty = () => { dirty = true; };
 
-  function parseList(text, gk) {
-    if (!text || (Array.isArray(text) && !text.length)) return [];
-    const items = Array.isArray(text) ? text : String(text).split(SEP);
-    return items.map(x => String(x).trim()).filter(x => x && x !== 'なし' && x !== 'Nessuno' && x !== 'null').map(raw => {
-      let s = raw;
-      if (gk) {
-        const m = s.match(/^(.+?)\s*[(（]\s*(\d+)\s*[)）]\s*$/);
-        return m ? { name: m[1].trim(), n: parseInt(m[2], 10), min: '' } : { name: s.trim(), n: null, min: '' };
-      }
-
-      let min = '';
-      const minMatch = s.match(/\s*[(（]\s*([\d\+'′,\s]+['′min分]?)\s*[)）]\s*$/i);
-      if (minMatch && /['′min分]/.test(minMatch[1])) {
-        min = minMatch[1].trim();
-        s = s.slice(0, minMatch.index).trim();
-      }
-
-      let n = 1;
-      const countMatch = s.match(/(?:\s*[(（]\s*[xX*]?\s*(\d+)\s*[)）]|\s+[xX*]\s*(\d+)|[xX*]\s*(\d+))\s*$/);
-      if (countMatch) {
-        const numStr = countMatch[1] || countMatch[2] || countMatch[3];
-        if (numStr != null) n = parseInt(numStr, 10) || 1;
-        s = s.slice(0, countMatch.index).trim();
-      } else {
-        const trailingParen = s.match(/\s*[(（]\s*(\d+)\s*[)）]\s*$/);
-        if (trailingParen) {
-          n = parseInt(trailingParen[1], 10) || 1;
-          s = s.slice(0, trailingParen.index).trim();
-        }
-      }
-      s = s.replace(/^[(（]+|[(（)]+$/g, '').trim();
-      return { name: s, n, min };
-    }).filter(e => e.name);
-  }
+  /* ---------- parsing coerente con il sito ("Nome x2 (23')", "Portiere(3)") ---------- */
+  const T = AD.tri, parseList = AD.stats.parseList;
 
   const allPeople = () => [...D.players, ...trialists];
   const pval = p => p.name_kanji || p.name_romaji;
   const pdisp = p => AD.pname(p, State.lang) || pval(p);
-
   function findValue(raw) {
     const parsed = parseList(raw)[0];
     const cleanName = parsed ? parsed.name : String(raw || '').replace(/\(.*?\)/g, '').replace(/\s*[xX*]\s*\d+/g, '').trim();
@@ -96,19 +63,25 @@
     updateCards();
   }
 
+  /* ---------- selettori dati ---------- */
   const oppName = k => AD.nm((D.opponents[k] || {}).name, State.lang) || k;
   const locName = k => (D.locations[k] || {})[State.lang] || (D.locations[k] || {}).it || k;
+  const oppLabel = m => (T.isTri(m) ? '🔺 ' + (T.opponentsOf(m).map(oppName).join(' & ') || '?') : oppName(m.opponent_id));
   function renderSelects() {
     const keep = id => $(id).value;
-    const [o, l, c] = [keep('opponentSelect'), keep('locationSelect'), keep('competitionSelect')];
-    $('opponentSelect').innerHTML = Object.keys(D.opponents).sort().map(k => `<option value="${esc(k)}">${esc(oppName(k))} (${esc(k)})</option>`).join('');
+    const [o, o2, l, c] = [keep('opponentSelect'), keep('triOpponent2Select'), keep('locationSelect'), keep('competitionSelect')];
+    const oppOpts = Object.keys(D.opponents).sort().map(k => `<option value="${esc(k)}">${esc(oppName(k))} (${esc(k)})</option>`).join('');
+    $('opponentSelect').innerHTML = oppOpts;
+    $('triOpponent2Select').innerHTML = '<option value="">—</option>' + oppOpts;
     $('locationSelect').innerHTML = Object.keys(D.locations).sort().map(k => `<option value="${esc(k)}">${esc(locName(k))} (${esc(k)})</option>`).join('');
     $('competitionSelect').innerHTML = (D.competitions.length ? D.competitions : [{ id: 'friendly', name: { it: 'Amichevoli' } }]).map(x => { const bits = [x.division && (State.lang === 'ja' ? x.division + '部' : 'Div. ' + x.division), x.block && (State.lang === 'ja' ? x.block + 'ブロック' : 'Blocco ' + x.block), x.season && x.season !== 'all' && '(' + x.season + ')'].filter(Boolean).join(' '); return `<option value="${esc(x.id)}">${esc(AD.nm(x.name, State.lang) + (bits ? ' ' + bits : '') + ' [' + x.id + ']')}</option>`; }).join('');
-    if (o) $('opponentSelect').value = o; if (l) $('locationSelect').value = l; if (c) $('competitionSelect').value = c;
-    const sorted = [...D.matches].sort((a, b) => { const up = x => (x.status === 'upcoming' || x.status === 'live') ? 0 : 1; return up(a) - up(b) || (up(a) ? String(b.date).localeCompare(a.date) : String(b.date).localeCompare(a.date)); });
+    if (o) $('opponentSelect').value = o; if (o2) $('triOpponent2Select').value = o2; if (l) $('locationSelect').value = l; if (c) $('competitionSelect').value = c;
+    rememberOpp();
+    const sorted = [...D.matches].sort((a, b) => { const up = x => (x.status === 'upcoming' || x.status === 'live') ? 0 : 1; return up(a) - up(b) || String(b.date).localeCompare(a.date); });
     const cur = $('matchSelector').value;
-    $('matchSelector').innerHTML = `<option value="">— ${sorted.length} —</option>` + sorted.map(m => `<option value="${esc(m.id)}">${(m.status === 'upcoming' || m.status === 'live') ? '🟢' : '⚪'} ${esc(m.date)} — vs ${esc(oppName(m.opponent_id))}${m.score && m.score !== 'VS' ? ' (' + esc(m.score) + ')' : ''} · [${esc(m.id)}]</option>`).join('');
+    $('matchSelector').innerHTML = `<option value="">— ${sorted.length} —</option>` + sorted.map(m => `<option value="${esc(m.id)}">${(m.status === 'upcoming' || m.status === 'live') ? '🟢' : '⚪'} ${esc(m.date)} — vs ${esc(oppLabel(m))}${m.score && m.score !== 'VS' ? ' (' + esc(m.score) + ')' : ''} · [${esc(m.id)}]</option>`).join('');
     if (cur) $('matchSelector').value = cur;
+    refreshSubOpp();
   }
 
   function renderPitch() {
@@ -120,10 +93,11 @@
     $('benchGrid').innerHTML = b;
     refreshSelects();
     Object.entries(prev).forEach(([pos, v]) => { const s = document.querySelector(`#pitchGrid .squad-sel[data-pos="${pos}"]`); if (s && v) ensureOption(s, v); });
-    $$('#benchGrid .bench-card').forEach((c, i) => { const d = prevBench[i]; if (!d) return; if (d.p) ensureOption(c.querySelector('.bench-sel'), d.p); const chk = c.querySelector('.bench-in'); chk.checked = !!d.s; c.querySelector('.bench-pos').disabled = !d.s; if (d.pos && [...c.querySelector('.bench-pos').options].some(o => o.value === d.pos)) c.querySelector('.bench-pos').value = d.pos; });
+    $$('#benchGrid .bench-card').forEach((c, i) => { const d = prevBench[i]; if (!d) return; if (d.p) ensureOption(c.querySelector('.bench-sel'), d.p); const chk = c.querySelector('.bench-in'); chk.checked = d.s; c.querySelector('.bench-pos').disabled = !d.s; if (d.pos && [...c.querySelector('.bench-pos').options].some(o => o.value === d.pos)) c.querySelector('.bench-pos').value = d.pos; });
     refreshSelects(); renderMister();
   }
 
+  /* ---------- affinità e Mister virtuale ---------- */
   const statsPlayers = () => (D.stats && D.stats.players) || {};
   function macroOf(p) { return p.role === 'gk' ? 'GK' : p.role === 'df' ? 'DEF' : p.role === 'mf' ? 'MID' : p.role === 'fw' ? 'ATT' : 'UNK'; }
   function affinity(p, tag) {
@@ -167,69 +141,104 @@
     markDirty(); refreshSelects(); renderMister(); toast('success', `✨ ${t('m.suggested')} (${n})`);
   }
 
+  /* ---------- righe statistiche ---------- */
   const ROWS = { scorer: ['scorersContainer', { count: 'm.goals', min: 1 }], assist: ['assistsContainer', { count: 'm.assistN' }], gk: ['gkContainer', { count: 'm.conceded', gk: 1 }], yellow: ['yellowCardsContainer', { min: 1 }], red: ['redCardsContainer', { min: 1 }] };
-  function addRow(kind, data) {
-    const [cid, o] = ROWS[kind], div = document.createElement('div'); div.className = 'stat-row'; div.dataset.kind = kind;
+  const SUBKIND = { scorer: 'sub-scorer', assist: 'sub-assist', gk: 'sub-gk' };
+  const rowBox = (kind, scope) => (scope ? scope.querySelector('.' + SUBKIND[kind]) : $(ROWS[kind][0]));
+  function addRow(kind, data, scope) {
+    const o = ROWS[kind][1], div = document.createElement('div'); div.className = 'stat-row'; div.dataset.kind = kind;
     div.innerHTML = `<select class="form-control psel row-sel ${o.gk ? 'gk-sel' : ''}"></select>${o.min ? `<input type="text" class="form-control minute-input" placeholder="${t('m.minute')}">` : ''}${o.count ? `<label>${t(o.count)}:</label><input type="number" class="form-control count-input" value="${o.gk ? 0 : 1}" min="0" max="30">` : ''}<button type="button" class="btn-remove-row" data-action="remove-row"><i class="fas fa-trash"></i></button>`;
-    $(cid).appendChild(div); refreshSelects();
+    rowBox(kind, scope).appendChild(div); refreshSelects();
     if (data) { ensureOption(div.querySelector('.row-sel'), findValue(data.name) || data.name); const c = div.querySelector('.count-input'); if (c && data.n != null) c.value = data.n; const m = div.querySelector('.minute-input'); if (m && data.min) m.value = data.min; }
     return div;
   }
-  const rowsOf = kind => $$(`#${ROWS[kind][0]} .stat-row`).map(r => ({ name: r.querySelector('.row-sel').value, n: parseInt((r.querySelector('.count-input') || {}).value, 10), min: ((r.querySelector('.minute-input') || {}).value || '').trim() })).filter(r => r.name);
+  const rowsOf = (kind, scope) => $$('.stat-row', rowBox(kind, scope)).map(r => ({ name: r.querySelector('.row-sel').value, n: parseInt((r.querySelector('.count-input') || {}).value, 10), min: ((r.querySelector('.minute-input') || {}).value || '').trim() })).filter(r => r.name);
   const fmtNames = (arr, withMin) => arr.map(r => `${r.name}${r.n > 1 ? ' x' + r.n : ''}${withMin && r.min ? ` (${r.min}')` : ''}`).join(', ');
 
+  /* ---------- triangolari: un riquadro per ogni nostro incontro ---------- */
+  const isTriForm = () => $('isTriangular').value === 'true';
+  const subOppIds = () => [...new Set([$('opponentSelect').value, $('triOpponent2Select').value].filter(Boolean))];
+  const subOppOptions = sel => { const ids = subOppIds(); if (sel && !ids.includes(sel)) ids.push(sel); return ids.map(id => `<option value="${esc(id)}" ${id === sel ? 'selected' : ''}>${esc(oppName(id))}</option>`).join(''); };
+  function rememberOpp() { $('opponentSelect').dataset.prev = $('opponentSelect').value; $('triOpponent2Select').dataset.prev = $('triOpponent2Select').value; }
+  function addSubCard(sub) {
+    const opp = sub ? T.subOpp(sub) : (subOppIds()[$$('#subMatchesContainer .sub-match-card').length] || subOppIds()[0] || '');
+    const div = document.createElement('div'); div.className = 'sub-match-card';
+    const grp = (kind, key, icon) => `<div class="sub-group"><label><i class="fas ${icon}"></i> ${t(key)}</label><div class="${SUBKIND[kind]}"></div><button type="button" class="btn-add-row" data-action="sub-add-row" data-kind="${kind}"><i class="fas fa-plus"></i> ${t('m.add')}</button></div>`;
+    div.innerHTML = `<div class="sub-head"><strong class="sub-us">Yokohama Calcio</strong><span class="sub-vs">VS</span><select class="form-control sub-opp">${subOppOptions(opp)}</select><input type="text" class="form-control sub-score" placeholder="2 - 1" value="${esc(sub ? T.normScore(sub.score) : 'VS')}" aria-label="${esc(t('m.score'))}"><button type="button" class="btn-remove-row" data-action="remove-sub-match" aria-label="Remove"><i class="fas fa-trash"></i></button></div><div class="sub-events">${grp('scorer', 'm.scorers', 'fa-futbol')}${grp('assist', 'm.assists', 'fa-handshake')}${grp('gk', 'm.gks', 'fa-mitten')}</div>`;
+    $('subMatchesContainer').appendChild(div);
+    if (sub) { parseList(sub.scorers).forEach(e => addRow('scorer', e, div)); parseList(sub.assists).forEach(e => addRow('assist', e, div)); parseList(sub.goalkeeper || sub.goalkeepers, true).forEach(e => addRow('gk', e, div)); }
+    refreshSelects(); return div;
+  }
+  function refreshSubOpp(prev, now) {            // aggiorna i menu degli incontri quando cambiano gli avversari
+    $$('#subMatchesContainer .sub-opp').forEach(sel => { let cur = sel.value; if (prev && cur === prev) cur = now || ''; sel.innerHTML = subOppOptions(cur); if (cur) sel.value = cur; });
+    if (isTriForm()) subOppIds().forEach(id => { if (!$$('#subMatchesContainer .sub-opp').some(s => s.value === id)) addSubCard({ opponent_id: id, score: 'VS' }); });
+  }
+  function toggleTriUI() {
+    const on = isTriForm();
+    $('triangularSection').classList.toggle('hidden', !on);
+    ['groupScorers', 'groupAssists', 'groupGk'].forEach(id => $(id).classList.toggle('hidden', on));
+    if (on) refreshSubOpp();
+    if (on && !$$('#subMatchesContainer .sub-match-card').length) addSubCard(null);
+  }
+  function readSubCards() {
+    return $$('#subMatchesContainer .sub-match-card').map(c => {
+      const opp = c.querySelector('.sub-opp').value, raw = c.querySelector('.sub-score').value.trim(), as = {};
+      rowsOf('assist', c).forEach(r => as[r.name] = (as[r.name] || 0) + (r.n || 1));
+      return { opponent_id: opp, home: 'us', away: opp, score: T.normScore(raw), _bad: !!raw && !/^vs$/i.test(raw) && !T.SCORE.test(raw), scorers: fmtNames(rowsOf('scorer', c), true), assists: Object.keys(as).map(k => as[k] > 1 ? `${k} x${as[k]}` : k).join(', '), goalkeeper: rowsOf('gk', c).map(r => `${r.name}(${r.n || 0})`).join(', ') };
+    });
+  }
+  function syncAggregate(notify) {                // risultato complessivo = somma dei nostri incontri
+    const a = T.aggregate(readSubCards());
+    if (a.complete) { $('matchScore').value = `${a.gf} - ${a.ga}`; if (notify) toast('success', t('m.tri.aggDone').replace('{s}', $('matchScore').value)); }
+    else if (notify) toast('warn', t('m.tri.needScores'));
+  }
+  const ensureTypeOption = v => { const sel = $('matchType'); if (v && ![...sel.options].some(o => o.value === v)) { const o = document.createElement('option'); o.value = v; o.textContent = v; sel.appendChild(o); } };
+  const oppsText = m => (m.isTriangular && m.opponents && m.opponents.length > 1 ? '🔺 ' + m.opponents.map(oppName).join(' & ') : oppName(m.opponent_id));
+
   function readForm() {
-    const up = $('matchStatus').value === 'upcoming', sp = {}, starters = [], bench = [], subsIn = [], subsOut = [];
+    const up = $('matchStatus').value === 'upcoming', tri = isTriForm(), sp = {}, starters = [], bench = [], subsIn = [], subsOut = [];
     $$('#pitchGrid .squad-sel').forEach(s => { if (s.value) { sp[s.dataset.pos] = s.value; starters.push(s.value); } });
     $$('#benchGrid .bench-card').forEach(c => { const p = c.querySelector('.bench-sel').value, sub = c.querySelector('.bench-in').checked; if (p) { bench.push({ player: p, subbed_in: sub, position_played: sub ? c.querySelector('.bench-pos').value : null }); (sub ? subsIn : subsOut).push(p); } });
     const sc = rowsOf('scorer'), as = {}; rowsOf('assist').forEach(r => as[r.name] = (as[r.name] || 0) + (r.n || 1));
-    const m = { id: $('matchId').value.trim() || currentId, category: $('matchCategory').value, competition_id: $('competitionSelect').value || 'friendly', date: $('matchDate').value, time: $('matchTime').value || '11:00', status: $('matchStatus').value, type: $('matchType').value.trim() || '練習試合', opponent_id: $('opponentSelect').value, isHome: $('isHome').value === 'true', score: ($('matchScore').value.trim() || (up ? 'VS' : '0 - 0')), scorers: up ? '' : fmtNames(sc, true), assists: up ? '' : Object.keys(as).map(k => as[k] > 1 ? `${k} x${as[k]}` : k).join(', '), mvp: up ? '' : $('mvpSelect').value, yellow_cards: up ? '' : fmtNames(rowsOf('yellow').map(r => ({ ...r, n: 1 })), true), red_cards: up ? '' : fmtNames(rowsOf('red').map(r => ({ ...r, n: 1 })), true), location_id: $('locationSelect').value, goalkeepers: up ? '' : rowsOf('gk').map(r => `${r.name}(${r.n || 0})`).join(', ') };
+    const m = { id: $('matchId').value.trim() || currentId, category: $('matchCategory').value, competition_id: $('competitionSelect').value || 'friendly', date: $('matchDate').value, time: $('matchTime').value || '11:00', status: $('matchStatus').value, type: $('matchType').value || '練習試合', opponent_id: $('opponentSelect').value, isHome: $('isHome').value === 'true', score: ($('matchScore').value.trim() || (up ? 'VS' : '0 - 0')), scorers: up ? '' : fmtNames(sc, true), assists: up ? '' : Object.keys(as).map(k => as[k] > 1 ? `${k} x${as[k]}` : k).join(', '), mvp: up ? '' : $('mvpSelect').value, yellow_cards: up ? '' : fmtNames(rowsOf('yellow').map(r => ({ ...r, n: 1 })), true), red_cards: up ? '' : fmtNames(rowsOf('red').map(r => ({ ...r, n: 1 })), true), location_id: $('locationSelect').value, goalkeepers: up ? '' : rowsOf('gk').map(r => `${r.name}(${r.n || 0})`).join(', ') };
+    if (tri) {
+      const opp1 = $('opponentSelect').value, opp2 = $('triOpponent2Select').value, subs = readSubCards(), ev = T.mergeEvents(subs), agg = T.aggregate(subs);
+      Object.assign(m, { isTriangular: true, type: 'triangular', opponent_id: opp1, opponents: [opp1, opp2].filter(Boolean), sub_matches: subs, scorers: up ? '' : ev.scorers, assists: up ? '' : ev.assists, goalkeepers: up ? '' : ev.goalkeepers });
+      if (up) m.score = 'VS'; else if (agg.complete) m.score = `${agg.gf} - ${agg.ga}`;
+    }
     if (!up || starters.length || bench.length) Object.assign(m, { formation: $('formationSelect').value, starters_positions: sp, starters, substitutes_in: subsIn, substitutes_unused: subsOut, bench_details: bench, lineup: [...starters, ...subsIn] });
     return m;
   }
   function fillForm(m) {
+    const subs = T.subList(m), tri = T.isTri(m);
     $('matchStatus').value = m.status || 'past'; $('matchDate').value = m.date || todayJST(); $('matchTime').value = m.time || '11:00';
-    $('matchCategory').value = m.category === 'official' ? 'league' : (m.category || 'friendly'); $('matchType').value = m.type || '練習試合';
+    $('matchCategory').value = m.category === 'official' ? 'league' : (['friendly', 'league', 'cup'].includes(m.category) ? m.category : 'friendly');
+    const type = tri ? 'triangular' : (m.type || '練習試合'); ensureTypeOption(type); $('matchType').value = type;
     renderSelects();
     const comp = m.competition_id || (D.competitions.find(c => c.category === $('matchCategory').value) || {}).id || 'friendly'; $('competitionSelect').value = comp;
-    if (m.opponent_id) $('opponentSelect').value = m.opponent_id; if (m.location_id) $('locationSelect').value = m.location_id;
+    const opps = T.opponentsOf(m);
+    if (tri ? opps[0] : m.opponent_id) $('opponentSelect').value = tri ? opps[0] : m.opponent_id;
+    $('triOpponent2Select').value = tri ? (opps[1] || '') : '';
+    $('isTriangular').value = String(tri); rememberOpp();
+    if (m.location_id) $('locationSelect').value = m.location_id;
     $('isHome').value = String(m.isHome !== false); $('matchScore').value = m.score || 'VS';
     $('formationSelect').value = FORM[m.formation] ? m.formation : '4-4-2';
     trialists = m._trialists || trialists; renderTrialists();
     renderPitch();
     Object.entries(m.starters_positions || {}).forEach(([pos, n]) => { const s = document.querySelector(`#pitchGrid .squad-sel[data-pos="${pos}"]`); if (s) ensureOption(s, findValue(n)); });
     (m.bench_details || []).forEach((b, i) => { const c = document.querySelector(`[data-slot="${i + 1}"]`); if (!c) return; ensureOption(c.querySelector('.bench-sel'), findValue(b.player)); const chk = c.querySelector('.bench-in'); chk.checked = !!b.subbed_in; c.querySelector('.bench-pos').disabled = !b.subbed_in; if (b.position_played) c.querySelector('.bench-pos').value = b.position_played; });
-    Object.values(ROWS).forEach(([cid]) => $(cid).innerHTML = '');
-
-    const subMatches = m.sub_matches || m.subMatches || [];
-    const getSubProp = (obj, ...keys) => {
-      if (!obj) return undefined;
-      for (const k of keys) {
-        if (obj[k] !== undefined && obj[k] !== null && obj[k] !== '') return obj[k];
-      }
-      return undefined;
-    };
-    const getSubFieldStr = (...keys) => {
-      for (const k of keys) {
-        if (m[k]) return m[k];
-      }
-      return subMatches.map(s => getSubProp(s, ...keys)).filter(Boolean).join(', ');
-    };
-
-    parseList(getSubFieldStr('scorers', 'scorer', 'goals', 'goal')).forEach(e => addRow('scorer', e));
-    parseList(getSubFieldStr('assists', 'assist')).forEach(e => addRow('assist', e));
-    parseList(getSubFieldStr('goalkeepers', 'goalkeeper', 'gk', 'gks'), true).forEach(e => addRow('gk', e));
-    parseList(getSubFieldStr('yellow_cards', 'yellows', 'yellow', 'yellow_card')).forEach(e => addRow('yellow', e));
-    parseList(getSubFieldStr('red_cards', 'reds', 'red', 'red_card')).forEach(e => addRow('red', e));
-
-    refreshSelects(); 
-    const mvpVal = getSubFieldStr('mvp', 'MVP');
-    if (mvpVal && mvpVal !== 'なし' && mvpVal !== 'Nessuno') ensureOption($('mvpSelect'), findValue(mvpVal));
+    Object.values(ROWS).forEach(([cid]) => $(cid).innerHTML = ''); $('subMatchesContainer').innerHTML = '';
+    if (tri) subs.forEach(s => addSubCard(s));
+    else { parseList(m.scorers).forEach(e => addRow('scorer', e)); parseList(m.assists).forEach(e => addRow('assist', e)); parseList(m.goalkeepers || m.goalkeeper, true).forEach(e => addRow('gk', e)); }
+    parseList(m.yellow_cards).forEach(e => addRow('yellow', e)); parseList(m.red_cards).forEach(e => addRow('red', e));
+    toggleTriUI();
+    refreshSelects();
+    if (m.mvp && m.mvp !== 'なし' && m.mvp !== 'Nessuno') ensureOption($('mvpSelect'), findValue(m.mvp));
     updateCards(); renderMister();
   }
   function resetForm() {
-    $('matchForm').reset(); trialists = []; currentId = ''; $('matchSelector').value = ''; $('statusMsg').textContent = '';
-    renderSelects(); renderPitch(); Object.values(ROWS).forEach(([cid]) => $(cid).innerHTML = ''); renderTrialists(); $('matchDate').value = todayJST(); dirty = false; clearDraft();
+    $('matchForm').reset(); trialists = []; currentId = ''; $('matchSelector').value = ''; $('statusMsg').textContent = ''; $('subMatchesContainer').innerHTML = '';
+    renderSelects(); renderPitch(); Object.values(ROWS).forEach(([cid]) => $(cid).innerHTML = ''); renderTrialists(); toggleTriUI(); $('matchDate').value = todayJST(); dirty = false; clearDraft();
   }
   function loadMatch(id, quiet) {
     const m = D.matches.find(x => String(x.id).toLowerCase() === String(id).toLowerCase());
@@ -238,255 +247,39 @@
   }
   const nextId = () => 'match-' + (D.matches.reduce((mx, m) => Math.max(mx, parseInt((String(m.id).match(/match-(\d+)/i) || [0, 0])[1], 10) || 0), 0) + 1);
 
-  /* ---------- statistiche (con supporto completo ai triangolari sub_matches) ---------- */
-  function buildStats(players, matches) {
-    const map = {}, alias = new Map();
-    const slugOf = p => AD.slug(p.name_romaji || p.name_kanji || 'x');
-    players.forEach(p => {
-      if (p.role === 'staff') return; const id = String(p.id || slugOf(p)).trim(); if (map[id]) return;
-      map[id] = { id, number: p.number, name_kanji: p.name_kanji, name_kana: p.name_kana, name_romaji: p.name_romaji, role: p.role, position: p.position, caps: 0, starters: 0, subs: 0, goals: 0, assists: 0, mvps: 0, yellows: 0, reds: 0, goals_conceded: 0, clean_sheets: 0, positions_played: {} };
-      [id, p.name_kanji, p.name_kana, p.name_romaji, p.number != null ? 'n' + p.number : null].forEach(a => { const c = cleanStr(a); if (c) alias.set(c, id); });
-    });
-    const fuzzy = [...alias.entries()].filter(([a]) => !/^n\d+$/.test(a) && a.length >= 2);
-    function resolve(raw) {
-      if (!raw) return null;
-      let c = cleanStr(raw).replace(/\(\d+(?:\+\d+)?['′]?\)/g, '').replace(/[xX*]\d+$/g, '').trim();
-      c = cleanStr(c);
-      if (!c || ['なし', 'nessuno', 'null'].includes(c)) return null;
-      if (alias.has(c) && !/^n\d+$/.test(c)) return alias.get(c);
-      if (c.length < 2) return null;
-      const ids = [...new Set(fuzzy.filter(([a]) => a.includes(c) || c.includes(a)).map(([, id]) => id))];
-      return ids.length === 1 ? ids[0] : null;
-    }
-    const tt = { total_matches: 0, wins: 0, draws: 0, losses: 0, goals_for: 0, goals_against: 0, clean_sheets: 0, formations_used: {} };
-    const posRe = /^(GK|CB|LB|RB|LWB|RWB|DM|CM|LM|RM|AM|LW|RW|FW|ST)(-[LRC123])?$/i;
-    const rec = (name, tag) => { const id = resolve(name); if (id && map[id] && tag) { const k = String(tag).trim().toUpperCase(); map[id].positions_played[k] = (map[id].positions_played[k] || 0) + 1; } };
-
-    const getSubProp = (obj, ...keys) => {
-      if (!obj) return undefined;
-      for (const k of keys) {
-        if (obj[k] !== undefined && obj[k] !== null && obj[k] !== '') return obj[k];
-      }
-      return undefined;
-    };
-
-    const hasSubProp = (subs, ...keys) => subs.some(s => keys.some(k => getSubProp(s, k) !== undefined));
-
-    matches.forEach(m => {
-      if (String(m.status).toLowerCase() !== 'past') return;
-      if (m.formation) tt.formations_used[m.formation] = (tt.formations_used[m.formation] || 0) + 1;
-
-      const subMatches = m.sub_matches || m.subMatches || [];
-
-      // 1. PRESENZE (CAPS) — MAX 1 PRESENZA PER GIOCATORE PER EVENTO MATCH
-      const startersInMatch = new Set();
-      const subsInMatch = new Set();
-
-      const extractStarters = (obj) => {
-        if (!obj) return;
-        if (Array.isArray(obj.starters)) {
-          obj.starters.forEach(n => { const id = resolve(n); if (id) startersInMatch.add(id); });
-        }
-        if (obj.starters_positions && typeof obj.starters_positions === 'object') {
-          Object.values(obj.starters_positions).forEach(n => { const id = resolve(n); if (id) startersInMatch.add(id); });
-        }
-      };
-
-      const extractSubs = (obj) => {
-        if (!obj) return;
-        if (Array.isArray(obj.substitutes_in)) {
-          obj.substitutes_in.forEach(n => { const id = resolve(n); if (id) subsInMatch.add(id); });
-        }
-        if (Array.isArray(obj.bench_details)) {
-          obj.bench_details.forEach(b => {
-            if (b && (b.subbed_in || b.subbedIn)) {
-              const id = resolve(b.player || b.name);
-              if (id) subsInMatch.add(id);
-            }
-          });
-        }
-      };
-
-      extractStarters(m);
-      extractSubs(m);
-
-      if (subMatches.length > 0) {
-        subMatches.forEach(sub => {
-          extractStarters(sub);
-          extractSubs(sub);
-        });
-      }
-
-      if (startersInMatch.size === 0 && subsInMatch.size === 0 && Array.isArray(m.lineup)) {
-        m.lineup.forEach(n => { const id = resolve(n); if (id) startersInMatch.add(id); });
-      }
-
-      startersInMatch.forEach(id => {
-        if (map[id]) { map[id].starters++; map[id].caps++; }
-      });
-      subsInMatch.forEach(id => {
-        if (map[id] && !startersInMatch.has(id)) { map[id].subs++; map[id].caps++; }
-      });
-
-      // 2. STATISTICHE DI SQUADRA (TT): 1 EVENTO MATCH = 1 PARTITA COMPLETA
-      let totGf = 0, totGa = 0;
-      let hasScore = false;
-
-      if (subMatches.length > 0) {
-        subMatches.forEach(sub => {
-          const rawScore = getSubProp(sub, 'score', 'result') || '';
-          const sm = String(rawScore).match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
-          if (sm) {
-            hasScore = true;
-            const s1 = +sm[1], s2 = +sm[2];
-            const isHomeUs = sub.home === 'us' || sub.isHome === true || sub.home_team === 'us' || (sub.home === undefined && sub.isHome === undefined && m.isHome !== false);
-            totGf += isHomeUs ? s1 : s2;
-            totGa += isHomeUs ? s2 : s1;
-          }
-        });
-      } else {
-        const rawScore = m.score || '';
-        const sm = String(rawScore).match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
-        if (sm) {
-          hasScore = true;
-          const s1 = +sm[1], s2 = +sm[2];
-          const isHomeUs = m.isHome !== false;
-          totGf = isHomeUs ? s1 : s2;
-          totGa = isHomeUs ? s2 : s1;
-        }
-      }
-
-      tt.total_matches++;
-      tt.goals_for += totGf;
-      tt.goals_against += totGa;
-      if (hasScore) {
-        if (totGf > totGa) tt.wins++;
-        else if (totGf === totGa) tt.draws++;
-        else tt.losses++;
-      }
-      if (totGa === 0) tt.clean_sheets++;
-
-      // 3. EVENTI SINGOLI & GOL SUBITI/CLEAN SHEETS
-      const matchGkConceded = new Map();
-
-      const processGksForSegment = (gkStr, defaultGa) => {
-        if (!gkStr) return;
-        const parsed = parseList(gkStr, true);
-        if (!parsed.length) return;
-        parsed.forEach(e => {
-          const id = resolve(e.name);
-          if (id && map[id]) {
-            const conceded = (e.n != null) ? e.n : defaultGa;
-            const prev = matchGkConceded.get(id) || 0;
-            matchGkConceded.set(id, prev + conceded);
-          }
-        });
-      };
-
-      if (subMatches.length > 0) {
-        subMatches.forEach(sub => {
-          let subGa = 0;
-          const rawScore = getSubProp(sub, 'score', 'result') || '';
-          const sm = String(rawScore).match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
-          if (sm) {
-            const s1 = +sm[1], s2 = +sm[2];
-            const isHomeUs = sub.home === 'us' || sub.isHome === true || sub.home_team === 'us' || (sub.home === undefined && sub.isHome === undefined && m.isHome !== false);
-            subGa = isHomeUs ? s2 : s1;
-          }
-
-          const subScorers = getSubProp(sub, 'scorers', 'scorer', 'goals', 'goal');
-          if (subScorers) { parseList(subScorers).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].goals += e.n; }); }
-
-          const subAssists = getSubProp(sub, 'assists', 'assist');
-          if (subAssists) { parseList(subAssists).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].assists += e.n; }); }
-
-          const subMvp = getSubProp(sub, 'mvp', 'MVP');
-          if (subMvp) { parseList(subMvp).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].mvps++; }); }
-
-          const subYellows = getSubProp(sub, 'yellow_cards', 'yellows', 'yellow', 'yellow_card');
-          if (subYellows) { parseList(subYellows).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].yellows += e.n; }); }
-
-          const subReds = getSubProp(sub, 'red_cards', 'reds', 'red', 'red_card');
-          if (subReds) { parseList(subReds).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].reds += e.n; }); }
-
-          const subGks = getSubProp(sub, 'goalkeepers', 'goalkeeper', 'gk', 'gks');
-          const fallbackGks = m.goalkeepers || (m.starters_positions && m.starters_positions.GK) || (sub.starters_positions && sub.starters_positions.GK);
-          const gksToUse = subGks || fallbackGks;
-          processGksForSegment(gksToUse, subGa);
-
-          if (sub.starters_positions && typeof sub.starters_positions === 'object') {
-            Object.entries(sub.starters_positions).forEach(([k, v]) => posRe.test(k.trim()) ? rec(v, k) : rec(k, v));
-          }
-        });
-
-        // Fallback eventi dal match principale
-        if (!hasSubProp(subMatches, 'scorers', 'scorer', 'goals', 'goal') && m.scorers) {
-          parseList(m.scorers).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].goals += e.n; });
-        }
-        if (!hasSubProp(subMatches, 'assists', 'assist') && m.assists) {
-          parseList(m.assists).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].assists += e.n; });
-        }
-        if (!hasSubProp(subMatches, 'mvp', 'MVP') && m.mvp) {
-          parseList(m.mvp).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].mvps++; });
-        }
-        if (!hasSubProp(subMatches, 'yellow_cards', 'yellows', 'yellow', 'yellow_card') && m.yellow_cards) {
-          parseList(m.yellow_cards).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].yellows += e.n; });
-        }
-        if (!hasSubProp(subMatches, 'red_cards', 'reds', 'red', 'red_card') && m.red_cards) {
-          parseList(m.red_cards).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].reds += e.n; });
-        }
-      } else {
-        // Partita singola
-        if (m.scorers) parseList(m.scorers).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].goals += e.n; });
-        if (m.assists) parseList(m.assists).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].assists += e.n; });
-        if (m.mvp) parseList(m.mvp).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].mvps++; });
-        if (m.yellow_cards) parseList(m.yellow_cards).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].yellows += e.n; });
-        if (m.red_cards) parseList(m.red_cards).forEach(e => { const id = resolve(e.name); if (id && map[id]) map[id].reds += e.n; });
-
-        const gks = m.goalkeepers || (m.starters_positions && m.starters_positions.GK);
-        processGksForSegment(gks, totGa);
-
-        Object.entries(m.starters_positions || {}).forEach(([k, v]) => posRe.test(k.trim()) ? rec(v, k) : rec(k, v));
-        (m.bench_details || []).forEach(b => { if (b && b.subbed_in && b.position_played) rec(b.player, b.position_played); });
-      }
-
-      // Aggiornamento definitivo gol subiti e Clean Sheet del portiere per il match m
-      matchGkConceded.forEach((conceded, id) => {
-        map[id].goals_conceded += conceded;
-        if (conceded === 0) {
-          map[id].clean_sheets++;
-        }
-      });
-    });
-
-    const L = Object.values(map), top = (f, k) => L.filter(p => p[f] > 0).sort((a, b) => b[f] - a[f] || b.caps - a.caps).slice(0, 5);
-    return { updated_at: new Date().toISOString(), team_totals: tt, players: map, rankings: { top_scorers: top('goals'), top_assists: top('assists'), most_caps: top('caps'), mvps: top('mvps') } };
-  }
+  const buildStats = AD.stats.build; AD.buildStats = buildStats;
 
   const syncCaps = (players, stats) => players.map(p => stats.players[p.id] ? { ...p, caps: stats.players[p.id].caps || 0 } : (p.role === 'staff' ? p : { ...p, caps: 0 }));
   AD.recalc = async () => { const stats = buildStats(D.players, D.matches); if (await save({ stats, players: syncCaps(D.players, stats) }, 'Admin: recalc stats & caps')) { toast('success', '✅ ' + t('m.recalcDone')); AD.renderEntities(); renderMister(); updateCards(); } };
 
+  /* ---------- salva / elimina ---------- */
   async function saveMatch(e) {
     e.preventDefault();
     const m = readForm(); if (!m.id) { toast('warn', t('m.noId')); $('searchInputWrap').classList.add('open'); return $('matchId').focus(); }
     $('matchId').value = m.id;
-
-    const old = D.matches.find(x => String(x.id).toLowerCase() === m.id.toLowerCase()), payload = { ...(old || {}), ...m };
-    const isTri = payload.type === 'triangular' || payload.isTriangular || (payload.sub_matches && payload.sub_matches.length > 0) || (payload.subMatches && payload.subMatches.length > 0);
-
-    if (m.status === 'past' && !isTri) {
+    const tri = !!m.isTriangular;
+    if (tri) {
+      const err = T.validate(m.sub_matches, m.opponents[0], m.opponents[1]); if (err) return toast('warn', t('m.tri.' + err), 6000);
+      m.sub_matches.forEach(s => delete s._bad);
+      if (m.status === 'past' && !T.aggregate(m.sub_matches).complete) toast('warn', t('m.tri.needScores'), 6000);
+    } else if (m.status === 'past') {
       const sm = m.score.match(/^\s*(\d+)\s*-\s*(\d+)\s*$/); if (!sm) return toast('warn', t('m.badScore'));
       m.score = `${sm[1]} - ${sm[2]}`;
       const sGoals = parseList(m.scorers).reduce((a, r) => a + r.n, 0); if (sGoals && sGoals !== +sm[1]) toast('warn', t('m.goalsMismatch').replace('{s}', sGoals).replace('{g}', sm[1]), 7000);
     }
-
+    const old = D.matches.find(x => String(x.id).toLowerCase() === m.id.toLowerCase()), payload = { ...(old || {}), ...m };
+    if (!tri) ['isTriangular', 'opponents', 'sub_matches', 'subMatches'].forEach(k => delete payload[k]); else delete payload.subMatches;
     if (m.status === 'upcoming' && !('formation' in m)) ['formation', 'starters_positions', 'starters', 'substitutes_in', 'substitutes_unused', 'bench_details', 'lineup'].forEach(k => delete payload[k]);
     const matches = D.matches.some(x => x.id === old?.id && old) ? D.matches.map(x => x === old ? payload : x) : [...D.matches, payload];
-    const stats = buildStats(D.players, matches), btn = $('submitBtn'); btn.disabled = true; $('statusMsg').style.color = 'var(--sky-dark)'; $('statusMsg').innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('saving')}`;
+    const stats = buildStats(D.players, matches), issues = AD.stats.audit(matches, D.players, [payload.id]);
+    const btn = $('submitBtn'); btn.disabled = true; $('statusMsg').style.color = 'var(--sky-dark)'; $('statusMsg').innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('saving')}`;
     const ok = await save({ matches, stats, players: syncCaps(D.players, stats) }, `Admin: ${old ? 'update' : 'add'} ${payload.id}`);
     btn.disabled = false;
-    if (ok) { currentId = payload.id; dirty = false; clearDraft(); renderSelects(); $('matchSelector').value = payload.id; AD.renderEntities(); renderMister(); updateCards(); $('statusMsg').style.color = 'var(--green)'; $('statusMsg').textContent = '✅ ' + t('saved'); toast('success', `✅ ${payload.id} · matches + stats + players`); }
-    else { $('statusMsg').style.color = 'var(--red)'; $('statusMsg').textContent = '❌'; }
+    if (ok) {
+      currentId = payload.id; dirty = false; clearDraft(); renderSelects(); $('matchSelector').value = payload.id; AD.renderEntities(); renderMister(); updateCards();
+      $('statusMsg').style.color = 'var(--green)'; $('statusMsg').textContent = '✅ ' + t('saved'); toast('success', `✅ ${payload.id} · matches + stats + players`);
+      if (issues.length) toast('warn', '⚠️ ' + t('m.auditN').replace('{n}', issues.length), 10000);
+    } else { $('statusMsg').style.color = 'var(--red)'; $('statusMsg').textContent = '❌'; }
   }
   async function deleteMatch() {
     const id = currentId || $('matchId').value.trim() || $('matchSelector').value; if (!id) return toast('warn', t('m.pickFirst'));
@@ -499,9 +292,10 @@
   function duplicateMatch() {
     const id = currentId || $('matchId').value.trim() || $('matchSelector').value; if (!id) return toast('warn', t('m.pickFirst'));
     const m = loadMatch(id, true); if (!m) return; const nid = nextId();
-    currentId = ''; $('matchId').value = nid; $('matchDate').value = ''; $('matchScore').value = 'VS'; $('matchStatus').value = 'upcoming'; $('matchSelector').value = ''; markDirty(); toast('info', `📋 ${nid}: ${t('m.dupDone')}`);
+    currentId = ''; $('matchId').value = nid; $('matchDate').value = ''; $('matchScore').value = 'VS'; $$('#subMatchesContainer .sub-score').forEach(i => { i.value = 'VS'; }); $('matchStatus').value = 'upcoming'; $('matchSelector').value = ''; markDirty(); toast('info', `📋 ${nid}: ${t('m.dupDone')}`);
   }
 
+  /* ---------- in prova ---------- */
   function renderTrialists() {
     $('trialistListContainer').innerHTML = trialists.length ? trialists.map(p => `<div class="trialist-item"><span><i class="fas fa-user-clock"></i> ${esc(p.name_kanji)}</span><button type="button" class="btn-remove-trialist" data-action="remove-trialist" data-id="${esc(p.id)}"><i class="fas fa-times-circle"></i></button></div>`).join('') : '<span class="muted">—</span>';
   }
@@ -510,10 +304,18 @@
     trialists.push({ id: 'trialist_' + Date.now(), name_kanji: n.trim(), name_romaji: n.trim(), position: 'TRIAL', role: 'mf' }); renderTrialists(); refreshSelects(); markDirty();
   }
 
+  /* ---------- LINE ---------- */
   function generateLine() {
     const L = State.lang, m = readForm(), tr = (a, b, c) => L === 'it' ? a : L === 'en' ? b : c, loc = D.locations[m.location_id] || {};
     const st = Object.entries(m.starters_positions || {}).map(([p, n]) => `・[${p}] ${AD.pname(allPeople().find(x => pval(x) === n) || { name_kanji: n }, L) || n}`), bn = (m.bench_details || []).map(b => `・${AD.pname(allPeople().find(x => pval(x) === b.player) || { name_kanji: b.player }, L) || b.player}`);
-    $('lineTextOutput').value = `⚽ 【Yokohama Calcio ${tr('Annuncio Partita', 'Match Announcement', '試合案内')}】 ⚽\n\n📅 ${tr('Data', 'Date', '日付')}: ${m.date || 'TBD'}\n⏰ ${tr('Orario', 'Time', '時間')}: ${m.time}\n🛡️ ${tr('Avversario', 'Opponent', '対戦相手')}: ${oppName(m.opponent_id)}\n📍 ${tr('Campo', 'Venue', '会場')}: ${locName(m.location_id)}\n${loc.maps ? '🗺️ Google Maps: ' + loc.maps + '\n' : ''}\n------------------------------\n【Titolari / スタメン】\n${st.join('\n') || 'TBD / 未定'}\n\n【Panchina / ベンチ】\n${bn.join('\n') || 'TBD / 未定'}\n------------------------------\n\nForza Yokohama Calcio! 🔥`;
+    $('lineTextOutput').value = `⚽ 【Yokohama Calcio ${tr('Annuncio Partita', 'Match Announcement', '試合案内')}】 ⚽\n\n📅 ${tr('Data', 'Date', '日付')}: ${m.date || 'TBD'}\n⏰ ${tr('Orario', 'Time', '時間')}: ${m.time}\n🛡️ ${tr('Avversario', 'Opponent', '対戦相手')}: ${oppsText(m)}\n📍 ${tr('Campo', 'Venue', '会場')}: ${locName(m.location_id)}\n${loc.maps ? '🗺️ Google Maps: ' + loc.maps + '\n' : ''}\n------------------------------\n【Titolari / スタメン】\n${st.join('\n') || 'TBD / 未定'}\n\n【Panchina / ベンチ】\n${bn.join('\n') || 'TBD / 未定'}\n------------------------------\n\nForza Yokohama Calcio! 🔥`;
+  }
+
+  /* ---------- bozza ---------- */
+  function runAudit() {
+    const issues = AD.stats.audit(D.matches, D.players), box = $('auditOut'), ic = { error: '⛔', warn: '⚠️', info: 'ℹ️' };
+    if (!issues.length) { box.innerHTML = `<div class="audit-ok">✅ ${esc(t('m.auditNone'))}</div>`; return; }
+    box.innerHTML = `<div class="audit-sum">${['error', 'warn', 'info'].map(l => `${ic[l]} ${issues.filter(i => i.level === l).length}`).join(' · ')}</div>` + issues.map(i => `<div class="audit-item audit-${i.level}"><span class="audit-ic">${ic[i.level]}</span><span><b class="audit-id" data-action="audit-open" data-id="${esc(i.id)}">${esc(i.id)}</b> <small>${esc(i.date)}</small><br>${esc(i.text)}</span></div>`).join('');
   }
 
   const DRAFT = 'yc_admin_draft';
@@ -522,6 +324,7 @@
   function checkDraft() { $('draftBanner').classList.toggle('hidden', !sessionStorage.getItem(DRAFT)); }
   function restoreDraft() { try { const d = JSON.parse(sessionStorage.getItem(DRAFT)); currentId = d.id || ''; fillForm(d); $('matchId').value = d.id || ''; clearDraft(); markDirty(); toast('success', '✅ Draft'); } catch (e) { toast('error', e.message); } }
 
+  /* ---------- eventi ---------- */
   Object.assign(actions, {
     'load-match-selector': () => { const id = $('matchSelector').value; if (!id) return toast('warn', t('m.pickFirst')); loadMatch(id); $('searchInputWrap').classList.add('open'); },
     'search-by-id': () => { const id = $('matchId').value.trim(); if (!id) return $('matchId').focus(); loadMatch(id); }, 'toggle-id-search': () => { $('searchInputWrap').classList.toggle('open'); setTimeout(() => $('matchId').focus(), 80); },
@@ -532,13 +335,25 @@
     'suggest-lineup': suggestLineup, 'add-trialist': addTrialist,
     'remove-trialist': el => { const v = trialists.find(x => x.id === el.dataset.id); trialists = trialists.filter(x => x.id !== el.dataset.id); $$('.psel').forEach(s => { if (v && s.value === v.name_kanji) s.value = ''; }); renderTrialists(); refreshSelects(); },
     'generate-line': generateLine, 'copy-line': async () => { const ta = $('lineTextOutput'); if (!ta.value) return toast('warn', t('m.genFirst')); try { await navigator.clipboard.writeText(ta.value); } catch (_) { ta.select(); document.execCommand('copy'); } toast('success', '✅ ' + t('m.copied')); },
-    'restore-draft': restoreDraft, 'discard-draft': clearDraft
+    'restore-draft': restoreDraft, 'discard-draft': clearDraft,
+    'add-sub-match': () => { addSubCard(null); markDirty(); },
+    'remove-sub-match': el => { el.closest('.sub-match-card').remove(); syncAggregate(false); markDirty(); },
+    'sub-add-row': el => { addRow(el.dataset.kind, null, el.closest('.sub-match-card')); markDirty(); },
+    'tri-auto-score': () => syncAggregate(true),
+    'run-audit': runAudit,
+    'audit-open': el => { document.querySelector('.tab-btn[data-tab="tab-matches"]').click(); setTimeout(() => loadMatch(el.dataset.id), 60); }
   });
+  $('subMatchesContainer').addEventListener('input', e => { if (e.target.classList.contains('sub-score')) syncAggregate(false); });
   $('matchForm').addEventListener('submit', saveMatch);
   $('tab-matches').addEventListener('input', markDirty);
   $('tab-matches').addEventListener('change', e => {
     const el = e.target; markDirty();
-    if (el.id === 'formationSelect') renderPitch();
+    if (el.id === 'isTriangular') {
+      if (el.value === 'true') { ensureTypeOption('triangular'); $('matchType').value = 'triangular'; } else if ($('matchType').value === 'triangular') $('matchType').value = '練習試合';
+      toggleTriUI();
+    } else if (el.id === 'matchType') { const on = el.value === 'triangular'; if (on !== isTriForm()) { $('isTriangular').value = String(on); toggleTriUI(); } }
+    else if (el.id === 'opponentSelect' || el.id === 'triOpponent2Select') { const prev = el.dataset.prev || ''; el.dataset.prev = el.value; refreshSubOpp(prev, el.value); }
+    else if (el.id === 'formationSelect') renderPitch();
     else if (el.id === 'matchSelector') { if (el.value) loadMatch(el.value); }
     else if (el.id === 'competitionSelect') { const c = D.competitions.find(x => x.id === el.value); if (c && c.category) $('matchCategory').value = c.category; }
     else if (el.classList.contains('bench-in')) el.closest('.bench-sub-row').querySelector('.bench-pos').disabled = !el.checked;
