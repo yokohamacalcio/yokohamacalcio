@@ -51,7 +51,7 @@
   <div class="toolbar">
     <div class="pill-row" id="catPills" role="group"></div>
     <label for="season" class="sr-only" style="position:absolute;left:-9999px">Season</label>
-    <select id="season" class="season-select"></select>
+    <select id="season" style="margin-left:auto"></select>
   </div>
 
   <h2 class="block-title"><i class="fas fa-calendar-check"></i> <span data-i18n="m.upcoming"></span></h2>
@@ -146,20 +146,20 @@ function card(m, kind) {
       const opp1 = d.oppInfo(typeof opps[0] === 'object' ? (opps[0].opponent_id || opps[0]) : { opponent_id: opps[0] }, lang, D.opponents);
       const opp2 = opps[1] ? d.oppInfo(typeof opps[1] === 'object' ? (opps[1].opponent_id || opps[1]) : { opponent_id: opps[1] }, lang, D.opponents) : { name: 'TBD', logo: '' };
       
-      teamsWrapperHtml = `<div class="mc-teams">
-        <div class="triangular-hero-logos">
-          <div class="logo"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
-          <span class="tri-vs-label">VS</span>
-          <div class="logo">${d.logoImg(opp1.logo, opp1.name, opp1.avatar)}</div>
-          <span class="tri-vs-label">VS</span>
-          <div class="logo">${opp2.logo ? d.logoImg(opp2.logo, opp2.name, opp2.avatar) : '<div class="logo"></div>'}</div>
+      teamsWrapperHtml = `<div class="triangular-hero-grid">
+        <div class="match-team-col">
+          <div class="match-team-logo"><img src="./immagini/logo.png?v=2" alt="Yokohama Calcio"></div>
+          <div class="match-team-name">Yokohama Calcio</div>
         </div>
-        <div class="triangular-hero-names">
-          <div class="name">Yokohama Calcio</div>
-          <div></div>
-          <div class="name">${esc(opp1.name)}</div>
-          <div></div>
-          <div class="name">${esc(opp2.name)}</div>
+        <span class="tri-vs-label">VS</span>
+        <div class="match-team-col">
+          <div class="match-team-logo">${d.logoImg(opp1.logo, opp1.name, opp1.avatar)}</div>
+          <div class="match-team-name">${esc(opp1.name)}</div>
+        </div>
+        <span class="tri-vs-label">VS</span>
+        <div class="match-team-col">
+          <div class="match-team-logo">${opp2.logo ? d.logoImg(opp2.logo, opp2.name, opp2.avatar) : '<div class="match-team-logo"></div>'}</div>
+          <div class="match-team-name">${esc(opp2.name)}</div>
         </div>
       </div>`;
     } else {
@@ -183,8 +183,8 @@ function card(m, kind) {
             </div>
             <div class="tri-score score-box">${esc(sub.score || '0 - 0')}</div>
             <div class="tri-team tri-away">
-              <div class="logo">${d.logoImg(aLogo, aName, aFb)}</div>
               <span class="tri-team-name">${esc(aName)}</span>
+              <div class="logo">${d.logoImg(aLogo, aName, aFb)}</div>
             </div>
           </div>`;
         }).join('');
@@ -199,8 +199,8 @@ function card(m, kind) {
             </div>
             <div class="tri-score score-box">${esc(m.score || '-')}</div>
             <div class="tri-team tri-away">
-              <div class="logo">${d.logoImg(o.logo, o.name, o.avatar)}</div>
               <span class="tri-team-name">${esc(o.name)}</span>
+              <div class="logo">${d.logoImg(o.logo, o.name, o.avatar)}</div>
             </div>
           </div>`;
         }).join('');
@@ -210,10 +210,17 @@ function card(m, kind) {
   } else {
     const us = { name: 'Yokohama Calcio', logo: './immagini/logo.png?v=2', fb: '' }, them = { name: o.name, logo: o.logo, fb: o.avatar };
     const [L, R] = (upcoming || home) ? [us, them] : [them, us];
-    const centerHtml = upcoming ? `<span class="center vs">VS</span>` : `<span class="score-box">${esc(sc.left)}</span>`;
-    teamsWrapperHtml = `<div class="mc-teams">
-      <div class="row-logos"><div class="logo">${d.logoImg(L.logo, L.name, L.fb)}</div><div class="center-score-wrap">${centerHtml}</div><div class="logo">${d.logoImg(R.logo, R.name, R.fb)}</div></div>
-      <div class="row-names"><div class="name">${esc(L.name)}</div><div></div><div class="name">${esc(R.name)}</div></div>
+    const centerHtml = upcoming ? `<span class="mc-vs">VS</span>` : `<span class="score-box">${esc(sc.left)}</span>`;
+    teamsWrapperHtml = `<div class="match-teams-wrapper">
+      <div class="match-team-col">
+        <div class="match-team-logo">${d.logoImg(L.logo, L.name, L.fb)}</div>
+        <div class="match-team-name">${esc(L.name)}</div>
+      </div>
+      <div class="match-center-score">${centerHtml}</div>
+      <div class="match-team-col">
+        <div class="match-team-logo">${d.logoImg(R.logo, R.name, R.fb)}</div>
+        <div class="match-team-name">${esc(R.name)}</div>
+      </div>
     </div>`;
   }
 
