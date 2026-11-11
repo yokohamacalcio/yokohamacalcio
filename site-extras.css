@@ -156,7 +156,7 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 
 .match-teams-wrapper {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   gap: 12px;
   margin: 16px 0;
@@ -172,8 +172,8 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
   text-align: center;
 }
 .match-team-logo {
-  width: 52px;
-  height: 52px;
+  width: 64px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -225,6 +225,7 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
   justify-content: center;
   flex-shrink: 0;
   padding: 0 10px;
+  height: 64px;
 }
 .mc-vs {
   font-family: var(--font-brand, 'Bebas Neue', sans-serif);
@@ -277,8 +278,12 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
   font-weight: 800;
   text-align: center;
   line-height: 1;
-  padding-top: 15px;
+  padding-top: 0;
   flex-shrink: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Triangolari Conclusi (Righe di partite) */
@@ -291,13 +296,18 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 }
 .triangular-match-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   padding: 8px 12px;
   gap: 8px;
+}
+.triangular-match-row .score-box {
+  height: 36px;
+  padding: 0 14px;
+  align-self: flex-start;
 }
 .mc.next .triangular-match-row,
 .next-match-hero .triangular-match-row {
@@ -306,22 +316,24 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 }
 .tri-team {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
+  justify-content: flex-start;
+  gap: 6px;
   min-width: 0;
   flex: 1;
+  text-align: center;
 }
-.tri-team.tri-home {
-  justify-content: flex-end;
-  flex-direction: row-reverse;
-}
+.tri-team.tri-home,
 .tri-team.tri-away {
+  flex-direction: column;
+  align-items: center;
   justify-content: flex-start;
-  flex-direction: row;
+  text-align: center;
 }
 .tri-team .logo {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -340,7 +352,9 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 100%;
   min-width: 0;
+  text-align: center;
 }
 .mc.next .tri-team-name,
 .next-match-hero .tri-team-name {
@@ -474,13 +488,14 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 @media (max-width: 600px) {
   .section-title { font-size: 1.4rem !important; }
   .mc { padding: 14px; }
-  .match-team-logo { width: 44px; height: 44px; }
+  .match-team-logo { width: 52px; height: 52px; }
+  .match-center-score { height: 52px; }
   .match-team-name { font-size: .82rem; }
   .score-box { font-size: 1.35rem; padding: 3px 10px; min-width: 52px; }
   .mc-vs { font-size: 1.5rem; }
-  .triangular-hero-grid .match-team-logo { width: 36px; height: 36px; }
-  .tri-vs-label { padding-top: 10px; font-size: 1rem; }
-  .tri-team .logo { width: 28px; height: 28px; }
+  .tri-vs-label { height: 52px; font-size: 1rem; padding-top: 0; }
+  .tri-team .logo { width: 32px; height: 32px; }
+  .triangular-match-row .score-box { height: 32px; padding: 0 10px; }
   .tri-team-name { font-size: .78rem; }
 }
 
