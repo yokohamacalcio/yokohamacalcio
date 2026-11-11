@@ -802,9 +802,19 @@ body {
 /* ==========================================
    8. SISTEMA LOGHI E STEMMI (ANTI-BUG SAFARI WEBKIT)
    ========================================== */
+/*
+   NOTA: .match-teams-wrapper è il contenitore del nuovo markup
+   a 3 colonne generato da index.html e matches.html:
+     [.match-team-col] [.match-center-score] [.match-team-col]
+   Il vecchio layout a due righe (.teams-logos-row + .teams-names-row)
+   non è più utilizzato da questi due file ma le classi restano
+   definite per retrocompatibilità.
+*/
 .match-teams-wrapper {
-    display: flex !important;
-    flex-direction: column !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto 1fr !important;
+    align-items: center !important;
+    justify-items: center !important;
     gap: 10px !important;
     width: 100% !important;
     margin: 15px 0 !important;
