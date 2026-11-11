@@ -144,17 +144,17 @@ a.ticker-item:hover, a.ticker-item:focus-visible { color: #87ceeb; }
 @keyframes flash { 0%, 60% { box-shadow: 0 0 0 4px rgba(135,206,235,.8); } 100% { box-shadow: 0 4px 16px rgba(0,60,130,.05); } }
 .mc-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 6px; }
 .mc-date { font-size: .8rem; font-weight: 700; color: #64748b; }
-/* Contenitore per sfide singole (Home | Score/VS | Away) - Layout Ripristinato /
+/* Contenitore per sfide singole (Home | Score/VS | Away) */
 .match-teams-wrapper {
 display: flex;
 align-items: center;
-justify-content: space-between; / Distribuisce SqA - Centro - SqB */
+justify-content: space-between;
 width: 100%;
 margin: 16px 0;
 }
 .match-team-col {
 display: flex;
-flex-direction: column; /* Questo forza il Logo SOPRA al Nome (Come originariamente) */
+flex-direction: column; /* Logo SOPRA, Nome SOTTO */
 align-items: center;
 justify-content: flex-start;
 gap: 8px;
@@ -189,10 +189,13 @@ word-break: break-word;
 .next-match-hero .match-team-name {
 color: #ffffff;
 }
-.mc.next .match-team-logo img[src*="logo.png"],
-.next-match-hero .match-team-logo img[src*="logo.png"] {
-filter: drop-shadow(0 0 8px rgba(135, 206, 235, 0.7));
--webkit-filter: drop-shadow(0 0 8px rgba(135, 206, 235, 0.7));
+/* Effetto GLOW per loghi su schede scure (Next Match Hero & .mc.next) */
+.mc.next .match-team-logo img,
+.mc.next .match-team-logo svg,
+.next-match-hero .match-team-logo img,
+.next-match-hero .match-team-logo svg {
+filter: drop-shadow(0 0 8px rgba(135, 206, 235, 0.75));
+-webkit-filter: drop-shadow(0 0 8px rgba(135, 206, 235, 0.75));
 }
 .match-center-score {
 display: flex;
@@ -248,7 +251,7 @@ color: var(--primary-sky, #87ceeb);
 font-weight: 800;
 text-align: center;
 line-height: 1;
-padding-top: 15px; /* Allinea la scritta VS con i loghi (essendo il nome sotto) */
+padding-top: 15px;
 }
 /* Triangolari Conclusi (Righe di partite) */
 .triangular-teams-wrapper {
@@ -318,6 +321,18 @@ color: #ffffff;
 .mc-actions { display: flex; gap: 8px; }
 .mc-btn { background: transparent; border: 1px solid #cbd5e1; color: var(--dark-navy); border-radius: 8px; padding: 7px 12px; font: inherit; font-size: .78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
 .mc-btn:hover, .mc-btn[aria-expanded="true"] { background: var(--dark-navy); color: #fff; border-color: var(--dark-navy); }
+/* Pulsanti per schede scure (.mc.next) ad alto contrasto */
+.mc.next .mc-btn {
+color: #ffffff;
+border-color: rgba(255, 255, 255, 0.4);
+background: rgba(255, 255, 255, 0.1);
+}
+.mc.next .mc-btn:hover,
+.mc.next .mc-btn[aria-expanded="true"] {
+background: var(--primary-sky, #87ceeb);
+color: var(--dark-navy, #003c82);
+border-color: var(--primary-sky, #87ceeb);
+}
 .mc-details { margin-top: 14px; background: #f8fafc; border-radius: 12px; padding: 14px 16px; display: grid; gap: 8px; font-size: .88rem; color: #334155; }
 .mc-details[hidden] { display: none; }
 .mc-details .line { display: flex; gap: 8px; align-items: baseline; line-height: 1.45; }
@@ -398,6 +413,7 @@ color: #ffffff;
 .btn-match-detail, .btn-match-detail-hero { font-size: .76rem; font-weight: 800; padding: 7px 14px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 .btn-match-detail { background: var(--dark-navy, #003c82); color: #fff; }
 .btn-match-detail-hero { background: var(--primary-sky, #87ceeb); color: var(--dark-navy, #003c82); }
+.btn-match-detail-hero:hover { background: #ffffff; color: var(--dark-navy, #003c82); }
 /* Countdown & Aggiungi al Calendario */
 .match-countdown-wrapper { margin-top: 8px; padding: 8px 10px; background: rgba(0,0,0,.3); border: 1px solid rgba(135,206,235,.35); border-radius: 10px; text-align: center; }
 .countdown-title { font-size: .7rem; font-weight: 700; color: var(--primary-sky, #87ceeb); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
@@ -417,7 +433,7 @@ color: #ffffff;
 @media (max-width: 600px) {
 .section-title { font-size: 1.4rem !important; }
 .mc { padding: 14px; }
-.match-team-logo { width: 44px; height: 44px; } /* Reso più visibile su mobile */
+.match-team-logo { width: 44px; height: 44px; }
 .match-team-name { font-size: .82rem; }
 .score-box { font-size: 1.35rem; padding: 3px 10px; min-width: 52px; }
 .mc-vs { font-size: 1.5rem; }
