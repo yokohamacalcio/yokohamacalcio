@@ -127,3 +127,28 @@ body.dark .tab-btn { background:#0f172a; color:#94a3b8; }
   .bench-grid { grid-template-columns:1fr; } #toastContainer { left:10px; right:10px; top:10px; max-width:none; }
   .tab-btn span { display:none; } .tab-btn { padding:10px 13px; }
 }
+
+/* ---------- Triangolari: un riquadro per ogni nostro incontro ---------- */
+.triangular-box { background:rgba(135,206,235,.10); border:1px dashed var(--sky-dark); border-radius:12px; padding:16px; margin-top:14px; }
+.triangular-box h4 { margin:0 0 12px; font-size:.95rem; display:flex; align-items:center; gap:8px; color:var(--text); }
+.triangular-box h4 i { color:var(--sky-dark); }
+#subMatchesContainer { display:flex; flex-direction:column; gap:12px; margin:8px 0 10px; }
+.sub-match-card { background:var(--card-bg); border:1px solid var(--border); border-left:4px solid var(--sky-dark); border-radius:10px; padding:12px; }
+.sub-head { display:grid; grid-template-columns:auto auto minmax(120px,1fr) 100px auto; gap:8px; align-items:center; margin-bottom:10px; }
+.sub-us { font-size:.88rem; white-space:nowrap; color:var(--text); }
+.sub-vs { font-weight:800; color:var(--sky-dark); font-size:.8rem; }
+.sub-score { text-align:center; font-weight:800; }
+.sub-events { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:10px; }
+.sub-group label { display:block; font-size:.78rem; font-weight:800; color:var(--text-muted); margin-bottom:6px; }
+.sub-group .stat-row { margin-bottom:6px; }
+@media (max-width:640px) { .sub-head { grid-template-columns:1fr 1fr; } .sub-us, .sub-vs { display:none; } .sub-head .sub-opp { grid-column:1 / -1; } }
+
+/* ---------- Controllo coerenza dati ---------- */
+.audit-sum { font-weight:800; margin:6px 0 10px; }
+.audit-ok { background:rgba(5,150,105,.12); color:var(--green); border-radius:10px; padding:12px; font-weight:700; }
+.audit-item { display:flex; gap:10px; align-items:flex-start; padding:9px 12px; border-radius:10px; margin-bottom:6px; font-size:.86rem; line-height:1.45; border-left:4px solid var(--border); background:var(--card-bg); }
+.audit-item.audit-error { border-left-color:var(--red); background:rgba(220,38,38,.07); }
+.audit-item.audit-warn { border-left-color:var(--amber); background:rgba(217,119,6,.08); }
+.audit-item.audit-info { border-left-color:var(--sky-dark); }
+.audit-id { cursor:pointer; text-decoration:underline; text-underline-offset:2px; color:var(--sky-dark); }
+.audit-ic { flex-shrink:0; }
