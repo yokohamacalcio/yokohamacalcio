@@ -10,6 +10,8 @@
   const isJa = s => /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf]/.test(s);
   const todayJST = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
   const num = v => (v === '' || v == null || isNaN(+v) ? null : parseInt(v, 10));
+  /* chiave/ID tecnico: minuscolo, spazi→_, ammessi solo a-z 0-9 _ -  (gli underscore restano underscore) */
+  const normKey = s => String(s || '').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '_').replace(/[^a-z0-9_-]/g, '').replace(/^[-_]+|[-_]+$/g, '');
   const slug = s => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
   /* ---------- file gestiti ---------- */
@@ -27,8 +29,8 @@
   function addDict(d) { ['it', 'ja', 'en'].forEach(l => Object.assign(DICT[l], d[l] || {})); }
   const t = k => (DICT[State.lang] && DICT[State.lang][k] != null ? DICT[State.lang][k] : (DICT.it[k] != null ? DICT.it[k] : k));
   addDict({
-    it: { exists: '"{k}" esiste già. Sovrascrivere?', loginSub: 'Inserisci il GitHub Token (PAT) per accedere.', loginBtn: 'Accedi', authenticated: 'Autenticato', logout: 'Logout', reset: 'Reset', save: 'Salva su GitHub', cancel: 'Annulla', search: 'Cerca…', actions: 'Azioni', yes: 'Sì', no: 'No', saving: 'Salvataggio…', saved: 'Salvato', none: 'Nessuno', confirmDelete: 'Confermi l\'eliminazione di', usedBy: 'Usato in {n} partite/record. Eliminare comunque?', stale: 'Il file {f} è cambiato su GitHub dopo il caricamento (altro editor?). Sovrascrivere?', readOnly: 'Il token non ha permessi di scrittura sul repository.', unsavedTitle: 'Modifiche non salvate', unsavedMsg: 'Ci sono modifiche non salvate. Cambiare tab?', draftFound: 'Trovato un draft non salvato.', draftRestore: 'Ripristina', draftDiscard: 'Scarta',
-      tMatches: '1. Partite', tPlayers: '2. Rosa', tOpponents: '3. Avversari', tLocations: '4. Campi', tCompetitions: '5. Competizioni', tNews: '6. News', tTrainings: '7. Allenamenti', tLine: '8. Testo LINE', tJson: '9. JSON / Strumenti',
+    it: { idTaken: 'L\'ID "{k}" è già usato: scegline un altro.', renameCascade: 'Rinominare "{a}" in "{b}" aggiorna anche {n} riferimenti (partite/allenamenti). Continuare?', exists: '"{k}" esiste già. Sovrascrivere?', loginSub: 'Inserisci il GitHub Token (PAT) per accedere.', loginBtn: 'Accedi', authenticated: 'Autenticato', logout: 'Logout', reset: 'Reset', save: 'Salva su GitHub', cancel: 'Annulla', search: 'Cerca…', actions: 'Azioni', yes: 'Sì', no: 'No', saving: 'Salvataggio…', saved: 'Salvato', none: 'Nessuno', confirmDelete: 'Confermi l\'eliminazione di', usedBy: 'Usato in {n} partite/record. Eliminare comunque?', stale: 'Il file {f} è cambiato su GitHub dopo il caricamento (altro editor?). Sovrascrivere?', readOnly: 'Il token non ha permessi di scrittura sul repository.', unsavedTitle: 'Modifiche non salvate', unsavedMsg: 'Ci sono modifiche non salvate. Cambiare tab?', draftFound: 'Trovato un draft non salvato.', draftRestore: 'Ripristina', draftDiscard: 'Scarta',
+      tMatches: '1. Partite', tPlayers: '2. Rosa', tOpponents: '3. Avversari', tLocations: '4. Campi', tCompetitions: '5. Competizioni', tNews: '6. News', tTrainings: '7. Allenamenti', tLine: '9. Testo LINE', tJson: '9. JSON / Strumenti',
       hPlayers: 'Giocatore / Staff', hOpponents: 'Avversario', hLocations: 'Campo / Impianto', hCompetitions: 'Competizione', hNews: 'News (striscia home)', hTrainings: 'Allenamento', list: 'Elenco',
       lNumber: 'Numero maglia', lKanji: 'Nome ufficiale / Kanji', lKana: 'Nome Kana', lRomaji: 'Nome Romaji', lRole: 'Ruolo', lPosition: 'Posizione (es. CM/SB)', lLeadership: 'Leadership', lBirth: 'Data di nascita', lHometown: 'Provenienza', lPhoto: 'Foto (URL)', lCaps: 'Presenze (auto)',
       oNone: 'Nessuno', oCaptain: 'Capitano', oVice: 'Vice capitano (più di uno ok)', oManager: 'Fondatore / Mister', oGk: 'gk – Portiere', oDf: 'df – Difensore', oMf: 'mf – Centrocampista', oFw: 'fw – Attaccante', oStaff: 'staff – Tecnico',
@@ -37,8 +39,8 @@
       lDate: 'Data', lType: 'Tipo', lLink: 'Link', lTitleJa: 'Titolo JA', lTitleIt: 'Titolo IT', lTitleEn: 'Titolo EN', lExpires: 'Scade il (opz.)', nInfo: 'Avviso', nTrial: 'Selezioni giocatori', nStaff: 'Selezioni staff', nLeague: 'Campionato', nCup: 'Coppa', nMatch: 'Partite', nNotice: 'Importante',
       lStart: 'Inizio', lEnd: 'Fine', lMeet: 'Ritrovo', lVenue: 'Sede', lUrl: 'Link mappa', lSurfaceTxt: 'Terreno (testo)', lStatus: 'Stato', lTrialOpen: 'Prove aperte', lLocation: 'Campo (opzionale)', lNoteJa: 'Nota JA', lNoteIt: 'Nota IT', lNoteEn: 'Nota EN', stUpcoming: 'In programma', stPast: 'Svolto', stCancelled: 'Annullato', dup7: 'Duplica +7 giorni', thName: 'Nome', thRole: 'Ruolo', thPos: 'Pos.', thTitle: 'Titolo', thLogo: 'Logo', thUsed: 'Usi',
       jsonFile: 'File', jsonLoad: 'Carica', jsonValidate: 'Valida', jsonSave: 'Salva file', jsonOk: 'JSON valido', recalcTitle: 'Ricalcola stats e presenze', recalcBtn: 'Ricalcola stats.json e caps', backup: 'Backup / Ripristino', exportBtn: 'Esporta backup', importBtn: 'Importa backup', jsonWarn: 'Attenzione: modifica diretta del file. Usa il formato corretto.' },
-    ja: { exists: '「{k}」は既に存在します。上書きしますか？', loginSub: 'アクセスするには GitHub Token (PAT) を入力してください。', loginBtn: 'ログイン', authenticated: '認証済み', logout: 'ログアウト', reset: 'リセット', save: 'GitHub に保存', cancel: 'キャンセル', search: '検索…', actions: '操作', yes: 'はい', no: 'いいえ', saving: '保存中…', saved: '保存しました', none: 'なし', confirmDelete: '削除しますか:', usedBy: '{n}件で使用中です。それでも削除しますか？', stale: '{f} は読込後にGitHub上で変更されています。上書きしますか？', readOnly: 'このトークンには書き込み権限がありません。', unsavedTitle: '未保存の変更', unsavedMsg: '未保存の変更があります。タブを切り替えますか？', draftFound: '未保存の下書きがあります。', draftRestore: '復元', draftDiscard: '破棄',
-      tMatches: '1. 試合', tPlayers: '2. 選手', tOpponents: '3. 対戦相手', tLocations: '4. 会場', tCompetitions: '5. 大会', tNews: '6. ニュース', tTrainings: '7. 練習', tLine: '8. LINE文', tJson: '9. JSON・ツール',
+    ja: { idTaken: 'ID「{k}」は既に使われています。別のIDにしてください。', renameCascade: '「{a}」を「{b}」に変更すると、{n}件の参照（試合・練習）も更新されます。続けますか？', exists: '「{k}」は既に存在します。上書きしますか？', loginSub: 'アクセスするには GitHub Token (PAT) を入力してください。', loginBtn: 'ログイン', authenticated: '認証済み', logout: 'ログアウト', reset: 'リセット', save: 'GitHub に保存', cancel: 'キャンセル', search: '検索…', actions: '操作', yes: 'はい', no: 'いいえ', saving: '保存中…', saved: '保存しました', none: 'なし', confirmDelete: '削除しますか:', usedBy: '{n}件で使用中です。それでも削除しますか？', stale: '{f} は読込後にGitHub上で変更されています。上書きしますか？', readOnly: 'このトークンには書き込み権限がありません。', unsavedTitle: '未保存の変更', unsavedMsg: '未保存の変更があります。タブを切り替えますか？', draftFound: '未保存の下書きがあります。', draftRestore: '復元', draftDiscard: '破棄',
+      tMatches: '1. 試合', tPlayers: '2. 選手', tOpponents: '3. 対戦相手', tLocations: '4. 会場', tCompetitions: '5. 大会', tNews: '6. ニュース', tTrainings: '7. 練習', tLine: '9. LINE文', tJson: '10. JSON・ツール',
       hPlayers: '選手・スタッフ', hOpponents: '対戦相手', hLocations: '会場', hCompetitions: '大会・リーグ', hNews: 'ニュース（トップ帯）', hTrainings: '練習日程', list: '一覧',
       lNumber: '背番号', lKanji: '氏名', lKana: 'フリガナ', lRomaji: 'ローマ字', lRole: '役割', lPosition: 'ポジション (例 CM/SB)', lLeadership: '役職', lBirth: '生年月日', lHometown: '出身地', lPhoto: '写真URL', lCaps: '出場数 (自動)',
       oNone: 'なし', oCaptain: 'キャプテン', oVice: '副キャプテン（複数可）', oManager: '創設者・監督', oGk: 'gk – GK', oDf: 'df – DF', oMf: 'mf – MF', oFw: 'fw – FW', oStaff: 'staff – スタッフ',
@@ -47,8 +49,8 @@
       lDate: '日付', lType: '種別', lLink: 'リンク', lTitleJa: 'タイトル JA', lTitleIt: 'タイトル IT', lTitleEn: 'タイトル EN', lExpires: '掲載終了日 (任意)', nInfo: 'お知らせ', nTrial: '選手募集', nStaff: 'スタッフ募集', nLeague: 'リーグ', nCup: 'カップ', nMatch: '試合情報', nNotice: '重要',
       lStart: '開始', lEnd: '終了', lMeet: '集合', lVenue: '場所', lUrl: '地図リンク', lSurfaceTxt: '路面', lStatus: '状態', lTrialOpen: '体験受付中', lLocation: '会場 (任意)', lNoteJa: '備考 JA', lNoteIt: '備考 IT', lNoteEn: '備考 EN', stUpcoming: '予定', stPast: '終了', stCancelled: '中止', dup7: '+7日で複製', thName: '氏名', thRole: '役割', thPos: 'Pos', thTitle: 'タイトル', thLogo: 'ロゴ', thUsed: '使用',
       jsonFile: 'ファイル', jsonLoad: '読込', jsonValidate: '検証', jsonSave: '保存', jsonOk: 'JSON は正常です', recalcTitle: 'スタッツ・出場数の再計算', recalcBtn: 'stats.json と caps を再計算', backup: 'バックアップ・復元', exportBtn: 'バックアップを出力', importBtn: 'バックアップを読込', jsonWarn: '注意: ファイルを直接編集します。形式に注意してください。' },
-    en: { exists: '"{k}" already exists. Overwrite?', loginSub: 'Enter your GitHub Personal Access Token (PAT).', loginBtn: 'Login', authenticated: 'Authenticated', logout: 'Logout', reset: 'Reset', save: 'Save to GitHub', cancel: 'Cancel', search: 'Search…', actions: 'Actions', yes: 'Yes', no: 'No', saving: 'Saving…', saved: 'Saved', none: 'None', confirmDelete: 'Delete', usedBy: 'Used in {n} records. Delete anyway?', stale: '{f} changed on GitHub since it was loaded (another editor?). Overwrite?', readOnly: 'This token has no write permission on the repository.', unsavedTitle: 'Unsaved changes', unsavedMsg: 'You have unsaved changes. Switch tab?', draftFound: 'Unsaved draft found.', draftRestore: 'Restore', draftDiscard: 'Discard',
-      tMatches: '1. Matches', tPlayers: '2. Squad', tOpponents: '3. Opponents', tLocations: '4. Venues', tCompetitions: '5. Competitions', tNews: '6. News', tTrainings: '7. Trainings', tLine: '8. LINE text', tJson: '9. JSON / Tools',
+    en: { idTaken: 'The ID "{k}" is already in use: choose another one.', renameCascade: 'Renaming "{a}" to "{b}" also updates {n} references (matches/trainings). Continue?', exists: '"{k}" already exists. Overwrite?', loginSub: 'Enter your GitHub Personal Access Token (PAT).', loginBtn: 'Login', authenticated: 'Authenticated', logout: 'Logout', reset: 'Reset', save: 'Save to GitHub', cancel: 'Cancel', search: 'Search…', actions: 'Actions', yes: 'Yes', no: 'No', saving: 'Saving…', saved: 'Saved', none: 'None', confirmDelete: 'Delete', usedBy: 'Used in {n} records. Delete anyway?', stale: '{f} changed on GitHub since it was loaded (another editor?). Overwrite?', readOnly: 'This token has no write permission on the repository.', unsavedTitle: 'Unsaved changes', unsavedMsg: 'You have unsaved changes. Switch tab?', draftFound: 'Unsaved draft found.', draftRestore: 'Restore', draftDiscard: 'Discard',
+      tMatches: '1. Matches', tPlayers: '2. Squad', tOpponents: '3. Opponents', tLocations: '4. Venues', tCompetitions: '5. Competitions', tNews: '6. News', tTrainings: '7. Trainings', tLine: '9. LINE text', tJson: '10. JSON / Tools',
       hPlayers: 'Player / Staff', hOpponents: 'Opponent', hLocations: 'Venue', hCompetitions: 'Competition', hNews: 'News (home ticker)', hTrainings: 'Training session', list: 'List',
       lNumber: 'Shirt number', lKanji: 'Official name / Kanji', lKana: 'Kana name', lRomaji: 'Romaji name', lRole: 'Role', lPosition: 'Position (e.g. CM/SB)', lLeadership: 'Leadership', lBirth: 'Birth date', lHometown: 'Hometown', lPhoto: 'Photo (URL)', lCaps: 'Caps (auto)',
       oNone: 'None', oCaptain: 'Captain', oVice: 'Vice captain (several allowed)', oManager: 'Founder / Manager', oGk: 'gk – Goalkeeper', oDf: 'df – Defender', oMf: 'mf – Midfielder', oFw: 'fw – Forward', oStaff: 'staff – Technical',
@@ -96,7 +98,7 @@
   const b64 = s => { const b = new TextEncoder().encode(s); let r = ''; b.forEach(x => r += String.fromCharCode(x)); return btoa(r); };
   const unb64 = s => new TextDecoder().decode(Uint8Array.from(atob(String(s).replace(/\s/g, '')), c => c.charCodeAt(0)));
   async function gh(method, path, body) {
-    const r = await fetch('https://api.github.com/repos/' + REPO + path, { method, headers: { Authorization: 'Bearer ' + State.token, Accept: 'application/vnd.github+json', ...(body ? { 'Content-Type': 'application/json' } : {}) }, body: body ? JSON.stringify(body) : undefined });
+    const r = await fetch('https://api.github.com/repos/' + REPO + path, { method, cache: 'no-store', headers: { Authorization: 'Bearer ' + State.token, Accept: 'application/vnd.github+json', ...(body ? { 'Content-Type': 'application/json' } : {}) }, body: body ? JSON.stringify(body) : undefined });
     if (r.status === 404) return null;
     if (!r.ok) {
       let d = ''; try { d = (await r.json()).message || ''; } catch (_) {}
@@ -150,7 +152,7 @@
       } catch (e) { if (e.status !== 422 || attempt) throw e; }   // il ramo si è mosso: riprova una volta
     }
   }
-  const save = async (changes, msg) => { try { await commit(changes, msg); return true; } catch (e) { if (e.message !== 'cancelled') toast('error', '❌ ' + e.message, 8000); if (e.status === 401) setTimeout(logout, 2500); return false; } };
+  const save = async (changes, msg) => { try { await commit(changes, msg); return true; } catch (e) { if (e.message === 'cancelled') toast('info', '↩︎ ' + t('cancel')); else toast('error', '❌ ' + e.message, 8000); if (e.status === 401) setTimeout(logout, 2500); return false; } };
 
   /* ---------- login ---------- */
   async function login(token) {
@@ -180,6 +182,9 @@
   const surfKey = s => { const j = (s && (s.ja || s)) || ''; return /クレー|土|clay/i.test(j) ? 'clay' : /天然芝|grass/i.test(j) ? 'grass' : /人工芝|artificial/i.test(j) ? 'artificial' : ''; };
   const F = (n, l, o = {}) => Object.assign({ n, l, t: 'text' }, o);
   const matchRefs = (pred) => (State.data.matches || []).filter(pred).length;
+  const usesOpp = (m, k) => m.opponent_id === k || (Array.isArray(m.opponents) && m.opponents.includes(k)) || (Array.isArray(m.sub_matches) && m.sub_matches.some(x => x.home === k || x.away === k));
+  /* rinomina un ID anche dentro le partite/allenamenti che lo usano (copia profonda, non tocca lo stato finché non si salva) */
+  const cascadeMatches = fn => { let n = 0; const out = State.data.matches.map(m => { const c = JSON.parse(JSON.stringify(m)); if (fn(c)) n++; return c; }); return { count: n, out }; };
   const nm = (o, lang) => (o && (o[lang] || o.it || o.en || o.ja)) || '';
   const badge = (txt, cls) => `<span class="pos-badge ${cls || ''}">${esc(txt)}</span>`;
   const LEAD = { captain: ['👑 CAP', 'badge-captain'], vice_captain: ['🎖️ VICE', 'badge-vice'], manager: ['🧢 MGR', 'badge-mgr'], founder: ['🧢 MGR', 'badge-mgr'] };
@@ -210,12 +215,13 @@
     opponents: {
       file: 'opponents', kind: 'map', icon: 'fa-shield-halved', title: 'hOpponents',
       rows: [[F('key', 'lKey', { req: 1 }), F('ja', 'lNameJa', { req: 1 }), F('it', 'lNameIt'), F('en', 'lNameEn')], [F('logo', 'lLogo')]],
-      cols: [['lKey', (o, k) => `<b>${esc(k)}</b>`, (o, k) => k], ['lNameJa', o => esc(nm(o.name, 'ja')), o => nm(o.name, 'ja')], ['lNameIt', o => esc(nm(o.name, 'it')), o => nm(o.name, 'it')], ['lNameEn', o => esc(nm(o.name, 'en')), o => nm(o.name, 'en')], ['thLogo', o => o.logo ? `<img src="${esc(String(o.logo).replace(/^\.\//, ''))}" alt="" class="thumb" onerror="this.style.display='none'">` : '-', null], ['thUsed', (o, k) => matchRefs(m => m.opponent_id === k), (o, k) => matchRefs(m => m.opponent_id === k)]],
+      cols: [['lKey', (o, k) => `<b>${esc(k)}</b>`, (o, k) => k], ['lNameJa', o => esc(nm(o.name, 'ja')), o => nm(o.name, 'ja')], ['lNameIt', o => esc(nm(o.name, 'it')), o => nm(o.name, 'it')], ['lNameEn', o => esc(nm(o.name, 'en')), o => nm(o.name, 'en')], ['thLogo', o => o.logo ? `<img src="${esc(String(o.logo).replace(/^\.\//, ''))}" alt="" class="thumb" onerror="this.style.display='none'">` : '-', null], ['thUsed', (o, k) => matchRefs(m => usesOpp(m, k)), (o, k) => matchRefs(m => usesOpp(m, k))]],
       defSort: 0,
       fill: (o, k) => ({ key: k, ja: nm(o.name, 'ja'), it: (o.name || {}).it || '', en: (o.name || {}).en || '', logo: o.logo || '' }),
-      keyOf: v => slug(v.key),
+      keyOf: v => normKey(v.key),
       build: (v, old, k) => ({ ...(old || {}), name: { ja: v.ja, it: v.it || v.en || v.ja, en: v.en || v.it || v.ja }, logo: v.logo || `./immagini/opponents/${k}.png` }),
-      refs: (o, k) => matchRefs(m => m.opponent_id === k)
+      refs: (o, k) => matchRefs(m => usesOpp(m, k)),
+      cascade: (a, b) => { const r = cascadeMatches(c => { let ch = false; if (c.opponent_id === a) { c.opponent_id = b; ch = true; } if (Array.isArray(c.opponents)) c.opponents = c.opponents.map(x => x === a ? (ch = true, b) : x); if (Array.isArray(c.sub_matches)) c.sub_matches.forEach(x => { if (x.home === a) { x.home = b; ch = true; } if (x.away === a) { x.away = b; ch = true; } }); return ch; }); return { count: r.count, files: { matches: r.out } }; }
     },
     locations: {
       file: 'locations', kind: 'map', icon: 'fa-map-marker-alt', title: 'hLocations',
@@ -223,9 +229,10 @@
       cols: [['lKey', (o, k) => `<b>${esc(k)}</b>`, (o, k) => k], ['lNameJa', o => esc(o.ja || ''), o => o.ja], ['lNameIt', o => esc(o.it || '-'), o => o.it], ['lSurface', o => esc((o.surface && (o.surface[State.lang] || o.surface.it)) || '-'), o => surfKey(o.surface)], ['Maps', o => o.maps ? `<a href="${esc(o.maps)}" target="_blank" rel="noopener">Link</a>` : '-', null], ['thUsed', (o, k) => matchRefs(m => m.location_id === k) + State.data.trainings.filter(x => x.location_id === k).length, null]],
       defSort: 0,
       fill: (o, k) => ({ key: k, surface: surfKey(o.surface) || '__keep', ja: o.ja || '', it: o.it || '', en: o.en || '', maps: o.maps || '' }),
-      keyOf: v => slug(v.key),
+      keyOf: v => normKey(v.key),
       build: (v, old) => ({ ...(old || {}), ja: v.ja, it: v.it || v.ja, en: v.en || v.ja, surface: v.surface === '__keep' ? (old && old.surface) || SURF.artificial : SURF[v.surface], maps: v.maps }),
-      refs: (o, k) => matchRefs(m => m.location_id === k) + State.data.trainings.filter(x => x.location_id === k).length
+      refs: (o, k) => matchRefs(m => m.location_id === k) + State.data.trainings.filter(x => x.location_id === k).length,
+      cascade: (a, b) => { const r = cascadeMatches(c => { if (c.location_id === a) { c.location_id = b; return true; } return false; }); let n = r.count; const tr = State.data.trainings.map(x => { if (x.location_id === a) { n++; return { ...x, location_id: b }; } return x; }); return { count: n, files: { matches: r.out, trainings: tr } }; }
     },
     competitions: {
       file: 'competitions', kind: 'array', icon: 'fa-trophy', title: 'hCompetitions',
@@ -233,9 +240,11 @@
       cols: [['lId', o => `<b>${esc(o.id)}</b>`, o => o.id], ['lCategory', o => badge(o.category), o => o.category], ['lSeason', o => esc(o.season || '-'), o => o.season], ['lDivision', o => esc([o.division && o.division + '部', o.block && o.block + 'ブロック'].filter(Boolean).join(' ') || '-'), null], ['lNameJa', o => esc(nm(o.name, 'ja')), o => nm(o.name, 'ja')], ['lNameIt', o => esc(nm(o.name, 'it')), null], ['lStandings', o => o.has_standings ? '✅' : '–', null], ['lColor', o => `<span class="swatch" style="background:${esc(o.badge_color || '#64748b')}"></span>`, null]],
       defSort: 2,
       fill: o => ({ id: o.id, category: o.category || 'friendly', season: o.season || '', division: o.division || '', block: o.block || '', name_ja: (o.name || {}).ja || '', name_it: (o.name || {}).it || '', name_en: (o.name || {}).en || '', short_ja: (o.short_name || {}).ja || '', short_it: (o.short_name || {}).it || '', short_en: (o.short_name || {}).en || '', badge_color: o.badge_color || '#64748b', has_standings: !!o.has_standings }),
-      makeId: v => slug(v.id).replace(/-/g, '_'),
+      makeId: v => normKey(v.id),
+      idOf: v => normKey(v.id),
       build: (v, old, id) => ({ ...(old || {}), id, category: v.category, season: v.season || 'all', division: v.division, block: v.block, name: { ja: v.name_ja, it: v.name_it || v.name_en || v.name_ja, en: v.name_en || v.name_it || v.name_ja }, short_name: { ja: v.short_ja || v.name_ja, it: v.short_it || v.name_it || v.name_ja, en: v.short_en || v.name_en || v.name_ja }, has_standings: !!v.has_standings, badge_color: v.badge_color }),
-      refs: c => matchRefs(m => m.competition_id === c.id)
+      refs: c => matchRefs(m => m.competition_id === c.id),
+      cascade: (a, b) => { const r = cascadeMatches(c => { if (c.competition_id === a) { c.competition_id = b; return true; } return false; }); return { count: r.count, files: { matches: r.out } }; }
     },
     news: {
       file: 'news', kind: 'array', icon: 'fa-newspaper', title: 'hNews',
@@ -303,19 +312,25 @@
     const e = ENT[en], v = getVals(en), editKey = $('edit_' + en).value, list = State.data[e.file];
     const old = editKey ? (e.kind === 'map' ? list[editKey] : list.find(x => x.id === editKey)) : null;
     if (e.pre && !await e.pre(v, old)) return;
-    const copy = JSON.parse(JSON.stringify(list));
-    if (e.kind === 'map') {
-      const k = e.keyOf(v); if (!k) return toast('warn', t('lKey') + '?');
-      if (!editKey && copy[k] && !await confirmBox(t('exists').replace('{k}', k), true)) return;
-      if (editKey && editKey !== k) delete copy[editKey];
-      copy[k] = e.build(v, old, k);
-    } else {
-      const id = editKey || e.makeId(v); if (!id) return toast('warn', t('lId') + '?');
-      const obj = e.build(v, old, id), i = copy.findIndex(x => x.id === id);
-      if (i >= 0) copy[i] = obj; else copy.push(obj);
+    const copy = JSON.parse(JSON.stringify(list)), changes = {};
+
+    let newKey;
+    if (e.kind === 'map') { newKey = e.keyOf(v); if (!newKey) return toast('warn', t('lKey') + '?'); }
+    else { newKey = editKey || e.makeId(v); if (editKey && e.idOf && e.idOf(v)) newKey = e.idOf(v); if (!newKey) return toast('warn', t('lId') + '?'); }
+    const renamed = !!editKey && newKey !== editKey;
+    const exists = e.kind === 'map' ? !!copy[newKey] : copy.some(x => x.id === newKey);
+    if (renamed && exists) return toast('warn', t('idTaken').replace('{k}', newKey), 6000);
+    if (!editKey && exists && e.kind === 'map' && !await confirmBox(t('exists').replace('{k}', newKey), true)) return;
+
+    if (renamed && e.cascade) {                      // aggiorna anche partite/allenamenti che usano il vecchio ID
+      const r = e.cascade(editKey, newKey);
+      if (r.count && !await confirmBox(t('renameCascade').replace('{n}', r.count).replace('{a}', editKey).replace('{b}', newKey))) return;
+      Object.assign(changes, r.files);
     }
-    const changes = { [e.file]: copy };
-    if (await save(changes, `Admin: ${editKey ? 'update' : 'add'} ${en}`)) { toast('success', '✅ ' + FILES[e.file].path); resetEntForm(en); renderEntities(); hooks.loaded.forEach(f => f()); }
+    if (e.kind === 'map') { if (renamed) delete copy[editKey]; copy[newKey] = e.build(v, old, newKey); }
+    else { const obj = e.build(v, old, newKey), i = copy.findIndex(x => x.id === (editKey || newKey)); if (i >= 0) copy[i] = obj; else copy.push(obj); }
+    changes[e.file] = copy;
+    if (await save(changes, `Admin: ${editKey ? (renamed ? 'rename' : 'update') : 'add'} ${en} ${newKey}`)) { toast('success', '✅ ' + Object.keys(changes).map(k => FILES[k].path).join(' + ')); resetEntForm(en); renderEntities(); hooks.loaded.forEach(f => f()); }
   }
   async function deleteEntity(en, k) {
     const e = ENT[en], list = State.data[e.file], obj = e.kind === 'map' ? list[k] : list.find(x => x.id === k); if (!obj) return;
@@ -376,7 +391,7 @@
   $('importFile').addEventListener('change', e => e.target.files[0] && importBackup(e.target.files[0]));
   $('loginForm').addEventListener('submit', e => { e.preventDefault(); const v = $('inputToken').value.trim(); if (v) login(v); });
 
-  window.AD = { State, FILES, ENT, $, $$, esc, cleanStr, isJa, todayJST, num, slug, t, addDict, applyI18n, hooks, toast, modal, confirmBox, promptBox, save, commit, actions, pname, nm, renderEntities, unwrap, isDirty: null, recalc: null };
+  window.AD = { State, FILES, ENT, $, $$, esc, cleanStr, isJa, todayJST, num, slug, normKey, t, addDict, applyI18n, hooks, toast, modal, confirmBox, promptBox, save, commit, actions, pname, nm, renderEntities, unwrap, isDirty: null, recalc: null };
   window.addEventListener('DOMContentLoaded', () => {
     if (sessionStorage.getItem('yc_admin_dark') === '1') { document.body.classList.add('dark'); $('darkIcon').className = 'fas fa-sun'; }
     applyI18n(); renderEntities();
