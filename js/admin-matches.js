@@ -55,7 +55,7 @@
   }
   function refreshSelects() {
     const taken = new Set($$('.squad-sel').map(s => s.value).filter(Boolean));
-    $$('.psel').forEach(sel => {
+    $$('.psel, #mvpSelect').forEach(sel => {      // MVP incluso: prima non riceveva mai l'elenco giocatori
       const cur = sel.value, squad = sel.classList.contains('squad-sel');
       sel.innerHTML = playerOptions(sel.classList.contains('gk-sel')).map(([v, l]) => { const dis = squad && v && taken.has(v) && v !== cur; return `<option value="${esc(v)}" ${dis ? 'disabled' : ''}>${esc(l + (dis ? ' ✓' : ''))}</option>`; }).join('');
       if (cur) ensureOption(sel, cur);
