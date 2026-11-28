@@ -3,6 +3,7 @@
 (function () {
   'use strict';
 
+  const HUB_EVENTS_URL = 'https://hub.yokohamacalcio.com/api/public/events';
   const FILES = {
     matches: ['matches.json', []],
     opponents: ['opponents.json', {}],
@@ -13,6 +14,8 @@
     news: ['news.json', []]
   };
   const cache = {};
+  let hubCache = null;
+
   const LOCALE = { ja: 'ja-JP', it: 'it-IT', en: 'en-US' };
   const CAT = {
     friendly: { cls: 'badge-friendly', ja: '練習試合', it: 'Amichevole', en: 'Friendly' },
@@ -22,11 +25,184 @@
   };
   const JA_CHARS = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef\u4e00-\u9faf]/;
 
+  function fetchRaw(key) {
+    if (!cache[key]) cache[key] = YC.fetchJson(FILES[key][0], FILES[key][1]);
+    return cache[key];
+  }
+
+  function fetchHubAppEvents() {
+    if (!hubCache) {
+      const ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const timer = ctrl ? setTimeout(() => ctrl.abort(), 5000) : null;
+      hubCache = fetch(HUB_EVENTS_URL, ctrl ? { signal: ctrl.signal } : undefined)
+        .then(r => (r.ok ? r.json() : { appEvents: [] }))
+        .then(d => (Array.isArray(d && d.appEvents) ? d.appEvents : []))
+        .catch(() => [])
+        .finally(() => { if (timer) clearTimeout(timer); });
+    }
+    return hubCache;
+  }
+
+  const normKey = s => String(s || '').trim().toLowerCase().replace(/\s+/g, ' ');
+
+  function resolveOpponentId(rawName, opponents) {
+    const target = normKey(rawName);
+    if (!target || !opponents || typeof opponents !== 'object') return '';
+    for (const [id, o] of Object.entries(opponents)) {
+      if (normKey(id) === target) return id;
+      const n = (o && o.name) || {};
+      if ([n.ja, n.it, n.en, n.es].some(v => v && normKey(v) === target)) return id;
+    }
+    return '';
+  }
+
+  function resolveLocationId(ev, locations) {
+    if (!ev || !locations || typeof locations !== 'object') return '';
+    const i18n = ev.locationI18n || {};
+    const candidates = [ev.location, i18n.ja, i18n.it, i18n.en].map(normKey).filter(Boolean);
+    if (!candidates.length) return '';
+    for (const [id, l] of Object.entries(locations)) {
+      if (candidates.includes(normKey(id))) return id;
+      const names = [l && l.ja, l && l.it, l && l.en, l && l.name].map(normKey).filter(Boolean);
+      if (candidates.some(c => names.includes(c))) return id;
+    }
+    return '';
+  }
+
+  function buildMergedMatches(baseMatches, appEvents, opponents, locations) {
+    const today = YC.todayJST();
+    const list = Array.isArray(baseMatches) ? baseMatches.slice() : [];
+    const knownKeys = new Set();
+
+    list.forEach(m => {
+      if (!m || !m.date) return;
+      const oppId = m.opponent_id || m.opponent || '';
+      const o = (opponents || {})[oppId] || {};
+      const n = o.name || {};
+      [oppId, m.opponent_name, n.ja, n.it, n.en].forEach(val => {
+        const k = normKey(String(val || '').replace(/^vs\s+/i, ''));
+        if (k) knownKeys.add(`${m.date}|${k}`);
+      });
+    });
+
+    (appEvents || [])
+      .filter(ev => ev && ev.type === 'match' && ev.date)
+      .forEach(ev => {
+        const oppRaw = String(ev.title || '').replace(/^vs\s+/i, '').trim();
+        const t18 = ev.titleI18n || {};
+        const candidates = [oppRaw, t18.ja, t18.it, t18.en]
+          .map(v => normKey(String(v || '').replace(/^vs\s+/i, '')))
+          .filter(Boolean);
+
+        if (candidates.some(c => knownKeys.has(`${ev.date}|${c}`))) return;
+
+        const oppId = resolveOpponentId(oppRaw, opponents)
+          || resolveOpponentId(String(t18.ja || '').replace(/^vs\s+/i, ''), opponents);
+        const locId = resolveLocationId(ev, locations);
+
+        list.push({
+          id: `hub-${ev.id}`,
+          date: ev.date,
+          time: ev.time || '',
+          meet_time: ev.meetTime || '',
+          meetTime: ev.meetTime || '',
+          category: 'friendly',
+          opponent_id: oppId || oppRaw,
+          opponent: oppId || oppRaw,
+          opponent_name: oppRaw,
+          location_id: locId || '',
+          location: ev.location || '',
+          locationI18n: ev.locationI18n || {},
+          mapUrl: ev.mapUrl || '',
+          notes: ev.notes || '',
+          isHome: true,
+          score: null,
+          status: ev.date < today ? 'completed' : 'upcoming',
+          source: 'hub',
+          hubUrl: ev.hubUrl || ''
+        });
+      });
+
+    return list.sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')));
+  }
+
+  function buildMergedTrainings(baseTrainings, appEvents, locations) {
+    const today = YC.todayJST();
+    const list = Array.isArray(baseTrainings) ? baseTrainings.slice() : [];
+    const knownKeys = new Set();
+
+    list.forEach(tr => {
+      if (!tr || !tr.date) return;
+      const locId = tr.location_id || '';
+      const l = (locations || {})[locId] || {};
+      [locId, tr.location, tr.title, l.ja, l.it, l.en].forEach(val => {
+        const k = normKey(val);
+        if (k) knownKeys.add(`${tr.date}|${k}`);
+      });
+    });
+
+    (appEvents || [])
+      .filter(ev => ev && ev.type === 'training' && ev.date)
+      .forEach(ev => {
+        const l18 = ev.locationI18n || {};
+        const candidates = [ev.location, ev.title, l18.ja, l18.it, l18.en]
+          .map(normKey)
+          .filter(Boolean);
+
+        if (candidates.some(c => knownKeys.has(`${ev.date}|${c}`))) return;
+
+        const locId = resolveLocationId(ev, locations);
+
+        list.push({
+          id: `hub-${ev.id}`,
+          date: ev.date,
+          time: ev.time || '',
+          meet_time: ev.meetTime || '',
+          meetTime: ev.meetTime || '',
+          title: ev.title || '',
+          titleI18n: ev.titleI18n || {},
+          location_id: locId || '',
+          location: ev.location || '',
+          locationI18n: ev.locationI18n || {},
+          mapUrl: ev.mapUrl || '',
+          notes: ev.notes || '',
+          status: ev.date < today ? 'completed' : 'upcoming',
+          source: 'hub',
+          hubUrl: ev.hubUrl || ''
+        });
+      });
+
+    return list.sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')));
+  }
+
+  let mergedMatchesPromise = null;
+  let mergedTrainingsPromise = null;
+
   function load(names) {
     const out = {};
     return Promise.all(names.map(n => {
-      if (!cache[n]) cache[n] = YC.fetchJson(FILES[n][0], FILES[n][1]);
-      return cache[n].then(v => { out[n] = v; });
+      if (n === 'matches') {
+        if (!mergedMatchesPromise) {
+          mergedMatchesPromise = Promise.all([
+            fetchRaw('matches'),
+            fetchHubAppEvents(),
+            fetchRaw('opponents'),
+            fetchRaw('locations')
+          ]).then(([m, appEvs, opp, loc]) => buildMergedMatches(m, appEvs, opp, loc));
+        }
+        return mergedMatchesPromise.then(v => { out.matches = v; });
+      }
+      if (n === 'trainings') {
+        if (!mergedTrainingsPromise) {
+          mergedTrainingsPromise = Promise.all([
+            fetchRaw('trainings'),
+            fetchHubAppEvents(),
+            fetchRaw('locations')
+          ]).then(([tr, appEvs, loc]) => buildMergedTrainings(tr, appEvs, loc));
+        }
+        return mergedTrainingsPromise.then(v => { out.trainings = v; });
+      }
+      return fetchRaw(n).then(v => { out[n] = v; });
     })).then(() => out);
   }
 
@@ -120,7 +296,7 @@
     if (lang === 'ja') return (p.name_kanji && JA_CHARS.test(p.name_kanji)) ? p.name_kanji : (p.name_kana || p.name_kanji || p.name_romaji);
     return p.name_romaji || p.name_kanji || p.name_kana;
   }
-  
+
   function translatePlayerText(text, lang, players) {
     if (!text || typeof text !== 'string' || text === 'なし' || text === 'Nessuno') return '';
     return text.split(/[,、]/).map(item => {
